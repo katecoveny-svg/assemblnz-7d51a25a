@@ -2,3 +2,6 @@ project_id = "ssaxxdkxzrvkdjsanhei"
 
 [functions.chat]
 verify_jwt = false
+
+[functions.generate-3d]
+verify_jwt = false
