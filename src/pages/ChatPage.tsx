@@ -3,9 +3,12 @@ import { useParams, Link } from "react-router-dom";
 import { agents } from "@/data/agents";
 import RobotIcon from "@/components/RobotIcon";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Send, ImagePlus, X } from "lucide-react";
+import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import ModelGenerationCard from "@/components/ModelGenerationCard";
+import HelmQuickActions from "@/components/helm/HelmQuickActions";
+import HelmChecklist from "@/components/helm/HelmChecklist";
+import HelmDashboard from "@/components/helm/HelmDashboard";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
 
@@ -13,6 +16,7 @@ interface Message {
   role: "user" | "assistant";
   content: string;
   imageUrl?: string;
+  fileName?: string;
 }
 
 interface ThreeDGeneration {
@@ -25,6 +29,12 @@ interface ThreeDGeneration {
   modelUrls?: { glb?: string; obj?: string; fbx?: string };
   thumbnailUrl?: string;
   type?: "text-to-3d" | "image-to-3d";
+}
+
+interface DashboardItem {
+  type: "event" | "meal" | "reminder";
+  text: string;
+  date?: string;
 }
 
 const TRIGGER_PATTERNS = [
@@ -41,9 +51,55 @@ const TRIGGER_PATTERNS = [
 ];
 
 const MAX_GENERATIONS_PER_SESSION = 5;
+const HELM_COLOR = "#B388FF";
 
 function shouldTrigger3D(text: string): boolean {
   return TRIGGER_PATTERNS.some((p) => p.test(text));
+}
+
+function hasChecklist(content: string): boolean {
+  return /^[-*]\s*\[([ xX])\]/m.test(content);
+}
+
+/** Resize image to max dimension and return base64 */
+async function imageToBase64(file: File, maxDim = 1024): Promise<{ base64: string; mediaType: string }> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        let { width, height } = img;
+        if (width > maxDim || height > maxDim) {
+          const ratio = Math.min(maxDim / width, maxDim / height);
+          width = Math.round(width * ratio);
+          height = Math.round(height * ratio);
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d")!;
+        ctx.drawImage(img, 0, 0, width, height);
+        const dataUrl = canvas.toDataURL(file.type || "image/jpeg", 0.85);
+        const base64 = dataUrl.split(",")[1];
+        const mediaType = file.type || "image/jpeg";
+        resolve({ base64, mediaType });
+      };
+      img.onerror = reject;
+      img.src = reader.result as string;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+/** Read text from a file */
+async function readFileAsText(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsText(file);
+  });
 }
 
 const ChatPage = () => {
@@ -57,12 +113,17 @@ const ChatPage = () => {
   const [pendingImage, setPendingImage] = useState<File | null>(null);
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
+  const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const helmFileInputRef = useRef<HTMLInputElement>(null);
   const pollingRef = useRef<Record<string, number>>({});
 
   const isArc = agentId === "arc";
+  const isHelm = agentId === "operations";
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -74,7 +135,6 @@ const ChatPage = () => {
     };
   }, []);
 
-  // Clean up preview URL on unmount or change
   useEffect(() => {
     return () => {
       if (pendingImagePreview) URL.revokeObjectURL(pendingImagePreview);
@@ -165,7 +225,6 @@ const ChatPage = () => {
 
         if (error) throw error;
 
-        // Update with prompt and taskId, then start polling immediately
         const genType = data.type || (isImage ? "image-to-3d" : "text-to-3d");
         setGenerations((prev) =>
           prev.map((g) =>
@@ -214,19 +273,46 @@ const ChatPage = () => {
     setPendingImagePreview(URL.createObjectURL(file));
   };
 
+  const handleHelmFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Size checks
+    const isImage = file.type.startsWith("image/");
+    const maxSize = isImage ? 5 * 1024 * 1024 : 10 * 1024 * 1024;
+    if (file.size > maxSize) {
+      alert(`File too large. Maximum ${isImage ? "5MB" : "10MB"} for ${isImage ? "images" : "documents"}.`);
+      return;
+    }
+
+    if (isImage) {
+      setPendingImage(file);
+      setPendingImagePreview(URL.createObjectURL(file));
+    } else {
+      setPendingFile(file);
+    }
+  };
+
   const clearPendingImage = () => {
     if (pendingImagePreview) URL.revokeObjectURL(pendingImagePreview);
     setPendingImage(null);
     setPendingImagePreview(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
+    if (helmFileInputRef.current) helmFileInputRef.current.value = "";
   };
 
-  const sendMessage = async (content: string, imageFile?: File | null) => {
-    if ((!content.trim() && !imageFile) || isLoading) return;
+  const clearPendingFile = () => {
+    setPendingFile(null);
+    if (helmFileInputRef.current) helmFileInputRef.current.value = "";
+  };
+
+  const sendMessage = async (content: string, imageFile?: File | null, docFile?: File | null) => {
+    if ((!content.trim() && !imageFile && !docFile) || isLoading) return;
 
     let uploadedImageUrl: string | undefined;
+    let apiMessages: any[] = [];
 
-    // Upload image first if present
+    // For ARC: upload image to storage for 3D generation
     if (imageFile && isArc) {
       setIsUploading(true);
       try {
@@ -239,27 +325,69 @@ const ChatPage = () => {
       setIsUploading(false);
     }
 
+    const displayContent = content.trim() || (uploadedImageUrl ? "Generate a 3D model from this image" : docFile ? `📎 ${docFile.name}` : "");
     const userMessage: Message = {
       role: "user",
-      content: content.trim() || (uploadedImageUrl ? "Generate a 3D model from this image" : ""),
-      imageUrl: uploadedImageUrl,
+      content: displayContent,
+      imageUrl: uploadedImageUrl || (imageFile && isHelm ? URL.createObjectURL(imageFile) : undefined),
+      fileName: docFile?.name,
     };
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInput("");
     clearPendingImage();
+    clearPendingFile();
     setIsLoading(true);
 
     const msgIndex = newMessages.length;
-
-    // Check for 3D trigger (ARC only)
     const should3D = isArc && (!!uploadedImageUrl || shouldTrigger3D(userMessage.content));
 
     try {
+      // Build API messages
+      if (isHelm && imageFile) {
+        // Send image as base64 vision content to Claude
+        const { base64, mediaType } = await imageToBase64(imageFile);
+        const textContent = content.trim() || "Please parse this document and extract all dates, events, deadlines, and action items.";
+        
+        // Build history as simple text, then add the multimodal last message
+        const historyMsgs = messages.map((m) => ({ role: m.role, content: m.content }));
+        apiMessages = [
+          ...historyMsgs,
+          {
+            role: "user",
+            content: [
+              {
+                type: "image",
+                source: {
+                  type: "base64",
+                  media_type: mediaType,
+                  data: base64,
+                },
+              },
+              {
+                type: "text",
+                text: textContent,
+              },
+            ],
+          },
+        ];
+      } else if (isHelm && docFile) {
+        // Read text file content and send as text
+        const fileText = await readFileAsText(docFile);
+        const textContent = content.trim() || "Please parse this document and extract all dates, events, deadlines, and action items.";
+        const fullText = `${textContent}\n\n---\n\nDocument content (${docFile.name}):\n\n${fileText}`;
+        apiMessages = [
+          ...messages.map((m) => ({ role: m.role, content: m.content })),
+          { role: "user", content: fullText },
+        ];
+      } else {
+        apiMessages = newMessages.map((m) => ({ role: m.role, content: m.content }));
+      }
+
       const { data, error } = await supabase.functions.invoke("chat", {
         body: {
           agentId: agent.id,
-          messages: newMessages.map((m) => ({ role: m.role, content: m.content })),
+          messages: apiMessages,
         },
       });
 
@@ -279,7 +407,6 @@ const ChatPage = () => {
       inputRef.current?.focus();
     }
 
-    // Fire 3D generation in parallel
     if (should3D) {
       trigger3DGeneration(userMessage.content, msgIndex, uploadedImageUrl);
     }
@@ -287,17 +414,78 @@ const ChatPage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    sendMessage(input, pendingImage);
+    sendMessage(input, pendingImage, pendingFile);
   };
 
   const handleRefine = (refinement: string) => {
     sendMessage(`Refine the 3D model: ${refinement}`);
   };
 
-  const showWelcome = messages.length === 0;
+  const handleAddReminder = (text: string) => {
+    setDashboardItems((prev) => [...prev, { type: "reminder", text }]);
+  };
 
+  const showWelcome = messages.length === 0;
   const getGenerationsForIndex = (idx: number) =>
     generations.filter((g) => g.messageIndex === idx);
+
+  /** Render message content with HELM checklist support */
+  const renderMessageContent = (msg: Message) => {
+    const content = msg.content;
+
+    if (isHelm && hasChecklist(content)) {
+      // Split into checklist and non-checklist parts
+      const lines = content.split("\n");
+      const parts: { type: "text" | "checklist"; content: string }[] = [];
+      let currentText = "";
+      let checklistLines: string[] = [];
+
+      const flushText = () => {
+        if (currentText.trim()) {
+          parts.push({ type: "text", content: currentText });
+          currentText = "";
+        }
+      };
+      const flushChecklist = () => {
+        if (checklistLines.length) {
+          parts.push({ type: "checklist", content: checklistLines.join("\n") });
+          checklistLines = [];
+        }
+      };
+
+      for (const line of lines) {
+        if (/^[-*]\s*\[([ xX])\]/.test(line.trim())) {
+          flushText();
+          checklistLines.push(line);
+        } else {
+          flushChecklist();
+          currentText += line + "\n";
+        }
+      }
+      flushText();
+      flushChecklist();
+
+      return (
+        <>
+          {parts.map((p, i) =>
+            p.type === "checklist" ? (
+              <HelmChecklist key={i} content={p.content} />
+            ) : (
+              <div key={i} className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-code:text-accent prose-headings:text-foreground prose-strong:text-foreground">
+                <ReactMarkdown>{p.content}</ReactMarkdown>
+              </div>
+            )
+          )}
+        </>
+      );
+    }
+
+    return (
+      <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-code:text-accent prose-headings:text-foreground prose-strong:text-foreground">
+        <ReactMarkdown>{content}</ReactMarkdown>
+      </div>
+    );
+  };
 
   return (
     <div className="h-screen flex flex-col bg-background">
@@ -316,6 +504,33 @@ const ChatPage = () => {
             {agent.role}
           </p>
         </div>
+
+        {/* HELM Dashboard Toggle */}
+        {isHelm && (
+          <div className="flex rounded-lg overflow-hidden border border-border">
+            <button
+              onClick={() => setHelmView("chat")}
+              className="px-3 py-1 text-[10px] font-medium transition-colors"
+              style={{
+                backgroundColor: helmView === "chat" ? HELM_COLOR + "20" : "transparent",
+                color: helmView === "chat" ? HELM_COLOR : "hsl(var(--muted-foreground))",
+              }}
+            >
+              Chat
+            </button>
+            <button
+              onClick={() => setHelmView("dashboard")}
+              className="px-3 py-1 text-[10px] font-medium transition-colors"
+              style={{
+                backgroundColor: helmView === "dashboard" ? HELM_COLOR + "20" : "transparent",
+                color: helmView === "dashboard" ? HELM_COLOR : "hsl(var(--muted-foreground))",
+              }}
+            >
+              Dashboard
+            </button>
+          </div>
+        )}
+
         <div className="flex items-center gap-1.5">
           <span
             className="w-2 h-2 rounded-full animate-pulse-glow"
@@ -325,203 +540,266 @@ const ChatPage = () => {
         </div>
       </header>
 
-      {/* Chat Area */}
-      <div className="flex-1 overflow-y-auto px-4 py-4">
-        {showWelcome ? (
-          <div
-            className="flex flex-col items-center justify-center h-full text-center gap-4 opacity-0 animate-fade-up"
-            style={{ animationFillMode: "forwards" }}
-          >
-            <RobotIcon color={agent.color} size={72} />
-            <div>
-              <h2 className="text-lg font-bold text-foreground">{agent.name}</h2>
-              <div className="flex items-center justify-center gap-1.5 mb-1">
-                <span
-                  className="w-1.5 h-1.5 rounded-full animate-pulse-glow"
-                  style={{ backgroundColor: "#00FF88", boxShadow: "0 0 6px #00FF88" }}
-                />
-                <span className="text-xs text-foreground/50">online</span>
-              </div>
-              <p className="text-xs italic text-muted-foreground">"{agent.tagline}"</p>
-            </div>
-            <div className="flex flex-col gap-2 w-full max-w-sm mt-2">
-              {agent.starters.map((q) => (
-                <button
-                  key={q}
-                  onClick={() => sendMessage(q)}
-                  className="text-left text-xs px-4 py-3 rounded-lg border border-border bg-card hover:border-foreground/10 transition-colors text-foreground/70"
-                >
-                  {q}
-                </button>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="max-w-2xl mx-auto space-y-3">
-            {messages.map((msg, i) => (
-              <div key={i}>
-                <div
-                  className={`flex gap-2 opacity-0 animate-fade-up ${
-                    msg.role === "user" ? "justify-end" : "justify-start"
-                  }`}
-                  style={{ animationDelay: `${i * 30}ms`, animationFillMode: "forwards" }}
-                >
-                  {msg.role === "assistant" && <RobotIcon color={agent.color} size={24} />}
-                  <div
-                    className={`max-w-[80%] px-3.5 py-2.5 rounded-xl text-sm leading-relaxed ${
-                      msg.role === "user"
-                        ? "text-foreground rounded-br-sm"
-                        : "bg-card text-foreground/90 rounded-bl-sm"
-                    }`}
-                    style={
-                      msg.role === "user"
-                        ? {
-                            background: `linear-gradient(135deg, ${agent.color}18, ${agent.color}08)`,
-                            border: `1px solid ${agent.color}15`,
-                          }
-                        : {}
-                    }
-                  >
-                    {msg.imageUrl && (
-                      <img
-                        src={msg.imageUrl}
-                        alt="Uploaded reference"
-                        className="rounded-lg mb-2 max-h-48 w-auto object-cover"
-                      />
-                    )}
-                    <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-code:text-accent prose-headings:text-foreground prose-strong:text-foreground">
-                      <ReactMarkdown>{msg.content}</ReactMarkdown>
-                    </div>
+      {/* HELM Dashboard View */}
+      {isHelm && helmView === "dashboard" ? (
+        <div className="flex-1 overflow-y-auto">
+          <HelmDashboard items={dashboardItems} onAddReminder={handleAddReminder} />
+        </div>
+      ) : (
+        <>
+          {/* Chat Area */}
+          <div className="flex-1 overflow-y-auto px-4 py-4">
+            {showWelcome ? (
+              <div
+                className="flex flex-col items-center justify-center h-full text-center gap-4 opacity-0 animate-fade-up"
+                style={{ animationFillMode: "forwards" }}
+              >
+                <RobotIcon color={agent.color} size={72} />
+                <div>
+                  <h2 className="text-lg font-bold text-foreground">{agent.name}</h2>
+                  <div className="flex items-center justify-center gap-1.5 mb-1">
+                    <span
+                      className="w-1.5 h-1.5 rounded-full animate-pulse-glow"
+                      style={{ backgroundColor: "#00FF88", boxShadow: "0 0 6px #00FF88" }}
+                    />
+                    <span className="text-xs text-foreground/50">online</span>
                   </div>
+                  <p className="text-xs italic text-muted-foreground">"{agent.tagline}"</p>
                 </div>
-                {/* 3D generation cards after assistant reply */}
-                {msg.role === "assistant" &&
-                  getGenerationsForIndex(i).map((gen) => (
-                    <div key={gen.id} className="mt-2 ml-8">
-                      {gen.status === "SUCCEEDED" && gen.modelUrls?.glb ? (
-                        <Suspense
-                          fallback={
+
+                {/* HELM Quick Actions or standard starters */}
+                {isHelm ? (
+                  <HelmQuickActions onSelect={(msg) => sendMessage(msg)} />
+                ) : (
+                  <div className="flex flex-col gap-2 w-full max-w-sm mt-2">
+                    {agent.starters.map((q) => (
+                      <button
+                        key={q}
+                        onClick={() => sendMessage(q)}
+                        className="text-left text-xs px-4 py-3 rounded-lg border border-border bg-card hover:border-foreground/10 transition-colors text-foreground/70"
+                      >
+                        {q}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="max-w-2xl mx-auto space-y-3">
+                {messages.map((msg, i) => (
+                  <div key={i}>
+                    <div
+                      className={`flex gap-2 opacity-0 animate-fade-up ${
+                        msg.role === "user" ? "justify-end" : "justify-start"
+                      }`}
+                      style={{ animationDelay: `${i * 30}ms`, animationFillMode: "forwards" }}
+                    >
+                      {msg.role === "assistant" && <RobotIcon color={agent.color} size={24} />}
+                      <div
+                        className={`max-w-[80%] px-3.5 py-2.5 rounded-xl text-sm leading-relaxed ${
+                          msg.role === "user"
+                            ? "text-foreground rounded-br-sm"
+                            : "bg-card text-foreground/90 rounded-bl-sm"
+                        }`}
+                        style={
+                          msg.role === "user"
+                            ? {
+                                background: `linear-gradient(135deg, ${agent.color}18, ${agent.color}08)`,
+                                border: `1px solid ${agent.color}15`,
+                              }
+                            : {}
+                        }
+                      >
+                        {msg.imageUrl && (
+                          <img
+                            src={msg.imageUrl}
+                            alt="Uploaded reference"
+                            className="rounded-lg mb-2 max-h-48 w-auto object-cover"
+                          />
+                        )}
+                        {msg.fileName && (
+                          <div className="flex items-center gap-1.5 mb-2 text-xs text-foreground/60">
+                            <FileText size={14} />
+                            <span>{msg.fileName}</span>
+                          </div>
+                        )}
+                        {renderMessageContent(msg)}
+                      </div>
+                    </div>
+                    {/* 3D generation cards after assistant reply */}
+                    {msg.role === "assistant" &&
+                      getGenerationsForIndex(i).map((gen) => (
+                        <div key={gen.id} className="mt-2 ml-8">
+                          {gen.status === "SUCCEEDED" && gen.modelUrls?.glb ? (
+                            <Suspense
+                              fallback={
+                                <ModelGenerationCard
+                                  status="IN_PROGRESS"
+                                  progress={99}
+                                  prompt={gen.prompt}
+                                  color={agent.color}
+                                />
+                              }
+                            >
+                              <CompletedModelCard
+                                glbUrl={`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/proxy-model?url=${encodeURIComponent(gen.modelUrls.glb)}`}
+                                modelUrls={gen.modelUrls}
+                                prompt={gen.prompt}
+                                color={agent.color}
+                                onRefine={handleRefine}
+                              />
+                            </Suspense>
+                          ) : (
                             <ModelGenerationCard
-                              status="IN_PROGRESS"
-                              progress={99}
+                              status={gen.status}
+                              progress={gen.progress}
                               prompt={gen.prompt}
                               color={agent.color}
                             />
-                          }
-                        >
-                          <CompletedModelCard
-                            glbUrl={`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/proxy-model?url=${encodeURIComponent(gen.modelUrls.glb)}`}
-                            modelUrls={gen.modelUrls}
-                            prompt={gen.prompt}
-                            color={agent.color}
-                            onRefine={handleRefine}
-                          />
-                        </Suspense>
-                      ) : (
-                        <ModelGenerationCard
-                          status={gen.status}
-                          progress={gen.progress}
-                          prompt={gen.prompt}
-                          color={agent.color}
+                          )}
+                        </div>
+                      ))}
+                  </div>
+                ))}
+                {isLoading && (
+                  <div className="flex gap-2 items-center">
+                    <RobotIcon color={agent.color} size={24} />
+                    <div className="flex gap-1 px-3 py-2">
+                      {[0, 1, 2].map((i) => (
+                        <span
+                          key={i}
+                          className="w-1.5 h-1.5 rounded-full animate-bounce-dot"
+                          style={{
+                            backgroundColor: agent.color,
+                            animationDelay: `${i * 0.2}s`,
+                          }}
                         />
-                      )}
+                      ))}
                     </div>
-                  ))}
-              </div>
-            ))}
-            {isLoading && (
-              <div className="flex gap-2 items-center">
-                <RobotIcon color={agent.color} size={24} />
-                <div className="flex gap-1 px-3 py-2">
-                  {[0, 1, 2].map((i) => (
-                    <span
-                      key={i}
-                      className="w-1.5 h-1.5 rounded-full animate-bounce-dot"
-                      style={{
-                        backgroundColor: agent.color,
-                        animationDelay: `${i * 0.2}s`,
-                      }}
-                    />
-                  ))}
-                </div>
+                  </div>
+                )}
+                <div ref={chatEndRef} />
               </div>
             )}
-            <div ref={chatEndRef} />
           </div>
-        )}
-      </div>
 
-      {/* Image Preview */}
-      {pendingImagePreview && isArc && (
-        <div className="px-4 pb-1 shrink-0">
-          <div className="max-w-2xl mx-auto">
-            <div className="relative inline-block">
-              <img
-                src={pendingImagePreview}
-                alt="Upload preview"
-                className="h-20 rounded-lg border border-border object-cover"
+          {/* Image/File Preview */}
+          {(pendingImagePreview || pendingFile) && (isArc || isHelm) && (
+            <div className="px-4 pb-1 shrink-0">
+              <div className="max-w-2xl mx-auto">
+                {pendingImagePreview && (
+                  <div className="relative inline-block">
+                    <img
+                      src={pendingImagePreview}
+                      alt="Upload preview"
+                      className="h-20 rounded-lg border border-border object-cover"
+                    />
+                    <button
+                      onClick={clearPendingImage}
+                      className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center"
+                    >
+                      <X size={12} />
+                    </button>
+                  </div>
+                )}
+                {pendingFile && (
+                  <div className="relative inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-border bg-card">
+                    <FileText size={16} className="text-foreground/60" />
+                    <span className="text-xs text-foreground/70">{pendingFile.name}</span>
+                    <button
+                      onClick={clearPendingFile}
+                      className="w-4 h-4 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center ml-1"
+                    >
+                      <X size={10} />
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Input Bar */}
+          <form onSubmit={handleSubmit} className="px-4 py-3 border-t border-border shrink-0">
+            <div className="max-w-2xl mx-auto flex gap-2 items-center">
+              {/* ARC image upload */}
+              {isArc && (
+                <>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    onChange={handleImageSelect}
+                    className="hidden"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={isLoading || isUploading}
+                    className="p-2.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:border-foreground/10 transition-colors disabled:opacity-30"
+                    title="Upload a photo or sketch to generate a 3D model"
+                  >
+                    <ImagePlus size={16} />
+                  </button>
+                </>
+              )}
+
+              {/* HELM file upload */}
+              {isHelm && (
+                <>
+                  <input
+                    ref={helmFileInputRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp,.pdf,.txt,.text,.csv,.md"
+                    onChange={handleHelmFileSelect}
+                    className="hidden"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => helmFileInputRef.current?.click()}
+                    disabled={isLoading || isUploading}
+                    className="p-2.5 rounded-lg border transition-colors disabled:opacity-30"
+                    style={{
+                      borderColor: HELM_COLOR + "30",
+                      color: HELM_COLOR,
+                    }}
+                    title="Upload a document, photo, or newsletter"
+                  >
+                    <Paperclip size={16} />
+                  </button>
+                </>
+              )}
+
+              <input
+                ref={inputRef}
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder={
+                  isArc && pendingImage
+                    ? "Describe the building, or send to generate from image..."
+                    : isHelm
+                    ? "Ask HELM anything — meals, budgets, schedules, life admin..."
+                    : `Ask ${agent.name} anything...`
+                }
+                className="flex-1 bg-card border border-border rounded-lg px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground/10 transition-colors"
               />
               <button
-                onClick={clearPendingImage}
-                className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center"
+                type="submit"
+                disabled={(!input.trim() && !pendingImage && !pendingFile) || isLoading || isUploading}
+                className="px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 disabled:opacity-30"
+                style={{
+                  backgroundColor: input.trim() || pendingImage || pendingFile ? agent.color : "transparent",
+                  color: input.trim() || pendingImage || pendingFile ? "#0A0A14" : agent.color,
+                  border: `1px solid ${input.trim() || pendingImage || pendingFile ? agent.color : agent.color + "30"}`,
+                  boxShadow: input.trim() || pendingImage || pendingFile ? `0 0 16px ${agent.color}30` : "none",
+                }}
               >
-                <X size={12} />
+                <Send size={16} />
               </button>
             </div>
-          </div>
-        </div>
+          </form>
+        </>
       )}
-
-      {/* Input Bar */}
-      <form onSubmit={handleSubmit} className="px-4 py-3 border-t border-border shrink-0">
-        <div className="max-w-2xl mx-auto flex gap-2 items-center">
-          {isArc && (
-            <>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-                onChange={handleImageSelect}
-                className="hidden"
-              />
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                disabled={isLoading || isUploading}
-                className="p-2.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:border-foreground/10 transition-colors disabled:opacity-30"
-                title="Upload a photo or sketch to generate a 3D model"
-              >
-                <ImagePlus size={16} />
-              </button>
-            </>
-          )}
-          <input
-            ref={inputRef}
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder={
-              isArc && pendingImage
-                ? "Describe the building, or send to generate from image..."
-                : `Ask ${agent.name} anything...`
-            }
-            className="flex-1 bg-card border border-border rounded-lg px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground/10 transition-colors"
-          />
-          <button
-            type="submit"
-            disabled={(!input.trim() && !pendingImage) || isLoading || isUploading}
-            className="px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 disabled:opacity-30"
-            style={{
-              backgroundColor: input.trim() || pendingImage ? agent.color : "transparent",
-              color: input.trim() || pendingImage ? "#0A0A14" : agent.color,
-              border: `1px solid ${input.trim() || pendingImage ? agent.color : agent.color + "30"}`,
-              boxShadow: input.trim() || pendingImage ? `0 0 16px ${agent.color}30` : "none",
-            }}
-          >
-            <Send size={16} />
-          </button>
-        </div>
-      </form>
     </div>
   );
 };
