@@ -624,6 +624,10 @@ const ChatPage = () => {
                         {renderMessageContent(msg)}
                       </div>
                     </div>
+                    {msg.role === "assistant" && (() => {
+                      const handoffId = detectHandoff(msg.content);
+                      return handoffId ? <div className="ml-8 mt-1"><HandoffCard agentId={handoffId} /></div> : null;
+                    })()}
                     {msg.role === "assistant" &&
                       getGenerationsForIndex(i).map((gen) => (
                         <div key={gen.id} className="mt-2 ml-8">
