@@ -170,8 +170,12 @@ const ChatPage = () => {
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
   const [pendingFile, setPendingFile] = useState<File | null>(null);
   const [brandModalOpen, setBrandModalOpen] = useState(false);
-  const [brandProfile, setBrandProfile] = useState<string | null>(null);
-  const [brandName, setBrandName] = useState<string | null>(null);
+  const [brandProfile, setBrandProfile] = useState<string | null>(
+    () => sessionStorage.getItem("assembl_brand_profile")
+  );
+  const [brandName, setBrandName] = useState<string | null>(
+    () => sessionStorage.getItem("assembl_brand_name")
+  );
   const [templateModalOpen, setTemplateModalOpen] = useState(false);
 
   const chatEndRef = useRef<HTMLDivElement>(null);
