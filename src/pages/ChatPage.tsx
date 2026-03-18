@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { agents } from "@/data/agents";
 import RobotIcon from "@/components/RobotIcon";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Send } from "lucide-react";
+import { ArrowLeft, Send, ImagePlus, X } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import ModelGenerationCard from "@/components/ModelGenerationCard";
 
@@ -12,6 +12,7 @@ const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"))
 interface Message {
   role: "user" | "assistant";
   content: string;
+  imageUrl?: string;
 }
 
 interface ThreeDGeneration {
@@ -23,6 +24,7 @@ interface ThreeDGeneration {
   taskId?: string;
   modelUrls?: { glb?: string; obj?: string; fbx?: string };
   thumbnailUrl?: string;
+  type?: "text-to-3d" | "image-to-3d";
 }
 
 const TRIGGER_PATTERNS = [
@@ -52,8 +54,12 @@ const ChatPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [generations, setGenerations] = useState<ThreeDGeneration[]>([]);
   const [genCount, setGenCount] = useState(0);
+  const [pendingImage, setPendingImage] = useState<File | null>(null);
+  const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const pollingRef = useRef<Record<string, number>>({});
 
   const isArc = agentId === "arc";
@@ -62,22 +68,28 @@ const ChatPage = () => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isLoading, generations]);
 
-  // Cleanup polling on unmount
   useEffect(() => {
     return () => {
       Object.values(pollingRef.current).forEach(clearInterval);
     };
   }, []);
 
+  // Clean up preview URL on unmount or change
+  useEffect(() => {
+    return () => {
+      if (pendingImagePreview) URL.revokeObjectURL(pendingImagePreview);
+    };
+  }, [pendingImagePreview]);
+
   const pollStatus = useCallback(
-    (genId: string, taskId: string) => {
-    const interval = setInterval(async () => {
-      try {
-        const res = await fetch(
-          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-3d?taskId=${taskId}`,
-          { headers: { apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY } }
-        );
-        const data = await res.json();
+    (genId: string, taskId: string, type: "text-to-3d" | "image-to-3d" = "text-to-3d") => {
+      const interval = setInterval(async () => {
+        try {
+          const res = await fetch(
+            `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-3d?taskId=${taskId}&type=${type}`,
+            { headers: { apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY } }
+          );
+          const data = await res.json();
           setGenerations((prev) =>
             prev.map((g) =>
               g.id === genId
@@ -104,8 +116,20 @@ const ChatPage = () => {
     []
   );
 
+  const uploadImage = useCallback(async (file: File): Promise<string> => {
+    const ext = file.name.split(".").pop() || "jpg";
+    const filePath = `${crypto.randomUUID()}.${ext}`;
+    const { error } = await supabase.storage.from("chat-images").upload(filePath, file, {
+      contentType: file.type,
+      upsert: false,
+    });
+    if (error) throw error;
+    const { data } = supabase.storage.from("chat-images").getPublicUrl(filePath);
+    return data.publicUrl;
+  }, []);
+
   const trigger3DGeneration = useCallback(
-    async (userPrompt: string, msgIndex: number) => {
+    async (userPrompt: string, msgIndex: number, imageUrl?: string) => {
       if (genCount >= MAX_GENERATIONS_PER_SESSION) {
         setGenerations((prev) => [
           ...prev,
@@ -121,16 +145,23 @@ const ChatPage = () => {
       }
 
       const genId = crypto.randomUUID();
+      const isImage = !!imageUrl;
       setGenCount((c) => c + 1);
       setGenerations((prev) => [
         ...prev,
-        { id: genId, messageIndex: msgIndex, status: "PENDING", progress: 0 },
+        {
+          id: genId,
+          messageIndex: msgIndex,
+          status: "PENDING",
+          progress: 0,
+          prompt: isImage ? "Generating from uploaded image..." : undefined,
+          type: isImage ? "image-to-3d" : "text-to-3d",
+        },
       ]);
 
       try {
-        const { data, error } = await supabase.functions.invoke("generate-3d", {
-          body: { userPrompt },
-        });
+        const body = isImage ? { imageUrl } : { userPrompt };
+        const { data, error } = await supabase.functions.invoke("generate-3d", { body });
 
         if (error) throw error;
 
@@ -146,12 +177,12 @@ const ChatPage = () => {
                     taskId: data.taskId,
                     modelUrls: data.modelUrls,
                     thumbnailUrl: data.thumbnailUrl,
+                    type: data.type || (isImage ? "image-to-3d" : "text-to-3d"),
                   }
                 : g
             )
           );
         } else {
-          // Still in progress — start polling
           setGenerations((prev) =>
             prev.map((g) =>
               g.id === genId
@@ -160,11 +191,12 @@ const ChatPage = () => {
                     status: "IN_PROGRESS",
                     prompt: data.prompt,
                     taskId: data.taskId,
+                    type: data.type || (isImage ? "image-to-3d" : "text-to-3d"),
                   }
                 : g
             )
           );
-          if (data.taskId) pollStatus(genId, data.taskId);
+          if (data.taskId) pollStatus(genId, data.taskId, data.type || (isImage ? "image-to-3d" : "text-to-3d"));
         }
       } catch (err) {
         console.error("3D generation error:", err);
@@ -191,19 +223,54 @@ const ChatPage = () => {
     );
   }
 
-  const sendMessage = async (content: string) => {
-    if (!content.trim() || isLoading) return;
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (pendingImagePreview) URL.revokeObjectURL(pendingImagePreview);
+    setPendingImage(file);
+    setPendingImagePreview(URL.createObjectURL(file));
+  };
 
-    const userMessage: Message = { role: "user", content: content.trim() };
+  const clearPendingImage = () => {
+    if (pendingImagePreview) URL.revokeObjectURL(pendingImagePreview);
+    setPendingImage(null);
+    setPendingImagePreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const sendMessage = async (content: string, imageFile?: File | null) => {
+    if ((!content.trim() && !imageFile) || isLoading) return;
+
+    let uploadedImageUrl: string | undefined;
+
+    // Upload image first if present
+    if (imageFile && isArc) {
+      setIsUploading(true);
+      try {
+        uploadedImageUrl = await uploadImage(imageFile);
+      } catch (err) {
+        console.error("Image upload error:", err);
+        setIsUploading(false);
+        return;
+      }
+      setIsUploading(false);
+    }
+
+    const userMessage: Message = {
+      role: "user",
+      content: content.trim() || (uploadedImageUrl ? "Generate a 3D model from this image" : ""),
+      imageUrl: uploadedImageUrl,
+    };
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInput("");
+    clearPendingImage();
     setIsLoading(true);
 
-    const msgIndex = newMessages.length; // index where assistant reply will go
+    const msgIndex = newMessages.length;
 
     // Check for 3D trigger (ARC only)
-    const should3D = isArc && shouldTrigger3D(content);
+    const should3D = isArc && (!!uploadedImageUrl || shouldTrigger3D(userMessage.content));
 
     try {
       const { data, error } = await supabase.functions.invoke("chat", {
@@ -231,13 +298,13 @@ const ChatPage = () => {
 
     // Fire 3D generation in parallel
     if (should3D) {
-      trigger3DGeneration(content, msgIndex);
+      trigger3DGeneration(userMessage.content, msgIndex, uploadedImageUrl);
     }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    sendMessage(input);
+    sendMessage(input, pendingImage);
   };
 
   const handleRefine = (refinement: string) => {
@@ -246,7 +313,6 @@ const ChatPage = () => {
 
   const showWelcome = messages.length === 0;
 
-  // Find generations for a given message index
   const getGenerationsForIndex = (idx: number) =>
     generations.filter((g) => g.messageIndex === idx);
 
@@ -333,6 +399,13 @@ const ChatPage = () => {
                         : {}
                     }
                   >
+                    {msg.imageUrl && (
+                      <img
+                        src={msg.imageUrl}
+                        alt="Uploaded reference"
+                        className="rounded-lg mb-2 max-h-48 w-auto object-cover"
+                      />
+                    )}
                     <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-code:text-accent prose-headings:text-foreground prose-strong:text-foreground">
                       <ReactMarkdown>{msg.content}</ReactMarkdown>
                     </div>
@@ -395,26 +468,71 @@ const ChatPage = () => {
         )}
       </div>
 
+      {/* Image Preview */}
+      {pendingImagePreview && isArc && (
+        <div className="px-4 pb-1 shrink-0">
+          <div className="max-w-2xl mx-auto">
+            <div className="relative inline-block">
+              <img
+                src={pendingImagePreview}
+                alt="Upload preview"
+                className="h-20 rounded-lg border border-border object-cover"
+              />
+              <button
+                onClick={clearPendingImage}
+                className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center"
+              >
+                <X size={12} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Input Bar */}
       <form onSubmit={handleSubmit} className="px-4 py-3 border-t border-border shrink-0">
-        <div className="max-w-2xl mx-auto flex gap-2">
+        <div className="max-w-2xl mx-auto flex gap-2 items-center">
+          {isArc && (
+            <>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                onChange={handleImageSelect}
+                className="hidden"
+              />
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isLoading || isUploading}
+                className="p-2.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:border-foreground/10 transition-colors disabled:opacity-30"
+                title="Upload a photo or sketch to generate a 3D model"
+              >
+                <ImagePlus size={16} />
+              </button>
+            </>
+          )}
           <input
             ref={inputRef}
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder={`Ask ${agent.name} anything...`}
+            placeholder={
+              isArc && pendingImage
+                ? "Describe the building, or send to generate from image..."
+                : `Ask ${agent.name} anything...`
+            }
             className="flex-1 bg-card border border-border rounded-lg px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground/10 transition-colors"
           />
           <button
             type="submit"
-            disabled={!input.trim() || isLoading}
+            disabled={(!input.trim() && !pendingImage) || isLoading || isUploading}
             className="px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 disabled:opacity-30"
             style={{
-              backgroundColor: input.trim() ? agent.color : "transparent",
-              color: input.trim() ? "#0A0A14" : agent.color,
-              border: `1px solid ${input.trim() ? agent.color : agent.color + "30"}`,
-              boxShadow: input.trim() ? `0 0 16px ${agent.color}30` : "none",
+              backgroundColor: input.trim() || pendingImage ? agent.color : "transparent",
+              color: input.trim() || pendingImage ? "#0A0A14" : agent.color,
+              border: `1px solid ${input.trim() || pendingImage ? agent.color : agent.color + "30"}`,
+              boxShadow: input.trim() || pendingImage ? `0 0 16px ${agent.color}30` : "none",
             }}
           >
             <Send size={16} />
