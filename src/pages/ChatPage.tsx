@@ -13,6 +13,7 @@ import BrandScanModal from "@/components/BrandScanModal";
 import TemplateLibrary from "@/components/TemplateLibrary";
 import StructuredOutputCard, { detectOutputType } from "@/components/StructuredOutputCard";
 import NexusEntryCard from "@/components/nexus/NexusEntryCard";
+import HandoffCard, { detectHandoff } from "@/components/HandoffCard";
 import { agentTemplates } from "@/data/templates";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
