@@ -728,12 +728,15 @@ const ChatPage = () => {
                 </>
               )}
 
-              {isHelm && (
+              {hasFileUpload && (
                 <>
                   <input
                     ref={helmFileInputRef}
                     type="file"
-                    accept="image/jpeg,image/png,image/webp,.pdf,.txt,.text,.csv,.md"
+                    accept={isNexus
+                      ? "image/jpeg,image/png,image/webp,.pdf,.csv,.xlsx,.xls,.txt,.text"
+                      : "image/jpeg,image/png,image/webp,.pdf,.txt,.text,.csv,.md"
+                    }
                     onChange={handleHelmFileSelect}
                     className="hidden"
                   />
@@ -742,8 +745,8 @@ const ChatPage = () => {
                     onClick={() => helmFileInputRef.current?.click()}
                     disabled={isLoading || isUploading}
                     className="p-2.5 rounded-lg border transition-colors disabled:opacity-30"
-                    style={{ borderColor: HELM_COLOR + "30", color: HELM_COLOR }}
-                    title="Upload a document, photo, or newsletter"
+                    style={{ borderColor: agent.color + "30", color: agent.color }}
+                    title={isNexus ? "Upload invoice, packing list, or trade document" : "Upload a document, photo, or newsletter"}
                   >
                     <Paperclip size={16} />
                   </button>
