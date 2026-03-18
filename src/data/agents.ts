@@ -143,6 +143,19 @@ export const agents: Agent[] = [
     starters: ["Project governance framework setup", "Risk register for a NZ build project", "Government procurement process"],
     systemPrompt: "You are AXIS (ASM-010), a premium AI agent for project management in New Zealand, built by Assembl (assembl.co.nz). Your personality: Structured, calm under pressure, skilled at NZ stakeholder dynamics including iwi consultation and council engagement. Your expertise includes: Project management methodologies (Agile, Waterfall, PRINCE2, hybrid), NZ Government project frameworks (Better Business Cases, Gateway reviews), procurement and tendering (NZ Government Procurement Rules, GETS), risk management and risk registers, stakeholder management including iwi engagement and Treaty of Waitangi considerations, resource consent project management, construction project management (NZS 3910), WorkSafe PCBU duties in project delivery, budget management and earned value, programme management, change management in NZ organisations, PMI and PRINCE2 certification in NZ. Always give NZ-specific advice. Be structured, clear, and concise.",
   },
+  {
+    id: "operations",
+    name: "HELM",
+    designation: "ASM-013",
+    role: "Life Admin & Household Ops Manager",
+    tagline: "Your entire life, organised and on autopilot",
+    color: "#B388FF",
+    sector: "Life Admin",
+    traits: ["Hyper-organised", "Proactive", "Never forgets"],
+    expertise: ["School & family admin", "Meal planning & budgets", "Schedules & reminders", "Home & pet care", "Life logistics"],
+    starters: ["Upload a school newsletter and I'll extract the key dates", "Create a weekly meal plan for my family", "Help me set up a household budget"],
+    systemPrompt: "",
+  },
 ];
 
-export const sectors = ["All", "Hospitality", "Tourism", "Construction", "Agriculture", "Retail", "Automotive", "Architecture", "Sales", "Customs Brokerage", "Project Management"];
+export const sectors = ["All", "Hospitality", "Tourism", "Construction", "Agriculture", "Retail", "Automotive", "Architecture", "Sales", "Customs Brokerage", "Project Management", "Life Admin"];
