@@ -412,6 +412,14 @@ const ChatPage = () => {
     const content = msg.content;
 
     if (msg.role === "assistant") {
+      // Check for NEXUS import entry data first
+      if (agentId === "customs" || agentId === "nexus") {
+        const entryData = parseNexusEntry(content);
+        if (entryData) {
+          return <NexusEntryCard data={entryData} color={agent.color} />;
+        }
+      }
+
       // Check if this is structured output
       const outputType = detectOutputType(content);
       if (outputType) {
