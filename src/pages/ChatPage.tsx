@@ -351,14 +351,34 @@ const ChatPage = () => {
             ],
           },
         ];
-      } else if (isHelm && docFile) {
-        const fileText = await readFileAsText(docFile);
-        const textContent = content.trim() || "Please parse this document and extract all dates, events, deadlines, and action items.";
-        const fullText = `${textContent}\n\n---\n\nDocument content (${docFile.name}):\n\n${fileText}`;
-        apiMessages = [
-          ...messages.map((m) => ({ role: m.role, content: m.content || "(attachment)" })),
-          { role: "user", content: fullText },
-        ];
+      } else if ((isHelm || isNexus) && docFile) {
+        let fileContent: string;
+        if (docFile.type.startsWith("image/")) {
+          // NEXUS: image uploaded as doc — send as base64
+          const { base64, mediaType } = await imageToBase64(docFile);
+          const textContent = content.trim() || "Please process this document for import entry data extraction.";
+          const historyMsgs = messages.map((m) => ({ role: m.role, content: m.content || "(attachment)" }));
+          apiMessages = [
+            ...historyMsgs,
+            {
+              role: "user",
+              content: [
+                { type: "image", source: { type: "base64", media_type: mediaType, data: base64 } },
+                { type: "text", text: textContent },
+              ],
+            },
+          ];
+        } else {
+          fileContent = await readFileAsText(docFile);
+          const textContent = content.trim() || (isNexus
+            ? "Please process this document for import entry data extraction."
+            : "Please parse this document and extract all dates, events, deadlines, and action items.");
+          const fullText = `${textContent}\n\n---\n\nDocument content (${docFile.name}):\n\n${fileContent}`;
+          apiMessages = [
+            ...messages.map((m) => ({ role: m.role, content: m.content || "(attachment)" })),
+            { role: "user", content: fullText },
+          ];
+        }
       } else {
         apiMessages = newMessages.map((m) => ({ role: m.role, content: m.content || "(attachment)" }));
       }
