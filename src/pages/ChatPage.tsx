@@ -350,7 +350,7 @@ const ChatPage = () => {
         const textContent = content.trim() || "Please parse this document and extract all dates, events, deadlines, and action items.";
         
         // Build history as simple text, then add the multimodal last message
-        const historyMsgs = messages.map((m) => ({ role: m.role, content: m.content }));
+        const historyMsgs = messages.map((m) => ({ role: m.role, content: m.content || "(attachment)" }));
         apiMessages = [
           ...historyMsgs,
           {
