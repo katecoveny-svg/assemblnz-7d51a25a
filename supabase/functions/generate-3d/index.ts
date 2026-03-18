@@ -27,7 +27,7 @@ async function optimizePrompt(userPrompt: string, apiKey: string): Promise<strin
   return data.content?.[0]?.text || userPrompt;
 }
 
-async function createMeshyTask(prompt: string, apiKey: string): Promise<string> {
+async function createTextTo3DTask(prompt: string, apiKey: string): Promise<string> {
   const res = await fetch("https://api.meshy.ai/openapi/v2/text-to-3d", {
     method: "POST",
     headers: {
@@ -45,7 +45,29 @@ async function createMeshyTask(prompt: string, apiKey: string): Promise<string> 
   });
   if (!res.ok) {
     const err = await res.text();
-    throw new Error(`Meshy create task error [${res.status}]: ${err}`);
+    throw new Error(`Meshy text-to-3d error [${res.status}]: ${err}`);
+  }
+  const data = await res.json();
+  return data.result;
+}
+
+async function createImageTo3DTask(imageUrl: string, apiKey: string): Promise<string> {
+  const res = await fetch("https://api.meshy.ai/openapi/v2/image-to-3d", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      image_url: imageUrl,
+      should_remesh: true,
+      topology: "quad",
+      target_polycount: 30000,
+    }),
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Meshy image-to-3d error [${res.status}]: ${err}`);
   }
   const data = await res.json();
   return data.result;
@@ -54,11 +76,12 @@ async function createMeshyTask(prompt: string, apiKey: string): Promise<string> 
 async function pollMeshyTask(
   taskId: string,
   apiKey: string,
+  endpoint: "text-to-3d" | "image-to-3d",
   timeoutMs = 120000
 ): Promise<{ status: string; progress: number; modelUrls: any; thumbnailUrl: string; prompt: string }> {
   const start = Date.now();
   while (Date.now() - start < timeoutMs) {
-    const res = await fetch(`https://api.meshy.ai/openapi/v2/text-to-3d/${taskId}`, {
+    const res = await fetch(`https://api.meshy.ai/openapi/v2/${endpoint}/${taskId}`, {
       headers: { Authorization: `Bearer ${apiKey}` },
     });
     if (!res.ok) {
@@ -72,7 +95,7 @@ async function pollMeshyTask(
         progress: 100,
         modelUrls: data.model_urls,
         thumbnailUrl: data.thumbnail_url,
-        prompt: data.prompt,
+        prompt: data.prompt || "",
       };
     }
     if (data.status === "FAILED") {
@@ -89,9 +112,11 @@ Deno.serve(async (req) => {
   }
 
   const url = new URL(req.url);
-  const taskId = url.searchParams.get("taskId");
+  const taskIdParam = url.searchParams.get("taskId");
+  const endpointType = url.searchParams.get("type") || "text-to-3d";
+
   // Status polling mode
-  if (taskId && req.method === "GET") {
+  if (taskIdParam && req.method === "GET") {
     const MESHY_API_KEY = Deno.env.get("MESHY_API_KEY");
     if (!MESHY_API_KEY) {
       return new Response(JSON.stringify({ error: "MESHY_API_KEY not configured" }), {
@@ -100,7 +125,8 @@ Deno.serve(async (req) => {
       });
     }
     try {
-      const res = await fetch(`https://api.meshy.ai/openapi/v2/text-to-3d/${taskId}`, {
+      const pollEndpoint = endpointType === "image-to-3d" ? "image-to-3d" : "text-to-3d";
+      const res = await fetch(`https://api.meshy.ai/openapi/v2/${pollEndpoint}/${taskIdParam}`, {
         headers: { Authorization: `Bearer ${MESHY_API_KEY}` },
       });
       if (!res.ok) {
@@ -139,30 +165,42 @@ Deno.serve(async (req) => {
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
-    if (!ANTHROPIC_API_KEY) {
-      return new Response(
-        JSON.stringify({ error: "ANTHROPIC_API_KEY is not configured" }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
 
-    const { userPrompt } = await req.json();
-    if (!userPrompt) {
-      return new Response(JSON.stringify({ error: "userPrompt is required" }), {
+    const body = await req.json();
+    const { userPrompt, imageUrl } = body;
+
+    if (!userPrompt && !imageUrl) {
+      return new Response(JSON.stringify({ error: "userPrompt or imageUrl is required" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    // Step 1: Optimize prompt with Claude
-    const optimizedPrompt = await optimizePrompt(userPrompt, ANTHROPIC_API_KEY);
+    let taskId: string;
+    let optimizedPrompt = "";
+    let pollEndpoint: "text-to-3d" | "image-to-3d";
 
-    // Step 2: Create Meshy task
-    const taskId = await createMeshyTask(optimizedPrompt, MESHY_API_KEY);
+    if (imageUrl) {
+      // Image-to-3D flow
+      taskId = await createImageTo3DTask(imageUrl, MESHY_API_KEY);
+      optimizedPrompt = "Generated from uploaded image";
+      pollEndpoint = "image-to-3d";
+    } else {
+      // Text-to-3D flow
+      if (!ANTHROPIC_API_KEY) {
+        return new Response(
+          JSON.stringify({ error: "ANTHROPIC_API_KEY is not configured" }),
+          { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+      optimizedPrompt = await optimizePrompt(userPrompt!, ANTHROPIC_API_KEY);
+      taskId = await createTextTo3DTask(optimizedPrompt, MESHY_API_KEY);
+      pollEndpoint = "text-to-3d";
+    }
 
-    // Step 3: Poll for completion
+    // Poll for completion
     try {
-      const result = await pollMeshyTask(taskId, MESHY_API_KEY);
+      const result = await pollMeshyTask(taskId, MESHY_API_KEY, pollEndpoint);
       return new Response(
         JSON.stringify({
           taskId,
@@ -170,18 +208,19 @@ Deno.serve(async (req) => {
           modelUrls: result.modelUrls,
           thumbnailUrl: result.thumbnailUrl,
           prompt: optimizedPrompt,
+          type: pollEndpoint,
         }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     } catch (pollErr) {
       const msg = String(pollErr);
       if (msg.includes("TIMEOUT")) {
-        // Return taskId so frontend can poll separately
         return new Response(
           JSON.stringify({
             taskId,
             status: "IN_PROGRESS",
             prompt: optimizedPrompt,
+            type: pollEndpoint,
             message: "Generation is still in progress. Use the status endpoint to check.",
           }),
           { headers: { ...corsHeaders, "Content-Type": "application/json" } }
