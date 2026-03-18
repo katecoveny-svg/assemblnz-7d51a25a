@@ -686,7 +686,7 @@ const ChatPage = () => {
           </div>
 
           {/* File Preview */}
-          {(pendingImagePreview || pendingFile) && (isArc || isHelm) && (
+          {(pendingImagePreview || pendingFile) && (isArc || hasFileUpload) && (
             <div className="px-4 pb-1 shrink-0">
               <div className="max-w-2xl mx-auto">
                 {pendingImagePreview && (
