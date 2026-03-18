@@ -1,0 +1,111 @@
+import { Suspense, useRef, useEffect } from "react";
+import { Canvas, useThree } from "@react-three/fiber";
+import { OrbitControls, useGLTF, Center, Grid } from "@react-three/drei";
+import * as THREE from "three";
+
+interface ThreeDViewerProps {
+  glbUrl: string;
+  color?: string;
+  modelUrls?: { glb?: string; obj?: string; fbx?: string };
+}
+
+function Model({ url }: { url: string }) {
+  const { scene } = useGLTF(url);
+  return (
+    <Center>
+      <primitive object={scene} />
+    </Center>
+  );
+}
+
+function AutoFit() {
+  const { camera, scene } = useThree();
+  useEffect(() => {
+    const box = new THREE.Box3().setFromObject(scene);
+    const size = box.getSize(new THREE.Vector3());
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const fov = (camera as THREE.PerspectiveCamera).fov * (Math.PI / 180);
+    const dist = maxDim / (2 * Math.tan(fov / 2)) * 1.5;
+    camera.position.set(dist, dist * 0.6, dist);
+    camera.lookAt(0, 0, 0);
+    (camera as THREE.PerspectiveCamera).near = 0.01;
+    (camera as THREE.PerspectiveCamera).far = dist * 10;
+    camera.updateProjectionMatrix();
+  }, [camera, scene]);
+  return null;
+}
+
+function LoadingCube() {
+  const meshRef = useRef<THREE.Mesh>(null);
+  return (
+    <mesh ref={meshRef}>
+      <boxGeometry args={[1, 1, 1]} />
+      <meshStandardMaterial color="#FFB800" wireframe />
+    </mesh>
+  );
+}
+
+function DownloadButton({ url, label, color }: { url: string; label: string; color: string }) {
+  if (!url) return null;
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      download
+      className="px-3 py-1.5 rounded-full text-xs font-medium transition-all hover:opacity-80"
+      style={{
+        border: `1px solid ${color}`,
+        color,
+      }}
+    >
+      {label}
+    </a>
+  );
+}
+
+const ThreeDViewer = ({ glbUrl, color = "#FFB800", modelUrls }: ThreeDViewerProps) => {
+  return (
+    <div className="w-full rounded-lg overflow-hidden">
+      <div className="w-full h-[300px] md:h-[400px]" style={{ background: "#0E0E1A" }}>
+        <Canvas camera={{ position: [3, 2, 3], fov: 50 }}>
+          <ambientLight intensity={0.6} />
+          <directionalLight position={[5, 5, 5]} intensity={0.8} />
+          <directionalLight position={[-3, 3, -3]} intensity={0.4} />
+          <Suspense fallback={<LoadingCube />}>
+            <Model url={glbUrl} />
+            <AutoFit />
+          </Suspense>
+          <Grid
+            args={[20, 20]}
+            position={[0, -0.01, 0]}
+            cellSize={0.5}
+            cellThickness={0.5}
+            cellColor="#1a1a2e"
+            sectionSize={2}
+            sectionThickness={1}
+            sectionColor="#2a2a4e"
+            fadeDistance={15}
+            infiniteGrid
+          />
+          <OrbitControls
+            enableDamping
+            dampingFactor={0.05}
+            enablePan
+            enableZoom
+            makeDefault
+          />
+        </Canvas>
+      </div>
+      {modelUrls && (
+        <div className="flex gap-2 flex-wrap mt-2">
+          <DownloadButton url={modelUrls.glb || ""} label="Download GLB" color={color} />
+          <DownloadButton url={modelUrls.obj || ""} label="Download OBJ" color={color} />
+          <DownloadButton url={modelUrls.fbx || ""} label="Download FBX" color={color} />
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ThreeDViewer;
