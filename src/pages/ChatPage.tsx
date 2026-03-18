@@ -12,6 +12,7 @@ import HelmDashboard from "@/components/helm/HelmDashboard";
 import BrandScanModal from "@/components/BrandScanModal";
 import TemplateLibrary from "@/components/TemplateLibrary";
 import StructuredOutputCard, { detectOutputType } from "@/components/StructuredOutputCard";
+import NexusEntryCard from "@/components/nexus/NexusEntryCard";
 import { agentTemplates } from "@/data/templates";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
@@ -55,6 +56,65 @@ function shouldTrigger3D(text: string): boolean {
 
 function hasChecklist(content: string): boolean {
   return /^[-*]\s*\[([ xX])\]/m.test(content);
+}
+
+function parseNexusEntry(content: string) {
+  if (!/import entry summary/i.test(content)) return null;
+
+  try {
+    const lines: any[] = [];
+    // Match numbered line items with HS codes
+    const linePattern = /(\d+)\.\s+(.+?)[\n\r]+\s*HS Code:\s*(\S+)(.*?)[\n\r]+\s*Origin:\s*(\S+).*?[\n\r]+\s*Qty:.*?Value:\s*\$?([\d,.]+).*?[\n\r]+\s*Duty:.*?=\s*\$?([\d,.]+).*?[\n\r]+\s*GST:.*?=\s*\$?([\d,.]+)/gim;
+    let match;
+    while ((match = linePattern.exec(content)) !== null) {
+      const flagged = match[4]?.includes("⚠️") || match[4]?.includes("uncertain");
+      lines.push({
+        line: parseInt(match[1]),
+        description: match[2].trim(),
+        hsCode: match[3].trim(),
+        origin: match[5].trim(),
+        valueNZD: "$" + match[6].trim(),
+        duty: "$" + match[7].trim(),
+        gst: "$" + match[8].trim(),
+        flagged,
+        flagReason: flagged ? "Uncertain classification — broker review recommended" : undefined,
+      });
+    }
+
+    if (lines.length === 0) return null;
+
+    const getField = (label: string) => {
+      const m = content.match(new RegExp(label + ":\\s*(.+)", "i"));
+      return m?.[1]?.trim();
+    };
+
+    const totalValue = getField("Customs Value") || getField("Total Customs Value");
+    const totalDuty = getField("Total Duty");
+    const totalGST = getField("Total GST");
+    const totalPayable = getField("TOTAL PAYABLE");
+
+    const flaggedItems: string[] = [];
+    const flagSection = content.match(/FLAGGED FOR BROKER REVIEW[:\s]*\n([\s\S]*?)(?:\n\n|$)/i);
+    if (flagSection) {
+      const items = flagSection[1].match(/[•\-*]\s*(.+)/g);
+      items?.forEach((item) => flaggedItems.push(item.replace(/^[•\-*]\s*/, "")));
+    }
+
+    return {
+      supplier: getField("Supplier"),
+      consignee: getField("Consignee"),
+      invoice: getField("Invoice"),
+      transport: getField("Transport"),
+      lines,
+      totalValue,
+      totalDuty,
+      totalGST,
+      totalPayable,
+      flaggedItems: flaggedItems.length > 0 ? flaggedItems : undefined,
+    };
+  } catch {
+    return null;
+  }
 }
 
 async function imageToBase64(file: File, maxDim = 1024): Promise<{ base64: string; mediaType: string }> {
@@ -352,6 +412,14 @@ const ChatPage = () => {
     const content = msg.content;
 
     if (msg.role === "assistant") {
+      // Check for NEXUS import entry data first
+      if (agentId === "customs" || agentId === "nexus") {
+        const entryData = parseNexusEntry(content);
+        if (entryData) {
+          return <NexusEntryCard data={entryData} color={agent.color} />;
+        }
+      }
+
       // Check if this is structured output
       const outputType = detectOutputType(content);
       if (outputType) {
