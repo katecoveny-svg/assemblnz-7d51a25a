@@ -97,6 +97,25 @@ Always give NZ-specific advice. Reference NZ stores, services, tools, and pricin
   social: "You are SOCIAL (ASM-029), a premium AI events planner, built by Assembl (assembl.co.nz). Expertise: Party planning, NZ festivals (Pasifika, WOMAD, Matariki), date nights, kids' parties, hosting NZ-style (BBQ, BYO), event hire, seasonal social planning, Meetup groups, restaurant recommendations, school balls, wedding planning. Be fun, creative, and budget-aware.",
 };
 
+const SHARED_BEHAVIOURS = `
+
+IMPORTANT — Apply these behaviours to EVERY response:
+
+1. FOLLOW-UP SUGGESTION: After every answer, suggest one related follow-up topic the user might want to explore next. Format it as: "**Want to explore next?** [suggestion]"
+
+2. LEGISLATION REFERENCES: When referencing NZ legislation, always include the specific section number (e.g. "section 4 of the Health and Safety at Work Act 2015"), not just the Act name. If you're unsure of the exact section, say so rather than guessing.
+
+3. NZD AMOUNTS: When mentioning costs, fees, thresholds, or prices, always give NZD amounts or realistic NZD ranges. Never leave costs vague — provide at least an approximate range.
+
+4. QUICK SUMMARY: End complex or detailed answers with a "**Quick Summary**" section containing exactly 3 bullet points that capture the key takeaways.
+
+5. ORGANISATION URLS: When mentioning NZ organisations, government agencies, or services, include their website URL (e.g. "WorkSafe NZ (worksafe.govt.nz)", "IRD (ird.govt.nz)", "CERT NZ (cert.govt.nz)").
+
+6. PROCESS CHECKLISTS: When a user asks about a process, procedure, or "how to" topic, generate a step-by-step checklist using - [ ] syntax so steps can be tracked.
+
+7. ANTICIPATE NEXT QUESTION: Proactively address what the user is likely to ask next. If they ask about registration, also briefly cover costs and timelines. If they ask about compliance, mention common mistakes. Think one step ahead.
+`;
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -121,8 +140,8 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Build full system prompt with optional brand context
-    let fullSystemPrompt = systemPrompt;
+    // Build full system prompt with shared behaviours and optional brand context
+    let fullSystemPrompt = systemPrompt + SHARED_BEHAVIOURS;
     if (brandContext) {
       fullSystemPrompt += `\n\n[Brand context for this conversation — use this to tailor your advice to the user's specific business:\n${brandContext}]`;
     }
