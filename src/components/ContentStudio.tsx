@@ -4,22 +4,25 @@ import { supabase } from "@/integrations/supabase/client";
 import { Copy, Check, Sparkles, Lock } from "lucide-react";
 import AgentAvatar from "@/components/AgentAvatar";
 import ReactMarkdown from "react-markdown";
+import { NeonCamera, NeonDocument, NeonMail, NeonFilm, NeonTarget, NeonBulb, NeonSeedling, NeonSparkle } from "@/components/NeonIcons";
+
+const PRISM_COLOR = "#E040FB";
 
 const PLATFORMS = [
-  { id: "instagram_post", label: "Instagram Post", emoji: "📸" },
-  { id: "linkedin_post", label: "LinkedIn Post", emoji: "💼" },
-  { id: "instagram_story", label: "Instagram Story", emoji: "📱" },
-  { id: "facebook_post", label: "Facebook Post", emoji: "👍" },
-  { id: "tiktok_caption", label: "TikTok Caption", emoji: "🎵" },
+  { id: "instagram_post", label: "Instagram Post", icon: <NeonCamera size={14} color={PRISM_COLOR} /> },
+  { id: "linkedin_post", label: "LinkedIn Post", icon: <NeonDocument size={14} color={PRISM_COLOR} /> },
+  { id: "instagram_story", label: "Instagram Story", icon: <NeonMail size={14} color={PRISM_COLOR} /> },
+  { id: "facebook_post", label: "Facebook Post", icon: <NeonTarget size={14} color={PRISM_COLOR} /> },
+  { id: "tiktok_caption", label: "TikTok Caption", icon: <NeonFilm size={14} color={PRISM_COLOR} /> },
 ];
 
 const CONTENT_TYPES = [
-  { id: "product_launch", label: "Product Launch", emoji: "🚀" },
-  { id: "feature_spotlight", label: "Feature Spotlight", emoji: "✨" },
-  { id: "tip_hack", label: "Tip/Hack", emoji: "💡" },
-  { id: "educational", label: "Educational", emoji: "📚" },
-  { id: "seasonal", label: "Seasonal", emoji: "🌸" },
-  { id: "behind_scenes", label: "Behind the Scenes", emoji: "🎬" },
+  { id: "product_launch", label: "Product Launch", icon: <NeonSparkle size={14} color={PRISM_COLOR} /> },
+  { id: "feature_spotlight", label: "Feature Spotlight", icon: <NeonStar size={14} color={PRISM_COLOR} /> },
+  { id: "tip_hack", label: "Tip/Hack", icon: <NeonBulb size={14} color={PRISM_COLOR} /> },
+  { id: "educational", label: "Educational", icon: <NeonDocument size={14} color={PRISM_COLOR} /> },
+  { id: "seasonal", label: "Seasonal", icon: <NeonSeedling size={14} color={PRISM_COLOR} /> },
+  { id: "behind_scenes", label: "Behind the Scenes", icon: <NeonFilm size={14} color={PRISM_COLOR} /> },
 ];
 
 interface ContentStudioProps {
