@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/components/ui/use-toast";
-import { Trash2, Edit2, Plus, Loader2 } from "lucide-react";
+import { Trash2, Edit2, Plus, Loader2, Search, Filter, X } from "lucide-react";
 
 const ROOMS = ["Lodge Suite 1", "Lodge Suite 2", "Valley View 1", "Valley View 2", "Premium Suite"];
 const STATUS_COLORS: Record<string, string> = { booked: "#E6B422", available: "#00FF88", maintenance: "#FF4444" };
