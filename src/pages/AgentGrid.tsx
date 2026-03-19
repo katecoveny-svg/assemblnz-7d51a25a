@@ -399,14 +399,18 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════════════════════ FOUNDER ═══════════════════════ */}
-      <section className="py-20 sm:py-28 border-t border-border">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <img
+          <motion.img
             src="/img/kate-neon.png"
             alt="Kate, Founder of Assembl"
             className="w-32 h-32 rounded-full mx-auto mb-6 object-cover border-2"
             style={{ borderColor: "hsl(var(--primary) / 0.3)" }}
             loading="lazy"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            whileHover={{ boxShadow: "0 0 30px rgba(0,255,136,0.3)" }}
           />
           <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground mb-3 flex items-center justify-center gap-2">Built in Aotearoa <NeonNZFlag size={28} /></h2>
           <p className="text-sm text-muted-foreground leading-relaxed max-w-lg mx-auto mb-4">
