@@ -15,6 +15,8 @@ const roleBadge: Record<string, { label: string; color: string }> = {
 
 const AccountDropdown = () => {
   const { user, profile, role, isAdmin, signOut, dailyMessageCount, isPaid, dailyLimit } = useAuth();
+  const { highContrast, toggleHighContrast } = useHighContrast();
+  const { language, setLanguage } = useLanguage();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
