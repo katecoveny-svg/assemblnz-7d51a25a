@@ -237,7 +237,7 @@ const PricingPage = () => {
       {/* Business Plans */}
       <section className="pb-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl sm:text-2xl font-extrabold text-center text-foreground mb-12">
+          <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-center text-foreground mb-12">
             Plans for <span className="text-gradient-hero">NZ Businesses</span>
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
