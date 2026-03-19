@@ -60,7 +60,7 @@ const AuraEvents = ({ onGenerate }: Props) => {
                     <div className="text-xs font-medium text-foreground">{e.name}</div>
                     <div className="text-[10px] text-muted-foreground">{e.pricing} · {e.difficulty}</div>
                   </div>
-                  <button className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Design</button>
+                  <button onClick={() => gen(`Design the "${e.name}" signature experience for a luxury NZ lodge. Pricing: ${e.pricing}. Fitness level: ${e.difficulty}. Generate: evocative name & description (sensory language), hour-by-hour itinerary, guest requirements (fitness, clothing, equipment), pricing breakdown, staff requirements, supplier/partner needs, safety considerations & waivers, marketing description (for website & travel agents), and photography brief.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Design</button>
                 </div>
               ))}
             </div>
