@@ -50,7 +50,7 @@ const AuraOperations = ({ onGenerate }: Props) => {
             {["Today's Arrivals — names, rooms, ETA, special notes", "Today's Departures — names, rooms, checkout time, transfer details", "In-House Guests — names, rooms, day of stay, dinner notes", "Today's Activities & Experiences Booked", "Dietary Requirements Summary for Kitchen", "Weather Forecast", "Maintenance Issues", "Staff on Duty"].map(item => (
               <div key={item} className="text-[11px] text-foreground/70 p-2 rounded-lg border border-border mb-1.5">{item}</div>
             ))}
-            <button className="w-full mt-3 py-2.5 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Daily Briefing</button>
+            <button onClick={() => gen(`Generate a complete daily morning briefing document for a luxury lodge. Include sections for: today's arrivals (with names, rooms, ETA, special notes), today's departures, in-house guests (day of stay, dinner notes), today's activities booked, dietary requirements summary for kitchen, weather forecast, maintenance issues, and staff on duty. Format as a printable briefing for the morning team huddle.`)} className="w-full mt-3 py-2.5 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Daily Briefing</button>
           </div>
         </div>
       )}
