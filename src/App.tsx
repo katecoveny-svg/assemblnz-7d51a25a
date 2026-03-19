@@ -15,6 +15,8 @@ const EmbedPage = lazy(() => import("./pages/EmbedPage"));
 const EmbedChatWidget = lazy(() => import("./pages/EmbedChatWidget"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
+const AdminForgotPassword = lazy(() => import("./pages/AdminForgotPassword"));
+const AdminResetPassword = lazy(() => import("./pages/AdminResetPassword"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const PricingPage = lazy(() => import("./pages/PricingPage"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
@@ -42,6 +44,8 @@ const App = () => (
             <Route path="/dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
             <Route path="/pricing" element={<Suspense fallback={null}><PricingPage /></Suspense>} />
             <Route path="/admin" element={<Suspense fallback={null}><AdminLogin /></Suspense>} />
+            <Route path="/admin/forgot-password" element={<Suspense fallback={null}><AdminForgotPassword /></Suspense>} />
+            <Route path="/admin/reset-password" element={<Suspense fallback={null}><AdminResetPassword /></Suspense>} />
             <Route path="/admin/dashboard" element={<Suspense fallback={null}><AdminDashboard /></Suspense>} />
             <Route path="/privacy" element={<Suspense fallback={null}><PrivacyPolicy /></Suspense>} />
             <Route path="/terms" element={<Suspense fallback={null}><TermsOfUse /></Suspense>} />
