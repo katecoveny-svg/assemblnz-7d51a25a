@@ -50,6 +50,14 @@ import ArohaPayroll from "@/components/aroha/ArohaPayroll";
 import ArohaRecruitment from "@/components/aroha/ArohaRecruitment";
 import ArohaPeopleCulture from "@/components/aroha/ArohaPeopleCulture";
 import ArohaCompanySetup from "@/components/aroha/ArohaCompanySetup";
+import AuraPropertySetup from "@/components/aura/AuraPropertySetup";
+import AuraReservations from "@/components/aura/AuraReservations";
+import AuraGuestExperience from "@/components/aura/AuraGuestExperience";
+import AuraKitchenFnB from "@/components/aura/AuraKitchenFnB";
+import AuraMarketing from "@/components/aura/AuraMarketing";
+import AuraEvents from "@/components/aura/AuraEvents";
+import AuraOperations from "@/components/aura/AuraOperations";
+import AuraTeam from "@/components/aura/AuraTeam";
 import InternalComms from "@/components/InternalComms";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
