@@ -2,7 +2,7 @@ import { useState } from "react";
 import { agents } from "@/data/agents";
 import { supabase } from "@/integrations/supabase/client";
 import { Copy, Check, Sparkles, Lock } from "lucide-react";
-import RobotIcon from "@/components/RobotIcon";
+import AgentAvatar from "@/components/AgentAvatar";
 import ReactMarkdown from "react-markdown";
 
 const PLATFORMS = [
@@ -243,7 +243,7 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <RobotIcon color={prismColor} size={20} agentId="marketing" />
+                <AgentAvatar agentId="marketing" color={prismColor} size={20} showGlow={false} />
                 <span className="text-xs font-bold" style={{ color: prismColor }}>PRISM Content Studio</span>
               </div>
               <button

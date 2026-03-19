@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { agents } from "@/data/agents";
 import { supabase } from "@/integrations/supabase/client";
-import RobotIcon from "@/components/RobotIcon";
+import AgentAvatar from "@/components/AgentAvatar";
 import ReactMarkdown from "react-markdown";
 import { Send } from "lucide-react";
 
@@ -82,7 +82,7 @@ const EmbedChatWidget = () => {
         className="flex items-center gap-2.5 px-4 py-3 shrink-0"
         style={{ borderBottom: "1px solid #ffffff08" }}
       >
-        <RobotIcon color={agent.color} size={28} />
+        <AgentAvatar agentId={agent.id} color={agent.color} size={28} showGlow={false} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <span className="font-bold text-sm" style={{ color: "#E4E4EC" }}>{agent.name}</span>
@@ -105,7 +105,7 @@ const EmbedChatWidget = () => {
       <div className="flex-1 overflow-y-auto px-4 py-4">
         {messages.length === 0 && !limitReached && (
           <div className="flex flex-col items-center justify-center h-full text-center gap-3">
-            <RobotIcon color={agent.color} size={56} />
+            <AgentAvatar agentId={agent.id} color={agent.color} size={56} />
             <div>
               <h2 className="text-sm font-bold" style={{ color: "#E4E4EC" }}>{agent.name}</h2>
               <p className="text-[11px] italic" style={{ color: "#ffffff38" }}>"{agent.tagline}"</p>
@@ -133,7 +133,7 @@ const EmbedChatWidget = () => {
             key={i}
             className={`flex gap-2 mb-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
           >
-            {msg.role === "assistant" && <RobotIcon color={agent.color} size={20} />}
+            {msg.role === "assistant" && <AgentAvatar agentId={agent.id} color={agent.color} size={20} showGlow={false} />}
             <div
               className="max-w-[85%] px-3 py-2 rounded-xl text-[13px] leading-relaxed"
               style={
@@ -155,7 +155,7 @@ const EmbedChatWidget = () => {
 
         {isLoading && (
           <div className="flex gap-2 items-center">
-            <RobotIcon color={agent.color} size={20} />
+            <AgentAvatar agentId={agent.id} color={agent.color} size={20} showGlow={false} />
             <div className="flex gap-1 px-3 py-2">
               {[0, 1, 2].map((i) => (
                 <span

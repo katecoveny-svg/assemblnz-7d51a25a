@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { agents } from "@/data/agents";
-import RobotIcon from "@/components/RobotIcon";
+import AgentAvatar from "@/components/AgentAvatar";
 
 interface Props {
   agentId: string;
@@ -21,7 +21,7 @@ const HandoffCard = ({ agentId }: Props) => {
         background: agent.color + "08",
       }}
     >
-      <RobotIcon color={agent.color} size={28} agentId={agent.id} />
+      <AgentAvatar agentId={agent.id} color={agent.color} size={28} showGlow={false} />
       <div className="flex-1 text-left min-w-0">
         <span className="text-xs font-bold text-foreground">{agent.name}</span>
         <span className="text-xs ml-1.5" style={{ color: agent.color }}>{agent.role}</span>

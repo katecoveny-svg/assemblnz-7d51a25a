@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback, lazy, Suspense } from "react"
 import ParticleField from "@/components/ParticleField";
 import { useParams, Link } from "react-router-dom";
 import { agents } from "@/data/agents";
-import RobotIcon from "@/components/RobotIcon";
+import AgentAvatar from "@/components/AgentAvatar";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare } from "lucide-react";
 import ReactMarkdown from "react-markdown";
@@ -713,7 +713,7 @@ const ChatPage = () => {
         <Link to="/" className="p-1.5 rounded-lg hover:bg-muted transition-colors text-foreground shrink-0">
           <ArrowLeft size={18} />
         </Link>
-        <RobotIcon color={agent.color} size={28} agentId={agent.id} />
+        <AgentAvatar agentId={agent.id} color={agent.color} size={28} showGlow={false} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <span className="font-bold text-sm text-foreground">{agent.name}</span>
@@ -998,7 +998,7 @@ const ChatPage = () => {
                         className={`flex gap-2 opacity-0 animate-fade-up ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                         style={{ animationDelay: `${i * 30}ms`, animationFillMode: "forwards" }}
                       >
-                        {msg.role === "assistant" && <RobotIcon color={agent.color} size={24} />}
+                        {msg.role === "assistant" && <AgentAvatar agentId={agent.id} color={agent.color} size={24} showGlow={false} />}
                         <div
                           className={`max-w-[85%] px-3.5 py-2.5 rounded-xl text-sm leading-relaxed ${
                             msg.role === "user" ? "text-foreground rounded-br-sm" : "bg-card text-foreground/90 rounded-bl-sm"
@@ -1050,7 +1050,7 @@ const ChatPage = () => {
                   ))}
                   {isLoading && (
                     <div className="flex gap-2 items-center">
-                      <RobotIcon color={agent.color} size={24} />
+                      <AgentAvatar agentId={agent.id} color={agent.color} size={24} showGlow={false} />
                       <div className="flex gap-1 px-3 py-2">
                         {[0, 1, 2].map((i) => (
                           <span key={i} className="w-1.5 h-1.5 rounded-full animate-bounce-dot" style={{ backgroundColor: agent.color, animationDelay: `${i * 0.2}s` }} />

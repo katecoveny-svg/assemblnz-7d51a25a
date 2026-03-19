@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { agents } from "@/data/agents";
-import RobotIcon from "@/components/RobotIcon";
+import AgentAvatar from "@/components/AgentAvatar";
 import AssemblLogo from "@/components/AssemblLogo";
 import {
   NeonBuilding,
@@ -156,7 +156,7 @@ const OnboardingQuiz = ({ onComplete }: { onComplete: (filter?: string) => void 
                       borderColor: agent.color + "30",
                     }}
                   >
-                    <RobotIcon color={agent.color} size={40} />
+                    <AgentAvatar agentId={agent.id} color={agent.color} size={40} showGlow={false} />
                     <div className="flex-1 min-w-0">
                       <h3 className="font-bold text-sm text-foreground">{agent.name}</h3>
                       <p className="text-xs mb-1" style={{ color: agent.color }}>{agent.role}</p>
