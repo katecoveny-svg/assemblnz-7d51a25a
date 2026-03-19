@@ -131,6 +131,36 @@ export type Database = {
         }
         Relationships: []
       }
+      saved_items: {
+        Row: {
+          agent_id: string
+          agent_name: string
+          content: string
+          created_at: string
+          id: string
+          preview: string
+          user_id: string
+        }
+        Insert: {
+          agent_id: string
+          agent_name: string
+          content: string
+          created_at?: string
+          id?: string
+          preview: string
+          user_id: string
+        }
+        Update: {
+          agent_id?: string
+          agent_name?: string
+          content?: string
+          created_at?: string
+          id?: string
+          preview?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string

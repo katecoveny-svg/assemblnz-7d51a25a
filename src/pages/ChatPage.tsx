@@ -24,6 +24,11 @@ import AgentWelcome from "@/components/AgentWelcome";
 import TemplateTab from "@/components/TemplateTab";
 import { TEMPLATE_TAB_AGENTS } from "@/data/templates";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import AITransparencyBadge from "@/components/chat/AITransparencyBadge";
+import ConversationExport from "@/components/chat/ConversationExport";
+import ResponseSources from "@/components/chat/ResponseSources";
+import SaveToLibrary from "@/components/chat/SaveToLibrary";
+import { useLanguage } from "@/components/chat/TeReoProvider";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
 
@@ -250,6 +255,7 @@ const ChatPage = () => {
   const [nexusContainerNumbers, setNexusContainerNumbers] = useState<string[]>([]);
 
   const { user, isPaid, canUseFeature, incrementMessageCount, dailyMessageCount, dailyLimit, messageLimitReached } = useAuth();
+  const { teReoPrompt } = useLanguage();
 
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -520,7 +526,7 @@ const ChatPage = () => {
       }
 
       const { data, error } = await supabase.functions.invoke("chat", {
-        body: { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined },
+        body: { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, teReoPrompt: teReoPrompt || undefined },
       });
 
       if (error) throw error;
@@ -681,6 +687,9 @@ const ChatPage = () => {
             <span className="hidden sm:inline">Templates</span>
           </LockedButton>
         )}
+
+        {/* Conversation Export */}
+        <ConversationExport messages={messages} agentName={agent.name} agentDesignation={agent.designation} agentColor={agent.color} />
 
         {/* Brand badge or add button */}
         {brandProfile ? (
@@ -907,6 +916,15 @@ const ChatPage = () => {
                             </div>
                           )}
                           {renderMessageContent(msg)}
+                          {msg.role === "assistant" && (
+                            <div className="flex items-start justify-between gap-2">
+                              <div className="flex-1">
+                                <ResponseSources content={msg.content} />
+                                <AITransparencyBadge />
+                              </div>
+                              <SaveToLibrary content={msg.content} agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
+                            </div>
+                          )}
                         </div>
                       </div>
                       {msg.role === "assistant" && (() => {
@@ -1029,7 +1047,9 @@ const ChatPage = () => {
               <input
                 ref={inputRef} type="text" value={input} onChange={(e) => setInput(e.target.value)}
                 placeholder={isArc && pendingImage ? "Describe the building, or send to generate from image..." : isHelm ? "Ask HELM anything — meals, budgets, schedules, life admin..." : isNexus ? "Ask NEXUS or upload a document..." : `Ask ${agent.name} anything...`}
-                className="flex-1 bg-card border border-border rounded-lg px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground/10 transition-colors"
+                className="flex-1 bg-card border border-border rounded-lg px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-1 focus:ring-offset-background focus:border-foreground/10 transition-colors"
+                aria-label={`Message ${agent.name}`}
+                onKeyDown={(e) => { if (e.key === "Escape") inputRef.current?.blur(); }}
               />
               <button type="submit" disabled={(!input.trim() && !pendingImage && !pendingFile) || isLoading || isUploading}
                 className="px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 disabled:opacity-30"

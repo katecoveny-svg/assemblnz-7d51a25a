@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { User, ChevronDown, LogOut, CreditCard, Settings, Shield } from "lucide-react";
+import { User, ChevronDown, LogOut, CreditCard, Settings, Shield, Sun, Languages } from "lucide-react";
+import { useHighContrast } from "@/components/chat/HighContrastProvider";
+import { useLanguage } from "@/components/chat/TeReoProvider";
 
 const roleBadge: Record<string, { label: string; color: string }> = {
   free: { label: "Free", color: "hsl(var(--muted-foreground))" },
@@ -13,6 +15,8 @@ const roleBadge: Record<string, { label: string; color: string }> = {
 
 const AccountDropdown = () => {
   const { user, profile, role, isAdmin, signOut, dailyMessageCount, isPaid, dailyLimit } = useAuth();
+  const { highContrast, toggleHighContrast } = useHighContrast();
+  const { language, setLanguage } = useLanguage();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -92,6 +96,25 @@ const AccountDropdown = () => {
             >
               <CreditCard size={12} /> My Plan
             </button>
+
+            {/* High Contrast Toggle */}
+            <button
+              onClick={toggleHighContrast}
+              className="w-full flex items-center gap-2 px-3 py-2 text-xs text-foreground/70 hover:text-foreground hover:bg-muted transition-colors"
+              aria-label={highContrast ? "Disable high contrast mode" : "Enable high contrast mode"}
+            >
+              <Sun size={12} /> {highContrast ? "Standard contrast" : "High contrast"}
+            </button>
+
+            {/* Language Selector */}
+            <button
+              onClick={() => setLanguage(language === "en" ? "mi" : "en")}
+              className="w-full flex items-center gap-2 px-3 py-2 text-xs text-foreground/70 hover:text-foreground hover:bg-muted transition-colors"
+              aria-label={`Switch to ${language === "en" ? "Te Reo Māori" : "English"}`}
+            >
+              <Languages size={12} /> {language === "en" ? "Te Reo Māori" : "English"}
+            </button>
+
             <button
               onClick={() => { signOut(); setOpen(false); }}
               className="w-full flex items-center gap-2 px-3 py-2 text-xs text-destructive/80 hover:text-destructive hover:bg-destructive/5 transition-colors"
