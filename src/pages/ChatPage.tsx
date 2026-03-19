@@ -781,8 +781,19 @@ const ChatPage = () => {
         />
       )}
 
-      {/* HELM Dashboard View */}
-      {isHelm && helmView === "dashboard" ? (
+      {/* Template Tab View */}
+      {activeTab === "templates" && hasTemplateTab ? (
+        <TemplateTab
+          agentId={agent.id}
+          agentName={agent.name}
+          agentColor={agent.color}
+          onGenerate={(prompt) => {
+            setActiveTab("chat");
+            if (isHelm) setHelmView("chat");
+            sendMessage(prompt);
+          }}
+        />
+      ) : isHelm && helmView === "dashboard" ? (
         <div className="flex-1 overflow-y-auto">
           <HelmDashboard items={dashboardItems} onAddReminder={handleAddReminder} />
         </div>
