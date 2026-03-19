@@ -1,5 +1,6 @@
 import { Clock } from "lucide-react";
 import { agentTemplates, type Template } from "@/data/templates";
+import { ICON_MAP, NeonDocument } from "@/components/NeonIcons";
 
 interface Props {
   agentId: string;
