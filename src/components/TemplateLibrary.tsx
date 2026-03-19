@@ -1,5 +1,6 @@
 import { X, Clock, LayoutGrid } from "lucide-react";
 import { agentTemplates, Template } from "@/data/templates";
+import { ICON_MAP } from "@/components/NeonIcons";
 
 interface Props {
   agentId: string;
@@ -16,6 +17,12 @@ const TemplateLibrary = ({ agentId, agentName, agentColor, open, onClose, onSele
   const templates = agentTemplates[agentId] || [];
 
   if (templates.length === 0) return null;
+
+  const renderIcon = (iconKey: string) => {
+    const IconComp = ICON_MAP[iconKey];
+    if (IconComp) return <IconComp size={20} color={agentColor} />;
+    return null;
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
@@ -51,7 +58,7 @@ const TemplateLibrary = ({ agentId, agentName, agentColor, open, onClose, onSele
                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = agentColor + "35"; }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = agentColor + "12"; }}
               >
-                <span className="text-xl leading-none">{t.icon}</span>
+                {renderIcon(t.icon)}
                 <p className="text-xs font-semibold text-foreground mt-2 leading-tight">{t.title}</p>
                 <p className="text-[10px] text-foreground/40 mt-1 leading-snug line-clamp-2">{t.description}</p>
                 <div className="flex items-center gap-1 mt-2">
