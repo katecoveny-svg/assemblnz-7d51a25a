@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Copy, Download, AlertTriangle, Check, FileDown, ShieldAlert } from "lucide-react";
 import { NeonBox } from "@/components/NeonIcons";
 import jsPDF from "jspdf";
+import { drawAssemblPDFHeader, drawAssemblPDFFooter } from "@/lib/pdfBranding";
 
 interface EntryLine {
   line: number;
