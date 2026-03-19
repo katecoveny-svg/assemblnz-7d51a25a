@@ -17,6 +17,10 @@ const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const PricingPage = lazy(() => import("./pages/PricingPage"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsOfUse = lazy(() => import("./pages/TermsOfUse"));
+const CookiePolicy = lazy(() => import("./pages/CookiePolicy"));
+const Disclaimer = lazy(() => import("./pages/Disclaimer"));
 
 const queryClient = new QueryClient();
 
