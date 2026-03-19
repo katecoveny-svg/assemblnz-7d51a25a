@@ -102,7 +102,7 @@ export default function ArohaCompanySetup() {
     return (
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-foreground">🏢 Company Setup</h2>
+          <h2 className="text-lg font-bold text-foreground flex items-center gap-2"><NeonBuilding2 size={20} color="#FF6F91" /> Company Setup</h2>
           <button onClick={() => setEditing(true)} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] font-medium border border-border text-muted-foreground hover:text-foreground">
             <Edit2 size={10} /> Edit Profile
           </button>
