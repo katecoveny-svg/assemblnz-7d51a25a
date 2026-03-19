@@ -526,7 +526,7 @@ const ChatPage = () => {
       }
 
       const { data, error } = await supabase.functions.invoke("chat", {
-        body: { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined },
+        body: { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, teReoPrompt: teReoPrompt || undefined },
       });
 
       if (error) throw error;
