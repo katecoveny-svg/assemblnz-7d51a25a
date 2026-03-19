@@ -4,7 +4,7 @@ import { agents } from "@/data/agents";
 import { Copy, Check, Code2, MessageCircle, ChevronDown } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
-import RobotIcon from "@/components/RobotIcon";
+import AgentAvatar from "@/components/AgentAvatar";
 
 const BASE_URL = "https://assembl.co.nz";
 
