@@ -15,6 +15,8 @@ export default {
     extend: {
       fontFamily: {
         outfit: ['Outfit', 'sans-serif'],
+        syne: ['Syne', 'sans-serif'],
+        jakarta: ['"Plus Jakarta Sans"', 'sans-serif'],
         'mono-jb': ['"JetBrains Mono"', 'monospace'],
       },
       colors: {
