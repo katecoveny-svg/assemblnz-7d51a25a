@@ -177,7 +177,7 @@ export default function ForgeEvents() {
               {WOW_EVENTS.map(e => (
                 <button key={e.name} onClick={() => setEventPlan(generateEventPlan(e.name))}
                   className="text-left p-3 rounded-xl border bg-card hover:border-foreground/10 transition-colors" style={{ borderColor: FORGE_COLOR + "20" }}>
-                  <p className="text-xs font-medium text-foreground">{e.icon} {e.name}</p>
+                  <p className="text-xs font-medium text-foreground">{e.name}</p>
                   <p className="text-[9px] text-muted-foreground mt-0.5">{e.desc}</p>
                 </button>
               ))}

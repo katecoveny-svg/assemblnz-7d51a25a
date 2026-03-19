@@ -343,14 +343,14 @@ ${v.conditionNotes}. ${v.serviceHistory}.
                     <div className="flex justify-between text-sm font-bold pt-1 border-t border-border"><span className="text-foreground">Drive-away price</span><span style={{ color: FORGE_COLOR }}>${configTotal.toLocaleString()}</span></div>
                   </div>
                   <div className="mt-3 p-2 rounded-lg bg-muted text-[10px] text-muted-foreground">
-                    💰 Estimated finance: <strong className="text-foreground">${Math.round(monthlyPayment).toLocaleString()}/mo</strong> (20% deposit, 8.9% p.a., 60 months)
+                    Estimated finance: <strong className="text-foreground">${Math.round(monthlyPayment).toLocaleString()}/mo</strong> (20% deposit, 8.9% p.a., 60 months)
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
-                  <button className="py-2.5 rounded-xl text-xs font-bold border border-border text-foreground">💾 Save Spec</button>
-                  <button className="py-2.5 rounded-xl text-xs font-bold border border-border text-foreground">📧 Email to Sales</button>
-                  <button className="py-2.5 rounded-xl text-xs font-bold border border-border text-foreground">🚗 Book Test Drive</button>
-                  <button className="py-2.5 rounded-xl text-xs font-bold border border-border text-foreground">📄 Download PDF</button>
+                  <button className="py-2.5 rounded-xl text-xs font-bold border border-border text-foreground">Save Spec</button>
+                  <button className="py-2.5 rounded-xl text-xs font-bold border border-border text-foreground">Email to Sales</button>
+                  <button className="py-2.5 rounded-xl text-xs font-bold border border-border text-foreground">Book Test Drive</button>
+                  <button className="py-2.5 rounded-xl text-xs font-bold border border-border text-foreground">Download PDF</button>
                 </div>
               </div>
             )}
