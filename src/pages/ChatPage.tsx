@@ -257,7 +257,7 @@ const ChatPage = () => {
   const [nexusMPIAlerts, setNexusMPIAlerts] = useState<{ item: string; reason: string; requirement: string }[]>([]);
   const [nexusContainerNumbers, setNexusContainerNumbers] = useState<string[]>([]);
 
-  const { user, isPaid, canUseFeature, incrementMessageCount, dailyMessageCount, dailyLimit, messageLimitReached } = useAuth();
+  const { user, isPaid, canUseFeature, incrementMessageCount, dailyMessageCount, dailyLimit, messageLimitReached, role } = useAuth();
   const { teReoPrompt } = useLanguage();
   const [conversationId, setConversationId] = useState<string | null>(null);
 
