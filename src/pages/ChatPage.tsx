@@ -287,6 +287,7 @@ const ChatPage = () => {
 
   const isArc = agentId === "architecture" || agentId === "construction";
   const isForge = agentId === "automotive";
+  const isAroha = agentId === "hr";
   const isHelm = agentId === "operations";
   const isNexus = agentId === "customs";
   const isMarketing = agentId === "marketing";
