@@ -193,7 +193,7 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
                   color: selectedContentType === c.id ? prismColor : "hsl(var(--foreground) / 0.7)",
                 }}
               >
-                {c.emoji} {c.label}
+                <span className="inline-flex align-middle mr-1">{c.icon}</span> {c.label}
               </button>
             ))}
           </div>
