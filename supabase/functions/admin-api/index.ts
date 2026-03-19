@@ -193,6 +193,39 @@ Deno.serve(async (req) => {
         });
       }
 
+      case "get_contact_submissions": {
+        const { data } = await supabase
+          .from("contact_submissions")
+          .select("*")
+          .order("created_at", { ascending: false })
+          .limit(100);
+        return new Response(JSON.stringify(data || []), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      case "mark_submission_read": {
+        const { submissionId, isRead } = params;
+        await supabase
+          .from("contact_submissions")
+          .update({ is_read: isRead })
+          .eq("id", submissionId);
+        return new Response(JSON.stringify({ success: true }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      case "delete_submission": {
+        const { submissionId } = params;
+        await supabase
+          .from("contact_submissions")
+          .delete()
+          .eq("id", submissionId);
+        return new Response(JSON.stringify({ success: true }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
       case "ensure_admin_role": {
         // This is called once to bootstrap the admin role for the admin email user
         if (user.email !== adminEmail) {
