@@ -55,6 +55,7 @@ const DashboardPage = () => {
   const { user } = useAuth();
   const [savedItems, setSavedItems] = useState<SavedItem[]>([]);
   const [viewItem, setViewItem] = useState<SavedItem | null>(null);
+  const [conversations, setConversations] = useState<ConversationItem[]>([]);
 
   useEffect(() => {
     if (!user) return;
@@ -65,6 +66,20 @@ const DashboardPage = () => {
       .order("created_at", { ascending: false })
       .then(({ data }) => {
         if (data) setSavedItems(data as SavedItem[]);
+      });
+
+    // Load recent conversations (last 30 days)
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    supabase
+      .from("conversations")
+      .select("id, agent_id, messages, updated_at")
+      .eq("user_id", user.id)
+      .gte("updated_at", thirtyDaysAgo.toISOString())
+      .order("updated_at", { ascending: false })
+      .limit(20)
+      .then(({ data }) => {
+        if (data) setConversations(data as ConversationItem[]);
       });
   }, [user]);
 
