@@ -34,7 +34,10 @@ const BRAND_VOICE = {
   avoid: ["Cheap", "Deal", "Bargain", "Basic", "Accommodation", "Facility", "Customer"],
 };
 
-const AuraMarketing = () => {
+interface Props { onGenerate?: (prompt: string) => void; }
+
+const AuraMarketing = ({ onGenerate }: Props) => {
+  const gen = (prompt: string) => onGenerate?.(prompt);
   const [section, setSection] = useState<"pr" | "content" | "spend" | "voice">("pr");
 
   return (
