@@ -909,7 +909,15 @@ const ChatPage = () => {
       )}
 
       {/* Tab Views */}
-      {activeTab === "forge_showroom" && isForge ? (
+      {activeTab === "aroha_contracts" && isAroha ? (
+        <ArohaContracts />
+      ) : activeTab === "aroha_onboarding" && isAroha ? (
+        <ArohaOnboarding />
+      ) : activeTab === "aroha_payroll" && isAroha ? (
+        <ArohaPayroll />
+      ) : activeTab === "aroha_recruitment" && isAroha ? (
+        <ArohaRecruitment />
+      ) : activeTab === "forge_showroom" && isForge ? (
         <ForgeShowroom />
       ) : activeTab === "forge_sales" && isForge ? (
         <ForgeSales />
