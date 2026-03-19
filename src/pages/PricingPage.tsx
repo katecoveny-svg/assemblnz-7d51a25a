@@ -224,10 +224,10 @@ const PricingPage = () => {
       {/* Hero */}
       <section className="py-20 sm:py-28">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-foreground mb-4 leading-tight">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-syne font-extrabold text-foreground mb-4 leading-tight">
             Simple, honest <span className="text-gradient-hero">pricing</span>
           </h1>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto mb-4">
+          <p className="text-sm sm:text-base font-jakarta text-muted-foreground max-w-xl mx-auto mb-4">
             Start free. Upgrade when you're ready. No lock-in contracts.
           </p>
           <p className="text-xs" style={{ color: "#ffffff50" }}>All prices in NZD. GST inclusive.</p>
@@ -237,7 +237,7 @@ const PricingPage = () => {
       {/* Business Plans */}
       <section className="pb-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl sm:text-2xl font-extrabold text-center text-foreground mb-12">
+          <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-center text-foreground mb-12">
             Plans for <span className="text-gradient-hero">NZ Businesses</span>
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -297,7 +297,7 @@ const PricingPage = () => {
       {/* HELM Family Plans */}
       <section className="py-24 border-t border-border">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl sm:text-2xl font-extrabold text-center text-foreground mb-2">
+          <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-center text-foreground mb-2">
             HELM — For <span style={{ color: "#B388FF" }}>NZ Families</span>
           </h2>
           <p className="text-[13px] text-center mb-12" style={{ color: "#ffffff50" }}>
@@ -351,7 +351,7 @@ const PricingPage = () => {
       {/* FAQ */}
       <section className="py-20 sm:py-28 border-t border-border">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-center text-foreground mb-14">
+          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-center text-foreground mb-14">
             Frequently asked <span className="text-gradient-hero">questions</span>
           </h2>
           <div className="space-y-2">
@@ -381,7 +381,7 @@ const PricingPage = () => {
       {/* Bottom CTA */}
       <section id="contact" className="py-16 border-t border-border">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-xl sm:text-2xl font-extrabold text-foreground mb-3">Ready to get started?</h2>
+          <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-foreground mb-3">Ready to get started?</h2>
           <p className="text-sm text-muted-foreground mb-6">Try any agent free — no signup required.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link

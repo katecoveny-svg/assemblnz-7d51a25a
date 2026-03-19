@@ -96,7 +96,7 @@ const DashboardPage = () => {
       <BrandNav />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-8 flex-1">
-        <h2 className="text-xl font-extrabold text-foreground tracking-[2.5px] uppercase">Your Dashboard</h2>
+        <h2 className="text-xl font-syne font-extrabold text-foreground tracking-[2.5px] uppercase">Your Dashboard</h2>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -134,8 +134,8 @@ const DashboardPage = () => {
           <div className="rounded-xl border border-border bg-card p-6">
             <div className="flex items-center gap-2 mb-4">
               <Bookmark size={16} className="text-primary" />
-              <h2 className="text-sm font-bold text-foreground">Saved Items</h2>
-              <span className="text-[10px] text-muted-foreground ml-auto">{savedItems.length} items</span>
+              <h2 className="text-sm font-syne font-bold text-foreground">Saved Items</h2>
+              <span className="text-[10px] font-jakarta text-muted-foreground ml-auto">{savedItems.length} items</span>
             </div>
             <div className="space-y-2">
               {savedItems.map((item) => (
@@ -225,7 +225,7 @@ const DashboardPage = () => {
 
         {/* Agent Activity */}
         <div className="rounded-xl border border-border bg-card p-6">
-          <h2 className="text-sm font-bold text-foreground mb-4">Agent activity</h2>
+          <h2 className="text-sm font-syne font-bold text-foreground mb-4">Agent activity</h2>
           <div className="space-y-3">
             {SAMPLE_AGENTS.map((agent) => (
               <div key={agent.name} className="flex items-center gap-3">
@@ -247,7 +247,7 @@ const DashboardPage = () => {
 
         {/* Recent Templates */}
         <div className="rounded-xl border border-border bg-card p-6">
-          <h2 className="text-sm font-bold text-foreground mb-4">Recent templates</h2>
+          <h2 className="text-sm font-syne font-bold text-foreground mb-4">Recent templates</h2>
           <div className="space-y-2">
             {SAMPLE_TEMPLATES.map((t, i) => (
               <div key={i} className="flex items-center justify-between py-2 border-b border-border last:border-0">
@@ -266,8 +266,8 @@ const DashboardPage = () => {
 
         {/* Time Saved Breakdown */}
         <div className="rounded-xl border bg-card p-6" style={{ borderColor: "#FFB80025" }}>
-          <h2 className="text-sm font-bold text-foreground mb-1">Time saved breakdown</h2>
-          <p className="text-[11px] mb-4" style={{ color: '#ffffff38' }}>This is the number that justifies your subscription</p>
+          <h2 className="text-sm font-syne font-bold text-foreground mb-1">Time saved breakdown</h2>
+          <p className="text-[11px] font-jakarta mb-4" style={{ color: '#ffffff38' }}>This is the number that justifies your subscription</p>
           <div className="space-y-3">
             {TIME_SAVED.map((t) => (
               <div key={t.template} className="flex items-center justify-between">
