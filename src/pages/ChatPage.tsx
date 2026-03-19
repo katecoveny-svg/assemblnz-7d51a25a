@@ -980,6 +980,14 @@ const ChatPage = () => {
         <AuraOperations />
       ) : activeTab === "aura_team" && isAura ? (
         <AuraTeam />
+      ) : activeTab === "aura_revenue" && isAura ? (
+        <AuraRevenue />
+      ) : activeTab === "aura_memory" && isAura ? (
+        <AuraGuestMemory />
+      ) : activeTab === "aura_sustainability" && isAura ? (
+        <AuraSustainability />
+      ) : activeTab === "aura_trade" && isAura ? (
+        <AuraTrade />
       ) : activeTab === "aroha_contracts" && isAroha ? (
         <ArohaContracts />
       ) : activeTab === "aroha_onboarding" && isAroha ? (
