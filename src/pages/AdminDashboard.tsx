@@ -56,7 +56,7 @@ const ROLES = ["free", "starter", "pro", "business", "admin"];
 const AdminDashboard = () => {
   const { user, isAdmin, loading: authLoading, signOut } = useAuth();
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"overview" | "users" | "agents" | "activity" | "test">("overview");
+  const [tab, setTab] = useState<"overview" | "users" | "agents" | "activity" | "inbox" | "test">("overview");
   const [metrics, setMetrics] = useState<Metrics | null>(null);
   const [users, setUsers] = useState<UserRow[]>([]);
   const [agentStatuses, setAgentStatuses] = useState<AgentStatus[]>([]);
