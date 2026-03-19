@@ -152,11 +152,10 @@ const PricingPage = () => {
             {BUSINESS_PLANS.map((plan) => (
               <div
                 key={plan.name}
-                className="relative rounded-xl p-6 flex flex-col"
+                className={`relative rounded-xl p-6 flex flex-col glass-card ${plan.highlighted ? "animated-border" : ""}`}
                 style={{
-                  background: "#0E0E1A",
-                  border: `1px solid ${plan.borderColor}`,
-                  boxShadow: plan.highlighted ? "0 0 40px #00FF8810" : "none",
+                  border: plan.highlighted ? undefined : `1px solid ${plan.borderColor}`,
+                  boxShadow: plan.highlighted ? "0 0 40px hsl(var(--primary) / 0.08)" : "none",
                 }}
               >
                 {plan.highlighted && (
