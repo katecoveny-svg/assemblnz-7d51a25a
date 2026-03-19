@@ -242,7 +242,7 @@ const AgentGrid = () => {
                 </div>
                 <h3 className="text-sm font-bold text-foreground mb-2">{item.title}</h3>
                 <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
