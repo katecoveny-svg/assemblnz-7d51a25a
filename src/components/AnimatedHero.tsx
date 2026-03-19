@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
+import AgentShowcase from "@/components/AgentShowcase";
 import { Link } from "react-router-dom";
 
 interface AnimatedHeroProps {
@@ -134,6 +135,9 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
             </Link>
           </motion.div>
         </motion.div>
+
+        {/* Agent Showcase Carousel */}
+        <AgentShowcase />
 
         <div className="flex flex-wrap justify-center gap-6 sm:gap-10">
           {[
