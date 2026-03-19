@@ -124,7 +124,7 @@ const AuraReservations = ({ onGenerate }: Props) => {
                 <div className="p-2 rounded-lg bg-card border border-border"><span className="font-medium">Activity Suggestions:</span> Based on {selectedBooking.arrival} season — stargazing, nature walks, wine tasting</div>
                 {selectedBooking.returning && <div className="p-2 rounded-lg bg-card border border-border"><span className="font-medium">Returning Guest:</span> Recall preferences from previous visit — favourite wines, activities, room temperature</div>}
               </div>
-              <button className="w-full py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Full Dossier</button>
+              <button onClick={() => gen(`Generate a complete pre-arrival guest dossier for ${selectedBooking.guest}. They are celebrating their ${selectedBooking.occasion.toLowerCase()}. Dietary: ${selectedBooking.dietary}. Room: ${selectedBooking.room}. Arriving ${selectedBooking.arrival} via ${selectedBooking.arrivalMethod}. ${selectedBooking.returning ? "This is a returning guest — recall preferences from previous visits." : "First-time guest."} Special requests: ${selectedBooking.requests}. Include: personalised welcome letter, room preparation notes, activity recommendations for the season, wine pairing suggestions, and weather forecast for their stay. Luxury lodge tone — warm, understated, anticipatory.`)} className="w-full py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Full Dossier</button>
             </div>
           )}
         </>
