@@ -688,6 +688,9 @@ const ChatPage = () => {
           </LockedButton>
         )}
 
+        {/* Conversation Export */}
+        <ConversationExport messages={messages} agentName={agent.name} agentDesignation={agent.designation} agentColor={agent.color} />
+
         {/* Brand badge or add button */}
         {brandProfile ? (
           <div
