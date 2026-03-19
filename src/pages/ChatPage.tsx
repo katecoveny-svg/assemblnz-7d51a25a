@@ -58,6 +58,10 @@ import AuraMarketing from "@/components/aura/AuraMarketing";
 import AuraEvents from "@/components/aura/AuraEvents";
 import AuraOperations from "@/components/aura/AuraOperations";
 import AuraTeam from "@/components/aura/AuraTeam";
+import AuraRevenue from "@/components/aura/AuraRevenue";
+import AuraGuestMemory from "@/components/aura/AuraGuestMemory";
+import AuraSustainability from "@/components/aura/AuraSustainability";
+import AuraTrade from "@/components/aura/AuraTrade";
 import InternalComms from "@/components/InternalComms";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
