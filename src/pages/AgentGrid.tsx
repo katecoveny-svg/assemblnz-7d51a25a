@@ -473,7 +473,9 @@ const AgentGrid = () => {
         </div>
       </section>
 
-      <BrandFooter />
+      <div className="relative z-10">
+        <BrandFooter />
+      </div>
     </div>
   );
 };
