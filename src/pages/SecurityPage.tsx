@@ -207,7 +207,8 @@ This supports compliance with the **NZ Government Web Standards** and the **Web 
 
 const SecurityPage = () => {
   return (
-    <div className="min-h-screen star-field flex flex-col">
+    <div className="min-h-screen star-field flex flex-col relative">
+      <ParticleField />
       <BrandNav />
       <main className="max-w-3xl mx-auto px-4 sm:px-6 py-10 flex-1">
         {/* Header */}

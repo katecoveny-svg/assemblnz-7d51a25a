@@ -88,7 +88,8 @@ const MarinerLanding = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground relative">
+      <ParticleField />
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div

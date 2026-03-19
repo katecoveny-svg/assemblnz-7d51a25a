@@ -125,7 +125,8 @@ const PricingPage = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   return (
-    <div className="min-h-screen star-field flex flex-col">
+    <div className="min-h-screen star-field flex flex-col relative">
+      <ParticleField />
       <BrandNav />
 
       {/* Hero */}
