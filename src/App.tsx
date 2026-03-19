@@ -56,6 +56,7 @@ const App = () => (
                 <Route path="/terms" element={<Suspense fallback={null}><TermsOfUse /></Suspense>} />
                 <Route path="/cookies" element={<Suspense fallback={null}><CookiePolicy /></Suspense>} />
                 <Route path="/disclaimer" element={<Suspense fallback={null}><Disclaimer /></Suspense>} />
+                <Route path="/security" element={<Suspense fallback={null}><SecurityPage /></Suspense>} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </AuthProvider>

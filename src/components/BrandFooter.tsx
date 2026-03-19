@@ -11,7 +11,9 @@ const BrandFooter = () => {
           <span className="text-[10px]" style={{ color: '#ffffff18' }}>·</span>
           <Link to="/cookies" className="text-[10px] hover:text-foreground/60 transition-colors" style={{ color: '#ffffff38' }}>Cookie Policy</Link>
           <span className="text-[10px]" style={{ color: '#ffffff18' }}>·</span>
-          <Link to="/disclaimer" className="text-[10px] hover:text-foreground/60 transition-colors" style={{ color: '#ffffff38' }}>Disclaimer</Link>
+           <Link to="/disclaimer" className="text-[10px] hover:text-foreground/60 transition-colors" style={{ color: '#ffffff38' }}>Disclaimer</Link>
+          <span className="text-[10px]" style={{ color: '#ffffff18' }}>·</span>
+          <Link to="/security" className="text-[10px] hover:text-foreground/60 transition-colors" style={{ color: '#ffffff38' }}>Security</Link>
         </div>
         <p className="text-[11px] text-center" style={{ color: '#ffffff38' }}>
           © 2026 Assembl. All rights reserved. · Auckland, New Zealand · Built in Aotearoa 🇳🇿
