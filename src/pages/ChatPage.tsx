@@ -706,19 +706,35 @@ const ChatPage = () => {
           </LockedButton>
         )}
 
-        {/* HELM Dashboard Toggle */}
-        {isHelm && (
+        {/* Tab Toggle: Chat / Templates (for template-tab agents) + Dashboard (for HELM) */}
+        {(hasTemplateTab || isHelm) && (
           <div className="flex rounded-lg overflow-hidden border border-border shrink-0">
             <button
-              onClick={() => setHelmView("chat")}
+              onClick={() => { setActiveTab("chat"); if (isHelm) setHelmView("chat"); }}
               className="px-2.5 py-1 text-[10px] font-medium transition-colors"
-              style={{ backgroundColor: helmView === "chat" ? HELM_COLOR + "20" : "transparent", color: helmView === "chat" ? HELM_COLOR : "hsl(var(--muted-foreground))" }}
-            >Chat</button>
+              style={{
+                backgroundColor: activeTab === "chat" && (!isHelm || helmView === "chat") ? agent.color + "20" : "transparent",
+                color: activeTab === "chat" && (!isHelm || helmView === "chat") ? agent.color : "hsl(var(--muted-foreground))",
+              }}
+            >💬 Chat</button>
             <button
-              onClick={() => setHelmView("dashboard")}
+              onClick={() => { setActiveTab("templates"); if (isHelm) setHelmView("chat"); }}
               className="px-2.5 py-1 text-[10px] font-medium transition-colors"
-              style={{ backgroundColor: helmView === "dashboard" ? HELM_COLOR + "20" : "transparent", color: helmView === "dashboard" ? HELM_COLOR : "hsl(var(--muted-foreground))" }}
-            >Dashboard</button>
+              style={{
+                backgroundColor: activeTab === "templates" ? agent.color + "20" : "transparent",
+                color: activeTab === "templates" ? agent.color : "hsl(var(--muted-foreground))",
+              }}
+            >📋 Templates</button>
+            {isHelm && (
+              <button
+                onClick={() => { setActiveTab("chat"); setHelmView("dashboard"); }}
+                className="px-2.5 py-1 text-[10px] font-medium transition-colors"
+                style={{
+                  backgroundColor: helmView === "dashboard" && activeTab === "chat" ? HELM_COLOR + "20" : "transparent",
+                  color: helmView === "dashboard" && activeTab === "chat" ? HELM_COLOR : "hsl(var(--muted-foreground))",
+                }}
+              >Dashboard</button>
+            )}
           </div>
         )}
 
