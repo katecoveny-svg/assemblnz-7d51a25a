@@ -158,7 +158,7 @@ export default function ForgeTeam() {
 
       {tab === "kpi" && (
         <div className="space-y-3">
-          <h3 className="text-xs font-bold text-foreground">🏆 Sales Leaderboard — This Month</h3>
+          <h3 className="text-xs font-bold text-foreground">Sales Leaderboard — This Month</h3>
           {salesTeam.map((m, i) => (
             <div key={m.id} className="p-3 rounded-xl border bg-card" style={{ borderColor: i === 0 ? FORGE_COLOR + "40" : "hsl(var(--border))" }}>
               <div className="flex items-center gap-3 mb-2">

@@ -163,7 +163,7 @@ export default function ForgeMarketing() {
             </div>
           ))}
           <div className="p-3 rounded-xl border border-border bg-card text-[10px] text-muted-foreground space-y-1">
-            <p className="font-bold text-foreground">📸 NZ Tips</p>
+            <p className="font-bold text-foreground">NZ Tips</p>
             <p>• Overcast days = best lighting (no harsh shadows)</p>
             <p>• Clean background — avoid messy lots or other vehicles</p>
             <p>• No overlays, logos, or stock photos on TradeMe listings</p>

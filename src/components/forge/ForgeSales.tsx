@@ -112,7 +112,7 @@ export default function ForgeSales() {
           <div className="p-4 rounded-xl border bg-card" style={{ borderColor: FORGE_COLOR + "30" }}>
             <h3 className="text-xs font-bold text-foreground mb-2">Estimated Trade-In Range</h3>
             <p className="text-2xl font-black" style={{ color: FORGE_COLOR }}>${Math.round(estLow).toLocaleString()} – ${Math.round(estHigh).toLocaleString()}</p>
-            <p className="text-[9px] text-muted-foreground mt-1">⚠️ Estimate only — subject to physical inspection</p>
+            <p className="text-[9px] text-muted-foreground mt-1">Estimate only — subject to physical inspection</p>
             <div className="mt-3 space-y-1 text-[10px] text-muted-foreground">
               <p>Key factors affecting value:</p>
               <ul className="list-disc list-inside space-y-0.5">

@@ -218,7 +218,7 @@ const ApexHSHub = ({ isPaid, userRole }: Props) => {
 
           {/* Policy Generators */}
           <div>
-            <h3 className="text-xs font-bold text-foreground mb-2">📋 Policy & Programme Generators</h3>
+            <h3 className="text-xs font-bold text-foreground mb-2">Policy & Programme Generators</h3>
             {["Mental health and wellbeing policy", "Drug and alcohol policy (NZ legislation aligned)", "Fatigue management plan", "EAP setup guidance", "Wellbeing check-in templates for site managers"].map(item => {
               const key = `policy_${item}`;
               return (

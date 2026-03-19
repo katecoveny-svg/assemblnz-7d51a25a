@@ -131,7 +131,7 @@ const ApexESGDashboard = ({ isPaid, userRole }: Props) => {
           {(["environmental", "social", "governance"] as const).map(cat => (
             <div key={cat}>
               <h3 className="text-xs font-bold text-foreground uppercase tracking-wide mb-2" style={{ color: APEX_COLOR }}>
-                {cat === "environmental" ? "🌿 Environmental" : cat === "social" ? "👥 Social" : "⚖️ Governance"}
+                {cat === "environmental" ? "Environmental" : cat === "social" ? "Social" : "Governance"}
               </h3>
               <div className="space-y-3">
                 {ESG_QUESTIONS[cat].map(q => (
