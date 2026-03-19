@@ -262,6 +262,7 @@ const ChatPage = () => {
   const isHelm = agentId === "operations";
   const isNexus = agentId === "nexus";
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
+  const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
