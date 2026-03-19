@@ -247,7 +247,7 @@ const DashboardPage = () => {
 
         {/* Recent Templates */}
         <div className="rounded-xl border border-border bg-card p-6">
-          <h2 className="text-sm font-bold text-foreground mb-4">Recent templates</h2>
+          <h2 className="text-sm font-syne font-bold text-foreground mb-4">Recent templates</h2>
           <div className="space-y-2">
             {SAMPLE_TEMPLATES.map((t, i) => (
               <div key={i} className="flex items-center justify-between py-2 border-b border-border last:border-0">
