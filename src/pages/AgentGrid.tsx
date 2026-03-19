@@ -193,58 +193,9 @@ const AgentGrid = () => {
           ))}
         </div>
 
-        {/* Grid */}
         <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))" }}>
           {filtered.map((agent, i) => (
-            <Link
-              key={agent.id}
-              to={`/chat/${agent.id}`}
-              className="group relative rounded-xl border border-border bg-card p-5 transition-all duration-300 hover:-translate-y-0.5 opacity-0 animate-fade-up"
-              style={{
-                animationDelay: `${i * 60}ms`,
-                animationFillMode: "forwards",
-                borderColor: "hsl(0 0% 100% / 0.03)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = agent.color + "30";
-                e.currentTarget.style.boxShadow = `0 0 20px ${agent.color}15`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "hsl(0 0% 100% / 0.03)";
-                e.currentTarget.style.boxShadow = "none";
-              }}
-            >
-              <div
-                className="absolute top-0 left-4 right-4 h-px opacity-40"
-                style={{ background: `linear-gradient(90deg, transparent, ${agent.color}, transparent)` }}
-              />
-              <div className="flex items-start justify-between mb-3">
-                <div className="transition-all duration-300 group-hover:drop-shadow-[0_0_8px_var(--agent-color)] group-hover:scale-110" style={{ "--agent-color": agent.color } as React.CSSProperties}>
-                  <RobotIcon color={agent.color} size={40} agentId={agent.id} />
-                </div>
-                <span className="font-mono-jb text-[10px] text-muted-foreground">{agent.designation}</span>
-              </div>
-              <h3 className="text-base font-bold text-foreground tracking-wide">{agent.name}</h3>
-              <p className="text-xs font-medium mb-1" style={{ color: agent.color }}>{agent.role}</p>
-              <p className="text-xs italic mb-3 text-muted-foreground">"{agent.tagline}"</p>
-              <div className="flex flex-wrap gap-1.5 mb-3">
-                {agent.traits.map(t => (
-                  <span key={t} className="text-[10px] px-2 py-0.5 rounded-full border border-border text-foreground/60">{t}</span>
-                ))}
-              </div>
-              <div className="flex flex-wrap gap-1 mb-4">
-                {agent.expertise.map(e => (
-                  <span key={e} className="font-mono-jb text-[9px] px-1.5 py-0.5 rounded bg-muted text-foreground/50">{e}</span>
-                ))}
-              </div>
-              <div className="flex items-center gap-2 text-xs font-medium" style={{ color: agent.color }}>
-                <span
-                  className="w-1.5 h-1.5 rounded-full animate-pulse-glow"
-                  style={{ backgroundColor: agent.color, boxShadow: `0 0 6px ${agent.color}` }}
-                />
-                Chat now →
-              </div>
-            </Link>
+            <AgentCard key={agent.id} agent={agent} index={i} />
           ))}
         </div>
       </main>
