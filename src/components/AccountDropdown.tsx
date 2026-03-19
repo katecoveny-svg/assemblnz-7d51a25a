@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { User, ChevronDown, LogOut, CreditCard, Settings, Shield } from "lucide-react";
+import { User, ChevronDown, LogOut, CreditCard, Settings, Shield, Sun, Languages } from "lucide-react";
+import { useHighContrast } from "@/components/chat/HighContrastProvider";
+import { useLanguage } from "@/components/chat/TeReoProvider";
 
 const roleBadge: Record<string, { label: string; color: string }> = {
   free: { label: "Free", color: "hsl(var(--muted-foreground))" },
