@@ -654,7 +654,7 @@ const ChatPage = () => {
         <Link to="/" className="p-1.5 rounded-lg hover:bg-muted transition-colors text-foreground shrink-0">
           <ArrowLeft size={18} />
         </Link>
-        <RobotIcon color={agent.color} size={28} />
+        <RobotIcon color={agent.color} size={28} agentId={agent.id} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <span className="font-bold text-sm text-foreground">{agent.name}</span>
