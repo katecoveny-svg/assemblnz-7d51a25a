@@ -96,6 +96,25 @@ const AccountDropdown = () => {
             >
               <CreditCard size={12} /> My Plan
             </button>
+
+            {/* High Contrast Toggle */}
+            <button
+              onClick={toggleHighContrast}
+              className="w-full flex items-center gap-2 px-3 py-2 text-xs text-foreground/70 hover:text-foreground hover:bg-muted transition-colors"
+              aria-label={highContrast ? "Disable high contrast mode" : "Enable high contrast mode"}
+            >
+              <Sun size={12} /> {highContrast ? "Standard contrast" : "High contrast"}
+            </button>
+
+            {/* Language Selector */}
+            <button
+              onClick={() => setLanguage(language === "en" ? "mi" : "en")}
+              className="w-full flex items-center gap-2 px-3 py-2 text-xs text-foreground/70 hover:text-foreground hover:bg-muted transition-colors"
+              aria-label={`Switch to ${language === "en" ? "Te Reo Māori" : "English"}`}
+            >
+              <Languages size={12} /> {language === "en" ? "Te Reo Māori" : "English"}
+            </button>
+
             <button
               onClick={() => { signOut(); setOpen(false); }}
               className="w-full flex items-center gap-2 px-3 py-2 text-xs text-destructive/80 hover:text-destructive hover:bg-destructive/5 transition-colors"
