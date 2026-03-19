@@ -518,7 +518,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    const { agentId, messages, brandContext } = await req.json();
+    const { agentId, messages, brandContext, teReoPrompt } = await req.json();
 
     const systemPrompt = agentPrompts[agentId];
     if (!systemPrompt) {
@@ -528,10 +528,13 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Build full system prompt with shared behaviours and optional brand context
+    // Build full system prompt with shared behaviours, optional brand context, and language preference
     let fullSystemPrompt = systemPrompt + SHARED_BEHAVIOURS;
     if (brandContext) {
       fullSystemPrompt += `\n\n[Brand context for this conversation — use this to tailor your advice to the user's specific business:\n${brandContext}]`;
+    }
+    if (teReoPrompt) {
+      fullSystemPrompt += teReoPrompt;
     }
 
     const formattedMessages = messages.map((msg: any) => {
