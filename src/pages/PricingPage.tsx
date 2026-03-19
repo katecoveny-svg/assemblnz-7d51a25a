@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Check, X, Minus, ArrowRight, ChevronDown } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
+import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 
 const PLANS = [
@@ -149,6 +150,14 @@ const CellValue = ({ value, color }: { value: FeatureValue; color: string }) => 
 
 const PricingPage = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [annual, setAnnual] = useState(false);
+
+  const getPrice = (plan: typeof PLANS[number]) => {
+    if (plan.price === "$0") return "$0";
+    const monthly = parseInt(plan.price.replace("$", ""));
+    if (!annual) return plan.price;
+    return "$" + Math.round(monthly * 10 / 12); // 2 months free
+  };
 
   return (
     <div className="min-h-screen star-field flex flex-col">
@@ -163,7 +172,20 @@ const PricingPage = () => {
           <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto mb-4">
             Start free. Upgrade when you're ready. No lock-in contracts.
           </p>
-          <p className="text-xs text-muted-foreground/50">All prices in NZD. GST inclusive.</p>
+          <p className="text-xs text-muted-foreground/50 mb-8">All prices in NZD. GST inclusive.</p>
+
+          {/* Billing Toggle */}
+          <div className="inline-flex items-center gap-3 rounded-full border border-border bg-card px-4 py-2">
+            <span className={`text-xs font-medium transition-colors ${!annual ? "text-foreground" : "text-muted-foreground"}`}>Monthly</span>
+            <button
+              onClick={() => setAnnual(!annual)}
+              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors ${annual ? "bg-primary" : "bg-muted"}`}
+            >
+              <span className={`pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg transition-transform ${annual ? "translate-x-5" : "translate-x-0"}`} />
+            </button>
+            <span className={`text-xs font-medium transition-colors ${annual ? "text-foreground" : "text-muted-foreground"}`}>Annual</span>
+            <Badge className="bg-primary/15 text-primary border-primary/20 text-[10px] px-2 py-0.5">Save 17%</Badge>
+          </div>
         </div>
       </section>
 
@@ -191,8 +213,8 @@ const PricingPage = () => {
                 <h3 className="text-lg font-bold text-foreground">{plan.name}</h3>
                 <p className="text-[11px] text-muted-foreground mt-1 mb-4">{plan.desc}</p>
                 <div className="flex items-baseline gap-0.5 mb-6">
-                  <span className="text-4xl font-extrabold" style={{ color: plan.color }}>{plan.price}</span>
-                  {plan.period && <span className="text-xs text-muted-foreground">{plan.period}</span>}
+                  <span className="text-4xl font-extrabold" style={{ color: plan.color }}>{getPrice(plan)}</span>
+                  {plan.price !== "$0" && <span className="text-xs text-muted-foreground">{annual ? "/mo billed annually" : "/mo"}</span>}
                 </div>
                 <Link
                   to={plan.href}
