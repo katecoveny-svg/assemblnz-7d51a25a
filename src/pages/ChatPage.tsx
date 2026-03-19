@@ -916,6 +916,15 @@ const ChatPage = () => {
                             </div>
                           )}
                           {renderMessageContent(msg)}
+                          {msg.role === "assistant" && (
+                            <div className="flex items-start justify-between gap-2">
+                              <div className="flex-1">
+                                <ResponseSources content={msg.content} />
+                                <AITransparencyBadge />
+                              </div>
+                              <SaveToLibrary content={msg.content} agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
+                            </div>
+                          )}
                         </div>
                       </div>
                       {msg.role === "assistant" && (() => {
