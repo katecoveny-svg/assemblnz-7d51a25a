@@ -61,6 +61,7 @@ const AdminDashboard = () => {
   const [users, setUsers] = useState<UserRow[]>([]);
   const [agentStatuses, setAgentStatuses] = useState<AgentStatus[]>([]);
   const [activity, setActivity] = useState<ActivityItem[]>([]);
+  const [submissions, setSubmissions] = useState<ContactSubmission[]>([]);
   const [loadingData, setLoadingData] = useState(true);
   const [testAgent, setTestAgent] = useState<string | null>(null);
 
