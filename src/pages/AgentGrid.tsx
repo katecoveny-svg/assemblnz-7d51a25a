@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import { agents, sectors } from "@/data/agents";
 import RobotIcon from "@/components/RobotIcon";
 import OnboardingQuiz from "@/components/OnboardingQuiz";
@@ -99,12 +100,23 @@ const AgentGrid = () => {
     gridRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleContactSubmit = (e: React.FormEvent) => {
+  const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Message sent! We'll be in touch soon.");
-    setContactName("");
-    setContactEmail("");
-    setContactMessage("");
+    try {
+      const { error } = await supabase.from("contact_submissions").insert({
+        name: contactName.trim(),
+        email: contactEmail.trim(),
+        message: contactMessage.trim(),
+      });
+      if (error) throw error;
+      toast.success("Message sent! We'll be in touch soon.");
+      setContactName("");
+      setContactEmail("");
+      setContactMessage("");
+    } catch (err) {
+      toast.error("Something went wrong. Please try again.");
+      console.error("Contact form error:", err);
+    }
   };
 
   if (showOnboarding) {

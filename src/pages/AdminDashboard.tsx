@@ -8,7 +8,7 @@ import RobotIcon from "@/components/RobotIcon";
 import BrandFooter from "@/components/BrandFooter";
 import {
   Users, MessageSquare, DollarSign, TrendingUp, Shield,
-  Trash2, RefreshCw, ChevronDown, ExternalLink,
+  Trash2, RefreshCw, ChevronDown, ExternalLink, Mail, Eye, EyeOff,
 } from "lucide-react";
 
 interface Metrics {
@@ -42,16 +42,26 @@ interface ActivityItem {
   created_at: string;
 }
 
+interface ContactSubmission {
+  id: string;
+  name: string;
+  email: string;
+  message: string;
+  is_read: boolean;
+  created_at: string;
+}
+
 const ROLES = ["free", "starter", "pro", "business", "admin"];
 
 const AdminDashboard = () => {
   const { user, isAdmin, loading: authLoading, signOut } = useAuth();
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"overview" | "users" | "agents" | "activity" | "test">("overview");
+  const [tab, setTab] = useState<"overview" | "users" | "agents" | "activity" | "inbox" | "test">("overview");
   const [metrics, setMetrics] = useState<Metrics | null>(null);
   const [users, setUsers] = useState<UserRow[]>([]);
   const [agentStatuses, setAgentStatuses] = useState<AgentStatus[]>([]);
   const [activity, setActivity] = useState<ActivityItem[]>([]);
+  const [submissions, setSubmissions] = useState<ContactSubmission[]>([]);
   const [loadingData, setLoadingData] = useState(true);
   const [testAgent, setTestAgent] = useState<string | null>(null);
 
@@ -73,16 +83,18 @@ const AdminDashboard = () => {
   const loadData = useCallback(async () => {
     setLoadingData(true);
     try {
-      const [m, u, a, f] = await Promise.all([
+      const [m, u, a, f, s] = await Promise.all([
         adminCall("get_metrics"),
         adminCall("get_users"),
         adminCall("get_agent_status"),
         adminCall("get_activity_feed"),
+        adminCall("get_contact_submissions"),
       ]);
       setMetrics(m);
       setUsers(u);
       setAgentStatuses(a);
       setActivity(f);
+      setSubmissions(s);
     } catch (err) {
       console.error("Failed to load admin data:", err);
     }
@@ -107,6 +119,17 @@ const AdminDashboard = () => {
   const handleToggleAgent = async (agentId: string, isOnline: boolean) => {
     await adminCall("toggle_agent", { agentId, isOnline });
     setAgentStatuses(prev => prev.map(a => a.agent_id === agentId ? { ...a, is_online: isOnline } : a));
+  };
+
+  const handleMarkRead = async (submissionId: string, isRead: boolean) => {
+    await adminCall("mark_submission_read", { submissionId, isRead });
+    setSubmissions(prev => prev.map(s => s.id === submissionId ? { ...s, is_read: isRead } : s));
+  };
+
+  const handleDeleteSubmission = async (submissionId: string) => {
+    if (!confirm("Delete this submission?")) return;
+    await adminCall("delete_submission", { submissionId });
+    setSubmissions(prev => prev.filter(s => s.id !== submissionId));
   };
 
   if (authLoading || !isAdmin) return null;
@@ -136,7 +159,7 @@ const AdminDashboard = () => {
 
       {/* Tabs */}
       <div className="flex gap-1 px-6 pt-4 border-b border-border overflow-x-auto">
-        {(["overview", "users", "agents", "activity", "test"] as const).map(t => (
+        {(["overview", "users", "agents", "activity", "inbox", "test"] as const).map(t => (
           <button
             key={t}
             onClick={() => setTab(t)}
@@ -322,6 +345,65 @@ const AdminDashboard = () => {
                     </div>
                   );
                 })}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* INBOX TAB */}
+        {tab === "inbox" && (
+          <div className="rounded-xl border border-border bg-card overflow-hidden">
+            <div className="px-6 py-4 border-b border-border flex items-center justify-between">
+              <h2 className="text-sm font-bold text-foreground">
+                Contact Submissions ({submissions.length})
+                {submissions.filter(s => !s.is_read).length > 0 && (
+                  <span className="ml-2 px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-secondary/20 text-secondary">
+                    {submissions.filter(s => !s.is_read).length} new
+                  </span>
+                )}
+              </h2>
+              <button onClick={loadData} className="text-[11px] text-primary hover:underline">Refresh</button>
+            </div>
+            {submissions.length === 0 ? (
+              <div className="px-6 py-12 text-center" style={{ color: '#ffffff38' }}>
+                <Mail size={24} className="mx-auto mb-2 opacity-30" />
+                <p className="text-xs">No contact submissions yet.</p>
+              </div>
+            ) : (
+              <div className="divide-y divide-border">
+                {submissions.map(sub => (
+                  <div key={sub.id} className={`px-5 py-4 hover:bg-muted/20 ${!sub.is_read ? 'border-l-2 border-l-secondary' : ''}`}>
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-3">
+                        <span className="text-xs font-bold text-foreground">{sub.name}</span>
+                        <span className="text-[11px] text-foreground/50">{sub.email}</span>
+                        {!sub.is_read && (
+                          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-secondary/15 text-secondary">NEW</span>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-mono-jb text-foreground/30">
+                          {new Date(sub.created_at).toLocaleDateString()} {new Date(sub.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                        <button
+                          onClick={() => handleMarkRead(sub.id, !sub.is_read)}
+                          className="p-1 rounded hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+                          title={sub.is_read ? "Mark as unread" : "Mark as read"}
+                        >
+                          {sub.is_read ? <EyeOff size={12} /> : <Eye size={12} />}
+                        </button>
+                        <button
+                          onClick={() => handleDeleteSubmission(sub.id)}
+                          className="p-1 rounded hover:bg-destructive/10 text-destructive/60 hover:text-destructive transition-colors"
+                          title="Delete"
+                        >
+                          <Trash2 size={12} />
+                        </button>
+                      </div>
+                    </div>
+                    <p className="text-xs text-foreground/70 leading-relaxed">{sub.message}</p>
+                  </div>
+                ))}
               </div>
             )}
           </div>
