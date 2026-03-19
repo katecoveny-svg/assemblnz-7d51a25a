@@ -759,7 +759,7 @@ const ChatPage = () => {
         )}
 
         {/* Tab Toggle: Chat / Templates (for template-tab agents) + Dashboard (for HELM) */}
-        {(hasTemplateTab || isHelm) && (
+        {(hasTemplateTab || isHelm || isMarketing) && (
           <div className="flex rounded-lg overflow-hidden border border-border shrink-0">
             <button
               onClick={() => { setActiveTab("chat"); if (isHelm) setHelmView("chat"); }}
@@ -769,14 +769,26 @@ const ChatPage = () => {
                 color: activeTab === "chat" && (!isHelm || helmView === "chat") ? agent.color : "hsl(var(--muted-foreground))",
               }}
             >💬 Chat</button>
-            <button
-              onClick={() => { setActiveTab("templates"); if (isHelm) setHelmView("chat"); }}
-              className="px-2.5 py-1 text-[10px] font-medium transition-colors"
-              style={{
-                backgroundColor: activeTab === "templates" ? agent.color + "20" : "transparent",
-                color: activeTab === "templates" ? agent.color : "hsl(var(--muted-foreground))",
-              }}
-            >📋 Templates</button>
+            {(hasTemplateTab) && (
+              <button
+                onClick={() => { setActiveTab("templates"); if (isHelm) setHelmView("chat"); }}
+                className="px-2.5 py-1 text-[10px] font-medium transition-colors"
+                style={{
+                  backgroundColor: activeTab === "templates" ? agent.color + "20" : "transparent",
+                  color: activeTab === "templates" ? agent.color : "hsl(var(--muted-foreground))",
+                }}
+              >📋 Templates</button>
+            )}
+            {isMarketing && (
+              <button
+                onClick={() => setActiveTab("content_studio")}
+                className="px-2.5 py-1 text-[10px] font-medium transition-colors flex items-center gap-1"
+                style={{
+                  backgroundColor: activeTab === "content_studio" ? agent.color + "20" : "transparent",
+                  color: activeTab === "content_studio" ? agent.color : "hsl(var(--muted-foreground))",
+                }}
+              ><Sparkles size={10} /> Content Studio</button>
+            )}
             {isHelm && (
               <button
                 onClick={() => { setActiveTab("chat"); setHelmView("dashboard"); }}
