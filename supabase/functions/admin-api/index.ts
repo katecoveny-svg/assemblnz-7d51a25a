@@ -37,8 +37,32 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Check admin role via service role client
     const supabase = createClient(supabaseUrl, serviceRoleKey);
+    const { action, ...params } = await req.json();
+
+    // Allow ensure_admin_role to bypass admin check (bootstrap flow)
+    if (action === "ensure_admin_role") {
+      if (user.email !== adminEmail) {
+        return new Response(JSON.stringify({ error: "Not admin email" }), {
+          status: 403,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      const { data: existingAdmin } = await supabase
+        .from("user_roles")
+        .select("id")
+        .eq("user_id", user.id)
+        .eq("role", "admin")
+        .single();
+      if (!existingAdmin) {
+        await supabase.from("user_roles").insert({ user_id: user.id, role: "admin" });
+      }
+      return new Response(JSON.stringify({ success: true, role: "admin" }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // All other actions require admin role
     const { data: roleData } = await supabase
       .from("user_roles")
       .select("role")
@@ -52,8 +76,6 @@ Deno.serve(async (req) => {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-
-    const { action, ...params } = await req.json();
 
     switch (action) {
       case "get_metrics": {
