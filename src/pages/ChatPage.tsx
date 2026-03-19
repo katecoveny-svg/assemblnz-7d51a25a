@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { agents } from "@/data/agents";
 import RobotIcon from "@/components/RobotIcon";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles } from "lucide-react";
+import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import ModelGenerationCard from "@/components/ModelGenerationCard";
 import HelmQuickActions from "@/components/helm/HelmQuickActions";
@@ -32,6 +32,11 @@ import LegislationCard from "@/components/chat/LegislationCard";
 import LanguageSelector from "@/components/chat/LanguageSelector";
 import { useLanguage } from "@/components/chat/TeReoProvider";
 import ContentStudio from "@/components/ContentStudio";
+import ApexTenderWriter from "@/components/apex/ApexTenderWriter";
+import ApexAwardsTracker from "@/components/apex/ApexAwardsTracker";
+import ApexHSHub from "@/components/apex/ApexHSHub";
+import ApexESGDashboard from "@/components/apex/ApexESGDashboard";
+import InternalComms from "@/components/InternalComms";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
 
