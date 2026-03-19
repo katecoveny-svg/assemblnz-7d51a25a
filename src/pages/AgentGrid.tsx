@@ -178,8 +178,8 @@ const AgentGrid = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground mb-2">Meet the team</h2>
-          <p className="text-sm text-muted-foreground">Tap any agent to chat live — no signup needed.</p>
+          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-foreground mb-2">Meet the team</h2>
+          <p className="text-sm font-jakarta text-muted-foreground">Tap any agent to chat live — no signup needed.</p>
         </motion.div>
 
         {/* Filter Bar */}
@@ -196,10 +196,10 @@ const AgentGrid = () => {
               onClick={() => setActiveSector(sector)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 border ${
+              className={`px-3 py-1.5 rounded-full text-xs font-jakarta font-medium transition-all duration-200 border ${
                 activeSector === sector
                   ? "border-secondary/25 bg-secondary/5 text-secondary shadow-[0_0_12px_rgba(255,45,155,0.15)]"
-                  : "border-border text-muted-foreground hover:border-foreground/10 hover:text-foreground"
+                  : "border-white/[0.06] text-muted-foreground hover:border-foreground/10 hover:text-foreground"
               }`}
             >
               {sector}
@@ -215,10 +215,10 @@ const AgentGrid = () => {
       </main>
 
       {/* ═══════════════════════ HOW IT WORKS ═══════════════════════ */}
-      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-white/[0.04]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <motion.h2
-            className="text-2xl sm:text-4xl font-extrabold text-center text-foreground mb-14"
+            className="text-2xl sm:text-4xl font-syne font-extrabold text-center text-foreground mb-14"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -229,19 +229,21 @@ const AgentGrid = () => {
             {HOW_IT_WORKS.map((item, i) => (
               <motion.div
                 key={item.step}
-                className="relative rounded-xl border border-border bg-card p-6 group hover:border-primary/20 transition-colors duration-300"
+                className="relative rounded-2xl p-6 group transition-colors duration-300 overflow-hidden border border-white/[0.06]"
+                style={{ background: 'rgba(14, 14, 26, 0.7)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                whileHover={{ y: -4, boxShadow: "0 0 30px rgba(0,255,136,0.08)" }}
+                whileHover={{ y: -4, boxShadow: "0 0 30px rgba(0,255,136,0.1)" }}
               >
+                <div className="absolute top-0 left-[15%] right-[15%] h-px bg-gradient-to-r from-transparent via-primary to-transparent opacity-20 group-hover:opacity-50 transition-opacity" />
                 <div className="flex items-center gap-3 mb-4">
                   <span className="font-mono-jb text-[10px] font-bold text-primary">{item.step}</span>
-                  <div className="text-primary">{item.icon}</div>
+                  <div className="text-primary animate-neon-pulse">{item.icon}</div>
                 </div>
-                <h3 className="text-sm font-bold text-foreground mb-2">{item.title}</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+                <h3 className="text-sm font-syne font-bold text-foreground mb-2">{item.title}</h3>
+                <p className="text-xs font-jakarta text-muted-foreground leading-relaxed">{item.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -249,37 +251,42 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════════════════════ PRICING ═══════════════════════ */}
-      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-white/[0.04]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-foreground mb-3">
+            <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-foreground mb-3">
               Simple, honest <span className="text-gradient-hero">pricing</span>
             </h2>
-            <p className="text-sm text-muted-foreground">Start free. Upgrade when you're ready.</p>
+            <p className="text-sm font-jakarta text-muted-foreground">Start free. Upgrade when you're ready.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {PRICING_PLANS.map((plan) => (
               <div
                 key={plan.name}
-                className="relative rounded-xl border bg-card p-6 flex flex-col"
+                className="relative rounded-2xl p-6 flex flex-col overflow-hidden border"
                 style={{
-                  borderColor: plan.highlighted ? plan.color + "40" : "hsl(0 0% 100% / 0.03)",
-                  boxShadow: plan.highlighted ? `0 0 30px ${plan.color}10` : "none",
+                  background: 'rgba(14, 14, 26, 0.7)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  borderColor: plan.highlighted ? plan.color + "40" : "rgba(255, 255, 255, 0.06)",
+                  boxShadow: plan.highlighted ? `0 0 30px ${plan.color}15` : "none",
                 }}
               >
+                {/* Top edge glow */}
+                <span className="absolute top-0 left-[15%] right-[15%] h-px opacity-30" style={{ background: `linear-gradient(90deg, transparent, ${plan.color}, transparent)` }} />
                 {plan.highlighted && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-bold px-3 py-1 rounded-full" style={{ background: plan.color, color: "#0A0A14" }}>
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-syne font-bold px-3 py-1 rounded-full" style={{ background: plan.color, color: "#0A0A14" }}>
                     MOST POPULAR
                   </span>
                 )}
-                <h3 className="text-lg font-bold text-foreground">{plan.name}</h3>
+                <h3 className="text-lg font-syne font-bold text-foreground">{plan.name}</h3>
                 <div className="flex items-baseline gap-0.5 my-3">
-                  <span className="text-3xl font-extrabold" style={{ color: plan.color }}>{plan.price}</span>
-                  {plan.period && <span className="text-xs text-muted-foreground">{plan.period}</span>}
+                  <span className="text-3xl font-syne font-extrabold" style={{ color: plan.color }}>{plan.price}</span>
+                  {plan.period && <span className="text-xs font-jakarta text-muted-foreground">{plan.period}</span>}
                 </div>
                 <ul className="flex-1 space-y-2 mb-6">
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-xs text-foreground/70">
+                    <li key={f} className="flex items-start gap-2 text-xs font-jakarta text-foreground/70">
                       <Check size={12} className="mt-0.5 shrink-0" style={{ color: plan.color }} />
                       {f}
                     </li>
@@ -290,11 +297,12 @@ const AgentGrid = () => {
                     href={plan.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block text-center text-xs font-bold py-2.5 rounded-lg transition-all"
+                    className="block text-center text-xs font-syne font-bold py-2.5 rounded-xl transition-all duration-300 hover:shadow-lg"
                     style={{
                       background: plan.highlighted ? plan.color : "transparent",
                       color: plan.highlighted ? "#0A0A14" : plan.color,
                       border: `1px solid ${plan.color}30`,
+                      boxShadow: plan.highlighted ? `0 0 20px ${plan.color}20` : 'none',
                     }}
                   >
                     {plan.cta}
@@ -302,7 +310,7 @@ const AgentGrid = () => {
                 ) : (
                   <Link
                     to={plan.href}
-                    className="block text-center text-xs font-bold py-2.5 rounded-lg transition-all"
+                    className="block text-center text-xs font-syne font-bold py-2.5 rounded-xl transition-all duration-300"
                     style={{
                       background: plan.highlighted ? plan.color : "transparent",
                       color: plan.highlighted ? "#0A0A14" : plan.color,
@@ -319,28 +327,28 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════════════════════ HELM SPOTLIGHT ═══════════════════════ */}
-      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-white/[0.04]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div>
               <span className="font-mono-jb text-[10px] text-muted-foreground">ASM-027</span>
-              <h2 className="text-2xl sm:text-4xl font-extrabold text-foreground mt-1 mb-4">
+              <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-foreground mt-1 mb-4">
                 Meet <span style={{ color: "#B388FF" }}>HELM</span>
               </h2>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+              <p className="text-sm font-jakarta text-muted-foreground leading-relaxed mb-6">
                 Your personal Life Admin & Household Manager. Upload receipts, plan meals, track budgets, and tame the chaos of daily life — all through one AI assistant built for New Zealand families.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 {["Meal planning", "Budget tracking", "Document parsing", "School admin", "Life checklists"].map((t) => (
-                  <span key={t} className="text-[10px] px-2.5 py-1 rounded-full border text-foreground/60" style={{ borderColor: "#B388FF30" }}>{t}</span>
+                  <span key={t} className="text-[10px] font-jakarta px-2.5 py-1 rounded-full border border-white/[0.06] text-foreground/60" style={{ boxShadow: '0 0 8px rgba(179,136,255,0.05)' }}>{t}</span>
                 ))}
               </div>
-              <Link to="/chat/helm" className="inline-flex items-center gap-2 text-sm font-bold transition-colors" style={{ color: "#B388FF" }}>
+              <Link to="/chat/helm" className="inline-flex items-center gap-2 text-sm font-syne font-bold transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(179,136,255,0.5)]" style={{ color: "#B388FF" }}>
                 Try HELM <ArrowRight size={14} />
               </Link>
             </div>
             <div className="flex justify-center">
-              <div className="w-64 h-64 rounded-2xl border flex items-center justify-center overflow-hidden" style={{ borderColor: "#B388FF20", background: "#B388FF08" }}>
+              <div className="w-64 h-64 rounded-2xl border border-white/[0.06] flex items-center justify-center overflow-hidden" style={{ background: 'rgba(179,136,255,0.05)', boxShadow: '0 0 40px rgba(179,136,255,0.08)' }}>
                 <AgentAvatar agentId="operations" color="#B388FF" size={160} />
               </div>
             </div>
@@ -349,28 +357,28 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════════════════════ MARINER SPOTLIGHT ═══════════════════════ */}
-      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-white/[0.04]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div className="flex justify-center order-2 lg:order-1">
-              <div className="w-64 h-64 rounded-2xl border flex items-center justify-center overflow-hidden" style={{ borderColor: "#26C6DA20", background: "#26C6DA08" }}>
+              <div className="w-64 h-64 rounded-2xl border border-white/[0.06] flex items-center justify-center overflow-hidden" style={{ background: 'rgba(38,198,218,0.05)', boxShadow: '0 0 40px rgba(38,198,218,0.08)' }}>
                 <AgentAvatar agentId="maritime" color="#26C6DA" size={160} />
               </div>
             </div>
             <div className="order-1 lg:order-2">
               <span className="font-mono-jb text-[10px] text-muted-foreground">ASM-028</span>
-              <h2 className="text-2xl sm:text-4xl font-extrabold text-foreground mt-1 mb-4">
+              <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-foreground mt-1 mb-4">
                 Meet <span style={{ color: "#26C6DA" }}>MARINER</span>
               </h2>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+              <p className="text-sm font-jakarta text-muted-foreground leading-relaxed mb-6">
                 NZ's maritime AI expert. Fishing regulations, boat maintenance, weather interpretation, commercial maritime compliance — MARINER knows the waters of Aotearoa inside out.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 {["Fishing regs", "Boat maintenance", "Marine weather", "Maritime compliance", "Coastguard courses"].map((t) => (
-                  <span key={t} className="text-[10px] px-2.5 py-1 rounded-full border text-foreground/60" style={{ borderColor: "#26C6DA30" }}>{t}</span>
+                  <span key={t} className="text-[10px] font-jakarta px-2.5 py-1 rounded-full border border-white/[0.06] text-foreground/60" style={{ boxShadow: '0 0 8px rgba(38,198,218,0.05)' }}>{t}</span>
                 ))}
               </div>
-              <Link to="/mariner" className="inline-flex items-center gap-2 text-sm font-bold transition-colors" style={{ color: "#26C6DA" }}>
+              <Link to="/mariner" className="inline-flex items-center gap-2 text-sm font-syne font-bold transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(38,198,218,0.5)]" style={{ color: "#26C6DA" }}>
                 Explore MARINER <ArrowRight size={14} />
               </Link>
             </div>
@@ -379,19 +387,24 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════════════════════ ALSO BY ASSEMBL ═══════════════════════ */}
-      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-white/[0.04]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-center text-foreground mb-14">
+          <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-center text-foreground mb-14">
             Also by <span className="text-gradient-hero">Assembl</span>
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {ALSO_BY_ASSEMBL.map((item) => (
-              <div key={item.title} className="rounded-xl border border-border bg-card p-6">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center mb-4" style={{ background: item.color + "15" }}>
+              <div
+                key={item.title}
+                className="relative rounded-2xl p-6 overflow-hidden border border-white/[0.06] group transition-all duration-300 hover:-translate-y-1"
+                style={{ background: 'rgba(14, 14, 26, 0.7)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+              >
+                <span className="absolute top-0 left-[15%] right-[15%] h-px opacity-20 group-hover:opacity-50 transition-opacity" style={{ background: `linear-gradient(90deg, transparent, ${item.color}, transparent)` }} />
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center mb-4" style={{ background: item.color + "12", boxShadow: `0 0 12px ${item.color}15` }}>
                   <Zap size={16} style={{ color: item.color }} />
                 </div>
-                <h3 className="text-sm font-bold text-foreground mb-2">{item.title}</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+                <h3 className="text-sm font-syne font-bold text-foreground mb-2">{item.title}</h3>
+                <p className="text-xs font-jakarta text-muted-foreground leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -399,73 +412,79 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════════════════════ FOUNDER ═══════════════════════ */}
-      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-white/[0.04]">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <motion.img
             src="/img/kate-neon.png"
             alt="Kate, Founder of Assembl"
-            className="w-32 h-32 rounded-full mx-auto mb-6 object-cover border-2"
-            style={{ borderColor: "hsl(var(--primary) / 0.3)" }}
+            className="w-32 h-32 rounded-full mx-auto mb-6 object-cover border-2 border-primary/30"
             loading="lazy"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             whileHover={{ boxShadow: "0 0 30px rgba(0,255,136,0.3)" }}
           />
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground mb-3 flex items-center justify-center gap-2">Built in Aotearoa <NeonNZFlag size={28} /></h2>
-          <p className="text-sm text-muted-foreground leading-relaxed max-w-lg mx-auto mb-4">
+          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-foreground mb-3 flex items-center justify-center gap-2">Built in Aotearoa <NeonNZFlag size={28} /></h2>
+          <p className="text-sm font-jakarta text-muted-foreground leading-relaxed max-w-lg mx-auto mb-4">
             "I built Assembl because NZ businesses deserve AI tools that understand our laws, our culture, and the way we work.
             Every agent is trained on real NZ legislation — not generic overseas advice."
           </p>
-          <p className="text-xs font-bold text-foreground">Kate</p>
-          <p className="text-[11px] text-muted-foreground">Founder, Assembl · Auckland</p>
+          <p className="text-xs font-syne font-bold text-foreground">Kate</p>
+          <p className="text-[11px] font-jakarta text-muted-foreground">Founder, Assembl · Auckland</p>
         </div>
       </section>
 
       {/* ═══════════════════════ CONTACT ═══════════════════════ */}
-      <section id="contact" className="relative z-10 py-20 sm:py-28 border-t border-border">
+      <section id="contact" className="relative z-10 py-20 sm:py-28 border-t border-white/[0.04]">
         <div className="max-w-lg mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground mb-3">Get in touch</h2>
-            <p className="text-sm text-muted-foreground">Custom builds, enterprise pricing, or just to say kia ora.</p>
+            <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-foreground mb-3">Get in touch</h2>
+            <p className="text-sm font-jakarta text-muted-foreground">Custom builds, enterprise pricing, or just to say kia ora.</p>
           </div>
-          <form onSubmit={handleContactSubmit} className="space-y-4">
+          <form
+            onSubmit={handleContactSubmit}
+            className="space-y-4 rounded-2xl p-6 border border-white/[0.06]"
+            style={{ background: 'rgba(14, 14, 26, 0.7)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+          >
             <div>
-              <label className="block text-xs font-medium text-foreground/70 mb-1.5">Name</label>
+              <label className="block text-xs font-jakarta font-medium text-foreground/70 mb-1.5">Name</label>
               <input
                 type="text"
                 value={contactName}
                 onChange={(e) => setContactName(e.target.value)}
                 required
-                className="w-full px-4 py-2.5 rounded-lg text-sm bg-card border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="w-full px-4 py-2.5 rounded-xl text-sm border border-white/[0.06] text-foreground font-jakarta focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+                style={{ background: 'rgba(255,255,255,0.03)' }}
                 placeholder="Your name"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-foreground/70 mb-1.5">Email</label>
+              <label className="block text-xs font-jakarta font-medium text-foreground/70 mb-1.5">Email</label>
               <input
                 type="email"
                 value={contactEmail}
                 onChange={(e) => setContactEmail(e.target.value)}
                 required
-                className="w-full px-4 py-2.5 rounded-lg text-sm bg-card border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="w-full px-4 py-2.5 rounded-xl text-sm border border-white/[0.06] text-foreground font-jakarta focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+                style={{ background: 'rgba(255,255,255,0.03)' }}
                 placeholder="your@email.co.nz"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-foreground/70 mb-1.5">Message</label>
+              <label className="block text-xs font-jakarta font-medium text-foreground/70 mb-1.5">Message</label>
               <textarea
                 value={contactMessage}
                 onChange={(e) => setContactMessage(e.target.value)}
                 required
                 rows={4}
-                className="w-full px-4 py-2.5 rounded-lg text-sm bg-card border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none"
+                className="w-full px-4 py-2.5 rounded-xl text-sm border border-white/[0.06] text-foreground font-jakarta focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none transition-all"
+                style={{ background: 'rgba(255,255,255,0.03)' }}
                 placeholder="Tell us what you need..."
               />
             </div>
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-sm font-bold bg-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/20 transition-all"
+              className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-syne font-bold bg-primary text-primary-foreground hover:shadow-[0_0_30px_hsl(var(--primary)/0.3)] transition-all duration-300"
             >
               <Send size={14} /> Send message
             </button>
