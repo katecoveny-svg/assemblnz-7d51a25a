@@ -147,7 +147,7 @@ const AuraMarketing = ({ onGenerate }: Props) => {
               </div>
             </div>
           </div>
-          <button className="w-full mt-4 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Full Brand Voice Guide</button>
+          <button onClick={() => gen(`Generate a comprehensive luxury hospitality brand voice guide. Include: tone guidelines (understated, warm, never boastful, sensory), words to use (${BRAND_VOICE.use.join(", ")}), words to avoid (${BRAND_VOICE.avoid.join(", ")}), photography style guide (natural light, human moments, landscape context), social media guidelines (post frequency, hashtag strategy, engagement approach), and writing examples for different channels.`)} className="w-full mt-4 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Full Brand Voice Guide</button>
         </div>
       )}
     </div>
