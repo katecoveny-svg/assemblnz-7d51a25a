@@ -379,7 +379,7 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════════════════════ ALSO BY ASSEMBL ═══════════════════════ */}
-      <section className="py-20 sm:py-28 border-t border-border">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <h2 className="text-2xl sm:text-4xl font-extrabold text-center text-foreground mb-14">
             Also by <span className="text-gradient-hero">Assembl</span>
