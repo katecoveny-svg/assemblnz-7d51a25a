@@ -1,6 +1,7 @@
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import { Shield, Server, Lock, Globe, FileText, AlertTriangle, Eye, Key, Database, RefreshCw } from "lucide-react";
+import ParticleField from "@/components/ParticleField";
 
 const sections = [
   {
@@ -206,7 +207,8 @@ This supports compliance with the **NZ Government Web Standards** and the **Web 
 
 const SecurityPage = () => {
   return (
-    <div className="min-h-screen star-field flex flex-col">
+    <div className="min-h-screen star-field flex flex-col relative">
+      <ParticleField />
       <BrandNav />
       <main className="max-w-3xl mx-auto px-4 sm:px-6 py-10 flex-1">
         {/* Header */}

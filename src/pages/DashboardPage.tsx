@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { MessageSquare, FileText, Upload, Clock, Bookmark, ChevronRight, Trash2, History } from "lucide-react";
+import ParticleField from "@/components/ParticleField";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import { useAuth } from "@/hooks/useAuth";
@@ -90,7 +91,8 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="min-h-screen star-field flex flex-col">
+    <div className="min-h-screen star-field flex flex-col relative">
+      <ParticleField />
       <BrandNav />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-8 flex-1">

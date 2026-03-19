@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Check, ChevronDown, ArrowRight } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
+import ParticleField from "@/components/ParticleField";
 import { useState } from "react";
 
 const BUSINESS_PLANS = [
@@ -124,7 +125,8 @@ const PricingPage = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   return (
-    <div className="min-h-screen star-field flex flex-col">
+    <div className="min-h-screen star-field flex flex-col relative">
+      <ParticleField />
       <BrandNav />
 
       {/* Hero */}

@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import AssemblLogo from "@/components/AssemblLogo";
 import { Loader2 } from "lucide-react";
+import ParticleField from "@/components/ParticleField";
 
 const AuthPage = ({ mode }: { mode: "login" | "signup" }) => {
   const [email, setEmail] = useState("");
@@ -32,7 +33,8 @@ const AuthPage = ({ mode }: { mode: "login" | "signup" }) => {
   };
 
   return (
-    <div className="min-h-screen star-field flex items-center justify-center px-4">
+    <div className="min-h-screen star-field flex items-center justify-center px-4 relative">
+      <ParticleField />
       <div className="w-full max-w-sm">
         <div className="text-center mb-8 opacity-0 animate-fade-up" style={{ animationFillMode: "forwards" }}>
           <Link to="/" className="inline-flex items-center gap-2 mb-6">

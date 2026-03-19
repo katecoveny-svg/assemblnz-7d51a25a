@@ -1,8 +1,10 @@
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
+import ParticleField from "@/components/ParticleField";
 
 const CookiePolicy = () => (
-  <div className="min-h-screen star-field flex flex-col">
+  <div className="min-h-screen star-field flex flex-col relative">
+    <ParticleField />
     <BrandNav />
     <main className="flex-1 max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
       <h1 className="text-2xl sm:text-4xl font-extrabold text-foreground mb-8">Cookie Policy</h1>
