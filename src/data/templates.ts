@@ -96,7 +96,7 @@ export const agentTemplates: Record<string, Template[]> = {
     { icon: "checkmark", title: "Event Compliance Checklist", description: "Compliance checklist for hosting an event", timeSaved: "~1 hour", prompt: "Help me create an event compliance checklist. What type of event am I planning?" },
     { icon: "coin", title: "Public Holiday Pay Calculator", description: "Calculate correct public holiday pay rates", timeSaved: "~20 min", prompt: "I need to calculate public holiday pay. Let me tell you about the staff member and the day worked." },
   ],
-  terra: [
+  agriculture: [
     { icon: "seedling", title: "Farm Environment Plan", description: "Outline a farm environment plan for freshwater compliance", timeSaved: "~4 hours", prompt: "I need a farm environment plan outline. What type of farming operation do you have?" },
     { icon: "wave", title: "Freshwater Compliance Audit", description: "Audit your farm against freshwater regulations", timeSaved: "~2 hours", prompt: "Let's do a freshwater compliance audit. What region is your farm in?" },
     { icon: "team", title: "RSE Checklist", description: "Checklist for RSE seasonal worker scheme compliance", timeSaved: "~1 hour", prompt: "I need an RSE scheme checklist. Are you currently an accredited employer?" },
