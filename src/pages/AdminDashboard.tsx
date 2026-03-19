@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { agents } from "@/data/agents";
 import AssemblLogo from "@/components/AssemblLogo";
-import RobotIcon from "@/components/RobotIcon";
+import AgentAvatar from "@/components/AgentAvatar";
 import BrandFooter from "@/components/BrandFooter";
 import {
   Users, MessageSquare, DollarSign, TrendingUp, Shield,
