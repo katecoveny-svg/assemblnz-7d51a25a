@@ -791,7 +791,7 @@ const ChatPage = () => {
                 backgroundColor: activeTab === "chat" && (!isHelm || helmView === "chat") ? agent.color + "20" : "transparent",
                 color: activeTab === "chat" && (!isHelm || helmView === "chat") ? agent.color : "hsl(var(--muted-foreground))",
               }}
-            >💬 Chat</button>
+            >Chat</button>
             {(hasTemplateTab) && (
               <button
                 onClick={() => { setActiveTab("templates"); if (isHelm) setHelmView("chat"); }}
@@ -800,7 +800,7 @@ const ChatPage = () => {
                   backgroundColor: activeTab === "templates" ? agent.color + "20" : "transparent",
                   color: activeTab === "templates" ? agent.color : "hsl(var(--muted-foreground))",
                 }}
-              >📋 Templates</button>
+              >Templates</button>
             )}
             {isMarketing && (
               <button
@@ -835,13 +835,13 @@ const ChatPage = () => {
             {isForge && (
               <>
                 {([
-                  { id: "forge_showroom" as const, label: "🚗 Showroom" },
-                  { id: "forge_sales" as const, label: "💰 Sales" },
-                  { id: "forge_parts" as const, label: "🔧 Parts" },
-                  { id: "forge_marketing" as const, label: "📣 Marketing" },
-                  { id: "forge_events" as const, label: "🎉 Events" },
-                  { id: "forge_team" as const, label: "👥 Team" },
-                  { id: "forge_brand" as const, label: "🏷️ Brand Hub" },
+                  { id: "forge_showroom" as const, label: "Showroom" },
+                  { id: "forge_sales" as const, label: "Sales" },
+                  { id: "forge_parts" as const, label: "Parts" },
+                  { id: "forge_marketing" as const, label: "Marketing" },
+                  { id: "forge_events" as const, label: "Events" },
+                  { id: "forge_team" as const, label: "Team" },
+                  { id: "forge_brand" as const, label: "Brand Hub" },
                 ]).map(t => (
                   <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
                     style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
@@ -853,12 +853,12 @@ const ChatPage = () => {
             {isAroha && (
               <>
                 {([
-                  { id: "aroha_contracts" as const, label: "📋 Contracts" },
-                  { id: "aroha_onboarding" as const, label: "🎓 Onboarding" },
-                  { id: "aroha_payroll" as const, label: "💰 Payroll" },
-                  { id: "aroha_recruitment" as const, label: "🎯 Recruitment" },
-                  { id: "aroha_people" as const, label: "❤️ People" },
-                  { id: "aroha_company" as const, label: "🏢 Setup" },
+                  { id: "aroha_contracts" as const, label: "Contracts" },
+                  { id: "aroha_onboarding" as const, label: "Onboarding" },
+                  { id: "aroha_payroll" as const, label: "Payroll" },
+                  { id: "aroha_recruitment" as const, label: "Recruitment" },
+                  { id: "aroha_people" as const, label: "People" },
+                  { id: "aroha_company" as const, label: "Setup" },
                 ]).map(t => (
                   <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
                     style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>

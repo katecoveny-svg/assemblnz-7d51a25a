@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Calculator, Calendar, DollarSign, AlertCircle } from "lucide-react";
+import { NeonCoin, NeonCheckmark, NeonWarning } from "@/components/NeonIcons";
 
 const AROHA_COLOR = "#FF6F91";
 
@@ -94,7 +95,7 @@ export default function ArohaPayroll() {
 
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-3">
-      <h2 className="text-lg font-bold text-foreground">💰 Payroll & Leave</h2>
+      <h2 className="text-lg font-bold text-foreground flex items-center gap-2"><NeonCoin size={20} color="#FF6F91" /> Payroll & Leave</h2>
       <div className="flex gap-1 flex-wrap">
         {tabs.map(t => (
           <button key={t.id} onClick={() => setTab(t.id)} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] font-medium"
@@ -235,7 +236,7 @@ export default function ArohaPayroll() {
           </div>
           <div className="p-4 rounded-xl border bg-card" style={{ borderColor: meetsMinWage ? "#00FF8830" : AROHA_COLOR + "30" }}>
             <div className="flex items-center gap-2 mb-1">
-              {meetsMinWage ? <span className="text-lg">✅</span> : <AlertCircle size={18} style={{ color: AROHA_COLOR }} />}
+              {meetsMinWage ? <NeonCheckmark size={18} color="#00FF88" /> : <AlertCircle size={18} style={{ color: AROHA_COLOR }} />}
               <span className="text-sm font-bold" style={{ color: meetsMinWage ? "#00FF88" : AROHA_COLOR }}>{meetsMinWage ? "Compliant" : "Below Minimum Wage"}</span>
             </div>
             <p className="text-[10px] text-muted-foreground">Effective hourly rate: <strong className="text-foreground">${effectiveRate.toFixed(2)}/hour</strong> (minimum: $23.95/hour)</p>

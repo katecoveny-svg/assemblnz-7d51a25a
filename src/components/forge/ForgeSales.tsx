@@ -59,7 +59,7 @@ export default function ForgeSales() {
     return (
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-foreground">💰 Finance Calculator</h2>
+          <h2 className="text-lg font-bold text-foreground">Finance Calculator</h2>
           <button onClick={() => setView("pipeline")} className="text-xs px-3 py-1.5 rounded-lg border border-border text-muted-foreground">← Back</button>
         </div>
         <div className="grid grid-cols-2 gap-3">
@@ -81,7 +81,7 @@ export default function ForgeSales() {
           {fBalloon && <div className="flex justify-between text-xs"><span className="text-muted-foreground">Balloon payment (end)</span><span className="text-foreground">${Math.round(balloonAmt).toLocaleString()}</span></div>}
         </div>
         <div className="p-3 rounded-lg bg-muted text-[10px] text-muted-foreground space-y-1">
-          <p>📋 <strong>NZ Reminders:</strong></p>
+          <p><strong>NZ Reminders:</strong></p>
           <p>• PPSR check recommended before finance approval</p>
           <p>• Clean Car Fee/Discount may apply — check NZTA calculator</p>
           <p>• All finance subject to credit approval</p>
@@ -96,7 +96,7 @@ export default function ForgeSales() {
     return (
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-foreground">🔄 Trade-In Appraisal</h2>
+          <h2 className="text-lg font-bold text-foreground">Trade-In Appraisal</h2>
           <button onClick={() => setView("pipeline")} className="text-xs px-3 py-1.5 rounded-lg border border-border text-muted-foreground">← Back</button>
         </div>
         <div className="grid grid-cols-2 gap-3">
@@ -112,7 +112,7 @@ export default function ForgeSales() {
           <div className="p-4 rounded-xl border bg-card" style={{ borderColor: FORGE_COLOR + "30" }}>
             <h3 className="text-xs font-bold text-foreground mb-2">Estimated Trade-In Range</h3>
             <p className="text-2xl font-black" style={{ color: FORGE_COLOR }}>${Math.round(estLow).toLocaleString()} – ${Math.round(estHigh).toLocaleString()}</p>
-            <p className="text-[9px] text-muted-foreground mt-1">⚠️ Estimate only — subject to physical inspection</p>
+            <p className="text-[9px] text-muted-foreground mt-1">Estimate only — subject to physical inspection</p>
             <div className="mt-3 space-y-1 text-[10px] text-muted-foreground">
               <p>Key factors affecting value:</p>
               <ul className="list-disc list-inside space-y-0.5">
@@ -138,7 +138,7 @@ export default function ForgeSales() {
     return (
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-foreground">📋 Sales Meeting Agenda</h2>
+          <h2 className="text-lg font-bold text-foreground">Sales Meeting Agenda</h2>
           <button onClick={() => setView("pipeline")} className="text-xs px-3 py-1.5 rounded-lg border border-border text-muted-foreground">← Back</button>
         </div>
         <div className="p-4 rounded-xl border border-border bg-card space-y-3">
@@ -184,7 +184,7 @@ export default function ForgeSales() {
           ))}
         </div>
         <div className="p-3 rounded-xl border border-border bg-card">
-          <h3 className="text-xs font-bold text-foreground mb-2">🔥 Hottest Leads</h3>
+          <h3 className="text-xs font-bold text-foreground mb-2">Hottest Leads</h3>
           {leads.filter(l => ["Negotiating", "Finance Submitted"].includes(l.stage)).map(l => (
             <div key={l.id} className="flex items-center justify-between py-1.5 border-b border-border last:border-0">
               <div><p className="text-xs font-medium text-foreground">{l.name}</p><p className="text-[9px] text-muted-foreground">{l.vehicle}</p></div>

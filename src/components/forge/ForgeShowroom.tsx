@@ -216,7 +216,7 @@ ${v.conditionNotes}. ${v.serviceHistory}.
         </div>
         {aging60.length > 0 && (
           <div className="p-3 rounded-xl border border-border bg-card">
-            <h3 className="text-xs font-bold text-foreground mb-2">⚠️ Ageing Stock Alerts</h3>
+            <h3 className="text-xs font-bold text-foreground mb-2">Ageing Stock Alerts</h3>
             {aging60.map(v => (
               <div key={v.id} className="flex items-center justify-between py-1 border-b border-border last:border-0">
                 <span className="text-xs text-foreground">{v.year} {v.make} {v.model}</span>
@@ -241,7 +241,7 @@ ${v.conditionNotes}. ${v.serviceHistory}.
     return (
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-foreground">✨ Build Your Dream Car</h2>
+          <h2 className="text-lg font-bold text-foreground">Build Your Dream Car</h2>
           <button onClick={() => { setView("grid"); setConfigStep(0); }} className="text-xs px-3 py-1.5 rounded-lg border border-border text-muted-foreground hover:text-foreground">← Back</button>
         </div>
         {/* Steps indicator */}

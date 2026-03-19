@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Heart, Gift, Calendar, Shield, Copy, ChevronDown, ChevronUp } from "lucide-react";
+import { NeonHeart, NeonMuscle, NeonBrain, NeonCoin, NeonHandshake } from "@/components/NeonIcons";
 
 const AROHA_COLOR = "#FF6F91";
 
@@ -8,7 +9,7 @@ type SubTab = "wellness" | "retention" | "social" | "conflict";
 const WELLNESS_CATEGORIES = [
   {
     title: "Physical Wellness",
-    emoji: "💪",
+    icon: "muscle" as const,
     items: [
       { name: "Workplace Ergonomic Assessment Checklist", desc: "Comprehensive desk/workstation assessment covering monitor height, chair setup, keyboard position, lighting." },
       { name: "Standing Desk Policy", desc: "Policy for providing sit-stand desks. Includes request process, usage guidelines, and DSE assessment." },
@@ -21,7 +22,7 @@ const WELLNESS_CATEGORIES = [
   },
   {
     title: "Mental Wellness",
-    emoji: "🧠",
+    icon: "brain" as const,
     items: [
       { name: "Mental Health Policy", desc: "Comprehensive policy covering support, leave, return to work, and manager responsibilities." },
       { name: "EAP Setup Guide", desc: "Employee Assistance Programme setup. Providers: Vitae, EAP Services, Benestar. Typically $40-$60 per employee/year." },
@@ -34,7 +35,7 @@ const WELLNESS_CATEGORIES = [
   },
   {
     title: "Financial Wellness",
-    emoji: "💰",
+    icon: "coin" as const,
     items: [
       { name: "KiwiSaver Education Resources", desc: "Help staff understand their KiwiSaver options, contribution rates (3%-10%), and employer contributions." },
       { name: "Financial Literacy Workshop Template", desc: "90-minute workshop: budgeting, saving, KiwiSaver, debt management. Partner with Sorted.org.nz." },
@@ -44,7 +45,7 @@ const WELLNESS_CATEGORIES = [
   },
   {
     title: "Social Wellness",
-    emoji: "🤝",
+    icon: "handshake" as const,
     items: [
       { name: "Team Building Activity Ideas (NZ)", desc: "Beach BBQ, bush walk, escape room, lawn bowls, go-karting, volunteer day, waka ama." },
       { name: "Social Committee Setup Guide", desc: "Terms of reference, budget allocation, event planning framework, inclusive practices." },
@@ -130,7 +131,7 @@ export default function ArohaPeopleCulture() {
 
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-3">
-      <h2 className="text-lg font-bold text-foreground">❤️ People & Culture</h2>
+      <h2 className="text-lg font-bold text-foreground flex items-center gap-2"><NeonHeart size={20} color="#FF6F91" /> People & Culture</h2>
       <div className="flex gap-1 flex-wrap">
         {tabs.map(t => (
           <button key={t.id} onClick={() => setTab(t.id)} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] font-medium"
@@ -147,7 +148,7 @@ export default function ArohaPeopleCulture() {
             <div key={cat.title} className="rounded-xl border border-border bg-card overflow-hidden">
               <button onClick={() => setExpandedCat(expandedCat === cat.title ? null : cat.title)}
                 className="w-full flex items-center justify-between p-3">
-                <span className="text-xs font-bold text-foreground">{cat.emoji} {cat.title}</span>
+                <span className="text-xs font-bold text-foreground flex items-center gap-1.5">{(() => { const icons: Record<string, React.ReactNode> = { muscle: <NeonMuscle size={14} color="#FF6F91" />, brain: <NeonBrain size={14} color="#FF6F91" />, coin: <NeonCoin size={14} color="#FF6F91" />, handshake: <NeonHandshake size={14} color="#FF6F91" /> }; return icons[cat.icon]; })()} {cat.title}</span>
                 {expandedCat === cat.title ? <ChevronUp size={12} className="text-muted-foreground" /> : <ChevronDown size={12} className="text-muted-foreground" />}
               </button>
               {expandedCat === cat.title && (
