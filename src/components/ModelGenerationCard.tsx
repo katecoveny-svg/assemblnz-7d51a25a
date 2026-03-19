@@ -30,7 +30,7 @@ const ModelGenerationCard = ({ status, progress, prompt, color = "#FFB800" }: Mo
     >
       <div className="flex items-center gap-2">
         <span className="text-sm" style={{ color }}>
-          ◇
+          <NeonDiamond size={14} color={color} />
         </span>
         <span className="text-sm font-medium text-foreground">{statusText}</span>
       </div>
