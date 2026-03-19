@@ -42,6 +42,15 @@ interface ActivityItem {
   created_at: string;
 }
 
+interface ContactSubmission {
+  id: string;
+  name: string;
+  email: string;
+  message: string;
+  is_read: boolean;
+  created_at: string;
+}
+
 const ROLES = ["free", "starter", "pro", "business", "admin"];
 
 const AdminDashboard = () => {
