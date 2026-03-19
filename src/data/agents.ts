@@ -482,5 +482,7 @@ export const sectors = [
   "Nonprofit & Community",
   "Maritime & Fishing",
   "Energy & Sustainability",
+  "Government & Public Sector",
+  "Māori & Te Tiriti",
   "Life & Personal",
 ];

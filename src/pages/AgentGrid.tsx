@@ -188,7 +188,7 @@ const AgentGrid = () => {
           {/* Stats bar */}
           <div className="flex flex-wrap justify-center gap-6 sm:gap-10">
             {[
-              { value: "29", label: "Agents" },
+              { value: "37", label: "Agents" },
               { value: "20+", label: "NZ Industries" },
               { value: "50+", label: "Acts Referenced" },
               { value: "24/7", label: "Always On" },
