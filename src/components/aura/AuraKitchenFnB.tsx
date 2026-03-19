@@ -57,7 +57,7 @@ const AuraKitchenFnB = ({ onGenerate }: Props) => {
                 <button key={m} onClick={() => gen(`Design a luxury lodge ${m} menu. Use seasonal NZ produce, include wine pairing suggestions for each course, allergen indicators, and elegant descriptions. Format for print.`)} className="text-left p-2.5 rounded-lg border border-border hover:border-foreground/10 transition-all text-[11px] text-foreground/80">{m}</button>
               ))}
             </div>
-            <button className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Menu Template</button>
+            <button onClick={() => gen(`Generate a complete seasonal menu template for a luxury NZ lodge. Include seasonal NZ produce for the current month, 5-7 course dinner with wine pairings from NZ regions (Central Otago, Marlborough, Hawke's Bay), cost analysis per cover, and allergen matrix. Format elegantly.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Menu Template</button>
           </div>
 
           <div className="rounded-xl border border-border bg-card p-4" style={{ borderColor: color + "20" }}>
