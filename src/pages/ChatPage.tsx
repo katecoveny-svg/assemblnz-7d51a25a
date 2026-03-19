@@ -998,7 +998,7 @@ const ChatPage = () => {
                         className={`flex gap-2 opacity-0 animate-fade-up ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                         style={{ animationDelay: `${i * 30}ms`, animationFillMode: "forwards" }}
                       >
-                        {msg.role === "assistant" && <RobotIcon color={agent.color} size={24} />}
+                        {msg.role === "assistant" && <AgentAvatar agentId={agent.id} color={agent.color} size={24} showGlow={false} />}
                         <div
                           className={`max-w-[85%] px-3.5 py-2.5 rounded-xl text-sm leading-relaxed ${
                             msg.role === "user" ? "text-foreground rounded-br-sm" : "bg-card text-foreground/90 rounded-bl-sm"
