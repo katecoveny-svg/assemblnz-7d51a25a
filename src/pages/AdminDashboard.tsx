@@ -83,16 +83,18 @@ const AdminDashboard = () => {
   const loadData = useCallback(async () => {
     setLoadingData(true);
     try {
-      const [m, u, a, f] = await Promise.all([
+      const [m, u, a, f, s] = await Promise.all([
         adminCall("get_metrics"),
         adminCall("get_users"),
         adminCall("get_agent_status"),
         adminCall("get_activity_feed"),
+        adminCall("get_contact_submissions"),
       ]);
       setMetrics(m);
       setUsers(u);
       setAgentStatuses(a);
       setActivity(f);
+      setSubmissions(s);
     } catch (err) {
       console.error("Failed to load admin data:", err);
     }
