@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import AssemblLogo from "@/components/AssemblLogo";
 import { Loader2 } from "lucide-react";
+import ParticleField from "@/components/ParticleField";
 
 const AuthPage = ({ mode }: { mode: "login" | "signup" }) => {
   const [email, setEmail] = useState("");
