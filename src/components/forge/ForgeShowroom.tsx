@@ -216,7 +216,7 @@ ${v.conditionNotes}. ${v.serviceHistory}.
         </div>
         {aging60.length > 0 && (
           <div className="p-3 rounded-xl border border-border bg-card">
-            <h3 className="text-xs font-bold text-foreground mb-2">⚠️ Ageing Stock Alerts</h3>
+            <h3 className="text-xs font-bold text-foreground mb-2">Ageing Stock Alerts</h3>
             {aging60.map(v => (
               <div key={v.id} className="flex items-center justify-between py-1 border-b border-border last:border-0">
                 <span className="text-xs text-foreground">{v.year} {v.make} {v.model}</span>
