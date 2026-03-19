@@ -28,7 +28,7 @@ const PRICING_PLANS = [
     price: "$29",
     period: "/mo",
     color: "#00E5FF",
-    features: ["50 messages/day", "All 29 agents", "Brand scan", "Template library", "Email support"],
+    features: ["50 messages/day", "All 37 agents", "Brand scan", "Template library", "Email support"],
     cta: "Get started",
     href: "https://pay.airwallex.com/sghgspa33ccg",
     external: true,
