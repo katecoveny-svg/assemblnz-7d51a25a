@@ -370,7 +370,7 @@ Generate comprehensive, detailed content for this section. Include specific fram
             {sections.map((s) => (
               <div key={s.id} className="rounded-lg overflow-hidden" style={{ border: `1px solid ${APEX_COLOR}15` }}>
                 <div className="flex items-center justify-between px-3 py-2.5">
-                  <span className="text-xs font-medium text-foreground">{s.emoji} {s.label}</span>
+                  <span className="text-xs font-medium text-foreground flex items-center gap-1.5">{(() => { const Icon = ICON_MAP[s.iconKey]; return Icon ? <Icon size={14} color={APEX_COLOR} /> : null; })()} {s.label}</span>
                   <button
                     onClick={() => generateSection(s.id, s.label, subView === "private")}
                     disabled={generatingSection === s.id}
