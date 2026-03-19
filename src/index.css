@@ -6,26 +6,26 @@
 
 @layer base {
   :root {
-    --background: 240 33% 6%;
+    --background: 240 29% 6%;
     --foreground: 240 14% 91%;
 
-    --card: 240 33% 8%;
+    --card: 240 29% 8%;
     --card-foreground: 240 14% 91%;
 
-    --popover: 240 33% 8%;
+    --popover: 240 29% 8%;
     --popover-foreground: 240 14% 91%;
 
     --primary: 153 100% 50%;
-    --primary-foreground: 240 33% 6%;
+    --primary-foreground: 240 29% 6%;
 
-    --secondary: 326 100% 59%;
+    --secondary: 326 100% 39%;
     --secondary-foreground: 240 14% 91%;
 
-    --muted: 240 33% 12%;
-    --muted-foreground: 0 0% 100% / 0.21;
+    --muted: 240 29% 12%;
+    --muted-foreground: 0 0% 100% / 0.22;
 
     --accent: 189 100% 50%;
-    --accent-foreground: 240 33% 6%;
+    --accent-foreground: 240 29% 6%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
@@ -77,7 +77,9 @@
 
   .text-gradient-hero {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(90deg, hsl(var(--neon-green)), hsl(var(--neon-cyan)), hsl(var(--neon-pink)));
+    background-image: linear-gradient(135deg, #00FF88, #00E5FF 50%, #FF2D9B);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .glow-green {
