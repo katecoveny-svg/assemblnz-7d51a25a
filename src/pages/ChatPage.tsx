@@ -44,6 +44,10 @@ import ForgeMarketing from "@/components/forge/ForgeMarketing";
 import ForgeEvents from "@/components/forge/ForgeEvents";
 import ForgeBrandHub from "@/components/forge/ForgeBrandHub";
 import ForgeTeam from "@/components/forge/ForgeTeam";
+import ArohaContracts from "@/components/aroha/ArohaContracts";
+import ArohaOnboarding from "@/components/aroha/ArohaOnboarding";
+import ArohaPayroll from "@/components/aroha/ArohaPayroll";
+import ArohaRecruitment from "@/components/aroha/ArohaRecruitment";
 import InternalComms from "@/components/InternalComms";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
@@ -244,7 +248,7 @@ const ChatPage = () => {
   const [pendingImage, setPendingImage] = useState<File | null>(null);
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment">("chat");
   const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
   const [pendingFile, setPendingFile] = useState<File | null>(null);
@@ -283,6 +287,7 @@ const ChatPage = () => {
 
   const isArc = agentId === "architecture" || agentId === "construction";
   const isForge = agentId === "automotive";
+  const isAroha = agentId === "hr";
   const isHelm = agentId === "operations";
   const isNexus = agentId === "customs";
   const isMarketing = agentId === "marketing";
@@ -904,7 +909,15 @@ const ChatPage = () => {
       )}
 
       {/* Tab Views */}
-      {activeTab === "forge_showroom" && isForge ? (
+      {activeTab === "aroha_contracts" && isAroha ? (
+        <ArohaContracts />
+      ) : activeTab === "aroha_onboarding" && isAroha ? (
+        <ArohaOnboarding />
+      ) : activeTab === "aroha_payroll" && isAroha ? (
+        <ArohaPayroll />
+      ) : activeTab === "aroha_recruitment" && isAroha ? (
+        <ArohaRecruitment />
+      ) : activeTab === "forge_showroom" && isForge ? (
         <ForgeShowroom />
       ) : activeTab === "forge_sales" && isForge ? (
         <ForgeSales />
