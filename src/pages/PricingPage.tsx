@@ -11,7 +11,8 @@ const BUSINESS_PLANS = [
     desc: "For sole traders and micro businesses",
     features: ["1 AI agent", "100 messages/month", "NZ legislation references", "Email support"],
     cta: "Get started",
-    href: "#contact",
+    href: "https://pay.airwallex.com/sghgspa33ccg",
+    external: true,
     highlighted: false,
     borderColor: "#ffffff10",
     btnStyle: "outlined" as const,
@@ -22,7 +23,8 @@ const BUSINESS_PLANS = [
     desc: "For growing NZ businesses that need expert backup",
     features: ["3 AI agents", "500 messages/month", "Website brand scan", "File upload and parsing", "Priority support"],
     cta: "Start Pro",
-    href: "#contact",
+    href: "https://pay.airwallex.com/sghgspe6mx61",
+    external: true,
     highlighted: true,
     borderColor: "#00FF8830",
     btnStyle: "green" as const,
@@ -33,7 +35,8 @@ const BUSINESS_PLANS = [
     desc: "All agents, unlimited access, built for teams",
     features: ["All 22 industry agents", "Unlimited messages", "Brand scan + file upload", "Team access (5 seats)", "Usage analytics", "Priority support"],
     cta: "Start Business",
-    href: "#contact",
+    href: "https://pay.airwallex.com/sghgspfps04o",
+    external: true,
     highlighted: false,
     borderColor: "#ffffff10",
     btnStyle: "outlined" as const,
@@ -45,6 +48,7 @@ const BUSINESS_PLANS = [
     features: ["Your logo and branding", "Custom system prompts", "API access", "Unlimited users", "Your own domain", "Dedicated support"],
     cta: "Contact us",
     href: "#contact",
+    external: false,
     highlighted: false,
     borderColor: "#ffffff10",
     btnStyle: "outlined" as const,
@@ -59,6 +63,7 @@ const HELM_PLANS = [
     features: ["10 messages/day", "Basic chat", "Meal plan suggestions"],
     cta: "Try free",
     href: "/chat/helm",
+    external: false,
   },
   {
     name: "PERSONAL",
@@ -66,7 +71,8 @@ const HELM_PLANS = [
     desc: "Full life admin for one person",
     features: ["Unlimited HELM chat", "File upload", "Meal plans and budgets", "2 lifestyle agents"],
     cta: "Start Personal",
-    href: "#contact",
+    href: "https://pay.airwallex.com/sghgsph924ew",
+    external: true,
   },
   {
     name: "FAMILY",
@@ -74,7 +80,8 @@ const HELM_PLANS = [
     desc: "For busy NZ families",
     features: ["Everything in Personal", "Multi-child profiles", "Sunday briefing", "All lifestyle agents", "Partner access"],
     cta: "Start Family",
-    href: "#contact",
+    href: "https://pay.airwallex.com/sghgspijg05v",
+    external: true,
   },
 ];
 
@@ -169,17 +176,33 @@ const PricingPage = () => {
                     </li>
                   ))}
                 </ul>
-                <Link
-                  to={plan.href}
-                  className="block text-center text-xs font-bold py-3 rounded-lg transition-all"
-                  style={
-                    plan.btnStyle === "green"
-                      ? { background: "#00FF88", color: "#0A0A14" }
-                      : { background: "transparent", color: "#fff", border: "1px solid #ffffff20" }
-                  }
-                >
-                  {plan.cta}
-                </Link>
+                {plan.external ? (
+                  <a
+                    href={plan.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-center text-xs font-bold py-3 rounded-lg transition-all"
+                    style={
+                      plan.btnStyle === "green"
+                        ? { background: "#00FF88", color: "#0A0A14" }
+                        : { background: "transparent", color: "#fff", border: "1px solid #ffffff20" }
+                    }
+                  >
+                    {plan.cta}
+                  </a>
+                ) : (
+                  <Link
+                    to={plan.href}
+                    className="block text-center text-xs font-bold py-3 rounded-lg transition-all"
+                    style={
+                      plan.btnStyle === "green"
+                        ? { background: "#00FF88", color: "#0A0A14" }
+                        : { background: "transparent", color: "#fff", border: "1px solid #ffffff20" }
+                    }
+                  >
+                    {plan.cta}
+                  </Link>
+                )}
               </div>
             ))}
           </div>
@@ -214,13 +237,25 @@ const PricingPage = () => {
                     </li>
                   ))}
                 </ul>
-                <Link
-                  to={plan.href}
-                  className="block text-center text-xs font-bold py-3 rounded-lg transition-all"
-                  style={{ background: "#B388FF", color: "#0A0A14" }}
-                >
-                  {plan.cta}
-                </Link>
+                {plan.external ? (
+                  <a
+                    href={plan.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-center text-xs font-bold py-3 rounded-lg transition-all"
+                    style={{ background: "#B388FF", color: "#0A0A14" }}
+                  >
+                    {plan.cta}
+                  </a>
+                ) : (
+                  <Link
+                    to={plan.href}
+                    className="block text-center text-xs font-bold py-3 rounded-lg transition-all"
+                    style={{ background: "#B388FF", color: "#0A0A14" }}
+                  >
+                    {plan.cta}
+                  </Link>
+                )}
               </div>
             ))}
           </div>
