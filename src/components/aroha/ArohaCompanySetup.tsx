@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Building2, ChevronRight, CheckCircle, AlertTriangle, Edit2 } from "lucide-react";
+import { NeonBuilding2, NeonSiren, NeonClipboard, NeonWarning, NeonBulb, NeonCheckmark, NeonTarget, NeonHeart, NeonPen, NeonCalendar, NeonStar } from "@/components/NeonIcons";
 
 const AROHA_COLOR = "#FF6F91";
 
