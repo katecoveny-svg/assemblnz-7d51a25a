@@ -102,6 +102,24 @@ export default {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.5" },
         },
+        "sparkle": {
+          "0%, 100%": { opacity: "0", transform: "scale(0) rotate(0deg)" },
+          "50%": { opacity: "1", transform: "scale(1) rotate(180deg)" },
+        },
+        "shimmer-sweep": {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(100%)" },
+        },
+        "float-orb": {
+          "0%, 100%": { transform: "translate(0, 0)" },
+          "25%": { transform: "translate(10px, -20px)" },
+          "50%": { transform: "translate(-10px, -10px)" },
+          "75%": { transform: "translate(15px, 10px)" },
+        },
+        "neon-pulse": {
+          "0%, 100%": { filter: "drop-shadow(0 0 4px currentColor)" },
+          "50%": { filter: "drop-shadow(0 0 12px currentColor)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
