@@ -37,6 +37,13 @@ import ApexTenderWriter from "@/components/apex/ApexTenderWriter";
 import ApexAwardsTracker from "@/components/apex/ApexAwardsTracker";
 import ApexHSHub from "@/components/apex/ApexHSHub";
 import ApexESGDashboard from "@/components/apex/ApexESGDashboard";
+import ForgeShowroom from "@/components/forge/ForgeShowroom";
+import ForgeSales from "@/components/forge/ForgeSales";
+import ForgePartsService from "@/components/forge/ForgePartsService";
+import ForgeMarketing from "@/components/forge/ForgeMarketing";
+import ForgeEvents from "@/components/forge/ForgeEvents";
+import ForgeBrandHub from "@/components/forge/ForgeBrandHub";
+import ForgeTeam from "@/components/forge/ForgeTeam";
 import InternalComms from "@/components/InternalComms";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
