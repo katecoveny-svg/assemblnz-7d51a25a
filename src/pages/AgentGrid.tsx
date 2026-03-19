@@ -326,8 +326,8 @@ const AgentGrid = () => {
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div className="flex justify-center order-2 lg:order-1">
-              <div className="w-64 h-64 rounded-2xl border flex items-center justify-center" style={{ borderColor: "#26C6DA20", background: "#26C6DA08" }}>
-                <RobotIcon color="#26C6DA" size={120} />
+              <div className="w-64 h-64 rounded-2xl border flex items-center justify-center overflow-hidden" style={{ borderColor: "#26C6DA20", background: "#26C6DA08" }}>
+                <AgentAvatar agentId="maritime" color="#26C6DA" size={160} />
               </div>
             </div>
             <div className="order-1 lg:order-2">
