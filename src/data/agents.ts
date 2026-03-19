@@ -497,4 +497,5 @@ export const sectors = [
   "Government & Public Sector",
   "Māori & Te Tiriti",
   "Life & Personal",
+  "HR & Employment",
 ];
