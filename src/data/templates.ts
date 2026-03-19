@@ -101,7 +101,7 @@ export const agentTemplates: Record<string, Template[]> = {
     { icon: "wave", title: "Freshwater Compliance Audit", description: "Audit your farm against freshwater regulations", timeSaved: "~2 hours", prompt: "Let's do a freshwater compliance audit. What region is your farm in?" },
     { icon: "team", title: "RSE Checklist", description: "Checklist for RSE seasonal worker scheme compliance", timeSaved: "~1 hour", prompt: "I need an RSE scheme checklist. Are you currently an accredited employer?" },
   ],
-  pulse: [
+  retail: [
     { icon: "return", title: "Returns Policy", description: "Generate a returns policy compliant with NZ consumer law", timeSaved: "~1 hour", prompt: "I need a returns policy for my business. What type of products do you sell?" },
     { icon: "lock", title: "Privacy Policy", description: "Create a Privacy Act 2020 compliant privacy policy", timeSaved: "~2 hours", prompt: "Let's create a privacy policy. What type of business are you and what data do you collect?" },
     { icon: "box", title: "Product Listing Checker", description: "Check your product listings for Fair Trading Act compliance", timeSaved: "~30 min", prompt: "I'd like to check my product listings for compliance. Share a product listing and I'll review it." },
