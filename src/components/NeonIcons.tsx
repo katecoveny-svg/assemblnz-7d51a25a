@@ -558,6 +558,58 @@ export const NeonIncrease = ({ size = 24, color = C.green }: P) =>
   </svg>;
 
 
+export const NeonTarget = ({ size = 24, color = C.pink }: P) =>
+<svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <circle cx="12" cy="12" r="9" stroke={color} strokeWidth="1.5" fill={`${color}0a`} />
+    <circle cx="12" cy="12" r="5" stroke={color} strokeWidth="1.5" fill={`${color}14`} />
+    <circle cx="12" cy="12" r="1.5" fill={color} opacity="0.8" />
+  </svg>;
+
+export const NeonBrain = ({ size = 24, color = C.lavender }: P) =>
+<svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <path d="M12 2C9 2 7 4 7 6c-2 0-4 2-4 4s2 4 4 4v4c0 2 2 4 5 4s5-2 5-4v-4c2 0 4-2 4-4s-2-4-4-4c0-2-2-4-5-4z" stroke={color} strokeWidth="1.5" fill={`${color}0a`} />
+    <path d="M12 2v20" stroke={color} strokeWidth="1" strokeOpacity="0.3" />
+  </svg>;
+
+export const NeonMuscle = ({ size = 24, color = C.red }: P) =>
+<svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <path d="M4 16c0-4 2-6 4-8l2-4c1-1 2 0 2 1v5c0 0 2-1 3-1s3 1 3 1V4c0-1 1-2 2-1l2 4c2 2 4 4 4 8v2H4v-2z" stroke={color} strokeWidth="1.5" fill={`${color}0f`} strokeLinecap="round" strokeLinejoin="round" />
+  </svg>;
+
+export const NeonStar = ({ size = 24, color = C.gold }: P) =>
+<svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" stroke={color} strokeWidth="1.5" fill={`${color}14`} strokeLinejoin="round" />
+  </svg>;
+
+export const NeonFire = ({ size = 24, color = C.orange }: P) =>
+<svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <path d="M12 2c0 4-4 6-4 10a4 4 0 008 0c0-4-4-6-4-10z" stroke={color} strokeWidth="1.5" fill={`${color}1a`} />
+    <path d="M12 12c0 2-1.5 3-1.5 4.5a1.5 1.5 0 003 0c0-1.5-1.5-2.5-1.5-4.5z" fill={color} fillOpacity="0.4" />
+  </svg>;
+
+export const NeonTag = ({ size = 24, color = C.cyan }: P) =>
+<svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <path d="M3 3h8l10 10-8 8L3 11V3z" stroke={color} strokeWidth="1.5" fill={`${color}0a`} strokeLinejoin="round" />
+    <circle cx="7.5" cy="7.5" r="1.5" fill={color} fillOpacity="0.6" />
+  </svg>;
+
+export const NeonChat = ({ size = 24, color = C.cyan }: P) =>
+<svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <path d="M4 4h16a2 2 0 012 2v10a2 2 0 01-2 2H8l-4 4V6a2 2 0 012-2z" stroke={color} strokeWidth="1.5" fill={`${color}0a`} />
+    <line x1="8" y1="9" x2="16" y2="9" stroke={color} strokeWidth="1" strokeOpacity="0.4" />
+    <line x1="8" y1="12" x2="13" y2="12" stroke={color} strokeWidth="1" strokeOpacity="0.3" />
+  </svg>;
+
+export const NeonTrophy = ({ size = 24, color = C.gold }: P) =>
+<svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <path d="M8 2h8v8a4 4 0 01-8 0V2z" stroke={color} strokeWidth="1.5" fill={`${color}14`} />
+    <path d="M8 4H5a2 2 0 00-2 2v1a3 3 0 003 3h2" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
+    <path d="M16 4h3a2 2 0 012 2v1a3 3 0 01-3 3h-2" stroke={color} strokeWidth="1.5" strokeOpacity="0.5" />
+    <line x1="12" y1="14" x2="12" y2="18" stroke={color} strokeWidth="1.5" strokeOpacity="0.6" />
+    <rect x="8" y="18" width="8" height="3" rx="1" stroke={color} strokeWidth="1.5" fill={`${color}0a`} />
+  </svg>;
+
+
 // ── NZ Flag icon (replaces 🇳🇿 emoji) ──
 
 export const NeonNZFlag = ({ size = 24 }: P) =>
