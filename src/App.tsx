@@ -36,6 +36,7 @@ const App = () => (
             <Route path="/embed/:agentId" element={<Suspense fallback={null}><EmbedChatWidget /></Suspense>} />
             <Route path="/embed" element={<Suspense fallback={null}><EmbedPage /></Suspense>} />
             <Route path="/dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
+            <Route path="/pricing" element={<Suspense fallback={null}><PricingPage /></Suspense>} />
             <Route path="/admin" element={<Suspense fallback={null}><AdminLogin /></Suspense>} />
             <Route path="/admin/dashboard" element={<Suspense fallback={null}><AdminDashboard /></Suspense>} />
             <Route path="*" element={<NotFound />} />
