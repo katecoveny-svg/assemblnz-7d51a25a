@@ -48,6 +48,7 @@ const BUSINESS_PLANS = [
     features: ["Your logo and branding", "Custom system prompts", "API access", "Unlimited users", "Your own domain", "Dedicated support"],
     cta: "Contact us",
     href: "#contact",
+    external: false,
     highlighted: false,
     borderColor: "#ffffff10",
     btnStyle: "outlined" as const,
