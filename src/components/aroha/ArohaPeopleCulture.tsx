@@ -45,7 +45,7 @@ const WELLNESS_CATEGORIES = [
   },
   {
     title: "Social Wellness",
-    emoji: "🤝",
+    icon: "handshake" as const,
     items: [
       { name: "Team Building Activity Ideas (NZ)", desc: "Beach BBQ, bush walk, escape room, lawn bowls, go-karting, volunteer day, waka ama." },
       { name: "Social Committee Setup Guide", desc: "Terms of reference, budget allocation, event planning framework, inclusive practices." },
