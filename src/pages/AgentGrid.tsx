@@ -2,14 +2,17 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { agents, sectors } from "@/data/agents";
-import RobotIcon from "@/components/RobotIcon";
+import AgentAvatar from "@/components/AgentAvatar";
+import AgentCard from "@/components/AgentCard";
+import ParticleField from "@/components/ParticleField";
+import AnimatedHero from "@/components/AnimatedHero";
 import OnboardingQuiz from "@/components/OnboardingQuiz";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
-import { X, ArrowDown, Zap, Users, BookOpen, Clock, Send, ArrowRight, Check } from "lucide-react";
+import { X, Zap, Users, BookOpen, Clock, Send, ArrowRight, Check } from "lucide-react";
 import { NeonWave, NeonNZFlag } from "@/components/NeonIcons";
-import AssemblLogo from "@/components/AssemblLogo";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
 
 const PRICING_PLANS = [
   {
@@ -142,10 +145,12 @@ const AgentGrid = () => {
   const filtered = activeSector === "All" ? agents : agents.filter(a => a.sector === activeSector);
 
   return (
-    <div className="min-h-screen star-field flex flex-col">
+    <div className="min-h-screen flex flex-col relative">
+      <ParticleField />
+
       {/* Shared Brand Banner */}
       {brandProfile && brandName && (
-        <div className="bg-primary/5 border-b border-primary/10 px-4 py-2 flex items-center justify-center gap-2">
+        <div className="relative z-10 bg-primary/5 border-b border-primary/10 px-4 py-2 flex items-center justify-center gap-2">
           <NeonWave size={14} />
           <span className="text-xs text-primary">Brand loaded: <strong>{brandName}</strong> — All agents have your context</span>
           <button onClick={clearBrand} className="text-primary/60 hover:text-primary transition-colors">
@@ -154,158 +159,97 @@ const AgentGrid = () => {
         </div>
       )}
 
-      <BrandNav />
+      <div className="relative z-10">
+        <BrandNav />
+      </div>
 
       {/* ═══════════════════════ HERO ═══════════════════════ */}
-      <section className="relative overflow-hidden">
-        {/* Gradient orbs */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full opacity-10 blur-3xl" style={{ background: "hsl(var(--primary))" }} />
-        <div className="absolute bottom-0 right-1/4 w-72 h-72 rounded-full opacity-10 blur-3xl" style={{ background: "hsl(var(--secondary))" }} />
-
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-20 sm:py-32 text-center relative z-10">
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold mb-5 text-foreground leading-tight">
-            Your AI <span className="text-gradient-hero">workforce</span>
-          </h1>
-          <p className="text-base sm:text-lg max-w-2xl mx-auto mb-8 text-muted-foreground">
-            37 expert agents trained on NZ legislation. Try any agent free.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-12">
-            <button
-              onClick={scrollToGrid}
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold bg-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/20 transition-all"
-            >
-              Browse agents <ArrowDown size={16} />
-            </button>
-            <Link
-              to="/pricing"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold border border-border text-foreground hover:border-foreground/20 transition-all"
-            >
-              See pricing
-            </Link>
-          </div>
-
-          {/* Stats bar */}
-          <div className="flex flex-wrap justify-center gap-6 sm:gap-10">
-            {[
-              { value: "37", label: "Agents" },
-              { value: "20+", label: "NZ Industries" },
-              { value: "50+", label: "Acts Referenced" },
-              { value: "24/7", label: "Always On" },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-xl sm:text-2xl font-extrabold text-primary">{stat.value}</div>
-                <div className="text-[11px] text-muted-foreground mt-0.5">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <div className="relative z-10">
+        <AnimatedHero onScrollToGrid={scrollToGrid} />
+      </div>
 
       {/* ═══════════════════════ AGENT GRID ═══════════════════════ */}
-      <main ref={gridRef} className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 w-full">
+      <main ref={gridRef} className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 w-full">
         {/* Section header */}
-        <div className="text-center mb-10">
+        <motion.div
+          className="text-center mb-10"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground mb-2">Meet the team</h2>
           <p className="text-sm text-muted-foreground">Tap any agent to chat live — no signup needed.</p>
-        </div>
+        </motion.div>
 
         {/* Filter Bar */}
-        <div className="flex flex-wrap gap-2 justify-center mb-10">
+        <motion.div
+          className="flex flex-wrap gap-2 justify-center mb-10"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+        >
           {sectors.map(sector => (
-            <button
+            <motion.button
               key={sector}
               onClick={() => setActiveSector(sector)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 border ${
                 activeSector === sector
-                  ? "border-secondary/25 bg-secondary/5 text-secondary"
+                  ? "border-secondary/25 bg-secondary/5 text-secondary shadow-[0_0_12px_rgba(255,45,155,0.15)]"
                   : "border-border text-muted-foreground hover:border-foreground/10 hover:text-foreground"
               }`}
             >
               {sector}
-            </button>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
 
-        {/* Grid */}
         <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))" }}>
           {filtered.map((agent, i) => (
-            <Link
-              key={agent.id}
-              to={`/chat/${agent.id}`}
-              className="group relative rounded-xl border border-border bg-card p-5 transition-all duration-300 hover:-translate-y-0.5 opacity-0 animate-fade-up"
-              style={{
-                animationDelay: `${i * 60}ms`,
-                animationFillMode: "forwards",
-                borderColor: "hsl(0 0% 100% / 0.03)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = agent.color + "30";
-                e.currentTarget.style.boxShadow = `0 0 20px ${agent.color}15`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "hsl(0 0% 100% / 0.03)";
-                e.currentTarget.style.boxShadow = "none";
-              }}
-            >
-              <div
-                className="absolute top-0 left-4 right-4 h-px opacity-40"
-                style={{ background: `linear-gradient(90deg, transparent, ${agent.color}, transparent)` }}
-              />
-              <div className="flex items-start justify-between mb-3">
-                <div className="transition-all duration-300 group-hover:drop-shadow-[0_0_8px_var(--agent-color)] group-hover:scale-110" style={{ "--agent-color": agent.color } as React.CSSProperties}>
-                  <RobotIcon color={agent.color} size={40} agentId={agent.id} />
-                </div>
-                <span className="font-mono-jb text-[10px] text-muted-foreground">{agent.designation}</span>
-              </div>
-              <h3 className="text-base font-bold text-foreground tracking-wide">{agent.name}</h3>
-              <p className="text-xs font-medium mb-1" style={{ color: agent.color }}>{agent.role}</p>
-              <p className="text-xs italic mb-3 text-muted-foreground">"{agent.tagline}"</p>
-              <div className="flex flex-wrap gap-1.5 mb-3">
-                {agent.traits.map(t => (
-                  <span key={t} className="text-[10px] px-2 py-0.5 rounded-full border border-border text-foreground/60">{t}</span>
-                ))}
-              </div>
-              <div className="flex flex-wrap gap-1 mb-4">
-                {agent.expertise.map(e => (
-                  <span key={e} className="font-mono-jb text-[9px] px-1.5 py-0.5 rounded bg-muted text-foreground/50">{e}</span>
-                ))}
-              </div>
-              <div className="flex items-center gap-2 text-xs font-medium" style={{ color: agent.color }}>
-                <span
-                  className="w-1.5 h-1.5 rounded-full animate-pulse-glow"
-                  style={{ backgroundColor: agent.color, boxShadow: `0 0 6px ${agent.color}` }}
-                />
-                Chat now →
-              </div>
-            </Link>
+            <AgentCard key={agent.id} agent={agent} index={i} />
           ))}
         </div>
       </main>
 
       {/* ═══════════════════════ HOW IT WORKS ═══════════════════════ */}
-      <section className="py-20 sm:py-28 border-t border-border">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-center text-foreground mb-14">
+          <motion.h2
+            className="text-2xl sm:text-4xl font-extrabold text-center text-foreground mb-14"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
             How it <span className="text-gradient-hero">works</span>
-          </h2>
+          </motion.h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {HOW_IT_WORKS.map((item) => (
-              <div key={item.step} className="relative rounded-xl border border-border bg-card p-6 group">
+            {HOW_IT_WORKS.map((item, i) => (
+              <motion.div
+                key={item.step}
+                className="relative rounded-xl border border-border bg-card p-6 group hover:border-primary/20 transition-colors duration-300"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                whileHover={{ y: -4, boxShadow: "0 0 30px rgba(0,255,136,0.08)" }}
+              >
                 <div className="flex items-center gap-3 mb-4">
                   <span className="font-mono-jb text-[10px] font-bold text-primary">{item.step}</span>
                   <div className="text-primary">{item.icon}</div>
                 </div>
                 <h3 className="text-sm font-bold text-foreground mb-2">{item.title}</h3>
                 <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* ═══════════════════════ PRICING ═══════════════════════ */}
-      <section className="py-20 sm:py-28 border-t border-border">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
             <h2 className="text-2xl sm:text-4xl font-extrabold text-foreground mb-3">
@@ -375,7 +319,7 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════════════════════ HELM SPOTLIGHT ═══════════════════════ */}
-      <section className="py-20 sm:py-28 border-t border-border">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div>
@@ -396,8 +340,8 @@ const AgentGrid = () => {
               </Link>
             </div>
             <div className="flex justify-center">
-              <div className="w-64 h-64 rounded-2xl border flex items-center justify-center" style={{ borderColor: "#B388FF20", background: "#B388FF08" }}>
-                <RobotIcon color="#B388FF" size={120} agentId="operations" />
+              <div className="w-64 h-64 rounded-2xl border flex items-center justify-center overflow-hidden" style={{ borderColor: "#B388FF20", background: "#B388FF08" }}>
+                <AgentAvatar agentId="operations" color="#B388FF" size={160} />
               </div>
             </div>
           </div>
@@ -405,12 +349,12 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════════════════════ MARINER SPOTLIGHT ═══════════════════════ */}
-      <section className="py-20 sm:py-28 border-t border-border">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div className="flex justify-center order-2 lg:order-1">
-              <div className="w-64 h-64 rounded-2xl border flex items-center justify-center" style={{ borderColor: "#26C6DA20", background: "#26C6DA08" }}>
-                <RobotIcon color="#26C6DA" size={120} />
+              <div className="w-64 h-64 rounded-2xl border flex items-center justify-center overflow-hidden" style={{ borderColor: "#26C6DA20", background: "#26C6DA08" }}>
+                <AgentAvatar agentId="maritime" color="#26C6DA" size={160} />
               </div>
             </div>
             <div className="order-1 lg:order-2">
@@ -435,7 +379,7 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════════════════════ ALSO BY ASSEMBL ═══════════════════════ */}
-      <section className="py-20 sm:py-28 border-t border-border">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <h2 className="text-2xl sm:text-4xl font-extrabold text-center text-foreground mb-14">
             Also by <span className="text-gradient-hero">Assembl</span>
@@ -455,14 +399,18 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════════════════════ FOUNDER ═══════════════════════ */}
-      <section className="py-20 sm:py-28 border-t border-border">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <img
+          <motion.img
             src="/img/kate-neon.png"
             alt="Kate, Founder of Assembl"
             className="w-32 h-32 rounded-full mx-auto mb-6 object-cover border-2"
             style={{ borderColor: "hsl(var(--primary) / 0.3)" }}
             loading="lazy"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            whileHover={{ boxShadow: "0 0 30px rgba(0,255,136,0.3)" }}
           />
           <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground mb-3 flex items-center justify-center gap-2">Built in Aotearoa <NeonNZFlag size={28} /></h2>
           <p className="text-sm text-muted-foreground leading-relaxed max-w-lg mx-auto mb-4">
@@ -475,7 +423,7 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════════════════════ CONTACT ═══════════════════════ */}
-      <section id="contact" className="py-20 sm:py-28 border-t border-border">
+      <section id="contact" className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-lg mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground mb-3">Get in touch</h2>
@@ -525,7 +473,9 @@ const AgentGrid = () => {
         </div>
       </section>
 
-      <BrandFooter />
+      <div className="relative z-10">
+        <BrandFooter />
+      </div>
     </div>
   );
 };
