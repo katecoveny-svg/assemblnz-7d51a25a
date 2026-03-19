@@ -7,7 +7,7 @@ import OnboardingQuiz from "@/components/OnboardingQuiz";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import { X, ArrowDown, Zap, Users, BookOpen, Clock, Send, ArrowRight, Check } from "lucide-react";
-import { NeonWave } from "@/components/NeonIcons";
+import { NeonWave, NeonNZFlag } from "@/components/NeonIcons";
 import AssemblLogo from "@/components/AssemblLogo";
 import { toast } from "sonner";
 
