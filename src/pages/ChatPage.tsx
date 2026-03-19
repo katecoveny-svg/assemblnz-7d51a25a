@@ -847,7 +847,7 @@ const ChatPage = () => {
 
       {/* Template Tab View */}
       {activeTab === "content_studio" && isMarketing ? (
-        <ContentStudio isPaid={isPaid} userRole={user ? undefined : undefined} />
+        <ContentStudio isPaid={isPaid} userRole={role || undefined} />
       ) : activeTab === "templates" && hasTemplateTab ? (
         <TemplateTab
           agentId={agent.id}
