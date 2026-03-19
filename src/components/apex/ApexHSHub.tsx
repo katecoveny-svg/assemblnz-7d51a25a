@@ -286,7 +286,7 @@ const ApexHSHub = ({ isPaid, userRole }: Props) => {
             return (
               <div key={item} className="rounded-lg" style={{ border: `1px solid ${APEX_COLOR}15` }}>
                 <div className="flex items-center justify-between px-3 py-2.5">
-                  <span className="text-xs font-medium text-foreground">⚠️ {item}</span>
+                  <span className="text-xs font-medium text-foreground flex items-center gap-1"><NeonWarning size={14} color={APEX_COLOR} /> {item}</span>
                   <button onClick={() => generate(key, `You are APEX. Generate a complete "${item}" template for NZ construction businesses. Align with ICAM methodology where relevant, HSWA 2015, and WorkSafe NZ requirements. Include all necessary fields and sections. Make it practical and ready to use.`)} disabled={generating === key} className="px-3 py-1 rounded text-[9px] font-bold shrink-0 disabled:opacity-40" style={{ background: APEX_COLOR, color: "#0A0A14" }}>
                     {generating === key ? "..." : "Generate"}
                   </button>
