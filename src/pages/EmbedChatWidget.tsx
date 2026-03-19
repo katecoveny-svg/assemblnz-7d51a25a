@@ -82,7 +82,7 @@ const EmbedChatWidget = () => {
         className="flex items-center gap-2.5 px-4 py-3 shrink-0"
         style={{ borderBottom: "1px solid #ffffff08" }}
       >
-        <RobotIcon color={agent.color} size={28} />
+        <AgentAvatar agentId={agent.id} color={agent.color} size={28} showGlow={false} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <span className="font-bold text-sm" style={{ color: "#E4E4EC" }}>{agent.name}</span>
