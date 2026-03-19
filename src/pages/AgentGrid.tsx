@@ -188,8 +188,9 @@ const AgentGrid = () => {
             </ul>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-border text-center text-[11px] text-muted-foreground">
-          © {new Date().getFullYear()} Assembl. All rights reserved.
+        <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-border text-center text-[11px] text-muted-foreground leading-relaxed">
+          <p>© {new Date().getFullYear()} Assembl. All rights reserved.</p>
+          <p className="mt-1">Agent designs, system prompts, and automation workflows are proprietary trade secrets of Assembl.</p>
         </div>
       </footer>
     </div>

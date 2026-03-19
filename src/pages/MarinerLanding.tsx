@@ -267,7 +267,7 @@ const MarinerLanding = () => {
       </section>
 
       {/* Footer */}
-      <footer className="border-t py-8 px-6 text-center text-xs" style={{ borderColor: `${NEON}10`, color: "hsl(var(--muted-foreground))" }}>
+      <footer className="border-t py-8 px-6 text-center text-xs leading-relaxed" style={{ borderColor: `${NEON}10`, color: "hsl(var(--muted-foreground))" }}>
         <p>
           MARINER (ASM-021) by{" "}
           <a href="https://assembl.co.nz" target="_blank" rel="noopener noreferrer" className="underline" style={{ color: NEON }}>
@@ -275,6 +275,7 @@ const MarinerLanding = () => {
           </a>{" "}
           · General information only, not a substitute for professional maritime advice
         </p>
+        <p className="mt-2">© 2026 Assembl. All rights reserved. Agent designs, system prompts, and automation workflows are proprietary trade secrets of Assembl.</p>
       </footer>
     </div>
   );
