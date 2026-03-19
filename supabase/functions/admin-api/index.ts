@@ -248,16 +248,7 @@ Deno.serve(async (req) => {
         });
       }
 
-      case "ensure_admin_role": {
-        // This is called once to bootstrap the admin role for the admin email user
-        if (user.email !== adminEmail) {
-          return new Response(JSON.stringify({ error: "Not admin email" }), {
-            status: 403,
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-          });
-        }
-        // Check if already admin
-        const { data: existingAdmin } = await supabase
+      default:
           .from("user_roles")
           .select("id")
           .eq("user_id", user.id)
