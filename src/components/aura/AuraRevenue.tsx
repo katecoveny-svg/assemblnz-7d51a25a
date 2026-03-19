@@ -139,7 +139,7 @@ const AuraRevenue = ({ onGenerate }: Props) => {
               </div>
             ))}
           </div>
-          <button className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Channel Analysis Report</button>
+          <button onClick={() => gen(`Generate a channel management analysis report for a luxury NZ lodge. Analyse: direct bookings, travel agents, OTAs, luxury networks, repeat guests, referrals. Include conversion rate, average booking value, commission cost by channel. Goal: increase direct bookings to 70%+. Provide actionable recommendations.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Channel Analysis Report</button>
         </div>
       )}
     </div>
