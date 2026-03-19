@@ -9,7 +9,6 @@ export interface Agent {
   traits: string[];
   expertise: string[];
   starters: string[];
-  systemPrompt: string;
 }
 
 export const agents: Agent[] = [
