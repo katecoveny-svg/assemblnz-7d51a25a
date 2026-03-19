@@ -1,0 +1,96 @@
+import { useState, useRef, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import { User, ChevronDown, LogOut, CreditCard, Settings } from "lucide-react";
+
+const roleBadge: Record<string, { label: string; color: string }> = {
+  free: { label: "Free", color: "hsl(var(--muted-foreground))" },
+  starter: { label: "Starter", color: "hsl(43,100%,50%)" },
+  pro: { label: "Pro", color: "hsl(153,100%,50%)" },
+  business: { label: "Business", color: "hsl(189,100%,50%)" },
+};
+
+const AccountDropdown = () => {
+  const { user, profile, role, signOut, dailyMessageCount, isPaid, dailyLimit } = useAuth();
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const close = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false); };
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
+  }, []);
+
+  if (!user) {
+    return (
+      <Link
+        to="/login"
+        className="text-xs font-medium px-3 py-1.5 rounded-lg border border-primary/30 text-primary hover:bg-primary/10 transition-colors"
+      >
+        Sign in
+      </Link>
+    );
+  }
+
+  const badge = roleBadge[role || "free"];
+  const displayName = profile?.full_name || user.email?.split("@")[0] || "User";
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex items-center gap-2 text-xs px-2 py-1.5 rounded-lg border border-border hover:border-foreground/10 transition-colors"
+      >
+        <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ backgroundColor: badge.color + "20" }}>
+          <User size={10} style={{ color: badge.color }} />
+        </div>
+        <span className="text-foreground/80 max-w-[80px] truncate hidden sm:inline">{displayName}</span>
+        <span
+          className="text-[9px] font-bold px-1.5 py-0.5 rounded-full"
+          style={{ backgroundColor: badge.color + "18", color: badge.color }}
+        >
+          {badge.label}
+        </span>
+        <ChevronDown size={12} className="text-muted-foreground" />
+      </button>
+
+      {open && (
+        <div className="absolute right-0 top-full mt-1 w-56 rounded-xl border border-border bg-card shadow-xl z-50 overflow-hidden opacity-0 animate-fade-up" style={{ animationFillMode: "forwards" }}>
+          <div className="px-3 py-3 border-b border-border">
+            <p className="text-xs font-semibold text-foreground truncate">{displayName}</p>
+            <p className="text-[10px] text-muted-foreground truncate">{user.email}</p>
+            {!isPaid && (
+              <p className="text-[10px] mt-1.5" style={{ color: dailyMessageCount >= 8 ? "hsl(var(--destructive))" : "hsl(var(--muted-foreground))" }}>
+                {dailyLimit - dailyMessageCount} of {dailyLimit} free messages remaining today
+              </p>
+            )}
+          </div>
+
+          <div className="py-1">
+            <button
+              onClick={() => { setOpen(false); navigate("/dashboard"); }}
+              className="w-full flex items-center gap-2 px-3 py-2 text-xs text-foreground/70 hover:text-foreground hover:bg-muted transition-colors"
+            >
+              <Settings size={12} /> My Account
+            </button>
+            <button
+              onClick={() => { setOpen(false); navigate("/dashboard"); }}
+              className="w-full flex items-center gap-2 px-3 py-2 text-xs text-foreground/70 hover:text-foreground hover:bg-muted transition-colors"
+            >
+              <CreditCard size={12} /> My Plan
+            </button>
+            <button
+              onClick={() => { signOut(); setOpen(false); }}
+              className="w-full flex items-center gap-2 px-3 py-2 text-xs text-destructive/80 hover:text-destructive hover:bg-destructive/5 transition-colors"
+            >
+              <LogOut size={12} /> Sign Out
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default AccountDropdown;
