@@ -745,10 +745,10 @@ const ChatPage = () => {
         <AgentAvatar agentId={agent.id} color={agent.color} size={28} showGlow={false} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-sm text-foreground">{agent.name}</span>
+            <span className="font-syne font-bold text-sm text-foreground">{agent.name}</span>
             <span className="font-mono-jb text-[10px] text-muted-foreground">{agent.designation}</span>
           </div>
-          <p className="text-[11px] truncate" style={{ color: agent.color }}>{agent.role}</p>
+          <p className="text-[11px] font-jakarta truncate" style={{ color: agent.color }}>{agent.role}</p>
         </div>
 
         {/* Templates button (legacy modal for non-tab agents) */}
