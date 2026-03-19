@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Calculator, Calendar, DollarSign, AlertCircle } from "lucide-react";
+import { NeonCoin, NeonCheckmark, NeonWarning } from "@/components/NeonIcons";
 
 const AROHA_COLOR = "#FF6F91";
 
