@@ -363,7 +363,7 @@ const AgentGrid = () => {
             </div>
             <div className="flex justify-center">
               <div className="w-64 h-64 rounded-2xl border flex items-center justify-center" style={{ borderColor: "#B388FF20", background: "#B388FF08" }}>
-                <RobotIcon color="#B388FF" size={120} />
+                <RobotIcon color="#B388FF" size={120} agentId="operations" />
               </div>
             </div>
           </div>

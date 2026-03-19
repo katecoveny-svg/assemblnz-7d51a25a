@@ -771,7 +771,7 @@ const ChatPage = () => {
           <div className="flex-1 overflow-y-auto px-4 py-4">
             {showWelcome ? (
               <div className="flex flex-col items-center justify-center h-full text-center gap-4 opacity-0 animate-fade-up" style={{ animationFillMode: "forwards" }}>
-                <RobotIcon color={agent.color} size={72} />
+                <RobotIcon color={agent.color} size={72} agentId={agent.id} />
                 <div>
                   <h2 className="text-lg font-bold text-foreground">{agent.name}</h2>
                   <div className="flex items-center justify-center gap-1.5 mb-1">
