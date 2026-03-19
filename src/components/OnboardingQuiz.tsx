@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { agents } from "@/data/agents";
-import RobotIcon from "@/components/RobotIcon";
+import AgentAvatar from "@/components/AgentAvatar";
 import AssemblLogo from "@/components/AssemblLogo";
 import {
   NeonBuilding,
