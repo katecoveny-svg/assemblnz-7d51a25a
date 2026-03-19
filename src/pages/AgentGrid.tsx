@@ -20,6 +20,7 @@ const PRICING_PLANS = [
     features: ["3 messages per agent", "All 29 agents", "NZ legislation knowledge", "No signup required"],
     cta: "Start free",
     href: "/",
+    external: false,
     highlighted: false,
   },
   {
@@ -29,7 +30,8 @@ const PRICING_PLANS = [
     color: "#00E5FF",
     features: ["50 messages/day", "All 29 agents", "Brand scan", "Template library", "Email support"],
     cta: "Get started",
-    href: "/signup",
+    href: "https://pay.airwallex.com/sghgspa33ccg",
+    external: true,
     highlighted: false,
   },
   {
@@ -39,7 +41,8 @@ const PRICING_PLANS = [
     color: "#FF2D9B",
     features: ["Unlimited messages", "All 29 agents", "HELM & MARINER", "Brand memory", "Priority support", "Embed on your site"],
     cta: "Go Pro",
-    href: "/signup",
+    href: "https://pay.airwallex.com/sghgspe6mx61",
+    external: true,
     highlighted: true,
   },
   {
@@ -50,6 +53,7 @@ const PRICING_PLANS = [
     features: ["Everything in Pro", "Team seats (5)", "Custom agent training", "API access", "Dedicated account manager"],
     cta: "Contact us",
     href: "mailto:hello@assembl.co.nz",
+    external: false,
     highlighted: false,
   },
 ];
