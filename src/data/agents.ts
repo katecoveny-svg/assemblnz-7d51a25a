@@ -371,6 +371,7 @@ export const sectors = [
   "Immigration",
   "Nonprofit & Community",
   "Maritime & Fishing",
+  "Marketing & Comms",
   "Energy & Sustainability",
   "Life & Personal",
 ];
