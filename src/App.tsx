@@ -12,6 +12,7 @@ import NotFound from "./pages/NotFound";
 
 const MarinerLanding = lazy(() => import("./pages/MarinerLanding"));
 const EmbedPage = lazy(() => import("./pages/EmbedPage"));
+const EmbedChatWidget = lazy(() => import("./pages/EmbedChatWidget"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
@@ -31,6 +32,7 @@ const App = () => (
             <Route path="/login" element={<AuthPage mode="login" />} />
             <Route path="/signup" element={<AuthPage mode="signup" />} />
             <Route path="/mariner" element={<Suspense fallback={null}><MarinerLanding /></Suspense>} />
+            <Route path="/embed/:agentId" element={<Suspense fallback={null}><EmbedChatWidget /></Suspense>} />
             <Route path="/embed" element={<Suspense fallback={null}><EmbedPage /></Suspense>} />
             <Route path="/dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
             <Route path="/admin" element={<Suspense fallback={null}><AdminLogin /></Suspense>} />
