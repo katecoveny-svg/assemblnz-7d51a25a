@@ -109,15 +109,14 @@ const OnboardingQuiz = ({ onComplete }: { onComplete: (filter?: string) => void 
 
       <div className="w-full max-w-lg relative z-10">
         {step === "welcome" && (
-          <div className="text-center space-y-8 opacity-0 animate-fade-up" style={{ animationFillMode: "forwards" }}>
+          <div className="text-center space-y-6 opacity-0 animate-fade-up" style={{ animationFillMode: "forwards" }}>
             <div className="flex justify-center">
-              <AssemblLogo size={56} />
+              <AssemblHeroAgent size={180} />
             </div>
             <div>
               <h1 className="text-3xl font-syne font-extrabold text-foreground mb-2">
                 Welcome to{" "}
-                <span className="tracking-[3px] text-gradient-hero">ASSEMBL</span>{" "}
-                <NeonWave size={28} />
+                <span className="tracking-[3px] text-gradient-hero">ASSEMBL</span>
               </h1>
               <p className="text-muted-foreground text-sm font-jakarta">
                 Let's find the right AI agent for you in 30 seconds.
