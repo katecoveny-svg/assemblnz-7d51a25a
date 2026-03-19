@@ -106,13 +106,25 @@ const AgentGrid = () => {
 
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const trimmedName = contactName.trim();
+    const trimmedEmail = contactEmail.trim();
+    const trimmedMessage = contactMessage.trim();
     try {
+      // Save to database
       const { error } = await supabase.from("contact_submissions").insert({
-        name: contactName.trim(),
-        email: contactEmail.trim(),
-        message: contactMessage.trim(),
+        name: trimmedName,
+        email: trimmedEmail,
+        message: trimmedMessage,
       });
       if (error) throw error;
+
+      // Also send via Formspree for email notification
+      fetch("https://formspree.io/f/xwpkpjpd", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: trimmedName, email: trimmedEmail, message: trimmedMessage }),
+      }).catch(() => {}); // fire-and-forget, DB is source of truth
+
       toast.success("Message sent! We'll be in touch soon.");
       setContactName("");
       setContactEmail("");
