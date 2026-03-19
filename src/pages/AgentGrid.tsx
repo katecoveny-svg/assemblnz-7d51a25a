@@ -249,7 +249,7 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════════════════════ PRICING ═══════════════════════ */}
-      <section className="py-20 sm:py-28 border-t border-border">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
             <h2 className="text-2xl sm:text-4xl font-extrabold text-foreground mb-3">
