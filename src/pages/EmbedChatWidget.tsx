@@ -155,7 +155,7 @@ const EmbedChatWidget = () => {
 
         {isLoading && (
           <div className="flex gap-2 items-center">
-            <RobotIcon color={agent.color} size={20} />
+            <AgentAvatar agentId={agent.id} color={agent.color} size={20} showGlow={false} />
             <div className="flex gap-1 px-3 py-2">
               {[0, 1, 2].map((i) => (
                 <span
