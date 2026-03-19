@@ -80,7 +80,7 @@ const AuraEvents = ({ onGenerate }: Props) => {
                 </div>
               ))}
             </div>
-            <button className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Full Calendar</button>
+            <button onClick={() => gen(`Generate a complete 12-month event programme for a luxury NZ lodge. Include: Summer (Dec-Feb) — outdoor dining, stargazing, adventure activities, New Year. Autumn (Mar-May) — harvest, wine, photography. Winter (Jun-Aug) — fireside, dark sky, cosy retreats, ski. Spring (Sep-Nov) — lambing, new growth. Plus: Matariki celebration and Christmas/NYE programme. For each event: description, target guests, pricing suggestion, marketing angle, and staffing needs.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Full Calendar</button>
           </div>
         </div>
       )}
