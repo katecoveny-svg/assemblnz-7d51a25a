@@ -224,6 +224,7 @@ const ChatPage = () => {
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "templates">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
   const [pendingFile, setPendingFile] = useState<File | null>(null);
   const [brandModalOpen, setBrandModalOpen] = useState(false);
