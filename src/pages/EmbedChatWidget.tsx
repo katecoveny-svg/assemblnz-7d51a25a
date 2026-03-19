@@ -133,7 +133,7 @@ const EmbedChatWidget = () => {
             key={i}
             className={`flex gap-2 mb-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
           >
-            {msg.role === "assistant" && <RobotIcon color={agent.color} size={20} />}
+            {msg.role === "assistant" && <AgentAvatar agentId={agent.id} color={agent.color} size={20} showGlow={false} />}
             <div
               className="max-w-[85%] px-3 py-2 rounded-xl text-[13px] leading-relaxed"
               style={

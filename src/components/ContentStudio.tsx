@@ -243,7 +243,7 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <RobotIcon color={prismColor} size={20} agentId="marketing" />
+                <AgentAvatar agentId="marketing" color={prismColor} size={20} showGlow={false} />
                 <span className="text-xs font-bold" style={{ color: prismColor }}>PRISM Content Studio</span>
               </div>
               <button

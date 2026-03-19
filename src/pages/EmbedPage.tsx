@@ -62,7 +62,7 @@ const EmbedPage = () => {
               onClick={() => setSelectorOpen(!selectorOpen)}
               className="w-full sm:w-80 flex items-center gap-3 px-4 py-3 rounded-xl border border-border bg-card text-left transition-colors hover:border-foreground/10"
             >
-              <RobotIcon color={agent.color} size={24} />
+              <AgentAvatar agentId={agent.id} color={agent.color} size={24} showGlow={false} />
               <div className="flex-1 min-w-0">
                 <span className="text-sm font-bold text-foreground">{agent.name}</span>
                 <span className="text-[11px] ml-2" style={{ color: agent.color }}>{agent.role}</span>

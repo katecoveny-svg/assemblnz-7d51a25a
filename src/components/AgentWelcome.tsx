@@ -12,7 +12,7 @@ const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
   return (
     <div className="flex flex-col items-center text-center gap-3">
       {/* Robot icon */}
-      <RobotIcon color={agent.color} size={64} agentId={agent.id} />
+      <AgentAvatar agentId={agent.id} color={agent.color} size={64} />
 
       {/* Name + online status */}
       <div>

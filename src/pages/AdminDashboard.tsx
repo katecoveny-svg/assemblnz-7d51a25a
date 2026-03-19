@@ -422,7 +422,7 @@ const AdminDashboard = () => {
                   target="_blank"
                   className="flex items-center gap-3 p-3 rounded-xl border border-border bg-card hover:border-foreground/10 transition-colors group"
                 >
-                  <RobotIcon color={agent.color} size={28} />
+                  <AgentAvatar agentId={agent.id} color={agent.color} size={28} showGlow={false} />
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-bold text-foreground truncate">{agent.name}</p>
                     <p className="text-[10px] font-mono-jb text-muted-foreground">{agent.designation}</p>
