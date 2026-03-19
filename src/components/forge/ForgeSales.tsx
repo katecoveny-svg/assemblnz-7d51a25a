@@ -81,7 +81,7 @@ export default function ForgeSales() {
           {fBalloon && <div className="flex justify-between text-xs"><span className="text-muted-foreground">Balloon payment (end)</span><span className="text-foreground">${Math.round(balloonAmt).toLocaleString()}</span></div>}
         </div>
         <div className="p-3 rounded-lg bg-muted text-[10px] text-muted-foreground space-y-1">
-          <p>📋 <strong>NZ Reminders:</strong></p>
+          <p><strong>NZ Reminders:</strong></p>
           <p>• PPSR check recommended before finance approval</p>
           <p>• Clean Car Fee/Discount may apply — check NZTA calculator</p>
           <p>• All finance subject to credit approval</p>
