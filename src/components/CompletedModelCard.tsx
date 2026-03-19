@@ -41,8 +41,8 @@ const CompletedModelCard = ({
       </Suspense>
 
       {prompt && (
-        <p className="text-xs text-foreground/60">
-          <span style={{ color }}>◇</span> {prompt}
+        <p className="text-xs text-foreground/60 flex items-center gap-1">
+          <NeonDiamond size={12} color={color} /> {prompt}
         </p>
       )}
 
