@@ -668,8 +668,8 @@ const ChatPage = () => {
           <p className="text-[11px] truncate" style={{ color: agent.color }}>{agent.role}</p>
         </div>
 
-        {/* Templates button */}
-        {hasTemplates && (
+        {/* Templates button (legacy modal for non-tab agents) */}
+        {hasTemplates && !hasTemplateTab && (
           <LockedButton
             feature="templates"
             onClick={() => setTemplateModalOpen(true)}
