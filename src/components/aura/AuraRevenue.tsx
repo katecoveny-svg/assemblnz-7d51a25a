@@ -98,7 +98,7 @@ const AuraRevenue = ({ onGenerate }: Props) => {
                     <div className="text-[10px] text-muted-foreground">{p.inclusions}</div>
                     <div className="text-[10px] mt-0.5" style={{ color }}>Target margin: {p.margin}</div>
                   </div>
-                  <button className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Build</button>
+                  <button onClick={() => gen(`Build a "${p.name}" package for a luxury NZ lodge. Inclusions: ${p.inclusions}. Target margin: ${p.margin}. Generate: total price calculation, itemised inclusions, upsell opportunities, and marketing copy for website and travel agents.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Build</button>
                 </div>
               ))}
             </div>
