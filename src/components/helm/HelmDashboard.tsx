@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { NeonCalendar, NeonFork, NeonBell } from "@/components/NeonIcons";
 
 interface DashboardItem {
   type: "event" | "meal" | "reminder";
@@ -10,6 +11,8 @@ interface Props {
   items: DashboardItem[];
   onAddReminder: (text: string) => void;
 }
+
+const HELM = "#B388FF";
 
 const HelmDashboard = ({ items, onAddReminder }: Props) => {
   const [quickAdd, setQuickAdd] = useState("");
@@ -25,7 +28,7 @@ const HelmDashboard = ({ items, onAddReminder }: Props) => {
     empty,
   }: {
     title: string;
-    icon: string;
+    icon: React.ReactNode;
     children: React.ReactNode;
     empty: string;
   }) => (
@@ -33,8 +36,8 @@ const HelmDashboard = ({ items, onAddReminder }: Props) => {
       className="rounded-xl p-4"
       style={{ background: "#0F0F1C", border: "1px solid #B388FF15" }}
     >
-      <h3 className="text-xs font-bold mb-2 flex items-center gap-1.5" style={{ color: "#B388FF" }}>
-        <span>{icon}</span> {title}
+      <h3 className="text-xs font-bold mb-2 flex items-center gap-1.5" style={{ color: HELM }}>
+        {icon} {title}
       </h3>
       {items.length === 0 ? (
         <p className="text-[11px] text-foreground/30 italic">{empty}</p>
@@ -46,7 +49,7 @@ const HelmDashboard = ({ items, onAddReminder }: Props) => {
 
   return (
     <div className="space-y-3 p-4 max-w-2xl mx-auto">
-      <Section title="Upcoming (7 days)" icon="📆" empty="No upcoming events yet. Chat with HELM to extract dates from documents.">
+      <Section title="Upcoming (7 days)" icon={<NeonCalendar size={14} color={HELM} />} empty="No upcoming events yet. Chat with HELM to extract dates from documents.">
         {events.map((e, i) => (
           <div key={i} className="flex justify-between text-xs py-1 border-b border-[#B388FF08] last:border-0">
             <span className="text-foreground/70">{e.text}</span>
@@ -55,13 +58,13 @@ const HelmDashboard = ({ items, onAddReminder }: Props) => {
         ))}
       </Section>
 
-      <Section title="This Week's Meals" icon="🍽️" empty="No meal plan yet. Ask HELM to create one.">
+      <Section title="This Week's Meals" icon={<NeonFork size={14} />} empty="No meal plan yet. Ask HELM to create one.">
         {meals.map((m, i) => (
           <p key={i} className="text-xs text-foreground/70 py-0.5">{m.text}</p>
         ))}
       </Section>
 
-      <Section title="Reminders" icon="🔔" empty="No reminders yet. HELM will track birthdays, vet visits, WoF dates, and more.">
+      <Section title="Reminders" icon={<NeonBell size={14} color={HELM} />} empty="No reminders yet. HELM will track birthdays, vet visits, WoF dates, and more.">
         {reminders.map((r, i) => (
           <p key={i} className="text-xs text-foreground/70 py-0.5">{r.text}</p>
         ))}

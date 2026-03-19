@@ -1,4 +1,5 @@
 import { Progress } from "@/components/ui/progress";
+import { NeonDiamond, NeonTimer } from "@/components/NeonIcons";
 
 interface ModelGenerationCardProps {
   status: "PENDING" | "IN_PROGRESS" | "SUCCEEDED" | "FAILED";
@@ -29,7 +30,7 @@ const ModelGenerationCard = ({ status, progress, prompt, color = "#FFB800" }: Mo
     >
       <div className="flex items-center gap-2">
         <span className="text-sm" style={{ color }}>
-          ◇
+          <NeonDiamond size={14} color={color} />
         </span>
         <span className="text-sm font-medium text-foreground">{statusText}</span>
       </div>
@@ -47,7 +48,7 @@ const ModelGenerationCard = ({ status, progress, prompt, color = "#FFB800" }: Mo
           />
           <div className="flex justify-between text-[10px] text-muted-foreground">
             <span>{progress}%</span>
-            {status !== "SUCCEEDED" && <span>⏱ ~{estimatedSeconds}s remaining</span>}
+            {status !== "SUCCEEDED" && <span className="flex items-center gap-1"><NeonTimer size={10} color="hsl(var(--muted-foreground))" /> ~{estimatedSeconds}s remaining</span>}
           </div>
         </div>
       )}

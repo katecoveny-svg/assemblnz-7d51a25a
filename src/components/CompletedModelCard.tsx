@@ -1,5 +1,6 @@
 import { lazy, Suspense, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { NeonDiamond, NeonRefresh, NeonFilm } from "@/components/NeonIcons";
 
 const ThreeDViewer = lazy(() => import("@/components/ThreeDViewer"));
 
@@ -40,8 +41,8 @@ const CompletedModelCard = ({
       </Suspense>
 
       {prompt && (
-        <p className="text-xs text-foreground/60">
-          <span style={{ color }}>◇</span> {prompt}
+        <p className="text-xs text-foreground/60 flex items-center gap-1">
+          <NeonDiamond size={12} color={color} /> {prompt}
         </p>
       )}
 
@@ -51,7 +52,7 @@ const CompletedModelCard = ({
           className="px-3 py-1.5 rounded-full text-xs font-medium transition-all hover:opacity-80"
           style={{ border: `1px solid ${color}`, color }}
         >
-          🔄 Refine
+          <NeonRefresh size={14} color={color} /> Refine
         </button>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -60,7 +61,7 @@ const CompletedModelCard = ({
               className="px-3 py-1.5 rounded-full text-xs font-medium opacity-40 cursor-not-allowed"
               style={{ border: `1px solid ${color}40`, color: `${color}60` }}
             >
-              🎬 Generate Video
+              <NeonFilm size={14} color={`${color}60`} /> Generate Video
             </button>
           </TooltipTrigger>
           <TooltipContent>Coming soon</TooltipContent>

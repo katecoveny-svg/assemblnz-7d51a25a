@@ -1,19 +1,23 @@
+import { NeonClipboard, NeonFork, NeonCoin, NeonGift, NeonShirt, NeonPaw, NeonCalendar, NeonHome, NeonCar } from "@/components/NeonIcons";
+
 interface QuickAction {
-  icon: string;
+  icon: React.ReactNode;
   title: string;
   subtitle: string;
 }
 
+const HELM = "#B388FF";
+
 const actions: QuickAction[] = [
-  { icon: "📋", title: "Parse a notice", subtitle: "Upload a school newsletter or notice" },
-  { icon: "🍽️", title: "Meal plan", subtitle: "Create a weekly meal plan" },
-  { icon: "💰", title: "Budget", subtitle: "Set up a household budget" },
-  { icon: "🎁", title: "Gifts & birthdays", subtitle: "Track birthdays and gift ideas" },
-  { icon: "👕", title: "Laundry schedule", subtitle: "Organise household laundry" },
-  { icon: "🐾", title: "Pet care", subtitle: "Manage pet schedules and vet visits" },
-  { icon: "📅", title: "Weekly schedule", subtitle: "Build a family weekly schedule" },
-  { icon: "🏠", title: "Home maintenance", subtitle: "Seasonal home care checklist" },
-  { icon: "🚗", title: "Vehicle admin", subtitle: "WoF, rego, and servicing tracker" },
+  { icon: <NeonClipboard size={22} color={HELM} />, title: "Parse a notice", subtitle: "Upload a school newsletter or notice" },
+  { icon: <NeonFork size={22} />, title: "Meal plan", subtitle: "Create a weekly meal plan" },
+  { icon: <NeonCoin size={22} color={HELM} />, title: "Budget", subtitle: "Set up a household budget" },
+  { icon: <NeonGift size={22} />, title: "Gifts & birthdays", subtitle: "Track birthdays and gift ideas" },
+  { icon: <NeonShirt size={22} />, title: "Laundry schedule", subtitle: "Organise household laundry" },
+  { icon: <NeonPaw size={22} />, title: "Pet care", subtitle: "Manage pet schedules and vet visits" },
+  { icon: <NeonCalendar size={22} />, title: "Weekly schedule", subtitle: "Build a family weekly schedule" },
+  { icon: <NeonHome size={22} />, title: "Home maintenance", subtitle: "Seasonal home care checklist" },
+  { icon: <NeonCar size={22} />, title: "Vehicle admin", subtitle: "WoF, rego, and servicing tracker" },
 ];
 
 interface Props {
@@ -38,7 +42,7 @@ const HelmQuickActions = ({ onSelect }: Props) => (
           (e.currentTarget as HTMLElement).style.borderColor = "#B388FF12";
         }}
       >
-        <span className="text-2xl leading-none">{a.icon}</span>
+        <span className="leading-none">{a.icon}</span>
         <p className="text-[13px] font-semibold text-foreground mt-1.5">{a.title}</p>
         <p className="text-[10.5px]" style={{ color: "#ffffff30" }}>{a.subtitle}</p>
       </button>
