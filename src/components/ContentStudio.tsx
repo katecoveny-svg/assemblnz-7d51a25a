@@ -172,7 +172,7 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
                   color: selectedPlatform === p.id ? prismColor : "hsl(var(--foreground) / 0.7)",
                 }}
               >
-                {p.emoji} {p.label}
+                <span className="inline-flex align-middle mr-1">{p.icon}</span> {p.label}
               </button>
             ))}
           </div>
