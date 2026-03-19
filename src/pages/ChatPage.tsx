@@ -48,6 +48,8 @@ import ArohaContracts from "@/components/aroha/ArohaContracts";
 import ArohaOnboarding from "@/components/aroha/ArohaOnboarding";
 import ArohaPayroll from "@/components/aroha/ArohaPayroll";
 import ArohaRecruitment from "@/components/aroha/ArohaRecruitment";
+import ArohaPeopleCulture from "@/components/aroha/ArohaPeopleCulture";
+import ArohaCompanySetup from "@/components/aroha/ArohaCompanySetup";
 import InternalComms from "@/components/InternalComms";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
@@ -248,7 +250,7 @@ const ChatPage = () => {
   const [pendingImage, setPendingImage] = useState<File | null>(null);
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company">("chat");
   const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
   const [pendingFile, setPendingFile] = useState<File | null>(null);
@@ -848,6 +850,23 @@ const ChatPage = () => {
                 ))}
               </>
             )}
+            {isAroha && (
+              <>
+                {([
+                  { id: "aroha_contracts" as const, label: "📋 Contracts" },
+                  { id: "aroha_onboarding" as const, label: "🎓 Onboarding" },
+                  { id: "aroha_payroll" as const, label: "💰 Payroll" },
+                  { id: "aroha_recruitment" as const, label: "🎯 Recruitment" },
+                  { id: "aroha_people" as const, label: "❤️ People" },
+                  { id: "aroha_company" as const, label: "🏢 Setup" },
+                ]).map(t => (
+                  <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
+                    style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
+                    {t.label}
+                  </button>
+                ))}
+              </>
+            )}
             <button onClick={() => setActiveTab("internal_comms")} className="px-2 py-1 text-[10px] font-medium transition-colors flex items-center gap-1"
               style={{ backgroundColor: activeTab === "internal_comms" ? agent.color + "20" : "transparent", color: activeTab === "internal_comms" ? agent.color : "hsl(var(--muted-foreground))" }}>
               <MessageSquare size={9} /> Comms
@@ -917,6 +936,10 @@ const ChatPage = () => {
         <ArohaPayroll />
       ) : activeTab === "aroha_recruitment" && isAroha ? (
         <ArohaRecruitment />
+      ) : activeTab === "aroha_people" && isAroha ? (
+        <ArohaPeopleCulture />
+      ) : activeTab === "aroha_company" && isAroha ? (
+        <ArohaCompanySetup />
       ) : activeTab === "forge_showroom" && isForge ? (
         <ForgeShowroom />
       ) : activeTab === "forge_sales" && isForge ? (
