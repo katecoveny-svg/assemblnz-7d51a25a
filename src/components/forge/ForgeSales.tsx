@@ -184,7 +184,7 @@ export default function ForgeSales() {
           ))}
         </div>
         <div className="p-3 rounded-xl border border-border bg-card">
-          <h3 className="text-xs font-bold text-foreground mb-2">🔥 Hottest Leads</h3>
+          <h3 className="text-xs font-bold text-foreground mb-2">Hottest Leads</h3>
           {leads.filter(l => ["Negotiating", "Finance Submitted"].includes(l.stage)).map(l => (
             <div key={l.id} className="flex items-center justify-between py-1.5 border-b border-border last:border-0">
               <div><p className="text-xs font-medium text-foreground">{l.name}</p><p className="text-[9px] text-muted-foreground">{l.vehicle}</p></div>
