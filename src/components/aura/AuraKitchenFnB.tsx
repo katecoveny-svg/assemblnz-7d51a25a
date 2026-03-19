@@ -54,7 +54,7 @@ const AuraKitchenFnB = ({ onGenerate }: Props) => {
             <h3 className="font-semibold text-sm text-foreground mb-3 flex items-center gap-2"><NeonDocument size={16} color={color} /> Menu Design Templates</h3>
             <div className="grid grid-cols-2 gap-2">
               {MENU_TYPES.map(m => (
-                <button key={m} className="text-left p-2.5 rounded-lg border border-border hover:border-foreground/10 transition-all text-[11px] text-foreground/80">{m}</button>
+                <button key={m} onClick={() => gen(`Design a luxury lodge ${m} menu. Use seasonal NZ produce, include wine pairing suggestions for each course, allergen indicators, and elegant descriptions. Format for print.`)} className="text-left p-2.5 rounded-lg border border-border hover:border-foreground/10 transition-all text-[11px] text-foreground/80">{m}</button>
               ))}
             </div>
             <button className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Menu Template</button>
