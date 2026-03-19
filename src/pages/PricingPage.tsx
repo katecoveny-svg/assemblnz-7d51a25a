@@ -297,7 +297,7 @@ const PricingPage = () => {
       {/* HELM Family Plans */}
       <section className="py-24 border-t border-border">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl sm:text-2xl font-extrabold text-center text-foreground mb-2">
+          <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-center text-foreground mb-2">
             HELM — For <span style={{ color: "#B388FF" }}>NZ Families</span>
           </h2>
           <p className="text-[13px] text-center mb-12" style={{ color: "#ffffff50" }}>
