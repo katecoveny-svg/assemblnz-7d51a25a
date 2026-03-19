@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { agents } from "@/data/agents";
 import { supabase } from "@/integrations/supabase/client";
-import RobotIcon from "@/components/RobotIcon";
+import AgentAvatar from "@/components/AgentAvatar";
 import ReactMarkdown from "react-markdown";
 import { Send } from "lucide-react";
 
