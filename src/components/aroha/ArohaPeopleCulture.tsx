@@ -22,7 +22,7 @@ const WELLNESS_CATEGORIES = [
   },
   {
     title: "Mental Wellness",
-    emoji: "🧠",
+    icon: "brain" as const,
     items: [
       { name: "Mental Health Policy", desc: "Comprehensive policy covering support, leave, return to work, and manager responsibilities." },
       { name: "EAP Setup Guide", desc: "Employee Assistance Programme setup. Providers: Vitae, EAP Services, Benestar. Typically $40-$60 per employee/year." },
