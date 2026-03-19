@@ -227,7 +227,7 @@ const PricingPage = () => {
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-syne font-extrabold text-foreground mb-4 leading-tight">
             Simple, honest <span className="text-gradient-hero">pricing</span>
           </h1>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto mb-4">
+          <p className="text-sm sm:text-base font-jakarta text-muted-foreground max-w-xl mx-auto mb-4">
             Start free. Upgrade when you're ready. No lock-in contracts.
           </p>
           <p className="text-xs" style={{ color: "#ffffff50" }}>All prices in NZD. GST inclusive.</p>
