@@ -15,7 +15,7 @@ import retailImg from "@/assets/agents/retail.png";
 import automotiveImg from "@/assets/agents/automotive.png";
 import architectureImg from "@/assets/agents/architecture.png";
 import salesImg from "@/assets/agents/sales.png";
-import customsImg from "@/assets/agents/customs.png";
+import customsImg from "@/assets/agents/nexus-logo.png";
 import pmImg from "@/assets/agents/pm.png";
 import healthImg from "@/assets/agents/health.png";
 import accountingImg from "@/assets/agents/accounting.png";
