@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { agents } from "@/data/agents";
 import RobotIcon from "@/components/RobotIcon";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles } from "lucide-react";
+import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import ModelGenerationCard from "@/components/ModelGenerationCard";
 import HelmQuickActions from "@/components/helm/HelmQuickActions";
@@ -32,6 +32,11 @@ import LegislationCard from "@/components/chat/LegislationCard";
 import LanguageSelector from "@/components/chat/LanguageSelector";
 import { useLanguage } from "@/components/chat/TeReoProvider";
 import ContentStudio from "@/components/ContentStudio";
+import ApexTenderWriter from "@/components/apex/ApexTenderWriter";
+import ApexAwardsTracker from "@/components/apex/ApexAwardsTracker";
+import ApexHSHub from "@/components/apex/ApexHSHub";
+import ApexESGDashboard from "@/components/apex/ApexESGDashboard";
+import InternalComms from "@/components/InternalComms";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
 
@@ -231,7 +236,7 @@ const ChatPage = () => {
   const [pendingImage, setPendingImage] = useState<File | null>(null);
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "internal_comms">("chat");
   const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
   const [pendingFile, setPendingFile] = useState<File | null>(null);
@@ -272,6 +277,7 @@ const ChatPage = () => {
   const isHelm = agentId === "operations";
   const isNexus = agentId === "customs";
   const isMarketing = agentId === "marketing";
+  const isConstruction = agentId === "construction";
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
 
@@ -758,9 +764,9 @@ const ChatPage = () => {
           </LockedButton>
         )}
 
-        {/* Tab Toggle: Chat / Templates (for template-tab agents) + Dashboard (for HELM) */}
-        {(hasTemplateTab || isHelm || isMarketing) && (
-          <div className="flex rounded-lg overflow-hidden border border-border shrink-0">
+        {/* Tab Toggle */}
+        {(hasTemplateTab || isHelm || isMarketing || isConstruction || true) && (
+          <div className="flex rounded-lg overflow-hidden border border-border shrink-0 max-w-fit">
             <button
               onClick={() => { setActiveTab("chat"); if (isHelm) setHelmView("chat"); }}
               className="px-2.5 py-1 text-[10px] font-medium transition-colors"
@@ -789,6 +795,30 @@ const ChatPage = () => {
                 }}
               ><Sparkles size={10} /> Content Studio</button>
             )}
+            {isConstruction && (
+              <>
+                <button onClick={() => setActiveTab("tender_writer")} className="px-2 py-1 text-[10px] font-medium transition-colors flex items-center gap-1"
+                  style={{ backgroundColor: activeTab === "tender_writer" ? agent.color + "20" : "transparent", color: activeTab === "tender_writer" ? agent.color : "hsl(var(--muted-foreground))" }}>
+                  <FileText size={9} /> Tenders
+                </button>
+                <button onClick={() => setActiveTab("awards")} className="px-2 py-1 text-[10px] font-medium transition-colors flex items-center gap-1"
+                  style={{ backgroundColor: activeTab === "awards" ? agent.color + "20" : "transparent", color: activeTab === "awards" ? agent.color : "hsl(var(--muted-foreground))" }}>
+                  <Trophy size={9} /> Awards
+                </button>
+                <button onClick={() => setActiveTab("hs_hub")} className="px-2 py-1 text-[10px] font-medium transition-colors flex items-center gap-1"
+                  style={{ backgroundColor: activeTab === "hs_hub" ? agent.color + "20" : "transparent", color: activeTab === "hs_hub" ? agent.color : "hsl(var(--muted-foreground))" }}>
+                  <Shield size={9} /> H&S
+                </button>
+                <button onClick={() => setActiveTab("esg")} className="px-2 py-1 text-[10px] font-medium transition-colors flex items-center gap-1"
+                  style={{ backgroundColor: activeTab === "esg" ? agent.color + "20" : "transparent", color: activeTab === "esg" ? agent.color : "hsl(var(--muted-foreground))" }}>
+                  <Leaf size={9} /> ESG
+                </button>
+              </>
+            )}
+            <button onClick={() => setActiveTab("internal_comms")} className="px-2 py-1 text-[10px] font-medium transition-colors flex items-center gap-1"
+              style={{ backgroundColor: activeTab === "internal_comms" ? agent.color + "20" : "transparent", color: activeTab === "internal_comms" ? agent.color : "hsl(var(--muted-foreground))" }}>
+              <MessageSquare size={9} /> Comms
+            </button>
             {isHelm && (
               <button
                 onClick={() => { setActiveTab("chat"); setHelmView("dashboard"); }}
@@ -845,9 +875,19 @@ const ChatPage = () => {
         />
       )}
 
-      {/* Template Tab View */}
+      {/* Tab Views */}
       {activeTab === "content_studio" && isMarketing ? (
         <ContentStudio isPaid={isPaid} userRole={role || undefined} />
+      ) : activeTab === "tender_writer" && isConstruction ? (
+        <ApexTenderWriter isPaid={isPaid} userRole={role || undefined} onSendMessage={sendMessage} />
+      ) : activeTab === "awards" && isConstruction ? (
+        <ApexAwardsTracker isPaid={isPaid} userRole={role || undefined} />
+      ) : activeTab === "hs_hub" && isConstruction ? (
+        <ApexHSHub isPaid={isPaid} userRole={role || undefined} />
+      ) : activeTab === "esg" && isConstruction ? (
+        <ApexESGDashboard isPaid={isPaid} userRole={role || undefined} />
+      ) : activeTab === "internal_comms" ? (
+        <InternalComms agentId={agent.id} agentName={agent.name} agentColor={agent.color} isPaid={isPaid} userRole={role || undefined} />
       ) : activeTab === "templates" && hasTemplateTab ? (
         <TemplateTab
           agentId={agent.id}
