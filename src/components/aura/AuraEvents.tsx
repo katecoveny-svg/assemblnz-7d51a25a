@@ -26,7 +26,10 @@ const SEASONAL_CALENDAR = [
   { season: "Christmas/NYE", events: "Festive programme, exclusive-use packages, special menus" },
 ];
 
-const AuraEvents = () => {
+interface Props { onGenerate?: (prompt: string) => void; }
+
+const AuraEvents = ({ onGenerate }: Props) => {
+  const gen = (prompt: string) => onGenerate?.(prompt);
   const [section, setSection] = useState<"experiences" | "calendar" | "weddings">("experiences");
 
   return (
