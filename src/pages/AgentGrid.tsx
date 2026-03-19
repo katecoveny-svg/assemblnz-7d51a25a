@@ -349,7 +349,7 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════════════════════ MARINER SPOTLIGHT ═══════════════════════ */}
-      <section className="py-20 sm:py-28 border-t border-border">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div className="flex justify-center order-2 lg:order-1">
