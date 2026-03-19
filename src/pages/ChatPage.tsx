@@ -726,6 +726,9 @@ const ChatPage = () => {
           </LockedButton>
         )}
 
+        {/* Language Selector */}
+        <LanguageSelector agentColor={agent.color} />
+
         {/* Conversation Export */}
         <ConversationExport messages={messages} agentName={agent.name} agentDesignation={agent.designation} agentColor={agent.color} />
 
