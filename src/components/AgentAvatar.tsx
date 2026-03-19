@@ -4,7 +4,7 @@ import RobotIcon from "@/components/RobotIcon";
 import auraImg from "@/assets/agents/aura.png";
 import apexImg from "@/assets/agents/apex.png";
 import prismImg from "@/assets/agents/prism.png";
-import helmImg from "@/assets/agents/helm.png";
+import helmImg from "@/assets/agents/helm-robot.png";
 import marinerImg from "@/assets/agents/mariner.png";
 import anchorImg from "@/assets/agents/anchor.png";
 import signalImg from "@/assets/agents/signal.png";
