@@ -167,7 +167,7 @@ const AgentGrid = () => {
             Your AI <span className="text-gradient-hero">workforce</span>
           </h1>
           <p className="text-base sm:text-lg max-w-2xl mx-auto mb-8 text-muted-foreground">
-            29 expert agents trained on NZ legislation. Try any agent free.
+            37 expert agents trained on NZ legislation. Try any agent free.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-12">
