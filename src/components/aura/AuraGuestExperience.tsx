@@ -28,7 +28,10 @@ const CONCIERGE_TOPICS = [
   { title: "Emergency Info", content: "Nearest medical facilities, emergency contacts, pharmacy locations" },
 ];
 
-const AuraGuestExperience = () => {
+interface Props { onGenerate?: (prompt: string) => void; }
+
+const AuraGuestExperience = ({ onGenerate }: Props) => {
+  const gen = (prompt: string) => onGenerate?.(prompt);
   const [section, setSection] = useState<"itinerary" | "surprise" | "concierge" | "feedback">("itinerary");
   const [selectedActivities, setSelectedActivities] = useState<string[]>([]);
   const [stayLength, setStayLength] = useState("3");
