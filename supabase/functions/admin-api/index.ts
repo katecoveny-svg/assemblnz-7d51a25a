@@ -249,21 +249,6 @@ Deno.serve(async (req) => {
       }
 
       default:
-          .from("user_roles")
-          .select("id")
-          .eq("user_id", user.id)
-          .eq("role", "admin")
-          .single();
-        
-        if (!existingAdmin) {
-          await supabase.from("user_roles").insert({ user_id: user.id, role: "admin" });
-        }
-        return new Response(JSON.stringify({ success: true, role: "admin" }), {
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
-
-      default:
         return new Response(JSON.stringify({ error: "Unknown action" }), {
           status: 400,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
