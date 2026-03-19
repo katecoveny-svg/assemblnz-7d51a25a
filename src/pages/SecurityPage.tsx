@@ -1,6 +1,7 @@
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import { Shield, Server, Lock, Globe, FileText, AlertTriangle, Eye, Key, Database, RefreshCw } from "lucide-react";
+import ParticleField from "@/components/ParticleField";
 
 const sections = [
   {
