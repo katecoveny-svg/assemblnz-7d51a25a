@@ -566,6 +566,42 @@ Deno.serve(async (req) => {
     const data = await response.json();
     const content = data.content?.[0]?.text || "I couldn't generate a response.";
 
+    // Log message for activity feed (best effort, don't block response)
+    try {
+      const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+      const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+      const sb = createClient(supabaseUrl, serviceKey);
+      
+      // Get user from auth header if present
+      const authHeader = req.headers.get("Authorization");
+      let userId: string | null = null;
+      let userName = "Anonymous";
+      if (authHeader) {
+        const userClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!, {
+          global: { headers: { Authorization: authHeader } },
+        });
+        const { data: { user } } = await userClient.auth.getUser();
+        if (user) {
+          userId = user.id;
+          userName = user.user_metadata?.full_name || user.email?.split("@")[0] || "User";
+        }
+      }
+      
+      const lastUserMsg = messages[messages.length - 1];
+      const preview = typeof lastUserMsg?.content === "string"
+        ? lastUserMsg.content.substring(0, 50)
+        : "(attachment)";
+      
+      await sb.from("message_log").insert({
+        user_id: userId,
+        agent_id: agentId,
+        message_preview: preview,
+        user_name: userName,
+      });
+    } catch (logErr) {
+      console.error("Message log error (non-critical):", logErr);
+    }
+
     return new Response(
       JSON.stringify({ content }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
