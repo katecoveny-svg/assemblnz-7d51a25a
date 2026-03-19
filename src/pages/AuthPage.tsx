@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import AssemblLogo from "@/components/AssemblLogo";
 import { Loader2 } from "lucide-react";
@@ -11,7 +11,7 @@ const AuthPage = ({ mode }: { mode: "login" | "signup" }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { signIn, signUp } = useAuth();
-  const navigate = (await import("react-router-dom")).useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
