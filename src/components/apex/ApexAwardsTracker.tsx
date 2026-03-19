@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Trophy, Bell, BellOff, ChevronRight, Copy, Check, ArrowLeft, Plus, Image, Lock, Calendar, ExternalLink } from "lucide-react";
+import { NeonTrophy } from "@/components/NeonIcons";
 import ReactMarkdown from "react-markdown";
 
 const APEX_COLOR = "#FF6B35";
@@ -254,7 +255,7 @@ Generate: project overview, innovation highlights, sustainability measures, chal
               <div className="font-bold text-sm text-foreground">{p.name}</div>
               <div className="text-[10px] text-muted-foreground mt-1">{p.location} · {p.client}</div>
               <div className="text-[10px] text-muted-foreground">{p.value} · {p.completion}</div>
-              {p.awards && <div className="text-[9px] mt-1 px-1.5 py-0.5 rounded-full inline-block" style={{ background: `${APEX_COLOR}15`, color: APEX_COLOR }}>🏆 {p.awards}</div>}
+              {p.awards && <div className="text-[9px] mt-1 px-1.5 py-0.5 rounded-full inline-flex items-center gap-0.5" style={{ background: `${APEX_COLOR}15`, color: APEX_COLOR }}><NeonTrophy size={10} color={APEX_COLOR} /> {p.awards}</div>}
               <p className="text-xs text-foreground/70 mt-2 line-clamp-2">{p.description}</p>
             </div>
           ))}

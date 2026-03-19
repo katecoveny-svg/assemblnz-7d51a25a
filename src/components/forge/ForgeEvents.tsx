@@ -9,16 +9,16 @@ const STANDARD_EVENTS = [
 ];
 
 const WOW_EVENTS = [
-  { name: "Test Drive & Dine", desc: "Partner with a local NZ restaurant — customers test drive to the venue for dinner with vehicle on display.", icon: "🍽️" },
-  { name: "Adventure Test Drive", desc: "Scenic NZ route (West Auckland ranges, Port Hills, Crown Range) to showcase vehicle capability.", icon: "🏔️" },
-  { name: "Drive-In Movie Night", desc: "Screen at the dealership, customers watch from display vehicles. Popcorn, feature demos at intermission.", icon: "🎬" },
-  { name: "Coffee & Cars Morning", desc: "Weekend morning with specialty NZ coffee (Allpress/Kokako), display vehicles open, live music.", icon: "☕" },
-  { name: "EV Experience Day", desc: "Charging demo, range myth-busting, cost comparison, local EV owner testimonials, home charging info.", icon: "⚡" },
-  { name: "Family Fun Day & Launch", desc: "Bouncy castle, face painting, sausage sizzle, new model reveal with smoke/lights.", icon: "🎪" },
-  { name: "Track Day Experience", desc: "Hampton Downs or Taupo track, performance models at speed, pro ride-alongs, GoPro content.", icon: "🏎️" },
-  { name: "Glamping & 4WD Experience", desc: "Partner with NZ glamping site, off-road course, camping in vehicles, stargazing.", icon: "🏕️" },
-  { name: "Art & Automotive", desc: "Local NZ artists, vehicles as art, wine, live painting, charity auction.", icon: "🎨" },
-  { name: "Heritage Collection Day", desc: "Classic/older models same brand, timeline display, new vs old photos, storytelling.", icon: "🏛️" },
+  { name: "Test Drive & Dine", desc: "Partner with a local NZ restaurant — customers test drive to the venue for dinner with vehicle on display." },
+  { name: "Adventure Test Drive", desc: "Scenic NZ route (West Auckland ranges, Port Hills, Crown Range) to showcase vehicle capability." },
+  { name: "Drive-In Movie Night", desc: "Screen at the dealership, customers watch from display vehicles. Popcorn, feature demos at intermission." },
+  { name: "Coffee & Cars Morning", desc: "Weekend morning with specialty NZ coffee (Allpress/Kokako), display vehicles open, live music." },
+  { name: "EV Experience Day", desc: "Charging demo, range myth-busting, cost comparison, local EV owner testimonials, home charging info." },
+  { name: "Family Fun Day & Launch", desc: "Bouncy castle, face painting, sausage sizzle, new model reveal with smoke/lights." },
+  { name: "Track Day Experience", desc: "Hampton Downs or Taupo track, performance models at speed, pro ride-alongs, GoPro content." },
+  { name: "Glamping & 4WD Experience", desc: "Partner with NZ glamping site, off-road course, camping in vehicles, stargazing." },
+  { name: "Art & Automotive", desc: "Local NZ artists, vehicles as art, wine, live painting, charity auction." },
+  { name: "Heritage Collection Day", desc: "Classic/older models same brand, timeline display, new vs old photos, storytelling." },
 ];
 
 const generateEventPlan = (eventName: string) => {
@@ -177,7 +177,7 @@ export default function ForgeEvents() {
               {WOW_EVENTS.map(e => (
                 <button key={e.name} onClick={() => setEventPlan(generateEventPlan(e.name))}
                   className="text-left p-3 rounded-xl border bg-card hover:border-foreground/10 transition-colors" style={{ borderColor: FORGE_COLOR + "20" }}>
-                  <p className="text-xs font-medium text-foreground">{e.icon} {e.name}</p>
+                  <p className="text-xs font-medium text-foreground">{e.name}</p>
                   <p className="text-[9px] text-muted-foreground mt-0.5">{e.desc}</p>
                 </button>
               ))}

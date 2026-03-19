@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { NeonBrain, NeonShield, NeonGlobe, NeonCheckmark, NeonClipboard, NeonSiren, NeonNZFlag } from "@/components/NeonIcons";
 
 const AITransparencyBadge = () => {
   const [open, setOpen] = useState(false);
@@ -8,7 +9,7 @@ const AITransparencyBadge = () => {
     <>
       <div className="flex items-center gap-1 mt-2 pt-2" style={{ borderTop: "1px solid hsl(0 0% 100% / 0.04)" }}>
         <span className="text-[10px]" style={{ color: "#ffffff20" }}>
-          🤖 AI-generated response — verify with a qualified professional ·{" "}
+          <span className="inline-flex align-middle mr-0.5"><NeonBrain size={10} color="#ffffff20" /></span> AI-generated response — verify with a qualified professional ·{" "}
           <button
             onClick={() => setOpen(true)}
             className="underline hover:text-foreground/30 transition-colors"
@@ -28,13 +29,13 @@ const AITransparencyBadge = () => {
           <div className="space-y-5 text-xs text-foreground/70">
             {/* AI Model */}
             <div>
-              <h4 className="font-semibold text-foreground mb-1.5 flex items-center gap-1.5">🧠 AI Model</h4>
+              <h4 className="font-semibold text-foreground mb-1.5 flex items-center gap-1.5"><NeonBrain size={14} /> AI Model</h4>
               <p>Assembl agents are powered by <strong className="text-foreground">Claude</strong>, built by <strong className="text-foreground">Anthropic</strong> — one of the world's leading AI safety companies. We use Claude Sonnet 4 for fast, accurate, industry-specific responses grounded in New Zealand legislation and standards.</p>
             </div>
 
             {/* Data Handling */}
             <div>
-              <h4 className="font-semibold text-foreground mb-1.5 flex items-center gap-1.5">🔒 How Your Data Is Handled</h4>
+              <h4 className="font-semibold text-foreground mb-1.5 flex items-center gap-1.5"><NeonShield size={14} color="hsl(153,100%,50%)" /> How Your Data Is Handled</h4>
               <ul className="space-y-1.5 list-none">
                 <li>• Conversations are processed in real-time via Anthropic's API</li>
                 <li>• Your data is <strong className="text-foreground">not used to train AI models</strong></li>
@@ -47,7 +48,7 @@ const AITransparencyBadge = () => {
 
             {/* Data Sovereignty */}
             <div>
-              <h4 className="font-semibold text-foreground mb-1.5 flex items-center gap-1.5">🌏 Data Sovereignty</h4>
+              <h4 className="font-semibold text-foreground mb-1.5 flex items-center gap-1.5"><NeonGlobe size={14} /> Data Sovereignty</h4>
               <p>Your conversations are processed via Anthropic's infrastructure, which operates on servers located in the United States. We acknowledge this means data crosses NZ borders during processing. Mitigations include:</p>
               <ul className="space-y-1 list-none mt-1.5">
                 <li>• Data is encrypted in transit (TLS 1.3) and at rest</li>
@@ -59,7 +60,7 @@ const AITransparencyBadge = () => {
 
             {/* Accuracy */}
             <div>
-              <h4 className="font-semibold text-foreground mb-1.5 flex items-center gap-1.5">✅ Accuracy & Quality</h4>
+              <h4 className="font-semibold text-foreground mb-1.5 flex items-center gap-1.5"><NeonCheckmark size={14} /> Accuracy & Quality</h4>
               <p>Every agent is configured with NZ-specific legislation, standards, and industry knowledge through carefully maintained system prompts. Our accuracy measures include:</p>
               <ul className="space-y-1 list-none mt-1.5">
                 <li>• Direct references to NZ legislation (legislation.govt.nz)</li>
@@ -72,7 +73,7 @@ const AITransparencyBadge = () => {
 
             {/* Security Architecture */}
             <div>
-              <h4 className="font-semibold text-foreground mb-1.5 flex items-center gap-1.5">🛡️ Security Architecture</h4>
+              <h4 className="font-semibold text-foreground mb-1.5 flex items-center gap-1.5"><NeonShield size={14} /> Security Architecture</h4>
               <ul className="space-y-1 list-none">
                 <li>• All API keys are stored as encrypted environment variables — never exposed to client-side code</li>
                 <li>• Agent system prompts are executed server-side only (protected intellectual property)</li>
@@ -84,13 +85,13 @@ const AITransparencyBadge = () => {
 
             {/* Privacy Compliance */}
             <div>
-              <h4 className="font-semibold text-foreground mb-1.5 flex items-center gap-1.5">📋 NZ Privacy Compliance</h4>
+              <h4 className="font-semibold text-foreground mb-1.5 flex items-center gap-1.5"><NeonClipboard size={14} /> NZ Privacy Compliance</h4>
               <p>Assembl is committed to compliance with the <strong className="text-foreground">New Zealand Privacy Act 2020</strong>. Our practices align with the 13 Information Privacy Principles (IPPs). For full details, see our <a href="/privacy" className="text-primary underline hover:text-primary/80">Privacy Policy</a>.</p>
             </div>
 
             {/* Incident Response */}
             <div>
-              <h4 className="font-semibold text-foreground mb-1.5 flex items-center gap-1.5">🚨 Incident Response</h4>
+              <h4 className="font-semibold text-foreground mb-1.5 flex items-center gap-1.5"><NeonSiren size={14} /> Incident Response</h4>
               <p>In the event of a data breach or security incident:</p>
               <ul className="space-y-1 list-none mt-1.5">
                 <li>• Affected users will be notified within 72 hours</li>
@@ -101,8 +102,8 @@ const AITransparencyBadge = () => {
             </div>
 
             <div className="pt-3" style={{ borderTop: "1px solid hsl(0 0% 100% / 0.06)" }}>
-              <p className="text-[10px]" style={{ color: "#ffffff15" }}>
-                © 2026 Assembl. All rights reserved. Agent designs, system prompts, and automation workflows are proprietary trade secrets of Assembl. · Auckland, New Zealand · Built in Aotearoa 🇳🇿
+              <p className="text-[10px] flex items-center gap-1" style={{ color: "#ffffff15" }}>
+                © 2026 Assembl. All rights reserved. Agent designs, system prompts, and automation workflows are proprietary trade secrets of Assembl. · Auckland, New Zealand · Built in Aotearoa <NeonNZFlag size={10} />
               </p>
               <div className="flex gap-3 mt-2">
                 <a href="/privacy" className="text-[10px] text-primary/60 hover:text-primary underline">Privacy Policy</a>

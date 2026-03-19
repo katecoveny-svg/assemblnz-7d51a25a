@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Shield, Heart, Award, AlertTriangle, ChevronRight, ArrowLeft, Copy, Check, Lock, ExternalLink } from "lucide-react";
+import { NeonSafetyVest, NeonSiren, NeonWarning } from "@/components/NeonIcons";
 import ReactMarkdown from "react-markdown";
 
 const APEX_COLOR = "#FF6B35";
@@ -149,7 +150,7 @@ const ApexHSHub = ({ isPaid, userRole }: Props) => {
               return (
                 <div key={section} className="rounded-lg" style={{ border: `1px solid ${APEX_COLOR}15` }}>
                   <div className="flex items-center justify-between px-3 py-2.5">
-                    <span className="text-xs font-medium text-foreground">🦺 {section}</span>
+                    <span className="text-xs font-medium text-foreground flex items-center gap-1"><NeonSafetyVest size={14} color={APEX_COLOR} /> {section}</span>
                     <button onClick={() => generate(key, `You are APEX, NZ construction H&S specialist. Generate a comprehensive "${section}" section for a Site-Specific Safety Plan (SSSP). ${projectDesc ? `Project: ${projectDesc}` : ""} Reference HSWA 2015, WorkSafe NZ, relevant NZS standards, and NZ-specific requirements. Be thorough and practical.`)} disabled={generating === key} className="px-3 py-1 rounded-md text-[10px] font-bold disabled:opacity-40" style={{ background: APEX_COLOR, color: "#0A0A14" }}>
                       {generating === key ? "..." : generatedContent[key] ? "Regen" : "Generate"}
                     </button>
@@ -179,7 +180,7 @@ const ApexHSHub = ({ isPaid, userRole }: Props) => {
 
           {/* Resources */}
           <div className="rounded-xl p-4" style={{ background: "#FF000008", border: "1px solid #FF000020" }}>
-            <h3 className="text-xs font-bold text-foreground mb-2">🆘 NZ Support Resources</h3>
+            <h3 className="text-xs font-bold text-foreground mb-2 flex items-center gap-1"><NeonSiren size={14} color="#FF0000" /> NZ Support Resources</h3>
             <div className="space-y-2">
               {WELLBEING_RESOURCES.map(r => (
                 <a key={r.name} href={r.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between px-3 py-2 rounded-lg bg-card hover:bg-muted transition-colors">
@@ -286,7 +287,7 @@ const ApexHSHub = ({ isPaid, userRole }: Props) => {
             return (
               <div key={item} className="rounded-lg" style={{ border: `1px solid ${APEX_COLOR}15` }}>
                 <div className="flex items-center justify-between px-3 py-2.5">
-                  <span className="text-xs font-medium text-foreground">⚠️ {item}</span>
+                  <span className="text-xs font-medium text-foreground flex items-center gap-1"><NeonWarning size={14} color={APEX_COLOR} /> {item}</span>
                   <button onClick={() => generate(key, `You are APEX. Generate a complete "${item}" template for NZ construction businesses. Align with ICAM methodology where relevant, HSWA 2015, and WorkSafe NZ requirements. Include all necessary fields and sections. Make it practical and ready to use.`)} disabled={generating === key} className="px-3 py-1 rounded text-[9px] font-bold shrink-0 disabled:opacity-40" style={{ background: APEX_COLOR, color: "#0A0A14" }}>
                     {generating === key ? "..." : "Generate"}
                   </button>

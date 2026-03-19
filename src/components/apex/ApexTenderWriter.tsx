@@ -1,33 +1,34 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { FileText, Globe, ClipboardList, Building2, ChevronRight, Copy, Check, Sparkles, Upload, Edit3, Download, Lock, ArrowLeft } from "lucide-react";
+import { ICON_MAP, NeonClipboard, NeonDocument, NeonWarning, NeonSafetyVest, NeonCheckmark, NeonSeedling, NeonHandshake, NeonCoin, NeonPaperclip, NeonTrophy, NeonStar, NeonWrench, NeonShield, NeonCalendar } from "@/components/NeonIcons";
 import ReactMarkdown from "react-markdown";
 import { useAuth } from "@/hooks/useAuth";
 
 const APEX_COLOR = "#FF6B35";
 
 const TENDER_SECTIONS = [
-  { id: "executive_summary", label: "Executive Summary", emoji: "📋" },
-  { id: "capability_statement", label: "Company Capability Statement", emoji: "🏗️" },
-  { id: "methodology", label: "Methodology & Approach", emoji: "⚙️" },
-  { id: "project_team", label: "Project Team & Key Personnel", emoji: "👷" },
-  { id: "experience", label: "Relevant Experience & Case Studies", emoji: "📂" },
-  { id: "programme", label: "Programme / Timeline", emoji: "📅" },
-  { id: "risk_management", label: "Risk Management Approach", emoji: "⚠️" },
-  { id: "health_safety", label: "Health & Safety Management Plan", emoji: "🦺" },
-  { id: "quality_assurance", label: "Quality Assurance Plan", emoji: "✅" },
-  { id: "sustainability", label: "Sustainability & Environmental Management", emoji: "🌿" },
-  { id: "maori_engagement", label: "Māori Engagement & Social Procurement", emoji: "🤝" },
-  { id: "pricing_schedule", label: "Pricing Schedule Structure", emoji: "💰" },
-  { id: "appendices", label: "Appendices Checklist", emoji: "📎" },
+  { id: "executive_summary", label: "Executive Summary", iconKey: "clipboard" },
+  { id: "capability_statement", label: "Company Capability Statement", iconKey: "building" },
+  { id: "methodology", label: "Methodology & Approach", iconKey: "wrench" },
+  { id: "project_team", label: "Project Team & Key Personnel", iconKey: "team" },
+  { id: "experience", label: "Relevant Experience & Case Studies", iconKey: "document" },
+  { id: "programme", label: "Programme / Timeline", iconKey: "calendar" },
+  { id: "risk_management", label: "Risk Management Approach", iconKey: "warning" },
+  { id: "health_safety", label: "Health & Safety Management Plan", iconKey: "safetyVest" },
+  { id: "quality_assurance", label: "Quality Assurance Plan", iconKey: "checkmark" },
+  { id: "sustainability", label: "Sustainability & Environmental Management", iconKey: "seedling" },
+  { id: "maori_engagement", label: "Māori Engagement & Social Procurement", iconKey: "handshake" },
+  { id: "pricing_schedule", label: "Pricing Schedule Structure", iconKey: "coin" },
+  { id: "appendices", label: "Appendices Checklist", iconKey: "paperclip" },
 ];
 
 const PRIVATE_SECTIONS = [
-  { id: "value_proposition", label: "Value Proposition", emoji: "💎" },
-  { id: "competitive_diff", label: "Competitive Differentiators", emoji: "🏆" },
-  { id: "client_testimonials", label: "Client Testimonials", emoji: "⭐" },
-  { id: "warranty_defects", label: "Warranty & Defects Period", emoji: "🔧" },
-  { id: "insurance_bonding", label: "Insurance & Bonding Details", emoji: "🛡️" },
+  { id: "value_proposition", label: "Value Proposition", iconKey: "sparkle" },
+  { id: "competitive_diff", label: "Competitive Differentiators", iconKey: "trophy" },
+  { id: "client_testimonials", label: "Client Testimonials", iconKey: "star" },
+  { id: "warranty_defects", label: "Warranty & Defects Period", iconKey: "wrench" },
+  { id: "insurance_bonding", label: "Insurance & Bonding Details", iconKey: "shield" },
   ...TENDER_SECTIONS.slice(0, 10),
 ];
 
@@ -369,7 +370,7 @@ Generate comprehensive, detailed content for this section. Include specific fram
             {sections.map((s) => (
               <div key={s.id} className="rounded-lg overflow-hidden" style={{ border: `1px solid ${APEX_COLOR}15` }}>
                 <div className="flex items-center justify-between px-3 py-2.5">
-                  <span className="text-xs font-medium text-foreground">{s.emoji} {s.label}</span>
+                  <span className="text-xs font-medium text-foreground flex items-center gap-1.5">{(() => { const Icon = ICON_MAP[s.iconKey]; return Icon ? <Icon size={14} color={APEX_COLOR} /> : null; })()} {s.label}</span>
                   <button
                     onClick={() => generateSection(s.id, s.label, subView === "private")}
                     disabled={generatingSection === s.id}
