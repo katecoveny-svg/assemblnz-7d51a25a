@@ -50,6 +50,14 @@ import ArohaPayroll from "@/components/aroha/ArohaPayroll";
 import ArohaRecruitment from "@/components/aroha/ArohaRecruitment";
 import ArohaPeopleCulture from "@/components/aroha/ArohaPeopleCulture";
 import ArohaCompanySetup from "@/components/aroha/ArohaCompanySetup";
+import AuraPropertySetup from "@/components/aura/AuraPropertySetup";
+import AuraReservations from "@/components/aura/AuraReservations";
+import AuraGuestExperience from "@/components/aura/AuraGuestExperience";
+import AuraKitchenFnB from "@/components/aura/AuraKitchenFnB";
+import AuraMarketing from "@/components/aura/AuraMarketing";
+import AuraEvents from "@/components/aura/AuraEvents";
+import AuraOperations from "@/components/aura/AuraOperations";
+import AuraTeam from "@/components/aura/AuraTeam";
 import InternalComms from "@/components/InternalComms";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
@@ -250,7 +258,7 @@ const ChatPage = () => {
   const [pendingImage, setPendingImage] = useState<File | null>(null);
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team">("chat");
   const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
   const [pendingFile, setPendingFile] = useState<File | null>(null);
@@ -290,6 +298,7 @@ const ChatPage = () => {
   const isArc = agentId === "architecture" || agentId === "construction";
   const isForge = agentId === "automotive";
   const isAroha = agentId === "hr";
+  const isAura = agentId === "hospitality";
   const isHelm = agentId === "operations";
   const isNexus = agentId === "customs";
   const isMarketing = agentId === "marketing";
@@ -867,6 +876,25 @@ const ChatPage = () => {
                 ))}
               </>
             )}
+            {isAura && (
+              <>
+                {([
+                  { id: "aura_reservations" as const, label: "Reservations" },
+                  { id: "aura_guest" as const, label: "Guest Exp" },
+                  { id: "aura_kitchen" as const, label: "Kitchen" },
+                  { id: "aura_marketing" as const, label: "Marketing" },
+                  { id: "aura_events" as const, label: "Events" },
+                  { id: "aura_operations" as const, label: "Operations" },
+                  { id: "aura_team" as const, label: "Team" },
+                  { id: "aura_setup" as const, label: "Setup" },
+                ]).map(t => (
+                  <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
+                    style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
+                    {t.label}
+                  </button>
+                ))}
+              </>
+            )}
             <button onClick={() => setActiveTab("internal_comms")} className="px-2 py-1 text-[10px] font-medium transition-colors flex items-center gap-1"
               style={{ backgroundColor: activeTab === "internal_comms" ? agent.color + "20" : "transparent", color: activeTab === "internal_comms" ? agent.color : "hsl(var(--muted-foreground))" }}>
               <MessageSquare size={9} /> Comms
@@ -928,7 +956,23 @@ const ChatPage = () => {
       )}
 
       {/* Tab Views */}
-      {activeTab === "aroha_contracts" && isAroha ? (
+      {activeTab === "aura_setup" && isAura ? (
+        <AuraPropertySetup />
+      ) : activeTab === "aura_reservations" && isAura ? (
+        <AuraReservations />
+      ) : activeTab === "aura_guest" && isAura ? (
+        <AuraGuestExperience />
+      ) : activeTab === "aura_kitchen" && isAura ? (
+        <AuraKitchenFnB />
+      ) : activeTab === "aura_marketing" && isAura ? (
+        <AuraMarketing />
+      ) : activeTab === "aura_events" && isAura ? (
+        <AuraEvents />
+      ) : activeTab === "aura_operations" && isAura ? (
+        <AuraOperations />
+      ) : activeTab === "aura_team" && isAura ? (
+        <AuraTeam />
+      ) : activeTab === "aroha_contracts" && isAroha ? (
         <ArohaContracts />
       ) : activeTab === "aroha_onboarding" && isAroha ? (
         <ArohaOnboarding />
