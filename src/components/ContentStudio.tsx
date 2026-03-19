@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Copy, Check, Sparkles, Lock } from "lucide-react";
 import AgentAvatar from "@/components/AgentAvatar";
 import ReactMarkdown from "react-markdown";
-import { NeonCamera, NeonDocument, NeonMail, NeonFilm, NeonTarget, NeonBulb, NeonSeedling, NeonSparkle } from "@/components/NeonIcons";
+import { NeonCamera, NeonDocument, NeonMail, NeonFilm, NeonTarget, NeonBulb, NeonSeedling, NeonSparkle, NeonStar } from "@/components/NeonIcons";
 
 const PRISM_COLOR = "#E040FB";
 
