@@ -280,6 +280,41 @@ const ChatPage = () => {
   useEffect(() => { return () => { Object.values(pollingRef.current).forEach(clearInterval); }; }, []);
   useEffect(() => { return () => { if (pendingImagePreview) URL.revokeObjectURL(pendingImagePreview); }; }, [pendingImagePreview]);
 
+  // Load conversation history on mount
+  useEffect(() => {
+    if (!user || !agentId) return;
+    supabase
+      .from("conversations")
+      .select("id, messages")
+      .eq("user_id", user.id)
+      .eq("agent_id", agentId)
+      .order("updated_at", { ascending: false })
+      .limit(1)
+      .then(({ data }) => {
+        if (data && data.length > 0) {
+          const conv = data[0] as any;
+          setConversationId(conv.id);
+          if (Array.isArray(conv.messages) && conv.messages.length > 0) {
+            setMessages(conv.messages as Message[]);
+          }
+        }
+      });
+  }, [user, agentId]);
+
+  // Save conversation when messages change
+  useEffect(() => {
+    if (!user || !agentId || messages.length === 0) return;
+    const save = async () => {
+      if (conversationId) {
+        await supabase.from("conversations").update({ messages: messages as any, updated_at: new Date().toISOString() }).eq("id", conversationId);
+      } else {
+        const { data } = await supabase.from("conversations").insert({ user_id: user.id, agent_id: agentId, messages: messages as any }).select("id").single();
+        if (data) setConversationId((data as any).id);
+      }
+    };
+    save();
+  }, [messages, user, agentId, conversationId]);
+
   // Process NEXUS assistant responses for workflow data
   const processNexusResponse = useCallback((content: string) => {
     // Extract job sheet data
