@@ -454,7 +454,7 @@ const ChatPage = () => {
       setIsUploading(false);
     }
 
-    const displayContent = content.trim() || (uploadedImageUrl ? "Generate a 3D model from this image" : docFile ? `📎 ${docFile.name}` : imageFile ? "📷 Uploaded image" : "");
+    const displayContent = content.trim() || (uploadedImageUrl ? "Generate a 3D model from this image" : docFile ? `[file] ${docFile.name}` : imageFile ? "Uploaded image" : "");
     const userMessage: Message = {
       role: "user",
       content: displayContent,

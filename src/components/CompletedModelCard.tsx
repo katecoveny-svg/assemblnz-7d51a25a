@@ -61,7 +61,7 @@ const CompletedModelCard = ({
               className="px-3 py-1.5 rounded-full text-xs font-medium opacity-40 cursor-not-allowed"
               style={{ border: `1px solid ${color}40`, color: `${color}60` }}
             >
-              🎬 Generate Video
+              <NeonFilm size={14} color={`${color}60`} /> Generate Video
             </button>
           </TooltipTrigger>
           <TooltipContent>Coming soon</TooltipContent>
