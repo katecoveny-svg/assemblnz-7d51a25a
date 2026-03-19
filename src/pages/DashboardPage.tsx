@@ -1,12 +1,20 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { MessageSquare, FileText, Upload, Clock, Bookmark, ChevronRight, Trash2 } from "lucide-react";
+import { MessageSquare, FileText, Upload, Clock, Bookmark, ChevronRight, Trash2, History } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from "react-markdown";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { agents } from "@/data/agents";
+
+interface ConversationItem {
+  id: string;
+  agent_id: string;
+  messages: any[];
+  updated_at: string;
+}
 
 interface SavedItem {
   id: string;
@@ -47,6 +55,7 @@ const DashboardPage = () => {
   const { user } = useAuth();
   const [savedItems, setSavedItems] = useState<SavedItem[]>([]);
   const [viewItem, setViewItem] = useState<SavedItem | null>(null);
+  const [conversations, setConversations] = useState<ConversationItem[]>([]);
 
   useEffect(() => {
     if (!user) return;
@@ -57,6 +66,20 @@ const DashboardPage = () => {
       .order("created_at", { ascending: false })
       .then(({ data }) => {
         if (data) setSavedItems(data as SavedItem[]);
+      });
+
+    // Load recent conversations (last 30 days)
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    supabase
+      .from("conversations")
+      .select("id, agent_id, messages, updated_at")
+      .eq("user_id", user.id)
+      .gte("updated_at", thirtyDaysAgo.toISOString())
+      .order("updated_at", { ascending: false })
+      .limit(20)
+      .then(({ data }) => {
+        if (data) setConversations(data as ConversationItem[]);
       });
   }, [user]);
 
@@ -155,6 +178,49 @@ const DashboardPage = () => {
             </div>
           </DialogContent>
         </Dialog>
+
+        {/* Conversation History */}
+        {conversations.length > 0 && (
+          <div className="rounded-xl border border-border bg-card p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <History size={16} className="text-primary" />
+              <h2 className="text-sm font-bold text-foreground">Conversation History</h2>
+              <span className="text-[10px] text-muted-foreground ml-auto">Last 30 days</span>
+            </div>
+            <div className="space-y-2">
+              {conversations.map((conv) => {
+                const agentData = agents.find((a) => a.id === conv.agent_id);
+                const lastMsg = Array.isArray(conv.messages) ? conv.messages[conv.messages.length - 1] : null;
+                const preview = lastMsg?.content?.substring(0, 80) || "No messages";
+                const msgCount = Array.isArray(conv.messages) ? conv.messages.length : 0;
+                return (
+                  <Link
+                    key={conv.id}
+                    to={`/chat/${conv.agent_id}`}
+                    className="flex items-center justify-between py-2.5 px-2 -mx-2 rounded-lg border-b border-border last:border-0 hover:bg-muted/50 transition-colors"
+                  >
+                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                      <span
+                        className="text-xs font-bold px-2 py-0.5 rounded shrink-0"
+                        style={{ backgroundColor: (agentData?.color || "#888") + "15", color: agentData?.color || "#888" }}
+                      >
+                        {agentData?.name || conv.agent_id}
+                      </span>
+                      <span className="text-xs text-foreground/50 truncate">{preview}</span>
+                    </div>
+                    <div className="flex items-center gap-3 shrink-0">
+                      <span className="text-[10px] text-muted-foreground">{msgCount} msgs</span>
+                      <span className="text-[10px]" style={{ color: '#ffffff38' }}>
+                        {new Date(conv.updated_at).toLocaleDateString("en-NZ", { day: "numeric", month: "short" })}
+                      </span>
+                      <ChevronRight size={12} className="text-muted-foreground" />
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Agent Activity */}
         <div className="rounded-xl border border-border bg-card p-6">

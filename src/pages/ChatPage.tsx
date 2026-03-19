@@ -28,6 +28,8 @@ import AITransparencyBadge from "@/components/chat/AITransparencyBadge";
 import ConversationExport from "@/components/chat/ConversationExport";
 import ResponseSources from "@/components/chat/ResponseSources";
 import SaveToLibrary from "@/components/chat/SaveToLibrary";
+import LegislationCard from "@/components/chat/LegislationCard";
+import LanguageSelector from "@/components/chat/LanguageSelector";
 import { useLanguage } from "@/components/chat/TeReoProvider";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
@@ -256,6 +258,7 @@ const ChatPage = () => {
 
   const { user, isPaid, canUseFeature, incrementMessageCount, dailyMessageCount, dailyLimit, messageLimitReached } = useAuth();
   const { teReoPrompt } = useLanguage();
+  const [conversationId, setConversationId] = useState<string | null>(null);
 
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -264,7 +267,7 @@ const ChatPage = () => {
   const nexusFileInputRef = useRef<HTMLInputElement>(null);
   const pollingRef = useRef<Record<string, number>>({});
 
-  const isArc = agentId === "architecture";
+  const isArc = agentId === "architecture" || agentId === "construction";
   const isHelm = agentId === "operations";
   const isNexus = agentId === "customs";
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
@@ -276,6 +279,41 @@ const ChatPage = () => {
 
   useEffect(() => { return () => { Object.values(pollingRef.current).forEach(clearInterval); }; }, []);
   useEffect(() => { return () => { if (pendingImagePreview) URL.revokeObjectURL(pendingImagePreview); }; }, [pendingImagePreview]);
+
+  // Load conversation history on mount
+  useEffect(() => {
+    if (!user || !agentId) return;
+    supabase
+      .from("conversations")
+      .select("id, messages")
+      .eq("user_id", user.id)
+      .eq("agent_id", agentId)
+      .order("updated_at", { ascending: false })
+      .limit(1)
+      .then(({ data }) => {
+        if (data && data.length > 0) {
+          const conv = data[0] as any;
+          setConversationId(conv.id);
+          if (Array.isArray(conv.messages) && conv.messages.length > 0) {
+            setMessages(conv.messages as Message[]);
+          }
+        }
+      });
+  }, [user, agentId]);
+
+  // Save conversation when messages change
+  useEffect(() => {
+    if (!user || !agentId || messages.length === 0) return;
+    const save = async () => {
+      if (conversationId) {
+        await supabase.from("conversations").update({ messages: messages as any, updated_at: new Date().toISOString() }).eq("id", conversationId);
+      } else {
+        const { data } = await supabase.from("conversations").insert({ user_id: user.id, agent_id: agentId, messages: messages as any }).select("id").single();
+        if (data) setConversationId((data as any).id);
+      }
+    };
+    save();
+  }, [messages, user, agentId, conversationId]);
 
   // Process NEXUS assistant responses for workflow data
   const processNexusResponse = useCallback((content: string) => {
@@ -688,6 +726,9 @@ const ChatPage = () => {
           </LockedButton>
         )}
 
+        {/* Language Selector */}
+        <LanguageSelector agentColor={agent.color} />
+
         {/* Conversation Export */}
         <ConversationExport messages={messages} agentName={agent.name} agentDesignation={agent.designation} agentColor={agent.color} />
 
@@ -919,6 +960,7 @@ const ChatPage = () => {
                           {msg.role === "assistant" && (
                             <div className="flex items-start justify-between gap-2">
                               <div className="flex-1">
+                                <LegislationCard content={msg.content} agentColor={agent.color} />
                                 <ResponseSources content={msg.content} />
                                 <AITransparencyBadge />
                               </div>
