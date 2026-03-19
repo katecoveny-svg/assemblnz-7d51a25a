@@ -86,7 +86,7 @@ const AgentCard = ({ agent, index }: AgentCardProps) => {
               className="transition-all duration-300"
               whileHover={{ scale: 1.15, filter: `drop-shadow(0 0 12px ${agent.color})` }}
             >
-              <RobotIcon color={agent.color} size={40} agentId={agent.id} />
+              <AgentAvatar agentId={agent.id} color={agent.color} size={40} />
             </motion.div>
             <span className="font-mono-jb text-[10px] text-muted-foreground">{agent.designation}</span>
           </div>
