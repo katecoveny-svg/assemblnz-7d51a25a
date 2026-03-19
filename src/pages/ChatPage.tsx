@@ -277,6 +277,7 @@ const ChatPage = () => {
   const isHelm = agentId === "operations";
   const isNexus = agentId === "customs";
   const isMarketing = agentId === "marketing";
+  const isConstruction = agentId === "construction";
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
 
