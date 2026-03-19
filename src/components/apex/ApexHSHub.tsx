@@ -149,7 +149,7 @@ const ApexHSHub = ({ isPaid, userRole }: Props) => {
               return (
                 <div key={section} className="rounded-lg" style={{ border: `1px solid ${APEX_COLOR}15` }}>
                   <div className="flex items-center justify-between px-3 py-2.5">
-                    <span className="text-xs font-medium text-foreground">🦺 {section}</span>
+                    <span className="text-xs font-medium text-foreground flex items-center gap-1"><NeonSafetyVest size={14} color={APEX_COLOR} /> {section}</span>
                     <button onClick={() => generate(key, `You are APEX, NZ construction H&S specialist. Generate a comprehensive "${section}" section for a Site-Specific Safety Plan (SSSP). ${projectDesc ? `Project: ${projectDesc}` : ""} Reference HSWA 2015, WorkSafe NZ, relevant NZS standards, and NZ-specific requirements. Be thorough and practical.`)} disabled={generating === key} className="px-3 py-1 rounded-md text-[10px] font-bold disabled:opacity-40" style={{ background: APEX_COLOR, color: "#0A0A14" }}>
                       {generating === key ? "..." : generatedContent[key] ? "Regen" : "Generate"}
                     </button>
