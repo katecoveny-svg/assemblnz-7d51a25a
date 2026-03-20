@@ -259,12 +259,12 @@ const PricingPage = () => {
       <BrandNav />
 
       {/* Hero */}
-      <section className="py-20 sm:py-28">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-syne font-extrabold mb-4 leading-tight" style={{ color: '#E4E4EC' }}>
+      <section className="pt-12 pb-10 sm:py-28">
+        <div className="max-w-5xl mx-auto px-5 sm:px-6 text-center">
+          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-syne font-extrabold mb-3 leading-tight" style={{ color: '#E4E4EC' }}>
             Simple, honest pricing
           </h1>
-          <p className="text-sm sm:text-base font-jakarta max-w-xl mx-auto mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>
+          <p className="text-sm sm:text-base font-jakarta max-w-xl mx-auto mb-3" style={{ color: 'rgba(255,255,255,0.5)' }}>
             From solo operators to luxury lodges. No lock-in. Cancel anytime.
           </p>
           <p className="text-xs font-jakarta" style={{ color: 'rgba(255,255,255,0.2)' }}>
@@ -274,18 +274,17 @@ const PricingPage = () => {
       </section>
 
       {/* ═══ Business Plans ═══ */}
-      <section className="pb-24">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-center mb-12" style={{ color: '#E4E4EC' }}>
+      <section className="pb-16 sm:pb-24">
+        <div className="max-w-6xl mx-auto px-5 sm:px-6">
+          <h2 className="text-lg sm:text-2xl font-syne font-extrabold text-center mb-8 sm:mb-12" style={{ color: '#E4E4EC' }}>
             Plans for NZ Businesses
           </h2>
 
-          {/* Standard 3-col */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-8">
             {STANDARD_PLANS.map((plan) => (
               <div
                 key={plan.name}
-                className="relative flex flex-col rounded-2xl p-8 transition-all duration-300 hover:border-white/[0.1]"
+                className="relative flex flex-col rounded-2xl p-5 sm:p-8 transition-all duration-300 hover:border-white/[0.1]"
                 style={{
                   background: 'rgba(255,255,255,0.02)',
                   backdropFilter: 'blur(12px)',
@@ -306,21 +305,21 @@ const PricingPage = () => {
                     Most Popular
                   </span>
                 )}
-                <p className="text-[11px] font-semibold tracking-[2px] uppercase mb-4" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                <p className="text-[11px] font-semibold tracking-[2px] uppercase mb-3" style={{ color: 'rgba(255,255,255,0.3)' }}>
                   {plan.name}
                 </p>
                 <div className="flex items-baseline gap-1 mb-1">
-                  <span className="font-syne text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>
+                  <span className="font-syne text-3xl sm:text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>
                     {plan.price}
                   </span>
                   {plan.suffix && (
                     <span className="text-sm" style={{ color: 'rgba(255,255,255,0.25)' }}>{plan.suffix}</span>
                   )}
                 </div>
-                <p className="text-[12px] font-jakarta mb-6" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                <p className="text-[12px] font-jakarta mb-5 sm:mb-6" style={{ color: 'rgba(255,255,255,0.3)' }}>
                   {plan.desc}
                 </p>
-                <ul className="space-y-2.5 mb-8 flex-1">
+                <ul className="space-y-2 sm:space-y-2.5 mb-6 sm:mb-8 flex-1">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-start gap-2.5 text-[13px] font-jakarta" style={{ color: 'rgba(255,255,255,0.5)' }}>
                       <FeatureDot />
@@ -334,10 +333,10 @@ const PricingPage = () => {
           </div>
 
           {/* Premium 2-col */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8">
             {/* Industry Suite */}
             <div
-              className="relative flex flex-col rounded-2xl p-8 transition-all duration-300 hover:border-white/[0.1]"
+              className="relative flex flex-col rounded-2xl p-5 sm:p-8 transition-all duration-300 hover:border-white/[0.1]"
               style={{
                 background: 'rgba(255,255,255,0.02)',
                 backdropFilter: 'blur(12px)',
@@ -359,7 +358,7 @@ const PricingPage = () => {
                 Industry Suite
               </p>
               <div className="flex items-baseline gap-1 mb-1">
-                <span className="font-syne text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>$799</span>
+                <span className="font-syne text-3xl sm:text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>$799</span>
                 <span className="text-sm" style={{ color: 'rgba(255,255,255,0.25)' }}>/mo</span>
               </div>
               <p className="text-[13px] font-medium mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
@@ -404,7 +403,7 @@ const PricingPage = () => {
 
             {/* Luxury Hospitality */}
             <div
-              className="relative flex flex-col rounded-2xl p-8 transition-all duration-300 hover:border-white/[0.1]"
+              className="relative flex flex-col rounded-2xl p-5 sm:p-8 transition-all duration-300 hover:border-white/[0.1]"
               style={{
                 background: 'rgba(255,255,255,0.02)',
                 backdropFilter: 'blur(12px)',
@@ -426,7 +425,7 @@ const PricingPage = () => {
                 Luxury Hospitality
               </p>
               <div className="flex items-baseline gap-1 mb-1">
-                <span className="font-syne text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>$799</span>
+                <span className="font-syne text-3xl sm:text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>$799</span>
                 <span className="text-sm" style={{ color: 'rgba(255,255,255,0.25)' }}>/mo per property</span>
               </div>
               <p className="text-[13px] font-medium mb-6" style={{ color: 'rgba(255,255,255,0.5)' }}>
@@ -462,7 +461,7 @@ const PricingPage = () => {
           {/* Enterprise */}
           <div className="max-w-md mx-auto">
             <div
-              className="relative flex flex-col rounded-2xl p-8 transition-all duration-300 hover:border-white/[0.1]"
+              className="relative flex flex-col rounded-2xl p-5 sm:p-8 transition-all duration-300 hover:border-white/[0.1]"
               style={{
                 background: 'rgba(255,255,255,0.02)',
                 backdropFilter: 'blur(12px)',
@@ -473,7 +472,7 @@ const PricingPage = () => {
                 {ENTERPRISE.name}
               </p>
               <div className="flex items-baseline gap-1 mb-1">
-                <span className="font-syne text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>
+                <span className="font-syne text-3xl sm:text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>
                   {ENTERPRISE.price}
                 </span>
               </div>
@@ -513,22 +512,22 @@ const PricingPage = () => {
       </section>
 
       {/* ═══ HELM ═══ */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto px-5 sm:px-6">
         <div className="h-px rounded-full" style={{ background: 'rgba(255,255,255,0.05)' }} />
       </div>
-      <section className="py-24 relative">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-center mb-2" style={{ color: '#E4E4EC' }}>
+      <section className="py-14 sm:py-24 relative">
+        <div className="max-w-4xl mx-auto px-5 sm:px-6">
+          <h2 className="text-lg sm:text-2xl font-syne font-extrabold text-center mb-2" style={{ color: '#E4E4EC' }}>
             HELM — For NZ Families
           </h2>
-          <p className="text-[13px] font-jakarta text-center mb-12" style={{ color: 'rgba(255,255,255,0.3)' }}>
+          <p className="text-[13px] font-jakarta text-center mb-8 sm:mb-12" style={{ color: 'rgba(255,255,255,0.3)' }}>
             AI life admin built for Kiwi households
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
             {HELM_PLANS.map((plan) => (
               <div
                 key={plan.name}
-                className="flex flex-col rounded-2xl p-8 transition-all duration-300 hover:border-white/[0.1]"
+                className="flex flex-col rounded-2xl p-5 sm:p-8 transition-all duration-300 hover:border-white/[0.1]"
                 style={{
                   background: 'rgba(255,255,255,0.02)',
                   backdropFilter: 'blur(12px)',
@@ -539,7 +538,7 @@ const PricingPage = () => {
                   {plan.name}
                 </p>
                 <div className="flex items-baseline gap-1 mb-1">
-                  <span className="font-syne text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>
+                  <span className="font-syne text-3xl sm:text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>
                     {plan.price}
                   </span>
                   {plan.suffix && (
@@ -580,15 +579,15 @@ const PricingPage = () => {
 
       {/* Trust signals */}
       <section className="pb-8">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+        <div className="max-w-4xl mx-auto px-5 sm:px-6 text-center">
           <div
-            className="inline-block px-8 py-3 rounded-2xl font-jakarta"
+            className="inline-block px-5 sm:px-8 py-3 rounded-2xl font-jakarta"
             style={{
               background: 'rgba(255,255,255,0.02)',
               border: '1px solid rgba(255,255,255,0.05)',
             }}
           >
-            <p className="text-[11px] tracking-wide" style={{ color: 'rgba(255,255,255,0.25)' }}>
+            <p className="text-[10px] sm:text-[11px] tracking-wide" style={{ color: 'rgba(255,255,255,0.25)' }}>
               Payments secured by Stripe · Monthly billing · Cancel anytime · No lock-in · Prices NZD incl GST
             </p>
           </div>
@@ -596,14 +595,14 @@ const PricingPage = () => {
       </section>
 
       {/* Divider */}
-      <div className="max-w-3xl mx-auto px-4 sm:px-6">
+      <div className="max-w-3xl mx-auto px-5 sm:px-6">
         <div className="h-px rounded-full" style={{ background: 'rgba(255,255,255,0.05)' }} />
       </div>
 
       {/* FAQ */}
-      <section className="py-20 sm:py-28">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-center mb-14" style={{ color: '#E4E4EC' }}>
+      <section className="py-14 sm:py-28">
+        <div className="max-w-3xl mx-auto px-5 sm:px-6">
+          <h2 className="text-xl sm:text-3xl font-syne font-extrabold text-center mb-8 sm:mb-14" style={{ color: '#E4E4EC' }}>
             Frequently asked questions
           </h2>
           <div className="space-y-2">
@@ -639,15 +638,15 @@ const PricingPage = () => {
       </section>
 
       {/* Divider */}
-      <div className="max-w-3xl mx-auto px-4 sm:px-6">
+      <div className="max-w-3xl mx-auto px-5 sm:px-6">
         <div className="h-px rounded-full" style={{ background: 'rgba(255,255,255,0.05)' }} />
       </div>
 
       {/* Bottom CTA */}
-      <section id="contact" className="py-16">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+      <section id="contact" className="py-12 sm:py-16">
+        <div className="max-w-3xl mx-auto px-5 sm:px-6 text-center">
           <div
-            className="rounded-2xl p-10"
+            className="rounded-2xl p-6 sm:p-10"
             style={{
               background: 'rgba(255,255,255,0.02)',
               border: '1px solid rgba(255,255,255,0.05)',
