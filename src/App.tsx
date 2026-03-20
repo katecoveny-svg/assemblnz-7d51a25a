@@ -27,6 +27,8 @@ const TermsOfUse = lazy(() => import("./pages/TermsOfUse"));
 const CookiePolicy = lazy(() => import("./pages/CookiePolicy"));
 const Disclaimer = lazy(() => import("./pages/Disclaimer"));
 const SecurityPage = lazy(() => import("./pages/SecurityPage"));
+const TradiePortal = lazy(() => import("./pages/TradiePortal"));
+const LandlordPortal = lazy(() => import("./pages/LandlordPortal"));
 
 const queryClient = new QueryClient();
 
@@ -59,6 +61,8 @@ const App = () => (
                   <Route path="/cookies" element={<Suspense fallback={null}><CookiePolicy /></Suspense>} />
                   <Route path="/disclaimer" element={<Suspense fallback={null}><Disclaimer /></Suspense>} />
                   <Route path="/security" element={<Suspense fallback={null}><SecurityPage /></Suspense>} />
+                  <Route path="/tradie-portal" element={<Suspense fallback={null}><TradiePortal /></Suspense>} />
+                  <Route path="/landlord" element={<Suspense fallback={null}><LandlordPortal /></Suspense>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
