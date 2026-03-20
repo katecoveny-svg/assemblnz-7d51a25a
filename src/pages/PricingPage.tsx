@@ -472,7 +472,7 @@ const PricingPage = () => {
                 {ENTERPRISE.name}
               </p>
               <div className="flex items-baseline gap-1 mb-1">
-                <span className="font-syne text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>
+                <span className="font-syne text-3xl sm:text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>
                   {ENTERPRISE.price}
                 </span>
               </div>
