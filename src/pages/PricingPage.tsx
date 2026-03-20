@@ -159,8 +159,9 @@ const HELM_PLANS = [
       "2 lifestyle agents included",
     ],
     cta: "Start Personal",
-    href: STRIPE.helmPersonal,
-    external: true,
+    priceId: STRIPE_TIERS.helmPersonal.price_id,
+    href: "/chat/helm",
+    external: false,
     solid: true,
   },
   {
