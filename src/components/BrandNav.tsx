@@ -5,26 +5,27 @@ import AccountDropdown from "@/components/AccountDropdown";
 const BrandNav = () => {
   return (
     <header
-      className="flex items-center gap-3 px-6 py-3 border-b border-white/[0.06]"
+      className="flex items-center gap-3 px-6 py-3 border-b"
       style={{
-        background: 'rgba(10, 10, 20, 0.8)',
+        borderColor: 'rgba(255,255,255,0.05)',
+        background: 'rgba(9, 9, 15, 0.85)',
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
       }}
     >
       <Link to="/" className="flex items-center gap-3 group">
-        <img src={nexusLogo} alt="Assembl" className="w-10 h-10 object-contain drop-shadow-[0_0_12px_rgba(0,229,255,0.25)]" />
+        <img src={nexusLogo} alt="Assembl" className="w-10 h-10 object-contain" />
         <div className="flex items-baseline gap-1">
-          <span className="font-syne font-extrabold tracking-[3px] uppercase text-sm text-foreground group-hover:text-primary transition-colors">ASSEMBL</span>
-          <span className="font-mono-jb text-[11px] text-white/10">.co.nz</span>
+          <span className="font-syne font-extrabold tracking-[3px] uppercase text-sm" style={{ color: '#E4E4EC' }}>ASSEMBL</span>
+          <span className="font-mono-jb text-[11px]" style={{ color: 'rgba(255,255,255,0.1)' }}>.co.nz</span>
         </div>
       </Link>
       <div className="flex-1" />
       <nav className="flex items-center gap-4 text-xs font-jakarta">
-        <Link to="/" className="text-muted-foreground hover:text-primary transition-colors duration-300">Agents</Link>
-        <Link to="/pricing" className="text-muted-foreground hover:text-primary transition-colors duration-300">Pricing</Link>
-        <Link to="/embed" className="text-muted-foreground hover:text-primary transition-colors duration-300">Embed</Link>
-        <Link to="/dashboard" className="text-muted-foreground hover:text-primary transition-colors duration-300">Dashboard</Link>
+        <Link to="/" className="transition-colors duration-300" style={{ color: 'rgba(255,255,255,0.5)' }} onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.8)'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.5)'}>Agents</Link>
+        <Link to="/pricing" className="transition-colors duration-300" style={{ color: 'rgba(255,255,255,0.5)' }} onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.8)'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.5)'}>Pricing</Link>
+        <Link to="/embed" className="transition-colors duration-300" style={{ color: 'rgba(255,255,255,0.5)' }} onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.8)'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.5)'}>Embed</Link>
+        <Link to="/dashboard" className="transition-colors duration-300" style={{ color: 'rgba(255,255,255,0.5)' }} onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.8)'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.5)'}>Dashboard</Link>
         <AccountDropdown />
       </nav>
     </header>

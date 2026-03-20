@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Check, ChevronDown, ArrowRight, Loader2 } from "lucide-react";
+import { ChevronDown, ArrowRight, Loader2 } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import ParticleField from "@/components/ParticleField";
@@ -9,12 +9,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { STRIPE_TIERS } from "@/data/stripeTiers";
 import { toast } from "sonner";
 
-/* ─── Standard Business Plans (3-col row) ─── */
+/* ─── Standard Business Plans ─── */
 const STANDARD_PLANS = [
   {
     name: "Starter",
     price: "$79",
-    suffix: "/mo NZD",
+    suffix: "/mo",
     desc: "For sole traders and small businesses",
     features: [
       "1 AI agent",
@@ -24,14 +24,12 @@ const STANDARD_PLANS = [
     ],
     cta: "Get started",
     priceId: STRIPE_TIERS.starter.price_id,
-    href: "/chat/helm",
-    external: false,
     highlighted: false,
   },
   {
     name: "Pro",
     price: "$249",
-    suffix: "/mo NZD",
+    suffix: "/mo",
     desc: "For growing NZ businesses",
     features: [
       "3 AI agents",
@@ -44,14 +42,12 @@ const STANDARD_PLANS = [
     ],
     cta: "Start Pro",
     priceId: STRIPE_TIERS.pro.price_id,
-    href: "/chat/helm",
-    external: false,
     highlighted: true,
   },
   {
     name: "Business",
     price: "$499",
-    suffix: "/mo NZD",
+    suffix: "/mo",
     desc: "All agents, unlimited, built for teams",
     features: [
       "All 38 AI agents",
@@ -66,21 +62,19 @@ const STANDARD_PLANS = [
     ],
     cta: "Start Business",
     priceId: STRIPE_TIERS.business.price_id,
-    href: "/chat/helm",
-    external: false,
     highlighted: false,
   },
 ];
 
-/* ─── Premium Plans (2-col row) ─── */
+/* ─── Premium Plans ─── */
 const INDUSTRY_SUITES = [
-  { label: "Construction", agents: "APEX + AROHA + LEDGER + PRISM + SIGNAL" },
-  { label: "Hospitality", agents: "AURA + AROHA + LEDGER + PRISM" },
-  { label: "Property", agents: "HAVEN + ANCHOR + LEDGER + AROHA" },
-  { label: "Legal", agents: "ANCHOR + AROHA + COMPASS + LEDGER" },
-  { label: "Trade & Customs", agents: "NEXUS + FLUX + LEDGER + COMPASS" },
-  { label: "Health", agents: "VITAE + ORA + AROHA + LEDGER" },
-  { label: "Government", agents: "PŪNAHA + TIKA + AWA + KURA + ORA + MANAAKI + WHARE + HAUMARU" },
+  { label: "Construction" },
+  { label: "Hospitality" },
+  { label: "Property" },
+  { label: "Legal" },
+  { label: "Trade & Customs" },
+  { label: "Health" },
+  { label: "Government" },
 ];
 
 const INDUSTRY_FEATURES = [
@@ -101,9 +95,9 @@ const LUXURY_FEATURES = [
   "Bespoke itinerary builder",
   "Revenue and yield management",
   "Kitchen and F&B operations",
-  "PR campaign generator (Condé Nast, Virtuoso, Robb Report targeting)",
+  "PR campaign generator",
   "Trade partner management",
-  "Sustainability reporting (TIA Tourism 2050 aligned)",
+  "Sustainability reporting",
   "Staff training modules for luxury service",
   "Guest CRM with lifetime value tracking",
   "Unlimited team access",
@@ -142,13 +136,13 @@ const HELM_PLANS = [
     ],
     cta: "Try free",
     href: "/chat/helm",
-    external: false,
+    priceId: undefined as string | undefined,
     solid: false,
   },
   {
     name: "HELM Personal",
     price: "$14",
-    suffix: "/mo NZD",
+    suffix: "/mo",
     desc: "Full life admin for one person",
     features: [
       "Unlimited HELM chat",
@@ -159,15 +153,14 @@ const HELM_PLANS = [
       "2 lifestyle agents included",
     ],
     cta: "Start Personal",
+    href: "#",
     priceId: STRIPE_TIERS.helmPersonal.price_id,
-    href: "/chat/helm",
-    external: false,
     solid: true,
   },
   {
     name: "HELM Family",
     price: "$24",
-    suffix: "/mo NZD",
+    suffix: "/mo",
     desc: "For busy NZ families",
     features: [
       "Everything in Personal",
@@ -178,98 +171,57 @@ const HELM_PLANS = [
       "Partner access (2 seats)",
     ],
     cta: "Start Family",
+    href: "#",
     priceId: STRIPE_TIERS.helmFamily.price_id,
-    href: "/chat/helm",
-    external: false,
     solid: false,
   },
 ];
 
 const FAQS = [
-  {
-    q: "Can I try Assembl for free?",
-    a: "Absolutely. Every agent is available for free — no signup required. You get 3 messages per agent to explore. If you like what you see, sign up for a plan to unlock more.",
-  },
-  {
-    q: "How do message limits work?",
-    a: "Starter gives you 100 messages per month. Pro provides 500 per month. Business plans have unlimited messages across all agents.",
-  },
-  {
-    q: "What's the difference between brand scan and brand memory?",
-    a: "Brand scan (Pro+) lets you scan your website so agents understand your business context for that session. Brand memory (Business+) persists your brand profile across sessions — every agent remembers your context automatically.",
-  },
-  {
-    q: "Can I embed Assembl on my website?",
-    a: "Yes! Business and Enterprise plans include embeddable chat widgets. You can add an iframe or a floating chat bubble to any website with one line of code.",
-  },
-  {
-    q: "What NZ legislation do the agents know?",
-    a: "Our agents are trained on 50+ NZ Acts and regulations including the Employment Relations Act, Health & Safety at Work Act, Building Code, Food Act, Privacy Act, and many more — specific to each agent's industry.",
-  },
-  {
-    q: "Can I cancel anytime?",
-    a: "Yes. All plans are month-to-month with no lock-in contracts. Cancel anytime from your dashboard.",
-  },
-  {
-    q: "What is HELM?",
-    a: "HELM is our life admin AI agent designed for NZ families. It helps with meal planning, budgeting, school admin, and more — all with Kiwi context built in.",
-  },
-  {
-    q: "Do you offer discounts for nonprofits or startups?",
-    a: "Yes! Through our AssemblFund initiative, we offer subsidised access for Kiwi startups and community organisations. Contact us at hello@assembl.co.nz.",
-  },
+  { q: "Can I try Assembl for free?", a: "Absolutely. Every agent is available for free — no signup required. You get 3 messages per agent to explore. If you like what you see, sign up for a plan to unlock more." },
+  { q: "How do message limits work?", a: "Starter gives you 100 messages per month. Pro provides 500 per month. Business plans have unlimited messages across all agents." },
+  { q: "What's the difference between brand scan and brand memory?", a: "Brand scan (Pro+) lets you scan your website so agents understand your business context for that session. Brand memory (Business+) persists your brand profile across sessions." },
+  { q: "Can I embed Assembl on my website?", a: "Yes! Business and Enterprise plans include embeddable chat widgets. You can add an iframe or a floating chat bubble to any website with one line of code." },
+  { q: "What NZ legislation do the agents know?", a: "Our agents are trained on 50+ NZ Acts and regulations including the Employment Relations Act, Health & Safety at Work Act, Building Code, Food Act, Privacy Act, and many more." },
+  { q: "Can I cancel anytime?", a: "Yes. All plans are month-to-month with no lock-in contracts. Cancel anytime from your dashboard." },
+  { q: "What is HELM?", a: "HELM is our life admin AI agent designed for NZ families. It helps with meal planning, budgeting, school admin, and more — all with Kiwi context built in." },
+  { q: "Do you offer discounts for nonprofits or startups?", a: "Yes! Through our AssemblFund initiative, we offer subsidised access for Kiwi startups and community organisations. Contact us at hello@assembl.co.nz." },
 ];
 
-/* ─── Shared button renderer ─── */
-const PlanButton = ({
-  href,
-  external,
+/* ─── Checkout button ─── */
+const CheckoutButton = ({
   label,
-  solid,
-  color,
-  gradient,
   priceId,
+  primary,
 }: {
-  href: string;
-  external: boolean;
   label: string;
-  solid: boolean;
-  color: string;
-  gradient?: string;
   priceId?: string;
+  primary?: boolean;
 }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  const solidStyle: React.CSSProperties = {
-    background: gradient || color,
-    color: "#0A0A14",
-  };
-  const outlinedStyle: React.CSSProperties = {
-    background: "transparent",
-    color: color === "#00FF88" ? "#fff" : color,
-    border: `1px solid ${color}40`,
-  };
-  const style = solid ? solidStyle : outlinedStyle;
-  const className =
-    "block w-full text-center text-[13px] font-bold py-3 rounded-[10px] transition-all hover:opacity-90";
+  const style: React.CSSProperties = primary
+    ? {
+        background: 'rgba(255,255,255,0.08)',
+        color: '#E4E4EC',
+        border: '1px solid rgba(255,255,255,0.12)',
+      }
+    : {
+        background: 'transparent',
+        color: 'rgba(255,255,255,0.5)',
+        border: '1px solid rgba(255,255,255,0.06)',
+      };
 
   const handleCheckout = async () => {
     if (!priceId) return;
-    if (!user) {
-      navigate("/login?redirect=/pricing");
-      return;
-    }
+    if (!user) { navigate("/login?redirect=/pricing"); return; }
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { priceId },
-      });
+      const { data, error } = await supabase.functions.invoke("create-checkout", { body: { priceId } });
       if (error) throw error;
-      if (data?.url) {
-        window.open(data.url, "_blank");
-      }
+      if (data?.url) window.open(data.url, "_blank");
     } catch (err: any) {
       toast.error(err.message || "Failed to create checkout session");
     } finally {
@@ -277,191 +229,157 @@ const PlanButton = ({
     }
   };
 
-  // If has a priceId, use integrated checkout
   if (priceId) {
     return (
-      <button onClick={handleCheckout} disabled={loading} className={className} style={style}>
+      <button
+        onClick={handleCheckout}
+        disabled={loading}
+        className="block w-full text-center text-[13px] font-semibold py-3 rounded-[10px] transition-all duration-300 hover:bg-white/[0.12] hover:border-white/[0.2]"
+        style={style}
+      >
         {loading ? <Loader2 size={16} className="inline animate-spin" /> : label}
       </button>
     );
   }
 
-  if (external) {
-    return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={className} style={style}>
-        {label}
-      </a>
-    );
-  }
-  if (href.startsWith("#")) {
-    return (
-      <a href={href} className={className} style={style}>
-        {label}
-      </a>
-    );
-  }
-  return (
-    <Link to={href} className={className} style={style}>
-      {label}
-    </Link>
-  );
+  return null;
 };
+
+/* ─── Feature dot ─── */
+const FeatureDot = () => (
+  <span className="w-1 h-1 rounded-full shrink-0 mt-1.5" style={{ background: 'rgba(255,255,255,0.2)' }} />
+);
 
 const PricingPage = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   return (
-    <div className="min-h-screen star-field flex flex-col relative">
+    <div className="min-h-screen flex flex-col relative" style={{ background: '#09090F' }}>
       <ParticleField />
       <BrandNav />
 
       {/* Hero */}
       <section className="py-20 sm:py-28">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-syne font-extrabold text-foreground mb-4 leading-tight">
-            Plans that scale <span className="text-gradient-hero">with you</span>
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-syne font-extrabold mb-4 leading-tight" style={{ color: '#E4E4EC' }}>
+            Simple, honest pricing
           </h1>
-          <p className="text-sm sm:text-base font-jakarta max-w-xl mx-auto mb-4" style={{ color: "#ffffffa0" }}>
+          <p className="text-sm sm:text-base font-jakarta max-w-xl mx-auto mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>
             From solo operators to luxury lodges. No lock-in. Cancel anytime.
           </p>
-          <p className="text-xs font-jakarta" style={{ color: "#ffffff50" }}>
+          <p className="text-xs font-jakarta" style={{ color: 'rgba(255,255,255,0.2)' }}>
             All prices in NZD. GST inclusive.
           </p>
         </div>
       </section>
 
-      {/* ═══ Business Plans Section ═══ */}
+      {/* ═══ Business Plans ═══ */}
       <section className="pb-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-center text-foreground mb-12">
-            Plans for <span className="text-gradient-hero">NZ Businesses</span>
+          <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-center mb-12" style={{ color: '#E4E4EC' }}>
+            Plans for NZ Businesses
           </h2>
 
-          {/* Row 1: Starter / Pro / Business (3-col) */}
+          {/* Standard 3-col */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
             {STANDARD_PLANS.map((plan) => (
               <div
                 key={plan.name}
-                className="relative flex flex-col"
+                className="relative flex flex-col rounded-2xl p-8 transition-all duration-300 hover:border-white/[0.1]"
                 style={{
-                  background: "rgba(14,14,26,0.7)",
-                  backdropFilter: "blur(12px)",
+                  background: 'rgba(255,255,255,0.02)',
+                  backdropFilter: 'blur(12px)',
                   border: plan.highlighted
-                    ? "1px solid rgba(0,255,136,0.15)"
-                    : "1px solid rgba(255,255,255,0.06)",
-                  borderRadius: 16,
-                  padding: 32,
-                  boxShadow: plan.highlighted ? "0 0 48px #00FF8810" : "none",
+                    ? '1px solid rgba(255,255,255,0.08)'
+                    : '1px solid rgba(255,255,255,0.05)',
                 }}
               >
                 {plan.highlighted && (
                   <span
-                    className="absolute -top-3.5 left-1/2 -translate-x-1/2 text-[10px] font-bold px-4 py-1 rounded-full"
-                    style={{ background: "#00FF88", color: "#0A0A14" }}
+                    className="absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-semibold px-3 py-1 rounded-full uppercase tracking-[1.5px]"
+                    style={{
+                      background: 'rgba(255,255,255,0.06)',
+                      color: 'rgba(255,255,255,0.5)',
+                      border: '1px solid rgba(255,255,255,0.08)',
+                    }}
                   >
-                    MOST POPULAR
+                    Most Popular
                   </span>
                 )}
-                <h3
-                  className="text-[11px] font-bold tracking-[2px] uppercase mb-3"
-                  style={{ color: "#ffffff60" }}
-                >
+                <p className="text-[11px] font-semibold tracking-[2px] uppercase mb-4" style={{ color: 'rgba(255,255,255,0.3)' }}>
                   {plan.name}
-                </h3>
-                <div className="flex items-baseline gap-1.5 mb-1">
-                  <span className="font-syne" style={{ color: "#FF2D9B", fontSize: 48, fontWeight: 800, lineHeight: 1 }}>
+                </p>
+                <div className="flex items-baseline gap-1 mb-1">
+                  <span className="font-syne text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>
                     {plan.price}
                   </span>
                   {plan.suffix && (
-                    <span style={{ color: "rgba(255,255,255,0.35)", fontSize: 16 }}>{plan.suffix}</span>
+                    <span className="text-sm" style={{ color: 'rgba(255,255,255,0.25)' }}>{plan.suffix}</span>
                   )}
                 </div>
-                <p className="text-[12px] font-jakarta mb-6" style={{ color: "#ffffff50" }}>
+                <p className="text-[12px] font-jakarta mb-6" style={{ color: 'rgba(255,255,255,0.3)' }}>
                   {plan.desc}
                 </p>
                 <ul className="space-y-2.5 mb-8 flex-1">
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-[13px] font-jakarta" style={{ color: "#ffffffa0" }}>
-                      <Check size={14} className="shrink-0 mt-0.5" style={{ color: "#00FF88" }} />
+                    <li key={f} className="flex items-start gap-2.5 text-[13px] font-jakarta" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                      <FeatureDot />
                       {f}
                     </li>
                   ))}
                 </ul>
-                <PlanButton
-                  href={plan.href}
-                  external={plan.external}
-                  label={plan.cta}
-                  solid={plan.highlighted}
-                  color="#00FF88"
-                  priceId={plan.priceId}
-                />
+                <CheckoutButton label={plan.cta} priceId={plan.priceId} primary={plan.highlighted} />
               </div>
             ))}
           </div>
 
-          {/* Row 2: Industry Suite / Luxury Hospitality (2-col, premium) */}
+          {/* Premium 2-col */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            {/* ── Industry Suite ── */}
+            {/* Industry Suite */}
             <div
-              className="relative flex flex-col"
+              className="relative flex flex-col rounded-2xl p-8 transition-all duration-300 hover:border-white/[0.1]"
               style={{
-                background: "rgba(14,14,26,0.7)",
-                backdropFilter: "blur(12px)",
-                border: "1px solid rgba(0,229,255,0.15)",
-                borderRadius: 20,
-                padding: "40px 36px 36px",
-                boxShadow: "0 0 60px rgba(0,229,255,0.06)",
+                background: 'rgba(255,255,255,0.02)',
+                backdropFilter: 'blur(12px)',
+                border: '1px solid rgba(255,255,255,0.05)',
               }}
             >
-              {/* Top glow edge */}
-              <div
-                className="absolute top-0 left-4 right-4 h-[2px] rounded-full"
-                style={{
-                  background: "linear-gradient(90deg, #00FF88, #00E5FF, #FF2D9B)",
-                }}
-              />
-              {/* Badge */}
               <span
-                className="absolute -top-3.5 left-1/2 -translate-x-1/2 text-[10px] font-bold px-5 py-1 rounded-full"
+                className="absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-semibold px-3 py-1 rounded-full uppercase tracking-[1.5px]"
                 style={{
-                  background: "linear-gradient(135deg, #00FF88, #00E5FF)",
-                  color: "#0A0A14",
+                  background: 'rgba(255,255,255,0.06)',
+                  color: 'rgba(255,255,255,0.5)',
+                  border: '1px solid rgba(255,255,255,0.08)',
                 }}
               >
-                PREMIUM
+                Premium
               </span>
 
-              <h3
-                className="text-[11px] font-bold tracking-[2px] uppercase mb-3"
-                style={{ color: "#00E5FF" }}
-              >
+              <p className="text-[11px] font-semibold tracking-[2px] uppercase mb-4" style={{ color: 'rgba(255,255,255,0.3)' }}>
                 Industry Suite
-              </h3>
-              <div className="flex items-baseline gap-1.5 mb-1">
-                <span className="font-syne" style={{ color: "#FF2D9B", fontSize: 48, fontWeight: 800, lineHeight: 1 }}>
-                  $799
-                </span>
-                <span style={{ color: "rgba(255,255,255,0.35)", fontSize: 16 }}>/mo NZD</span>
+              </p>
+              <div className="flex items-baseline gap-1 mb-1">
+                <span className="font-syne text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>$799</span>
+                <span className="text-sm" style={{ color: 'rgba(255,255,255,0.25)' }}>/mo</span>
               </div>
-              <p className="text-[13px] font-medium mb-1" style={{ color: "#ffffffc0" }}>
+              <p className="text-[13px] font-medium mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 Deep expertise for your entire industry
               </p>
-              <p className="text-[11px] mb-6" style={{ color: "#ffffff40" }}>
+              <p className="text-[11px] mb-6" style={{ color: 'rgba(255,255,255,0.2)' }}>
                 Choose your industry. Get every agent relevant to it, fully loaded.
               </p>
 
               <ul className="space-y-2.5 mb-6 flex-1">
                 {INDUSTRY_FEATURES.map((f) => (
-                  <li key={f} className="flex items-start gap-2.5 text-[13px]" style={{ color: "#ffffffa0" }}>
-                    <Check size={14} className="shrink-0 mt-0.5" style={{ color: "#00E5FF" }} />
+                  <li key={f} className="flex items-start gap-2.5 text-[13px]" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                    <FeatureDot />
                     {f}
                   </li>
                 ))}
               </ul>
 
-              {/* Suite tags */}
               <div className="mb-6">
-                <p className="text-[10px] font-bold uppercase tracking-[1.5px] mb-3" style={{ color: "#ffffff40" }}>
+                <p className="text-[10px] font-semibold uppercase tracking-[1.5px] mb-3" style={{ color: 'rgba(255,255,255,0.2)' }}>
                   Available suites
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -470,11 +388,10 @@ const PricingPage = () => {
                       key={s.label}
                       className="text-[10px] px-3 py-1.5 rounded-full"
                       style={{
-                        background: "rgba(0,229,255,0.08)",
-                        border: "1px solid rgba(0,229,255,0.15)",
-                        color: "#00E5FF",
+                        background: 'rgba(255,255,255,0.03)',
+                        border: '1px solid rgba(255,255,255,0.06)',
+                        color: 'rgba(255,255,255,0.4)',
                       }}
-                      title={s.agents}
                     >
                       {s.label}
                     </span>
@@ -482,203 +399,179 @@ const PricingPage = () => {
                 </div>
               </div>
 
-              <PlanButton
-                priceId={STRIPE_TIERS.industry.price_id}
-                href="#"
-                external={false}
-                label="Start Industry Suite"
-                solid={true}
-                color="#00E5FF"
-                gradient="linear-gradient(135deg, #00FF88, #00E5FF)"
-              />
+              <CheckoutButton label="Start Industry Suite" priceId={STRIPE_TIERS.industry.price_id} primary />
             </div>
 
-            {/* ── Luxury Hospitality ── */}
+            {/* Luxury Hospitality */}
             <div
-              className="relative flex flex-col"
+              className="relative flex flex-col rounded-2xl p-8 transition-all duration-300 hover:border-white/[0.1]"
               style={{
-                background: "rgba(14,14,26,0.7)",
-                backdropFilter: "blur(12px)",
-                border: "1px solid rgba(255,184,0,0.12)",
-                borderRadius: 20,
-                padding: "40px 36px 36px",
-                boxShadow: "0 0 60px rgba(255,184,0,0.06)",
+                background: 'rgba(255,255,255,0.02)',
+                backdropFilter: 'blur(12px)',
+                border: '1px solid rgba(255,255,255,0.05)',
               }}
             >
-              {/* Top glow edge */}
-              <div
-                className="absolute top-0 left-4 right-4 h-[2px] rounded-full"
-                style={{
-                  background: "linear-gradient(90deg, #FFB800, #FF2D9B)",
-                }}
-              />
-              {/* Badge */}
               <span
-                className="absolute -top-3.5 left-1/2 -translate-x-1/2 text-[10px] font-bold px-5 py-1 rounded-full"
+                className="absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-semibold px-3 py-1 rounded-full uppercase tracking-[1.5px]"
                 style={{
-                  background: "linear-gradient(135deg, #FFB800, #FF2D9B)",
-                  color: "#0A0A14",
+                  background: 'rgba(255,255,255,0.06)',
+                  color: 'rgba(255,255,255,0.5)',
+                  border: '1px solid rgba(255,255,255,0.08)',
                 }}
               >
-                LUXURY
+                Luxury
               </span>
 
-              <h3
-                className="text-[11px] font-bold tracking-[2px] uppercase mb-3"
-                style={{ color: "#FFB800" }}
-              >
+              <p className="text-[11px] font-semibold tracking-[2px] uppercase mb-4" style={{ color: 'rgba(255,255,255,0.3)' }}>
                 Luxury Hospitality
-              </h3>
-              <div className="flex items-baseline gap-1.5 mb-1">
-                <span className="font-syne" style={{ color: "#FF2D9B", fontSize: 48, fontWeight: 800, lineHeight: 1 }}>
-                  $799
-                </span>
-                <span style={{ color: "rgba(255,255,255,0.35)", fontSize: 16 }}>/mo NZD per property</span>
+              </p>
+              <div className="flex items-baseline gap-1 mb-1">
+                <span className="font-syne text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>$799</span>
+                <span className="text-sm" style={{ color: 'rgba(255,255,255,0.25)' }}>/mo per property</span>
               </div>
-              <p className="text-[13px] font-medium mb-6" style={{ color: "#ffffffc0" }}>
+              <p className="text-[13px] font-medium mb-6" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 AI operations for luxury lodges and premium hotels
               </p>
 
               <ul className="space-y-2.5 mb-6 flex-1">
                 {LUXURY_FEATURES.map((f) => (
-                  <li key={f} className="flex items-start gap-2.5 text-[13px]" style={{ color: "#ffffffa0" }}>
-                    <Check size={14} className="shrink-0 mt-0.5" style={{ color: "#FFB800" }} />
+                  <li key={f} className="flex items-start gap-2.5 text-[13px]" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                    <FeatureDot />
                     {f}
                   </li>
                 ))}
               </ul>
 
-              {/* Multi-property note */}
-              <p className="text-[11px] mb-6" style={{ color: "#ffffff40" }}>
+              <p className="text-[11px] mb-6" style={{ color: 'rgba(255,255,255,0.2)' }}>
                 Multi-property groups: $1,499/mo for up to 3 properties
               </p>
 
-              <PlanButton
-                priceId={STRIPE_TIERS.luxury.price_id}
-                href="#"
-                external={false}
-                label="Book a Demo"
-                solid={true}
-                color="#FFB800"
-                gradient="linear-gradient(135deg, #FFB800, #FF2D9B)"
-              />
+              <CheckoutButton label="Book a Demo" priceId={STRIPE_TIERS.luxury.price_id} primary />
               <a
                 href="#contact"
-                className="block text-center text-[12px] mt-3 transition-colors hover:text-foreground"
-                style={{ color: "#ffffff50" }}
+                className="block text-center text-[12px] mt-3 transition-colors"
+                style={{ color: 'rgba(255,255,255,0.3)' }}
+                onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.6)'}
+                onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.3)'}
               >
                 Or speak to us first →
               </a>
             </div>
           </div>
 
-          {/* Row 3: Enterprise (single card, outlined) */}
+          {/* Enterprise */}
           <div className="max-w-md mx-auto">
             <div
-              className="relative flex flex-col"
+              className="relative flex flex-col rounded-2xl p-8 transition-all duration-300 hover:border-white/[0.1]"
               style={{
-                background: "rgba(14,14,26,0.7)",
-                backdropFilter: "blur(12px)",
-                border: "1px solid rgba(255,255,255,0.06)",
-                borderRadius: 16,
-                padding: 32,
+                background: 'rgba(255,255,255,0.02)',
+                backdropFilter: 'blur(12px)',
+                border: '1px solid rgba(255,255,255,0.05)',
               }}
             >
-              <h3
-                className="text-[11px] font-bold tracking-[2px] uppercase mb-3"
-                style={{ color: "#ffffff60" }}
-              >
+              <p className="text-[11px] font-semibold tracking-[2px] uppercase mb-4" style={{ color: 'rgba(255,255,255,0.3)' }}>
                 {ENTERPRISE.name}
-              </h3>
-              <div className="flex items-baseline gap-1.5 mb-1">
-                <span className="font-syne" style={{ color: "#FF2D9B", fontSize: 48, fontWeight: 800, lineHeight: 1 }}>
+              </p>
+              <div className="flex items-baseline gap-1 mb-1">
+                <span className="font-syne text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>
                   {ENTERPRISE.price}
                 </span>
               </div>
-              <p className="text-[12px] font-jakarta mb-6" style={{ color: "#ffffff50" }}>
+              <p className="text-[12px] font-jakarta mb-6" style={{ color: 'rgba(255,255,255,0.3)' }}>
                 {ENTERPRISE.desc}
               </p>
               <ul className="space-y-2.5 mb-8 flex-1">
                 {ENTERPRISE.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2.5 text-[13px] font-jakarta" style={{ color: "#ffffffa0" }}>
-                    <Check size={14} className="shrink-0 mt-0.5" style={{ color: "#00FF88" }} />
+                  <li key={f} className="flex items-start gap-2.5 text-[13px] font-jakarta" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                    <FeatureDot />
                     {f}
                   </li>
                 ))}
               </ul>
-              <PlanButton
+              <a
                 href={ENTERPRISE.href}
-                external={false}
-                label={ENTERPRISE.cta}
-                solid={false}
-                color="#00FF88"
-              />
+                className="block w-full text-center text-[13px] font-semibold py-3 rounded-[10px] transition-all duration-300"
+                style={{
+                  background: 'transparent',
+                  color: 'rgba(255,255,255,0.5)',
+                  border: '1px solid rgba(255,255,255,0.06)',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)';
+                  e.currentTarget.style.color = '#E4E4EC';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)';
+                  e.currentTarget.style.color = 'rgba(255,255,255,0.5)';
+                }}
+              >
+                {ENTERPRISE.cta}
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ═══ HELM Family Plans ═══ */}
-      {/* HELM gradient divider */}
+      {/* ═══ HELM ═══ */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="h-px rounded-full opacity-40" style={{ background: "linear-gradient(90deg, transparent, #B388FF, #FF2D9B, transparent)" }} />
+        <div className="h-px rounded-full" style={{ background: 'rgba(255,255,255,0.05)' }} />
       </div>
       <section className="py-24 relative">
-        {/* Purple ambient glow */}
-        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at center top, rgba(179,136,255,0.04) 0%, transparent 60%)" }} />
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-center text-foreground mb-2">
-            HELM — For <span style={{ color: "#B388FF" }}>NZ Families</span>
+          <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-center mb-2" style={{ color: '#E4E4EC' }}>
+            HELM — For NZ Families
           </h2>
-          <p className="text-[13px] font-jakarta text-center mb-12" style={{ color: "#ffffff50" }}>
+          <p className="text-[13px] font-jakarta text-center mb-12" style={{ color: 'rgba(255,255,255,0.3)' }}>
             AI life admin built for Kiwi households
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {HELM_PLANS.map((plan) => (
               <div
                 key={plan.name}
-                className="flex flex-col"
+                className="flex flex-col rounded-2xl p-8 transition-all duration-300 hover:border-white/[0.1]"
                 style={{
-                  background: "rgba(14,14,26,0.7)",
-                  backdropFilter: "blur(12px)",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                  borderRadius: 16,
-                  padding: 32,
+                  background: 'rgba(255,255,255,0.02)',
+                  backdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(255,255,255,0.05)',
                 }}
               >
-                <h3
-                  className="text-[11px] font-bold tracking-[2px] uppercase mb-3"
-                  style={{ color: "#B388FF" }}
-                >
+                <p className="text-[11px] font-semibold tracking-[2px] uppercase mb-4" style={{ color: 'rgba(255,255,255,0.3)' }}>
                   {plan.name}
-                </h3>
-                <div className="flex items-baseline gap-1.5 mb-1">
-                  <span className="font-syne" style={{ color: "#FF2D9B", fontSize: 48, fontWeight: 800, lineHeight: 1 }}>
+                </p>
+                <div className="flex items-baseline gap-1 mb-1">
+                  <span className="font-syne text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>
                     {plan.price}
                   </span>
                   {plan.suffix && (
-                    <span style={{ color: "rgba(255,255,255,0.35)", fontSize: 16 }}>{plan.suffix}</span>
+                    <span className="text-sm" style={{ color: 'rgba(255,255,255,0.25)' }}>{plan.suffix}</span>
                   )}
                 </div>
-                <p className="text-[12px] font-jakarta mb-6" style={{ color: "#ffffff50" }}>
+                <p className="text-[12px] font-jakarta mb-6" style={{ color: 'rgba(255,255,255,0.3)' }}>
                   {plan.desc}
                 </p>
                 <ul className="space-y-2.5 mb-8 flex-1">
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-[13px] font-jakarta" style={{ color: "#ffffffa0" }}>
-                      <Check size={14} className="shrink-0 mt-0.5" style={{ color: "#B388FF" }} />
+                    <li key={f} className="flex items-start gap-2.5 text-[13px] font-jakarta" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                      <FeatureDot />
                       {f}
                     </li>
                   ))}
                 </ul>
-                <PlanButton
-                  href={plan.href}
-                  external={plan.external}
-                  label={plan.cta}
-                  solid={plan.solid}
-                  color="#B388FF"
-                  priceId={(plan as any).priceId}
-                />
+                {plan.priceId ? (
+                  <CheckoutButton label={plan.cta} priceId={plan.priceId} primary={plan.solid} />
+                ) : (
+                  <Link
+                    to={plan.href}
+                    className="block w-full text-center text-[13px] font-semibold py-3 rounded-[10px] transition-all duration-300"
+                    style={{
+                      background: 'transparent',
+                      color: 'rgba(255,255,255,0.5)',
+                      border: '1px solid rgba(255,255,255,0.06)',
+                    }}
+                  >
+                    {plan.cta}
+                  </Link>
+                )}
               </div>
             ))}
           </div>
@@ -691,28 +584,27 @@ const PricingPage = () => {
           <div
             className="inline-block px-8 py-3 rounded-2xl font-jakarta"
             style={{
-              background: "rgba(14,14,26,0.5)",
-              backdropFilter: "blur(12px)",
-              border: "1px solid rgba(255,255,255,0.06)",
+              background: 'rgba(255,255,255,0.02)',
+              border: '1px solid rgba(255,255,255,0.05)',
             }}
           >
-            <p className="text-[11px] tracking-wide" style={{ color: "#ffffff50" }}>
-              Payments secured by Stripe · Monthly billing · Cancel anytime · No lock-in · Prices NZD incl GST · Visa, Mastercard, Amex
+            <p className="text-[11px] tracking-wide" style={{ color: 'rgba(255,255,255,0.25)' }}>
+              Payments secured by Stripe · Monthly billing · Cancel anytime · No lock-in · Prices NZD incl GST
             </p>
           </div>
         </div>
       </section>
 
-      {/* FAQ gradient divider */}
+      {/* Divider */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
-        <div className="h-px rounded-full opacity-30" style={{ background: "linear-gradient(90deg, transparent, #00FF88, #00E5FF, #FF2D9B, transparent)" }} />
+        <div className="h-px rounded-full" style={{ background: 'rgba(255,255,255,0.05)' }} />
       </div>
 
       {/* FAQ */}
       <section className="py-20 sm:py-28">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-center text-foreground mb-14">
-            Frequently asked <span className="text-gradient-hero">questions</span>
+          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-center mb-14" style={{ color: '#E4E4EC' }}>
+            Frequently asked questions
           </h2>
           <div className="space-y-2">
             {FAQS.map((faq, i) => (
@@ -720,25 +612,24 @@ const PricingPage = () => {
                 key={i}
                 className="rounded-2xl overflow-hidden transition-all"
                 style={{
-                  background: "rgba(14,14,26,0.7)",
-                  backdropFilter: "blur(12px)",
-                  border: "1px solid rgba(255,255,255,0.06)",
+                  background: 'rgba(255,255,255,0.02)',
+                  border: '1px solid rgba(255,255,255,0.05)',
                 }}
               >
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full flex items-center justify-between px-5 py-4 text-left"
                 >
-                  <span className="text-sm font-medium font-jakarta text-foreground pr-4">{faq.q}</span>
+                  <span className="text-sm font-medium font-jakarta pr-4" style={{ color: '#E4E4EC' }}>{faq.q}</span>
                   <ChevronDown
                     size={16}
                     className={`shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`}
-                    style={{ color: "#ffffff50" }}
+                    style={{ color: 'rgba(255,255,255,0.2)' }}
                   />
                 </button>
                 {openFaq === i && (
                   <div className="px-5 pb-4">
-                    <p className="text-xs font-jakarta leading-relaxed" style={{ color: "#ffffffa0" }}>{faq.a}</p>
+                    <p className="text-xs font-jakarta leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>{faq.a}</p>
                   </div>
                 )}
               </div>
@@ -747,9 +638,9 @@ const PricingPage = () => {
         </div>
       </section>
 
-      {/* Bottom CTA gradient divider */}
+      {/* Divider */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
-        <div className="h-px rounded-full opacity-30" style={{ background: "linear-gradient(90deg, transparent, #00FF88, #00E5FF, #FF2D9B, transparent)" }} />
+        <div className="h-px rounded-full" style={{ background: 'rgba(255,255,255,0.05)' }} />
       </div>
 
       {/* Bottom CTA */}
@@ -758,29 +649,51 @@ const PricingPage = () => {
           <div
             className="rounded-2xl p-10"
             style={{
-              background: "rgba(14,14,26,0.7)",
-              backdropFilter: "blur(12px)",
-              border: "1px solid rgba(255,255,255,0.06)",
+              background: 'rgba(255,255,255,0.02)',
+              border: '1px solid rgba(255,255,255,0.05)',
             }}
           >
-            <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-foreground mb-3">
+            <h2 className="text-xl sm:text-2xl font-syne font-extrabold mb-3" style={{ color: '#E4E4EC' }}>
               Ready to get started?
             </h2>
-            <p className="text-sm font-jakarta mb-6" style={{ color: "#ffffffa0" }}>
+            <p className="text-sm font-jakarta mb-6" style={{ color: 'rgba(255,255,255,0.5)' }}>
               Try any agent free — no signup required.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link
                 to="/"
-                className="relative overflow-hidden inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold font-jakarta bg-primary text-primary-foreground transition-all hover:shadow-[0_0_20px_rgba(0,255,136,0.15),0_0_60px_rgba(0,255,136,0.08)]"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm font-semibold font-jakarta transition-all duration-300"
+                style={{
+                  background: 'rgba(255,255,255,0.08)',
+                  color: '#E4E4EC',
+                  border: '1px solid rgba(255,255,255,0.12)',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.background = 'rgba(255,255,255,0.12)';
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)';
+                }}
               >
-                <span className="relative z-10 flex items-center gap-2">Browse agents <ArrowRight size={16} /></span>
-                <span className="absolute inset-0 animate-shimmer-sweep" style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)" }} />
+                Browse agents <ArrowRight size={16} />
               </Link>
               <a
                 href="mailto:hello@assembl.co.nz?subject=Enterprise Inquiry"
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold font-jakarta text-foreground transition-all"
-                style={{ border: "1px solid rgba(255,255,255,0.1)" }}
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm font-semibold font-jakarta transition-all duration-300"
+                style={{
+                  color: 'rgba(255,255,255,0.5)',
+                  border: '1px solid rgba(255,255,255,0.06)',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+                  e.currentTarget.style.color = '#E4E4EC';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)';
+                  e.currentTarget.style.color = 'rgba(255,255,255,0.5)';
+                }}
               >
                 Talk to us about Enterprise
               </a>

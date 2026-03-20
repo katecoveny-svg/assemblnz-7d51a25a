@@ -34,7 +34,7 @@ const AgentShowcase = () => {
             className="h-1 rounded-full transition-all duration-300"
             style={{
               width: i === index ? 24 : 8,
-              background: i === index ? agent.color : "hsl(var(--muted-foreground) / 0.25)",
+              background: i === index ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.08)',
             }}
           />
         ))}
@@ -51,16 +51,16 @@ const AgentShowcase = () => {
         >
           <Link
             to={`/chat/${agent.id}`}
-            className="group block relative rounded-2xl border border-border/40 bg-card/60 backdrop-blur-xl p-5 overflow-hidden hover:border-primary/30 transition-colors"
+            className="group block relative rounded-2xl p-5 overflow-hidden transition-all duration-300"
+            style={{
+              background: 'rgba(255,255,255,0.02)',
+              backdropFilter: 'blur(12px)',
+              border: '1px solid rgba(255,255,255,0.05)',
+            }}
+            onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'}
+            onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)'}
           >
-            {/* Glow background */}
-            <div
-              className="absolute -top-20 -right-20 w-56 h-56 rounded-full blur-3xl opacity-15 transition-opacity group-hover:opacity-25"
-              style={{ background: agent.color }}
-            />
-
             <div className="relative z-10 flex items-center gap-4">
-              {/* Avatar with floating animation */}
               <motion.div
                 animate={{ y: [0, -6, 0] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
@@ -69,23 +69,20 @@ const AgentShowcase = () => {
                 <AgentAvatar agentId={agent.id} color={agent.color} size={72} showGlow />
               </motion.div>
 
-              {/* Info */}
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 mb-1">
-                  <span
-                    className="text-sm font-extrabold tracking-wider"
-                    style={{ color: agent.color }}
-                  >
+                  <span className="text-sm font-extrabold tracking-wider" style={{ color: '#E4E4EC' }}>
                     {agent.name}
                   </span>
-                  <span className="text-[10px] font-mono text-muted-foreground opacity-60">
+                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: agent.color, opacity: 0.5 }} />
+                  <span className="text-[10px] font-mono opacity-60" style={{ color: 'rgba(255,255,255,0.2)' }}>
                     {agent.designation}
                   </span>
                 </div>
-                <p className="text-xs font-medium text-foreground/90 mb-1">
+                <p className="text-xs font-medium mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
                   {agent.role}
                 </p>
-                <p className="text-[11px] text-muted-foreground leading-relaxed line-clamp-2">
+                <p className="text-[11px] leading-relaxed line-clamp-2" style={{ color: 'rgba(255,255,255,0.3)' }}>
                   {agent.tagline}
                 </p>
               </div>
@@ -96,11 +93,11 @@ const AgentShowcase = () => {
               {agent.expertise.slice(0, 3).map((skill) => (
                 <span
                   key={skill}
-                  className="text-[10px] px-2 py-0.5 rounded-full border font-medium"
+                  className="text-[10px] px-2 py-0.5 rounded-full font-medium"
                   style={{
-                    borderColor: `${agent.color}30`,
-                    color: agent.color,
-                    background: `${agent.color}08`,
+                    border: '1px solid rgba(255,255,255,0.06)',
+                    color: 'rgba(255,255,255,0.3)',
+                    background: 'rgba(255,255,255,0.02)',
                   }}
                 >
                   {skill}
@@ -108,10 +105,9 @@ const AgentShowcase = () => {
               ))}
             </div>
 
-            {/* CTA hint */}
             <div
               className="relative z-10 mt-3 text-[10px] font-bold tracking-wider uppercase opacity-0 group-hover:opacity-100 transition-opacity"
-              style={{ color: agent.color }}
+              style={{ color: 'rgba(255,255,255,0.4)' }}
             >
               Chat now →
             </div>
