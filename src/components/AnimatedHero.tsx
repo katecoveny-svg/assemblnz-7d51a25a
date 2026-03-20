@@ -2,6 +2,9 @@ import { motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import AgentShowcase from "@/components/AgentShowcase";
 import { Link } from "react-router-dom";
+import { lazy, Suspense } from "react";
+
+const NexusHero3D = lazy(() => import("@/components/NexusHero3D"));
 
 interface AnimatedHeroProps {
   onScrollToGrid: () => void;
@@ -99,13 +102,22 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
         </motion.div>
 
         <motion.p
-          className="text-base sm:text-lg max-w-2xl mx-auto mb-8 font-jakarta text-muted-foreground"
+          className="text-base sm:text-lg max-w-2xl mx-auto mb-6 font-jakarta text-muted-foreground"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          37 expert agents trained on NZ legislation. Try any agent free.
+          38 expert agents trained on NZ legislation. Try any agent free.
         </motion.p>
+
+        {/* 3D Nexus Robot */}
+        <Suspense fallback={
+          <div className="w-full h-[340px] sm:h-[420px] flex items-center justify-center">
+            <div className="w-16 h-16 rounded-full border-2 border-primary/30 border-t-primary animate-spin" />
+          </div>
+        }>
+          <NexusHero3D />
+        </Suspense>
 
         <motion.div
           className="flex flex-col sm:flex-row gap-3 justify-center mb-12"
@@ -141,7 +153,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
 
         <div className="flex flex-wrap justify-center gap-6 sm:gap-10">
           {[
-            { value: "37", label: "Agents" },
+            { value: "38", label: "Agents" },
             { value: "20+", label: "NZ Industries" },
             { value: "50+", label: "Acts Referenced" },
             { value: "24/7", label: "Always On" },
