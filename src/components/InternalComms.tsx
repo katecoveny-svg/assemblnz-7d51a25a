@@ -22,7 +22,6 @@ const AGENT_SPECIFIC: Record<string, { label: string; items: string[] }> = {
   property: { label: "HAVEN Property", items: ["Tenant communication template", "Maintenance notification", "Rent review letter", "Property inspection notification"] },
   customs: { label: "NEXUS Customs", items: ["Shipment status update", "Regulatory change alert", "Broker team briefing template"] },
   marketing: { label: "PRISM Marketing", items: ["Campaign brief template", "Content approval workflow", "Brand guideline distribution", "Social media policy"] },
-  operations: { label: "HELM Life Admin", items: ["Family meeting agenda", "Household task assignment", "Weekly family newsletter"] },
 };
 
 interface Props {
