@@ -622,7 +622,7 @@ const PricingPage = () => {
                     <span style={{ color: "rgba(255,255,255,0.35)", fontSize: 16 }}>{plan.suffix}</span>
                   )}
                 </div>
-                <p className="text-[12px] mb-6" style={{ color: "#ffffff50" }}>
+                <p className="text-[12px] font-jakarta mb-6" style={{ color: "#ffffff50" }}>
                   {plan.desc}
                 </p>
                 <ul className="space-y-2.5 mb-8 flex-1">
