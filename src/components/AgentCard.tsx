@@ -14,10 +14,8 @@ const AgentCard = ({ agent, index }: AgentCardProps) => {
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
 
-  const rotateX = useSpring(useTransform(mouseY, [0, 1], [8, -8]), { stiffness: 300, damping: 30 });
-  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-8, 8]), { stiffness: 300, damping: 30 });
-  const glowX = useTransform(mouseX, [0, 1], [0, 100]);
-  const glowY = useTransform(mouseY, [0, 1], [0, 100]);
+  const rotateX = useSpring(useTransform(mouseY, [0, 1], [4, -4]), { stiffness: 300, damping: 30 });
+  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-4, 4]), { stiffness: 300, damping: 30 });
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!cardRef.current) return;
@@ -44,76 +42,46 @@ const AgentCard = ({ agent, index }: AgentCardProps) => {
     >
       <Link
         to={`/chat/${agent.id}`}
-        className="group relative block rounded-2xl p-5 transition-all duration-300 overflow-hidden border border-white/[0.06]"
+        className="group relative block rounded-2xl p-5 transition-all duration-300 overflow-hidden"
         style={{
-          background: 'rgba(14, 14, 26, 0.7)',
+          background: 'rgba(255,255,255,0.02)',
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
+          border: '1px solid rgba(255,255,255,0.05)',
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = agent.color + "40";
-          e.currentTarget.style.boxShadow = `0 0 30px ${agent.color}20, 0 0 60px ${agent.color}08, inset 0 0 30px ${agent.color}05`;
+          e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.06)";
-          e.currentTarget.style.boxShadow = "none";
+          e.currentTarget.style.borderColor = "rgba(255,255,255,0.05)";
         }}
       >
-        {/* Top edge glow line */}
-        <div
-          className="absolute top-0 left-[15%] right-[15%] h-px opacity-20 group-hover:opacity-60 transition-opacity duration-500"
-          style={{ background: `linear-gradient(90deg, transparent, ${agent.color}, transparent)` }}
-        />
-
-        {/* Corner glow on hover */}
-        <motion.div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
-          style={{
-            background: useTransform(
-              [glowX, glowY],
-              ([x, y]) => `radial-gradient(circle at ${x}% ${y}%, ${agent.color}12, transparent 60%)`
-            ),
-          }}
-        />
-
-        {/* Animated background pulse */}
-        <div
-          className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-          style={{
-            background: `radial-gradient(circle at 50% 0%, ${agent.color}08, transparent 70%)`,
-          }}
-        />
-
         <div className="relative z-10">
           <div className="flex items-start justify-between mb-3">
-            <motion.div
-              className="transition-all duration-300"
-              whileHover={{ scale: 1.15, filter: `drop-shadow(0 0 12px ${agent.color})` }}
-            >
-              <AgentAvatar agentId={agent.id} color={agent.color} size={40} />
-            </motion.div>
-            <span className="font-mono-jb text-[10px] text-muted-foreground">{agent.designation}</span>
+            <AgentAvatar agentId={agent.id} color={agent.color} size={40} />
+            <span className="font-mono-jb text-[10px]" style={{ color: 'rgba(255,255,255,0.2)' }}>{agent.designation}</span>
           </div>
-          <h3 className="text-base font-syne font-bold text-foreground tracking-wide">{agent.name}</h3>
-          <p className="text-xs font-jakarta font-medium mb-1" style={{ color: agent.color }}>{agent.role}</p>
-          <p className="text-xs font-jakarta italic mb-3 text-muted-foreground">"{agent.tagline}"</p>
+          <div className="flex items-center gap-2 mb-0.5">
+            <h3 className="text-base font-syne font-bold tracking-wide" style={{ color: '#E4E4EC' }}>{agent.name}</h3>
+            {/* Tiny agent colour dot */}
+            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: agent.color, opacity: 0.6 }} />
+          </div>
+          <p className="text-xs font-jakarta font-medium mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>{agent.role}</p>
+          <p className="text-xs font-jakarta italic mb-3" style={{ color: 'rgba(255,255,255,0.3)' }}>"{agent.tagline}"</p>
           <div className="flex flex-wrap gap-1.5 mb-3">
             {agent.traits.map(t => (
-              <span key={t} className="text-[10px] font-jakarta px-2 py-0.5 rounded-full border border-white/[0.06] text-foreground/60 group-hover:border-[var(--agent-hover)] transition-colors duration-300" style={{ "--agent-hover": agent.color + "30" } as React.CSSProperties}>
+              <span key={t} className="text-[10px] font-jakarta px-2 py-0.5 rounded-full transition-colors duration-300" style={{ border: '1px solid rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.4)' }}>
                 {t}
               </span>
             ))}
           </div>
           <div className="flex flex-wrap gap-1 mb-4">
             {agent.expertise.map(e => (
-              <span key={e} className="font-mono-jb text-[9px] px-1.5 py-0.5 rounded text-foreground/50" style={{ background: 'rgba(255,255,255,0.04)' }}>{e}</span>
+              <span key={e} className="font-mono-jb text-[9px] px-1.5 py-0.5 rounded" style={{ background: 'rgba(255,255,255,0.03)', color: 'rgba(255,255,255,0.3)' }}>{e}</span>
             ))}
           </div>
-          <div className="flex items-center gap-2 text-xs font-jakarta font-medium" style={{ color: agent.color }}>
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ backgroundColor: agent.color }} />
-              <span className="relative inline-flex rounded-full h-2 w-2" style={{ backgroundColor: agent.color, boxShadow: `0 0 8px ${agent.color}` }} />
-            </span>
+          <div className="flex items-center gap-2 text-xs font-jakarta font-medium" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: agent.color, opacity: 0.5 }} />
             Chat now →
           </div>
         </div>
