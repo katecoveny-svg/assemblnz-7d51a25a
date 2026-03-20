@@ -1164,6 +1164,26 @@ const ChatPage = () => {
         <HavenDocuments onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "haven_notifications" && isHaven ? (
         <HavenNotifications />
+      ) : activeTab === "flux_pipeline" && isFlux ? (
+        <FluxLeadPipeline />
+      ) : activeTab === "flux_followups" && isFlux ? (
+        <FluxFollowUps />
+      ) : activeTab === "flux_clients" && isFlux ? (
+        <FluxClients />
+      ) : activeTab === "prism_campaigns" && isPrism ? (
+        <PrismCampaigns />
+      ) : activeTab === "prism_social" && isPrism ? (
+        <PrismSocialMedia />
+      ) : activeTab === "prism_brand" && isPrism ? (
+        <PrismBrandVoice />
+      ) : activeTab === "prism_creative" && isPrism ? (
+        <PrismCreativeStudio />
+      ) : activeTab === "prism_video" && isPrism ? (
+        <PrismVideoStudio />
+      ) : activeTab === "axis_automations" && isAxis ? (
+        <AxisAutomations />
+      ) : activeTab === "agent_training" ? (
+        <AgentTraining agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
       ) : activeTab === "aura_setup" && isAura ? (
         <AuraPropertySetup />
       ) : activeTab === "aura_reservations" && isAura ? (
