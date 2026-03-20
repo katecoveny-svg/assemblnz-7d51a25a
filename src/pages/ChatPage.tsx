@@ -1257,6 +1257,7 @@ const ChatPage = () => {
                                 )}
                                 <SaveToLibrary content={msg.content} agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
                               </div>
+                            </div>
                           )}
                         </div>
                       </div>
