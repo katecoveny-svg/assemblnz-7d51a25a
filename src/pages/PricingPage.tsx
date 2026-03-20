@@ -1,20 +1,13 @@
-import { Link } from "react-router-dom";
-import { Check, ChevronDown, ArrowRight } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Check, ChevronDown, ArrowRight, Loader2 } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import ParticleField from "@/components/ParticleField";
 import { useState } from "react";
-
-/* ─── Stripe Links ─── */
-const STRIPE = {
-  starter: "https://buy.stripe.com/dRm3cx2za1BSctvdx4",
-  pro: "https://buy.stripe.com/bJebJ3gq0dkA6570Ki",
-  business: "https://buy.stripe.com/7sYdRb5Lm6Wc3WZ0Ki",
-  industry: "https://buy.stripe.com/8x24gB2zaeoE513akS",
-  luxury: "https://buy.stripe.com/4gM4gB5Lm5S88df9gO",
-  helmPersonal: "https://buy.stripe.com/14AaEZ0r2a8o1OR3Wu",
-  helmFamily: "https://buy.stripe.com/8x27sN2za5S8dxzdx4",
-};
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
+import { STRIPE_TIERS } from "@/data/stripeTiers";
+import { toast } from "sonner";
 
 /* ─── Standard Business Plans (3-col row) ─── */
 const STANDARD_PLANS = [
