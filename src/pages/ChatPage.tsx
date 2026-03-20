@@ -72,6 +72,16 @@ import HavenCompliance from "@/components/haven/HavenCompliance";
 import HavenCostIntelligence from "@/components/haven/HavenCostIntelligence";
 import HavenDocuments from "@/components/haven/HavenDocuments";
 import HavenNotifications from "@/components/haven/HavenNotifications";
+import FluxLeadPipeline from "@/components/flux/FluxLeadPipeline";
+import FluxFollowUps from "@/components/flux/FluxFollowUps";
+import FluxClients from "@/components/flux/FluxClients";
+import PrismCampaigns from "@/components/prism/PrismCampaigns";
+import PrismSocialMedia from "@/components/prism/PrismSocialMedia";
+import PrismBrandVoice from "@/components/prism/PrismBrandVoice";
+import PrismCreativeStudio from "@/components/prism/PrismCreativeStudio";
+import PrismVideoStudio from "@/components/prism/PrismVideoStudio";
+import AxisAutomations from "@/components/axis/AxisAutomations";
+import AgentTraining from "@/components/shared/AgentTraining";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
 
