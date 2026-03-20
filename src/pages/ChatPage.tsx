@@ -333,6 +333,9 @@ const ChatPage = () => {
   const isMarketing = agentId === "marketing";
   const isConstruction = agentId === "construction";
   const isHaven = agentId === "property";
+  const isFlux = agentId === "sales";
+  const isPrism = agentId === "marketing";
+  const isAxis = agentId === "pm";
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
 
