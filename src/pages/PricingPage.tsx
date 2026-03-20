@@ -259,12 +259,12 @@ const PricingPage = () => {
       <BrandNav />
 
       {/* Hero */}
-      <section className="py-20 sm:py-28">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-syne font-extrabold mb-4 leading-tight" style={{ color: '#E4E4EC' }}>
+      <section className="pt-12 pb-10 sm:py-28">
+        <div className="max-w-5xl mx-auto px-5 sm:px-6 text-center">
+          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-syne font-extrabold mb-3 leading-tight" style={{ color: '#E4E4EC' }}>
             Simple, honest pricing
           </h1>
-          <p className="text-sm sm:text-base font-jakarta max-w-xl mx-auto mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>
+          <p className="text-sm sm:text-base font-jakarta max-w-xl mx-auto mb-3" style={{ color: 'rgba(255,255,255,0.5)' }}>
             From solo operators to luxury lodges. No lock-in. Cancel anytime.
           </p>
           <p className="text-xs font-jakarta" style={{ color: 'rgba(255,255,255,0.2)' }}>
