@@ -4,7 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import { agents } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare } from "lucide-react";
+import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import ModelGenerationCard from "@/components/ModelGenerationCard";
 import HelmQuickActions from "@/components/helm/HelmQuickActions";
@@ -293,6 +293,11 @@ const ChatPage = () => {
   const { teReoPrompt } = useLanguage();
   const [conversationId, setConversationId] = useState<string | null>(null);
 
+  // Voice input/output state (HELM)
+  const [isListening, setIsListening] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState<number | null>(null);
+  const recognitionRef = useRef<any>(null);
+
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -310,6 +315,68 @@ const ChatPage = () => {
   const isConstruction = agentId === "construction";
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
+
+  // Voice input (Speech-to-Text) for HELM
+  const toggleListening = useCallback(() => {
+    if (isListening) {
+      recognitionRef.current?.stop();
+      setIsListening(false);
+      return;
+    }
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Speech recognition is not supported in this browser.");
+      return;
+    }
+    const recognition = new SpeechRecognition();
+    recognition.lang = "en-NZ";
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.onresult = (event: any) => {
+      const transcript = Array.from(event.results)
+        .map((r: any) => r[0].transcript)
+        .join("");
+      setInput(transcript);
+    };
+    recognition.onend = () => setIsListening(false);
+    recognition.onerror = () => setIsListening(false);
+    recognitionRef.current = recognition;
+    recognition.start();
+    setIsListening(true);
+  }, [isListening]);
+
+  // Voice output (Text-to-Speech) for HELM
+  const speakText = useCallback((text: string, messageIndex: number) => {
+    if (isSpeaking === messageIndex) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(null);
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const cleanText = text
+      .replace(/#{1,6}\s/g, "")
+      .replace(/\*\*(.*?)\*\*/g, "$1")
+      .replace(/\*(.*?)\*/g, "$1")
+      .replace(/`(.*?)`/g, "$1")
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+      .replace(/[-•·]\s/g, "")
+      .replace(/\n{2,}/g, ". ");
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    utterance.lang = "en-NZ";
+    utterance.rate = 0.95;
+    utterance.pitch = 1;
+    utterance.onend = () => setIsSpeaking(null);
+    utterance.onerror = () => setIsSpeaking(null);
+    setIsSpeaking(messageIndex);
+    window.speechSynthesis.speak(utterance);
+  }, [isSpeaking]);
+
+  useEffect(() => {
+    return () => {
+      window.speechSynthesis?.cancel();
+      recognitionRef.current?.stop();
+    };
+  }, []);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -1173,7 +1240,23 @@ const ChatPage = () => {
                                 <ResponseSources content={msg.content} />
                                 <AITransparencyBadge />
                               </div>
-                              <SaveToLibrary content={msg.content} agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
+                              <div className="flex items-center gap-1">
+                                {isHelm && (
+                                  <button
+                                    type="button"
+                                    onClick={() => speakText(msg.content, i)}
+                                    className="p-1 rounded-md transition-colors"
+                                    style={{
+                                      color: isSpeaking === i ? "#B388FF" : "hsl(var(--muted-foreground))",
+                                      background: isSpeaking === i ? "rgba(179,136,255,0.15)" : "transparent",
+                                    }}
+                                    title={isSpeaking === i ? "Stop speaking" : "Read aloud"}
+                                  >
+                                    <Volume2 size={14} />
+                                  </button>
+                                )}
+                                <SaveToLibrary content={msg.content} agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
+                              </div>
                             </div>
                           )}
                         </div>
@@ -1295,9 +1378,28 @@ const ChatPage = () => {
                 </Tooltip>
               )}
 
+              {/* HELM: Voice mic button */}
+              {isHelm && (
+                <button
+                  type="button"
+                  onClick={toggleListening}
+                  className="p-2.5 rounded-lg border transition-all duration-200"
+                  style={{
+                    borderColor: isListening ? "#B388FF" : "hsl(var(--border))",
+                    color: isListening ? "#B388FF" : "hsl(var(--muted-foreground))",
+                    background: isListening ? "rgba(179,136,255,0.15)" : "transparent",
+                    boxShadow: isListening ? "0 0 16px rgba(179,136,255,0.3)" : "none",
+                    animation: isListening ? "pulse 1.5s infinite" : "none",
+                  }}
+                  title={isListening ? "Stop listening" : "Voice input"}
+                >
+                  {isListening ? <MicOff size={16} /> : <Mic size={16} />}
+                </button>
+              )}
+
               <input
                 ref={inputRef} type="text" value={input} onChange={(e) => setInput(e.target.value)}
-                placeholder={isArc && pendingImage ? "Describe the building, or send to generate from image..." : isHelm ? "Ask HELM anything — meals, budgets, schedules, life admin..." : isNexus ? "Ask NEXUS or upload a document..." : `Ask ${agent.name} anything...`}
+                placeholder={isArc && pendingImage ? "Describe the building, or send to generate from image..." : isHelm ? (isListening ? "Listening..." : "Ask HELM anything — meals, budgets, schedules, life admin...") : isNexus ? "Ask NEXUS or upload a document..." : `Ask ${agent.name} anything...`}
                 className="flex-1 bg-card border border-border rounded-lg px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-1 focus:ring-offset-background focus:border-foreground/10 transition-colors"
                 aria-label={`Message ${agent.name}`}
                 onKeyDown={(e) => { if (e.key === "Escape") inputRef.current?.blur(); }}
