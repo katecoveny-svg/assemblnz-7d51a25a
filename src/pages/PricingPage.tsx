@@ -638,15 +638,15 @@ const PricingPage = () => {
       </section>
 
       {/* Divider */}
-      <div className="max-w-3xl mx-auto px-4 sm:px-6">
+      <div className="max-w-3xl mx-auto px-5 sm:px-6">
         <div className="h-px rounded-full" style={{ background: 'rgba(255,255,255,0.05)' }} />
       </div>
 
       {/* Bottom CTA */}
-      <section id="contact" className="py-16">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+      <section id="contact" className="py-12 sm:py-16">
+        <div className="max-w-3xl mx-auto px-5 sm:px-6 text-center">
           <div
-            className="rounded-2xl p-10"
+            className="rounded-2xl p-6 sm:p-10"
             style={{
               background: 'rgba(255,255,255,0.02)',
               border: '1px solid rgba(255,255,255,0.05)',
