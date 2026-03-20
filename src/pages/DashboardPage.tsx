@@ -277,7 +277,7 @@ const DashboardPage = () => {
             ))}
             <div className="flex items-center justify-between pt-3 border-t border-border">
               <span className="text-xs font-bold text-foreground">Total estimated time saved</span>
-              <span className="text-sm font-bold" style={{ color: "#FFB800" }}>23.5 hours</span>
+              <span className="text-sm font-bold" style={{ color: "hsl(157, 100%, 55%)" }}>23.5 hours</span>
             </div>
           </div>
         </div>
