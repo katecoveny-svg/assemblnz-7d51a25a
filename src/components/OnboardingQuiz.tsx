@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { agents } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
-import AssemblHeroAgent from "@/components/AssemblHeroAgent";
+import nexusLogo from "@/assets/nexus-logo.png";
 import ParticleField from "@/components/ParticleField";
 import {
   NeonBuilding,
