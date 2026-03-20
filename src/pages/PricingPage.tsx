@@ -677,6 +677,7 @@ const PricingPage = () => {
                   label={plan.cta}
                   solid={plan.solid}
                   color="#B388FF"
+                  priceId={(plan as any).priceId}
                 />
               </div>
             ))}
