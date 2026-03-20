@@ -178,8 +178,9 @@ const HELM_PLANS = [
       "Partner access (2 seats)",
     ],
     cta: "Start Family",
-    href: STRIPE.helmFamily,
-    external: true,
+    priceId: STRIPE_TIERS.helmFamily.price_id,
+    href: "/chat/helm",
+    external: false,
     solid: false,
   },
 ];
