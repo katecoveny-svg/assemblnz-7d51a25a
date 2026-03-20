@@ -581,7 +581,13 @@ const PricingPage = () => {
       </section>
 
       {/* ═══ HELM Family Plans ═══ */}
-      <section className="py-24 border-t border-border">
+      {/* HELM gradient divider */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="h-px rounded-full opacity-40" style={{ background: "linear-gradient(90deg, transparent, #B388FF, #FF2D9B, transparent)" }} />
+      </div>
+      <section className="py-24 relative">
+        {/* Purple ambient glow */}
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at center top, rgba(179,136,255,0.04) 0%, transparent 60%)" }} />
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-center text-foreground mb-2">
             HELM — For <span style={{ color: "#B388FF" }}>NZ Families</span>
