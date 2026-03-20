@@ -272,7 +272,7 @@ const DashboardPage = () => {
             {TIME_SAVED.map((t) => (
               <div key={t.template} className="flex items-center justify-between">
                 <span className="text-xs text-foreground/70">{t.count} × {t.template}</span>
-                <span className="text-xs font-bold" style={{ color: "#FFB800" }}>{t.total} hours saved</span>
+                <span className="text-xs font-bold" style={{ color: "hsl(157, 100%, 55%)" }}>{t.total} hours saved</span>
               </div>
             ))}
             <div className="flex items-center justify-between pt-3 border-t border-border">
