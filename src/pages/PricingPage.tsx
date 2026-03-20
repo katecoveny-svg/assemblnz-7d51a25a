@@ -286,10 +286,10 @@ const PricingPage = () => {
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-syne font-extrabold text-foreground mb-4 leading-tight">
             Plans that scale <span className="text-gradient-hero">with you</span>
           </h1>
-          <p className="text-sm sm:text-base font-jakarta text-muted-foreground max-w-xl mx-auto mb-4">
+          <p className="text-sm sm:text-base font-jakarta max-w-xl mx-auto mb-4" style={{ color: "#ffffffa0" }}>
             From solo operators to luxury lodges. No lock-in. Cancel anytime.
           </p>
-          <p className="text-xs" style={{ color: "#ffffff50" }}>
+          <p className="text-xs font-jakarta" style={{ color: "#ffffff50" }}>
             All prices in NZD. GST inclusive.
           </p>
         </div>
@@ -341,12 +341,12 @@ const PricingPage = () => {
                     <span style={{ color: "rgba(255,255,255,0.35)", fontSize: 16 }}>{plan.suffix}</span>
                   )}
                 </div>
-                <p className="text-[12px] mb-6" style={{ color: "#ffffff50" }}>
+                <p className="text-[12px] font-jakarta mb-6" style={{ color: "#ffffff50" }}>
                   {plan.desc}
                 </p>
                 <ul className="space-y-2.5 mb-8 flex-1">
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-[13px]" style={{ color: "#ffffffa0" }}>
+                    <li key={f} className="flex items-start gap-2.5 text-[13px] font-jakarta" style={{ color: "#ffffffa0" }}>
                       <Check size={14} className="shrink-0 mt-0.5" style={{ color: "#00FF88" }} />
                       {f}
                     </li>
@@ -557,12 +557,12 @@ const PricingPage = () => {
                   {ENTERPRISE.price}
                 </span>
               </div>
-              <p className="text-[12px] mb-6" style={{ color: "#ffffff50" }}>
+              <p className="text-[12px] font-jakarta mb-6" style={{ color: "#ffffff50" }}>
                 {ENTERPRISE.desc}
               </p>
               <ul className="space-y-2.5 mb-8 flex-1">
                 {ENTERPRISE.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2.5 text-[13px]" style={{ color: "#ffffffa0" }}>
+                  <li key={f} className="flex items-start gap-2.5 text-[13px] font-jakarta" style={{ color: "#ffffffa0" }}>
                     <Check size={14} className="shrink-0 mt-0.5" style={{ color: "#00FF88" }} />
                     {f}
                   </li>
@@ -581,12 +581,18 @@ const PricingPage = () => {
       </section>
 
       {/* ═══ HELM Family Plans ═══ */}
-      <section className="py-24 border-t border-border">
+      {/* HELM gradient divider */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="h-px rounded-full opacity-40" style={{ background: "linear-gradient(90deg, transparent, #B388FF, #FF2D9B, transparent)" }} />
+      </div>
+      <section className="py-24 relative">
+        {/* Purple ambient glow */}
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at center top, rgba(179,136,255,0.04) 0%, transparent 60%)" }} />
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-center text-foreground mb-2">
             HELM — For <span style={{ color: "#B388FF" }}>NZ Families</span>
           </h2>
-          <p className="text-[13px] text-center mb-12" style={{ color: "#ffffff50" }}>
+          <p className="text-[13px] font-jakarta text-center mb-12" style={{ color: "#ffffff50" }}>
             AI life admin built for Kiwi households
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -616,12 +622,12 @@ const PricingPage = () => {
                     <span style={{ color: "rgba(255,255,255,0.35)", fontSize: 16 }}>{plan.suffix}</span>
                   )}
                 </div>
-                <p className="text-[12px] mb-6" style={{ color: "#ffffff50" }}>
+                <p className="text-[12px] font-jakarta mb-6" style={{ color: "#ffffff50" }}>
                   {plan.desc}
                 </p>
                 <ul className="space-y-2.5 mb-8 flex-1">
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-[13px]" style={{ color: "#ffffffa0" }}>
+                    <li key={f} className="flex items-start gap-2.5 text-[13px] font-jakarta" style={{ color: "#ffffffa0" }}>
                       <Check size={14} className="shrink-0 mt-0.5" style={{ color: "#B388FF" }} />
                       {f}
                     </li>
@@ -643,34 +649,57 @@ const PricingPage = () => {
       {/* Trust signals */}
       <section className="pb-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <p className="text-[11px] tracking-wide" style={{ color: "#ffffff30" }}>
-            Payments secured by Stripe · Monthly billing · Cancel anytime · No lock-in · Prices NZD incl GST · Visa, Mastercard, Amex
-          </p>
+          <div
+            className="inline-block px-8 py-3 rounded-2xl font-jakarta"
+            style={{
+              background: "rgba(14,14,26,0.5)",
+              backdropFilter: "blur(12px)",
+              border: "1px solid rgba(255,255,255,0.06)",
+            }}
+          >
+            <p className="text-[11px] tracking-wide" style={{ color: "#ffffff50" }}>
+              Payments secured by Stripe · Monthly billing · Cancel anytime · No lock-in · Prices NZD incl GST · Visa, Mastercard, Amex
+            </p>
+          </div>
         </div>
       </section>
 
+      {/* FAQ gradient divider */}
+      <div className="max-w-3xl mx-auto px-4 sm:px-6">
+        <div className="h-px rounded-full opacity-30" style={{ background: "linear-gradient(90deg, transparent, #00FF88, #00E5FF, #FF2D9B, transparent)" }} />
+      </div>
+
       {/* FAQ */}
-      <section className="py-20 sm:py-28 border-t border-border">
+      <section className="py-20 sm:py-28">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-center text-foreground mb-14">
             Frequently asked <span className="text-gradient-hero">questions</span>
           </h2>
           <div className="space-y-2">
             {FAQS.map((faq, i) => (
-              <div key={i} className="rounded-xl border border-border bg-card overflow-hidden">
+              <div
+                key={i}
+                className="rounded-2xl overflow-hidden transition-all"
+                style={{
+                  background: "rgba(14,14,26,0.7)",
+                  backdropFilter: "blur(12px)",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                }}
+              >
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full flex items-center justify-between px-5 py-4 text-left"
                 >
-                  <span className="text-sm font-medium text-foreground pr-4">{faq.q}</span>
+                  <span className="text-sm font-medium font-jakarta text-foreground pr-4">{faq.q}</span>
                   <ChevronDown
                     size={16}
-                    className={`text-muted-foreground shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`}
+                    className={`shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`}
+                    style={{ color: "#ffffff50" }}
                   />
                 </button>
                 {openFaq === i && (
                   <div className="px-5 pb-4">
-                    <p className="text-xs text-muted-foreground leading-relaxed">{faq.a}</p>
+                    <p className="text-xs font-jakarta leading-relaxed" style={{ color: "#ffffffa0" }}>{faq.a}</p>
                   </div>
                 )}
               </div>
@@ -679,28 +708,44 @@ const PricingPage = () => {
         </div>
       </section>
 
+      {/* Bottom CTA gradient divider */}
+      <div className="max-w-3xl mx-auto px-4 sm:px-6">
+        <div className="h-px rounded-full opacity-30" style={{ background: "linear-gradient(90deg, transparent, #00FF88, #00E5FF, #FF2D9B, transparent)" }} />
+      </div>
+
       {/* Bottom CTA */}
-      <section id="contact" className="py-16 border-t border-border">
+      <section id="contact" className="py-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-foreground mb-3">
-            Ready to get started?
-          </h2>
-          <p className="text-sm text-muted-foreground mb-6">
-            Try any agent free — no signup required.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              to="/"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold bg-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/20 transition-all"
-            >
-              Browse agents <ArrowRight size={16} />
-            </Link>
-            <a
-              href="mailto:hello@assembl.co.nz?subject=Enterprise Inquiry"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold border border-border text-foreground hover:border-foreground/20 transition-all"
-            >
-              Talk to us about Enterprise
-            </a>
+          <div
+            className="rounded-2xl p-10"
+            style={{
+              background: "rgba(14,14,26,0.7)",
+              backdropFilter: "blur(12px)",
+              border: "1px solid rgba(255,255,255,0.06)",
+            }}
+          >
+            <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-foreground mb-3">
+              Ready to get started?
+            </h2>
+            <p className="text-sm font-jakarta mb-6" style={{ color: "#ffffffa0" }}>
+              Try any agent free — no signup required.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link
+                to="/"
+                className="relative overflow-hidden inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold font-jakarta bg-primary text-primary-foreground transition-all hover:shadow-[0_0_20px_rgba(0,255,136,0.15),0_0_60px_rgba(0,255,136,0.08)]"
+              >
+                <span className="relative z-10 flex items-center gap-2">Browse agents <ArrowRight size={16} /></span>
+                <span className="absolute inset-0 animate-shimmer-sweep" style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)" }} />
+              </Link>
+              <a
+                href="mailto:hello@assembl.co.nz?subject=Enterprise Inquiry"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold font-jakarta text-foreground transition-all"
+                style={{ border: "1px solid rgba(255,255,255,0.1)" }}
+              >
+                Talk to us about Enterprise
+              </a>
+            </div>
           </div>
         </div>
       </section>
