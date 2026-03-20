@@ -557,7 +557,7 @@ const PricingPage = () => {
                   {ENTERPRISE.price}
                 </span>
               </div>
-              <p className="text-[12px] mb-6" style={{ color: "#ffffff50" }}>
+              <p className="text-[12px] font-jakarta mb-6" style={{ color: "#ffffff50" }}>
                 {ENTERPRISE.desc}
               </p>
               <ul className="space-y-2.5 mb-8 flex-1">
