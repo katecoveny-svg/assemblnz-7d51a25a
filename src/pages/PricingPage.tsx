@@ -445,8 +445,9 @@ const PricingPage = () => {
               </div>
 
               <PlanButton
-                href={STRIPE.industry}
-                external={true}
+                priceId={STRIPE_TIERS.industry.price_id}
+                href="#"
+                external={false}
                 label="Start Industry Suite"
                 solid={true}
                 color="#00E5FF"
