@@ -595,7 +595,7 @@ const PricingPage = () => {
       </section>
 
       {/* Divider */}
-      <div className="max-w-3xl mx-auto px-4 sm:px-6">
+      <div className="max-w-3xl mx-auto px-5 sm:px-6">
         <div className="h-px rounded-full" style={{ background: 'rgba(255,255,255,0.05)' }} />
       </div>
 
