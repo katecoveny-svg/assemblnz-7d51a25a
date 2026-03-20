@@ -83,7 +83,7 @@ const Disclaimer = () => (
 
         <section>
           <h2 className="text-lg font-bold text-foreground mb-2">9. Contact</h2>
-          <p>Questions or concerns? Email <a href="mailto:assembl@assembly.co.nz" className="text-primary hover:underline">assembl@assembly.co.nz</a>.</p>
+          <p>Questions or concerns? Email <a href="mailto:assembl@assembl.co.nz" className="text-primary hover:underline">assembl@assembl.co.nz</a>.</p>
         </section>
       </div>
     </main>
