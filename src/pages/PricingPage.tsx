@@ -680,7 +680,7 @@ const PricingPage = () => {
                 Browse agents <ArrowRight size={16} />
               </Link>
               <a
-                href="mailto:hello@assembl.co.nz?subject=Enterprise Inquiry"
+                href="mailto:assembl@assembl.co.nz?subject=Enterprise Inquiry"
                 className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm font-semibold font-jakarta transition-all duration-300"
                 style={{
                   color: 'rgba(255,255,255,0.5)',

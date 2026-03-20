@@ -92,7 +92,7 @@ const PrivacyPolicy = () => (
 
         <section>
           <h2 className="text-lg font-bold text-foreground mb-2">11. Complaints</h2>
-          <p>If you have a privacy complaint, please contact us at <a href="mailto:assembl@assembly.co.nz" className="text-primary hover:underline">assembl@assembly.co.nz</a>. If you are not satisfied with our response, you can lodge a complaint with the Office of the Privacy Commissioner at <a href="https://www.privacy.org.nz" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">privacy.org.nz</a>.</p>
+          <p>If you have a privacy complaint, please contact us at <a href="mailto:assembl@assembl.co.nz" className="text-primary hover:underline">assembl@assembl.co.nz</a>. If you are not satisfied with our response, you can lodge a complaint with the Office of the Privacy Commissioner at <a href="https://www.privacy.org.nz" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">privacy.org.nz</a>.</p>
         </section>
 
         <section>

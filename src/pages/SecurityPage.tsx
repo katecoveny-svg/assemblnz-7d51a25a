@@ -270,7 +270,7 @@ const SecurityPage = () => {
             Need additional security documentation for your procurement process?
           </p>
           <a
-            href="mailto:hello@assembl.co.nz?subject=Security%20Documentation%20Request"
+            href="mailto:assembl@assembl.co.nz?subject=Security%20Documentation%20Request"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
           >
             Contact Security Team

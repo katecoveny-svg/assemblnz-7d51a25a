@@ -208,7 +208,7 @@ const EmbedPage = () => {
         {/* Bottom CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
-            href="mailto:hello@assembl.co.nz?subject=Embed Setup Help"
+            href="mailto:assembl@assembl.co.nz?subject=Embed Setup Help"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold border border-primary/20 text-primary hover:bg-primary/10 transition-colors"
           >
             Need help setting up? Contact us
