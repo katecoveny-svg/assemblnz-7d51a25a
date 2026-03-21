@@ -54,6 +54,8 @@ export default function HelmThisWeek({ onSendToChat }: { onSendToChat?: (msg: st
   const [tasks, setTasks] = useState<Task[]>([]);
   const [children, setChildren] = useState<Child[]>([]);
   const [packingItems, setPackingItems] = useState<PackingItem[]>([]);
+  const [gearRules, setGearRules] = useState<GearRule[]>([]);
+  const [timetableEntries, setTimetableEntries] = useState<TimetableEntry[]>([]);
   const [familyId, setFamilyId] = useState<string | null>(null);
   const [selectedDay, setSelectedDay] = useState(new Date());
 
