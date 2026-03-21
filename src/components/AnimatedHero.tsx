@@ -84,7 +84,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          38 expert agents trained on NZ legislation. Try any agent free.
+          41 expert agents trained on NZ legislation. Try any agent free.
         </motion.p>
 
         {/* 3D Nexus Robot */}
