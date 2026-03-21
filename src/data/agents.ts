@@ -522,6 +522,7 @@ export const sectors = [
   "Health & Wellbeing",
   "Ops & Admin",
   "Accounting & Tax",
+  "Finance & Insurance",
   "Legal & Compliance",
   "IT & Cyber",
   "Education & Training",

@@ -52,7 +52,7 @@ const PRICING_PLANS = [
     price: "$499",
     period: "/mo",
     color: "#FFB800",
-    features: ["All 38 AI agents", "Unlimited messages", "Team access (5 seats)", "Usage analytics", "Dedicated support"],
+    features: ["All 41 AI agents", "Unlimited messages", "Team access (5 seats)", "Usage analytics", "Dedicated support"],
     cta: "Start Business",
     href: "https://buy.stripe.com/7sYdRb5Lm6Wc3WZ0Ki",
     external: true,

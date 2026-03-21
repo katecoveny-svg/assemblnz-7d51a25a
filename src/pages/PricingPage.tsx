@@ -79,7 +79,7 @@ const INDUSTRY_SUITES = [
 ];
 
 const INDUSTRY_FEATURES = [
-  "4-6 specialist agents bundled for your sector",
+  "4-6 specialist agents from 41 bundled for your sector",
   "All templates, document generators, and calculators",
   "Internal comms tools for your whole team",
   "ESG dashboard and reporting",

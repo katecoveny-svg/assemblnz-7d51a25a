@@ -82,6 +82,9 @@ const AVATAR_MAP: Record<string, string> = {
   housing: housingImg,
   emergency: emergencyImg,
   hr: hrImg,
+  finance: vaultImg,
+  insurance: shieldImg,
+  banking: mintImg,
 };
 
 interface AgentAvatarProps {

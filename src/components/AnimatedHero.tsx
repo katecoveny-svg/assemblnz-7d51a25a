@@ -150,7 +150,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
 
         <div className="flex flex-wrap justify-center gap-6 sm:gap-10">
           {[
-            { value: "38", label: "Agents" },
+            { value: "41", label: "Agents" },
             { value: "20+", label: "NZ Industries" },
             { value: "50+", label: "Acts Referenced" },
             { value: "24/7", label: "Always On" },
