@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { ChevronDown, ArrowRight, Loader2 } from "lucide-react";
+import { ChevronDown, ArrowRight, Loader2, Zap, Brain, FileSearch, Calendar, Users, BarChart3, Palette, Shield, ClipboardCheck, Calculator, Heart, HardHat } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import ParticleField from "@/components/ParticleField";
@@ -594,6 +594,92 @@ const PricingPage = () => {
             <p className="text-[10px] sm:text-[11px] tracking-wide" style={{ color: 'rgba(255,255,255,0.25)' }}>
               Payments secured by Stripe · Monthly billing · Cancel anytime · No lock-in · Prices NZD incl GST
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ Enterprise Features Showcase ═══ */}
+      <div className="max-w-6xl mx-auto px-5 sm:px-6">
+        <div className="h-px rounded-full" style={{ background: 'rgba(255,255,255,0.05)' }} />
+      </div>
+      <section className="py-14 sm:py-24">
+        <div className="max-w-6xl mx-auto px-5 sm:px-6">
+          <div className="text-center mb-10 sm:mb-14">
+            <p className="text-[10px] font-semibold tracking-[3px] uppercase mb-3" style={{ color: 'rgba(255,255,255,0.25)' }}>
+              Included in every plan
+            </p>
+            <h2 className="text-xl sm:text-3xl font-syne font-extrabold mb-3" style={{ color: '#E4E4EC' }}>
+              Enterprise-grade AI capabilities
+            </h2>
+            <p className="text-sm font-jakarta max-w-lg mx-auto" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              Every Assembl agent ships with capabilities modelled on HubSpot Breeze, Salesforce Agentforce, and Zendesk AI — built for NZ businesses.
+            </p>
+          </div>
+
+          {/* Universal capabilities grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-10 sm:mb-14">
+            {[
+              { icon: Brain, label: "Smart Response Engine", desc: "Detects intent — questions, requests, complaints, data — and adapts tone and output automatically." },
+              { icon: FileSearch, label: "Document Intelligence", desc: "Upload any document. Get structured extraction, summaries, compliance gap analysis, and missing-info flags." },
+              { icon: Zap, label: "Resolution Mode", desc: "Agents don't explain — they resolve. Ask for a privacy policy, get the full document. Ask for holiday pay, get the calculation." },
+              { icon: Calendar, label: "Proactive Deadline Alerts", desc: "Knows upcoming NZ deadlines — minimum wage changes, GST periods, ACC levies, Healthy Homes — and flags them unprompted." },
+              { icon: Users, label: "Cross-Agent Awareness", desc: "Each agent knows all 41 specialists. If your question fits another agent better, it'll recommend the right one." },
+              { icon: ClipboardCheck, label: "Template Library", desc: "Industry-specific, NZ-compliant document templates with guidance notes. Pre-populated and ready to customise." },
+            ].map((cap) => (
+              <div
+                key={cap.label}
+                className="rounded-xl p-4 sm:p-5 transition-all duration-300 hover:border-white/[0.1]"
+                style={{
+                  background: 'rgba(255,255,255,0.02)',
+                  border: '1px solid rgba(255,255,255,0.05)',
+                }}
+              >
+                <cap.icon size={18} className="mb-3" style={{ color: 'rgba(255,255,255,0.3)' }} />
+                <h3 className="text-[13px] font-syne font-bold mb-1.5" style={{ color: '#E4E4EC' }}>{cap.label}</h3>
+                <p className="text-[11px] font-jakarta leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>{cap.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Agent-specific highlights */}
+          <div className="text-center mb-6 sm:mb-8">
+            <p className="text-[10px] font-semibold tracking-[3px] uppercase mb-2" style={{ color: 'rgba(255,255,255,0.2)' }}>
+              Agent-specific superpowers
+            </p>
+            <p className="text-xs font-jakarta" style={{ color: 'rgba(255,255,255,0.35)' }}>
+              Key agents have deep, specialist capabilities built in.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {[
+              { agent: "FLUX", color: "#00FF94", icon: BarChart3, feature: "AI Lead Scoring", desc: "Hot/Warm/Cold scoring, pipeline analytics, deal health monitoring, objection coaching." },
+              { agent: "PRISM", color: "#E040FB", icon: Palette, feature: "Brand Voice Engine", desc: "Upload content samples → get a voice profile. All future outputs match your brand perfectly." },
+              { agent: "HAVEN", color: "#FF80AB", icon: Shield, feature: "Compliance Checker", desc: "Upload a tenancy agreement → instant Healthy Homes and RTA compliance audit with remediation steps." },
+              { agent: "AROHA", color: "#FF6B9D", icon: Heart, feature: "True Cost Calculator", desc: "Input a salary → see real employer cost: PAYE, KiwiSaver, ACC, leave accruals, the lot." },
+              { agent: "LEDGER", color: "#4FC3F7", icon: Calculator, feature: "Financial Health Dashboard", desc: "Input your numbers → colour-coded ratios, burn rate, runway, with NZ industry benchmarks." },
+              { agent: "APEX", color: "#FF6B35", icon: HardHat, feature: "Tender Auto-Structurer", desc: "Upload an RFP → get a response template matching evaluation criteria with pre-filled H&S content." },
+              { agent: "AURA", color: "#00FF88", icon: Users, feature: "Guest Lifecycle Engine", desc: "9-step automated guest communication — from booking confirmation to 6-month follow-up." },
+              { agent: "FORGE", color: "#FF4D6A", icon: Zap, feature: "F&I Calculator Suite", desc: "Mortgage, balloon, GAP, MBI, lease vs buy — all CCCFA-compliant with full disclosure." },
+            ].map((item) => (
+              <div
+                key={item.agent}
+                className="rounded-xl p-4 transition-all duration-300 group"
+                style={{
+                  background: 'rgba(255,255,255,0.02)',
+                  border: '1px solid rgba(255,255,255,0.05)',
+                }}
+                onMouseEnter={e => e.currentTarget.style.borderColor = `${item.color}20`}
+                onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)'}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <item.icon size={14} style={{ color: item.color }} />
+                  <span className="text-[10px] font-semibold tracking-[1.5px] uppercase" style={{ color: item.color }}>{item.agent}</span>
+                </div>
+                <h3 className="text-[12px] font-syne font-bold mb-1" style={{ color: '#E4E4EC' }}>{item.feature}</h3>
+                <p className="text-[10px] font-jakarta leading-relaxed" style={{ color: 'rgba(255,255,255,0.35)' }}>{item.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
