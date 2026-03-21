@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import { ChevronDown, ArrowRight, Loader2, Zap, Brain, FileSearch, Calendar, Users, BarChart3, Palette, Shield, ClipboardCheck, Calculator, Heart, HardHat } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
@@ -625,10 +626,15 @@ const PricingPage = () => {
               { icon: Calendar, label: "Proactive Deadline Alerts", desc: "Knows upcoming NZ deadlines — minimum wage changes, GST periods, ACC levies, Healthy Homes — and flags them unprompted." },
               { icon: Users, label: "Cross-Agent Awareness", desc: "Each agent knows all 41 specialists. If your question fits another agent better, it'll recommend the right one." },
               { icon: ClipboardCheck, label: "Template Library", desc: "Industry-specific, NZ-compliant document templates with guidance notes. Pre-populated and ready to customise." },
-            ].map((cap) => (
-              <div
+            ].map((cap, i) => (
+              <motion.div
                 key={cap.label}
-                className="rounded-xl p-4 sm:p-5 transition-all duration-300 hover:border-white/[0.1]"
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: i * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+                whileHover={{ y: -4, boxShadow: '0 8px 30px rgba(255,255,255,0.04)' }}
+                className="rounded-xl p-4 sm:p-5 transition-colors duration-300 hover:border-white/[0.1]"
                 style={{
                   background: 'rgba(255,255,255,0.02)',
                   border: '1px solid rgba(255,255,255,0.05)',
@@ -637,7 +643,7 @@ const PricingPage = () => {
                 <cap.icon size={18} className="mb-3" style={{ color: 'rgba(255,255,255,0.3)' }} />
                 <h3 className="text-[13px] font-syne font-bold mb-1.5" style={{ color: '#E4E4EC' }}>{cap.label}</h3>
                 <p className="text-[11px] font-jakarta leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>{cap.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
 
@@ -661,16 +667,23 @@ const PricingPage = () => {
               { agent: "APEX", color: "#FF6B35", icon: HardHat, feature: "Tender Auto-Structurer", desc: "Upload an RFP → get a response template matching evaluation criteria with pre-filled H&S content." },
               { agent: "AURA", color: "#00FF88", icon: Users, feature: "Guest Lifecycle Engine", desc: "9-step automated guest communication — from booking confirmation to 6-month follow-up." },
               { agent: "FORGE", color: "#FF4D6A", icon: Zap, feature: "F&I Calculator Suite", desc: "Mortgage, balloon, GAP, MBI, lease vs buy — all CCCFA-compliant with full disclosure." },
-            ].map((item) => (
-              <div
+            ].map((item, i) => (
+              <motion.div
                 key={item.agent}
-                className="rounded-xl p-4 transition-all duration-300 group"
+                initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.55, delay: i * 0.06, ease: [0.25, 0.46, 0.45, 0.94] }}
+                whileHover={{
+                  y: -6,
+                  boxShadow: `0 12px 40px ${item.color}12`,
+                  borderColor: `${item.color}30`,
+                }}
+                className="rounded-xl p-4 group cursor-default"
                 style={{
                   background: 'rgba(255,255,255,0.02)',
                   border: '1px solid rgba(255,255,255,0.05)',
                 }}
-                onMouseEnter={e => e.currentTarget.style.borderColor = `${item.color}20`}
-                onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)'}
               >
                 <div className="flex items-center gap-2 mb-2">
                   <item.icon size={14} style={{ color: item.color }} />
@@ -678,7 +691,7 @@ const PricingPage = () => {
                 </div>
                 <h3 className="text-[12px] font-syne font-bold mb-1" style={{ color: '#E4E4EC' }}>{item.feature}</h3>
                 <p className="text-[10px] font-jakarta leading-relaxed" style={{ color: 'rgba(255,255,255,0.35)' }}>{item.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
