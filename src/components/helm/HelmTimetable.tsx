@@ -97,6 +97,21 @@ export default function HelmTimetable({ onSendToChat }: { onSendToChat?: (msg: s
     if (data) setGearRules([...gearRules, ...data]);
   };
 
+  const addGearRule = async () => {
+    if (!familyId || !newGearSubject.trim() || !newGearItems.trim()) return;
+    const items = newGearItems.split(",").map(s => s.trim()).filter(Boolean);
+    const { data } = await supabase.from("gear_rules").insert({
+      family_id: familyId, subject: newGearSubject.trim(), items,
+    }).select().single();
+    if (data) setGearRules([...gearRules, data]);
+    setNewGearSubject(""); setNewGearItems(""); setShowAddGear(false);
+  };
+
+  const deleteGearRule = async (id: string) => {
+    await supabase.from("gear_rules").delete().eq("id", id);
+    setGearRules(gearRules.filter(r => r.id !== id));
+  };
+
   const child = children.find(c => c.id === selectedChild);
 
   return (
