@@ -31,6 +31,9 @@ export default function HelmTimetable({ onSendToChat }: { onSendToChat?: (msg: s
   const [editingCell, setEditingCell] = useState<{ day: number; period: number } | null>(null);
   const [editValue, setEditValue] = useState("");
   const [showGearRules, setShowGearRules] = useState(false);
+  const [showAddGear, setShowAddGear] = useState(false);
+  const [newGearSubject, setNewGearSubject] = useState("");
+  const [newGearItems, setNewGearItems] = useState("");
 
   useEffect(() => {
     if (!user) return;
