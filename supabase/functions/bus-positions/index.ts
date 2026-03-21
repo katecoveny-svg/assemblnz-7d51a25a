@@ -18,8 +18,19 @@ serve(async (req) => {
       });
     }
 
+    // Support both GET query params and POST body
+    let routeIds: string | null = null;
     const url = new URL(req.url);
-    const routeIds = url.searchParams.get('route_ids');
+    routeIds = url.searchParams.get('route_ids');
+    
+    if (!routeIds && req.method === 'POST') {
+      try {
+        const body = await req.json();
+        if (body.route_ids) {
+          routeIds = Array.isArray(body.route_ids) ? body.route_ids.join(',') : body.route_ids;
+        }
+      } catch (_) {}
+    }
 
     // Call Auckland Transport GTFS-realtime vehicle positions
     const atUrl = 'https://api.at.govt.nz/realtime/legacy/vehiclelocations';
