@@ -76,7 +76,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-outfit;
+    @apply bg-background text-foreground font-inter;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-shadow: 0 0 8px rgba(255, 255, 255, 0.06), 0 0 20px rgba(255, 255, 255, 0.03);

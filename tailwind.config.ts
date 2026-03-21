@@ -14,9 +14,12 @@ export default {
     },
     extend: {
       fontFamily: {
-        outfit: ['Outfit', 'sans-serif'],
-        syne: ['Syne', 'sans-serif'],
-        jakarta: ['"Plus Jakarta Sans"', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
+        display: ['"General Sans"', 'Inter', 'sans-serif'],
+        // Legacy aliases — all map to the new stack
+        outfit: ['Inter', 'sans-serif'],
+        syne: ['"General Sans"', 'Inter', 'sans-serif'],
+        jakarta: ['Inter', 'sans-serif'],
         'mono-jb': ['"JetBrains Mono"', 'monospace'],
       },
       colors: {
