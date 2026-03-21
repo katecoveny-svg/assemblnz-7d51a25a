@@ -81,6 +81,13 @@ import PrismBrandVoice from "@/components/prism/PrismBrandVoice";
 import PrismCreativeStudio from "@/components/prism/PrismCreativeStudio";
 import PrismVideoStudio from "@/components/prism/PrismVideoStudio";
 import AxisAutomations from "@/components/axis/AxisAutomations";
+import HelmThisWeek from "@/components/helm/HelmThisWeek";
+import HelmBusTracker from "@/components/helm/HelmBusTracker";
+import HelmTimetable from "@/components/helm/HelmTimetable";
+import HelmInbox from "@/components/helm/HelmInbox";
+import HelmReview from "@/components/helm/HelmReview";
+import HelmRescue from "@/components/helm/HelmRescue";
+import HelmSettings from "@/components/helm/HelmSettings";
 import AgentTraining from "@/components/shared/AgentTraining";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
