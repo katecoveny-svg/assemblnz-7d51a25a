@@ -659,14 +659,43 @@ const PricingPage = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {[
-              { agent: "FLUX", color: "#00FF94", icon: BarChart3, feature: "AI Lead Scoring", desc: "Hot/Warm/Cold scoring, pipeline analytics, deal health monitoring, objection coaching." },
-              { agent: "PRISM", color: "#E040FB", icon: Palette, feature: "Brand Voice Engine", desc: "Upload content samples → get a voice profile. All future outputs match your brand perfectly." },
-              { agent: "HAVEN", color: "#FF80AB", icon: Shield, feature: "Compliance Checker", desc: "Upload a tenancy agreement → instant Healthy Homes and RTA compliance audit with remediation steps." },
-              { agent: "AROHA", color: "#FF6B9D", icon: Heart, feature: "True Cost Calculator", desc: "Input a salary → see real employer cost: PAYE, KiwiSaver, ACC, leave accruals, the lot." },
-              { agent: "LEDGER", color: "#4FC3F7", icon: Calculator, feature: "Financial Health Dashboard", desc: "Input your numbers → colour-coded ratios, burn rate, runway, with NZ industry benchmarks." },
-              { agent: "APEX", color: "#FF6B35", icon: HardHat, feature: "Tender Auto-Structurer", desc: "Upload an RFP → get a response template matching evaluation criteria with pre-filled H&S content." },
-              { agent: "AURA", color: "#00FF88", icon: Users, feature: "Guest Lifecycle Engine", desc: "9-step automated guest communication — from booking confirmation to 6-month follow-up." },
-              { agent: "FORGE", color: "#FF4D6A", icon: Zap, feature: "F&I Calculator Suite", desc: "Mortgage, balloon, GAP, MBI, lease vs buy — all CCCFA-compliant with full disclosure." },
+              { agent: "FLUX", color: "#00FF94", icon: BarChart3, feature: "AI Lead Scoring", desc: "Hot/Warm/Cold scoring, pipeline analytics, deal health monitoring, objection coaching.",
+                demo: [
+                  { label: "Acme Corp", score: 92, tier: "Hot", bar: "92%" },
+                  { label: "Widget Ltd", score: 64, tier: "Warm", bar: "64%" },
+                  { label: "Peak NZ", score: 31, tier: "Cold", bar: "31%" },
+                ]
+              },
+              { agent: "PRISM", color: "#E040FB", icon: Palette, feature: "Brand Voice Engine", desc: "Upload content samples → get a voice profile. All future outputs match your brand perfectly.",
+                demoText: { traits: ["Conversational", "Witty", "Professional"], match: "94%" }
+              },
+              { agent: "HAVEN", color: "#FF80AB", icon: Shield, feature: "Compliance Checker", desc: "Upload a tenancy agreement → instant Healthy Homes and RTA compliance audit with remediation steps.",
+                demoChecks: [
+                  { item: "Heating", pass: true },
+                  { item: "Insulation", pass: true },
+                  { item: "Ventilation", pass: false },
+                  { item: "Drainage", pass: true },
+                ]
+              },
+              { agent: "AROHA", color: "#FF6B9D", icon: Heart, feature: "True Cost Calculator", desc: "Input a salary → see real employer cost: PAYE, KiwiSaver, ACC, leave accruals, the lot.",
+                demoCost: { salary: "$75,000", total: "$89,340", breakdown: [["KiwiSaver 3%", "$2,250"], ["ACC Levy", "$1,140"], ["Leave accrual", "$10,950"]] }
+              },
+              { agent: "LEDGER", color: "#4FC3F7", icon: Calculator, feature: "Financial Health Dashboard", desc: "Input your numbers → colour-coded ratios, burn rate, runway, with NZ industry benchmarks.",
+                demoMetrics: [
+                  { label: "Current Ratio", value: "2.4", status: "green" },
+                  { label: "Burn Rate", value: "$12K/mo", status: "amber" },
+                  { label: "Runway", value: "8 months", status: "green" },
+                ]
+              },
+              { agent: "APEX", color: "#FF6B35", icon: HardHat, feature: "Tender Auto-Structurer", desc: "Upload an RFP → get a response template matching evaluation criteria with pre-filled H&S content.",
+                demoSections: ["1. Company Capability", "2. Methodology", "3. H&S Approach", "4. Programme"]
+              },
+              { agent: "AURA", color: "#00FF88", icon: Users, feature: "Guest Lifecycle Engine", desc: "9-step automated guest communication — from booking confirmation to 6-month follow-up.",
+                demoTimeline: ["Booking confirmed", "Pre-arrival survey", "Welcome message", "Mid-stay check", "Post-stay review"]
+              },
+              { agent: "FORGE", color: "#FF4D6A", icon: Zap, feature: "F&I Calculator Suite", desc: "Mortgage, balloon, GAP, MBI, lease vs buy — all CCCFA-compliant with full disclosure.",
+                demoCalc: { vehicle: "$45,000", deposit: "$5,000", rate: "8.9%", weekly: "$198" }
+              },
             ].map((item, i) => (
               <motion.div
                 key={item.agent}
@@ -679,18 +708,167 @@ const PricingPage = () => {
                   boxShadow: `0 12px 40px ${item.color}12`,
                   borderColor: `${item.color}30`,
                 }}
-                className="rounded-xl p-4 group cursor-default"
+                className="rounded-xl p-4 group cursor-default relative overflow-hidden"
                 style={{
                   background: 'rgba(255,255,255,0.02)',
                   border: '1px solid rgba(255,255,255,0.05)',
+                  minHeight: '160px',
                 }}
               >
-                <div className="flex items-center gap-2 mb-2">
-                  <item.icon size={14} style={{ color: item.color }} />
-                  <span className="text-[10px] font-semibold tracking-[1.5px] uppercase" style={{ color: item.color }}>{item.agent}</span>
+                {/* Default content */}
+                <div className="transition-opacity duration-300 group-hover:opacity-0">
+                  <div className="flex items-center gap-2 mb-2">
+                    <item.icon size={14} style={{ color: item.color }} />
+                    <span className="text-[10px] font-semibold tracking-[1.5px] uppercase" style={{ color: item.color }}>{item.agent}</span>
+                  </div>
+                  <h3 className="text-[12px] font-syne font-bold mb-1" style={{ color: '#E4E4EC' }}>{item.feature}</h3>
+                  <p className="text-[10px] font-jakarta leading-relaxed" style={{ color: 'rgba(255,255,255,0.35)' }}>{item.desc}</p>
                 </div>
-                <h3 className="text-[12px] font-syne font-bold mb-1" style={{ color: '#E4E4EC' }}>{item.feature}</h3>
-                <p className="text-[10px] font-jakarta leading-relaxed" style={{ color: 'rgba(255,255,255,0.35)' }}>{item.desc}</p>
+
+                {/* Hover demo preview */}
+                <div className="absolute inset-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col">
+                  <span className="text-[9px] font-semibold tracking-[1.5px] uppercase mb-2" style={{ color: item.color }}>
+                    Live preview
+                  </span>
+
+                  {/* FLUX — lead scores */}
+                  {'demo' in item && item.demo && (
+                    <div className="space-y-1.5 flex-1">
+                      {(item.demo as Array<{label: string; score: number; tier: string; bar: string}>).map((lead) => (
+                        <div key={lead.label}>
+                          <div className="flex justify-between items-center mb-0.5">
+                            <span className="text-[10px] font-jakarta" style={{ color: '#E4E4EC' }}>{lead.label}</span>
+                            <span className="text-[9px] font-mono-jb font-semibold" style={{ color: lead.tier === 'Hot' ? '#00FF94' : lead.tier === 'Warm' ? '#FFB800' : 'rgba(255,255,255,0.3)' }}>
+                              {lead.score} {lead.tier}
+                            </span>
+                          </div>
+                          <div className="h-1 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
+                            <motion.div
+                              className="h-full rounded-full"
+                              initial={{ width: 0 }}
+                              whileInView={{ width: lead.bar }}
+                              transition={{ duration: 0.8, delay: 0.2 }}
+                              style={{ background: lead.tier === 'Hot' ? '#00FF94' : lead.tier === 'Warm' ? '#FFB800' : 'rgba(255,255,255,0.2)' }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* PRISM — brand voice */}
+                  {'demoText' in item && item.demoText && (
+                    <div className="flex-1 space-y-2">
+                      <div className="flex flex-wrap gap-1">
+                        {(item.demoText as {traits: string[]; match: string}).traits.map((t) => (
+                          <span key={t} className="text-[9px] px-1.5 py-0.5 rounded-full font-jakarta" style={{ background: `${item.color}15`, color: item.color }}>{t}</span>
+                        ))}
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] font-jakarta" style={{ color: 'rgba(255,255,255,0.5)' }}>Voice match:</span>
+                        <span className="text-[11px] font-mono-jb font-bold" style={{ color: item.color }}>{(item.demoText as {traits: string[]; match: string}).match}</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* HAVEN — compliance checks */}
+                  {'demoChecks' in item && item.demoChecks && (
+                    <div className="space-y-1.5 flex-1">
+                      {(item.demoChecks as Array<{item: string; pass: boolean}>).map((check) => (
+                        <div key={check.item} className="flex items-center gap-2">
+                          <div className="w-3 h-3 rounded-full flex items-center justify-center text-[8px]" style={{ background: check.pass ? 'rgba(0,255,136,0.15)' : 'rgba(255,77,106,0.15)', color: check.pass ? '#00FF88' : '#FF4D6A' }}>
+                            {check.pass ? '✓' : '✗'}
+                          </div>
+                          <span className="text-[10px] font-jakarta" style={{ color: '#E4E4EC' }}>{check.item}</span>
+                          <span className="text-[9px] font-mono-jb ml-auto" style={{ color: check.pass ? '#00FF88' : '#FF4D6A' }}>{check.pass ? 'PASS' : 'FAIL'}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* AROHA — cost breakdown */}
+                  {'demoCost' in item && item.demoCost && (() => {
+                    const cost = item.demoCost as {salary: string; total: string; breakdown: string[][]};
+                    return (
+                      <div className="flex-1 space-y-1.5">
+                        <div className="flex justify-between">
+                          <span className="text-[10px] font-jakarta" style={{ color: 'rgba(255,255,255,0.5)' }}>Base salary</span>
+                          <span className="text-[10px] font-mono-jb" style={{ color: '#E4E4EC' }}>{cost.salary}</span>
+                        </div>
+                        {cost.breakdown.map(([label, val]) => (
+                          <div key={label} className="flex justify-between">
+                            <span className="text-[9px] font-jakarta" style={{ color: 'rgba(255,255,255,0.35)' }}>{label}</span>
+                            <span className="text-[9px] font-mono-jb" style={{ color: 'rgba(255,255,255,0.5)' }}>+{val}</span>
+                          </div>
+                        ))}
+                        <div className="h-px mt-1" style={{ background: 'rgba(255,255,255,0.08)' }} />
+                        <div className="flex justify-between">
+                          <span className="text-[10px] font-jakarta font-semibold" style={{ color: item.color }}>True cost</span>
+                          <span className="text-[11px] font-mono-jb font-bold" style={{ color: item.color }}>{cost.total}</span>
+                        </div>
+                      </div>
+                    );
+                  })()}
+
+                  {/* LEDGER — metrics */}
+                  {'demoMetrics' in item && item.demoMetrics && (
+                    <div className="space-y-2 flex-1">
+                      {(item.demoMetrics as Array<{label: string; value: string; status: string}>).map((m) => (
+                        <div key={m.label} className="flex items-center justify-between">
+                          <span className="text-[10px] font-jakarta" style={{ color: 'rgba(255,255,255,0.5)' }}>{m.label}</span>
+                          <span className="text-[10px] font-mono-jb font-semibold" style={{ color: m.status === 'green' ? '#00FF88' : m.status === 'amber' ? '#FFB800' : '#FF4D6A' }}>{m.value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* APEX — tender sections */}
+                  {'demoSections' in item && item.demoSections && (
+                    <div className="space-y-1 flex-1">
+                      {(item.demoSections as string[]).map((s, idx) => (
+                        <div key={s} className="flex items-center gap-2">
+                          <div className="w-1 h-1 rounded-full" style={{ background: item.color }} />
+                          <span className="text-[10px] font-jakarta" style={{ color: '#E4E4EC' }}>{s}</span>
+                        </div>
+                      ))}
+                      <span className="text-[8px] font-mono-jb block mt-1" style={{ color: 'rgba(255,255,255,0.25)' }}>Auto-matched to RFP criteria</span>
+                    </div>
+                  )}
+
+                  {/* AURA — timeline */}
+                  {'demoTimeline' in item && item.demoTimeline && (
+                    <div className="space-y-1 flex-1">
+                      {(item.demoTimeline as string[]).map((step, idx) => (
+                        <div key={step} className="flex items-center gap-2">
+                          <div className="w-3.5 h-3.5 rounded-full flex items-center justify-center text-[7px] font-mono-jb font-bold" style={{ background: `${item.color}20`, color: item.color }}>
+                            {idx + 1}
+                          </div>
+                          <span className="text-[9px] font-jakarta" style={{ color: '#E4E4EC' }}>{step}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* FORGE — F&I calc */}
+                  {'demoCalc' in item && item.demoCalc && (() => {
+                    const calc = item.demoCalc as {vehicle: string; deposit: string; rate: string; weekly: string};
+                    return (
+                      <div className="flex-1 space-y-1.5">
+                        {[["Vehicle", calc.vehicle], ["Deposit", calc.deposit], ["Rate", calc.rate]].map(([l, v]) => (
+                          <div key={l} className="flex justify-between">
+                            <span className="text-[9px] font-jakarta" style={{ color: 'rgba(255,255,255,0.4)' }}>{l}</span>
+                            <span className="text-[10px] font-mono-jb" style={{ color: '#E4E4EC' }}>{v}</span>
+                          </div>
+                        ))}
+                        <div className="h-px" style={{ background: 'rgba(255,255,255,0.08)' }} />
+                        <div className="flex justify-between items-center">
+                          <span className="text-[10px] font-jakarta font-semibold" style={{ color: item.color }}>Weekly</span>
+                          <span className="text-[14px] font-mono-jb font-bold" style={{ color: item.color }}>{calc.weekly}</span>
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </div>
               </motion.div>
             ))}
           </div>
