@@ -1097,14 +1097,22 @@ const ChatPage = () => {
               </button>
             )}
             {isHelm && (
-              <button
-                onClick={() => { setActiveTab("chat"); setHelmView("dashboard"); }}
-                className="px-2.5 py-1 text-[10px] font-medium transition-colors"
-                style={{
-                  backgroundColor: helmView === "dashboard" && activeTab === "chat" ? HELM_COLOR + "20" : "transparent",
-                  color: helmView === "dashboard" && activeTab === "chat" ? HELM_COLOR : "hsl(var(--muted-foreground))",
-                }}
-              >Dashboard</button>
+              <>
+                {([
+                  { id: "helm_week" as const, label: "This Week" },
+                  { id: "helm_bus" as const, label: "Bus" },
+                  { id: "helm_timetable" as const, label: "Timetable" },
+                  { id: "helm_inbox" as const, label: "Inbox" },
+                  { id: "helm_review" as const, label: "Review" },
+                  { id: "helm_rescue" as const, label: "Rescue" },
+                  { id: "helm_settings" as const, label: "Settings" },
+                ]).map(t => (
+                  <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
+                    style={{ backgroundColor: activeTab === t.id ? HELM_COLOR + "20" : "transparent", color: activeTab === t.id ? HELM_COLOR : "hsl(var(--muted-foreground))" }}>
+                    {t.label}
+                  </button>
+                ))}
+              </>
             )}
           </div>
         )}
