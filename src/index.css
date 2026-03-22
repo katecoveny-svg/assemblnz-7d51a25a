@@ -241,6 +241,7 @@
     mask-composite: exclude;
     z-index: -1;
   }
+}
 
 @keyframes enterprise-gradient-sweep {
   0% { background-position: 0% 50%; }
