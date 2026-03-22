@@ -235,7 +235,7 @@ const AgentGrid = () => {
       <section className="relative z-10 py-20 sm:py-28 border-t border-white/[0.04]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
-            <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-foreground mb-3">
+            <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-glow-cyan mb-3">
               Simple, honest <span className="text-gradient-hero">pricing</span>
             </h2>
             <p className="text-sm font-jakarta text-muted-foreground">Start free. Upgrade when you're ready.</p>
