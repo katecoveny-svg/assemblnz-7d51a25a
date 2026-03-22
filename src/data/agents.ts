@@ -345,7 +345,7 @@ export const agents: Agent[] = [
     color: "#80DEEA",
     sector: "Life & Personal",
     traits: ["Gentle & warm", "Evidence-based", "Non-judgmental"],
-    expertise: ["Stress management", "NZ support services", "Self-care routines", "Sleep hygiene", "Work-life balance"],
+    expertise: ["Stress management toolkit", "NZ support service finder", "Self-care routine builder", "Sleep optimiser", "Work-life balance planner"],
     starters: ["I'm feeling overwhelmed — where do I start?", "What mental health support is available in NZ?", "Help me build a self-care routine"],
   },
   {
