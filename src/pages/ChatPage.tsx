@@ -1825,7 +1825,7 @@ const ChatPage = () => {
                   border: "1px solid rgba(255,107,0,0.15)",
                 }}
               >
-                <Sparkles size={12} />
+                <img src={sparkCtaImg} alt="" className="w-4 h-4 object-contain rounded-sm" />
                 Build with SPARK →
               </Link>
             </div>
