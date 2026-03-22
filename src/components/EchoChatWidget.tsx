@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from "react-markdown";
 import { Send, X } from "lucide-react";
@@ -10,6 +11,8 @@ interface Message {
 }
 
 const EchoChatWidget = () => {
+  const location = useLocation();
+  const isChatPage = location.pathname.startsWith("/chat/");
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -24,6 +27,8 @@ const EchoChatWidget = () => {
   useEffect(() => {
     if (open) inputRef.current?.focus();
   }, [open]);
+
+  if (isChatPage) return null;
 
   const sendMessage = async (content: string) => {
     if (!content.trim() || isLoading) return;
