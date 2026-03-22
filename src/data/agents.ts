@@ -21,7 +21,7 @@ export const agents: Agent[] = [
     color: "#00FF88",
     sector: "Hospitality",
     traits: ["Warm & intuitive", "Detail-obsessed", "Culturally fluent"],
-    expertise: ["Sale & Supply of Alcohol Act", "Food Act 2014", "Revenue management", "Guest intelligence", "Trade partnerships", "Sustainability reporting"],
+    expertise: ["Guest pre-arrival dossiers", "Bespoke itinerary builder", "Revenue & yield AI", "Wine pairing engine", "PR pitch generator", "Guest CRM intelligence"],
     starters: ["Create a pre-arrival guest dossier for a VIP couple celebrating their anniversary", "Generate a 3-day luxury itinerary for winter in Queenstown", "Daily kitchen briefing for 24 covers with 3 dietary requirements"],
   },
   {
