@@ -330,10 +330,10 @@ export const LedgerPayePreview = () => {
 /* ── VAULT: Mortgage Comparison ── */
 export const VaultMortgagePreview = () => {
   const banks = [
-    { name: "ANZ", rate: "5.29%", monthly: "$3,877", best: false },
-    { name: "ASB", rate: "5.19%", monthly: "$3,833", best: true },
-    { name: "Westpac", rate: "5.39%", monthly: "$3,922", best: false },
-    { name: "BNZ", rate: "5.25%", monthly: "$3,859", best: false },
+    { name: "Bank A", rate: "5.29%", monthly: "$3,877", best: false },
+    { name: "Bank B", rate: "5.19%", monthly: "$3,833", best: true },
+    { name: "Bank C", rate: "5.39%", monthly: "$3,922", best: false },
+    { name: "Bank D", rate: "5.25%", monthly: "$3,859", best: false },
   ];
   return (
     <div className="space-y-1">
