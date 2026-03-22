@@ -308,7 +308,8 @@ const AgentGrid = () => {
                     >
                       {plan.cta}
                     </Link>
-                )}
+                  )}
+                </div>
               </div>
             ))}
           </div>
