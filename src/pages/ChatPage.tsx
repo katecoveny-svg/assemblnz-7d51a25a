@@ -1829,7 +1829,10 @@ const ChatPage = () => {
           {/* Live Preview Panel (SPARK + PRISM) */}
           {hasLivePreview && (
             <div className={`${sparkMobileView === "preview" ? "flex" : "hidden"} md:flex md:w-[60%] flex-col flex-1 min-h-0 p-2`}>
-              <SparkPreview code={sparkCode} onIterate={() => setInput(isSpark ? "Make these changes: " : "Update the creative: ")} />
+              <SparkPreview code={sparkCode} onIterate={() => setInput(isSpark ? "Make these changes: " : "Update the creative: ")} onDeploy={isSpark ? () => setShowDeployModal(true) : undefined} />
+              {isSpark && showDeployModal && (
+                <SparkDeployModal code={sparkCode} onClose={() => setShowDeployModal(false)} />
+              )}
             </div>
           )}
         </div>

@@ -60,6 +60,12 @@ const SparkPreview = ({ code, onIterate, onDeploy }: SparkPreviewProps) => {
             <RefreshCw size={13} style={{ color: "#FF6B00" }} />
           </button>
         )}
+        {onDeploy && (
+          <button onClick={onDeploy} className="flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-semibold transition-all hover:scale-[0.97]"
+            style={{ background: "#FF6B00", color: "#fff" }} title="Deploy Live">
+            🚀 Deploy
+          </button>
+        )}
       </div>
       {/* iframe */}
       <div className="flex-1 min-h-0">
