@@ -1235,6 +1235,8 @@ const ChatPage = () => {
                   { id: "prism_social" as const, label: "Social" },
                   { id: "prism_brand" as const, label: "Brand Voice" },
                   { id: "prism_creative" as const, label: "Creative" },
+                  { id: "prism_ads" as const, label: "Ad Studio" },
+                  { id: "prism_product" as const, label: "Product" },
                   { id: "prism_video" as const, label: "Video" },
                   { id: "prism_brandlab" as const, label: "Brand Lab" },
                   { id: "prism_publisher" as const, label: "Publisher" },
