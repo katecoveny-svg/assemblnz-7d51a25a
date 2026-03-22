@@ -103,10 +103,10 @@ ${v.conditionNotes ? `Condition: ${v.conditionNotes}` : ""}
 
 📸 Recommended Photo Order: Hero 3/4 front shot → Front straight → Rear 3/4 → Side profile → Interior dashboard → Front seats → Rear seats → Boot → Engine bay → Wheels/tyres → Any special features → Odometer
 
-✅ Compliant with TradeMe Motors listing policy — no overlays, genuine photos, NZD pricing incl. GST.
+✅ Compliant with NZ motor marketplace listing policy — no overlays, genuine photos, NZD pricing incl. GST.
 
 ---
-For direct API integration with TradeMe DealerBase, contact motorsapi@trademe.co.nz to set up your API access.`;
+For direct API integration with your marketplace, contact your platform provider to set up API access.`;
   };
 
   const generateWebsiteListing = (v: Vehicle) => {
