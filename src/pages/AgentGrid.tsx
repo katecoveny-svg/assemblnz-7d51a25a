@@ -159,7 +159,7 @@ const AgentGrid = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-foreground mb-2">Meet the team</h2>
+          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-glow-cyan mb-2">Meet the team</h2>
           <p className="text-sm font-jakarta text-muted-foreground">Tap any agent to chat live — no signup needed.</p>
         </motion.div>
 
@@ -199,7 +199,7 @@ const AgentGrid = () => {
       <section className="relative z-10 py-20 sm:py-28 border-t border-white/[0.04]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <motion.h2
-            className="text-2xl sm:text-4xl font-syne font-extrabold text-center text-foreground mb-14"
+            className="text-2xl sm:text-4xl font-syne font-extrabold text-center text-glow-purple mb-14"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -235,7 +235,7 @@ const AgentGrid = () => {
       <section className="relative z-10 py-20 sm:py-28 border-t border-white/[0.04]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
-            <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-foreground mb-3">
+            <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-glow-cyan mb-3">
               Simple, honest <span className="text-gradient-hero">pricing</span>
             </h2>
             <p className="text-sm font-jakarta text-muted-foreground">Start free. Upgrade when you're ready.</p>
@@ -313,8 +313,8 @@ const AgentGrid = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div>
               <span className="font-mono-jb text-[10px] text-muted-foreground">ASM-027</span>
-              <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-foreground mt-1 mb-4">
-                Meet <span style={{ color: "#B388FF" }}>HELM</span>
+              <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-glow-purple mt-1 mb-4">
+                Meet <span className="text-glow-purple">HELM</span>
               </h2>
               <p className="text-sm font-jakarta text-muted-foreground leading-relaxed mb-6">
                 Your personal Life Admin & Household Manager. Upload receipts, plan meals, track budgets, and tame the chaos of daily life — all through one AI assistant built for New Zealand families.
@@ -348,8 +348,8 @@ const AgentGrid = () => {
             </div>
             <div className="order-1 lg:order-2">
               <span className="font-mono-jb text-[10px] text-muted-foreground">ASM-028</span>
-              <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-foreground mt-1 mb-4">
-                Meet <span style={{ color: "#26C6DA" }}>MARINER</span>
+              <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-glow-cyan mt-1 mb-4">
+                Meet <span className="text-glow-cyan">MARINER</span>
               </h2>
               <p className="text-sm font-jakarta text-muted-foreground leading-relaxed mb-6">
                 NZ's maritime AI expert. Fishing regulations, boat maintenance, weather interpretation, commercial maritime compliance — MARINER knows the waters of Aotearoa inside out.
@@ -370,7 +370,7 @@ const AgentGrid = () => {
       {/* ═══════════════════════ ALSO BY ASSEMBL ═══════════════════════ */}
       <section className="relative z-10 py-20 sm:py-28 border-t border-white/[0.04]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-center text-foreground mb-14">
+          <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-center text-glow-pink mb-14">
             Also by <span className="text-gradient-hero">Assembl</span>
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -405,7 +405,7 @@ const AgentGrid = () => {
             viewport={{ once: true }}
             whileHover={{ boxShadow: "0 0 30px rgba(0,255,136,0.3)" }}
           />
-          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-foreground mb-3 flex items-center justify-center gap-2">Built in Aotearoa <NeonNZFlag size={28} /></h2>
+          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-glow-green mb-3 flex items-center justify-center gap-2">Built in Aotearoa <NeonNZFlag size={28} /></h2>
           <p className="text-sm font-jakarta text-muted-foreground leading-relaxed max-w-lg mx-auto mb-4">
             "I built Assembl because NZ businesses deserve AI tools that understand our laws, our culture, and the way we work.
             Every agent is trained on real NZ legislation — not generic overseas advice."
@@ -419,7 +419,7 @@ const AgentGrid = () => {
       <section id="contact" className="relative z-10 py-20 sm:py-28 border-t border-white/[0.04]">
         <div className="max-w-lg mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-foreground mb-3">Get in touch</h2>
+            <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-glow-cyan mb-3">Get in touch</h2>
             <p className="text-sm font-jakarta text-muted-foreground">Custom builds, enterprise pricing, or just to say kia ora.</p>
           </div>
           <form

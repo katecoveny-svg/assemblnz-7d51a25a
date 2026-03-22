@@ -263,7 +263,7 @@ const PricingPage = () => {
       {/* Hero */}
       <section className="pt-12 pb-10 sm:py-28">
         <div className="max-w-5xl mx-auto px-5 sm:px-6 text-center">
-          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-syne font-extrabold mb-3 leading-tight" style={{ color: '#E4E4EC' }}>
+          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-syne font-extrabold mb-3 leading-tight text-glow-cyan">
             Simple, honest pricing
           </h1>
           <p className="text-sm sm:text-base font-jakarta max-w-xl mx-auto mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
@@ -281,7 +281,7 @@ const PricingPage = () => {
       {/* ═══ Business Plans ═══ */}
       <section className="pb-16 sm:pb-24">
         <div className="max-w-6xl mx-auto px-5 sm:px-6">
-          <h2 className="text-lg sm:text-2xl font-syne font-extrabold text-center mb-8 sm:mb-12" style={{ color: '#E4E4EC' }}>
+          <h2 className="text-lg sm:text-2xl font-syne font-extrabold text-center mb-8 sm:mb-12 text-glow-purple">
             Plans for NZ Businesses
           </h2>
 
@@ -522,7 +522,7 @@ const PricingPage = () => {
       </div>
       <section className="py-14 sm:py-24 relative">
         <div className="max-w-4xl mx-auto px-5 sm:px-6">
-          <h2 className="text-lg sm:text-2xl font-syne font-extrabold text-center mb-2" style={{ color: '#E4E4EC' }}>
+          <h2 className="text-lg sm:text-2xl font-syne font-extrabold text-center mb-2 text-glow-purple">
             HELM — For NZ Families
           </h2>
           <p className="text-[13px] font-jakarta text-center mb-8 sm:mb-12" style={{ color: 'rgba(255,255,255,0.3)' }}>
@@ -889,7 +889,7 @@ const PricingPage = () => {
       {/* FAQ */}
       <section className="py-14 sm:py-28">
         <div className="max-w-3xl mx-auto px-5 sm:px-6">
-          <h2 className="text-xl sm:text-3xl font-syne font-extrabold text-center mb-8 sm:mb-14" style={{ color: '#E4E4EC' }}>
+          <h2 className="text-xl sm:text-3xl font-syne font-extrabold text-center mb-8 sm:mb-14 text-glow-cyan">
             Frequently asked questions
           </h2>
           <div className="space-y-2">
@@ -939,7 +939,7 @@ const PricingPage = () => {
               border: '1px solid rgba(255,255,255,0.05)',
             }}
           >
-            <h2 className="text-xl sm:text-2xl font-syne font-extrabold mb-3" style={{ color: '#E4E4EC' }}>
+            <h2 className="text-xl sm:text-2xl font-syne font-extrabold mb-3 text-glow-pink">
               Ready to get started?
             </h2>
             <p className="text-sm font-jakarta mb-6" style={{ color: 'rgba(255,255,255,0.5)' }}>
