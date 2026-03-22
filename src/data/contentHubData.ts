@@ -39,7 +39,7 @@ export const COMPARISONS: ComparisonItem[] = [
 
 export const FILTER_AGENTS = [
   { name: "All", color: "#ffffff" },
-  { name: "HELM", color: "#00E5FF" },
+  { name: "HELM", color: "#B388FF" },
   { name: "AROHA", color: "#FF6F91" },
   { name: "LEDGER", color: "#4FC3F7" },
   { name: "HAVEN", color: "#FF80AB" },
