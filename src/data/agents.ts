@@ -465,7 +465,7 @@ export const agents: Agent[] = [
     color: "#66BB6A",
     sector: "Government & Public Sector",
     traits: ["Caring", "Accessible", "Hauora-informed"],
-    expertise: ["Te Whatu Ora navigation", "GP enrolment", "Prescriptions", "Mental health access", "Maternity"],
+    expertise: ["Health system navigator", "GP finder & enrolment", "Prescription cost guide", "Mental health pathways", "Maternity rights advisor"],
     starters: ["How do I enrol with a GP?", "What health services are free in NZ?", "Mental health support — where do I start?"],
   },
   {
