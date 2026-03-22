@@ -165,7 +165,7 @@ export const agents: Agent[] = [
     color: "#B388FF",
     sector: "Ops & Admin",
     traits: ["Hyper-organised", "Proactive", "Never forgets"],
-    expertise: ["School & family admin", "Meal planning & budgets", "Schedules & reminders", "Home & pet care", "Life logistics"],
+    expertise: ["Newsletter data extractor", "Meal plan generator", "Budget auto-tracker", "School admin autopilot", "Family calendar sync", "Life logistics AI"],
     starters: ["Upload a school newsletter and I'll extract the key dates", "Create a weekly meal plan for my family", "Help me set up a household budget"],
   },
   {
