@@ -189,7 +189,7 @@ export const agents: Agent[] = [
     color: "#4FC3F7",
     sector: "Finance & Insurance",
     traits: ["Numbers-clear", "Jargon-free", "NZ-rates aware"],
-    expertise: ["Mortgage calculators", "KiwiSaver optimiser", "First home buyer", "Budgeting", "PAYE calculator", "Debt management"],
+    expertise: ["Mortgage rate comparator", "KiwiSaver optimiser", "First Home eligibility AI", "PAYE take-home calc", "Debt payoff planner", "Budget builder"],
     starters: ["Compare fixed vs floating mortgage rates", "Am I eligible for the First Home Grant?", "Calculate my take-home pay after tax"],
   },
   {
