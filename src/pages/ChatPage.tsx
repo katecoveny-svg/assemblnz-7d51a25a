@@ -540,6 +540,25 @@ const ChatPage = () => {
     return data.publicUrl;
   }, []);
 
+  // Logo upload handler
+  const handleLogoUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) return;
+    if (file.size > 5 * 1024 * 1024) return; // 5MB limit
+    setIsUploadingLogo(true);
+    try {
+      const url = await uploadImage(file);
+      setBrandLogoUrl(url);
+      sessionStorage.setItem("assembl_brand_logo", url);
+    } catch (err) {
+      console.error("Logo upload error:", err);
+    } finally {
+      setIsUploadingLogo(false);
+      if (e.target) e.target.value = "";
+    }
+  }, [uploadImage]);
+
   // Inline image generation from [GENERATE_IMAGE: ...] tags
   const triggerInlineImages = useCallback(async (content: string, msgIndex: number) => {
     const imageTagRegex = /\[GENERATE_IMAGE:\s*(.*?)\]/g;
