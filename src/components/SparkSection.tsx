@@ -66,7 +66,7 @@ const SparkSection = () => (
           </div>
 
           {/* SPARK Robot Avatar */}
-          <div className="hidden lg:flex items-center justify-center">
+          <div className="flex items-center justify-center">
             <motion.div
               className="relative"
               initial={{ opacity: 0, scale: 0.8 }}
@@ -81,7 +81,7 @@ const SparkSection = () => (
               <img
                 src={sparkImg}
                 alt="SPARK AI App Builder"
-                className="relative w-56 h-56 object-contain"
+                className="relative w-32 h-32 lg:w-56 lg:h-56 object-contain"
                 style={{ filter: "drop-shadow(0 0 20px rgba(255,107,0,0.4))" }}
                 loading="lazy"
               />
