@@ -393,7 +393,7 @@ export const agents: Agent[] = [
     color: "#FFD740",
     sector: "Life & Personal",
     traits: ["Fun & creative", "Budget-aware", "Locally plugged-in"],
-    expertise: ["Party planning", "NZ events & festivals", "Wedding planning", "Cultural events", "Kids' parties"],
+    expertise: ["Party planner AI", "NZ event curator", "Wedding planning engine", "Cultural event guide", "Kids' party designer"],
     starters: ["Plan a kids' birthday party in Auckland", "Matariki celebration ideas", "Wedding venue options in NZ"],
   },
   {
