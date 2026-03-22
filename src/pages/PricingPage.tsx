@@ -281,7 +281,7 @@ const PricingPage = () => {
       {/* ═══ Business Plans ═══ */}
       <section className="pb-16 sm:pb-24">
         <div className="max-w-6xl mx-auto px-5 sm:px-6">
-          <h2 className="text-lg sm:text-2xl font-syne font-extrabold text-center mb-8 sm:mb-12" style={{ color: '#E4E4EC' }}>
+          <h2 className="text-lg sm:text-2xl font-syne font-extrabold text-center mb-8 sm:mb-12 text-glow-purple">
             Plans for NZ Businesses
           </h2>
 
