@@ -790,6 +790,12 @@ const ChatPage = () => {
       if (isNexus && nexusWorkflowActive) {
         processNexusResponse(assistantContent);
       }
+
+      // Trigger inline image generation for ECHO and other agents
+      if (/\[GENERATE_IMAGE:/i.test(assistantContent)) {
+        const currentMsgIndex = newMessages.length; // index of the assistant message just added
+        triggerInlineImages(assistantContent, currentMsgIndex);
+      }
     } catch (err) {
       console.error("Chat error:", err);
       setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, I'm having trouble connecting right now. Please try again." }]);
