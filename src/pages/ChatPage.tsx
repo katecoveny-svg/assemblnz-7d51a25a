@@ -83,6 +83,9 @@ import PrismBrandVoice from "@/components/prism/PrismBrandVoice";
 import PrismCreativeStudio from "@/components/prism/PrismCreativeStudio";
 import PrismVideoStudio from "@/components/prism/PrismVideoStudio";
 import PrismBrandLab from "@/components/prism/PrismBrandLab";
+import PrismAdStudio from "@/components/prism/PrismAdStudio";
+import PrismProductStudio from "@/components/prism/PrismProductStudio";
+import PrismBrandDNA from "@/components/prism/PrismBrandDNA";
 import PrismSocialPublisher from "@/components/prism/PrismSocialPublisher";
 import SparkDeployModal from "@/components/spark/SparkDeployModal";
 import AxisAutomations from "@/components/axis/AxisAutomations";
@@ -305,7 +308,7 @@ const ChatPage = () => {
   const [pendingImage, setPendingImage] = useState<File | null>(null);
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "prism_brandlab" | "prism_publisher" | "axis_automations" | "agent_training" | "helm_week" | "helm_bus" | "helm_timetable" | "helm_inbox" | "helm_review" | "helm_rescue" | "helm_settings">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "prism_brandlab" | "prism_publisher" | "prism_ads" | "prism_product" | "axis_automations" | "agent_training" | "helm_week" | "helm_bus" | "helm_timetable" | "helm_inbox" | "helm_review" | "helm_rescue" | "helm_settings">("chat");
   const [showDeployModal, setShowDeployModal] = useState(false);
   const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
@@ -1232,6 +1235,8 @@ const ChatPage = () => {
                   { id: "prism_social" as const, label: "Social" },
                   { id: "prism_brand" as const, label: "Brand Voice" },
                   { id: "prism_creative" as const, label: "Creative" },
+                  { id: "prism_ads" as const, label: "Ad Studio" },
+                  { id: "prism_product" as const, label: "Product" },
                   { id: "prism_video" as const, label: "Video" },
                   { id: "prism_brandlab" as const, label: "Brand Lab" },
                   { id: "prism_publisher" as const, label: "Publisher" },
@@ -1313,11 +1318,12 @@ const ChatPage = () => {
 
       {/* Modals */}
       <BrandScanModal agentName={agent.name} agentColor={agent.color} open={brandModalOpen} onClose={() => setBrandModalOpen(false)}
-        onBrandLoaded={(profile, name) => {
+        onBrandLoaded={(profile, name, dna) => {
           setBrandProfile(profile);
           setBrandName(name);
           sessionStorage.setItem("assembl_brand_profile", profile);
           sessionStorage.setItem("assembl_brand_name", name);
+          if (dna) sessionStorage.setItem("assembl_brand_dna", JSON.stringify(dna));
         }} />
       <TemplateLibrary agentId={agent.id} agentName={agent.name} agentColor={agent.color} open={templateModalOpen}
         onClose={() => setTemplateModalOpen(false)} onSelect={(prompt) => sendMessage(prompt)} />
@@ -1391,6 +1397,10 @@ const ChatPage = () => {
         <PrismVideoStudio />
       ) : activeTab === "prism_brandlab" && isPrism ? (
         <PrismBrandLab onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "prism_ads" && isPrism ? (
+        <PrismAdStudio onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "prism_product" && isPrism ? (
+        <PrismProductStudio onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "prism_publisher" && isPrism ? (
         <PrismSocialPublisher onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "axis_automations" && isAxis ? (
@@ -1509,6 +1519,7 @@ const ChatPage = () => {
             {showWelcome ? (
               <div className="flex flex-col items-center justify-center min-h-full text-center gap-4 py-6 opacity-0 animate-fade-up overflow-y-auto" style={{ animationFillMode: "forwards" }}>
                 <AgentWelcome agent={agent} />
+                {isPrism && <div className="w-full max-w-sm mt-2"><PrismBrandDNA onRescan={() => setBrandModalOpen(true)} /></div>}
 
                 {isHelm ? (
                   <HelmQuickActions onSelect={(msg) => sendMessage(msg)} />
