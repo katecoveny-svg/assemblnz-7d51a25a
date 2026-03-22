@@ -78,6 +78,8 @@ const App = () => (
                   <Route path="/agents/echo" element={<Suspense fallback={null}><EchoPage /></Suspense>} />
                   <Route path="/agents/:agentId" element={<Suspense fallback={null}><AgentDetailPage /></Suspense>} />
                   <Route path="/content-hub" element={<Suspense fallback={null}><ContentHub /></Suspense>} />
+                  <Route path="/my-apps" element={<Suspense fallback={null}><MyAppsPage /></Suspense>} />
+                  <Route path="/apps/:appName" element={<Suspense fallback={null}><SparkAppViewer /></Suspense>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
