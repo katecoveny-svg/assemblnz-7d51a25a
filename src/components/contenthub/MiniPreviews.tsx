@@ -149,7 +149,7 @@ export const ForgeComparisonPreview = () => {
   const lenders = [
     { name: "Dealer", rate: "9.95%", monthly: "$912", total: "$65,115", best: false },
     { name: "Bank", rate: "8.49%", monthly: "$880", total: "$63,027", best: true },
-    { name: "MARAC", rate: "11.95%", monthly: "$955", total: "$67,711", best: false },
+    { name: "Finance Co.", rate: "11.95%", monthly: "$955", total: "$67,711", best: false },
   ];
   return (
     <div>
