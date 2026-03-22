@@ -93,7 +93,7 @@ export const agents: Agent[] = [
     color: "#B388FF",
     sector: "Architecture",
     traits: ["Visionary", "Code-literate", "Sustainability-focused"],
-    expertise: ["Fee proposals", "Consent documentation", "Building Code", "NZIA standards", "Design narratives", "Specification writing"],
+    expertise: ["Fee proposal generator", "Consent doc builder", "Design narrative AI", "Spec writer", "Code compliance checker", "Sustainability scorer"],
     starters: ["Generate a fee proposal for a residential project", "Building consent documentation checklist", "Resource consent process for a new build"],
   },
   {
