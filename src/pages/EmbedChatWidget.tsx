@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { agents } from "@/data/agents";
+import { echoAgent } from "@/data/agents";
 import { supabase } from "@/integrations/supabase/client";
 import AgentAvatar from "@/components/AgentAvatar";
 import ReactMarkdown from "react-markdown";
@@ -16,7 +17,7 @@ const PREVIEW_LIMIT = 3;
 
 const EmbedChatWidget = () => {
   const { agentId } = useParams<{ agentId: string }>();
-  const agent = agents.find((a) => a.id === agentId);
+  const agent = agentId === "echo" ? echoAgent : agents.find((a) => a.id === agentId);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback, lazy, Suspense } from "react"
 import ParticleField from "@/components/ParticleField";
 import { useParams, Link } from "react-router-dom";
 import { agents } from "@/data/agents";
+import { echoAgent } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2 } from "lucide-react";
@@ -279,7 +280,7 @@ async function readFileAsText(file: File): Promise<string> {
 
 const ChatPage = () => {
   const { agentId } = useParams<{ agentId: string }>();
-  const agent = agents.find((a) => a.id === agentId);
+  const agent = agentId === "echo" ? echoAgent : agents.find((a) => a.id === agentId);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
