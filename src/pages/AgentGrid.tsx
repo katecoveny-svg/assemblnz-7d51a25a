@@ -331,7 +331,7 @@ const AgentGrid = () => {
                   <span key={t} className="text-[10px] font-jakarta px-2.5 py-1 rounded-full border border-border text-muted-foreground">{t}</span>
                 ))}
               </div>
-              <Link to="/chat/helm" className="inline-flex items-center gap-2 text-sm font-syne font-bold text-foreground hover:text-gradient-hero transition-all duration-300">
+              <Link to="/chat/operations" className="inline-flex items-center gap-2 text-sm font-syne font-bold text-foreground hover:text-gradient-hero transition-all duration-300">
                 Try HELM <ArrowRight size={14} />
               </Link>
             </div>
