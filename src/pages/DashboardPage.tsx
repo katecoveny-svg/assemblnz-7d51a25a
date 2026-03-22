@@ -19,6 +19,7 @@ interface SavedItem { id: string; agent_id: string; agent_name: string; content:
 interface ActionItem { id: string; agent_id: string; description: string; priority: string; due_date: string | null; status: string; }
 interface SummaryItem { id: string; agent_id: string; summary: string; created_at: string; }
 interface WorkflowExecution { id: string; status: string; current_step: number; steps_log: any[]; started_at: string; workflow_id: string; }
+interface ExportedOutput { id: string; agent_id: string; agent_name: string; output_type: string; title: string; content_preview: string | null; format: string; created_at: string; }
 
 const glassCard: React.CSSProperties = {
   background: "rgba(14,14,26,0.7)",
@@ -46,6 +47,7 @@ const DashboardPage = () => {
   const [actions, setActions] = useState<ActionItem[]>([]);
   const [summaries, setSummaries] = useState<SummaryItem[]>([]);
   const [executions, setExecutions] = useState<WorkflowExecution[]>([]);
+  const [exports, setExports] = useState<ExportedOutput[]>([]);
 
   useEffect(() => {
     if (!user) return;
@@ -62,6 +64,8 @@ const DashboardPage = () => {
     supabase.from("conversation_summaries").select("*").eq("user_id", uid).order("created_at", { ascending: false }).limit(10).then(({ data }) => { if (data) setSummaries(data as any); });
 
     supabase.from("workflow_executions").select("*").eq("user_id", uid).order("started_at", { ascending: false }).limit(5).then(({ data }) => { if (data) setExecutions(data as any); });
+
+    supabase.from("exported_outputs").select("*").eq("user_id", uid).order("created_at", { ascending: false }).limit(20).then(({ data }) => { if (data) setExports(data as any); });
   }, [user]);
 
   const handleDelete = async (id: string) => {
@@ -233,6 +237,42 @@ const DashboardPage = () => {
             )}
           </div>
         </div>
+
+        {/* Export History */}
+        {exports.length > 0 && (
+          <div className="rounded-xl p-5 relative overflow-hidden" style={glassCard}>
+            <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #4FC3F7, transparent)" }} />
+            <div className="flex items-center gap-2 mb-3">
+              <FileText size={16} className="text-[#4FC3F7]" />
+              <h2 className="font-syne font-bold text-sm text-foreground">Export History</h2>
+              <span className="text-[10px] text-muted-foreground ml-auto">{exports.length} exports</span>
+            </div>
+            <div className="space-y-1.5">
+              {exports.slice(0, 10).map((exp) => {
+                const agent = agents.find((a) => a.name.toUpperCase() === exp.agent_name.toUpperCase() || a.id === exp.agent_id);
+                const color = agent?.color || "#4FC3F7";
+                return (
+                  <div key={exp.id} className="flex items-center justify-between py-2 px-2 rounded-lg hover:bg-white/[0.02] transition-colors">
+                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                      <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style={{ background: color + "15" }}>
+                        <FileText size={12} style={{ color }} />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-xs font-medium text-foreground truncate">{exp.title}</p>
+                        <div className="flex items-center gap-2 mt-0.5">
+                          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded" style={{ backgroundColor: color + "15", color }}>{exp.agent_name}</span>
+                          <span className="text-[9px] text-muted-foreground uppercase">{exp.format}</span>
+                          <span className="text-[9px] text-muted-foreground">{exp.output_type}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <span className="text-[10px] text-muted-foreground shrink-0 ml-3">{timeAgo(exp.created_at)}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Saved Items */}
         {savedItems.length > 0 && (
