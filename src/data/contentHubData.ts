@@ -205,7 +205,7 @@ export const OUTPUT_CARDS: OutputCard[] = [
     outputType: "Mortgage Comparison Report",
     formatBadge: "Calculator",
     preview: `**SCENARIO:** First home buyer, Auckland\nPurchase: $875,000 | Deposit: $175,000 (20%)\n\n| Bank | Rate | Monthly |`,
-    fullContent: `**SCENARIO:** First home buyer, Auckland. Purchase $875,000. Deposit $175,000 (20%). Loan $700,000. 30 years.\n\n| Bank | Fixed Rate (2yr) | Monthly | Total Interest | Total Cost |\n|---|---|---|---|---|\n| ANZ | 5.29% | $3,877 | $695,720 | $1,395,720 |\n| ASB | 5.19% | $3,833 | $679,880 | $1,379,880 |\n| Westpac | 5.39% | $3,922 | $711,920 | $1,411,920 |\n| BNZ | 5.25% | $3,859 | $689,240 | $1,389,240 |\n\n**Best option: ASB at 5.19% saves $32,040 vs Westpac**\n\n**Split loan strategy:**\n$400,000 fixed 2yr at 5.19% + $300,000 floating at 6.89%\nMonthly: $2,190 + $1,975 = $4,165\nBenefit: Extra payments on floating without break fees`,
+    fullContent: `**SCENARIO:** First home buyer, Auckland. Purchase $875,000. Deposit $175,000 (20%). Loan $700,000. 30 years.\n\n| Bank | Fixed Rate (2yr) | Monthly | Total Interest | Total Cost |\n|---|---|---|---|---|\n| Bank A | 5.29% | $3,877 | $695,720 | $1,395,720 |\n| Bank B | 5.19% | $3,833 | $679,880 | $1,379,880 |\n| Bank C | 5.39% | $3,922 | $711,920 | $1,411,920 |\n| Bank D | 5.25% | $3,859 | $689,240 | $1,389,240 |\n\n**Best option: Bank B at 5.19% saves $32,040 vs Bank C**\n\n**Split loan strategy:**\n$400,000 fixed 2yr at 5.19% + $300,000 floating at 6.89%\nMonthly: $2,190 + $1,975 = $4,165\nBenefit: Extra payments on floating without break fees`,
   },
   {
     id: "vault-kiwisaver",

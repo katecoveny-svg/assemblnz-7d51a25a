@@ -43,7 +43,7 @@ const DEMO_JOBS: Record<string, { type: string; time: string; vehicle: string }[
     { type: "Service", time: "1:30pm", vehicle: "2021 Mitsubishi Outlander" },
   ],
   Wednesday: [
-    { type: "Service", time: "8:30am", vehicle: "2022 Tesla Model 3" },
+    { type: "Service", time: "8:30am", vehicle: "2022 EV Sedan" },
     { type: "Repair", time: "10:00am", vehicle: "2017 Ford Ranger" },
   ],
   Thursday: [

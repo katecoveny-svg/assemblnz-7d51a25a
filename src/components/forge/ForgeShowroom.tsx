@@ -468,7 +468,7 @@ ${v.conditionNotes}. ${v.serviceHistory}.
             </div>
             <div className="flex gap-1.5 flex-wrap">
               <button className="flex items-center gap-1 px-2 py-1 rounded-md text-[9px] border border-border text-muted-foreground hover:text-foreground"><Edit size={9} /> Edit</button>
-              <button onClick={() => { setSelectedVehicle(v); setView("listing"); setListingType("trademe"); }} className="flex items-center gap-1 px-2 py-1 rounded-md text-[9px] border border-border text-muted-foreground hover:text-foreground"><ExternalLink size={9} /> TradeMe</button>
+              <button onClick={() => { setSelectedVehicle(v); setView("listing"); setListingType("trademe"); }} className="flex items-center gap-1 px-2 py-1 rounded-md text-[9px] border border-border text-muted-foreground hover:text-foreground"><ExternalLink size={9} /> Marketplace</button>
               <button onClick={() => { setSelectedVehicle(v); setView("listing"); setListingType("website"); }} className="flex items-center gap-1 px-2 py-1 rounded-md text-[9px] border border-border text-muted-foreground hover:text-foreground"><Copy size={9} /> Ad</button>
               <button className="flex items-center gap-1 px-2 py-1 rounded-md text-[9px] border border-border text-muted-foreground hover:text-foreground"><Share2 size={9} /> Share</button>
             </div>

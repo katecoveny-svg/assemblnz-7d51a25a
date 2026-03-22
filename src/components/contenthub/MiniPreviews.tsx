@@ -525,7 +525,7 @@ export const AuraGuestPreview = () => (
     </div>
     {[
       "☐ Anniversary card in suite",
-      "☐ Felton Road Pinot chilled",
+      "☐ Central Otago Pinot chilled",
       "☐ Pescatarian menu cards",
       "☐ Helicopter to Aoraki/Mt Cook",
       "☐ Stargazing session",
