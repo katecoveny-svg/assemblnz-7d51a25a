@@ -551,8 +551,13 @@ const ChatPage = () => {
     if (!isSpark) return null;
     for (let i = messages.length - 1; i >= 0; i--) {
       if (messages[i].role === "assistant") {
-        const match = messages[i].content.match(/```(?:html|HTML)?\s*\n([\s\S]*?)```/);
-        if (match) return match[1];
+        const content = messages[i].content;
+        // Try fenced code block first
+        const fenced = content.match(/```(?:html|HTML)?\s*\n([\s\S]*?)```/);
+        if (fenced) return fenced[1];
+        // Try raw HTML (<!DOCTYPE or <html)
+        const raw = content.match(/(<!DOCTYPE[\s\S]*<\/html>)/i);
+        if (raw) return raw[1];
       }
     }
     return null;
