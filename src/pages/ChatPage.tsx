@@ -1301,6 +1301,10 @@ const ChatPage = () => {
           </span>
         )}
 
+        {/* Memory & Action Queue */}
+        <AgentMemoryPanel agentId={agentId!} agentColor={agent.color} agentName={agent.name} />
+        <ActionQueuePanel agentColor={agent.color} />
+
         <div className="flex items-center gap-1.5 shrink-0">
           <span className="w-2 h-2 rounded-full animate-pulse-glow" style={{ backgroundColor: "#00FF88", boxShadow: "0 0 6px #00FF88" }} />
           <span className="text-[10px] font-mono-jb text-foreground/50">LIVE</span>
