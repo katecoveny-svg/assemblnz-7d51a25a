@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback, lazy, Suspense, useMemo } from "react";
 import ParticleField from "@/components/ParticleField";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useSearchParams } from "react-router-dom";
 import { agents } from "@/data/agents";
 import { echoAgent } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
@@ -281,9 +281,20 @@ async function readFileAsText(file: File): Promise<string> {
 
 const ChatPage = () => {
   const { agentId } = useParams<{ agentId: string }>();
+  const [searchParams, setSearchParams] = useSearchParams();
   const agent = agentId === "echo" ? echoAgent : agents.find((a) => a.id === agentId);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState(() => {
+    const from = searchParams.get("from");
+    const context = searchParams.get("context");
+    if (agentId === "spark" && from && context) {
+      return `Build a ${from.toLowerCase()}-style app based on this: ${context}`;
+    }
+    if (agentId === "spark" && from) {
+      return `Build a ${from.toLowerCase()}-style app`;
+    }
+    return "";
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [generations, setGenerations] = useState<ThreeDGeneration[]>([]);
   const [genCount, setGenCount] = useState(0);
@@ -1612,7 +1623,7 @@ const ChatPage = () => {
           {!isSpark && (
             <div className="px-4 pb-2 flex justify-end">
               <Link
-                to={`/chat/spark`}
+                to={`/chat/spark?from=${encodeURIComponent(agent.name)}&context=${encodeURIComponent(messages.filter(m => m.role === "user").slice(-1)[0]?.content || "")}`}
                 className="flex items-center gap-1.5 text-[11px] font-mono-jb px-3 py-1.5 rounded-lg transition-all duration-200 hover:scale-105"
                 style={{
                   color: "#FF6B00",
