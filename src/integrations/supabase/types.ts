@@ -185,6 +185,7 @@ export type Database = {
       brand_profiles: {
         Row: {
           audience: string | null
+          brand_dna: Json | null
           business_name: string | null
           created_at: string
           creative_brief: Json | null
@@ -197,6 +198,7 @@ export type Database = {
         }
         Insert: {
           audience?: string | null
+          brand_dna?: Json | null
           business_name?: string | null
           created_at?: string
           creative_brief?: Json | null
@@ -209,6 +211,7 @@ export type Database = {
         }
         Update: {
           audience?: string | null
+          brand_dna?: Json | null
           business_name?: string | null
           created_at?: string
           creative_brief?: Json | null
