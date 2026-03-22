@@ -40,7 +40,7 @@ function LoadingCube() {
   return (
     <mesh ref={meshRef}>
       <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color="#FFB800" wireframe />
+      <meshStandardMaterial color="#B388FF" wireframe />
     </mesh>
   );
 }
