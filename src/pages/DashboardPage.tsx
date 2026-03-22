@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { MessageSquare, FileText, Upload, Clock, Bookmark, ChevronRight, Trash2, History } from "lucide-react";
+import { MessageSquare, FileText, Upload, Clock, Bookmark, ChevronRight, Trash2, History, Code2 } from "lucide-react";
 import ParticleField from "@/components/ParticleField";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
