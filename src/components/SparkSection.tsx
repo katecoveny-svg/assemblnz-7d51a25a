@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Code2, Sparkles } from "lucide-react";
+import sparkImg from "@/assets/agents/spark.png";
 
 const SparkSection = () => (
   <section className="relative z-10 py-16 sm:py-24">
@@ -64,48 +65,27 @@ const SparkSection = () => (
             </Link>
           </div>
 
-          {/* Animated code preview */}
-          <div className="hidden lg:block">
-            <div
-              className="rounded-xl p-4 font-mono-jb text-[11px] leading-relaxed overflow-hidden"
-              style={{
-                background: "rgba(0,0,0,0.4)",
-                border: "1px solid rgba(255,107,0,0.1)",
-                height: 220,
-              }}
+          {/* SPARK Robot Avatar */}
+          <div className="hidden lg:flex items-center justify-center">
+            <motion.div
+              className="relative"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.3 }}
             >
-              <div className="flex items-center gap-1.5 mb-3">
-                <span className="w-2 h-2 rounded-full" style={{ background: "#FF5F57" }} />
-                <span className="w-2 h-2 rounded-full" style={{ background: "#FEBC2E" }} />
-                <span className="w-2 h-2 rounded-full" style={{ background: "#28C840" }} />
-                <span className="text-[9px] ml-2" style={{ color: "rgba(255,255,255,0.15)" }}>
-                  spark-output.html
-                </span>
-              </div>
-              {[
-                { text: '<div class="calculator">', color: "#FF6B00", delay: 0 },
-                { text: '  <h1>Quote Calculator</h1>', color: "#00FF88", delay: 0.3 },
-                { text: '  <input placeholder="Rooms"', color: "#00E5FF", delay: 0.6 },
-                { text: '    type="number" />', color: "#00E5FF", delay: 0.9 },
-                { text: '  <select id="paint-type">', color: "#B388FF", delay: 1.2 },
-                { text: '    <option>Standard</option>', color: "#E040FB", delay: 1.5 },
-                { text: '    <option>Premium</option>', color: "#E040FB", delay: 1.8 },
-                { text: '  </select>', color: "#B388FF", delay: 2.1 },
-                { text: '  <p id="total">$0.00</p>', color: "#FF2D9B", delay: 2.4 },
-                { text: '</div>', color: "#FF6B00", delay: 2.7 },
-              ].map((line, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: line.delay, duration: 0.4 }}
-                  style={{ color: line.color }}
-                >
-                  {line.text}
-                </motion.div>
-              ))}
-            </div>
+              <div
+                className="absolute inset-0 rounded-full blur-2xl opacity-30"
+                style={{ background: "#FF6B00" }}
+              />
+              <img
+                src={sparkImg}
+                alt="SPARK AI App Builder"
+                className="relative w-56 h-56 object-contain"
+                style={{ filter: "drop-shadow(0 0 20px rgba(255,107,0,0.4))" }}
+                loading="lazy"
+              />
+            </motion.div>
           </div>
         </div>
       </motion.div>
