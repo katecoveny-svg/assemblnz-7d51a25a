@@ -1274,6 +1274,9 @@ Deno.serve(async (req) => {
     if (brandContext) {
       fullSystemPrompt += `\n\n[Brand context for this conversation — use this to tailor your advice to the user's specific business:\n${brandContext}]`;
     }
+    if (brandLogoUrl) {
+      fullSystemPrompt += `\n\n[USER BRAND LOGO: The user has uploaded their company logo at this URL: ${brandLogoUrl}. When generating professional documents, employment agreements, contracts, proposals, reports, or any branded output, ALWAYS reference this logo and include instructions for placing it in the document header. When generating HTML-based documents or visual outputs, embed this logo image directly using an <img> tag.]`;
+    }
     if (teReoPrompt) {
       fullSystemPrompt += teReoPrompt;
     }
