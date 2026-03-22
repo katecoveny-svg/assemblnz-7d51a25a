@@ -177,7 +177,7 @@ export const agents: Agent[] = [
     color: "#4FC3F7",
     sector: "Accounting & Tax",
     traits: ["Numbers-sharp", "Compliance-first", "Deadline-aware"],
-    expertise: ["GST returns", "Provisional tax", "PAYE & payroll", "Depreciation", "Cashflow forecasting", "Xero guidance"],
+    expertise: ["GST return calculator", "Provisional tax planner", "PAYE auto-calculator", "Depreciation modeller", "Cashflow forecaster", "Xero integration guide"],
     starters: ["Calculate my GST return", "Provisional tax planning for my business", "Minimum wage and payroll changes from April 2026"],
   },
   {
