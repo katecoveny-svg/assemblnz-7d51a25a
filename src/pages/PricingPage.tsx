@@ -263,7 +263,7 @@ const PricingPage = () => {
       {/* Hero */}
       <section className="pt-12 pb-10 sm:py-28">
         <div className="max-w-5xl mx-auto px-5 sm:px-6 text-center">
-          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-syne font-extrabold mb-3 leading-tight" style={{ color: '#E4E4EC' }}>
+          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-syne font-extrabold mb-3 leading-tight text-glow-cyan">
             Simple, honest pricing
           </h1>
           <p className="text-sm sm:text-base font-jakarta max-w-xl mx-auto mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
