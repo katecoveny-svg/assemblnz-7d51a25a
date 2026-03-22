@@ -315,28 +315,28 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════════════════════ HELM SPOTLIGHT ═══════════════════════ */}
-      <section className="relative z-10 py-20 sm:py-28 border-t border-white/[0.04]">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div>
               <span className="font-mono-jb text-[10px] text-muted-foreground">ASM-013</span>
-              <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-glow-purple mt-1 mb-4">
-                Meet <span className="text-glow-purple">HELM</span>
+              <h2 className="text-2xl sm:text-4xl font-syne font-extrabold mt-1 mb-4 text-foreground">
+                Meet <span className="text-gradient-hero">HELM</span>
               </h2>
               <p className="text-sm font-jakarta text-muted-foreground leading-relaxed mb-6">
                 Your personal Life Admin & Household Manager. Upload receipts, plan meals, track budgets, and tame the chaos of daily life — all through one AI assistant built for New Zealand families.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 {["Meal planning", "Budget tracking", "Document parsing", "School admin", "Life checklists"].map((t) => (
-                  <span key={t} className="text-[10px] font-jakarta px-2.5 py-1 rounded-full border border-white/[0.06] text-foreground/60" style={{ boxShadow: '0 0 8px rgba(179,136,255,0.05)' }}>{t}</span>
+                  <span key={t} className="text-[10px] font-jakarta px-2.5 py-1 rounded-full border border-border text-muted-foreground">{t}</span>
                 ))}
               </div>
-              <Link to="/chat/helm" className="inline-flex items-center gap-2 text-sm font-syne font-bold transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(179,136,255,0.5)]" style={{ color: "#B388FF" }}>
+              <Link to="/chat/helm" className="inline-flex items-center gap-2 text-sm font-syne font-bold text-foreground hover:text-gradient-hero transition-all duration-300">
                 Try HELM <ArrowRight size={14} />
               </Link>
             </div>
             <div className="flex justify-center">
-              <div className="w-64 h-64 rounded-2xl border border-white/[0.06] flex items-center justify-center overflow-hidden" style={{ background: 'rgba(179,136,255,0.05)', boxShadow: '0 0 40px rgba(179,136,255,0.08)' }}>
+              <div className="w-64 h-64 rounded-2xl border border-border flex items-center justify-center overflow-hidden bg-card">
                 <AgentAvatar agentId="operations" color="#B388FF" size={160} />
               </div>
             </div>
