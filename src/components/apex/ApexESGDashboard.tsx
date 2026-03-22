@@ -75,7 +75,7 @@ const ApexESGDashboard = ({ isPaid, userRole }: Props) => {
     setScore({ total, env, social, gov });
   };
 
-  const getColor = (val: number) => val >= 75 ? "#00FF88" : val >= 50 ? "#FFB800" : "#FF4D6A";
+  const getColor = (val: number) => val >= 75 ? "#00FF88" : val >= 50 ? "#00E5FF" : "#FF4D6A";
 
   const generate = async (key: string, prompt: string) => {
     setGenerating(key);
