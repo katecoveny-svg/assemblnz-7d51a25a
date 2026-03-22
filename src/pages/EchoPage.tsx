@@ -37,12 +37,12 @@ const EchoPage = () => (
             </div>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
-            <p className="font-mono-jb text-[10px] mb-2" style={{ color: "rgba(228,160,255,0.3)" }}>ASM-000 · Founder AI Clone</p>
+            <p className="font-mono-jb text-[10px] mb-2" style={{ color: "rgba(228,160,255,0.3)" }}>ASM-000 · Assembl Hero Agent</p>
             <h1 className="font-syne font-extrabold text-4xl sm:text-5xl mb-4" style={{ color: "#E4A0FF", textShadow: "0 0 30px rgba(228,160,255,0.35), 0 0 80px rgba(228,160,255,0.1)" }}>
               ECHO
             </h1>
             <p className="text-lg font-jakarta text-foreground/70 leading-relaxed mb-6 max-w-lg">
-              Kate's AI twin — trained on her exact voice, values, and 13 years of NZ brand strategy. Content, comms, DMs, and decisions on autopilot.
+              The voice of Assembl — trained on 13 years of NZ brand strategy. Content, comms, DMs, and business decisions on autopilot. Always on. Always on brand.
             </p>
             <Link to="/chat/echo" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-syne font-bold transition-all duration-300 hover:shadow-lg" style={{ background: "#E4A0FF", color: "#0A0A14", boxShadow: "0 0 20px rgba(228,160,255,0.2)" }}>
               Chat with ECHO <ArrowRight size={14} />

@@ -55,7 +55,7 @@ const EchoSection = () => (
               Meet ECHO
             </h2>
             <p className="font-mono-jb text-[10px] mb-4" style={{ color: "rgba(228,160,255,0.3)" }}>
-              ASM-000 · Founder AI Clone
+              ASM-000 · Assembl Hero Agent
             </p>
             <h3
               className="font-syne font-bold text-base sm:text-lg mb-4"
@@ -64,10 +64,10 @@ const EchoSection = () => (
                 textShadow: "0 0 12px rgba(228,160,255,0.25)",
               }}
             >
-              The founder that never sleeps.
+              The agent that never sleeps.
             </h3>
             <p className="text-sm font-jakarta text-foreground/70 leading-relaxed mb-6 max-w-lg">
-              My AI twin. Trained on my exact voice, values, and 13 years of NZ brand strategy. ECHO handles client messages, creates daily content, writes DMs that convert, and runs my social media — all while I sleep. Same tone. Same standards. Same results.
+              ECHO is the voice of Assembl — trained on 13 years of NZ brand strategy. It handles client enquiries, creates daily content, writes DMs that convert, and manages social media around the clock. Always on. Always on brand.
             </p>
             <Link
               to="/chat/echo"

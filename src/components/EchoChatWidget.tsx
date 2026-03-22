@@ -58,7 +58,7 @@ const EchoChatWidget = () => {
             background: "#E4A0FF",
             boxShadow: "0 4px 20px rgba(228,160,255,0.4), 0 0 40px rgba(228,160,255,0.15)",
           }}
-          title="Chat with ECHO — Kate's AI"
+          title="Chat with ECHO — Assembl's Hero Agent"
         >
           <img src={echoImg} alt="ECHO" className="w-9 h-9 rounded-full object-cover" />
           {/* Pulse ring */}
@@ -83,7 +83,7 @@ const EchoChatWidget = () => {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <span className="font-syne font-bold text-sm" style={{ color: "#E4A0FF" }}>ECHO</span>
-                <span className="text-[10px] font-jakarta text-foreground/40">· Kate's AI Clone</span>
+                <span className="text-[10px] font-jakarta text-foreground/40">· Assembl Hero Agent</span>
                 <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#00FF88", boxShadow: "0 0 6px #00FF88" }} />
               </div>
             </div>
@@ -98,7 +98,7 @@ const EchoChatWidget = () => {
               <div className="flex flex-col items-center justify-center h-full text-center gap-3">
                 <img src={echoImg} alt="ECHO" className="w-14 h-14 rounded-xl object-cover" style={{ filter: "drop-shadow(0 0 10px rgba(228,160,255,0.4))" }} />
                 <p className="text-sm font-jakarta text-foreground/70 max-w-[280px] leading-relaxed">
-                  Hey — I'm ECHO, Kate's AI twin. Ask me anything about Assembl, pricing, or how our agents can help your business.
+                  Hey — I'm ECHO, Assembl's hero agent. Ask me anything about our platform, pricing, or how our 41 agents can help your business.
                 </p>
                 <div className="flex flex-col gap-1.5 w-full max-w-xs mt-2">
                   {["What does Assembl do?", "Which agent is right for my business?", "Tell me about pricing"].map((q) => (
@@ -130,7 +130,7 @@ const EchoChatWidget = () => {
               <div className="flex gap-2 items-center">
                 <img src={echoImg} alt="" className="w-5 h-5 rounded-full object-cover" />
                 <div className="flex gap-1 px-3 py-2 text-[11px] font-jakarta text-foreground/40">
-                  <span>Kate is thinking</span>
+                  <span>ECHO is thinking</span>
                   <span className="flex gap-0.5">
                     {[0, 1, 2].map((i) => (
                       <span key={i} className="w-1.5 h-1.5 rounded-full inline-block" style={{ backgroundColor: "#E4A0FF", animation: "bounce-dot 1.4s ease-in-out infinite", animationDelay: `${i * 0.2}s` }} />
