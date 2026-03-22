@@ -369,7 +369,7 @@ export const agents: Agent[] = [
     color: "#AED581",
     sector: "Life & Personal",
     traits: ["Science-based", "Culturally inclusive", "Anti-fad"],
-    expertise: ["NZ meal planning", "Budget nutrition", "School lunches", "Seasonal produce", "Dietary requirements"],
+    expertise: ["Weekly meal plan AI", "Budget nutrition engine", "School lunch generator", "Seasonal produce guide", "Dietary requirement planner"],
     starters: ["Weekly meal plan for a family of 4 on a budget", "School lunch ideas for the week", "NZ seasonal produce guide"],
   },
   {
