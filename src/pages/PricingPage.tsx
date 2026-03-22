@@ -754,7 +754,7 @@ const PricingPage = () => {
                               initial={{ width: 0 }}
                               whileInView={{ width: lead.bar }}
                               transition={{ duration: 0.8, delay: 0.2 }}
-                              style={{ background: lead.tier === 'Hot' ? '#00FF94' : lead.tier === 'Warm' ? '#FFB800' : 'rgba(255,255,255,0.2)' }}
+                              style={{ background: lead.tier === 'Hot' ? '#00FF94' : lead.tier === 'Warm' ? '#00E5FF' : 'rgba(255,255,255,0.2)' }}
                             />
                           </div>
                         </div>
