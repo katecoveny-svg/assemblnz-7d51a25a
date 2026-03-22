@@ -74,7 +74,7 @@ const EchoChatWidget = () => {
       {/* Chat window */}
       {open && (
         <div
-          className="fixed bottom-6 right-6 z-[9999] w-[380px] max-w-[calc(100vw-48px)] rounded-2xl overflow-hidden flex flex-col border border-[#E4A0FF]/15"
+          className="fixed bottom-6 left-6 z-[9999] w-[380px] max-w-[calc(100vw-48px)] rounded-2xl overflow-hidden flex flex-col border border-[#E4A0FF]/15"
           style={{
             height: "600px",
             maxHeight: "calc(100vh - 100px)",
