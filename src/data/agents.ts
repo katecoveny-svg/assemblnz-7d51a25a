@@ -273,7 +273,7 @@ export const agents: Agent[] = [
     color: "#40C4FF",
     sector: "Immigration",
     traits: ["Detail-precise", "Empathetic", "Process-expert"],
-    expertise: ["AEWV process", "Employer accreditation", "Skilled Migrant", "Document checklists", "Family visas", "Residence pathways"],
+    expertise: ["AEWV process navigator", "Accreditation wizard", "Visa pathway mapper", "Document checklist AI", "Family visa guide", "Residence pathway planner"],
     starters: ["AEWV process for hiring migrants", "Employer accreditation requirements", "Pathway from work visa to residency"],
   },
   {
