@@ -341,7 +341,7 @@ const PricingPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8">
             {/* Industry Suite */}
             <div
-              className="relative flex flex-col rounded-2xl p-5 sm:p-8 transition-all duration-300 hover:border-white/[0.1]"
+              className="relative flex flex-col rounded-2xl p-5 sm:p-8 glow-card-hover"
               style={{
                 background: 'rgba(255,255,255,0.02)',
                 backdropFilter: 'blur(12px)',
