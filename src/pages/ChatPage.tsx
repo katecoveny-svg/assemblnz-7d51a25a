@@ -535,6 +535,37 @@ const ChatPage = () => {
     return data.publicUrl;
   }, []);
 
+  // Inline image generation from [GENERATE_IMAGE: ...] tags
+  const triggerInlineImages = useCallback(async (content: string, msgIndex: number) => {
+    const imageTagRegex = /\[GENERATE_IMAGE:\s*(.*?)\]/g;
+    const prompts: string[] = [];
+    let match;
+    while ((match = imageTagRegex.exec(content)) !== null) {
+      prompts.push(match[1].trim());
+    }
+    if (prompts.length === 0) return;
+
+    setInlineImages((prev) => ({ ...prev, [msgIndex]: { status: "loading", urls: [] } }));
+
+    const urls: string[] = [];
+    for (const prompt of prompts) {
+      try {
+        const { data, error } = await supabase.functions.invoke("generate-image", {
+          body: { prompt, platform: "instagram", contentType: "social_post", agentContext: "For Assembl brand marketing." },
+        });
+        if (error) throw error;
+        if (data?.imageUrl) urls.push(data.imageUrl);
+      } catch (err) {
+        console.error("Inline image generation error:", err);
+      }
+    }
+
+    setInlineImages((prev) => ({
+      ...prev,
+      [msgIndex]: { status: urls.length > 0 ? "done" : "error", urls },
+    }));
+  }, []);
+
   const trigger3DGeneration = useCallback(
     async (userPrompt: string, msgIndex: number, imageUrl?: string) => {
       if (genCount >= MAX_GENERATIONS_PER_SESSION) {
