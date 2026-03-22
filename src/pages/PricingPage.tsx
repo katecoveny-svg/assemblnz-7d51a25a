@@ -657,8 +657,8 @@ const PricingPage = () => {
 
           {/* Agent-specific highlights */}
           <div className="text-center mb-6 sm:mb-8">
-            <p className="text-[10px] font-semibold tracking-[3px] uppercase mb-2" style={{ color: 'rgba(255,255,255,0.2)' }}>
-              Agent-specific superpowers
+            <p className="text-[10px] font-semibold tracking-[3px] uppercase mb-2">
+              <span className="gradient-border-tag" style={{ color: 'rgba(255,255,255,0.4)' }}>Agent-specific superpowers</span>
             </p>
             <p className="text-xs font-jakarta" style={{ color: 'rgba(255,255,255,0.35)' }}>
               Key agents have deep, specialist capabilities built in.
