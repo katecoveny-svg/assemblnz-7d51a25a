@@ -345,28 +345,28 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════════════════════ MARINER SPOTLIGHT ═══════════════════════ */}
-      <section className="relative z-10 py-20 sm:py-28 border-t border-white/[0.04]">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div className="flex justify-center order-2 lg:order-1">
-              <div className="w-64 h-64 rounded-2xl border border-white/[0.06] flex items-center justify-center overflow-hidden" style={{ background: 'rgba(38,198,218,0.05)', boxShadow: '0 0 40px rgba(38,198,218,0.08)' }}>
+              <div className="w-64 h-64 rounded-2xl border border-border flex items-center justify-center overflow-hidden bg-card">
                 <AgentAvatar agentId="maritime" color="#26C6DA" size={160} />
               </div>
             </div>
             <div className="order-1 lg:order-2">
               <span className="font-mono-jb text-[10px] text-muted-foreground">ASM-028</span>
-              <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-glow-cyan mt-1 mb-4">
-                Meet <span className="text-glow-cyan">MARINER</span>
+              <h2 className="text-2xl sm:text-4xl font-syne font-extrabold mt-1 mb-4 text-foreground">
+                Meet <span className="text-gradient-hero">MARINER</span>
               </h2>
               <p className="text-sm font-jakarta text-muted-foreground leading-relaxed mb-6">
                 NZ's maritime AI expert. Fishing regulations, boat maintenance, weather interpretation, commercial maritime compliance — MARINER knows the waters of Aotearoa inside out.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 {["Fishing regs", "Boat maintenance", "Marine weather", "Maritime compliance", "Coastguard courses"].map((t) => (
-                  <span key={t} className="text-[10px] font-jakarta px-2.5 py-1 rounded-full border border-white/[0.06] text-foreground/60" style={{ boxShadow: '0 0 8px rgba(38,198,218,0.05)' }}>{t}</span>
+                  <span key={t} className="text-[10px] font-jakarta px-2.5 py-1 rounded-full border border-border text-muted-foreground">{t}</span>
                 ))}
               </div>
-              <Link to="/mariner" className="inline-flex items-center gap-2 text-sm font-syne font-bold transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(38,198,218,0.5)]" style={{ color: "#26C6DA" }}>
+              <Link to="/mariner" className="inline-flex items-center gap-2 text-sm font-syne font-bold text-foreground hover:text-gradient-hero transition-all duration-300">
                 Explore MARINER <ArrowRight size={14} />
               </Link>
             </div>
@@ -375,20 +375,20 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════════════════════ ALSO BY ASSEMBL ═══════════════════════ */}
-      <section className="relative z-10 py-20 sm:py-28 border-t border-white/[0.04]">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-center text-glow-pink mb-14">
+          <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-center text-foreground mb-14">
             Also by <span className="text-gradient-hero">Assembl</span>
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {ALSO_BY_ASSEMBL.map((item) => (
               <div
                 key={item.title}
-                className="relative rounded-2xl p-6 overflow-hidden border border-white/[0.06] group transition-all duration-300 hover:-translate-y-1"
-                style={{ background: 'rgba(14, 14, 26, 0.7)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+                className="relative rounded-2xl p-6 overflow-hidden border border-border bg-card group transition-all duration-300 hover:-translate-y-1"
+                style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
               >
-                <span className="absolute top-0 left-[15%] right-[15%] h-px opacity-20 group-hover:opacity-50 transition-opacity" style={{ background: `linear-gradient(90deg, transparent, ${item.color}, transparent)` }} />
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center mb-4" style={{ background: item.color + "12", boxShadow: `0 0 12px ${item.color}15` }}>
+                <span className="absolute top-0 left-[15%] right-[15%] h-px opacity-0 group-hover:opacity-40 transition-opacity" style={{ background: `linear-gradient(90deg, transparent, ${item.color}80, transparent)` }} />
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center mb-4 bg-muted">
                   <Zap size={16} style={{ color: item.color }} />
                 </div>
                 <h3 className="text-sm font-syne font-bold text-foreground mb-2">{item.title}</h3>
