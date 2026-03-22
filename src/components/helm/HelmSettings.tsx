@@ -77,17 +77,20 @@ export default function HelmSettings() {
     if (!family || !childName.trim()) return;
     const colors = ["#B388FF", "#FF80AB", "#80D8FF", "#A5D6A7", "#FFD54F", "#FF8A65"];
     const color = colors[children.length % colors.length];
-    await supabase.from("children").insert({
+    const { error } = await supabase.from("children").insert({
       family_id: family.id, name: childName, year_level: yearLevel || null,
       school: school || null, bus_route_id: busRoute || null, avatar_color: color,
     });
+    if (error) { toast.error("Failed to add child: " + error.message); return; }
+    toast.success(`${childName} added!`);
     setChildName(""); setYearLevel(""); setSchool(""); setBusRoute("");
     setShowAddChild(false);
     loadData();
   };
 
   const removeChild = async (id: string) => {
-    await supabase.from("children").delete().eq("id", id);
+    const { error } = await supabase.from("children").delete().eq("id", id);
+    if (error) { toast.error("Failed to remove child: " + error.message); return; }
     setChildren(children.filter(c => c.id !== id));
   };
 
