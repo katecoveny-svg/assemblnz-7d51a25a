@@ -31,11 +31,10 @@ const SparkPreview = ({ code, onIterate, onDeploy }: SparkPreviewProps) => {
   }, [code]);
 
   const handleFullScreen = useCallback(() => {
-    const win = window.open("", "_blank");
-    if (win) {
-      win.document.write(code);
-      win.document.close();
-    }
+    const blob = new Blob([code], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+    window.open(url, "_blank");
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
   }, [code]);
 
   return (

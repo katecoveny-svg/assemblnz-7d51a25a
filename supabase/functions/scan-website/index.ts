@@ -1,4 +1,5 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -6,16 +7,12 @@ const corsHeaders = {
 };
 
 function stripHtml(html: string): string {
-  // Remove script and style blocks
   let text = html.replace(/<script[\s\S]*?<\/script>/gi, "");
   text = text.replace(/<style[\s\S]*?<\/style>/gi, "");
   text = text.replace(/<nav[\s\S]*?<\/nav>/gi, "");
   text = text.replace(/<footer[\s\S]*?<\/footer>/gi, "");
-  // Remove HTML tags
   text = text.replace(/<[^>]+>/g, " ");
-  // Decode common HTML entities
   text = text.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&nbsp;/g, " ");
-  // Collapse whitespace
   text = text.replace(/\s+/g, " ").trim();
   return text;
 }
@@ -26,6 +23,26 @@ Deno.serve(async (req) => {
   }
 
   try {
+    // Require authentication
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader?.startsWith("Bearer ")) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const supabase = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_ANON_KEY")!,
+      { global: { headers: { Authorization: authHeader } } }
+    );
+    const { data: claimsData, error: claimsErr } = await supabase.auth.getClaims(authHeader.replace("Bearer ", ""));
+    if (claimsErr || !claimsData?.claims) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const ANTHROPIC_API_KEY = Deno.env.get("ANTHROPIC_API_KEY");
     if (!ANTHROPIC_API_KEY) {
       return new Response(
@@ -42,7 +59,6 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Validate URL
     let parsedUrl: URL;
     try {
       parsedUrl = new URL(url.startsWith("http") ? url : `https://${url}`);
@@ -53,7 +69,15 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Fetch website with timeout
+    // Block internal/private network URLs
+    const blockedPatterns = /^(10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|127\.|0\.|169\.254\.|localhost|metadata\.google|169\.254\.169\.254)/i;
+    if (blockedPatterns.test(parsedUrl.hostname)) {
+      return new Response(
+        JSON.stringify({ error: "URL not allowed" }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 10000);
 
@@ -75,11 +99,9 @@ Deno.serve(async (req) => {
     }
     clearTimeout(timeout);
 
-    // Extract text and limit to 3000 words
     const text = stripHtml(html);
     const words = text.split(/\s+/).slice(0, 3000).join(" ");
 
-    // Send to Claude for brand analysis
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {

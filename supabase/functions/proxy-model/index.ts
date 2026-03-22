@@ -1,4 +1,5 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -6,9 +7,39 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+const ALLOWED_HOSTS = [
+  "assets.meshy.ai",
+  "cdn.meshy.ai",
+  "api.meshy.ai",
+  "meshy-generated.s3.amazonaws.com",
+  "meshy-generated.s3.us-east-1.amazonaws.com",
+];
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
+  }
+
+  // Require authentication
+  const authHeader = req.headers.get("Authorization");
+  if (!authHeader?.startsWith("Bearer ")) {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      status: 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
+  const supabase = createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_ANON_KEY")!,
+    { global: { headers: { Authorization: authHeader } } }
+  );
+  const { data: claimsData, error: claimsErr } = await supabase.auth.getClaims(authHeader.replace("Bearer ", ""));
+  if (claimsErr || !claimsData?.claims) {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      status: 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 
   const url = new URL(req.url);
@@ -17,6 +48,24 @@ Deno.serve(async (req) => {
   if (!modelUrl) {
     return new Response(JSON.stringify({ error: "url parameter required" }), {
       status: 400,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
+  // Validate URL against allowlist
+  let parsedUrl: URL;
+  try {
+    parsedUrl = new URL(modelUrl);
+  } catch {
+    return new Response(JSON.stringify({ error: "Invalid URL" }), {
+      status: 400,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
+  if (!ALLOWED_HOSTS.includes(parsedUrl.hostname)) {
+    return new Response(JSON.stringify({ error: "URL host not allowed" }), {
+      status: 403,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }

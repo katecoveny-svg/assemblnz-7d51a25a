@@ -1,4 +1,5 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -73,43 +74,29 @@ async function createImageTo3DTask(imageUrl: string, apiKey: string): Promise<st
   return data.result;
 }
 
-async function pollMeshyTask(
-  taskId: string,
-  apiKey: string,
-  endpoint: "text-to-3d" | "image-to-3d",
-  timeoutMs = 120000
-): Promise<{ status: string; progress: number; modelUrls: any; thumbnailUrl: string; prompt: string }> {
-  const start = Date.now();
-  while (Date.now() - start < timeoutMs) {
-    const apiVersion = endpoint === "image-to-3d" ? "v1" : "v2";
-    const res = await fetch(`https://api.meshy.ai/openapi/${apiVersion}/${endpoint}/${taskId}`, {
-      headers: { Authorization: `Bearer ${apiKey}` },
-    });
-    if (!res.ok) {
-      const err = await res.text();
-      throw new Error(`Meshy poll error [${res.status}]: ${err}`);
-    }
-    const data = await res.json();
-    if (data.status === "SUCCEEDED") {
-      return {
-        status: "SUCCEEDED",
-        progress: 100,
-        modelUrls: data.model_urls,
-        thumbnailUrl: data.thumbnail_url,
-        prompt: data.prompt || "",
-      };
-    }
-    if (data.status === "FAILED") {
-      throw new Error("Meshy generation failed");
-    }
-    await new Promise((r) => setTimeout(r, 5000));
-  }
-  throw new Error("TIMEOUT");
-}
-
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
+  }
+
+  // Require authentication
+  const authHeader = req.headers.get("Authorization");
+  if (!authHeader?.startsWith("Bearer ")) {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
+  const supabase = createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_ANON_KEY")!,
+    { global: { headers: { Authorization: authHeader } } }
+  );
+  const { data: claimsData, error: claimsErr } = await supabase.auth.getClaims(authHeader.replace("Bearer ", ""));
+  if (claimsErr || !claimsData?.claims) {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 
   const url = new URL(req.url);
@@ -121,8 +108,7 @@ Deno.serve(async (req) => {
     const MESHY_API_KEY = Deno.env.get("MESHY_API_KEY");
     if (!MESHY_API_KEY) {
       return new Response(JSON.stringify({ error: "MESHY_API_KEY not configured" }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
     try {
@@ -134,8 +120,7 @@ Deno.serve(async (req) => {
       if (!res.ok) {
         const err = await res.text();
         return new Response(JSON.stringify({ error: err }), {
-          status: res.status,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: res.status, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
       const data = await res.json();
@@ -150,8 +135,7 @@ Deno.serve(async (req) => {
       );
     } catch (e) {
       return new Response(JSON.stringify({ error: String(e) }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
   }
@@ -173,8 +157,7 @@ Deno.serve(async (req) => {
 
     if (!userPrompt && !imageUrl) {
       return new Response(JSON.stringify({ error: "userPrompt or imageUrl is required" }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
@@ -198,7 +181,6 @@ Deno.serve(async (req) => {
       pollEndpoint = "text-to-3d";
     }
 
-    // Return immediately with taskId — frontend will poll for status
     return new Response(
       JSON.stringify({
         taskId,
@@ -215,8 +197,7 @@ Deno.serve(async (req) => {
         ? "Model generation failed. Try simplifying your description or trying again."
         : "Internal server error";
     return new Response(JSON.stringify({ error: message }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
 });
