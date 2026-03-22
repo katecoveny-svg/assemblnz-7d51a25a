@@ -400,19 +400,18 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════════════════════ FOUNDER ═══════════════════════ */}
-      <section className="relative z-10 py-20 sm:py-28 border-t border-white/[0.04]">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <motion.img
             src="/img/kate-neon.png"
             alt="Kate, Founder of Assembl"
-            className="w-32 h-32 rounded-full mx-auto mb-6 object-contain border-2 border-primary/30"
+            className="w-32 h-32 rounded-full mx-auto mb-6 object-contain border-2 border-border"
             loading="lazy"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            whileHover={{ boxShadow: "0 0 30px rgba(0,255,136,0.3)" }}
           />
-          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-glow-green mb-3 flex items-center justify-center gap-2">Built in Aotearoa</h2>
+          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-foreground mb-3 flex items-center justify-center gap-2">Built in Aotearoa</h2>
           <p className="text-sm font-jakarta text-muted-foreground leading-relaxed max-w-lg mx-auto mb-4">
             "I built Assembl because NZ businesses deserve AI tools that understand our laws, our culture, and the way we work.
             Every agent is trained on real NZ legislation — not generic overseas advice."
@@ -423,16 +422,16 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════════════════════ CONTACT ═══════════════════════ */}
-      <section id="contact" className="relative z-10 py-20 sm:py-28 border-t border-white/[0.04]">
+      <section id="contact" className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-lg mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-glow-cyan mb-3">Get in touch</h2>
+            <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-foreground mb-3">Get in touch</h2>
             <p className="text-sm font-jakarta text-muted-foreground">Custom builds, enterprise pricing, or just to say kia ora.</p>
           </div>
           <form
             onSubmit={handleContactSubmit}
-            className="space-y-4 rounded-2xl p-6 border border-white/[0.06]"
-            style={{ background: 'rgba(14, 14, 26, 0.7)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+            className="space-y-4 rounded-2xl p-6 border border-border bg-card"
+            style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
           >
             <div>
               <label className="block text-xs font-jakarta font-medium text-foreground/70 mb-1.5">Name</label>
