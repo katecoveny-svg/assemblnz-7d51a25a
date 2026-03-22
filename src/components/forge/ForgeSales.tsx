@@ -184,6 +184,22 @@ export default function ForgeSales() {
             </div>
           ))}
         </div>
+
+        {/* Sales Funnel & Source Charts */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <AgentFunnelChart
+            title="Sales Funnel"
+            color={FORGE_COLOR}
+            stages={STAGES.map(s => ({ name: s, value: leads.filter(l => l.stage === s).length }))}
+          />
+          <AgentPieChart
+            title="Lead Sources"
+            data={SOURCES.map(s => ({ name: s, value: leads.filter(l => l.source === s).length })).filter(d => d.value > 0)}
+            height={180}
+            colors={["#FF4D6A", "#FF6B00", "#00FF88", "#00E5FF", "#E040FB"]}
+          />
+        </div>
+
         <div className="p-3 rounded-xl border border-border bg-card">
           <h3 className="text-xs font-bold text-foreground mb-2">Hottest Leads</h3>
           {leads.filter(l => ["Negotiating", "Finance Submitted"].includes(l.stage)).map(l => (
