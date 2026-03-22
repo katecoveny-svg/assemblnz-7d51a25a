@@ -429,7 +429,7 @@ export const agents: Agent[] = [
     color: "#4DB6AC",
     sector: "Government & Public Sector",
     traits: ["Kaitiaki-minded", "Science-informed", "Process-savvy"],
-    expertise: ["RMA consents", "NPS-FM freshwater", "Environmental impact", "DOC concessions", "Regional council reqs"],
+    expertise: ["Resource consent navigator", "Freshwater compliance AI", "Impact assessment builder", "DOC concession guide", "Regional council advisor"],
     starters: ["Resource consent application process", "NES freshwater compliance", "Environmental impact assessment basics"],
   },
   {
