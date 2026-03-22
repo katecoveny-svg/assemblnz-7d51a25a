@@ -590,9 +590,9 @@ const ChatPage = () => {
     }, [genCount, pollStatus]
   );
 
-  // Extract latest code from SPARK responses for live preview
+  // Extract latest code from SPARK or PRISM responses for live preview
   const sparkCode = useMemo(() => {
-    if (!isSpark) return null;
+    if (!isSpark && !isPrism) return null;
     for (let i = messages.length - 1; i >= 0; i--) {
       if (messages[i].role === "assistant") {
         const content = messages[i].content;
@@ -611,7 +611,7 @@ const ChatPage = () => {
       }
     }
     return null;
-  }, [messages, isSpark]);
+  }, [messages, isSpark, isPrism]);
 
   const [sparkMobileView, setSparkMobileView] = useState<"chat" | "preview">("chat");
 
