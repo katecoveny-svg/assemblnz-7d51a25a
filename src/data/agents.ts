@@ -117,7 +117,7 @@ export const agents: Agent[] = [
     color: "#5B8CFF",
     sector: "Customs Brokerage",
     traits: ["Precision-obsessed", "Automation-first", "Compliance-locked"],
-    expertise: ["Import entry processing", "Tariff classification", "TSW data prep", "FTA origin rules", "Duty & GST calculation"],
+    expertise: ["Invoice-to-entry AI", "Auto tariff classifier", "Duty & GST calculator", "FTA origin analyser", "MPI flag detector", "TSW data formatter"],
     starters: ["Process this commercial invoice for import entry", "Classify this product under the NZ Tariff", "Calculate duty and GST for this shipment"],
   },
   {
