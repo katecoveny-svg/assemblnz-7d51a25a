@@ -108,17 +108,36 @@ const AuraRevenue = ({ onGenerate }: Props) => {
       )}
 
       {section === "forecast" && (
-        <div className="rounded-xl border border-border bg-card p-4" style={{ borderColor: color + "20" }}>
-          <h3 className="font-semibold text-sm text-foreground mb-3 flex items-center gap-2"><NeonCalendar size={16} color={color} /> Forecasting Dashboard</h3>
-          <div className="grid grid-cols-2 gap-2">
-            {FORECAST_METRICS.map(m => (
-              <div key={m.metric} className="p-3 rounded-lg border border-border text-center">
-                <div className="text-[10px] text-muted-foreground">{m.metric}</div>
-                <div className="text-sm font-bold mt-0.5" style={{ color }}>{m.value}</div>
-              </div>
-            ))}
+        <div className="space-y-4">
+          <AgentAreaChart
+            title="Occupancy Forecast (sample)"
+            nameKey="month"
+            data={[
+              { month: "Jan", thisYear: 92, lastYear: 85 },
+              { month: "Feb", thisYear: 88, lastYear: 82 },
+              { month: "Mar", thisYear: 78, lastYear: 75 },
+              { month: "Apr", thisYear: 62, lastYear: 58 },
+              { month: "May", thisYear: 45, lastYear: 42 },
+              { month: "Jun", thisYear: 38, lastYear: 35 },
+            ]}
+            areas={[
+              { key: "thisYear", color: color, name: "This Year %" },
+              { key: "lastYear", color: "#FF6B6B", name: "Last Year %" },
+            ]}
+            height={180}
+          />
+          <div className="rounded-xl border border-border bg-card p-4" style={{ borderColor: color + "20" }}>
+            <h3 className="font-semibold text-sm text-foreground mb-3 flex items-center gap-2"><NeonCalendar size={16} color={color} /> Forecasting Dashboard</h3>
+            <div className="grid grid-cols-2 gap-2">
+              {FORECAST_METRICS.map(m => (
+                <div key={m.metric} className="p-3 rounded-lg border border-border text-center">
+                  <div className="text-[10px] text-muted-foreground">{m.metric}</div>
+                  <div className="text-sm font-bold mt-0.5" style={{ color }}>{m.value}</div>
+                </div>
+              ))}
+            </div>
+            <button onClick={() => gen(`Generate a 90-day forecasting dashboard report for a luxury NZ lodge. Include: occupancy forecast, revenue forecast, pace comparison vs last year, pick-up rate per week, cancellation rate and impact, and shoulder season gap analysis.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate 90-Day Forecast</button>
           </div>
-          <button onClick={() => gen(`Generate a 90-day forecasting dashboard report for a luxury NZ lodge. Include: occupancy forecast, revenue forecast, pace comparison vs last year, pick-up rate per week, cancellation rate and impact, and shoulder season gap analysis.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate 90-Day Forecast</button>
         </div>
       )}
 
