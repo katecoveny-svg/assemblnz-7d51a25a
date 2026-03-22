@@ -39,6 +39,8 @@ const LandlordPortal = lazy(() => import("./pages/LandlordPortal"));
 const EchoPage = lazy(() => import("./pages/EchoPage"));
 const ContentHub = lazy(() => import("./pages/ContentHub"));
 const AgentDetailPage = lazy(() => import("./pages/AgentDetailPage"));
+const MyAppsPage = lazy(() => import("./pages/MyAppsPage"));
+const SparkAppViewer = lazy(() => import("./pages/SparkAppViewer"));
 
 const queryClient = new QueryClient();
 
