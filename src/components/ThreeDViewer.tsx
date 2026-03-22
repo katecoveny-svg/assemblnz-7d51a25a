@@ -51,7 +51,13 @@ function DownloadButton({ url, label, color }: { url: string; label: string; col
   const handleDownload = async (e: React.MouseEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch(proxyUrl);
+      const { supabase } = await import("@/integrations/supabase/client");
+      const session = (await supabase.auth.getSession()).data.session;
+      const response = await fetch(proxyUrl, {
+        headers: {
+          Authorization: `Bearer ${session?.access_token || ""}`,
+        },
+      });
       const blob = await response.blob();
       const ext = label.split(" ").pop()?.toLowerCase() || "glb";
       const a = document.createElement("a");
