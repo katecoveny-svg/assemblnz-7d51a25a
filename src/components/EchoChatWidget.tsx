@@ -58,7 +58,7 @@ const EchoChatWidget = () => {
             background: "#E4A0FF",
             boxShadow: "0 4px 20px rgba(228,160,255,0.4), 0 0 40px rgba(228,160,255,0.15)",
           }}
-          title="Chat with ECHO — Kate's AI"
+          title="Chat with ECHO — Assembl's Hero Agent"
         >
           <img src={echoImg} alt="ECHO" className="w-9 h-9 rounded-full object-cover" />
           {/* Pulse ring */}

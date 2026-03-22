@@ -42,7 +42,7 @@ const EchoPage = () => (
               ECHO
             </h1>
             <p className="text-lg font-jakarta text-foreground/70 leading-relaxed mb-6 max-w-lg">
-              Kate's AI twin — trained on her exact voice, values, and 13 years of NZ brand strategy. Content, comms, DMs, and decisions on autopilot.
+              The voice of Assembl — trained on 13 years of NZ brand strategy. Content, comms, DMs, and business decisions on autopilot. Always on. Always on brand.
             </p>
             <Link to="/chat/echo" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-syne font-bold transition-all duration-300 hover:shadow-lg" style={{ background: "#E4A0FF", color: "#0A0A14", boxShadow: "0 0 20px rgba(228,160,255,0.2)" }}>
               Chat with ECHO <ArrowRight size={14} />
