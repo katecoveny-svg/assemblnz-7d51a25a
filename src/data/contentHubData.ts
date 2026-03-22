@@ -157,8 +157,8 @@ export const OUTPUT_CARDS: OutputCard[] = [
     agentColor: "#FF4D6A",
     outputType: "Finance Payment Comparison",
     formatBadge: "Calculator",
-    preview: `**VEHICLE:** 2024 Tesla Model 3 RWD | $52,990\n**Deposit:** $10,000 | **Financed:** $42,990\n\n| | Dealer | Bank | MARAC |`,
-    fullContent: `**VEHICLE:** 2024 Tesla Model 3 RWD | **Price:** $52,990\n**Deposit:** $10,000 | **Amount financed:** $42,990\n\n| | Dealer Finance | Bank Loan | MARAC Motor |\n|---|---|---|---|\n| Interest rate | 9.95% p.a. | 8.49% p.a. | 11.95% p.a. |\n| Monthly repayment | $912.34 | $880.45 | $955.18 |\n| Total interest | $11,750.40 | $9,837.00 | $14,320.80 |\n| **TOTAL YOU PAY** | **$65,115.40** | **$63,027.00** | **$67,710.80** |\n\n**Savings choosing Bank Loan vs Dealer: $2,088.40**\n\n*Finance calculations indicative only. Total cost of credit per CCCFA 2003.*`,
+    preview: `**VEHICLE:** 2024 Mid-Size EV Sedan | $52,990\n**Deposit:** $10,000 | **Financed:** $42,990\n\n| | Dealer | Bank | Finance Co. |`,
+    fullContent: `**VEHICLE:** 2024 Mid-Size EV Sedan | **Price:** $52,990\n**Deposit:** $10,000 | **Amount financed:** $42,990\n\n| | Dealer Finance | Bank Loan | Finance Company |\n|---|---|---|---|\n| Interest rate | 9.95% p.a. | 8.49% p.a. | 11.95% p.a. |\n| Monthly repayment | $912.34 | $880.45 | $955.18 |\n| Total interest | $11,750.40 | $9,837.00 | $14,320.80 |\n| **TOTAL YOU PAY** | **$65,115.40** | **$63,027.00** | **$67,710.80** |\n\n**Savings choosing Bank Loan vs Dealer: $2,088.40**\n\n*Finance calculations indicative only. Total cost of credit per CCCFA 2003.*`,
   },
   // LEDGER
   {
