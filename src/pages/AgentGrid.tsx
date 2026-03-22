@@ -240,10 +240,10 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════════════════════ PRICING ═══════════════════════ */}
-      <section className="relative z-10 py-20 sm:py-28 border-t border-white/[0.04]">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
-            <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-glow-cyan mb-3">
+            <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-foreground mb-3">
               Simple, honest <span className="text-gradient-hero">pricing</span>
             </h2>
             <p className="text-sm font-jakarta text-muted-foreground">Start free. Upgrade when you're ready.</p>
@@ -252,18 +252,16 @@ const AgentGrid = () => {
             {PRICING_PLANS.map((plan) => (
               <div key={plan.name} className="relative pt-4">
                 {plan.highlighted && (
-                  <span className="absolute top-0 left-1/2 -translate-x-1/2 z-10 text-[10px] font-syne font-bold px-3 py-1 rounded-full" style={{ background: plan.color, color: "#0A0A14" }}>
+                  <span className="absolute top-0 left-1/2 -translate-x-1/2 z-10 text-[10px] font-syne font-bold px-3 py-1 rounded-full" style={{ background: plan.color, color: "hsl(var(--background))" }}>
                     MOST POPULAR
                   </span>
                 )}
                 <div
-                  className="relative rounded-2xl p-6 flex flex-col h-full border"
+                  className="relative rounded-2xl p-6 flex flex-col h-full border border-border bg-card"
                   style={{
-                    background: 'rgba(14, 14, 26, 0.7)',
                     backdropFilter: 'blur(12px)',
                     WebkitBackdropFilter: 'blur(12px)',
-                    borderColor: plan.highlighted ? plan.color + "40" : "rgba(255, 255, 255, 0.06)",
-                    boxShadow: plan.highlighted ? `0 0 30px ${plan.color}15` : "none",
+                    borderColor: plan.highlighted ? plan.color + "30" : undefined,
                   }}
                 >
                   {/* Top edge glow */}
