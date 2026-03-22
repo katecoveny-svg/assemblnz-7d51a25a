@@ -280,7 +280,7 @@ async function readFileAsText(file: File): Promise<string> {
 
 const ChatPage = () => {
   const { agentId } = useParams<{ agentId: string }>();
-  const agent = agents.find((a) => a.id === agentId);
+  const agent = agentId === "echo" ? echoAgent : agents.find((a) => a.id === agentId);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
