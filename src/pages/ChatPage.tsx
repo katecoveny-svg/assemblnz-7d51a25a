@@ -1538,7 +1538,10 @@ const ChatPage = () => {
                       </div>
                       {msg.role === "assistant" && (() => {
                         const handoffId = detectHandoff(msg.content);
-                        return handoffId ? <div className="ml-8 mt-1"><HandoffCard agentId={handoffId} /></div> : null;
+                        if (!handoffId) return null;
+                        // Pass last user message as context for the handoff
+                        const lastUserMsg = messages.slice(0, i).reverse().find(m => m.role === "user");
+                        return <div className="ml-8 mt-1"><HandoffCard agentId={handoffId} context={lastUserMsg?.content} /></div>;
                       })()}
                       {/* Inline generated images */}
                       {msg.role === "assistant" && inlineImages[i] && (
