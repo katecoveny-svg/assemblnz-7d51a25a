@@ -1,4 +1,5 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -20,12 +21,7 @@ async function attemptImageGeneration(apiKey: string, imagePrompt: string, model
     },
     body: JSON.stringify({
       model,
-      messages: [
-        {
-          role: "user",
-          content: imagePrompt,
-        },
-      ],
+      messages: [{ role: "user", content: imagePrompt }],
       modalities: ["image", "text"],
     }),
   });
@@ -33,18 +29,12 @@ async function attemptImageGeneration(apiKey: string, imagePrompt: string, model
   if (!response.ok) {
     const errorText = await response.text();
     console.error("AI Gateway error:", response.status, errorText);
-    if (response.status === 429) {
-      throw new Error("Rate limited — please try again in a moment.");
-    }
-    if (response.status === 402) {
-      throw new Error("AI credits exhausted — please top up in workspace settings.");
-    }
+    if (response.status === 429) throw new Error("Rate limited — please try again in a moment.");
+    if (response.status === 402) throw new Error("AI credits exhausted — please top up in workspace settings.");
     throw new Error(`Image generation failed [${response.status}]: ${errorText}`);
   }
 
   const data = await response.json();
-  console.log("Model used:", model, "| Choices:", data.choices?.length);
-
   return data.choices?.[0]?.message?.images?.[0]?.image_url?.url || null;
 }
 
@@ -54,26 +44,41 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) {
-      throw new Error("LOVABLE_API_KEY is not configured");
+    // Require authentication
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader?.startsWith("Bearer ")) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
+
+    const supabase = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_ANON_KEY")!,
+      { global: { headers: { Authorization: authHeader } } }
+    );
+    const { data: claimsData, error: claimsErr } = await supabase.auth.getClaims(authHeader.replace("Bearer ", ""));
+    if (claimsErr || !claimsData?.claims) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
     const { prompt, platform, contentType, topic, agentContext, quality, brandContext } = await req.json();
 
     if (!prompt) {
       return new Response(JSON.stringify({ error: "Prompt is required" }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    // Select model based on quality tier
     const selectedModel = quality === "pro" ? MODELS.pro
       : quality === "flash_pro" ? MODELS.flash_pro
       : MODELS.fast;
 
-    // Build brand section
     const brandSection = brandContext
       ? `Brand guidelines: Business "${brandContext.business_name || ""}". Tone: ${brandContext.tone || "professional"}. Industry: ${brandContext.industry || "technology"}. Audience: ${brandContext.audience || "business professionals"}. Use brand-consistent colours and styling.`
       : "";
@@ -88,7 +93,6 @@ Style: Premium, polished, commercial-grade. Use sophisticated colour palettes, c
 Visual direction: ${prompt}
 IMPORTANT: Generate an actual high-resolution image, not text. Any text in the image must be crisp and legible.`;
 
-    // Try up to 3 times, falling back to flash_pro then fast
     let imageUrl: string | null = null;
     const fallbackModels = [selectedModel];
     if (selectedModel === MODELS.pro) fallbackModels.push(MODELS.flash_pro, MODELS.fast);
@@ -107,7 +111,6 @@ IMPORTANT: Generate an actual high-resolution image, not text. Any text in the i
         if (attempt === 0) await new Promise(r => setTimeout(r, 1000));
       }
       if (imageUrl) break;
-      console.log(`Falling back from ${model}...`);
     }
 
     if (!imageUrl) {

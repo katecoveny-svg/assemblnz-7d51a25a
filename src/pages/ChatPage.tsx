@@ -513,9 +513,13 @@ const ChatPage = () => {
     (genId: string, taskId: string, type: "text-to-3d" | "image-to-3d" = "text-to-3d") => {
       const interval = setInterval(async () => {
         try {
+          const session = (await supabase.auth.getSession()).data.session;
           const res = await fetch(
             `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-3d?taskId=${taskId}&type=${type}`,
-            { headers: { apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY } }
+            { headers: { 
+              apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+              Authorization: `Bearer ${session?.access_token || import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+            } }
           );
           const data = await res.json();
           setGenerations((prev) =>
@@ -1662,7 +1666,7 @@ const ChatPage = () => {
                             {gen.status === "SUCCEEDED" && gen.modelUrls?.glb ? (
                               <Suspense fallback={<ModelGenerationCard status="IN_PROGRESS" progress={99} prompt={gen.prompt} color={agent.color} />}>
                                 <CompletedModelCard
-                                  glbUrl={`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/proxy-model?url=${encodeURIComponent(gen.modelUrls.glb)}`}
+                                  glbUrl={`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/proxy-model?url=${encodeURIComponent(gen.modelUrls.glb)}${session?.access_token ? `&token=${session.access_token}` : ""}`}
                                   modelUrls={gen.modelUrls} prompt={gen.prompt} color={agent.color} onRefine={handleRefine}
                                 />
                               </Suspense>
