@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { NeonBrain, NeonShield, NeonGlobe, NeonCheckmark, NeonClipboard, NeonSiren, NeonNZFlag } from "@/components/NeonIcons";
+import { NeonBrain, NeonShield, NeonGlobe, NeonCheckmark, NeonClipboard, NeonSiren } from "@/components/NeonIcons";
 
 const AITransparencyBadge = () => {
   const [open, setOpen] = useState(false);
