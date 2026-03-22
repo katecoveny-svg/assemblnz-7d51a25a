@@ -546,6 +546,18 @@ const ChatPage = () => {
     }, [genCount, pollStatus]
   );
 
+  // Extract latest code from SPARK responses for live preview
+  const sparkCode = useMemo(() => {
+    if (!isSpark) return null;
+    for (let i = messages.length - 1; i >= 0; i--) {
+      if (messages[i].role === "assistant") {
+        const match = messages[i].content.match(/```html\n([\s\S]*?)```/);
+        if (match) return match[1];
+      }
+    }
+    return null;
+  }, [messages, isSpark]);
+
   if (!agent) {
     return (
       <div className="min-h-screen flex items-center justify-center text-foreground">
