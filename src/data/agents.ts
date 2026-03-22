@@ -45,7 +45,7 @@ export const agents: Agent[] = [
     color: "#00FF88",
     sector: "Construction",
     traits: ["Straight-talking", "Safety-first", "Code-fluent"],
-    expertise: ["Tender writing", "Site safety plans", "ESG scoring", "Awards nominations", "Mental health", "Prequalification"],
+    expertise: ["Auto tender writer", "3D model generator", "H&S suite builder", "ESG scorer", "Award nomination AI", "Cost estimator"],
     starters: ["Write a tender response for a commercial build", "Site safety plan for a 3-storey residential project", "Nominate us for the NAWIC Awards 2026"],
   },
   {
