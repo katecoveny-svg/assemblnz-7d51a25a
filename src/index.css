@@ -193,14 +193,19 @@
   /* ─── Glow hover border for cards ─── */
   .glow-card-hover {
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    border-color: rgba(0, 229, 255, 0.08) !important;
+    box-shadow:
+      0 0 8px rgba(0, 229, 255, 0.04),
+      0 0 16px rgba(179, 136, 255, 0.03);
   }
 
   .glow-card-hover:hover {
-    border-color: rgba(0, 229, 255, 0.15) !important;
+    border-color: rgba(0, 229, 255, 0.35) !important;
     box-shadow:
-      0 0 15px rgba(0, 229, 255, 0.06),
-      0 0 30px rgba(179, 136, 255, 0.04),
-      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      0 0 20px rgba(0, 229, 255, 0.15),
+      0 0 40px rgba(179, 136, 255, 0.1),
+      0 0 60px rgba(224, 64, 251, 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 }
 

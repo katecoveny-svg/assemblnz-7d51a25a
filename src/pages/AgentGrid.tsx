@@ -313,8 +313,8 @@ const AgentGrid = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div>
               <span className="font-mono-jb text-[10px] text-muted-foreground">ASM-027</span>
-              <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-foreground mt-1 mb-4">
-                Meet <span style={{ color: "#B388FF" }}>HELM</span>
+              <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-glow-purple mt-1 mb-4">
+                Meet <span className="text-glow-purple">HELM</span>
               </h2>
               <p className="text-sm font-jakarta text-muted-foreground leading-relaxed mb-6">
                 Your personal Life Admin & Household Manager. Upload receipts, plan meals, track budgets, and tame the chaos of daily life — all through one AI assistant built for New Zealand families.
