@@ -44,17 +44,20 @@ export function drawAssemblPDFHeader(
   doc.setFillColor(255, 45, 155);
   doc.circle(lx + 8, ly + 5, 1.4, "F");
 
-  // Brand name
+  // Brand name — use custom business name if provided
   doc.setFontSize(18);
   doc.setFont("helvetica", "bold");
   doc.setTextColor(20, 20, 35);
-  doc.text("ASSEMBL", margin + 12, y + 7);
+  const displayName = customBusinessName || "ASSEMBL";
+  doc.text(displayName, margin + 12, y + 7);
 
-  // URL
+  // URL — show custom business or default
   doc.setFontSize(7);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(150);
-  doc.text("assembl.co.nz", margin + 12, y + 11);
+  if (!customBusinessName) {
+    doc.text("assembl.co.nz", margin + 12, y + 11);
+  }
 
   y += 16;
 
