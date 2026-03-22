@@ -33,7 +33,7 @@ export const agents: Agent[] = [
     color: "#00E5FF",
     sector: "Tourism",
     traits: ["Globally aware", "Seasons-smart", "Story-driven"],
-    expertise: ["Digital marketing", "Shoulder-season strategy", "Adventure regs", "Qualmark", "International markets", "Crisis comms"],
+    expertise: ["AI trip planner", "Shoulder-season demand gen", "TripAdvisor optimiser", "Crisis comms templates", "Qualmark guidance", "Social content creator"],
     starters: ["Marketing strategy to attract US visitors in shoulder season", "Adventure activity risk management plan", "Optimise my Booking.com listing"],
   },
   {
