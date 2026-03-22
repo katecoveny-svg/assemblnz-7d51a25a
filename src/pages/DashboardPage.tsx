@@ -47,6 +47,7 @@ const DashboardPage = () => {
   const [actions, setActions] = useState<ActionItem[]>([]);
   const [summaries, setSummaries] = useState<SummaryItem[]>([]);
   const [executions, setExecutions] = useState<WorkflowExecution[]>([]);
+  const [exports, setExports] = useState<ExportedOutput[]>([]);
 
   useEffect(() => {
     if (!user) return;
