@@ -88,6 +88,7 @@ const AVATAR_MAP: Record<string, string> = {
   insurance: shieldImg,
   banking: mintImg,
   echo: echoImg,
+  spark: sparkImg,
 };
 
 interface AgentAvatarProps {
