@@ -405,7 +405,7 @@ export const agents: Agent[] = [
     color: "#8D6E63",
     sector: "Māori & Te Tiriti",
     traits: ["Culturally grounded", "Treaty-literate", "Mana-enhancing"],
-    expertise: ["Te Tiriti o Waitangi", "Iwi consultation", "Te reo in business", "Māori governance", "Treaty settlements"],
+    expertise: ["Te Tiriti obligation mapper", "Iwi engagement guide", "Te reo business advisor", "Māori governance AI", "Treaty settlement navigator"],
     starters: ["What are my Te Tiriti obligations as a business?", "How do I engage with local iwi for a project?", "Correct use of te reo Māori in business branding"],
   },
   {
