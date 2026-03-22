@@ -20,8 +20,11 @@ Deno.serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
-  // Require authentication
-  const authHeader = req.headers.get("Authorization");
+  // Accept auth via header or query param (needed for Three.js loaders that can't set headers)
+  const urlObj = new URL(req.url);
+  const tokenParam = urlObj.searchParams.get("token");
+  const authHeader = req.headers.get("Authorization") || (tokenParam ? `Bearer ${tokenParam}` : "");
+  
   if (!authHeader?.startsWith("Bearer ")) {
     return new Response(JSON.stringify({ error: "Unauthorized" }), {
       status: 401,
