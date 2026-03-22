@@ -1375,15 +1375,15 @@ const ChatPage = () => {
       ) : (
         <div className={hasLivePreview ? "flex flex-col md:flex-row flex-1 min-h-0 overflow-hidden" : "flex flex-col flex-1 min-h-0"}>
           {/* Mobile SPARK toggle */}
-          {isSpark && sparkCode && (
+          {hasLivePreview && (
             <div className="flex md:hidden border-b border-border shrink-0">
               <button
                 onClick={() => setSparkMobileView("chat")}
                 className="flex-1 py-2 text-xs font-medium transition-colors"
                 style={{
-                  background: sparkMobileView === "chat" ? "rgba(255,107,0,0.1)" : "transparent",
-                  color: sparkMobileView === "chat" ? "#FF6B00" : "hsl(var(--muted-foreground))",
-                  borderBottom: sparkMobileView === "chat" ? "2px solid #FF6B00" : "2px solid transparent",
+                  background: sparkMobileView === "chat" ? `${previewAccentColor}15` : "transparent",
+                  color: sparkMobileView === "chat" ? previewAccentColor : "hsl(var(--muted-foreground))",
+                  borderBottom: sparkMobileView === "chat" ? `2px solid ${previewAccentColor}` : "2px solid transparent",
                 }}
               >
                 Chat
@@ -1392,12 +1392,12 @@ const ChatPage = () => {
                 onClick={() => setSparkMobileView("preview")}
                 className="flex-1 py-2 text-xs font-medium transition-colors"
                 style={{
-                  background: sparkMobileView === "preview" ? "rgba(255,107,0,0.1)" : "transparent",
-                  color: sparkMobileView === "preview" ? "#FF6B00" : "hsl(var(--muted-foreground))",
-                  borderBottom: sparkMobileView === "preview" ? "2px solid #FF6B00" : "2px solid transparent",
+                  background: sparkMobileView === "preview" ? `${previewAccentColor}15` : "transparent",
+                  color: sparkMobileView === "preview" ? previewAccentColor : "hsl(var(--muted-foreground))",
+                  borderBottom: sparkMobileView === "preview" ? `2px solid ${previewAccentColor}` : "2px solid transparent",
                 }}
               >
-                ⚡ Live Preview
+                {isSpark ? "⚡ Live Preview" : "🎨 Creative Preview"}
               </button>
             </div>
           )}
