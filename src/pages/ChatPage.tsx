@@ -590,9 +590,9 @@ const ChatPage = () => {
     }, [genCount, pollStatus]
   );
 
-  // Extract latest code from SPARK responses for live preview
+  // Extract latest code from SPARK or PRISM responses for live preview
   const sparkCode = useMemo(() => {
-    if (!isSpark) return null;
+    if (!isSpark && !isPrism) return null;
     for (let i = messages.length - 1; i >= 0; i--) {
       if (messages[i].role === "assistant") {
         const content = messages[i].content;
@@ -611,8 +611,10 @@ const ChatPage = () => {
       }
     }
     return null;
-  }, [messages, isSpark]);
+  }, [messages, isSpark, isPrism]);
 
+  const hasLivePreview = (isSpark || isPrism) && !!sparkCode;
+  const previewAccentColor = isSpark ? "#FF6B00" : "#E040FB";
   const [sparkMobileView, setSparkMobileView] = useState<"chat" | "preview">("chat");
 
   if (!agent) {
@@ -725,7 +727,7 @@ const ChatPage = () => {
     setIsLoading(true);
 
     const msgIndex = newMessages.length;
-    const should3D = isArc && (!!uploadedImageUrl || shouldTrigger3D(userMessage.content));
+    const should3D = (isArc || isPrism) && (!!uploadedImageUrl || shouldTrigger3D(userMessage.content));
 
     try {
       if (imageFile && !isArc) {
@@ -1371,17 +1373,17 @@ const ChatPage = () => {
           <HelmDashboard items={dashboardItems} onAddReminder={handleAddReminder} />
         </div>
       ) : (
-        <div className={isSpark && sparkCode ? "flex flex-col md:flex-row flex-1 min-h-0 overflow-hidden" : "flex flex-col flex-1 min-h-0"}>
+        <div className={hasLivePreview ? "flex flex-col md:flex-row flex-1 min-h-0 overflow-hidden" : "flex flex-col flex-1 min-h-0"}>
           {/* Mobile SPARK toggle */}
-          {isSpark && sparkCode && (
+          {hasLivePreview && (
             <div className="flex md:hidden border-b border-border shrink-0">
               <button
                 onClick={() => setSparkMobileView("chat")}
                 className="flex-1 py-2 text-xs font-medium transition-colors"
                 style={{
-                  background: sparkMobileView === "chat" ? "rgba(255,107,0,0.1)" : "transparent",
-                  color: sparkMobileView === "chat" ? "#FF6B00" : "hsl(var(--muted-foreground))",
-                  borderBottom: sparkMobileView === "chat" ? "2px solid #FF6B00" : "2px solid transparent",
+                  background: sparkMobileView === "chat" ? `${previewAccentColor}15` : "transparent",
+                  color: sparkMobileView === "chat" ? previewAccentColor : "hsl(var(--muted-foreground))",
+                  borderBottom: sparkMobileView === "chat" ? `2px solid ${previewAccentColor}` : "2px solid transparent",
                 }}
               >
                 Chat
@@ -1390,17 +1392,17 @@ const ChatPage = () => {
                 onClick={() => setSparkMobileView("preview")}
                 className="flex-1 py-2 text-xs font-medium transition-colors"
                 style={{
-                  background: sparkMobileView === "preview" ? "rgba(255,107,0,0.1)" : "transparent",
-                  color: sparkMobileView === "preview" ? "#FF6B00" : "hsl(var(--muted-foreground))",
-                  borderBottom: sparkMobileView === "preview" ? "2px solid #FF6B00" : "2px solid transparent",
+                  background: sparkMobileView === "preview" ? `${previewAccentColor}15` : "transparent",
+                  color: sparkMobileView === "preview" ? previewAccentColor : "hsl(var(--muted-foreground))",
+                  borderBottom: sparkMobileView === "preview" ? `2px solid ${previewAccentColor}` : "2px solid transparent",
                 }}
               >
-                ⚡ Live Preview
+                {isSpark ? "⚡ Live Preview" : "🎨 Creative Preview"}
               </button>
             </div>
           )}
           {/* Chat Area */}
-          <div className={`${isSpark && sparkCode ? "md:w-[40%] md:min-w-0 md:border-r md:border-border" : ""} ${isSpark && sparkCode && sparkMobileView === "preview" ? "hidden md:flex" : "flex"} flex-col flex-1 min-h-0`}>
+          <div className={`${hasLivePreview ? "md:w-[40%] md:min-w-0 md:border-r md:border-border" : ""} ${hasLivePreview && sparkMobileView === "preview" ? "hidden md:flex" : "flex"} flex-col flex-1 min-h-0`}>
           <div className="flex-1 overflow-y-auto px-4 py-4">
             {showWelcome ? (
               <div className="flex flex-col items-center justify-center min-h-full text-center gap-4 py-6 opacity-0 animate-fade-up overflow-y-auto" style={{ animationFillMode: "forwards" }}>
@@ -1741,10 +1743,10 @@ const ChatPage = () => {
             </div>
           )}
           </div>
-          {/* SPARK Live Preview Panel */}
-          {isSpark && sparkCode && (
+          {/* Live Preview Panel (SPARK + PRISM) */}
+          {hasLivePreview && (
             <div className={`${sparkMobileView === "preview" ? "flex" : "hidden"} md:flex md:w-[60%] flex-col flex-1 min-h-0 p-2`}>
-              <SparkPreview code={sparkCode} onIterate={() => setInput("Make these changes: ")} />
+              <SparkPreview code={sparkCode} onIterate={() => setInput(isSpark ? "Make these changes: " : "Update the creative: ")} />
             </div>
           )}
         </div>
