@@ -1005,6 +1005,31 @@ const ChatPage = () => {
           </LockedButton>
         )}
 
+        {/* Logo upload badge or add button */}
+        {brandLogoUrl ? (
+          <div
+            className="flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-medium shrink-0"
+            style={{ backgroundColor: agent.color + "15", color: agent.color, border: `1px solid ${agent.color}25` }}
+          >
+            <img src={brandLogoUrl} alt="Logo" className="w-3.5 h-3.5 rounded-sm object-contain" />
+            <span>Logo</span>
+            <button onClick={() => { setBrandLogoUrl(null); sessionStorage.removeItem("assembl_brand_logo"); }} className="hover:opacity-70 ml-0.5">
+              <X size={10} />
+            </button>
+          </div>
+        ) : (
+          <LockedButton
+            feature="brand_scan"
+            onClick={() => logoInputRef.current?.click()}
+            className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-medium transition-colors hover:opacity-80 shrink-0"
+            style={{ color: agent.color, border: `1px solid ${agent.color}20` }}
+            title="Upload your logo for branded documents"
+          >
+            {isUploadingLogo ? <Loader2 size={10} className="animate-spin" /> : <Upload size={10} />}
+            <span className="hidden sm:inline">Logo</span>
+          </LockedButton>
+        )}
+
         {/* Tab Toggle */}
         {(hasTemplateTab || isHelm || isMarketing || isConstruction || true) && (
           <div className="flex rounded-lg overflow-x-auto border border-border shrink-0 max-w-[45vw] sm:max-w-fit scrollbar-hide">
