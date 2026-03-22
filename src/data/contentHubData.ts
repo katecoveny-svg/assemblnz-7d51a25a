@@ -46,7 +46,7 @@ export const FILTER_AGENTS = [
   { name: "APEX", color: "#FF6B35" },
   { name: "PRISM", color: "#E040FB" },
   { name: "FORGE", color: "#FF4D6A" },
-  { name: "ANCHOR", color: "#7E57C2" },
+  { name: "ANCHOR", color: "#00E5FF" },
   { name: "FLUX", color: "#00E5FF" },
   { name: "AURA", color: "#00FF88" },
   { name: "VAULT", color: "#4FC3F7" },
