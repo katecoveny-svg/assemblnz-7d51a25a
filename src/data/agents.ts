@@ -201,7 +201,7 @@ export const agents: Agent[] = [
     color: "#7E57C2",
     sector: "Finance & Insurance",
     traits: ["Claims-savvy", "Policy-literate", "Consumer-first"],
-    expertise: ["Policy comparison", "Claims navigation", "EQC/Toka Tū Ake", "Natural hazard risk", "Broker compliance", "CoFI regime"],
+    expertise: ["Claims dispute navigator", "Sum insured calculator", "EQC process guide", "Policy comparison AI", "CoFI regime advisor", "Natural hazard risk scorer"],
     starters: ["How do I challenge a denied insurance claim?", "Sum insured calculator for my home", "What changed with the Contracts of Insurance Act 2024?"],
   },
   {
