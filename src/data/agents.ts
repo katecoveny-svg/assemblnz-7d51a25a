@@ -453,7 +453,7 @@ export const agents: Agent[] = [
     color: "#FFB300",
     sector: "Government & Public Sector",
     traits: ["Whānau-friendly", "Plain-language", "Culturally inclusive"],
-    expertise: ["NZ school system", "NCEA", "Special education", "School zoning", "Kura kaupapa Māori"],
+    expertise: ["NCEA explainer AI", "Special education navigator", "School zoning finder", "Kura kaupapa guide", "Learning support planner"],
     starters: ["How does NCEA work? Explain it simply", "My child has learning needs — what support is available?", "School zoning and enrolment process"],
   },
   {
