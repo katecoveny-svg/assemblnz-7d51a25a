@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Home, Wrench, AlertTriangle, Shield, DollarSign, Clock } from "lucide-react";
+import { AgentPieChart, AgentBarChart, AgentWorkflow } from "@/components/shared/AgentCharts";
 
 const HAVEN_PINK = "#FF80AB";
 
