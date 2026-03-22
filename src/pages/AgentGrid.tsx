@@ -199,7 +199,7 @@ const AgentGrid = () => {
       <section className="relative z-10 py-20 sm:py-28 border-t border-white/[0.04]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <motion.h2
-            className="text-2xl sm:text-4xl font-syne font-extrabold text-center text-foreground mb-14"
+            className="text-2xl sm:text-4xl font-syne font-extrabold text-center text-glow-purple mb-14"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
