@@ -29,6 +29,7 @@ const Disclaimer = lazy(() => import("./pages/Disclaimer"));
 const SecurityPage = lazy(() => import("./pages/SecurityPage"));
 const TradiePortal = lazy(() => import("./pages/TradiePortal"));
 const LandlordPortal = lazy(() => import("./pages/LandlordPortal"));
+const EchoPage = lazy(() => import("./pages/EchoPage"));
 
 const queryClient = new QueryClient();
 
