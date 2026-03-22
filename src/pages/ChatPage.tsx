@@ -81,6 +81,7 @@ import PrismSocialMedia from "@/components/prism/PrismSocialMedia";
 import PrismBrandVoice from "@/components/prism/PrismBrandVoice";
 import PrismCreativeStudio from "@/components/prism/PrismCreativeStudio";
 import PrismVideoStudio from "@/components/prism/PrismVideoStudio";
+import PrismBrandLab from "@/components/prism/PrismBrandLab";
 import AxisAutomations from "@/components/axis/AxisAutomations";
 import HelmThisWeek from "@/components/helm/HelmThisWeek";
 import HelmBusTracker from "@/components/helm/HelmBusTracker";
