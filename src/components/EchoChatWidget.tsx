@@ -20,8 +20,6 @@ const EchoChatWidget = () => {
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  if (isChatPage) return null;
-
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isLoading]);
@@ -29,6 +27,8 @@ const EchoChatWidget = () => {
   useEffect(() => {
     if (open) inputRef.current?.focus();
   }, [open]);
+
+  if (isChatPage) return null;
 
   const sendMessage = async (content: string) => {
     if (!content.trim() || isLoading) return;
