@@ -39,6 +39,8 @@ const LandlordPortal = lazy(() => import("./pages/LandlordPortal"));
 const EchoPage = lazy(() => import("./pages/EchoPage"));
 const ContentHub = lazy(() => import("./pages/ContentHub"));
 const AgentDetailPage = lazy(() => import("./pages/AgentDetailPage"));
+const MyAppsPage = lazy(() => import("./pages/MyAppsPage"));
+const SparkAppViewer = lazy(() => import("./pages/SparkAppViewer"));
 
 const queryClient = new QueryClient();
 
@@ -76,6 +78,8 @@ const App = () => (
                   <Route path="/agents/echo" element={<Suspense fallback={null}><EchoPage /></Suspense>} />
                   <Route path="/agents/:agentId" element={<Suspense fallback={null}><AgentDetailPage /></Suspense>} />
                   <Route path="/content-hub" element={<Suspense fallback={null}><ContentHub /></Suspense>} />
+                  <Route path="/my-apps" element={<Suspense fallback={null}><MyAppsPage /></Suspense>} />
+                  <Route path="/apps/:appName" element={<Suspense fallback={null}><SparkAppViewer /></Suspense>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
