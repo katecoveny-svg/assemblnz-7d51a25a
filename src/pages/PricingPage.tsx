@@ -693,7 +693,7 @@ const PricingPage = () => {
                   { label: "Runway", value: "8 months", status: "green" },
                 ]
               },
-              { agent: "APEX", color: "#FF6B35", icon: HardHat, feature: "Tender Auto-Structurer", desc: "Upload an RFP → get a response template matching evaluation criteria with pre-filled H&S content.",
+              { agent: "APEX", color: "#00FF88", icon: HardHat, feature: "Tender Auto-Structurer", desc: "Upload an RFP → get a response template matching evaluation criteria with pre-filled H&S content.",
                 demoSections: ["1. Company Capability", "2. Methodology", "3. H&S Approach", "4. Programme"]
               },
               { agent: "AURA", color: "#00FF88", icon: Users, feature: "Guest Lifecycle Engine", desc: "9-step automated guest communication — from booking confirmation to 6-month follow-up.",
