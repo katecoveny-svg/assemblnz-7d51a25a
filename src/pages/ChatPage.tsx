@@ -345,6 +345,7 @@ const ChatPage = () => {
   const isFlux = agentId === "sales";
   const isPrism = agentId === "marketing";
   const isAxis = agentId === "pm";
+  const isSpark = agentId === "spark";
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
 
