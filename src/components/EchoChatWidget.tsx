@@ -13,14 +13,14 @@ interface Message {
 const EchoChatWidget = () => {
   const location = useLocation();
   const isChatPage = location.pathname.startsWith("/chat/");
-
-  if (isChatPage) return null;
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  if (isChatPage) return null;
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
