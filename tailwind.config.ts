@@ -63,7 +63,7 @@ export default {
           orange: "#00FF88",
           lime: "#7CFF6B",
           red: "#FF4D6A",
-          gold: "#FFB800",
+          gold: "#B388FF",
           teal: "#00FF94",
           blue: "#5B8CFF",
           amber: "#FF8C42",

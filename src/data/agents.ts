@@ -90,7 +90,7 @@ export const agents: Agent[] = [
     designation: "ASM-007",
     role: "Architecture Practice Manager & Design Advisor",
     tagline: "Designing for Aotearoa's landscape and future",
-    color: "#FFB800",
+    color: "#B388FF",
     sector: "Architecture",
     traits: ["Visionary", "Code-literate", "Sustainability-focused"],
     expertise: ["Fee proposals", "Consent documentation", "Building Code", "NZIA standards", "Design narratives", "Specification writing"],
