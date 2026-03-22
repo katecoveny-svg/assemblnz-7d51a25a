@@ -31,9 +31,10 @@ const STANDARD_PLANS = [
     name: "Pro",
     price: "$249",
     suffix: "/mo",
-    desc: "For growing NZ businesses",
+    desc: "3 AI agents + SPARK app builder from 42 specialists",
     features: [
-      "3 AI agents from 41 specialists",
+      "3 AI agents from 42 specialists",
+      "SPARK app builder included",
       "500 messages per month",
       "Website brand scan",
       "File upload and parsing",
