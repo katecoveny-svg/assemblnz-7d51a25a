@@ -725,7 +725,7 @@ const ChatPage = () => {
     setIsLoading(true);
 
     const msgIndex = newMessages.length;
-    const should3D = isArc && (!!uploadedImageUrl || shouldTrigger3D(userMessage.content));
+    const should3D = (isArc || isPrism) && (!!uploadedImageUrl || shouldTrigger3D(userMessage.content));
 
     try {
       if (imageFile && !isArc) {
