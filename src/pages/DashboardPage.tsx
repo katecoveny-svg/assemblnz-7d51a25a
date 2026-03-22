@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { MessageSquare, FileText, Upload, Clock, Bookmark, ChevronRight, Trash2, History } from "lucide-react";
+import { MessageSquare, FileText, Upload, Clock, Bookmark, ChevronRight, Trash2, History, Code2 } from "lucide-react";
 import ParticleField from "@/components/ParticleField";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
@@ -297,6 +297,21 @@ const DashboardPage = () => {
             </div>
           </div>
         </div>
+
+        {/* Embed Your Agents */}
+        <Link to="/embed" className="block rounded-xl p-6 relative overflow-hidden glow-card-hover group" style={glassCard}>
+          <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #5B8CFF, transparent)" }} />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Code2 size={18} style={{ color: "#5B8CFF", filter: "drop-shadow(0 0 6px #5B8CFF)" }} />
+              <div>
+                <h2 className="text-sm font-display font-bold" style={{ color: "#5B8CFF", textShadow: "0 0 8px rgba(91,140,255,0.5)" }}>Embed agents on your website</h2>
+                <p className="text-[11px] text-muted-foreground mt-0.5">Add AI chat to your site with one line of code</p>
+              </div>
+            </div>
+            <ChevronRight size={16} className="text-muted-foreground group-hover:translate-x-1 transition-transform" />
+          </div>
+        </Link>
       </main>
 
       <BrandFooter />
