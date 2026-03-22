@@ -381,7 +381,7 @@ export const agents: Agent[] = [
     color: "#FFB74D",
     sector: "Life & Personal",
     traits: ["Ingredient-savvy", "Budget-friendly", "NZ UV-aware"],
-    expertise: ["NZ skincare routines", "SPF guidance", "NZ beauty brands", "Ingredient analysis", "Seasonal adjustments"],
+    expertise: ["Skincare routine builder", "UV protection advisor", "NZ brand recommender", "Ingredient analyser", "Seasonal skin planner"],
     starters: ["Build a skincare routine for NZ conditions", "Best NZ beauty brands to try", "SPF guide for NZ's UV levels"],
   },
   {
