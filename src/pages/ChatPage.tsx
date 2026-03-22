@@ -281,9 +281,20 @@ async function readFileAsText(file: File): Promise<string> {
 
 const ChatPage = () => {
   const { agentId } = useParams<{ agentId: string }>();
+  const [searchParams, setSearchParams] = useSearchParams();
   const agent = agentId === "echo" ? echoAgent : agents.find((a) => a.id === agentId);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState(() => {
+    const from = searchParams.get("from");
+    const context = searchParams.get("context");
+    if (agentId === "spark" && from && context) {
+      return `Build a ${from.toLowerCase()}-style app based on this: ${context}`;
+    }
+    if (agentId === "spark" && from) {
+      return `Build a ${from.toLowerCase()}-style app`;
+    }
+    return "";
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [generations, setGenerations] = useState<ThreeDGeneration[]>([]);
   const [genCount, setGenCount] = useState(0);
