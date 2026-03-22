@@ -54,7 +54,7 @@ const App = () => (
               <div className="pb-14 sm:pb-0">
                 <Routes>
                   <Route path="/" element={<AgentGrid />} />
-                  <Route path="/chat/:agentId" element={<ChatPage />} />
+                  <Route path="/chat/:agentId" element={<ChatPageKeyed />} />
                   <Route path="/login" element={<AuthPage mode="login" />} />
                   <Route path="/signup" element={<AuthPage mode="signup" />} />
                   <Route path="/mariner" element={<Suspense fallback={null}><MarinerLanding /></Suspense>} />
