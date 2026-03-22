@@ -92,6 +92,7 @@ import HelmSettings from "@/components/helm/HelmSettings";
 import AgentTraining from "@/components/shared/AgentTraining";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
+import SparkPreview from "@/components/spark/SparkPreview";
 
 interface Message {
   role: "user" | "assistant";
