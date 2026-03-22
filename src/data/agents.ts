@@ -222,7 +222,7 @@ export const agents: Agent[] = [
     designation: "ASM-015",
     role: "Business Legal Advisor & Document Drafter",
     tagline: "NZ law in plain English — including when life falls apart",
-    color: "#FF7043",
+    color: "#00E5FF",
     sector: "Legal & Compliance",
     traits: ["Clear communicator", "Compassionate", "Process-expert"],
     expertise: ["Contracts & NDAs", "Family law & separation", "IP protection", "Employment disputes", "Privacy policies", "Debt recovery"],
