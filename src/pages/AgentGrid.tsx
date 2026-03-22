@@ -12,6 +12,7 @@ import { X, Zap, Users, BookOpen, Clock, Send, ArrowRight, Check } from "lucide-
 import { NeonWave } from "@/components/NeonIcons";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
+import EchoSection from "@/components/EchoSection";
 
 const PRICING_PLANS = [
   {
@@ -148,6 +149,9 @@ const AgentGrid = () => {
       <div className="relative z-10">
         <AnimatedHero onScrollToGrid={scrollToGrid} />
       </div>
+
+      {/* ═══════════════════════ ECHO ═══════════════════════ */}
+      <EchoSection />
 
       {/* ═══════════════════════ AGENT GRID ═══════════════════════ */}
       <main ref={gridRef} className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 w-full">

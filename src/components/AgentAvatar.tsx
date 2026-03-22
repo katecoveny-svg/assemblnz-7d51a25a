@@ -42,6 +42,7 @@ import hrImg from "@/assets/agents/hr.png";
 import vaultImg from "@/assets/agents/vault.png";
 import shieldImg from "@/assets/agents/shield.png";
 import mintImg from "@/assets/agents/mint.png";
+import echoImg from "@/assets/agents/echo.png";
 
 const AVATAR_MAP: Record<string, string> = {
   hospitality: auraImg,
@@ -85,6 +86,7 @@ const AVATAR_MAP: Record<string, string> = {
   finance: vaultImg,
   insurance: shieldImg,
   banking: mintImg,
+  echo: echoImg,
 };
 
 interface AgentAvatarProps {

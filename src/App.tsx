@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { lazy, Suspense } from "react";
 import { AuthProvider } from "@/hooks/useAuth";
 import MobileTabBar from "@/components/MobileTabBar";
+import EchoChatWidget from "@/components/EchoChatWidget";
 import { HighContrastProvider } from "@/components/chat/HighContrastProvider";
 import { TeReoProvider } from "@/components/chat/TeReoProvider";
 import AgentGrid from "./pages/AgentGrid";
@@ -29,6 +30,7 @@ const Disclaimer = lazy(() => import("./pages/Disclaimer"));
 const SecurityPage = lazy(() => import("./pages/SecurityPage"));
 const TradiePortal = lazy(() => import("./pages/TradiePortal"));
 const LandlordPortal = lazy(() => import("./pages/LandlordPortal"));
+const EchoPage = lazy(() => import("./pages/EchoPage"));
 
 const queryClient = new QueryClient();
 
@@ -63,9 +65,11 @@ const App = () => (
                   <Route path="/security" element={<Suspense fallback={null}><SecurityPage /></Suspense>} />
                   <Route path="/tradie-portal" element={<Suspense fallback={null}><TradiePortal /></Suspense>} />
                   <Route path="/landlord" element={<Suspense fallback={null}><LandlordPortal /></Suspense>} />
+                  <Route path="/agents/echo" element={<Suspense fallback={null}><EchoPage /></Suspense>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
+              <EchoChatWidget />
               <MobileTabBar />
             </AuthProvider>
           </BrowserRouter>
