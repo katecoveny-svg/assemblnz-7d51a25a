@@ -261,7 +261,7 @@ export const agents: Agent[] = [
     color: "#FF80AB",
     sector: "Property & Real Estate",
     traits: ["Market-savvy", "Regulation-sharp", "Investor-friendly"],
-    expertise: ["Healthy Homes", "Tenancy Act", "Compliance tracking", "Maintenance management", "Tenancy Tribunal", "Cost intelligence"],
+    expertise: ["Healthy Homes checker", "Compliance auto-tracker", "Maintenance job manager", "Tenancy Tribunal guide", "Cost intelligence AI", "Tradie matchmaker"],
     starters: ["Healthy Homes Standards — what do I need?", "Landlord obligations under the RTA", "Track compliance across my properties"],
   },
   {
