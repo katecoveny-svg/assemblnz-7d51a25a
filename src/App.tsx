@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { lazy, Suspense } from "react";
 import { AuthProvider } from "@/hooks/useAuth";
 import MobileTabBar from "@/components/MobileTabBar";
+import EchoChatWidget from "@/components/EchoChatWidget";
 import { HighContrastProvider } from "@/components/chat/HighContrastProvider";
 import { TeReoProvider } from "@/components/chat/TeReoProvider";
 import AgentGrid from "./pages/AgentGrid";
