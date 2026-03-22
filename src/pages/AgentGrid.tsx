@@ -440,32 +440,29 @@ const AgentGrid = () => {
                 value={contactName}
                 onChange={(e) => setContactName(e.target.value)}
                 required
-                className="w-full px-4 py-2.5 rounded-xl text-sm border border-white/[0.06] text-foreground font-jakarta focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
-                style={{ background: 'rgba(255,255,255,0.03)' }}
+                className="w-full px-4 py-2.5 rounded-xl text-sm border border-border bg-muted text-foreground font-jakarta focus:outline-none focus:ring-2 focus:ring-ring transition-all"
                 placeholder="Your name"
               />
             </div>
             <div>
-              <label className="block text-xs font-jakarta font-medium text-foreground/70 mb-1.5">Email</label>
+              <label className="block text-xs font-jakarta font-medium text-muted-foreground mb-1.5">Email</label>
               <input
                 type="email"
                 value={contactEmail}
                 onChange={(e) => setContactEmail(e.target.value)}
                 required
-                className="w-full px-4 py-2.5 rounded-xl text-sm border border-white/[0.06] text-foreground font-jakarta focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
-                style={{ background: 'rgba(255,255,255,0.03)' }}
+                className="w-full px-4 py-2.5 rounded-xl text-sm border border-border bg-muted text-foreground font-jakarta focus:outline-none focus:ring-2 focus:ring-ring transition-all"
                 placeholder="your@email.co.nz"
               />
             </div>
             <div>
-              <label className="block text-xs font-jakarta font-medium text-foreground/70 mb-1.5">Message</label>
+              <label className="block text-xs font-jakarta font-medium text-muted-foreground mb-1.5">Message</label>
               <textarea
                 value={contactMessage}
                 onChange={(e) => setContactMessage(e.target.value)}
                 required
                 rows={4}
-                className="w-full px-4 py-2.5 rounded-xl text-sm border border-white/[0.06] text-foreground font-jakarta focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none transition-all"
-                style={{ background: 'rgba(255,255,255,0.03)' }}
+                className="w-full px-4 py-2.5 rounded-xl text-sm border border-border bg-muted text-foreground font-jakarta focus:outline-none focus:ring-2 focus:ring-ring resize-none transition-all"
                 placeholder="Tell us what you need..."
               />
             </div>
