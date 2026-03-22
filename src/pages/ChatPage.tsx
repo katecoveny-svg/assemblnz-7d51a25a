@@ -1318,11 +1318,12 @@ const ChatPage = () => {
 
       {/* Modals */}
       <BrandScanModal agentName={agent.name} agentColor={agent.color} open={brandModalOpen} onClose={() => setBrandModalOpen(false)}
-        onBrandLoaded={(profile, name) => {
+        onBrandLoaded={(profile, name, dna) => {
           setBrandProfile(profile);
           setBrandName(name);
           sessionStorage.setItem("assembl_brand_profile", profile);
           sessionStorage.setItem("assembl_brand_name", name);
+          if (dna) sessionStorage.setItem("assembl_brand_dna", JSON.stringify(dna));
         }} />
       <TemplateLibrary agentId={agent.id} agentName={agent.name} agentColor={agent.color} open={templateModalOpen}
         onClose={() => setTemplateModalOpen(false)} onSelect={(prompt) => sendMessage(prompt)} />
