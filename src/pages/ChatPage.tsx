@@ -1326,9 +1326,36 @@ const ChatPage = () => {
           <HelmDashboard items={dashboardItems} onAddReminder={handleAddReminder} />
         </div>
       ) : (
-        <div className={isSpark && sparkCode ? "flex flex-row flex-1 min-h-0 overflow-hidden" : "flex flex-col flex-1 min-h-0"}>
+        <div className={isSpark && sparkCode ? "flex flex-col md:flex-row flex-1 min-h-0 overflow-hidden" : "flex flex-col flex-1 min-h-0"}>
+          {/* Mobile SPARK toggle */}
+          {isSpark && sparkCode && (
+            <div className="flex md:hidden border-b border-border shrink-0">
+              <button
+                onClick={() => setSparkMobileView("chat")}
+                className="flex-1 py-2 text-xs font-medium transition-colors"
+                style={{
+                  background: sparkMobileView === "chat" ? "rgba(255,107,0,0.1)" : "transparent",
+                  color: sparkMobileView === "chat" ? "#FF6B00" : "hsl(var(--muted-foreground))",
+                  borderBottom: sparkMobileView === "chat" ? "2px solid #FF6B00" : "2px solid transparent",
+                }}
+              >
+                Chat
+              </button>
+              <button
+                onClick={() => setSparkMobileView("preview")}
+                className="flex-1 py-2 text-xs font-medium transition-colors"
+                style={{
+                  background: sparkMobileView === "preview" ? "rgba(255,107,0,0.1)" : "transparent",
+                  color: sparkMobileView === "preview" ? "#FF6B00" : "hsl(var(--muted-foreground))",
+                  borderBottom: sparkMobileView === "preview" ? "2px solid #FF6B00" : "2px solid transparent",
+                }}
+              >
+                ⚡ Live Preview
+              </button>
+            </div>
+          )}
           {/* Chat Area */}
-          <div className={`${isSpark && sparkCode ? "w-[40%] min-w-0 border-r border-border" : ""} flex flex-col flex-1 min-h-0`}>
+          <div className={`${isSpark && sparkCode ? "md:w-[40%] md:min-w-0 md:border-r md:border-border" : ""} ${isSpark && sparkCode && sparkMobileView === "preview" ? "hidden md:flex" : "flex"} flex-col flex-1 min-h-0`}>
           <div className="flex-1 overflow-y-auto px-4 py-4">
             {showWelcome ? (
               <div className="flex flex-col items-center justify-center min-h-full text-center gap-4 py-6 opacity-0 animate-fade-up overflow-y-auto" style={{ animationFillMode: "forwards" }}>
