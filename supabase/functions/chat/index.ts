@@ -1250,10 +1250,10 @@ Deno.serve(async (req) => {
       }
     }
 
-    const formattedMessages = messages.map((msg: any) => {
-      if (Array.isArray(msg.content)) {
-        return { role: msg.role, content: msg.content };
-      }
+    // Trim conversation history to last 12 messages to prevent timeouts with large system prompts
+    const trimmedMessages = messages.length > 12 ? messages.slice(-12) : messages;
+    
+    const formattedMessages = trimmedMessages.map((msg: any) => {
       return { role: msg.role, content: msg.content };
     });
 
