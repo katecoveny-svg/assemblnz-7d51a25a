@@ -289,7 +289,7 @@ const PricingPage = () => {
             {STANDARD_PLANS.map((plan) => (
               <div
                 key={plan.name}
-                className="relative flex flex-col rounded-2xl p-5 sm:p-8 transition-all duration-300 hover:border-white/[0.1]"
+                className="relative flex flex-col rounded-2xl p-5 sm:p-8 glow-card-hover"
                 style={{
                   background: 'rgba(255,255,255,0.02)',
                   backdropFilter: 'blur(12px)',
