@@ -551,7 +551,7 @@ const ChatPage = () => {
     if (!isSpark) return null;
     for (let i = messages.length - 1; i >= 0; i--) {
       if (messages[i].role === "assistant") {
-        const match = messages[i].content.match(/```html\n([\s\S]*?)```/);
+        const match = messages[i].content.match(/```(?:html|HTML)?\s*\n([\s\S]*?)```/);
         if (match) return match[1];
       }
     }
