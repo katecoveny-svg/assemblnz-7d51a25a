@@ -374,7 +374,7 @@ ${v.conditionNotes}. ${v.serviceHistory}.
         <div className="flex gap-2">
           {(["trademe", "website"] as const).map(t => (
             <button key={t} onClick={() => setListingType(t)} className="px-3 py-1.5 rounded-lg text-xs font-medium" style={{ backgroundColor: listingType === t ? FORGE_COLOR + "20" : "transparent", color: listingType === t ? FORGE_COLOR : "hsl(var(--muted-foreground))", border: `1px solid ${listingType === t ? FORGE_COLOR + "40" : "hsl(var(--border))"}` }}>
-              {t === "trademe" ? "TradeMe Motors" : "Website Listing"}
+              {t === "trademe" ? "Marketplace Listing" : "Website Listing"}
             </button>
           ))}
         </div>
