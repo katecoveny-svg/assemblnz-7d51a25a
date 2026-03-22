@@ -1,19 +1,21 @@
 import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import outputEcho from "@/assets/output-echo-content.png";
-import outputFlux from "@/assets/output-flux-pipeline.png";
-import outputHaven from "@/assets/output-haven-compliance.png";
-import outputForge from "@/assets/output-forge-fi.png";
-import outputAroha from "@/assets/output-aroha-calculator.png";
-import outputPrism from "@/assets/output-prism-campaign.png";
+import {
+  EchoContentPreview,
+  FluxPipelinePreview,
+  HavenCompliancePreview,
+  ForgeComparisonPreview,
+  ArohaCalculatorPreview,
+  PrismCampaignPreview,
+} from "./MiniPreviews";
 
 const FEATURED = [
-  { image: outputEcho, name: "ECHO", color: "#E4A0FF", id: "echo", title: "Content Command Centre", desc: "Daily content queue, DM drafts, and performance analytics — all running on autopilot" },
-  { image: outputFlux, name: "FLUX", color: "#00E5FF", id: "sales", title: "Sales Pipeline Dashboard", desc: "AI-scored leads, deal health alerts, and revenue forecasting for NZ businesses" },
-  { image: outputHaven, name: "HAVEN", color: "#FF80AB", id: "property", title: "Healthy Homes Compliance Report", desc: "Instant property compliance check with pass/fail scoring and tradie assignment" },
-  { image: outputForge, name: "FORGE", color: "#FF4D6A", id: "automotive", title: "F&I Payment Comparison", desc: "3-lender comparison with CCCFA-compliant disclosure generated in seconds" },
-  { image: outputAroha, name: "AROHA", color: "#FF6F91", id: "hr", title: "Employment Cost Calculator", desc: "True employer cost breakdown showing the 19.6% gap most employers don't know about" },
-  { image: outputPrism, name: "PRISM", color: "#E040FB", id: "marketing", title: "Campaign Generator", desc: "One brief generates email, LinkedIn, Instagram, Reel script, blog outline, and ad copy" },
+  { name: "ECHO", color: "#E4A0FF", id: "echo", title: "Content Command Centre", desc: "Daily content queue, DM drafts, and performance analytics — all running on autopilot", Preview: EchoContentPreview },
+  { name: "FLUX", color: "#00E5FF", id: "sales", title: "Sales Pipeline Dashboard", desc: "AI-scored leads, deal health alerts, and revenue forecasting for NZ businesses", Preview: FluxPipelinePreview },
+  { name: "HAVEN", color: "#FF80AB", id: "property", title: "Healthy Homes Compliance", desc: "Instant property compliance check with pass/fail scoring and tradie assignment", Preview: HavenCompliancePreview },
+  { name: "FORGE", color: "#FF4D6A", id: "automotive", title: "F&I Payment Comparison", desc: "3-lender comparison with CCCFA-compliant disclosure generated in seconds", Preview: ForgeComparisonPreview },
+  { name: "AROHA", color: "#FF6F91", id: "hr", title: "Employment Cost Calculator", desc: "True employer cost breakdown showing the 19.6% gap most employers don't know about", Preview: ArohaCalculatorPreview },
+  { name: "PRISM", color: "#E040FB", id: "marketing", title: "Campaign Generator", desc: "One brief generates email, LinkedIn, Instagram, Reel script, and ad copy", Preview: PrismCampaignPreview },
 ];
 
 const ContentHubShowcase = () => {
@@ -39,11 +41,9 @@ const ContentHubShowcase = () => {
 
   const handleScroll = () => {
     if (!scrollRef.current) return;
-    const container = scrollRef.current;
-    const scrollLeft = container.scrollLeft;
-    const cardWidth = container.children[0]?.clientWidth || 1;
-    const gap = 24;
-    const idx = Math.round(scrollLeft / (cardWidth + gap));
+    const scrollLeft = scrollRef.current.scrollLeft;
+    const cardWidth = (scrollRef.current.children[0] as HTMLElement)?.clientWidth || 1;
+    const idx = Math.round(scrollLeft / (cardWidth + 24));
     setActiveIdx(Math.min(idx, FEATURED.length - 1));
   };
 
@@ -68,29 +68,38 @@ const ContentHubShowcase = () => {
         {FEATURED.map((item, i) => (
           <div
             key={i}
-            className="snap-center shrink-0 w-[85vw] sm:w-[600px] lg:w-[800px] rounded-2xl overflow-hidden"
+            className="snap-center shrink-0 w-[85vw] sm:w-[500px] lg:w-[640px] rounded-2xl overflow-hidden"
             style={{
               background: "rgba(255,255,255,0.02)",
-              border: "2px solid rgba(255,255,255,0.06)",
-              boxShadow: `0 0 60px -20px ${item.color}15`,
+              border: `2px solid ${item.color}15`,
+              boxShadow: `0 0 80px -30px ${item.color}20`,
             }}
           >
-            <img
-              src={item.image}
-              alt={`${item.name} ${item.title}`}
-              className="w-full aspect-[16/10] object-cover"
-              loading="lazy"
-            />
+            {/* Live dashboard preview */}
+            <div
+              className="p-6 sm:p-8"
+              style={{
+                background: `linear-gradient(180deg, ${item.color}06 0%, rgba(9,9,15,0.8) 100%)`,
+                borderBottom: `1px solid ${item.color}15`,
+              }}
+            >
+              {/* Mini window chrome */}
+              <div className="flex items-center gap-1.5 mb-4">
+                <span className="w-2 h-2 rounded-full" style={{ background: "#FF5F57" }} />
+                <span className="w-2 h-2 rounded-full" style={{ background: "#FEBC2E" }} />
+                <span className="w-2 h-2 rounded-full" style={{ background: "#28C840" }} />
+                <span className="font-mono-jb text-[9px] ml-2" style={{ color: "rgba(255,255,255,0.2)" }}>
+                  assembl.co.nz — {item.name}
+                </span>
+              </div>
+              <item.Preview />
+            </div>
+
+            {/* Card footer */}
             <div className="p-5 space-y-2">
               <div className="flex items-center gap-2">
-                <span
-                  className="w-2.5 h-2.5 rounded-full shrink-0"
-                  style={{ background: item.color }}
-                />
-                <span
-                  className="font-syne font-bold text-sm"
-                  style={{ color: item.color }}
-                >
+                <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: item.color }} />
+                <span className="font-syne font-bold text-sm" style={{ color: item.color }}>
                   {item.name}
                 </span>
                 <span className="font-jakarta text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>

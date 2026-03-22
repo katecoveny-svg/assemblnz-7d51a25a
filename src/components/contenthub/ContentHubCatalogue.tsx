@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { FILTER_AGENTS, OUTPUT_CARDS, type OutputCard } from "@/data/contentHubData";
+import { PREVIEW_MAP } from "./MiniPreviews";
 
 const FORMAT_COLORS: Record<string, string> = {
   Calculator: "#00FF88",
@@ -16,6 +17,7 @@ const FORMAT_COLORS: Record<string, string> = {
 
 const OutputCardComponent = ({ card }: { card: OutputCard }) => {
   const [expanded, setExpanded] = useState(false);
+  const PreviewComponent = PREVIEW_MAP[card.id];
 
   return (
     <div
@@ -50,13 +52,22 @@ const OutputCardComponent = ({ card }: { card: OutputCard }) => {
           {card.outputType}
         </h3>
 
-        {/* Content */}
-        <div
-          className="font-jakarta text-xs leading-relaxed whitespace-pre-line"
-          style={{ color: "rgba(255,255,255,0.5)" }}
-        >
-          {expanded ? card.fullContent : card.preview}
-        </div>
+        {/* Live preview OR text fallback */}
+        {PreviewComponent && !expanded ? (
+          <div
+            className="rounded-lg p-3"
+            style={{ background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.04)" }}
+          >
+            <PreviewComponent />
+          </div>
+        ) : (
+          <div
+            className="font-jakarta text-xs leading-relaxed whitespace-pre-line"
+            style={{ color: "rgba(255,255,255,0.5)" }}
+          >
+            {expanded ? card.fullContent : card.preview}
+          </div>
+        )}
 
         <div className="flex items-center gap-3 flex-wrap">
           <button
@@ -67,7 +78,7 @@ const OutputCardComponent = ({ card }: { card: OutputCard }) => {
             {expanded ? (
               <>Collapse <ChevronUp size={12} /></>
             ) : (
-              <>See full output <ChevronDown size={12} /></>
+              <>{PreviewComponent ? "See raw output" : "See full output"} <ChevronDown size={12} /></>
             )}
           </button>
           <Link
