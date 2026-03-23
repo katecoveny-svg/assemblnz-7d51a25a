@@ -1438,6 +1438,14 @@ const ChatPage = () => {
         <PrismSocialPublisher onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "axis_automations" && isAxis ? (
         <AxisAutomations />
+      ) : activeTab === "kindle_writer" && isNonprofit ? (
+        <KindleCampaignWriter onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "kindle_marketplace" && isNonprofit ? (
+        <KindleMarketplace onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "kindle_impact" && isNonprofit ? (
+        <KindleImpactDashboard />
+      ) : activeTab === "kindle_corporate" && isNonprofit ? (
+        <KindleCorporateDashboard onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "agent_training" ? (
         <AgentTraining agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
       ) : activeTab === "aura_setup" && isAura ? (
