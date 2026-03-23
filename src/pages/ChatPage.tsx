@@ -1262,6 +1262,21 @@ const ChatPage = () => {
                 ))}
               </>
             )}
+            {isNonprofit && (
+              <>
+                {([
+                  { id: "kindle_writer" as const, label: "Campaign Writer" },
+                  { id: "kindle_marketplace" as const, label: "Marketplace" },
+                  { id: "kindle_impact" as const, label: "Impact" },
+                  { id: "kindle_corporate" as const, label: "Corporate" },
+                ]).map(t => (
+                  <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
+                    style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
+                    {t.label}
+                  </button>
+                ))}
+              </>
+            )}
             {isAxis && (
               <>
                 {([
