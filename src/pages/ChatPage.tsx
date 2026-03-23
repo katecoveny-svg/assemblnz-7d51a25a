@@ -1802,6 +1802,20 @@ const ChatPage = () => {
               >
                 <Send size={16} />
               </button>
+              {/* Voice Agent button */}
+              <button
+                type="button"
+                onClick={() => setVoiceModalOpen(true)}
+                className="p-2.5 rounded-lg border transition-all duration-200 hover:scale-105"
+                style={{
+                  borderColor: agentColor + "30",
+                  color: agentColor,
+                  background: "transparent",
+                }}
+                title={`Voice chat with ${agent.name}`}
+              >
+                <Phone size={16} />
+              </button>
             </div>
           </form>
           {/* Build with SPARK cross-agent CTA */}
