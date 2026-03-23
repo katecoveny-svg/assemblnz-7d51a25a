@@ -43,6 +43,7 @@ const MyAppsPage = lazy(() => import("./pages/MyAppsPage"));
 const SparkAppViewer = lazy(() => import("./pages/SparkAppViewer"));
 const WorkflowSettings = lazy(() => import("./pages/WorkflowSettings"));
 const IntegrationHub = lazy(() => import("./pages/IntegrationHub"));
+const WelcomePage = lazy(() => import("./pages/WelcomePage"));
 
 const queryClient = new QueryClient();
 
@@ -84,6 +85,7 @@ const App = () => (
                   <Route path="/apps/:appName" element={<Suspense fallback={null}><SparkAppViewer /></Suspense>} />
                   <Route path="/settings/workflows" element={<Suspense fallback={null}><WorkflowSettings /></Suspense>} />
                   <Route path="/settings/integrations" element={<Suspense fallback={null}><IntegrationHub /></Suspense>} />
+                  <Route path="/welcome" element={<Suspense fallback={null}><WelcomePage /></Suspense>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>

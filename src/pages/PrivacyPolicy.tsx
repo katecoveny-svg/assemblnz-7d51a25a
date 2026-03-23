@@ -31,7 +31,7 @@ const PrivacyPolicy = () => (
             <li><strong>Chat data:</strong> Messages sent to our AI agents (used to provide the service)</li>
             <li><strong>Usage data:</strong> Pages visited, features used, anonymised analytics</li>
             <li><strong>Uploaded files:</strong> Documents or images you upload for processing by agents</li>
-            <li><strong>Payment information:</strong> Processed securely by Airwallex; we do not store card details</li>
+            <li><strong>Payment information:</strong> Processed securely by Stripe; we do not store card details</li>
           </ul>
         </section>
 
@@ -52,7 +52,7 @@ const PrivacyPolicy = () => (
           <p>We use the following third-party services that may process your data:</p>
           <ul className="list-disc pl-5 space-y-1">
             <li><strong>Supabase:</strong> Database and authentication (hosted in cloud infrastructure)</li>
-            <li><strong>Airwallex:</strong> Payment processing</li>
+            <li><strong>Stripe:</strong> Payment processing</li>
             <li><strong>Formspree:</strong> Contact form email delivery</li>
             <li><strong>AI model providers:</strong> To power agent responses (no personal data is used for model training)</li>
           </ul>
