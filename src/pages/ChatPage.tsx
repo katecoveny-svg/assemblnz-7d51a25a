@@ -752,6 +752,10 @@ const ChatPage = () => {
         tabs.push({ id: ids[i], label });
       });
     }
+    // Voice Agent waitlist tab for eligible agents
+    if (["hospitality", "property", "automotive", "sales"].includes(agentId || "")) {
+      tabs.push({ id: "voice_waitlist", label: "Voice", icon: <Mic size={13} /> });
+    }
     tabs.push({ id: "agent_training", label: "Train", icon: <Brain size={13} /> });
     if (!isHelm && agentId !== "maritime") tabs.push({ id: "internal_comms", label: "Comms", icon: <MessageSquare size={13} /> });
     return tabs;
