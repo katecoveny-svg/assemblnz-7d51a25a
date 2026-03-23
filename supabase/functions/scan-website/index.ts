@@ -17,6 +17,29 @@ function stripHtml(html: string): string {
   return text;
 }
 
+function buildFetchCandidates(parsedUrl: URL): string[] {
+  const candidates = [parsedUrl.toString()];
+
+  if (parsedUrl.protocol === "https:") {
+    candidates.push(`http://${parsedUrl.host}${parsedUrl.pathname}${parsedUrl.search}`);
+  }
+
+  if (!parsedUrl.hostname.startsWith("www.")) {
+    const wwwHost = `www.${parsedUrl.hostname}`;
+    candidates.push(`${parsedUrl.protocol}//${wwwHost}${parsedUrl.pathname}${parsedUrl.search}`);
+    if (parsedUrl.protocol === "https:") {
+      candidates.push(`http://${wwwHost}${parsedUrl.pathname}${parsedUrl.search}`);
+    }
+  }
+
+  return [...new Set(candidates)];
+}
+
+function looksLikePendingSetup(html: string): boolean {
+  const normalized = html.replace(/\s+/g, " ").trim();
+  return normalized.includes("Setting up") && normalized.includes("This may take a few minutes");
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
