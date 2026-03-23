@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuthSafe } from "@/hooks/useAuth";
 import { User, ChevronDown, LogOut, CreditCard, Settings, Shield, Sun, Languages } from "lucide-react";
 import { useHighContrast } from "@/components/chat/HighContrastProvider";
 import { useLanguage } from "@/components/chat/TeReoProvider";
@@ -14,7 +14,15 @@ const roleBadge: Record<string, { label: string; color: string }> = {
 };
 
 const AccountDropdown = () => {
-  const { user, profile, role, isAdmin, signOut, dailyMessageCount, isPaid, dailyLimit } = useAuth();
+  const auth = useAuthSafe();
+  const user = auth?.user ?? null;
+  const profile = auth?.profile ?? null;
+  const role = auth?.role ?? null;
+  const isAdmin = auth?.isAdmin ?? false;
+  const signOut = auth?.signOut;
+  const dailyMessageCount = auth?.dailyMessageCount ?? 0;
+  const isPaid = auth?.isPaid ?? false;
+  const dailyLimit = auth?.dailyLimit ?? 5;
   const { highContrast, toggleHighContrast } = useHighContrast();
   const { language, setLanguage } = useLanguage();
   const [open, setOpen] = useState(false);
