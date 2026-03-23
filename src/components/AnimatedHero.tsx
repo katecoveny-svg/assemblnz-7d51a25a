@@ -30,7 +30,9 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           <AssemblHeroAgent size={220} />
         </motion.div>
 
+        {/* Main heading with hover glow region */}
         <motion.div
+          className="hero-text-block rounded-2xl px-6 py-8 mx-auto max-w-3xl"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
@@ -43,19 +45,24 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           </p>
         </motion.div>
 
-        <motion.p
-          className="text-sm sm:text-base max-w-[640px] mx-auto mt-6 mb-8 font-jakarta leading-relaxed"
-          style={{ color: '#71717A' }}
+        {/* Subheading with hover glow */}
+        <motion.div
+          className="hero-text-block rounded-xl px-4 py-4 mx-auto max-w-[640px] mt-2"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
         >
-          Replace six platforms with one intelligence layer. Your agents calculate PAYE, generate tenders, monitor compliance, build apps, and orchestrate marketing — all trained on NZ law, all sharing one brain.
-        </motion.p>
+          <p
+            className="text-sm sm:text-base font-jakarta leading-relaxed"
+            style={{ color: '#71717A' }}
+          >
+            Replace six platforms with one intelligence layer. Your agents calculate PAYE, generate tenders, monitor compliance, build apps, and orchestrate marketing — all trained on NZ law, all sharing one brain.
+          </p>
+        </motion.div>
 
         {/* Stat pills */}
         <motion.div
-          className="flex flex-wrap justify-center gap-2 mb-10"
+          className="flex flex-wrap justify-center gap-2 mb-10 mt-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.7 }}
@@ -75,7 +82,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           ))}
         </motion.div>
 
-        {/* CTAs */}
+        {/* CTAs with glass effect */}
         <motion.div
           className="flex flex-col sm:flex-row gap-3 justify-center mb-14"
           initial={{ opacity: 0, y: 20 }}
@@ -84,16 +91,13 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
         >
           <Link
             to="/content-hub"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold font-jakarta transition-colors duration-200"
-            style={{ background: '#10B981', color: '#09090B' }}
-            onMouseEnter={e => (e.currentTarget.style.background = '#059669')}
-            onMouseLeave={e => (e.currentTarget.style.background = '#10B981')}
+            className="cta-glass-green inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold font-jakarta"
           >
             See what they build <ArrowRight size={16} />
           </Link>
           <button
             onClick={onScrollToGrid}
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold font-jakarta transition-colors duration-200"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold font-jakarta transition-all duration-200"
             style={{ background: 'transparent', color: '#FAFAFA', border: '1px solid rgba(255,255,255,0.15)' }}
             onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)')}
             onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)')}
