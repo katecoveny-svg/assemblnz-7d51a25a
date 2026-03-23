@@ -52,7 +52,7 @@ const PrivacyPolicy = () => (
           <p>We use the following third-party services that may process your data:</p>
           <ul className="list-disc pl-5 space-y-1">
             <li><strong>Supabase:</strong> Database and authentication (hosted in cloud infrastructure)</li>
-            <li><strong>Airwallex:</strong> Payment processing</li>
+            <li><strong>Stripe:</strong> Payment processing</li>
             <li><strong>Formspree:</strong> Contact form email delivery</li>
             <li><strong>AI model providers:</strong> To power agent responses (no personal data is used for model training)</li>
           </ul>
