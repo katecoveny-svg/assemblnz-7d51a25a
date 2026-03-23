@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import nexusLogo from "@/assets/nexus-logo.png";
 import AccountDropdown from "@/components/AccountDropdown";
 
@@ -21,7 +22,19 @@ const BrandNav = () => {
       }}
     >
       <Link to="/" className="flex items-center gap-3 group">
-        <img src={nexusLogo} alt="Assembl" className="w-10 h-10 object-contain" />
+        <motion.img
+          src={nexusLogo}
+          alt="Assembl"
+          className="w-10 h-10 object-contain"
+          animate={{
+            filter: [
+              'drop-shadow(0 0 4px hsla(160,84%,50%,0.2))',
+              'drop-shadow(0 0 12px hsla(160,84%,50%,0.4)) drop-shadow(0 0 24px hsla(189,100%,50%,0.15))',
+              'drop-shadow(0 0 4px hsla(160,84%,50%,0.2))',
+            ],
+          }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        />
         <div className="flex items-baseline gap-1">
           <span className="font-syne font-extrabold tracking-[3px] uppercase text-sm text-foreground">ASSEMBL</span>
           <span className="font-mono-jb text-[11px] hidden sm:inline text-muted-foreground">.co.nz</span>

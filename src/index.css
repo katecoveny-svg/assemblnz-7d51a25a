@@ -47,7 +47,7 @@
 
     --radius: 0.75rem;
 
-    /* Agent accent colors — tiny dots only */
+    /* Agent accent colors */
     --neon-green: 153 100% 50%;
     --neon-pink: 326 100% 59%;
     --neon-cyan: 189 100% 50%;
@@ -102,6 +102,7 @@
     font-family: 'JetBrains Mono', monospace;
   }
 
+  /* Hero gradient text with glow */
   .text-gradient-hero {
     background-image: linear-gradient(135deg, 
       hsl(153 100% 50%), 
@@ -170,6 +171,53 @@
 
   .glow-card-hover:hover {
     border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  /* Glass effect green CTA buttons */
+  .cta-glass-green {
+    background: linear-gradient(135deg, hsla(160, 84%, 39%, 0.9), hsla(160, 84%, 45%, 0.85));
+    color: hsl(240 10% 3.9%);
+    border: 1px solid hsla(160, 84%, 50%, 0.3);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 
+      0 0 20px hsla(160, 84%, 50%, 0.15),
+      inset 0 1px 0 hsla(0, 0%, 100%, 0.15),
+      inset 0 -1px 0 hsla(160, 84%, 30%, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .cta-glass-green:hover {
+    background: linear-gradient(135deg, hsla(160, 84%, 45%, 0.95), hsla(160, 84%, 50%, 0.9));
+    box-shadow: 
+      0 0 30px hsla(160, 84%, 50%, 0.25),
+      0 0 60px hsla(160, 84%, 50%, 0.1),
+      inset 0 1px 0 hsla(0, 0%, 100%, 0.2),
+      inset 0 -1px 0 hsla(160, 84%, 30%, 0.2);
+    transform: translateY(-1px);
+  }
+
+  /* Hover glow text blocks */
+  .hero-text-block {
+    position: relative;
+    transition: all 0.4s ease;
+  }
+
+  .hero-text-block::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    border: 1px solid transparent;
+    transition: all 0.4s ease;
+    pointer-events: none;
+  }
+
+  .hero-text-block:hover::before {
+    border-color: hsla(160, 84%, 50%, 0.08);
+    box-shadow: 
+      0 0 40px hsla(160, 84%, 50%, 0.04),
+      inset 0 0 40px hsla(160, 84%, 50%, 0.02);
   }
 
   /* Premium gradient border tag */
