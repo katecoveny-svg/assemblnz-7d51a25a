@@ -44,7 +44,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    // Require authentication
+    // Allow both authenticated and unauthenticated (free preview) requests
     const authHeader = req.headers.get("Authorization");
     if (!authHeader?.startsWith("Bearer ")) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
@@ -52,17 +52,15 @@ Deno.serve(async (req) => {
       });
     }
 
+    // Try to validate user but don't block if it's just the anon key
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_ANON_KEY")!,
       { global: { headers: { Authorization: authHeader } } }
     );
-    const { data: claimsData, error: claimsErr } = await supabase.auth.getClaims(authHeader.replace("Bearer ", ""));
-    if (claimsErr || !claimsData?.claims) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
+    // getClaims will fail for anon-only tokens — that's OK for image gen
+    const { data: claimsData } = await supabase.auth.getClaims(authHeader.replace("Bearer ", ""));
+    const _userId = claimsData?.claims?.sub || "anonymous";
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
