@@ -838,6 +838,13 @@ const ChatPage = () => {
       }
 
       const functionName = isHaven ? "haven-ai" : "chat";
+
+      if (isHaven && !session?.access_token) {
+        setMessages((prev) => [...prev, { role: "assistant", content: "🔒 Please sign in to use HAVEN's property management features. Your data is securely linked to your account." }]);
+        setIsLoading(false);
+        return;
+      }
+
       const body = isHaven
         ? { messages: apiMessages }
         : { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, brandLogoUrl: brandLogoUrl || undefined, teReoPrompt: teReoPrompt || undefined, propertyMode: isAura ? auraPropertyMode : undefined };
