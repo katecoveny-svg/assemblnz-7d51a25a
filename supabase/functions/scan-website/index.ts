@@ -17,6 +17,29 @@ function stripHtml(html: string): string {
   return text;
 }
 
+function buildFetchCandidates(parsedUrl: URL): string[] {
+  const candidates = [parsedUrl.toString()];
+
+  if (parsedUrl.protocol === "https:") {
+    candidates.push(`http://${parsedUrl.host}${parsedUrl.pathname}${parsedUrl.search}`);
+  }
+
+  if (!parsedUrl.hostname.startsWith("www.")) {
+    const wwwHost = `www.${parsedUrl.hostname}`;
+    candidates.push(`${parsedUrl.protocol}//${wwwHost}${parsedUrl.pathname}${parsedUrl.search}`);
+    if (parsedUrl.protocol === "https:") {
+      candidates.push(`http://${wwwHost}${parsedUrl.pathname}${parsedUrl.search}`);
+    }
+  }
+
+  return [...new Set(candidates)];
+}
+
+function looksLikePendingSetup(html: string): boolean {
+  const normalized = html.replace(/\s+/g, " ").trim();
+  return normalized.includes("Setting up") && normalized.includes("This may take a few minutes");
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -44,7 +67,7 @@ Deno.serve(async (req) => {
       user = u;
     }
 
-    const { url, instagram, linkedin } = await req.json();
+    const { url, instagram, linkedin, fallbackContent } = await req.json();
     if (!url || typeof url !== "string") {
       return new Response(
         JSON.stringify({ error: "URL is required" }),
@@ -70,26 +93,53 @@ Deno.serve(async (req) => {
       );
     }
 
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 10000);
+    let html = "";
+    let usedFallback = false;
+    let pendingSetupDetected = false;
 
-    let html: string;
-    try {
-      const res = await fetch(parsedUrl.toString(), {
-        signal: controller.signal,
-        headers: { "User-Agent": "Mozilla/5.0 (compatible; AssemblBot/1.0)" },
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      html = await res.text();
-    } catch (err) {
-      clearTimeout(timeout);
-      const msg = err instanceof Error && err.name === "AbortError" ? "Website took too long to respond" : "Could not reach the website";
+    for (const candidate of buildFetchCandidates(parsedUrl)) {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000);
+
+      try {
+        const res = await fetch(candidate, {
+          signal: controller.signal,
+          redirect: "follow",
+          headers: { "User-Agent": "Mozilla/5.0 (compatible; AssemblBot/1.0)" },
+        });
+
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+        const candidateHtml = await res.text();
+        if (looksLikePendingSetup(candidateHtml)) {
+          pendingSetupDetected = true;
+          continue;
+        }
+
+        html = candidateHtml;
+        break;
+      } catch {
+        // Try next candidate URL variant
+      } finally {
+        clearTimeout(timeout);
+      }
+    }
+
+    if (!html && typeof fallbackContent === "string" && fallbackContent.trim()) {
+      html = fallbackContent;
+      usedFallback = true;
+    }
+
+    if (!html) {
+      const message = pendingSetupDetected
+        ? "This custom domain is still provisioning. Open the live preview or published site and try the scan again there."
+        : "Could not reach the website. Try the full https:// address, or scan from the live preview/published site if this domain is still updating.";
+
       return new Response(
-        JSON.stringify({ error: msg }),
+        JSON.stringify({ error: message }),
         { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
-    clearTimeout(timeout);
 
     const text = stripHtml(html);
     const words = text.split(/\s+/).slice(0, 3000).join(" ");
@@ -208,7 +258,11 @@ Be factual and specific. Infer colours from the website aesthetic if not explici
     }
 
     return new Response(
-      JSON.stringify({ brandProfile, brandDna }),
+      JSON.stringify({
+        brandProfile,
+        brandDna,
+        scanWarning: usedFallback ? "Used the currently open page because the requested website could not be reached yet." : null,
+      }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {
