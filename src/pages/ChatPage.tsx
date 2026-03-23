@@ -1370,7 +1370,7 @@ const ChatPage = () => {
       ) : activeTab === "forge_team" && isForge ? (
         <ForgeTeam />
       ) : activeTab === "content_studio" && isMarketing ? (
-        <ContentStudio isPaid={isPaid} userRole={role || undefined} />
+        <ContentStudio onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "tender_writer" && isConstruction ? (
         <ApexTenderWriter isPaid={isPaid} userRole={role || undefined} onSendMessage={sendMessage} />
       ) : activeTab === "awards" && isConstruction ? (
