@@ -82,22 +82,23 @@ const AdminDashboard = () => {
 
   const loadData = useCallback(async () => {
     setLoadingData(true);
-    try {
-      const [m, u, a, f, s] = await Promise.all([
-        adminCall("get_metrics"),
-        adminCall("get_users"),
-        adminCall("get_agent_status"),
-        adminCall("get_activity_feed"),
-        adminCall("get_contact_submissions"),
-      ]);
-      setMetrics(m);
-      setUsers(u);
-      setAgentStatuses(a);
-      setActivity(f);
-      setSubmissions(s);
-    } catch (err) {
-      console.error("Failed to load admin data:", err);
-    }
+    const results = await Promise.allSettled([
+      adminCall("get_metrics"),
+      adminCall("get_users"),
+      adminCall("get_agent_status"),
+      adminCall("get_activity_feed"),
+      adminCall("get_contact_submissions"),
+    ]);
+    if (results[0].status === "fulfilled") setMetrics(results[0].value);
+    else console.error("Failed to load metrics:", results[0].reason);
+    if (results[1].status === "fulfilled") setUsers(results[1].value || []);
+    else console.error("Failed to load users:", results[1].reason);
+    if (results[2].status === "fulfilled") setAgentStatuses(results[2].value || []);
+    else console.error("Failed to load agent status:", results[2].reason);
+    if (results[3].status === "fulfilled") setActivity(results[3].value || []);
+    else console.error("Failed to load activity:", results[3].reason);
+    if (results[4].status === "fulfilled") setSubmissions(results[4].value || []);
+    else console.error("Failed to load submissions:", results[4].reason);
     setLoadingData(false);
   }, [adminCall]);
 
