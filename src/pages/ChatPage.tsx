@@ -100,7 +100,7 @@ import HelmReview from "@/components/helm/HelmReview";
 import HelmRescue from "@/components/helm/HelmRescue";
 import HelmSettings from "@/components/helm/HelmSettings";
 import AgentTraining from "@/components/shared/AgentTraining";
-import VoiceAgentWaitlist from "@/components/VoiceAgentWaitlist";
+import VoiceAgentLive from "@/components/VoiceAgentLive";
 import SparkTemplateGrid from "@/components/spark/SparkTemplateGrid";
 import KindleCampaignWriter from "@/components/kindle/KindleCampaignWriter";
 import KindleMarketplace from "@/components/kindle/KindleMarketplace";
