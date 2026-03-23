@@ -98,7 +98,7 @@ const PricingPage = () => {
                 </p>
                 <div className="flex items-baseline gap-1 mb-1">
                   <span className="font-syne text-4xl font-bold" style={{ color: '#FAFAFA' }}>
-                    {formatPrice(plan.price, 'priceLabel' in plan ? plan.priceLabel : undefined)}
+                    {formatPrice(plan.price, 'priceLabel' in plan ? String(plan.priceLabel) : undefined)}
                   </span>
                   {plan.period && (
                     <span className="text-sm" style={{ color: '#71717A' }}>{plan.period}</span>
