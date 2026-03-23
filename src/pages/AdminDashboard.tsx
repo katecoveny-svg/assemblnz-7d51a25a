@@ -175,6 +175,17 @@ const AdminDashboard = () => {
 
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-6 space-y-6">
         {/* OVERVIEW TAB */}
+        {tab === "overview" && !metrics && !loadingData && (
+          <div className="rounded-xl border border-border bg-card p-12 text-center">
+            <p className="text-sm text-muted-foreground mb-3">Failed to load metrics. Check that you have admin access.</p>
+            <button onClick={loadData} className="text-xs text-primary hover:underline">Retry</button>
+          </div>
+        )}
+        {tab === "overview" && loadingData && (
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+            {[1,2,3,4,5].map(i => <div key={i} className="h-28 rounded-xl bg-card animate-pulse border border-border" />)}
+          </div>
+        )}
         {tab === "overview" && metrics && (
           <>
             <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
