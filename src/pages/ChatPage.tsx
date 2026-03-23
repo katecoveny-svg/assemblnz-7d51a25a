@@ -933,6 +933,21 @@ const ChatPage = () => {
       const assistantContent = data.content;
       setMessages((prev) => [...prev, { role: "assistant", content: assistantContent }]);
 
+      // Auto-save PRISM outputs to exported_outputs
+      if (isPrism && user && assistantContent && assistantContent.length > 100) {
+        const titleMatch = content.match(/^(?:Create|Write|Generate|Design)\s+(?:a\s+)?(.{10,60})/i);
+        const autoTitle = titleMatch?.[1]?.trim() || `PRISM output — ${new Date().toLocaleDateString("en-NZ")}`;
+        supabase.from("exported_outputs").insert({
+          user_id: user.id,
+          agent_id: "marketing",
+          agent_name: "PRISM",
+          title: autoTitle,
+          output_type: "chat_output",
+          format: "markdown",
+          content_preview: assistantContent.substring(0, 300),
+        }).then(() => {});
+      }
+
       // Process NEXUS workflow data from response
       if (isNexus && nexusWorkflowActive) {
         processNexusResponse(assistantContent);
