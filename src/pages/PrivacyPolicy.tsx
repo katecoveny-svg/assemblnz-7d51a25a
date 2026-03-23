@@ -31,7 +31,7 @@ const PrivacyPolicy = () => (
             <li><strong>Chat data:</strong> Messages sent to our AI agents (used to provide the service)</li>
             <li><strong>Usage data:</strong> Pages visited, features used, anonymised analytics</li>
             <li><strong>Uploaded files:</strong> Documents or images you upload for processing by agents</li>
-            <li><strong>Payment information:</strong> Processed securely by Airwallex; we do not store card details</li>
+            <li><strong>Payment information:</strong> Processed securely by Stripe; we do not store card details</li>
           </ul>
         </section>
 
