@@ -13,10 +13,7 @@ const MAIN_PLANS = [
   PRICING.suite,
 ];
 
-const HELM_PLANS = [
-  { ...PRICING.helm_personal, desc: "Full life admin for one person" },
-  { ...PRICING.helm_family, desc: "For busy NZ families" },
-];
+const HELM_PLAN = { ...PRICING.helm, desc: "AI life admin for Kiwi families" };
 
 const FAQS = [
   { q: "Can I try Assembl for free?", a: "Every agent is available for free — no signup required. You get 3 messages per agent to explore. If you like what you see, sign up for a plan to unlock more." },
@@ -123,21 +120,12 @@ const PricingPage = () => {
                   href={plan.link}
                   target={plan.link.startsWith('#') ? undefined : '_blank'}
                   rel="noopener noreferrer"
-                  className="block w-full text-center text-sm font-semibold py-2.5 rounded-lg transition-colors duration-200"
-                  style={plan.popular
-                    ? { background: '#10B981', color: '#09090B' }
-                    : { background: 'transparent', color: '#FAFAFA', border: '1px solid rgba(255,255,255,0.15)' }
+                  className={plan.popular
+                    ? "cta-glass-green block w-full text-center text-sm font-semibold py-2.5 rounded-lg"
+                    : "cta-glass-green block w-full text-center text-sm font-semibold py-2.5 rounded-lg"
                   }
-                  onMouseEnter={e => {
-                    if (plan.popular) e.currentTarget.style.background = '#059669';
-                    else e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)';
-                  }}
-                  onMouseLeave={e => {
-                    if (plan.popular) e.currentTarget.style.background = '#10B981';
-                    else e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)';
-                  }}
                 >
-                  {plan.cta}
+                  <span>{plan.cta}</span>
                 </a>
               </div>
             ))}
@@ -168,10 +156,9 @@ const PricingPage = () => {
               </ul>
               <a
                 href="#contact"
-                className="block w-full text-center text-sm font-semibold py-2.5 rounded-lg transition-colors duration-200"
-                style={{ background: 'transparent', color: '#FAFAFA', border: '1px solid rgba(255,255,255,0.15)' }}
+                className="cta-glass-green block w-full text-center text-sm font-semibold py-2.5 rounded-lg"
               >
-                Contact Us
+                <span>Contact Us</span>
               </a>
             </div>
           </div>
@@ -181,51 +168,47 @@ const PricingPage = () => {
       {/* HELM */}
       <div className="max-w-6xl mx-auto px-5 sm:px-6"><div className="h-px" style={{ background: 'rgba(255,255,255,0.06)' }} /></div>
       <section className="py-14">
-        <div className="max-w-3xl mx-auto px-5 sm:px-6">
+        <div className="max-w-md mx-auto px-5 sm:px-6">
           <h2 className="text-lg sm:text-2xl font-syne font-bold text-center mb-2" style={{ color: '#FAFAFA' }}>
-            HELM — Family Plans
+            HELM — Life Admin for Families
           </h2>
           <p className="text-xs font-jakarta text-center mb-8" style={{ color: '#71717A' }}>
             AI life admin built for Kiwi households
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {HELM_PLANS.map((plan) => (
-              <div
-                key={plan.name}
-                className="flex flex-col rounded-xl p-6"
-                style={{
-                  background: 'rgba(15, 15, 18, 0.8)',
-                  border: '1px solid rgba(255,255,255,0.06)',
-                }}
-              >
-                <p className="text-[11px] font-semibold tracking-[2px] uppercase mb-3" style={{ color: '#71717A' }}>
-                  {plan.name}
-                </p>
-                <div className="flex items-baseline gap-1 mb-4">
-                  <span className="font-syne text-3xl font-bold" style={{ color: '#FAFAFA' }}>
-                    ${annual ? annualMonthly(plan.price) : plan.price}
-                  </span>
-                  <span className="text-sm" style={{ color: '#71717A' }}>/mo</span>
-                </div>
-                <ul className="space-y-2 mb-6 flex-1">
-                  {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-xs font-jakarta" style={{ color: '#A1A1AA' }}>
-                      <Check size={14} className="mt-0.5 shrink-0" style={{ color: '#10B981' }} />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <a
-                  href={plan.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full text-center text-sm font-semibold py-2.5 rounded-lg transition-colors duration-200"
-                  style={{ background: 'transparent', color: '#FAFAFA', border: '1px solid rgba(255,255,255,0.15)' }}
-                >
-                  Get {plan.name}
-                </a>
-              </div>
-            ))}
+          <div
+            className="flex flex-col rounded-xl p-6"
+            style={{
+              background: 'rgba(15, 15, 18, 0.8)',
+              border: '1px solid rgba(179,136,255,0.15)',
+            }}
+          >
+            <p className="text-[11px] font-semibold tracking-[2px] uppercase mb-3" style={{ color: '#B388FF' }}>
+              {HELM_PLAN.name}
+            </p>
+            <div className="flex items-baseline gap-1 mb-1">
+              <span className="font-syne text-3xl font-bold" style={{ color: '#FAFAFA' }}>
+                ${annual ? annualMonthly(HELM_PLAN.price) : HELM_PLAN.price}
+              </span>
+              <span className="text-sm" style={{ color: '#71717A' }}>/mo</span>
+            </div>
+            <p className="text-xs font-jakarta mb-4" style={{ color: '#71717A' }}>{HELM_PLAN.desc}</p>
+            <div className="h-px mb-4" style={{ background: 'rgba(255,255,255,0.06)' }} />
+            <ul className="space-y-2 mb-6 flex-1">
+              {HELM_PLAN.features.map((f) => (
+                <li key={f} className="flex items-start gap-2 text-xs font-jakarta" style={{ color: '#A1A1AA' }}>
+                  <Check size={14} className="mt-0.5 shrink-0" style={{ color: '#B388FF' }} />
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <a
+              href={HELM_PLAN.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cta-glass-green block w-full text-center text-sm font-semibold py-2.5 rounded-lg"
+            >
+              <span>Get HELM — $29/mo</span>
+            </a>
           </div>
         </div>
       </section>

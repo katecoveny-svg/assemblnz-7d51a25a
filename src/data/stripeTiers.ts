@@ -30,17 +30,11 @@ export const STRIPE_TIERS = {
     role: "business" as const,
     label: "Luxury Hospitality",
   },
-  helmPersonal: {
-    price_id: "price_1TCrQAPXAX9ohARRwPSALIFS",
-    product_id: "prod_UBDrEfpYbfPT3v",
-    role: "starter" as const,
-    label: "HELM Personal",
-  },
-  helmFamily: {
+  helm: {
     price_id: "price_1TCrQPPXAX9ohARRM5Ppeq4h",
     product_id: "prod_UBDswdBqmFPkXz",
     role: "starter" as const,
-    label: "HELM Family",
+    label: "HELM",
   },
 } as const;
 

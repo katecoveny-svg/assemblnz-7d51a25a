@@ -1239,8 +1239,7 @@ BRAND KNOWLEDGE:
   * Business: $599/mo NZD — All 42 AI agents, SPARK (25 deploys + custom domains), 2,000 messages/mo, Command Centre dashboard, all symbiotic workflows + custom, MCP API (100 calls/day), Integration Hub, phone support
   * Industry Suite: $1,499/mo NZD — Everything in Business + 1-2 custom agents, 5,000 messages/mo, white-label option, custom workflow builder, dedicated onboarding, Zoom support
   * Enterprise: Custom pricing — unlimited everything, full white-label + custom domain, unlimited MCP API, team management & roles, SLA guarantee, dedicated account manager, audit trail
-  * HELM Personal: $14/mo NZD — family agent, 50 messages/mo, bus tracking, newsletter AI, packing lists
-  * HELM Family: $29/mo NZD — HELM + all lifestyle agents, 200 messages/mo, multi-child support, Rescue delivery
+  * HELM: $29/mo NZD — family AI agent, 200 messages/mo, bus tracking, newsletter AI parser, multi-child support, packing lists, meal plans, Rescue delivery
   * Annual plans save 15% (2 months free)
   * All plans include 7-day money-back guarantee
 - Competitive position: Not chatbots — full operations platforms. NZ legislation baked in. 42 specialists, one subscription
