@@ -128,7 +128,7 @@ const AccountDropdown = () => {
             </button>
 
             <button
-              onClick={() => { signOut(); setOpen(false); }}
+              onClick={() => { signOut?.(); setOpen(false); }}
               className="w-full flex items-center gap-2 px-3 py-2 text-xs text-destructive/80 hover:text-destructive hover:bg-destructive/5 transition-colors"
             >
               <LogOut size={12} /> Sign Out
