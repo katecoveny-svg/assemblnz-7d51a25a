@@ -322,7 +322,7 @@ const DashboardPage = () => {
             )}
           </div>
 
-          {/* Workflow Status */}
+          {/* Workflow Status with Visualiser */}
           <div className="lg:col-span-2 rounded-xl p-5 relative overflow-hidden" style={glassCard}>
             <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #00FF88, transparent)" }} />
             <div className="flex items-center justify-between mb-3">
@@ -332,6 +332,15 @@ const DashboardPage = () => {
               </div>
               <Link to="/settings/workflows" className="text-[9px] text-[#00FF88] hover:underline">View all</Link>
             </div>
+
+            {/* Workflow Visualiser for latest workflow */}
+            {workflowSteps.length > 0 && (
+              <div className="mb-4 p-3 rounded-lg" style={{ background: "rgba(0,255,136,0.03)", border: "1px solid rgba(0,255,136,0.08)" }}>
+                <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mb-2 block">Latest Chain</span>
+                <WorkflowVisualiser steps={workflowSteps} compact />
+              </div>
+            )}
+
             {executions.length === 0 ? (
               <p className="text-xs text-muted-foreground text-center py-6">No recent workflows. Agent chains will show here when triggered.</p>
             ) : (
