@@ -339,6 +339,7 @@ const ChatPage = () => {
   const [paywallType, setPaywallType] = useState<"preview" | "daily_limit" | null>(null);
   const [auraPropertyMode, setAuraPropertyMode] = useState<string>(() => sessionStorage.getItem("aura_property_mode") || "luxury_lodge");
   const [selectedModel, setSelectedModel] = useState<string>(() => sessionStorage.getItem("assembl_ai_model") || "gemini-flash");
+  const [voiceModalOpen, setVoiceModalOpen] = useState(false);
 
   // NEXUS Job Sheet workflow state
   const [nexusWorkflowActive, setNexusWorkflowActive] = useState(false);
