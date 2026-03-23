@@ -687,6 +687,74 @@ const ChatPage = () => {
   const previewAccentColor = isSpark ? "#FF6B00" : "#E040FB";
   const [sparkMobileView, setSparkMobileView] = useState<"chat" | "preview">("chat");
 
+  // Collect agent-specific tabs (must be before early return)
+  const agentTabs = useMemo(() => {
+    if (!agent) return [];
+    const tabs: { id: string; label: string; icon?: React.ReactNode }[] = [];
+    if (hasTemplateTab) tabs.push({ id: "templates", label: "Templates", icon: <LayoutGrid size={13} /> });
+    if (isMarketing) tabs.push({ id: "content_studio", label: "Content Studio", icon: <Sparkles size={13} /> });
+    if (isConstruction) {
+      tabs.push({ id: "tender_writer", label: "Tenders", icon: <FileText size={13} /> });
+      tabs.push({ id: "awards", label: "Awards", icon: <Trophy size={13} /> });
+      tabs.push({ id: "hs_hub", label: "H&S", icon: <Shield size={13} /> });
+      tabs.push({ id: "esg", label: "ESG", icon: <Leaf size={13} /> });
+    }
+    if (isForge) {
+      ["Showroom", "Sales", "Parts", "Marketing", "Events", "Team", "Brand Hub"].forEach((label, i) => {
+        const ids = ["forge_showroom", "forge_sales", "forge_parts", "forge_marketing", "forge_events", "forge_team", "forge_brand"];
+        tabs.push({ id: ids[i], label });
+      });
+    }
+    if (isAroha) {
+      ["Contracts", "Onboarding", "Payroll", "Recruitment", "People", "Setup"].forEach((label, i) => {
+        const ids = ["aroha_contracts", "aroha_onboarding", "aroha_payroll", "aroha_recruitment", "aroha_people", "aroha_company"];
+        tabs.push({ id: ids[i], label });
+      });
+    }
+    if (isAura) {
+      ["Reservations", "Guest Exp", "Guest CRM", "Kitchen", "Marketing", "Events", "Operations", "Revenue", "Team", "Sustain", "Trade", "Setup"].forEach((label, i) => {
+        const ids = ["aura_reservations", "aura_guest", "aura_memory", "aura_kitchen", "aura_marketing", "aura_events", "aura_operations", "aura_revenue", "aura_team", "aura_sustainability", "aura_trade", "aura_setup"];
+        tabs.push({ id: ids[i], label });
+      });
+    }
+    if (isHaven) {
+      ["Dashboard", "Properties", "Jobs", "Tradies", "Command", "Compliance", "Costs", "Docs", "Alerts"].forEach((label, i) => {
+        const ids = ["haven_dashboard", "haven_properties", "haven_jobs", "haven_tradies", "haven_command", "haven_compliance", "haven_costs", "haven_documents", "haven_notifications"];
+        tabs.push({ id: ids[i], label });
+      });
+    }
+    if (isFlux) {
+      ["Pipeline", "Follow-Ups", "Clients"].forEach((label, i) => {
+        const ids = ["flux_pipeline", "flux_followups", "flux_clients"];
+        tabs.push({ id: ids[i], label });
+      });
+    }
+    if (isPrism) {
+      ["Campaigns", "Social", "Brand Voice", "Creative", "Ad Studio", "Product", "Video", "Brand Lab", "Publisher"].forEach((label, i) => {
+        const ids = ["prism_campaigns", "prism_social", "prism_brand", "prism_creative", "prism_ads", "prism_product", "prism_video", "prism_brandlab", "prism_publisher"];
+        tabs.push({ id: ids[i], label });
+      });
+    }
+    if (isNonprofit) {
+      ["Campaign Writer", "Marketplace", "Impact", "Corporate"].forEach((label, i) => {
+        const ids = ["kindle_writer", "kindle_marketplace", "kindle_impact", "kindle_corporate"];
+        tabs.push({ id: ids[i], label });
+      });
+    }
+    if (isAxis) tabs.push({ id: "axis_automations", label: "Automations" });
+    if (isHelm) {
+      ["This Week", "Bus", "Timetable", "Inbox", "Review", "Rescue", "Settings"].forEach((label, i) => {
+        const ids = ["helm_week", "helm_bus", "helm_timetable", "helm_inbox", "helm_review", "helm_rescue", "helm_settings"];
+        tabs.push({ id: ids[i], label });
+      });
+    }
+    tabs.push({ id: "agent_training", label: "Train", icon: <Brain size={13} /> });
+    if (!isHelm && agentId !== "maritime") tabs.push({ id: "internal_comms", label: "Comms", icon: <MessageSquare size={13} /> });
+    return tabs;
+  }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm]);
+
+  const accentColor = isHelm ? HELM_COLOR : (agent?.color || "#00E5FF");
+
   if (!agent) {
     return (
       <div className="min-h-screen flex items-center justify-center text-foreground">
@@ -1000,344 +1068,147 @@ const ChatPage = () => {
     );
   };
 
+
+
   return (
     <div className="h-screen flex flex-col bg-background relative">
-      {/* Header */}
-      <header className="flex items-center gap-2 px-2 sm:px-3 py-2 sm:py-2.5 border-b border-border shrink-0 overflow-x-auto scrollbar-hide">
-        <Link to="/" className="p-1.5 rounded-lg hover:bg-muted transition-colors text-foreground shrink-0">
-          <ArrowLeft size={18} />
-        </Link>
-        <AgentAvatar agentId={agent.id} color={agent.color} size={28} showGlow={false} />
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <span className="font-syne font-bold text-sm text-foreground">{agent.name}</span>
-            <span className="font-mono-jb text-[10px] text-muted-foreground">{agent.designation}</span>
+      {/* Premium Header */}
+      <header className="shrink-0 relative" style={{ background: "linear-gradient(180deg, hsl(var(--card)) 0%, hsl(var(--background)) 100%)" }}>
+        {/* Top glow line */}
+        <div className="absolute top-0 inset-x-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent 0%, ${accentColor}40 50%, transparent 100%)` }} />
+
+        <div className="flex items-center gap-3 px-3 sm:px-4 py-2.5 sm:py-3">
+          <Link to="/" className="p-1.5 rounded-lg hover:bg-muted transition-colors text-foreground shrink-0">
+            <ArrowLeft size={18} />
+          </Link>
+
+          {/* Agent identity */}
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            <div className="relative">
+              <AgentAvatar agentId={agent.id} color={agent.color} size={36} showGlow={false} />
+              <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-background animate-pulse" style={{ backgroundColor: "#00FF88" }} />
+            </div>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <h1 className="font-syne font-bold text-base sm:text-lg text-foreground truncate">{agent.name}</h1>
+                <span className="font-mono text-[9px] px-1.5 py-0.5 rounded-full border border-border text-muted-foreground shrink-0">{agent.designation}</span>
+              </div>
+              <p className="text-xs font-jakarta truncate" style={{ color: accentColor }}>{agent.role}</p>
+            </div>
           </div>
-          <p className="text-[11px] font-jakarta truncate" style={{ color: agent.color }}>{agent.role}</p>
+
+          {/* Right actions */}
+          <div className="flex items-center gap-1.5 shrink-0">
+            {/* Templates button (legacy modal) */}
+            {hasTemplates && !hasTemplateTab && (
+              <LockedButton feature="templates" onClick={() => setTemplateModalOpen(true)}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors hover:opacity-80"
+                style={{ color: accentColor, border: `1px solid ${accentColor}25` }}>
+                <LayoutGrid size={12} />
+              </LockedButton>
+            )}
+
+            <LanguageSelector agentColor={agent.color} />
+            <ConversationExport messages={messages} agentName={agent.name} agentDesignation={agent.designation} agentColor={agent.color} />
+
+            {/* Brand badge */}
+            {brandProfile ? (
+              <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium"
+                style={{ backgroundColor: accentColor + "12", color: accentColor, border: `1px solid ${accentColor}20` }}>
+                <Globe size={11} />
+                <span className="max-w-[60px] truncate">{brandName}</span>
+                <button onClick={() => { setBrandProfile(null); setBrandName(null); sessionStorage.removeItem("assembl_brand_profile"); sessionStorage.removeItem("assembl_brand_name"); }} className="hover:opacity-70 ml-0.5"><X size={10} /></button>
+              </div>
+            ) : (
+              <LockedButton feature="brand_scan" onClick={() => setBrandModalOpen(true)}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors hover:opacity-80"
+                style={{ color: accentColor, border: `1px solid ${accentColor}25` }}>
+                <Globe size={12} />
+              </LockedButton>
+            )}
+
+            {/* Logo badge */}
+            {brandLogoUrl ? (
+              <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium"
+                style={{ backgroundColor: accentColor + "12", color: accentColor, border: `1px solid ${accentColor}20` }}>
+                <img src={brandLogoUrl} alt="Logo" className="w-4 h-4 rounded-sm object-contain" />
+                <button onClick={() => { setBrandLogoUrl(null); sessionStorage.removeItem("assembl_brand_logo"); }} className="hover:opacity-70"><X size={10} /></button>
+              </div>
+            ) : (
+              <LockedButton feature="brand_scan" onClick={() => logoInputRef.current?.click()}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors hover:opacity-80"
+                style={{ color: accentColor, border: `1px solid ${accentColor}25` }}>
+                {isUploadingLogo ? <Loader2 size={12} className="animate-spin" /> : <Upload size={12} />}
+              </LockedButton>
+            )}
+
+            {showMsgCounter && (
+              <span className="text-[10px] font-mono px-2 py-1 rounded-full border border-border text-muted-foreground">{remaining}/{dailyLimit}</span>
+            )}
+
+            <AgentMemoryPanel agentId={agentId!} agentColor={agent.color} agentName={agent.name} />
+            <ActionQueuePanel agentColor={agent.color} />
+            <AccountDropdown />
+          </div>
         </div>
 
-        {/* Templates button (legacy modal for non-tab agents) */}
-        {hasTemplates && !hasTemplateTab && (
-          <LockedButton
-            feature="templates"
-            onClick={() => setTemplateModalOpen(true)}
-            className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-medium transition-colors hover:opacity-80 shrink-0"
-            style={{ color: agent.color, border: `1px solid ${agent.color}20` }}
-            title="View templates"
-          >
-            <LayoutGrid size={10} />
-            <span className="hidden sm:inline">Templates</span>
-          </LockedButton>
-        )}
-
-        {/* Language Selector */}
-        <LanguageSelector agentColor={agent.color} />
-
-        {/* Conversation Export */}
-        <ConversationExport messages={messages} agentName={agent.name} agentDesignation={agent.designation} agentColor={agent.color} />
-
-        {/* Brand badge or add button */}
-        {brandProfile ? (
-          <div
-            className="flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-medium shrink-0"
-            style={{ backgroundColor: agent.color + "15", color: agent.color, border: `1px solid ${agent.color}25` }}
-          >
-            <Globe size={10} />
-            <span className="max-w-[60px] truncate">{brandName}</span>
-            <button onClick={() => { setBrandProfile(null); setBrandName(null); sessionStorage.removeItem("assembl_brand_profile"); sessionStorage.removeItem("assembl_brand_name"); }} className="hover:opacity-70 ml-0.5">
-              <X size={10} />
-            </button>
-          </div>
-        ) : (
-          <LockedButton
-            feature="brand_scan"
-            onClick={() => setBrandModalOpen(true)}
-            className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-medium transition-colors hover:opacity-80 shrink-0"
-            style={{ color: agent.color, border: `1px solid ${agent.color}20` }}
-            title="Add your website for tailored advice"
-          >
-            <Globe size={10} />
-          </LockedButton>
-        )}
-
-        {/* Logo upload badge or add button */}
-        {brandLogoUrl ? (
-          <div
-            className="flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-medium shrink-0"
-            style={{ backgroundColor: agent.color + "15", color: agent.color, border: `1px solid ${agent.color}25` }}
-          >
-            <img src={brandLogoUrl} alt="Logo" className="w-3.5 h-3.5 rounded-sm object-contain" />
-            <span>Logo</span>
-            <button onClick={() => { setBrandLogoUrl(null); sessionStorage.removeItem("assembl_brand_logo"); }} className="hover:opacity-70 ml-0.5">
-              <X size={10} />
-            </button>
-          </div>
-        ) : (
-          <LockedButton
-            feature="brand_scan"
-            onClick={() => logoInputRef.current?.click()}
-            className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-medium transition-colors hover:opacity-80 shrink-0"
-            style={{ color: agent.color, border: `1px solid ${agent.color}20` }}
-            title="Upload your logo for branded documents"
-          >
-            {isUploadingLogo ? <Loader2 size={10} className="animate-spin" /> : <Upload size={10} />}
-            <span className="hidden sm:inline">Logo</span>
-          </LockedButton>
-        )}
-
-        {/* Tab Toggle */}
-        {(hasTemplateTab || isHelm || isMarketing || isConstruction || true) && (
-          <div className="flex rounded-lg overflow-x-auto border border-border shrink-0 max-w-[45vw] sm:max-w-fit scrollbar-hide">
+        {/* Tab Navigation Bar */}
+        <div className="px-2 sm:px-3 pb-2 overflow-x-auto scrollbar-hide">
+          <div className="flex items-center gap-1.5">
+            {/* Chat tab (always first) */}
             <button
               onClick={() => { setActiveTab("chat"); if (isHelm) setHelmView("chat"); }}
-              className="px-2.5 py-1 text-[10px] font-medium transition-colors"
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap shrink-0"
               style={{
-                backgroundColor: activeTab === "chat" && (!isHelm || helmView === "chat") ? agent.color + "20" : "transparent",
-                color: activeTab === "chat" && (!isHelm || helmView === "chat") ? agent.color : "hsl(var(--muted-foreground))",
+                backgroundColor: activeTab === "chat" && (!isHelm || helmView === "chat") ? accentColor + "20" : "hsl(var(--muted) / 0.3)",
+                color: activeTab === "chat" && (!isHelm || helmView === "chat") ? accentColor : "hsl(var(--muted-foreground))",
+                border: activeTab === "chat" && (!isHelm || helmView === "chat") ? `1px solid ${accentColor}35` : "1px solid transparent",
+                boxShadow: activeTab === "chat" && (!isHelm || helmView === "chat") ? `0 0 12px ${accentColor}15` : "none",
               }}
-            >Chat</button>
-            {(hasTemplateTab) && (
-              <button
-                onClick={() => { setActiveTab("templates"); if (isHelm) setHelmView("chat"); }}
-                className="px-2.5 py-1 text-[10px] font-medium transition-colors"
-                style={{
-                  backgroundColor: activeTab === "templates" ? agent.color + "20" : "transparent",
-                  color: activeTab === "templates" ? agent.color : "hsl(var(--muted-foreground))",
-                }}
-              >Templates</button>
-            )}
-            {isMarketing && (
-              <button
-                onClick={() => setActiveTab("content_studio")}
-                className="px-2.5 py-1 text-[10px] font-medium transition-colors flex items-center gap-1"
-                style={{
-                  backgroundColor: activeTab === "content_studio" ? agent.color + "20" : "transparent",
-                  color: activeTab === "content_studio" ? agent.color : "hsl(var(--muted-foreground))",
-                }}
-              ><Sparkles size={10} /> Content Studio</button>
-            )}
-            {isConstruction && (
-              <>
-                <button onClick={() => setActiveTab("tender_writer")} className="px-2 py-1 text-[10px] font-medium transition-colors flex items-center gap-1"
-                  style={{ backgroundColor: activeTab === "tender_writer" ? agent.color + "20" : "transparent", color: activeTab === "tender_writer" ? agent.color : "hsl(var(--muted-foreground))" }}>
-                  <FileText size={9} /> Tenders
-                </button>
-                <button onClick={() => setActiveTab("awards")} className="px-2 py-1 text-[10px] font-medium transition-colors flex items-center gap-1"
-                  style={{ backgroundColor: activeTab === "awards" ? agent.color + "20" : "transparent", color: activeTab === "awards" ? agent.color : "hsl(var(--muted-foreground))" }}>
-                  <Trophy size={9} /> Awards
-                </button>
-                <button onClick={() => setActiveTab("hs_hub")} className="px-2 py-1 text-[10px] font-medium transition-colors flex items-center gap-1"
-                  style={{ backgroundColor: activeTab === "hs_hub" ? agent.color + "20" : "transparent", color: activeTab === "hs_hub" ? agent.color : "hsl(var(--muted-foreground))" }}>
-                  <Shield size={9} /> H&S
-                </button>
-                <button onClick={() => setActiveTab("esg")} className="px-2 py-1 text-[10px] font-medium transition-colors flex items-center gap-1"
-                  style={{ backgroundColor: activeTab === "esg" ? agent.color + "20" : "transparent", color: activeTab === "esg" ? agent.color : "hsl(var(--muted-foreground))" }}>
-                  <Leaf size={9} /> ESG
-                </button>
-              </>
-            )}
-            {isForge && (
-              <>
-                {([
-                  { id: "forge_showroom" as const, label: "Showroom" },
-                  { id: "forge_sales" as const, label: "Sales" },
-                  { id: "forge_parts" as const, label: "Parts" },
-                  { id: "forge_marketing" as const, label: "Marketing" },
-                  { id: "forge_events" as const, label: "Events" },
-                  { id: "forge_team" as const, label: "Team" },
-                  { id: "forge_brand" as const, label: "Brand Hub" },
-                ]).map(t => (
-                  <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
-                    style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
-                    {t.label}
-                  </button>
-                ))}
-              </>
-            )}
-            {isAroha && (
-              <>
-                {([
-                  { id: "aroha_contracts" as const, label: "Contracts" },
-                  { id: "aroha_onboarding" as const, label: "Onboarding" },
-                  { id: "aroha_payroll" as const, label: "Payroll" },
-                  { id: "aroha_recruitment" as const, label: "Recruitment" },
-                  { id: "aroha_people" as const, label: "People" },
-                  { id: "aroha_company" as const, label: "Setup" },
-                ]).map(t => (
-                  <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
-                    style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
-                    {t.label}
-                  </button>
-                ))}
-              </>
-            )}
-            {isAura && (
-              <>
-                <select
-                  value={auraPropertyMode}
-                  onChange={(e) => { setAuraPropertyMode(e.target.value); sessionStorage.setItem("aura_property_mode", e.target.value); }}
-                  className="px-2 py-1 rounded-md text-[10px] font-medium bg-transparent border shrink-0 cursor-pointer focus:outline-none"
-                  style={{ borderColor: agent.color + "40", color: agent.color }}
-                >
-                  <option value="luxury_lodge" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Luxury Lodge</option>
-                  <option value="boutique_hotel" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Boutique Hotel</option>
-                  <option value="restaurant_bar" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Restaurant / Bar</option>
-                  <option value="cafe" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Café</option>
-                  <option value="accommodation" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Accommodation (B&B)</option>
-                  <option value="catering_events" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Catering & Events</option>
-                </select>
-                <div className="w-px h-4 bg-border shrink-0" />
-                {([
-                  { id: "aura_reservations" as const, label: "Reservations" },
-                  { id: "aura_guest" as const, label: "Guest Exp" },
-                  { id: "aura_memory" as const, label: "Guest CRM" },
-                  { id: "aura_kitchen" as const, label: "Kitchen" },
-                  { id: "aura_marketing" as const, label: "Marketing" },
-                  { id: "aura_events" as const, label: "Events" },
-                  { id: "aura_operations" as const, label: "Operations" },
-                  { id: "aura_revenue" as const, label: "Revenue" },
-                  { id: "aura_team" as const, label: "Team" },
-                  { id: "aura_sustainability" as const, label: "Sustain" },
-                  { id: "aura_trade" as const, label: "Trade" },
-                  { id: "aura_setup" as const, label: "Setup" },
-                ]).map(t => (
-                  <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
-                    style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
-                    {t.label}
-                  </button>
-                ))}
-              </>
-            )}
-            {isHaven && (
-              <>
-                {([
-                  { id: "haven_dashboard" as const, label: "Dashboard" },
-                  { id: "haven_properties" as const, label: "Properties" },
-                  { id: "haven_jobs" as const, label: "Jobs" },
-                  { id: "haven_tradies" as const, label: "Tradies" },
-                  { id: "haven_command" as const, label: "Command" },
-                  { id: "haven_compliance" as const, label: "Compliance" },
-                  { id: "haven_costs" as const, label: "Costs" },
-                  { id: "haven_documents" as const, label: "Docs" },
-                  { id: "haven_notifications" as const, label: "Alerts" },
-                ]).map(t => (
-                  <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
-                    style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
-                    {t.label}
-                  </button>
-                ))}
-              </>
-            )}
-            {isFlux && (
-              <>
-                {([
-                  { id: "flux_pipeline" as const, label: "Pipeline" },
-                  { id: "flux_followups" as const, label: "Follow-Ups" },
-                  { id: "flux_clients" as const, label: "Clients" },
-                ]).map(t => (
-                  <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
-                    style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
-                    {t.label}
-                  </button>
-                ))}
-              </>
-            )}
-            {isPrism && (
-              <>
-                {([
-                  { id: "prism_campaigns" as const, label: "Campaigns" },
-                  { id: "prism_social" as const, label: "Social" },
-                  { id: "prism_brand" as const, label: "Brand Voice" },
-                  { id: "prism_creative" as const, label: "Creative" },
-                  { id: "prism_ads" as const, label: "Ad Studio" },
-                  { id: "prism_product" as const, label: "Product" },
-                  { id: "prism_video" as const, label: "Video" },
-                  { id: "prism_brandlab" as const, label: "Brand Lab" },
-                  { id: "prism_publisher" as const, label: "Publisher" },
-                ]).map(t => (
-                  <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
-                    style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
-                    {t.label}
-                  </button>
-                ))}
-              </>
-            )}
-            {isNonprofit && (
-              <>
-                {([
-                  { id: "kindle_writer" as const, label: "Campaign Writer" },
-                  { id: "kindle_marketplace" as const, label: "Marketplace" },
-                  { id: "kindle_impact" as const, label: "Impact" },
-                  { id: "kindle_corporate" as const, label: "Corporate" },
-                ]).map(t => (
-                  <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
-                    style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
-                    {t.label}
-                  </button>
-                ))}
-              </>
-            )}
-            {isAxis && (
-              <>
-                {([
-                  { id: "axis_automations" as const, label: "Automations" },
-                ]).map(t => (
-                  <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
-                    style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
-                    {t.label}
-                  </button>
-                ))}
-              </>
-            )}
-            {/* Agent Training tab for all agents */}
-            <button onClick={() => setActiveTab("agent_training")} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
-              style={{ backgroundColor: activeTab === "agent_training" ? agent.color + "20" : "transparent", color: activeTab === "agent_training" ? agent.color : "hsl(var(--muted-foreground))" }}>
-              Train
+            >
+              <MessageSquare size={14} />
+              Chat
             </button>
-            {!isHelm && agentId !== "maritime" && (
-              <button onClick={() => setActiveTab("internal_comms")} className="px-2 py-1 text-[10px] font-medium transition-colors flex items-center gap-1"
-                style={{ backgroundColor: activeTab === "internal_comms" ? agent.color + "20" : "transparent", color: activeTab === "internal_comms" ? agent.color : "hsl(var(--muted-foreground))" }}>
-                <MessageSquare size={9} /> Comms
+
+            {/* Aura property mode selector */}
+            {isAura && (
+              <select
+                value={auraPropertyMode}
+                onChange={(e) => { setAuraPropertyMode(e.target.value); sessionStorage.setItem("aura_property_mode", e.target.value); }}
+                className="px-3 py-2 rounded-xl text-xs font-medium bg-muted/30 border cursor-pointer focus:outline-none shrink-0"
+                style={{ borderColor: accentColor + "30", color: accentColor }}
+              >
+                <option value="luxury_lodge" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Luxury Lodge</option>
+                <option value="boutique_hotel" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Boutique Hotel</option>
+                <option value="restaurant_bar" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Restaurant / Bar</option>
+                <option value="cafe" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Café</option>
+                <option value="accommodation" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Accommodation (B&B)</option>
+                <option value="catering_events" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Catering & Events</option>
+              </select>
+            )}
+
+            {/* Agent-specific tabs */}
+            {agentTabs.map(t => (
+              <button
+                key={t.id}
+                onClick={() => setActiveTab(t.id as any)}
+                className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all whitespace-nowrap shrink-0"
+                style={{
+                  backgroundColor: activeTab === t.id ? accentColor + "20" : "hsl(var(--muted) / 0.3)",
+                  color: activeTab === t.id ? accentColor : "hsl(var(--muted-foreground))",
+                  border: activeTab === t.id ? `1px solid ${accentColor}35` : "1px solid transparent",
+                  boxShadow: activeTab === t.id ? `0 0 12px ${accentColor}15` : "none",
+                }}
+              >
+                {t.icon}
+                {t.label}
               </button>
-            )}
-            {isHelm && (
-              <>
-                {([
-                  { id: "helm_week" as const, label: "This Week" },
-                  { id: "helm_bus" as const, label: "Bus" },
-                  { id: "helm_timetable" as const, label: "Timetable" },
-                  { id: "helm_inbox" as const, label: "Inbox" },
-                  { id: "helm_review" as const, label: "Review" },
-                  { id: "helm_rescue" as const, label: "Rescue" },
-                  { id: "helm_settings" as const, label: "Settings" },
-                ]).map(t => (
-                  <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
-                    style={{ backgroundColor: activeTab === t.id ? HELM_COLOR + "20" : "transparent", color: activeTab === t.id ? HELM_COLOR : "hsl(var(--muted-foreground))" }}>
-                    {t.label}
-                  </button>
-                ))}
-              </>
-            )}
+            ))}
           </div>
-        )}
-
-        {/* Message counter for free users */}
-        {showMsgCounter && (
-          <span className="text-[9px] font-mono-jb px-2 py-1 rounded-full border border-border text-muted-foreground shrink-0">
-            {remaining}/{dailyLimit}
-          </span>
-        )}
-
-        {/* Memory & Action Queue */}
-        <AgentMemoryPanel agentId={agentId!} agentColor={agent.color} agentName={agent.name} />
-        <ActionQueuePanel agentColor={agent.color} />
-
-        <div className="flex items-center gap-1.5 shrink-0">
-          <span className="w-2 h-2 rounded-full animate-pulse-glow" style={{ backgroundColor: "#00FF88", boxShadow: "0 0 6px #00FF88" }} />
-          <span className="text-[10px] font-mono-jb text-foreground/50">LIVE</span>
         </div>
 
-        <AccountDropdown />
+        {/* Bottom border glow */}
+        <div className="h-[1px]" style={{ background: `linear-gradient(90deg, transparent 0%, ${accentColor}20 30%, ${accentColor}20 70%, transparent 100%)` }} />
       </header>
 
       {/* Hidden logo file input */}
