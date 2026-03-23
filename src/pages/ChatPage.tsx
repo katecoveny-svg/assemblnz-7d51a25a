@@ -1642,7 +1642,7 @@ const ChatPage = () => {
                           ))}
                         </div>
                         <span className="text-[11px] font-jakarta" style={{ color: agent.color + "90" }}>
-                          {(() => { const m = (await import("@/engine/personality")).AGENT_LOADING_MESSAGES; return m[agent.id] || "Thinking…"; })()}
+                          {AGENT_LOADING_MESSAGES[agent.id] || "Thinking…"}
                         </span>
                       </div>
                     </div>
