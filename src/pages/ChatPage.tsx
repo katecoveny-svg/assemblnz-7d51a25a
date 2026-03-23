@@ -100,7 +100,7 @@ import HelmReview from "@/components/helm/HelmReview";
 import HelmRescue from "@/components/helm/HelmRescue";
 import HelmSettings from "@/components/helm/HelmSettings";
 import AgentTraining from "@/components/shared/AgentTraining";
-import VoiceAgentWaitlist from "@/components/VoiceAgentWaitlist";
+import VoiceAgentLive from "@/components/VoiceAgentLive";
 import SparkTemplateGrid from "@/components/spark/SparkTemplateGrid";
 import KindleCampaignWriter from "@/components/kindle/KindleCampaignWriter";
 import KindleMarketplace from "@/components/kindle/KindleMarketplace";
@@ -753,7 +753,7 @@ const ChatPage = () => {
       });
     }
     // Voice Agent waitlist tab for eligible agents
-    if (["hospitality", "property", "automotive", "sales"].includes(agentId || "")) {
+    if (["hospitality", "property", "automotive", "sales", "aura", "haven", "forge", "flux"].includes(agentId || "")) {
       tabs.push({ id: "voice_waitlist", label: "Voice", icon: <Mic size={13} /> });
     }
     tabs.push({ id: "agent_training", label: "Train", icon: <Brain size={13} /> });
@@ -1341,7 +1341,7 @@ const ChatPage = () => {
       ) : activeTab === "kindle_corporate" && isNonprofit ? (
         <KindleCorporateDashboard onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "voice_waitlist" ? (
-        <VoiceAgentWaitlist agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
+        <VoiceAgentLive agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
       ) : activeTab === "agent_training" ? (
         <AgentTraining agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
       ) : activeTab === "aura_setup" && isAura ? (
