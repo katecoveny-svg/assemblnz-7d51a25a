@@ -103,22 +103,33 @@ const AgentAvatar = ({ agentId, color, size = 40, showGlow = true }: AgentAvatar
 
   if (avatarSrc) {
     return (
-      <div className="relative" style={{ width: size, height: size }}>
+      <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
         {showGlow && (
           <div
-            className="absolute inset-0 rounded-full blur-md opacity-40"
+            className="absolute inset-[-4px] rounded-full blur-lg opacity-50"
             style={{ background: color }}
           />
         )}
-        <img
-          src={avatarSrc}
-          alt=""
-          className="relative w-full h-full object-cover rounded-lg"
+        <div
+          className="relative rounded-xl overflow-hidden"
           style={{
-            filter: `drop-shadow(0 0 6px ${color}60)`,
+            width: size,
+            height: size,
+            border: `2px solid ${color}50`,
+            boxShadow: `0 0 16px ${color}40, 0 0 32px ${color}20`,
+            background: 'hsl(var(--card))',
           }}
-          loading="lazy"
-        />
+        >
+          <img
+            src={avatarSrc}
+            alt=""
+            className="w-full h-full object-cover"
+            style={{
+              filter: `drop-shadow(0 0 8px ${color}80) brightness(1.1) contrast(1.05)`,
+            }}
+            loading="lazy"
+          />
+        </div>
       </div>
     );
   }
