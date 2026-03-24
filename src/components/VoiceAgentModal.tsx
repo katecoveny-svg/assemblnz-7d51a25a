@@ -84,8 +84,8 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
     prevOpenRef.current = open;
 
     if (wasOpen && !open) {
-      // Modal is closing — save transcript before clearing
-      if (transcript.length > 0 && onHandoffToChat) {
+      // Modal is closing — save transcript before clearing if not already handoff'd
+      if (transcript.length > 0 && onHandoffToChat && !handoffDoneRef?.current) {
         onHandoffToChat(transcript);
       }
       if (conversation.status === "connected") conversation.endSession();
@@ -98,6 +98,7 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
       setFallbackSpeaking(false);
       setLiveTranscript("");
       contextSentRef.current = false;
+      if (handoffDoneRef) handoffDoneRef.current = false;
     }
   }, [open]);
 
