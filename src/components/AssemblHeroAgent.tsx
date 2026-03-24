@@ -268,21 +268,18 @@ const AssemblHeroAgent = ({ size = 420 }: { size?: number }) => {
           draggable={false}
         />
 
-        {/* Nexus logo on chest */}
-        <NexusLogo size={size} />
-
-        {/* Chest glow */}
+        {/* Subtle chest logo glow — matches the baked-in nexus mark */}
         <motion.div
           className="absolute z-[15] rounded-full"
           style={{
-            width: size * 0.09, height: size * 0.09,
-            top: "58%", left: "50%",
+            width: size * 0.06, height: size * 0.06,
+            top: "62%", left: "50%",
             transform: "translate(-50%, -50%)",
-            background: `radial-gradient(circle, hsla(189,100%,50%,0.5), hsla(224,100%,68%,0.3), transparent 70%)`,
-            filter: "blur(6px)",
+            background: `radial-gradient(circle, hsla(189,100%,50%,0.25), transparent 70%)`,
+            filter: "blur(8px)",
           }}
-          animate={{ opacity: [0.3, 1, 0.3], scale: [1, 1.6, 1] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          animate={{ opacity: [0.2, 0.5, 0.2] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
         />
       </motion.div>
 
