@@ -4,6 +4,7 @@ import AgentShowcase from "@/components/AgentShowcase";
 import AssemblHeroAgent from "@/components/AssemblHeroAgent";
 import AnimatedAssemblLogo from "@/components/AnimatedAssemblLogo";
 import { Link } from "react-router-dom";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface AnimatedHeroProps {
   onScrollToGrid: () => void;
