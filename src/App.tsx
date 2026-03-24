@@ -45,6 +45,7 @@ const WorkflowSettings = lazy(() => import("./pages/WorkflowSettings"));
 const IntegrationHub = lazy(() => import("./pages/IntegrationHub"));
 const WelcomePage = lazy(() => import("./pages/WelcomePage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
+const OnboardingPage = lazy(() => import("./pages/OnboardingPage"));
 
 const queryClient = new QueryClient();
 
@@ -88,6 +89,7 @@ const App = () => (
                   <Route path="/settings/integrations" element={<Suspense fallback={null}><IntegrationHub /></Suspense>} />
                   <Route path="/welcome" element={<Suspense fallback={null}><WelcomePage /></Suspense>} />
                   <Route path="/about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
+                  <Route path="/onboarding" element={<Suspense fallback={null}><OnboardingPage /></Suspense>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
