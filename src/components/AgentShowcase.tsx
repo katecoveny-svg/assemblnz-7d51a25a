@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
+import { Mic } from "lucide-react";
 import AgentAvatar from "@/components/AgentAvatar";
 import { agents } from "@/data/agents";
+import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 
 const FEATURED_IDS = [
   "hospitality", "sales", "automotive", "marketing", "operations",
