@@ -77,9 +77,17 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
     }
   }, [conversation.status, isConversationalMode]);
 
-  // Clean up on close
+  // Auto-save transcript on disconnect so voice data is never lost
+  const prevOpenRef = useRef(open);
   useEffect(() => {
-    if (!open) {
+    const wasOpen = prevOpenRef.current;
+    prevOpenRef.current = open;
+
+    if (wasOpen && !open) {
+      // Modal is closing — save transcript before clearing
+      if (transcript.length > 0 && onHandoffToChat) {
+        onHandoffToChat(transcript);
+      }
       if (conversation.status === "connected") conversation.endSession();
       recognitionRef.current?.stop();
       audioRef.current?.pause();
@@ -92,6 +100,18 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
       contextSentRef.current = false;
     }
   }, [open]);
+
+  // Also save transcript when ElevenLabs disconnects unexpectedly
+  const prevStatusRef = useRef(conversation.status);
+  useEffect(() => {
+    const wasConnected = prevStatusRef.current === "connected";
+    prevStatusRef.current = conversation.status;
+
+    if (wasConnected && conversation.status !== "connected" && transcript.length > 0 && onHandoffToChat) {
+      onHandoffToChat(transcript);
+      toast.info("Voice session ended — conversation saved to chat");
+    }
+  }, [conversation.status]);
 
   // ── Handoff to text chat ──
   const handleHandoffToChat = useCallback(() => {
