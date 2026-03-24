@@ -1886,6 +1886,17 @@ const ChatPage = () => {
         agentName={agent.name}
         agentColor={accentColor}
         elevenLabsAgentId={getElevenLabsAgentId(agent.id)}
+        onHandoffToChat={(voiceTranscript) => {
+          // Inject voice conversation context into text chat
+          const contextSummary = voiceTranscript
+            .map(t => `${t.role === "user" ? "User" : agent.name}: ${t.text}`)
+            .join("\n");
+          const handoffMessage: Message = {
+            role: "assistant",
+            content: `📞 **Voice conversation transferred** — here's what we discussed:\n\n${voiceTranscript.slice(-6).map(t => `> **${t.role === "user" ? "You" : agent.name}:** ${t.text}`).join("\n>\n")}\n\nI'm ready to continue here. You can now upload documents, images, or use any of my full capabilities. What would you like to do next?`,
+          };
+          setMessages(prev => [...prev, handoffMessage]);
+        }}
       />
     </div>
   );
