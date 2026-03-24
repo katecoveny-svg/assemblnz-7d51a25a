@@ -52,6 +52,18 @@ interface ContactSubmission {
   created_at: string;
 }
 
+interface DocumentItem {
+  id: string;
+  agent_id: string;
+  agent_name: string;
+  title: string;
+  output_type: string;
+  format: string | null;
+  content_preview: string | null;
+  created_at: string;
+  user_id: string;
+}
+
 const ROLES = ["free", "starter", "pro", "business", "admin"];
 
 const AdminDashboard = () => {
