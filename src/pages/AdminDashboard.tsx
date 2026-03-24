@@ -103,6 +103,7 @@ const AdminDashboard = () => {
       adminCall("get_agent_status"),
       adminCall("get_activity_feed"),
       adminCall("get_contact_submissions"),
+      supabase.from("exported_outputs").select("*").order("created_at", { ascending: false }).limit(500),
     ]);
     if (results[0].status === "fulfilled") setMetrics(results[0].value);
     else console.error("Failed to load metrics:", results[0].reason);
@@ -114,6 +115,10 @@ const AdminDashboard = () => {
     else console.error("Failed to load activity:", results[3].reason);
     if (results[4].status === "fulfilled") setSubmissions(results[4].value || []);
     else console.error("Failed to load submissions:", results[4].reason);
+    if (results[5].status === "fulfilled") {
+      const docResult = results[5].value as any;
+      setDocuments(docResult.data || []);
+    }
     setLoadingData(false);
   }, [adminCall]);
 
