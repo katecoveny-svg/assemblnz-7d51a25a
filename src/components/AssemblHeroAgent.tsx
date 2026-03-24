@@ -37,7 +37,7 @@ const NexusLogo = ({ size }: { size: number }) => {
   );
 };
 
-const AssemblHeroAgent = ({ size = 200 }: { size?: number }) => {
+const AssemblHeroAgent = ({ size = 280 }: { size?: number }) => {
   return (
     <motion.div
       className="relative inline-flex items-center justify-center"
