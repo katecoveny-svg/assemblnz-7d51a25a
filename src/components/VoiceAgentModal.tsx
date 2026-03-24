@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useConversation } from "@elevenlabs/react";
-import { X, Mic, MicOff, Phone, PhoneOff, Loader2, Volume2 } from "lucide-react";
+import { X, Mic, Phone, PhoneOff, Loader2, MessageSquare } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
@@ -11,15 +11,18 @@ interface Props {
   agentId: string;
   agentName: string;
   agentColor: string;
-  /** Optional ElevenLabs Conversational AI agent ID. If provided, uses real-time conversational mode. */
   elevenLabsAgentId?: string;
+  onHandoffToChat?: (transcript: { role: "user" | "agent"; text: string }[]) => void;
 }
 
-const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, elevenLabsAgentId }: Props) => {
+const PLATFORM_CONTEXT = `You are part of the Assembl platform. If the user needs to upload documents, scan invoices, share images, or perform any file-based task, let them know they can switch to the text chat where document upload and scanning is available. Say something like "I can help you with that — for document uploads, tap the 'Continue in Chat' button below and I'll pick up right where we left off." You can also suggest handoffs to other specialist agents on the platform when relevant.`;
+
+const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, elevenLabsAgentId, onHandoffToChat }: Props) => {
   const { user } = useAuth();
   const [isConnecting, setIsConnecting] = useState(false);
   const [transcript, setTranscript] = useState<{ role: "user" | "agent"; text: string }[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const contextSentRef = useRef(false);
 
   // ── ElevenLabs Conversational AI mode ──
   const conversation = useConversation({
@@ -62,6 +65,18 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [transcript]);
 
+  // Send platform context after connection established
+  useEffect(() => {
+    if (isConversationalMode && conversation.status === "connected" && !contextSentRef.current) {
+      try {
+        conversation.sendContextualUpdate(PLATFORM_CONTEXT);
+        contextSentRef.current = true;
+      } catch (e) {
+        console.warn("Could not send contextual update:", e);
+      }
+    }
+  }, [conversation.status, isConversationalMode]);
+
   // Clean up on close
   useEffect(() => {
     if (!open) {
@@ -74,8 +89,25 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
       setFallbackProcessing(false);
       setFallbackSpeaking(false);
       setLiveTranscript("");
+      contextSentRef.current = false;
     }
   }, [open]);
+
+  // ── Handoff to text chat ──
+  const handleHandoffToChat = useCallback(() => {
+    if (onHandoffToChat && transcript.length > 0) {
+      onHandoffToChat(transcript);
+    }
+    // End voice session
+    if (isConversationalMode && conversation.status === "connected") {
+      conversation.endSession();
+    } else {
+      recognitionRef.current?.stop();
+      audioRef.current?.pause();
+    }
+    onClose();
+    toast.success("Conversation transferred to text chat");
+  }, [transcript, onHandoffToChat, isConversationalMode, conversation, onClose]);
 
   // ── Start Conversational AI session ──
   const startConversational = useCallback(async () => {
@@ -147,7 +179,6 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
     setTranscript(prev => [...prev, { role: "user", text }]);
     setFallbackProcessing(true);
     try {
-      // Build messages array matching the chat function's expected format
       const historyMessages = transcript.slice(-6).map(r => ({
         role: r.role === "user" ? "user" : "assistant",
         content: r.text,
@@ -240,9 +271,22 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
               </p>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 rounded-lg hover:bg-white/5 transition-colors">
-            <X size={16} className="text-muted-foreground" />
-          </button>
+          <div className="flex items-center gap-1">
+            {/* Handoff to chat button */}
+            {transcript.length > 0 && (
+              <button
+                onClick={handleHandoffToChat}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-medium transition-all hover:scale-105"
+                style={{ background: `${agentColor}15`, border: `1px solid ${agentColor}30`, color: agentColor }}
+                title="Continue this conversation in text chat with document upload"
+              >
+                <MessageSquare size={12} /> Continue in Chat
+              </button>
+            )}
+            <button onClick={onClose} className="p-2 rounded-lg hover:bg-white/5 transition-colors">
+              <X size={16} className="text-muted-foreground" />
+            </button>
+          </div>
         </div>
 
         {/* Visualiser */}
@@ -313,6 +357,15 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {/* Handoff hint */}
+        {isConnected && transcript.length >= 2 && (
+          <div className="mx-4 mb-3 px-3 py-2 rounded-lg text-center" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
+            <p className="text-[9px] text-muted-foreground">
+              Need to upload documents or images? <button onClick={handleHandoffToChat} className="font-medium underline" style={{ color: agentColor }}>Continue in text chat →</button>
+            </p>
           </div>
         )}
 
