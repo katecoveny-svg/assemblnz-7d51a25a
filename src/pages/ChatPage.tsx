@@ -121,6 +121,11 @@ interface Message {
   fileName?: string;
 }
 
+type VoiceTranscriptTurn = {
+  role: "user" | "agent";
+  text: string;
+};
+
 interface ThreeDGeneration {
   id: string;
   messageIndex: number;
@@ -357,6 +362,7 @@ const ChatPage = () => {
   const [auraPropertyMode, setAuraPropertyMode] = useState<string>(() => sessionStorage.getItem("aura_property_mode") || "luxury_lodge");
   const [selectedModel, setSelectedModel] = useState<string>(() => sessionStorage.getItem("assembl_ai_model") || "gemini-flash");
   const [voiceModalOpen, setVoiceModalOpen] = useState(false);
+  const [historyReady, setHistoryReady] = useState(false);
 
   // NEXUS Job Sheet workflow state
   const [nexusWorkflowActive, setNexusWorkflowActive] = useState(false);
@@ -388,6 +394,7 @@ const ChatPage = () => {
   const universalFileInputRef = useRef<HTMLInputElement>(null);
   const nexusFileInputRef = useRef<HTMLInputElement>(null);
   const pollingRef = useRef<Record<string, number>>({});
+  const processedVoiceHandoffRef = useRef<string | null>(null);
 
   const isArc = agentId === "architecture" || agentId === "construction";
   const isForge = agentId === "automotive";
@@ -484,7 +491,17 @@ const ChatPage = () => {
 
   // Load conversation history on mount
   useEffect(() => {
-    if (!user || !agentId) return;
+    if (!agentId) {
+      setHistoryReady(true);
+      return;
+    }
+
+    if (!user) {
+      setHistoryReady(true);
+      return;
+    }
+
+    setHistoryReady(false);
     supabase
       .from("conversations")
       .select("id, messages")
@@ -500,7 +517,8 @@ const ChatPage = () => {
             setMessages(conv.messages as Message[]);
           }
         }
-      });
+      })
+      .finally(() => setHistoryReady(true));
   }, [user, agentId]);
 
   // Save conversation when messages change
@@ -882,6 +900,21 @@ const ChatPage = () => {
     if (universalFileInputRef.current) universalFileInputRef.current.value = "";
   };
 
+  const buildVoiceHandoffPrompt = useCallback((voiceTranscript: VoiceTranscriptTurn[]) => {
+    const condensedTranscript = voiceTranscript
+      .slice(-12)
+      .map((entry) => `${entry.role === "user" ? "User" : agent.name}: ${entry.text}`)
+      .join("\n");
+
+    return [
+      "Continue from this voice conversation and save all concrete family details the user shared.",
+      "If the user listed schedules, pickups, drop-offs, reminders, school items, or recurring plans, treat them as instructions to capture and confirm back clearly.",
+      "",
+      "Voice transcript:",
+      condensedTranscript,
+    ].join("\n");
+  }, [agent.name]);
+
   const sendMessage = async (content: string, imageFile?: File | null, docFile?: File | null) => {
     if ((!content.trim() && !imageFile && !docFile) || isLoading) return;
 
@@ -1046,6 +1079,33 @@ const ChatPage = () => {
 
   const handleRefine = (refinement: string) => sendMessage(`Refine the 3D model: ${refinement}`);
   const handleAddReminder = (text: string) => setDashboardItems((prev) => [...prev, { type: "reminder", text }]);
+
+  useEffect(() => {
+    const handoffKey = searchParams.get("voiceHandoff");
+    if (!handoffKey || !historyReady || !agentId) return;
+    if (processedVoiceHandoffRef.current === handoffKey) return;
+
+    processedVoiceHandoffRef.current = handoffKey;
+
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.delete("voiceHandoff");
+    setSearchParams(nextParams, { replace: true });
+
+    const rawHandoff = sessionStorage.getItem(handoffKey);
+    if (!rawHandoff) return;
+
+    sessionStorage.removeItem(handoffKey);
+
+    try {
+      const parsed = JSON.parse(rawHandoff) as { agentId?: string; transcript?: VoiceTranscriptTurn[] };
+      if (parsed.agentId && parsed.agentId !== agentId) return;
+      if (!parsed.transcript?.length) return;
+
+      void sendMessage(buildVoiceHandoffPrompt(parsed.transcript));
+    } catch (error) {
+      console.error("Failed to restore voice handoff:", error);
+    }
+  }, [agentId, buildVoiceHandoffPrompt, historyReady, searchParams, sendMessage, setSearchParams]);
 
   const showWelcome = messages.length === 0;
   const getGenerationsForIndex = (idx: number) => generations.filter((g) => g.messageIndex === idx);
@@ -1918,15 +1978,8 @@ const ChatPage = () => {
         agentColor={accentColor}
         elevenLabsAgentId={getElevenLabsAgentId(agent.id)}
         onHandoffToChat={(voiceTranscript) => {
-          // Inject voice conversation context into text chat
-          const contextSummary = voiceTranscript
-            .map(t => `${t.role === "user" ? "User" : agent.name}: ${t.text}`)
-            .join("\n");
-          const handoffMessage: Message = {
-            role: "assistant",
-            content: `📞 **Voice conversation transferred** — here's what we discussed:\n\n${voiceTranscript.slice(-6).map(t => `> **${t.role === "user" ? "You" : agent.name}:** ${t.text}`).join("\n>\n")}\n\nI'm ready to continue here. You can now upload documents, images, or use any of my full capabilities. What would you like to do next?`,
-          };
-          setMessages(prev => [...prev, handoffMessage]);
+          if (voiceTranscript.length === 0) return;
+          void sendMessage(buildVoiceHandoffPrompt(voiceTranscript));
         }}
       />
     </div>
