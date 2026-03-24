@@ -68,6 +68,7 @@ import AuraRevenue from "@/components/aura/AuraRevenue";
 import AuraGuestMemory from "@/components/aura/AuraGuestMemory";
 import AuraSustainability from "@/components/aura/AuraSustainability";
 import AuraTrade from "@/components/aura/AuraTrade";
+import AuraPOS from "@/components/aura/AuraPOS";
 import InternalComms from "@/components/InternalComms";
 import HavenDashboard from "@/components/haven/HavenDashboard";
 import HavenProperties from "@/components/haven/HavenProperties";
