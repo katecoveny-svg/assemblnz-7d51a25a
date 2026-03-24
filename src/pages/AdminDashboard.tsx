@@ -9,6 +9,7 @@ import BrandFooter from "@/components/BrandFooter";
 import {
   Users, MessageSquare, DollarSign, TrendingUp, Shield,
   Trash2, RefreshCw, ChevronDown, ExternalLink, Mail, Eye, EyeOff,
+  FileText, Download, FolderOpen,
 } from "lucide-react";
 
 interface Metrics {
