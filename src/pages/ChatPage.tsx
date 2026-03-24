@@ -1758,8 +1758,8 @@ const ChatPage = () => {
           {/* Input Bar */}
           <form onSubmit={handleSubmit} className="px-4 py-3 border-t border-border shrink-0">
             <div className="max-w-2xl mx-auto flex gap-2 items-center">
-              {/* ARC: dedicated image upload for 3D */}
-              {isArc && (
+              {/* ARC / PRISM: dedicated image upload for 3D */}
+              {(isArc || isPrism) && (
                 <>
                   <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp" onChange={handleImageSelect} className="hidden" />
                   {canUseFeature("upload") ? (
