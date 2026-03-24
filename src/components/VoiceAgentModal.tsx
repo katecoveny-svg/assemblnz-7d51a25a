@@ -78,6 +78,7 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
   }, [conversation.status, isConversationalMode]);
 
   // Auto-save transcript on disconnect so voice data is never lost
+  const handoffDoneRef = useRef(false);
   const prevOpenRef = useRef(open);
   useEffect(() => {
     const wasOpen = prevOpenRef.current;
@@ -85,7 +86,7 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
 
     if (wasOpen && !open) {
       // Modal is closing — save transcript before clearing if not already handoff'd
-      if (transcript.length > 0 && onHandoffToChat && !handoffDoneRef?.current) {
+      if (transcript.length > 0 && onHandoffToChat && !handoffDoneRef.current) {
         onHandoffToChat(transcript);
       }
       if (conversation.status === "connected") conversation.endSession();
@@ -98,7 +99,7 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
       setFallbackSpeaking(false);
       setLiveTranscript("");
       contextSentRef.current = false;
-      if (handoffDoneRef) handoffDoneRef.current = false;
+      handoffDoneRef.current = false;
     }
   }, [open]);
 
@@ -108,14 +109,14 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
     const wasConnected = prevStatusRef.current === "connected";
     prevStatusRef.current = conversation.status;
 
-    if (wasConnected && conversation.status !== "connected" && transcript.length > 0 && onHandoffToChat) {
+    if (wasConnected && conversation.status !== "connected" && transcript.length > 0 && onHandoffToChat && !handoffDoneRef.current) {
+      handoffDoneRef.current = true;
       onHandoffToChat(transcript);
       toast.info("Voice session ended — conversation saved to chat");
     }
   }, [conversation.status]);
 
   // ── Handoff to text chat (explicit button click) ──
-  const handoffDoneRef = useRef(false);
   const handleHandoffToChat = useCallback(() => {
     if (onHandoffToChat && transcript.length > 0 && !handoffDoneRef.current) {
       handoffDoneRef.current = true;
