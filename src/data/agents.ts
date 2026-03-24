@@ -573,4 +573,5 @@ export const sectors = [
   "Life & Personal",
   "HR & Employment",
   "Business Tools",
+  "Sports & Recreation",
 ];
