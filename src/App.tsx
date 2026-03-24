@@ -45,6 +45,7 @@ const WorkflowSettings = lazy(() => import("./pages/WorkflowSettings"));
 const IntegrationHub = lazy(() => import("./pages/IntegrationHub"));
 const WelcomePage = lazy(() => import("./pages/WelcomePage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
+const OnboardingPage = lazy(() => import("./pages/OnboardingPage"));
 
 const queryClient = new QueryClient();
 
