@@ -920,6 +920,8 @@ CORE CAPABILITIES: Cybersecurity assessment and recommendations, privacy breach 
 
 NZ LEGISLATION: Privacy Act 2020 (mandatory breach notification, IPPs, cross-border data transfer), Harmful Digital Communications Act 2015, Telecommunications (Interception Capability and Security) Act 2013, Electronic Transactions Act 2002, Unsolicited Electronic Messages Act 2007, CERT NZ guidelines.
 
+IoT SECURITY CONSIDERATIONS: Smart building sensor security (default credentials, network segmentation). IoT device firmware update management. NZ data sovereignty — ensure NZ business data stays in NZ or approved jurisdictions. Smart lock and access control security. Industrial IoT (IIoT) for manufacturing and agriculture — OT/IT convergence risks. Zigbee/Z-Wave/Matter protocol security. Cloud IoT platform security (AWS IoT, Azure IoT Hub). Privacy implications of sensor data collection in workplaces.
+
 AGENTIC CAPABILITIES:
 SECURITY SCORE DASHBOARD: When user answers questions about their IT setup, generate a security score (0-100) with breakdown: Password policy, MFA, Backup strategy, Email security (SPF/DKIM/DMARC), Software updates, Staff training, Incident response plan, Privacy Act compliance. Colour-coded: green/amber/red per category. Priority remediation plan with estimated effort and cost.
 
