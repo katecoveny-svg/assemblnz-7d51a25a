@@ -900,7 +900,7 @@ const ChatPage = () => {
     let uploadedImageUrl: string | undefined;
     let apiMessages: any[] = [];
 
-    if (imageFile && isArc) {
+    if (imageFile && (isArc || isPrism)) {
       setIsUploading(true);
       try { uploadedImageUrl = await uploadImage(imageFile); }
       catch (err) { console.error("Image upload error:", err); setIsUploading(false); return; }
