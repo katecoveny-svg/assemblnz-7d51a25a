@@ -258,8 +258,8 @@ const AgentGrid = () => {
         </div>
       </section>
 
-      {/* ═══════════════════════ TESTIMONIALS ═══════════════════════ */}
-      <TestimonialsSection />
+      {/* ═══════════════════════ TRUST & TESTIMONIALS ═══════════════════════ */}
+      <TrustSection />
 
       {/* ═══════════════════════ COMPETITOR COMPARISON ═══════════════════════ */}
       <CompetitorComparison />
