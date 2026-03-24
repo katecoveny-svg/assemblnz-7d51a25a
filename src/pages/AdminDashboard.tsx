@@ -443,6 +443,117 @@ const AdminDashboard = () => {
           </div>
         )}
 
+        {/* DOCUMENTS TAB */}
+        {tab === "documents" && (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm font-bold text-foreground flex items-center gap-2">
+                <FolderOpen size={16} className="text-primary" />
+                Document Library ({documents.length} total)
+              </h2>
+              <div className="flex items-center gap-2">
+                <select
+                  value={docAgentFilter}
+                  onChange={(e) => setDocAgentFilter(e.target.value)}
+                  className="text-xs px-3 py-1.5 rounded-lg bg-card border border-border text-foreground focus:outline-none"
+                >
+                  <option value="all">All Agents</option>
+                  {Array.from(new Set(documents.map(d => d.agent_name))).sort().map(name => (
+                    <option key={name} value={name}>{name}</option>
+                  ))}
+                </select>
+                <button onClick={loadData} className="text-[11px] text-primary hover:underline">Refresh</button>
+              </div>
+            </div>
+
+            {/* Agent summary cards */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+              {(() => {
+                const agentCounts = documents.reduce<Record<string, { count: number; agentId: string }>>((acc, d) => {
+                  if (!acc[d.agent_name]) acc[d.agent_name] = { count: 0, agentId: d.agent_id };
+                  acc[d.agent_name].count++;
+                  return acc;
+                }, {});
+                return Object.entries(agentCounts)
+                  .sort((a, b) => b[1].count - a[1].count)
+                  .slice(0, 12)
+                  .map(([name, { count, agentId }]) => {
+                    const agentInfo = getAgentInfo(agentId);
+                    return (
+                      <button
+                        key={name}
+                        onClick={() => setDocAgentFilter(docAgentFilter === name ? "all" : name)}
+                        className={`flex items-center gap-2 p-3 rounded-xl border transition-colors ${
+                          docAgentFilter === name ? "border-primary bg-primary/5" : "border-border bg-card hover:border-foreground/10"
+                        }`}
+                      >
+                        <AgentAvatar agentId={agentId} color={agentInfo?.color || "#888"} size={24} showGlow={false} />
+                        <div className="text-left min-w-0">
+                          <p className="text-[11px] font-bold text-foreground truncate">{name}</p>
+                          <p className="text-[10px] text-muted-foreground">{count} docs</p>
+                        </div>
+                      </button>
+                    );
+                  });
+              })()}
+            </div>
+
+            {/* Documents list */}
+            <div className="rounded-xl border border-border bg-card overflow-hidden">
+              {(() => {
+                const filtered = docAgentFilter === "all"
+                  ? documents
+                  : documents.filter(d => d.agent_name === docAgentFilter);
+                if (filtered.length === 0) {
+                  return (
+                    <div className="px-6 py-12 text-center">
+                      <FileText size={24} className="mx-auto mb-2 opacity-20 text-muted-foreground" />
+                      <p className="text-xs text-muted-foreground">No documents found{docAgentFilter !== "all" ? ` for ${docAgentFilter}` : ""}.</p>
+                    </div>
+                  );
+                }
+                return (
+                  <div className="divide-y divide-border">
+                    <div className="grid grid-cols-[1fr_120px_100px_80px_140px] gap-2 px-5 py-2.5 bg-muted/30 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                      <span>Title</span>
+                      <span>Agent</span>
+                      <span>Type</span>
+                      <span>Format</span>
+                      <span>Date</span>
+                    </div>
+                    {filtered.map(doc => {
+                      const agentInfo = getAgentInfo(doc.agent_id);
+                      return (
+                        <div key={doc.id} className="grid grid-cols-[1fr_120px_100px_80px_140px] gap-2 px-5 py-3 items-center hover:bg-muted/10 transition-colors">
+                          <div className="min-w-0">
+                            <p className="text-xs font-medium text-foreground truncate">{doc.title}</p>
+                            {doc.content_preview && (
+                              <p className="text-[10px] text-muted-foreground truncate mt-0.5">{doc.content_preview.substring(0, 80)}…</p>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: agentInfo?.color || "#888" }} />
+                            <span className="text-[11px] font-bold truncate" style={{ color: agentInfo?.color || "#888" }}>
+                              {doc.agent_name}
+                            </span>
+                          </div>
+                          <span className="text-[10px] text-muted-foreground capitalize truncate">
+                            {doc.output_type?.replace(/_/g, " ") || "—"}
+                          </span>
+                          <span className="text-[10px] text-muted-foreground uppercase">{doc.format || "md"}</span>
+                          <span className="text-[10px] font-mono text-muted-foreground">
+                            {new Date(doc.created_at).toLocaleDateString("en-NZ")} {new Date(doc.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })()}
+            </div>
+          </div>
+        )}
+
         {/* TEST TAB */}
         {tab === "test" && (
           <div>
