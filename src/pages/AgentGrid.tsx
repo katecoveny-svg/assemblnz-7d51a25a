@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { motion } from "framer-motion";
 import EchoSection from "@/components/EchoSection";
 import SparkSection from "@/components/SparkSection";
+import HelmSection from "@/components/HelmSection";
 
 const PRICING_PLANS = [
   {
