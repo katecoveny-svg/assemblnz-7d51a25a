@@ -16,12 +16,12 @@ import LiveDemoSection from "@/components/LiveDemoSection";
 import EchoSection from "@/components/EchoSection";
 import SparkSection from "@/components/SparkSection";
 import HelmSection from "@/components/HelmSection";
+import FAQSection from "@/components/FAQSection";
 
 const PRICING_PLANS = [
   {
     name: "Free",
-    price: "$0",
-    period: "",
+    monthlyPrice: 0,
     color: "#A1A1AA",
     features: ["3 messages per agent", "All 42 agents", "NZ legislation knowledge", "No signup required"],
     cta: "Start free",
@@ -31,8 +31,7 @@ const PRICING_PLANS = [
   },
   {
     name: "Starter",
-    price: "$89",
-    period: "/mo",
+    monthlyPrice: 89,
     color: "#10B981",
     features: ["1 AI agent", "100 messages/month", "NZ legislation references", "Email support"],
     cta: "Get started",
@@ -42,8 +41,7 @@ const PRICING_PLANS = [
   },
   {
     name: "Pro",
-    price: "$299",
-    period: "/mo",
+    monthlyPrice: 299,
     color: "#10B981",
     features: ["3 AI agents + SPARK", "500 messages/month", "Brand DNA scanner", "Symbiotic workflows", "Priority support"],
     cta: "Start Pro",
@@ -53,13 +51,22 @@ const PRICING_PLANS = [
   },
   {
     name: "Business",
-    price: "$599",
-    period: "/mo",
+    monthlyPrice: 599,
     color: "#10B981",
     features: ["All 42 AI agents", "2,000 messages/month", "Command Centre", "MCP API", "Phone support"],
     cta: "Start Business",
     href: "https://buy.stripe.com/6oU9AVa1C6Wcbpr2Sq3oA09",
     external: true,
+    highlighted: false,
+  },
+  {
+    name: "Enterprise",
+    monthlyPrice: 1499,
+    color: "#B388FF",
+    features: ["Unlimited agents & messages", "Dedicated account manager", "Custom integrations", "SLA guarantee", "On-premise option", "SOC 2 compliant"],
+    cta: "Contact sales",
+    href: "/#contact",
+    external: false,
     highlighted: false,
   },
 ];
