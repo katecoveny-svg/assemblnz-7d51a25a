@@ -40,10 +40,13 @@ const SparkSection = () => (
             </div>
 
             <h2
-              className="font-syne font-extrabold text-3xl sm:text-4xl mb-2"
-              style={{ color: "hsl(var(--foreground))" }}
+              className="font-syne font-extrabold text-3xl sm:text-4xl mb-1"
+              style={{
+                color: "#FF6B00",
+                textShadow: "0 0 20px rgba(255,107,0,0.4), 0 0 60px rgba(255,107,0,0.15)",
+              }}
             >
-              Build apps with words
+              Meet SPARK
             </h2>
             <p className="font-mono-jb text-[10px] mb-4" style={{ color: "rgba(255,107,0,0.3)" }}>
               ASM-042 · AI App Builder
