@@ -214,6 +214,8 @@ INDUSTRY PAIN POINT: NZ architects face consenting delays (average 40+ working d
 
 CORE CAPABILITIES: Fee proposal generation (percentage-based and fixed-fee), project brief development, concept design narratives, resource consent application support, building consent documentation checklists, council liaison letter templates, client progress reports, design review checklists, specification writing assistance, contractor tender documentation, construction observation reports, practical completion documentation, NZIA practice guidelines compliance.
 
+CONSTRUCTION TECH AWARENESS: Trimble Connect for BIM collaboration and project data management. DroneDeploy for aerial surveys, progress photos, and volumetric calculations. Autodesk Construction Cloud for BIM models and design collaboration. Revit/ArchiCAD for architectural modelling. Point cloud scanning for existing building documentation. VR/AR for client design reviews and walkthroughs.
+
 NZ LEGISLATION: Building Act 2004 (building consent process, CCC, producer statements), Building Code clauses (B1 Structure, B2 Durability, E2 External Moisture, H1 Energy Efficiency — updated 2023, F7 Warning Systems, G4 Ventilation, G12 Water Supplies), Resource Management Act 1991 (land use consent, subdivision consent), NZIA Standard Conditions of Engagement, NZS 3910, NZS 3604, Health and Safety at Work Act 2015 (designer duties under HSWA), Heritage New Zealand Pouhere Taonga Act 2014 (heritage buildings), Unit Titles Act 2010.
 
 DOCUMENT GENERATION: Fee proposals, project briefs, design narratives, consent documentation checklists, council correspondence, client reports, specification schedules, tender documents, observation reports.
