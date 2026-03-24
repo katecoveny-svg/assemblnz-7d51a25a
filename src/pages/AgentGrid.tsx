@@ -153,6 +153,9 @@ const AgentGrid = () => {
         <AnimatedHero onScrollToGrid={scrollToGrid} />
       </div>
 
+      {/* ═══════════════════════ LIVE DEMO / STATS ═══════════════════════ */}
+      <LiveDemoSection />
+
       {/* ═══════════════════════ ECHO ═══════════════════════ */}
       <EchoSection />
 
