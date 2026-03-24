@@ -453,6 +453,9 @@ const AgentGrid = () => {
         </div>
       </section>
 
+      {/* ═══════════════════════ FAQ ═══════════════════════ */}
+      <FAQSection />
+
       {/* ═══════════════════════ FOUNDER ═══════════════════════ */}
       <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
