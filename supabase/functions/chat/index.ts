@@ -2005,6 +2005,76 @@ Deno.serve(async (req) => {
       return { role: msg.role, content: msg.content };
     });
 
+    // ── Integration tools for agents ──
+    const integrationTools = [
+      {
+        type: "function",
+        function: {
+          name: "google_calendar_list",
+          description: "List upcoming Google Calendar events for the user. Use when they ask about their schedule, upcoming events, or calendar.",
+          parameters: {
+            type: "object",
+            properties: {
+              timeMin: { type: "string", description: "Start time ISO string (defaults to now)" },
+              timeMax: { type: "string", description: "End time ISO string (defaults to 7 days from now)" },
+              maxResults: { type: "number", description: "Max events to return (default 10)" },
+            },
+          },
+        },
+      },
+      {
+        type: "function",
+        function: {
+          name: "google_calendar_create",
+          description: "Create a new Google Calendar event. Use when user asks to schedule, book, or create a meeting/event.",
+          parameters: {
+            type: "object",
+            properties: {
+              summary: { type: "string", description: "Event title" },
+              description: { type: "string", description: "Event description" },
+              location: { type: "string", description: "Event location" },
+              startTime: { type: "string", description: "Start time ISO string" },
+              endTime: { type: "string", description: "End time ISO string" },
+              attendees: { type: "array", items: { type: "string" }, description: "Attendee email addresses" },
+            },
+            required: ["summary", "startTime", "endTime"],
+          },
+        },
+      },
+      {
+        type: "function",
+        function: {
+          name: "canva_list_designs",
+          description: "List user's Canva designs. Use when they ask about their designs or want to find a template.",
+          parameters: {
+            type: "object",
+            properties: {
+              query: { type: "string", description: "Search query for designs" },
+              limit: { type: "number", description: "Max designs to return" },
+            },
+          },
+        },
+      },
+      {
+        type: "function",
+        function: {
+          name: "canva_create_design",
+          description: "Create a new Canva design. Use when user asks to create a poster, social media graphic, presentation, etc.",
+          parameters: {
+            type: "object",
+            properties: {
+              title: { type: "string", description: "Design title" },
+              designType: { type: "string", description: "Design type: Poster, Presentation, SocialMedia, Logo, etc." },
+            },
+            required: ["title"],
+          },
+        },
+      },
+    ];
+
+    // Add integration awareness to system prompt
+    fullSystemPrompt += `\n\n[INTEGRATIONS: You have access to live integration tools. When the user asks about calendar events, scheduling, or their Canva designs, USE the tools to fetch real data or create items. Do NOT make up data — call the tool. If the tool returns an error about "not connected", tell the user to connect the integration via Integration Hub in settings.]`;
+
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -2018,6 +2088,7 @@ Deno.serve(async (req) => {
           ...formattedMessages,
         ],
         max_tokens: 4096,
+        tools: integrationTools,
       }),
     });
 
@@ -2043,7 +2114,91 @@ Deno.serve(async (req) => {
     }
 
     const data = await response.json();
-    const content = data.choices?.[0]?.message?.content || "I couldn't generate a response.";
+    let aiMessage = data.choices?.[0]?.message;
+    let content = aiMessage?.content || "";
+
+    // ── Handle tool calls ──
+    if (aiMessage?.tool_calls && aiMessage.tool_calls.length > 0) {
+      const toolResults: any[] = [];
+      const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+
+      for (const toolCall of aiMessage.tool_calls) {
+        const fnName = toolCall.function.name;
+        let fnArgs: any = {};
+        try { fnArgs = JSON.parse(toolCall.function.arguments || "{}"); } catch {}
+
+        let integrationName = "";
+        let integrationAction = "";
+        let integrationParams: any = {};
+
+        if (fnName === "google_calendar_list") {
+          integrationName = "google-calendar";
+          integrationAction = "list_events";
+          integrationParams = fnArgs;
+        } else if (fnName === "google_calendar_create") {
+          integrationName = "google-calendar";
+          integrationAction = "create_event";
+          integrationParams = fnArgs;
+        } else if (fnName === "canva_list_designs") {
+          integrationName = "canva-api";
+          integrationAction = "list_designs";
+          integrationParams = fnArgs;
+        } else if (fnName === "canva_create_design") {
+          integrationName = "canva-api";
+          integrationAction = "create_design";
+          integrationParams = fnArgs;
+        }
+
+        let toolResult = { error: "Unknown tool" };
+        if (integrationName) {
+          try {
+            const intResp = await fetch(`${supabaseUrl}/functions/v1/${integrationName}`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: authHeader,
+              },
+              body: JSON.stringify({ action: integrationAction, ...integrationParams }),
+            });
+            toolResult = await intResp.json();
+          } catch (e) {
+            toolResult = { error: `Integration call failed: ${e instanceof Error ? e.message : "Unknown"}` };
+          }
+        }
+
+        toolResults.push({
+          role: "tool",
+          tool_call_id: toolCall.id,
+          content: JSON.stringify(toolResult),
+        });
+      }
+
+      // Send tool results back to AI for a final response
+      const followUp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${LOVABLE_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: selectedModel,
+          messages: [
+            { role: "system", content: fullSystemPrompt },
+            ...formattedMessages,
+            aiMessage,
+            ...toolResults,
+          ],
+          max_tokens: 4096,
+        }),
+      });
+
+      if (followUp.ok) {
+        const followData = await followUp.json();
+        content = followData.choices?.[0]?.message?.content || content || "I completed the action but couldn't summarise the result.";
+      }
+    }
+
+    if (!content) content = "I couldn't generate a response.";
 
     // Log message for activity feed (best effort, don't block response)
     try {
