@@ -5,8 +5,8 @@ import AgentAvatar from "@/components/AgentAvatar";
 import { agents } from "@/data/agents";
 
 const FEATURED_IDS = [
-  "hospitality", "construction", "marketing", "operations", "maritime",
-  "legal", "it", "customs", "architecture", "health",
+  "hospitality", "sales", "automotive", "marketing", "operations",
+  "echo", "customs", "construction", "maritime", "property",
 ];
 
 const featured = agents.filter((a) => FEATURED_IDS.includes(a.id));
