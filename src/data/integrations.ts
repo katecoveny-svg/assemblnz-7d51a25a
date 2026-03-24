@@ -4,7 +4,7 @@ import {
   Building, Shield, Palette, Mic, Radio, Tractor,
   FileSpreadsheet, HardDrive, MessageCircle, Users,
   ShoppingBag, BarChart3, Megaphone, Database, Layers,
-  BriefcaseBusiness, Send, Store, Truck
+  BriefcaseBusiness, Send, Store, Truck, Trello
 } from "lucide-react";
 
 export interface Integration {
