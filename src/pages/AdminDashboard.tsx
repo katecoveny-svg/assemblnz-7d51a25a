@@ -180,7 +180,7 @@ const AdminDashboard = () => {
 
       {/* Tabs */}
       <div className="flex gap-1 px-6 pt-4 border-b border-border overflow-x-auto">
-        {(["overview", "users", "agents", "activity", "inbox", "test"] as const).map(t => (
+        {(["overview", "users", "agents", "activity", "inbox", "documents", "test"] as const).map(t => (
           <button
             key={t}
             onClick={() => setTab(t)}
@@ -188,7 +188,9 @@ const AdminDashboard = () => {
               tab === t ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"
             }`}
           >
-            {t}
+            {t === "documents" ? (
+              <span className="flex items-center gap-1.5"><FolderOpen size={12} />Documents</span>
+            ) : t}
           </button>
         ))}
       </div>
