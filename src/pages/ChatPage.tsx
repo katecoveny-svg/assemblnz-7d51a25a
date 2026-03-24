@@ -299,6 +299,20 @@ async function readFileAsText(file: File): Promise<string> {
   });
 }
 
+async function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      resolve(result.split(",")[1]);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+const BINARY_FILE_TYPES = ["application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/msword", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.ms-excel"];
+
 const ChatPage = () => {
   const { agentId } = useParams<{ agentId: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -936,6 +950,21 @@ const ChatPage = () => {
               role: "user",
               content: [
                 { type: "image", source: { type: "base64", media_type: mediaType, data: base64 } },
+                { type: "text", text: textContent },
+              ],
+            },
+          ];
+        } else if (BINARY_FILE_TYPES.includes(docFile.type)) {
+          // PDFs, DOCX, XLSX — send as base64 document for AI to read
+          const base64 = await fileToBase64(docFile);
+          const textContent = content.trim() || `Please analyse this document (${docFile.name}) and provide relevant advice.`;
+          const historyMsgs = messages.map((m) => ({ role: m.role, content: m.content || "(attachment)" }));
+          apiMessages = [
+            ...historyMsgs,
+            {
+              role: "user",
+              content: [
+                { type: "document", source: { type: "base64", media_type: docFile.type, data: base64 } },
                 { type: "text", text: textContent },
               ],
             },
