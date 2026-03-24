@@ -911,7 +911,7 @@ const ChatPage = () => {
     const userMessage: Message = {
       role: "user",
       content: displayContent,
-      imageUrl: uploadedImageUrl || (imageFile && !isArc ? URL.createObjectURL(imageFile) : undefined),
+      imageUrl: uploadedImageUrl || (imageFile && !isArc && !isPrism ? URL.createObjectURL(imageFile) : undefined),
       fileName: docFile?.name,
     };
     const newMessages = [...messages, userMessage];
