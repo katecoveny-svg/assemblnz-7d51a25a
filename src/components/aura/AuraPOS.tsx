@@ -70,6 +70,8 @@ const AuraPOS = ({ onGenerate }: Props) => {
           <AgentBarChart
             title="Revenue by Daypart (sample)"
             nameKey="period"
+            dataKey="revenue"
+            color={color}
             data={[
               { period: "Breakfast", revenue: 1200 },
               { period: "Lunch", revenue: 3400 },
@@ -77,7 +79,7 @@ const AuraPOS = ({ onGenerate }: Props) => {
               { period: "Dinner", revenue: 4200 },
               { period: "Late", revenue: 600 },
             ]}
-            bars={[{ key: "revenue", color, name: "Revenue ($)" }]}
+            prefix="$"
             height={180}
           />
           <AgentPieChart
