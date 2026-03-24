@@ -17,6 +17,8 @@ import EchoSection from "@/components/EchoSection";
 import SparkSection from "@/components/SparkSection";
 import HelmSection from "@/components/HelmSection";
 import FAQSection from "@/components/FAQSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
+import CompetitorComparison from "@/components/CompetitorComparison";
 
 const PRICING_PLANS = [
   {
@@ -254,6 +256,12 @@ const AgentGrid = () => {
           </div>
         </div>
       </section>
+
+      {/* ═══════════════════════ TESTIMONIALS ═══════════════════════ */}
+      <TestimonialsSection />
+
+      {/* ═══════════════════════ COMPETITOR COMPARISON ═══════════════════════ */}
+      <CompetitorComparison />
 
       {/* ═══════════════════════ PRICING ═══════════════════════ */}
       <section className="relative z-10 py-20 sm:py-28 border-t border-border">
