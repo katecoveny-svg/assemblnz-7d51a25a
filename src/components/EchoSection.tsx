@@ -4,6 +4,7 @@ import { ArrowRight, Mic } from "lucide-react";
 import { useState } from "react";
 import echoImg from "@/assets/agents/echo-fullbody.png";
 import VoiceAgentModal from "./VoiceAgentModal";
+import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 
 const ECHO_COLOR = "#E4A0FF";
 

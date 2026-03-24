@@ -4,6 +4,7 @@ import { ArrowRight, Code2, Sparkles, Mic } from "lucide-react";
 import { useState } from "react";
 import sparkImg from "@/assets/agents/spark.png";
 import VoiceAgentModal from "./VoiceAgentModal";
+import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 
 const SPARK_COLOR = "#FF6B00";
 
