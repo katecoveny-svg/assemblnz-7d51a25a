@@ -35,8 +35,41 @@ const IntegrationHub = () => {
       });
   }, [user]);
 
-  const handleConnect = (integration: Integration) => {
-    if (!user || !integration.configKey) return;
+  // Listen for OAuth callback messages
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data?.type === "google-calendar-connected") {
+        setConnectedKeys((prev) => new Set([...prev, "Google Calendar"]));
+        toast({ title: "Google Calendar connected!", description: "HELM, AXIS, AURA, and FLUX can now access your calendar." });
+      }
+    };
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, []);
+
+  const handleConnect = async (integration: Integration) => {
+    if (!user) return;
+
+    // Google Calendar uses OAuth flow
+    if (integration.name === "Google Calendar") {
+      try {
+        const { data, error } = await supabase.functions.invoke("google-calendar", {
+          body: { action: "get_auth_url" },
+        });
+        if (error) throw error;
+        if (data?.authUrl) {
+          window.open(data.authUrl, "google-auth", "width=600,height=700,left=200,top=100");
+        } else if (data?.error) {
+          toast({ title: "Setup needed", description: data.error, variant: "destructive" });
+        }
+      } catch (e) {
+        toast({ title: "Connection failed", description: "Could not start Google Calendar connection.", variant: "destructive" });
+      }
+      return;
+    }
+
+    // Other integrations use API key flow
+    if (!integration.configKey) return;
     setConnectingName(integration.name);
     setInputValue("");
   };
@@ -45,9 +78,9 @@ const IntegrationHub = () => {
     if (!user || !inputValue.trim()) return;
     await supabase.from("user_integrations").upsert({
       user_id: user.id,
-      integration_name: integration.name,
+      integration_name: integration.name === "Canva" ? "canva" : integration.name,
       integration_type: integration.tier,
-      config: { key: inputValue.trim() },
+      config: integration.name === "Canva" ? { api_key: inputValue.trim() } : { key: inputValue.trim() },
       status: "active",
     }, { onConflict: "user_id,integration_name" });
     setConnectedKeys((prev) => new Set([...prev, integration.name]));
