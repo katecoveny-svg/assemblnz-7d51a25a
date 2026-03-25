@@ -1331,22 +1331,7 @@ const ChatPage = () => {
               Chat
             </button>
 
-            {/* Aura property mode selector */}
-            {isAura && (
-              <select
-                value={auraPropertyMode}
-                onChange={(e) => { setAuraPropertyMode(e.target.value); sessionStorage.setItem("aura_property_mode", e.target.value); }}
-                className="px-3 py-2 rounded-xl text-xs font-medium bg-muted/30 border cursor-pointer focus:outline-none shrink-0"
-                style={{ borderColor: accentColor + "30", color: accentColor }}
-              >
-                <option value="luxury_lodge" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Luxury Lodge</option>
-                <option value="boutique_hotel" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Boutique Hotel</option>
-                <option value="restaurant_bar" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Restaurant / Bar</option>
-                <option value="cafe" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Café</option>
-                <option value="accommodation" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Accommodation (B&B)</option>
-                <option value="catering_events" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Catering & Events</option>
-              </select>
-            )}
+            {/* Aura property mode selector removed — AURA is a general NZ hospitality agent */}
 
             {/* Agent-specific tabs */}
             {agentTabs.map(t => (
