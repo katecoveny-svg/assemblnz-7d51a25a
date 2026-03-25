@@ -116,16 +116,23 @@ const AgentGrid = () => {
     const trimmedEmail = contactEmail.trim();
     const trimmedMessage = contactMessage.trim();
     try {
-      const { error } = await supabase.from("contact_submissions").insert({
+      const { data: inserted, error } = await supabase.from("contact_submissions").insert({
         name: trimmedName,
         email: trimmedEmail,
         message: trimmedMessage,
-      });
+      }).select("id").single();
       if (error) throw error;
 
       supabase.functions.invoke("send-contact-email", {
         body: { name: trimmedName, email: trimmedEmail, message: trimmedMessage },
       }).catch((err) => console.error("Contact email error:", err));
+
+      // Auto-qualify the lead with AI scoring
+      if (inserted?.id) {
+        supabase.functions.invoke("qualify-lead", {
+          body: { submissionId: inserted.id },
+        }).catch((err) => console.error("Lead qualification error:", err));
+      }
 
       toast.success("Message sent! We'll be in touch soon.");
       setContactName("");
