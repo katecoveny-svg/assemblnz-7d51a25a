@@ -131,17 +131,25 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [transcript]);
 
-  // Send platform context after connection established
+  // Send full system prompt + platform context after connection established
   useEffect(() => {
     if (isConversationalMode && conversation.status === "connected" && !contextSentRef.current) {
-      try {
-        conversation.sendContextualUpdate(PLATFORM_CONTEXT);
-        contextSentRef.current = true;
-      } catch (e) {
-        console.warn("Could not send contextual update:", e);
-      }
+      contextSentRef.current = true;
+      (async () => {
+        try {
+          const session = await supabase.auth.getSession();
+          const token = session.data.session?.access_token;
+          const fullPrompt = await fetchAgentSystemPrompt(agentId, token);
+          if (fullPrompt) {
+            conversation.sendContextualUpdate(fullPrompt);
+          }
+          conversation.sendContextualUpdate(PLATFORM_CONTEXT);
+        } catch (e) {
+          console.warn("Could not send contextual update:", e);
+        }
+      })();
     }
-  }, [conversation.status, isConversationalMode]);
+  }, [conversation.status, isConversationalMode, agentId]);
 
   // Auto-save transcript on disconnect so voice data is never lost
   const handoffDoneRef = useRef(false);
