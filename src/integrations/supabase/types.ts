@@ -562,24 +562,33 @@ export type Database = {
         Row: {
           created_at: string
           email: string
+          follow_up_sent: boolean | null
           id: string
           is_read: boolean
+          lead_score: number | null
+          lead_status: string | null
           message: string
           name: string
         }
         Insert: {
           created_at?: string
           email: string
+          follow_up_sent?: boolean | null
           id?: string
           is_read?: boolean
+          lead_score?: number | null
+          lead_status?: string | null
           message: string
           name: string
         }
         Update: {
           created_at?: string
           email?: string
+          follow_up_sent?: boolean | null
           id?: string
           is_read?: boolean
+          lead_score?: number | null
+          lead_status?: string | null
           message?: string
           name?: string
         }
@@ -1034,6 +1043,36 @@ export type Database = {
         }
         Relationships: []
       }
+      health_checks: {
+        Row: {
+          checked_at: string
+          error_message: string | null
+          id: string
+          metadata: Json | null
+          response_time_ms: number | null
+          service_name: string
+          status: string
+        }
+        Insert: {
+          checked_at?: string
+          error_message?: string | null
+          id?: string
+          metadata?: Json | null
+          response_time_ms?: number | null
+          service_name: string
+          status?: string
+        }
+        Update: {
+          checked_at?: string
+          error_message?: string | null
+          id?: string
+          metadata?: Json | null
+          response_time_ms?: number | null
+          service_name?: string
+          status?: string
+        }
+        Relationships: []
+      }
       helm_integrations: {
         Row: {
           created_at: string
@@ -1186,6 +1225,41 @@ export type Database = {
             columns: ["tradie_id"]
             isOneToOne: false
             referencedRelation: "tradies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lead_activity: {
+        Row: {
+          activity_type: string
+          created_at: string
+          details: string | null
+          id: string
+          metadata: Json | null
+          submission_id: string | null
+        }
+        Insert: {
+          activity_type: string
+          created_at?: string
+          details?: string | null
+          id?: string
+          metadata?: Json | null
+          submission_id?: string | null
+        }
+        Update: {
+          activity_type?: string
+          created_at?: string
+          details?: string | null
+          id?: string
+          metadata?: Json | null
+          submission_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_activity_submission_id_fkey"
+            columns: ["submission_id"]
+            isOneToOne: false
+            referencedRelation: "contact_submissions"
             referencedColumns: ["id"]
           },
         ]
