@@ -168,7 +168,7 @@ const PricingPage = () => {
             </p>
             <div className="flex items-baseline gap-1 mb-1">
               <span className="font-syne text-3xl font-bold" style={{ color: '#FAFAFA' }}>
-                ${annual ? annualMonthly(HELM_PLAN.price) : HELM_PLAN.price}
+                ${HELM_PLAN.price}
               </span>
               <span className="text-sm" style={{ color: '#71717A' }}>/mo</span>
             </div>

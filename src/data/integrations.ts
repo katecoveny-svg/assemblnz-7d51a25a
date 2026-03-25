@@ -65,7 +65,7 @@ export const INTEGRATIONS: Integration[] = [
   { name: "Xero Payroll", description: "AROHA generates payroll data that syncs to Xero Payroll.", agents: ["AROHA"], tier: "coming_soon", icon: CreditCard, color: "hsl(195 85% 50%)" },
   { name: "IRD Gateway", description: "LEDGER files GST returns and PAYE directly to IRD.", agents: ["LEDGER"], tier: "coming_soon", icon: Globe, color: "hsl(213 80% 35%)" },
   { name: "Companies Office API", description: "FLUX pulls competitor data instantly for market intelligence.", agents: ["FLUX", "ANCHOR"], tier: "coming_soon", icon: BriefcaseBusiness, color: "hsl(130 50% 33%)" },
-  { name: "IoT Sensors", description: "Connect building sensors for real-time monitoring across HAVEN, APEX, AURA.", agents: ["HAVEN", "APEX", "AURA"], tier: "coming_soon", icon: Radio, color: "hsl(160 70% 45%)" },
+  { name: "IoT Sensors", description: "Connect building sensors for real-time monitoring across HAVEN, APEX, AURA.", agents: ["HAVEN", "APEX", "AURA"], tier: "available", icon: Radio, color: "hsl(160 70% 45%)", configKey: "iot_key", connectLabel: "Connect Sensors" },
   { name: "Halter (NZ)", description: "GPS cattle tracking data into TERRA for stock management.", agents: ["TERRA"], tier: "coming_soon", icon: Tractor, color: "hsl(100 60% 40%)" },
   { name: "Uber Direct", description: "Logistics and delivery tracking for HELM and FORGE.", agents: ["HELM", "FORGE"], tier: "coming_soon", icon: Truck, color: "hsl(0 0% 20%)" },
   { name: "SendGrid", description: "Transactional email delivery for agent notifications and campaign sends.", agents: ["ECHO", "FLUX", "KINDLE"], tier: "coming_soon", icon: Send, color: "hsl(210 90% 55%)" },
