@@ -16,6 +16,8 @@ import LiveDemoSection from "@/components/LiveDemoSection";
 import EchoSection from "@/components/EchoSection";
 import TurfSection from "@/components/TurfSection";
 import AuraSection from "@/components/AuraSection";
+import ApexSection from "@/components/ApexSection";
+import ArohaSection from "@/components/ArohaSection";
 import FAQSection from "@/components/FAQSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import CompetitorComparison from "@/components/CompetitorComparison";
