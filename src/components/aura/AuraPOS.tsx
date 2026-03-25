@@ -2,7 +2,7 @@ import { useState } from "react";
 import { NeonChart, NeonDocument, NeonStar, NeonGlobe } from "@/components/NeonIcons";
 import { AgentBarChart, AgentPieChart } from "@/components/shared/AgentCharts";
 
-const color = "#E6B422";
+const color = "#00E5A0";
 
 const POS_SYSTEMS = [
   { name: "Lightspeed", desc: "Full restaurant POS with table management, menu engineering & analytics", logo: "" },

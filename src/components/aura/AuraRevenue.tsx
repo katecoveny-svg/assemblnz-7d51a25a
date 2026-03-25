@@ -2,7 +2,7 @@ import { useState } from "react";
 import { NeonChart, NeonCalendar, NeonStar, NeonDocument } from "@/components/NeonIcons";
 import { AgentBarChart, AgentPieChart, AgentAreaChart } from "@/components/shared/AgentCharts";
 
-const color = "#E6B422";
+const color = "#00E5A0";
 
 const SEASONS = [
   { name: "Peak (Dec-Mar)", multiplier: "1.0x — full rate", color: "#00FF88" },
