@@ -6,6 +6,7 @@ import {
   Zap, Calendar, ArrowRight, Plug, Settings, AlertTriangle, CheckCircle2, Trophy
 } from "lucide-react";
 import ParticleField from "@/components/ParticleField";
+import { toast } from "sonner";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import { useAuth } from "@/hooks/useAuth";
