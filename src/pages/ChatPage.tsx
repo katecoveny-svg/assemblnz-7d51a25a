@@ -5,7 +5,7 @@ import { agents } from "@/data/agents";
 import { echoAgent } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Brain, ListChecks, Phone, Radio } from "lucide-react";
+import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Brain, ListChecks, Phone, Radio, Camera } from "lucide-react";
 import { AGENT_LOADING_MESSAGES } from "@/engine/personality";
 import AgentMemoryPanel from "@/components/chat/AgentMemoryPanel";
 import ActionQueuePanel from "@/components/chat/ActionQueuePanel";
@@ -365,6 +365,12 @@ const ChatPage = () => {
   const [voiceModalOpen, setVoiceModalOpen] = useState(false);
   const [historyReady, setHistoryReady] = useState(false);
 
+  // PRISM quick image generation modal
+  const [prismImageModalOpen, setPrismImageModalOpen] = useState(false);
+  const [prismImagePrompt, setPrismImagePrompt] = useState("");
+  const [prismImageAspect, setPrismImageAspect] = useState<"1:1" | "16:9" | "9:16" | "4:3">("1:1");
+  const [prismImageGenerating, setPrismImageGenerating] = useState(false);
+
   // NEXUS Job Sheet workflow state
   const [nexusWorkflowActive, setNexusWorkflowActive] = useState(false);
   const [nexusWorkflowStep, setNexusWorkflowStep] = useState(0);
@@ -411,6 +417,7 @@ const ChatPage = () => {
   const isAxis = agentId === "pm";
   const isNonprofit = agentId === "nonprofit";
   const isSpark = agentId === "spark";
+  const isSports = agentId === "sports";
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
 
