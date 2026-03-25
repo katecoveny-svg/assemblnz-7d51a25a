@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useSearchParams, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Download, Sparkles, Scan, Code, Mail, ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -131,9 +131,25 @@ function generateWelcomePDF(planKey: string) {
 
 const OnboardingPage = () => {
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const planKey = searchParams.get("plan") || "pro";
   const plan = PLAN_DETAILS[planKey] || PLAN_DETAILS.pro;
   const [downloaded, setDownloaded] = useState(false);
+  const [autoDownloading, setAutoDownloading] = useState(false);
+
+  // Auto-download PDF when arriving from checkout redirect
+  useEffect(() => {
+    const fromCheckout = document.referrer.includes("/dashboard") || location.state?.fromCheckout;
+    if (!downloaded && !autoDownloading && fromCheckout) {
+      setAutoDownloading(true);
+      const timer = setTimeout(() => {
+        generateWelcomePDF(planKey);
+        setDownloaded(true);
+        setAutoDownloading(false);
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [planKey, downloaded, autoDownloading, location.state]);
 
   const handleDownload = () => {
     generateWelcomePDF(planKey);
@@ -199,10 +215,11 @@ const OnboardingPage = () => {
           <Button
             onClick={handleDownload}
             className="gap-2"
+            disabled={autoDownloading}
             style={{ background: downloaded ? "#10B981" : "#00FF88", color: "#09090B" }}
           >
-            {downloaded ? <Check size={16} /> : <Download size={16} />}
-            {downloaded ? "Downloaded!" : "Download Welcome PDF"}
+            {autoDownloading ? <Sparkles size={16} className="animate-spin" /> : downloaded ? <Check size={16} /> : <Download size={16} />}
+            {autoDownloading ? "Your welcome pack is downloading…" : downloaded ? "Downloaded!" : "Download Welcome PDF"}
           </Button>
 
           <p className="text-xs mt-3" style={{ color: "#71717A" }}>

@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import {
   MessageSquare, FileText, Upload, Clock, Bookmark, ChevronRight, Trash2, History, Code2,
   TrendingUp, TrendingDown, DollarSign, Target, ShieldCheck, Megaphone, ListChecks,
   Zap, Calendar, ArrowRight, Plug, Settings, AlertTriangle, CheckCircle2, Trophy
 } from "lucide-react";
 import ParticleField from "@/components/ParticleField";
+import { toast } from "sonner";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import { useAuth } from "@/hooks/useAuth";
@@ -53,6 +54,8 @@ const daysUntil = (d: string) => {
 
 const DashboardPage = () => {
   const { user, profile } = useAuth();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [savedItems, setSavedItems] = useState<SavedItem[]>([]);
   const [viewItem, setViewItem] = useState<SavedItem | null>(null);
   const [conversations, setConversations] = useState<ConversationItem[]>([]);
@@ -66,6 +69,21 @@ const DashboardPage = () => {
 
   const firstName = profile?.full_name?.split(" ")[0] || "";
   const greeting = getGreetingText(firstName);
+
+  useEffect(() => {
+    const checkoutStatus = searchParams.get("checkout");
+    if (checkoutStatus === "success") {
+      toast.success("Welcome to Assembl! 🎉", {
+        description: "Your subscription is active. Redirecting to onboarding...",
+        duration: 3000,
+      });
+      const planParam = searchParams.get("plan") || "pro";
+      const timer = setTimeout(() => {
+        navigate(`/onboarding?plan=${planParam}`, { replace: true });
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [searchParams, navigate]);
 
   useEffect(() => {
     if (!user) return;
