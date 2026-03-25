@@ -392,7 +392,7 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
             <div>
               <p className="text-sm font-semibold text-foreground">{agentName} Voice</p>
               <p className="text-[10px] text-muted-foreground">
-                {isConnected ? "Connected" : isConnecting ? "Connecting…" : "Ready"}
+                {voiceUnavailable ? "Unavailable" : isConnected ? "Connected" : isConnecting ? "Connecting…" : "Ready"}
               </p>
             </div>
           </div>
@@ -426,7 +426,7 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
             )}
             <button
               onClick={isActive ? handleStop : handleStart}
-              disabled={showProcessing}
+              disabled={showProcessing || voiceUnavailable}
               className="relative z-10 w-20 h-20 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95"
               style={{
                 background: isActive ? `linear-gradient(135deg, ${agentColor}, ${agentColor}CC)` : "rgba(255,255,255,0.05)",
