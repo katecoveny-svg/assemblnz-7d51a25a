@@ -494,6 +494,10 @@ const ChatPage = () => {
   useEffect(() => {
     let isActive = true;
 
+    // Reset state when agent changes to prevent cross-contamination
+    setMessages([]);
+    setConversationId(null);
+
     if (!agentId) {
       setHistoryReady(true);
       return;
