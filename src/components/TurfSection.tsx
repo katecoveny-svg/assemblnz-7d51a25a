@@ -157,7 +157,7 @@ const TurfSection = () => {
                   animate={{ y: [0, -8, 0] }}
                   transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <AgentAvatar name="TURF" color={TURF_COLOR} size={180} />
+                  <AgentAvatar agentId="sports" color={TURF_COLOR} size={180} />
                 </motion.div>
               </motion.div>
             </div>

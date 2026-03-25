@@ -157,7 +157,7 @@ const AuraSection = () => {
                   animate={{ y: [0, -8, 0] }}
                   transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <AgentAvatar name="AURA" color={AURA_COLOR} size={180} />
+                  <AgentAvatar agentId="hospitality" color={AURA_COLOR} size={180} />
                 </motion.div>
               </motion.div>
             </div>
