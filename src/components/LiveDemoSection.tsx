@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { agents } from "@/data/agents";
 import { ArrowRight } from "lucide-react";
+import AgentAvatar from "@/components/AgentAvatar";
 
 const STATS = [
   { value: "42", label: "AI Agents" },
@@ -75,16 +76,8 @@ const LiveDemoSection = () => {
               style={{ backdropFilter: "blur(12px)" }}
             >
               <div className="flex items-start gap-3">
-                {/* Colored initial box */}
-                <div
-                  className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 font-syne font-extrabold text-sm"
-                  style={{
-                    backgroundColor: agent.color + "18",
-                    color: agent.color,
-                    border: `1px solid ${agent.color}30`,
-                  }}
-                >
-                  {agent.name.charAt(0)}
+                <div className="shrink-0">
+                  <AgentAvatar agentId={agent.id} color={agent.color} size={40} showGlow={false} />
                 </div>
 
                 <div className="min-w-0 flex-1">
