@@ -26,12 +26,10 @@ const FAQS = [
 
 const PricingPage = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [annual, setAnnual] = useState(false);
 
   const formatPrice = (price: number | null, label?: string) => {
     if (price === null) return label || 'Custom';
-    const p = annual ? annualMonthly(price) : price;
-    return `$${p}`;
+    return `$${price}`;
   };
 
   return (
