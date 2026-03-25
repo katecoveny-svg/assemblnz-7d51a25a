@@ -58,8 +58,8 @@ export const INTEGRATIONS: Integration[] = [
   { name: "n8n", description: "Self-hosted workflow automation. Connect agent triggers to custom pipelines.", agents: ["All Agents"], tier: "available", icon: Layers, color: "hsl(340 80% 55%)", configKey: "n8n_webhook", connectLabel: "Connect n8n" },
 
   // ─── COMING SOON — Industry ───
-  { name: "Trimble Connect", description: "Import BIM project data into APEX and ARC. Access models, equipment data, estimates.", agents: ["APEX", "ARC"], tier: "coming_soon", icon: Building, color: "hsl(210 60% 50%)" },
-  { name: "DroneDeploy", description: "Aerial survey data feeds into APEX — progress photos, volume calculations, site monitoring.", agents: ["APEX"], tier: "coming_soon", icon: Cloud, color: "hsl(200 80% 50%)" },
+  { name: "Trimble Connect", description: "Import BIM project data into APEX and ARC. Access models, equipment data, estimates.", agents: ["APEX", "ARC"], tier: "available", icon: Building, color: "hsl(210 60% 50%)", configKey: "trimble_key", connectLabel: "Connect Trimble" },
+  { name: "DroneDeploy", description: "Aerial survey data feeds into APEX — progress photos, volume calculations, site monitoring.", agents: ["APEX"], tier: "available", icon: Cloud, color: "hsl(200 80% 50%)", configKey: "dronedeploy_key", connectLabel: "Connect DroneDeploy" },
   { name: "Procore", description: "Safety observations, inspections, and incident data from Procore into APEX for trend analysis.", agents: ["APEX"], tier: "coming_soon", icon: Shield, color: "hsl(220 70% 50%)" },
   { name: "ElevenLabs Voice", description: "Native voice integration — shared brain across chat and voice.", agents: ["ECHO", "AURA", "PRISM"], tier: "coming_soon", icon: Mic, color: "hsl(20 100% 50%)" },
   { name: "Xero Payroll", description: "AROHA generates payroll data that syncs to Xero Payroll.", agents: ["AROHA"], tier: "coming_soon", icon: CreditCard, color: "hsl(195 85% 50%)" },
