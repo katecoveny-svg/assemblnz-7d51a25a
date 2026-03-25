@@ -154,8 +154,8 @@ export const agents: Agent[] = [
     color: "#E040FB",
     sector: "Marketing & Comms",
     traits: ["Creatively sharp", "Strategy-led", "NZ-market native"],
-    expertise: ["Brand strategy builder", "Campaign auto-creator", "Video script AI", "SEO copywriter", "Content calendar engine", "Social media planner"],
-    starters: ["Build a brand strategy for a new NZ product", "Create a social media content calendar", "Write a video script for a 30-second ad"],
+    expertise: ["Brand strategy builder", "Campaign auto-creator", "Video script AI", "SEO copywriter", "Content calendar engine", "Social media planner", "AI image generation", "Video storyboarding", "Social media deployment", "Brand asset creation"],
+    starters: ["Build a brand strategy for a new NZ product", "Create a social media content calendar", "Generate an Instagram carousel for my product launch"],
   },
   {
     id: "health",
