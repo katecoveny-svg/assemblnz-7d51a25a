@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { agents } from "@/data/agents";
 import { ArrowRight } from "lucide-react";
+import AgentAvatar from "@/components/AgentAvatar";
 
 const STATS = [
   { value: "42", label: "AI Agents" },
