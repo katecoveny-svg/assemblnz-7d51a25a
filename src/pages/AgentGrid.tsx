@@ -16,6 +16,8 @@ import LiveDemoSection from "@/components/LiveDemoSection";
 import EchoSection from "@/components/EchoSection";
 import TurfSection from "@/components/TurfSection";
 import AuraSection from "@/components/AuraSection";
+import ApexSection from "@/components/ApexSection";
+import ArohaSection from "@/components/ArohaSection";
 import FAQSection from "@/components/FAQSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import CompetitorComparison from "@/components/CompetitorComparison";
@@ -173,14 +175,12 @@ const AgentGrid = () => {
       {/* ═══════════════════════ LIVE DEMO / STATS ═══════════════════════ */}
       <LiveDemoSection />
 
-      {/* ═══════════════════════ ECHO ═══════════════════════ */}
-      <EchoSection />
-
-      {/* ═══════════════════════ TURF ═══════════════════════ */}
+      {/* ═══════════════════════ FEATURED AGENTS ═══════════════════════ */}
       <TurfSection />
-
-      {/* ═══════════════════════ AURA ═══════════════════════ */}
       <AuraSection />
+      <ApexSection />
+      <ArohaSection />
+      <EchoSection />
 
       {/* ═══════════════════════ AGENT GRID ═══════════════════════ */}
       <main ref={gridRef} className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 w-full">
