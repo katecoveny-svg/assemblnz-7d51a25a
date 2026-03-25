@@ -1967,6 +1967,7 @@ const ChatPage = () => {
                 </button>
               )}
 
+              {isHelm && (
                 <button
                   type="button"
                   onClick={toggleListening}
