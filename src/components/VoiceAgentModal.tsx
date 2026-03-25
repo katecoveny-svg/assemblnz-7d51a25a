@@ -445,7 +445,8 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
           </div>
 
           <p className="mt-4 text-xs text-muted-foreground">
-            {isConnecting ? "Connecting…"
+            {voiceUnavailable ? "Voice is temporarily unavailable — please use chat"
+              : isConnecting ? `Connecting… (attempt ${retryCountRef.current + 1}/${MAX_RETRIES})`
               : showProcessing ? `${agentName} is thinking…`
               : isSpeaking ? `${agentName} is speaking`
               : showListening ? "Listening…"
