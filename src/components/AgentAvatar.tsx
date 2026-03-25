@@ -44,6 +44,7 @@ import shieldImg from "@/assets/agents/shield.png";
 import mintImg from "@/assets/agents/mint.png";
 import echoImg from "@/assets/agents/echo.png";
 import sparkImg from "@/assets/agents/spark.png";
+import sportsImg from "@/assets/agents/sports.png";
 
 const AVATAR_MAP: Record<string, string> = {
   hospitality: auraImg,
