@@ -693,8 +693,9 @@ const ChatPage = () => {
         });
         if (error) throw error;
         if (data?.imageUrl) urls.push(data.imageUrl);
-      } catch (err) {
+      } catch (err: any) {
         console.error("Inline image generation error:", err);
+        // Continue to next prompt — don't block on individual failures
       }
     }
 
