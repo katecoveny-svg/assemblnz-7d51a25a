@@ -46,6 +46,8 @@ const IntegrationHub = lazy(() => import("./pages/IntegrationHub"));
 const WelcomePage = lazy(() => import("./pages/WelcomePage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const OnboardingPage = lazy(() => import("./pages/OnboardingPage"));
+const AdminHealthDashboard = lazy(() => import("./pages/AdminHealthDashboard"));
+const AdminLeadsDashboard = lazy(() => import("./pages/AdminLeadsDashboard"));
 
 const queryClient = new QueryClient();
 
