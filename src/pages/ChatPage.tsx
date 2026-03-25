@@ -1035,7 +1035,13 @@ const ChatPage = () => {
       const { data, error } = await supabase.functions.invoke(functionName, invokeOptions);
 
       if (error) throw error;
+      if (!data || data.error) {
+        throw new Error(data?.error || "No response from AI agent");
+      }
       const assistantContent = data.content;
+      if (!assistantContent) {
+        throw new Error("Empty response from AI agent — please try again");
+      }
       setMessages((prev) => [...prev, { role: "assistant", content: assistantContent }]);
 
       // Auto-save ALL agent outputs to exported_outputs for dashboard
