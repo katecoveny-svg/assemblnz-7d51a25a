@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import {
   MessageSquare, FileText, Upload, Clock, Bookmark, ChevronRight, Trash2, History, Code2,
   TrendingUp, TrendingDown, DollarSign, Target, ShieldCheck, Megaphone, ListChecks,
