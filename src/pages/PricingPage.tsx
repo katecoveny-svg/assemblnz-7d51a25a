@@ -159,7 +159,7 @@ const PricingPage = () => {
                 className="cta-glass-green block w-full text-center text-sm font-semibold py-2.5 rounded-lg"
               >
                 <span>Contact Us</span>
-              </a>
+              </button>
             </div>
           </div>
         </div>
