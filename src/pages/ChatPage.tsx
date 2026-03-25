@@ -778,27 +778,22 @@ const ChatPage = () => {
       });
     }
     if (isAura) {
-      const auraMode = auraPropertyMode || "luxury_lodge";
-
-      const allAuraTabs: { id: string; label: string; modes: string[] }[] = [
-        { id: "aura_reservations", label: "Reservations", modes: ["luxury_lodge", "boutique_hotel", "accommodation"] },
-        { id: "aura_guest", label: "Guest Exp", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar"] },
-        { id: "aura_memory", label: "Guest CRM", modes: ["luxury_lodge", "boutique_hotel", "accommodation"] },
-        { id: "aura_kitchen", label: "Kitchen", modes: ["luxury_lodge", "boutique_hotel", "restaurant_bar", "cafe", "catering_events"] },
-        { id: "aura_marketing", label: "Marketing", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
-        { id: "aura_events", label: "Events", modes: ["luxury_lodge", "boutique_hotel", "restaurant_bar", "catering_events"] },
-        { id: "aura_operations", label: "Operations", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
-        { id: "aura_revenue", label: "Revenue", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar"] },
-        { id: "aura_team", label: "Team", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
-        { id: "aura_sustainability", label: "Sustain", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
-        { id: "aura_trade", label: "Trade", modes: ["luxury_lodge", "boutique_hotel", "accommodation"] },
-        { id: "aura_pos", label: "POS", modes: ["restaurant_bar", "cafe", "luxury_lodge", "boutique_hotel", "catering_events"] },
-        { id: "aura_setup", label: "Setup", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
+      // All AURA tabs shown — AURA is a general NZ hospitality agent, not tied to a specific property type
+      const allAuraTabs = [
+        { id: "aura_reservations", label: "Reservations" },
+        { id: "aura_guest", label: "Guest Exp" },
+        { id: "aura_memory", label: "Guest CRM" },
+        { id: "aura_kitchen", label: "Kitchen" },
+        { id: "aura_marketing", label: "Marketing" },
+        { id: "aura_events", label: "Events" },
+        { id: "aura_operations", label: "Operations" },
+        { id: "aura_revenue", label: "Revenue" },
+        { id: "aura_team", label: "Team" },
+        { id: "aura_sustainability", label: "Sustain" },
+        { id: "aura_trade", label: "Trade" },
+        { id: "aura_pos", label: "POS" },
       ];
-
-      allAuraTabs
-        .filter(t => t.modes.includes(auraMode))
-        .forEach(t => tabs.push({ id: t.id, label: t.label }));
+      allAuraTabs.forEach(t => tabs.push(t));
     }
     if (isHaven) {
       ["Dashboard", "Properties", "Jobs", "Tradies", "Command", "Compliance", "Costs", "Docs", "Alerts"].forEach((label, i) => {
