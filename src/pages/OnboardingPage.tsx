@@ -215,10 +215,11 @@ const OnboardingPage = () => {
           <Button
             onClick={handleDownload}
             className="gap-2"
+            disabled={autoDownloading}
             style={{ background: downloaded ? "#10B981" : "#00FF88", color: "#09090B" }}
           >
-            {downloaded ? <Check size={16} /> : <Download size={16} />}
-            {downloaded ? "Downloaded!" : "Download Welcome PDF"}
+            {autoDownloading ? <Sparkles size={16} className="animate-spin" /> : downloaded ? <Check size={16} /> : <Download size={16} />}
+            {autoDownloading ? "Your welcome pack is downloading…" : downloaded ? "Downloaded!" : "Download Welcome PDF"}
           </Button>
 
           <p className="text-xs mt-3" style={{ color: "#71717A" }}>
