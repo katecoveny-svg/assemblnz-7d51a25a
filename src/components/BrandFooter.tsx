@@ -59,27 +59,11 @@ const BrandFooter = () => {
       });
       if (dbError) console.error("DB save error:", dbError);
 
-      // Send to Brevo
-      try {
-        const brevoRes = await fetch("https://api.brevo.com/v3/contacts", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "api-key": import.meta.env.VITE_BREVO_API_KEY || "",
-          },
-          body: JSON.stringify({
-            email: email.trim(),
-            listIds: [2],
-            updateEnabled: true,
-          }),
-        });
-        if (!brevoRes.ok) {
-          const brevoErr = await brevoRes.json().catch(() => ({}));
-          console.error("Brevo error:", brevoErr);
-        }
-      } catch (brevoErr) {
-        console.error("Brevo network error:", brevoErr);
-      }
+      // Send to Brevo via edge function
+      const { error: fnError } = await supabase.functions.invoke("newsletter-signup", {
+        body: { email: email.trim() },
+      });
+      if (fnError) console.error("Newsletter function error:", fnError);
 
       toast.success("Subscribed! Welcome to the Assembl whānau.");
       setEmail("");
