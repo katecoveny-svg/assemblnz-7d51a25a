@@ -1,58 +1,55 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { HardHat, UtensilsCrossed, Home, Scale, Calculator, Tractor, ChevronDown, ArrowRight } from "lucide-react";
+import { Trophy, UtensilsCrossed, Palette, Compass, Scale, ChevronDown, ArrowRight } from "lucide-react";
 import AgentCard from "@/components/AgentCard";
 import { agents, sectors } from "@/data/agents";
 
 const HERO_INDUSTRIES = [
   {
-    industry: "Construction",
-    agent: "APEX",
-    color: "#00FF88",
-    Icon: HardHat,
-    capabilities: ["Plan analysis engine", "H&S compliance tracking", "Tender document writer"],
-    agentId: "construction",
+    industry: "Sports & Recreation",
+    agent: "TURF",
+    color: "#00E676",
+    Icon: Trophy,
+    description: "The complete AI club manager — season calendars, grant applications, coaching plans, and compliance for every NZ sports club.",
+    capabilities: ["Season calendar builder", "Gaming trust grant writer", "Coaching session planner", "Incorporated Societies compliance"],
+    agentId: "sports",
   },
   {
     industry: "Hospitality",
     agent: "AURA",
     color: "#00FF88",
     Icon: UtensilsCrossed,
-    capabilities: ["Guest intelligence", "Kitchen & F&B compliance", "Revenue optimisation"],
+    description: "Luxury-grade operations intelligence — from guest experience to kitchen compliance, revenue management to staff rostering.",
+    capabilities: ["Guest intelligence & CRM", "Menu engineering & F&B", "Revenue optimisation", "Compliance autopilot"],
     agentId: "hospitality",
   },
   {
-    industry: "Property",
-    agent: "HAVEN",
-    color: "#B388FF",
-    Icon: Home,
-    capabilities: ["Tenancy Act compliance", "Maintenance job dispatch", "Cost intelligence"],
-    agentId: "property",
+    industry: "Marketing & Creative",
+    agent: "PRISM",
+    color: "#E040FB",
+    Icon: Palette,
+    description: "Your entire marketing department in one AI — brand strategy, campaign creation, AI image generation, and social deployment.",
+    capabilities: ["Brand strategy builder", "AI image generation", "Social media deployment", "Campaign auto-creator"],
+    agentId: "marketing",
   },
   {
-    industry: "Legal",
+    industry: "Operations & Admin",
+    agent: "HELM",
+    color: "#B388FF",
+    Icon: Compass,
+    description: "Life and business on autopilot — schedules, meal plans, budgets, school admin, and family logistics handled instantly.",
+    capabilities: ["Newsletter data extractor", "Meal plan generator", "Budget auto-tracker", "Family calendar sync"],
+    agentId: "operations",
+  },
+  {
+    industry: "Legal & Compliance",
     agent: "ANCHOR",
     color: "#00E5FF",
     Icon: Scale,
-    capabilities: ["NZ legislation search", "Contract analysis", "Compliance calendars"],
+    description: "NZ law in plain English — contracts, employment disputes, privacy policies, and separation guidance with compassion.",
+    capabilities: ["Contract & NDA drafter", "Employment dispute nav", "Privacy policy generator", "Separation guide AI"],
     agentId: "legal",
-  },
-  {
-    industry: "Accounting",
-    agent: "LEDGER",
-    color: "#00E5FF",
-    Icon: Calculator,
-    capabilities: ["GST & PAYE guidance", "Cash flow forecasting", "Invoice intelligence"],
-    agentId: "accounting",
-  },
-  {
-    industry: "Agriculture",
-    agent: "TERRA",
-    color: "#7CFF6B",
-    Icon: Tractor,
-    capabilities: ["Biosecurity compliance", "Farm safety plans", "Environmental reporting"],
-    agentId: "agriculture",
   },
 ];
 
@@ -103,6 +100,8 @@ const IndustrySolutions = () => {
                   <p className="text-[10px] font-mono-jb text-muted-foreground uppercase tracking-wider">{ind.agent}</p>
                 </div>
               </div>
+
+              <p className="text-xs font-jakarta text-muted-foreground mb-3 leading-relaxed">{ind.description}</p>
 
               <ul className="space-y-1.5 mb-4">
                 {ind.capabilities.map((cap) => (
