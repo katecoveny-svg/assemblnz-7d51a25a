@@ -361,7 +361,6 @@ const ChatPage = () => {
   const logoInputRef = useRef<HTMLInputElement>(null);
   const [templateModalOpen, setTemplateModalOpen] = useState(false);
   const [paywallType, setPaywallType] = useState<"preview" | "daily_limit" | null>(null);
-  const [auraPropertyMode, setAuraPropertyMode] = useState<string>(() => sessionStorage.getItem("aura_property_mode") || "luxury_lodge");
   const [selectedModel, setSelectedModel] = useState<string>(() => sessionStorage.getItem("assembl_ai_model") || "gemini-flash");
   const [voiceModalOpen, setVoiceModalOpen] = useState(false);
   const [historyReady, setHistoryReady] = useState(false);
@@ -778,27 +777,22 @@ const ChatPage = () => {
       });
     }
     if (isAura) {
-      const auraMode = auraPropertyMode || "luxury_lodge";
-
-      const allAuraTabs: { id: string; label: string; modes: string[] }[] = [
-        { id: "aura_reservations", label: "Reservations", modes: ["luxury_lodge", "boutique_hotel", "accommodation"] },
-        { id: "aura_guest", label: "Guest Exp", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar"] },
-        { id: "aura_memory", label: "Guest CRM", modes: ["luxury_lodge", "boutique_hotel", "accommodation"] },
-        { id: "aura_kitchen", label: "Kitchen", modes: ["luxury_lodge", "boutique_hotel", "restaurant_bar", "cafe", "catering_events"] },
-        { id: "aura_marketing", label: "Marketing", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
-        { id: "aura_events", label: "Events", modes: ["luxury_lodge", "boutique_hotel", "restaurant_bar", "catering_events"] },
-        { id: "aura_operations", label: "Operations", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
-        { id: "aura_revenue", label: "Revenue", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar"] },
-        { id: "aura_team", label: "Team", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
-        { id: "aura_sustainability", label: "Sustain", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
-        { id: "aura_trade", label: "Trade", modes: ["luxury_lodge", "boutique_hotel", "accommodation"] },
-        { id: "aura_pos", label: "POS", modes: ["restaurant_bar", "cafe", "luxury_lodge", "boutique_hotel", "catering_events"] },
-        { id: "aura_setup", label: "Setup", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
+      // All AURA tabs shown — AURA is a general NZ hospitality agent, not tied to a specific property type
+      const allAuraTabs = [
+        { id: "aura_reservations", label: "Reservations" },
+        { id: "aura_guest", label: "Guest Exp" },
+        { id: "aura_memory", label: "Guest CRM" },
+        { id: "aura_kitchen", label: "Kitchen" },
+        { id: "aura_marketing", label: "Marketing" },
+        { id: "aura_events", label: "Events" },
+        { id: "aura_operations", label: "Operations" },
+        { id: "aura_revenue", label: "Revenue" },
+        { id: "aura_team", label: "Team" },
+        { id: "aura_sustainability", label: "Sustain" },
+        { id: "aura_trade", label: "Trade" },
+        { id: "aura_pos", label: "POS" },
       ];
-
-      allAuraTabs
-        .filter(t => t.modes.includes(auraMode))
-        .forEach(t => tabs.push({ id: t.id, label: t.label }));
+      allAuraTabs.forEach(t => tabs.push(t));
     }
     if (isHaven) {
       ["Dashboard", "Properties", "Jobs", "Tradies", "Command", "Compliance", "Costs", "Docs", "Alerts"].forEach((label, i) => {
@@ -839,7 +833,7 @@ const ChatPage = () => {
     tabs.push({ id: "agent_training", label: "Train", icon: <Brain size={13} /> });
     if (!isHelm && agentId !== "maritime") tabs.push({ id: "internal_comms", label: "Comms", icon: <MessageSquare size={13} /> });
     return tabs;
-  }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm, auraModeKey, auraPropertyMode]);
+  }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm, auraModeKey]);
 
   const accentColor = isHelm ? HELM_COLOR : (agent?.color || "#00E5FF");
 
@@ -1027,7 +1021,7 @@ const ChatPage = () => {
 
       const body = isHaven
         ? { messages: apiMessages }
-        : { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, brandLogoUrl: brandLogoUrl || undefined, teReoPrompt: teReoPrompt || undefined, propertyMode: isAura ? auraPropertyMode : undefined, model: selectedModel };
+        : { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, brandLogoUrl: brandLogoUrl || undefined, teReoPrompt: teReoPrompt || undefined, model: selectedModel };
 
       const invokeOptions: any = { body };
       if (isHaven && session?.access_token) {
@@ -1331,22 +1325,7 @@ const ChatPage = () => {
               Chat
             </button>
 
-            {/* Aura property mode selector */}
-            {isAura && (
-              <select
-                value={auraPropertyMode}
-                onChange={(e) => { setAuraPropertyMode(e.target.value); sessionStorage.setItem("aura_property_mode", e.target.value); }}
-                className="px-3 py-2 rounded-xl text-xs font-medium bg-muted/30 border cursor-pointer focus:outline-none shrink-0"
-                style={{ borderColor: accentColor + "30", color: accentColor }}
-              >
-                <option value="luxury_lodge" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Luxury Lodge</option>
-                <option value="boutique_hotel" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Boutique Hotel</option>
-                <option value="restaurant_bar" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Restaurant / Bar</option>
-                <option value="cafe" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Café</option>
-                <option value="accommodation" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Accommodation (B&B)</option>
-                <option value="catering_events" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Catering & Events</option>
-              </select>
-            )}
+            {/* Aura property mode selector removed — AURA is a general NZ hospitality agent */}
 
             {/* Agent-specific tabs */}
             {agentTabs.map(t => (
@@ -1482,8 +1461,6 @@ const ChatPage = () => {
         <VoiceAgentLive agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
       ) : activeTab === "agent_training" ? (
         <AgentTraining agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
-      ) : activeTab === "aura_setup" && isAura ? (
-        <AuraPropertySetup />
       ) : activeTab === "aura_reservations" && isAura ? (
         <AuraReservations onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
       ) : activeTab === "aura_guest" && isAura ? (

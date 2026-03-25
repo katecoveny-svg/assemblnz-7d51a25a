@@ -35,7 +35,7 @@ export const agents: Agent[] = [
     sector: "Hospitality",
     traits: ["Warm & intuitive", "Detail-obsessed", "Culturally fluent"],
     expertise: ["Guest pre-arrival dossiers", "Bespoke itinerary builder", "Revenue & yield AI", "Wine pairing engine", "PR pitch generator", "Guest CRM intelligence"],
-    starters: ["Create a pre-arrival guest dossier for a VIP couple celebrating their anniversary", "Generate a 3-day luxury itinerary for winter in Queenstown", "Daily kitchen briefing for 24 covers with 3 dietary requirements"],
+    starters: ["Help me write a guest welcome email", "Create a seasonal pricing strategy", "Draft a food safety checklist for my kitchen"],
   },
   {
     id: "tourism",
