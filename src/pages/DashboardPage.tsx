@@ -53,6 +53,8 @@ const daysUntil = (d: string) => {
 
 const DashboardPage = () => {
   const { user, profile } = useAuth();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [savedItems, setSavedItems] = useState<SavedItem[]>([]);
   const [viewItem, setViewItem] = useState<SavedItem | null>(null);
   const [conversations, setConversations] = useState<ConversationItem[]>([]);
@@ -66,6 +68,23 @@ const DashboardPage = () => {
 
   const firstName = profile?.full_name?.split(" ")[0] || "";
   const greeting = getGreetingText(firstName);
+
+  // Post-checkout success: show welcome toast & redirect to onboarding
+  useEffect(() => {
+    const checkoutStatus = searchParams.get("checkout");
+    if (checkoutStatus === "success") {
+      const { toast } = await import("sonner");
+      toast.success("Welcome to Assembl! 🎉", {
+        description: "Your subscription is active. Redirecting to onboarding...",
+        duration: 3000,
+      });
+      const planParam = searchParams.get("plan") || "pro";
+      const timer = setTimeout(() => {
+        navigate(`/onboarding?plan=${planParam}`, { replace: true });
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [searchParams, navigate]);
 
   useEffect(() => {
     if (!user) return;
