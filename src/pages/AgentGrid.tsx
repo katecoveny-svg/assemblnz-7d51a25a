@@ -14,8 +14,8 @@ import { toast } from "sonner";
 import { motion } from "framer-motion";
 import LiveDemoSection from "@/components/LiveDemoSection";
 import EchoSection from "@/components/EchoSection";
-import SparkSection from "@/components/SparkSection";
-import HelmSection from "@/components/HelmSection";
+import TurfSection from "@/components/TurfSection";
+import AuraSection from "@/components/AuraSection";
 import FAQSection from "@/components/FAQSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import CompetitorComparison from "@/components/CompetitorComparison";
@@ -176,11 +176,11 @@ const AgentGrid = () => {
       {/* ═══════════════════════ ECHO ═══════════════════════ */}
       <EchoSection />
 
-      {/* ═══════════════════════ SPARK ═══════════════════════ */}
-      <SparkSection />
+      {/* ═══════════════════════ TURF ═══════════════════════ */}
+      <TurfSection />
 
-      {/* ═══════════════════════ HELM ═══════════════════════ */}
-      <HelmSection />
+      {/* ═══════════════════════ AURA ═══════════════════════ */}
+      <AuraSection />
 
       {/* ═══════════════════════ AGENT GRID ═══════════════════════ */}
       <main ref={gridRef} className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 w-full">
