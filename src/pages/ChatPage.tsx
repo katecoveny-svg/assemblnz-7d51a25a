@@ -1953,7 +1953,20 @@ const ChatPage = () => {
                 </div>
               )}
 
-              {isHelm && (
+              {/* PRISM: Direct image generation camera button */}
+              {isPrism && (
+                <button
+                  type="button"
+                  onClick={() => setPrismImageModalOpen(true)}
+                  disabled={isLoading || prismImageGenerating}
+                  className="p-2.5 rounded-lg border transition-all duration-200 hover:scale-105 disabled:opacity-30"
+                  style={{ borderColor: agent.color + "30", color: agent.color }}
+                  title="Generate image directly"
+                >
+                  <Camera size={16} />
+                </button>
+              )}
+
                 <button
                   type="button"
                   onClick={toggleListening}
@@ -2032,6 +2045,44 @@ const ChatPage = () => {
               )}
             </div>
           )}
+        </div>
+      )}
+
+      {/* PRISM Image Generation Modal */}
+      {prismImageModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={() => setPrismImageModalOpen(false)}>
+          <div className="w-full max-w-md rounded-2xl p-6 space-y-4" style={{ background: "#0D0D14", border: "1px solid rgba(255,255,255,0.06)" }} onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-bold" style={{ color: "#E4E4EC" }}>Generate Image</h3>
+              <button onClick={() => setPrismImageModalOpen(false)}><X size={16} style={{ color: "rgba(255,255,255,0.4)" }} /></button>
+            </div>
+            <div>
+              <label className="text-[10px] uppercase tracking-wider mb-1 block" style={{ color: "rgba(255,255,255,0.4)" }}>Prompt *</label>
+              <textarea value={prismImagePrompt} onChange={e => setPrismImagePrompt(e.target.value)} rows={3}
+                className="w-full px-3 py-2 rounded-lg text-xs bg-transparent border outline-none resize-none"
+                style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} placeholder="Describe the image you want to create..." />
+            </div>
+            <div>
+              <label className="text-[10px] uppercase tracking-wider mb-1.5 block" style={{ color: "rgba(255,255,255,0.4)" }}>Aspect Ratio</label>
+              <div className="flex gap-2">
+                {(["1:1", "16:9", "9:16", "4:3"] as const).map(ar => (
+                  <button key={ar} onClick={() => setPrismImageAspect(ar)} className="px-3 py-1.5 rounded-lg text-[10px] font-medium transition-all"
+                    style={{
+                      background: prismImageAspect === ar ? `${agent.color}15` : "rgba(255,255,255,0.03)",
+                      color: prismImageAspect === ar ? agent.color : "rgba(255,255,255,0.4)",
+                      border: `1px solid ${prismImageAspect === ar ? agent.color + "30" : "rgba(255,255,255,0.05)"}`,
+                    }}>
+                    {ar}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <button onClick={handlePrismDirectImageGen} disabled={!prismImagePrompt.trim() || prismImageGenerating}
+              className="w-full py-2.5 rounded-lg text-xs font-semibold transition-all hover:scale-[0.98] disabled:opacity-30 flex items-center justify-center gap-2"
+              style={{ background: `${agent.color}20`, color: agent.color, border: `1px solid ${agent.color}30` }}>
+              {prismImageGenerating ? <><Loader2 size={14} className="animate-spin" /> Generating...</> : <><Camera size={14} /> Generate Image</>}
+            </button>
+          </div>
         </div>
       )}
 
