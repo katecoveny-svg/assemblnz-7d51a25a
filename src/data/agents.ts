@@ -59,7 +59,7 @@ export const agents: Agent[] = [
     sector: "Construction",
     traits: ["Straight-talking", "Safety-first", "Code-fluent"],
     expertise: ["Auto tender writer", "3D model generator", "H&S suite builder", "ESG scorer", "Award nomination AI", "Cost estimator"],
-    starters: ["Write a tender response for a commercial build", "Site safety plan for a 3-storey residential project", "Nominate us for the NAWIC Awards 2026"],
+    starters: ["Check site conditions", "Current material prices", "Write a tender response for a commercial build", "Site safety plan for a 3-storey residential project", "Nominate us for the NAWIC Awards 2026"],
   },
   {
     id: "agriculture",
@@ -71,7 +71,7 @@ export const agents: Agent[] = [
     sector: "Agriculture",
     traits: ["Patient & steady", "Seasons-aware", "Community-rooted"],
     expertise: ["Freshwater Farm Plan AI", "GHG emission calculator", "Nutrient budget modeller", "Succession planner", "Biosecurity alerts", "RSE compliance"],
-    starters: ["Help me prepare a Freshwater Farm Plan", "Farm succession planning basics", "RSE seasonal worker scheme explained"],
+    starters: ["Check crop health via satellite", "Help me prepare a Freshwater Farm Plan", "Farm succession planning basics", "RSE seasonal worker scheme explained"],
   },
   {
     id: "retail",
@@ -95,7 +95,7 @@ export const agents: Agent[] = [
     sector: "Automotive",
     traits: ["Technical & precise", "Reg-savvy", "EV-ready"],
     expertise: ["F&I calculator suite", "EV vs ICE cost analyser", "TradeMe listing AI", "CCCFA disclosure gen", "Sales pipeline tracker", "Lease vs buy modeller"],
-    starters: ["Help me list a vehicle on TradeMe", "F&I disclosure compliance check", "Create a service retention campaign"],
+    starters: ["Track dealer fleet", "Driver behaviour report", "Help me list a vehicle on TradeMe", "F&I disclosure compliance check", "Create a service retention campaign"],
   },
   {
     id: "architecture",
@@ -143,7 +143,7 @@ export const agents: Agent[] = [
     sector: "Project Management",
     traits: ["Structured", "Risk-aware", "Stakeholder-savvy"],
     expertise: ["Project plan generator", "Risk matrix builder", "SOP auto-writer", "Workflow automator", "Govt procurement AI", "Change management"],
-    starters: ["Create a project plan with milestones", "Build a risk register for my project", "Government procurement process"],
+    starters: ["Track a shipment", "Get freight ETA", "Create a project plan with milestones", "Build a risk register for my project", "Government procurement process"],
   },
   {
     id: "marketing",
@@ -311,7 +311,7 @@ export const agents: Agent[] = [
     sector: "Maritime & Fishing",
     traits: ["Sea-savvy", "Safety-focused", "Quota-fluent"],
     expertise: ["SSM doc generator", "Live marine weather AI", "Voyage planner", "Fishing rules engine", "Navigation hazard alerts", "Coastguard prep guide"],
-    starters: ["What are the snapper bag limits in my region?", "Interpret today's marine forecast for me", "Plan a fishing trip in the Hauraki Gulf"],
+    starters: ["Track a vessel by name or MMSI", "Show ships near Auckland port", "What are the snapper bag limits in my region?", "Interpret today's marine forecast for me", "Plan a fishing trip in the Hauraki Gulf"],
   },
   {
     id: "energy",

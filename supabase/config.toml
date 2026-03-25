@@ -53,3 +53,21 @@ verify_jwt = false
 
 [functions.qualify-lead]
 verify_jwt = false
+
+[functions.iot-weather]
+verify_jwt = false
+
+[functions.iot-ais-tracking]
+verify_jwt = false
+
+[functions.iot-freight-tracking]
+verify_jwt = false
+
+[functions.iot-vehicle-tracking]
+verify_jwt = false
+
+[functions.iot-agri-satellite]
+verify_jwt = false
+
+[functions.iot-construction]
+verify_jwt = false
