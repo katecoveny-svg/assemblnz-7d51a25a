@@ -99,6 +99,7 @@ import PrismProductStudio from "@/components/prism/PrismProductStudio";
 import PrismBrandDNA from "@/components/prism/PrismBrandDNA";
 import PrismSocialPublisher from "@/components/prism/PrismSocialPublisher";
 import PrismAdEngine from "@/components/prism/PrismAdEngine";
+import AdEngineModal from "@/components/prism/AdEngineModal";
 import SparkDeployModal from "@/components/spark/SparkDeployModal";
 import AxisAutomations from "@/components/axis/AxisAutomations";
 import HelmThisWeek from "@/components/helm/HelmThisWeek";
@@ -384,6 +385,7 @@ const ChatPage = () => {
   const [prismImagePrompt, setPrismImagePrompt] = useState("");
   const [prismImageAspect, setPrismImageAspect] = useState<"1:1" | "16:9" | "9:16" | "4:3">("1:1");
   const [prismImageGenerating, setPrismImageGenerating] = useState(false);
+  const [adEngineOpen, setAdEngineOpen] = useState(false);
 
   // NEXUS Job Sheet workflow state
   const [nexusWorkflowActive, setNexusWorkflowActive] = useState(false);
