@@ -80,15 +80,15 @@ const PRICING_PLANS = [
 
 const HOW_IT_WORKS = [
   { step: "01", title: "Tell us about your business", desc: "Share your industry, team size, and goals. Your expert team adapts to you.", icon: <Users size={24} /> },
-  { step: "02", title: "Access your expert team", desc: "42 specialist advisors covering every NZ industry, all trained on NZ legislation.", icon: <Zap size={24} /> },
+  { step: "02", title: "Access your specialist tools", desc: "42 specialist tools covering every NZ industry, all trained on NZ legislation.", icon: <Zap size={24} /> },
   { step: "03", title: "Get specialist guidance", desc: "Ask anything. Get recommendations grounded in NZ legislation, regulations, and best practice.", icon: <BookOpen size={24} /> },
   { step: "04", title: "Run 24/7", desc: "Embed on your site, share with your team, or let customers chat directly.", icon: <Clock size={24} /> },
 ];
 
 const ALSO_BY_ASSEMBL = [
-  { title: "Custom Intelligence Builds", desc: "Bespoke specialist advisors trained on your internal data, SOPs, and brand voice.", color: "#00FF88" },
+  { title: "Custom Intelligence Builds", desc: "Bespoke specialist tools trained on your internal data, SOPs, and brand voice.", color: "#00FF88" },
   { title: "Website Chatbots", desc: "Drop-in chat widgets for your website — trained, branded, and always on.", color: "#00E5FF" },
-  { title: "AssemblFund", desc: "Our initiative to bring enterprise tools to Kiwi startups and community organisations.", color: "#B388FF" },
+  { title: "AssemblFund", desc: "Our initiative to bring enterprise-grade tools to Kiwi startups and community organisations.", color: "#B388FF" },
 ];
 
 const AgentGrid = () => {
@@ -152,8 +152,8 @@ const AgentGrid = () => {
   return (
     <div className="min-h-screen flex flex-col relative">
       <SEO
-        title="Assembl — AI Operations Platform for NZ Business | 42 Agents"
-        description="42 specialist AI agents that know NZ law. Employment, hospitality, construction, property, sports, education and more. Enterprise AI at SME pricing. From $89/mo. Built in Aotearoa."
+        title="Assembl | Business Intelligence Platform for NZ | 42 Specialist Tools"
+        description="42 specialist tools trained on 50+ NZ Acts. Employment, hospitality, construction, property, sports, and more. Enterprise-grade business intelligence at SME pricing. From $14/mo. Built in Aotearoa."
         path="/"
       />
       <ParticleField />
@@ -198,8 +198,8 @@ const AgentGrid = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-glow-cyan mb-2">Your expert team</h2>
-          <p className="text-sm font-jakarta text-muted-foreground">Tap any advisor to chat live — no signup needed.</p>
+          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-glow-cyan mb-2">Your specialist tools</h2>
+          <p className="text-sm font-jakarta text-muted-foreground">Tap any tool to chat live — no signup needed.</p>
         </motion.div>
 
         {/* Filter Bar */}
@@ -284,9 +284,9 @@ const AgentGrid = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-8">
             <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-foreground mb-3">
-              Simple, honest <span className="text-gradient-hero">pricing</span>
+              Enterprise-grade business intelligence. <span className="text-gradient-hero">SME-friendly pricing.</span>
             </h2>
-            <p className="text-sm font-jakarta text-muted-foreground mb-6">Start free. Upgrade when you're ready.</p>
+            <p className="text-sm font-jakarta text-muted-foreground mb-6">From $14/month. No lock-in. Cancel anytime.</p>
 
             {/* Annual/Monthly toggle */}
             <div className="inline-flex items-center gap-3 rounded-full border border-border bg-card px-1.5 py-1.5">
@@ -402,7 +402,7 @@ const AgentGrid = () => {
                 Meet <span className="text-gradient-hero">HELM</span>
               </h2>
               <p className="text-sm font-jakarta text-muted-foreground leading-relaxed mb-6">
-                Your personal Life Admin & Household Manager. Upload receipts, plan meals, track budgets, and tame the chaos of daily life — all through one AI assistant built for New Zealand families.
+                Your personal Life Admin & Household Manager. Upload receipts, plan meals, track budgets, and tame the chaos of daily life — purpose-built for New Zealand families.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 {["Meal planning", "Budget tracking", "Document parsing", "School admin", "Life checklists"].map((t) => (
@@ -437,7 +437,7 @@ const AgentGrid = () => {
                 Meet <span className="text-gradient-hero">MARINER</span>
               </h2>
               <p className="text-sm font-jakarta text-muted-foreground leading-relaxed mb-6">
-                NZ's maritime AI expert. Fishing regulations, boat maintenance, weather interpretation, commercial maritime compliance — MARINER knows the waters of Aotearoa inside out.
+                Maritime NZ rules, crew safety obligations, and vessel compliance — translated from legislation into plain English. MARINER knows the waters of Aotearoa inside out.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 {["Fishing regs", "Boat maintenance", "Marine weather", "Maritime compliance", "Coastguard courses"].map((t) => (
@@ -492,10 +492,10 @@ const AgentGrid = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
           />
-          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-foreground mb-3 flex items-center justify-center gap-2">Built in Aotearoa</h2>
+           <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-foreground mb-3 flex items-center justify-center gap-2">Built in Aotearoa</h2>
           <p className="text-sm font-jakarta text-muted-foreground leading-relaxed max-w-lg mx-auto mb-4">
-            "I built Assembl because NZ businesses deserve AI tools that understand our laws, our culture, and the way we work.
-            Every agent is trained on real NZ legislation — not generic overseas advice."
+            "I built Assembl because NZ businesses deserve specialist tools that understand our laws, our culture, and the way we work.
+            Every tool is trained on real NZ legislation — not generic overseas advice."
           </p>
           <p className="text-xs font-syne font-bold text-foreground">Kate</p>
           <p className="text-[11px] font-jakarta text-muted-foreground">Founder, Assembl · Auckland</p>
