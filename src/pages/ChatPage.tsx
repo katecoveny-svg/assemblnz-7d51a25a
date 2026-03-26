@@ -1551,6 +1551,50 @@ const ChatPage = () => {
         <div className="h-[1px]" style={{ background: `linear-gradient(90deg, transparent 0%, ${accentColor}20 30%, ${accentColor}20 70%, transparent 100%)` }} />
       </header>
 
+      {/* First-time onboarding tooltip */}
+      {showOnboardingTooltip && agent && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onClick={dismissOnboarding}>
+          <div className="w-full max-w-sm rounded-2xl p-5 space-y-4 animate-scale-in" style={{ background: "#0D0D14", border: `1px solid ${accentColor}30`, boxShadow: `0 0 40px ${accentColor}15` }} onClick={e => e.stopPropagation()}>
+            <div className="flex items-center gap-2">
+              {[0,1,2].map(i => (
+                <div key={i} className="h-1 flex-1 rounded-full transition-all" style={{ background: i <= onboardingStep ? accentColor : "rgba(255,255,255,0.06)" }} />
+              ))}
+            </div>
+            {onboardingStep === 0 && (
+              <div className="text-center space-y-2">
+                <AgentAvatar agentId={agent.id} color={agent.color} size={48} />
+                <h3 className="text-sm font-bold text-foreground">Welcome to {agent.name}</h3>
+                <p className="text-xs text-muted-foreground">{agent.tagline}</p>
+              </div>
+            )}
+            {onboardingStep === 1 && (
+              <div className="space-y-2">
+                <h3 className="text-sm font-bold text-foreground text-center">What I can do for you</h3>
+                <div className="space-y-1.5">
+                  {(agentCapabilities[agentId || ""] || []).slice(0, 3).map((cap) => (
+                    <div key={cap.title} className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{ background: `${accentColor}08` }}>
+                      <cap.icon size={13} style={{ color: accentColor }} />
+                      <span className="text-[11px] text-foreground/80">{cap.title}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {onboardingStep === 2 && (
+              <div className="space-y-2 text-center">
+                <h3 className="text-sm font-bold text-foreground">Try asking me...</h3>
+                <p className="text-xs text-muted-foreground italic px-4">"{agent.starters[0]}"</p>
+              </div>
+            )}
+            <button onClick={dismissOnboarding}
+              className="w-full py-2 rounded-lg text-xs font-semibold transition-all"
+              style={{ background: `${accentColor}15`, color: accentColor, border: `1px solid ${accentColor}25` }}>
+              {onboardingStep < 2 ? "Next" : "Get Started"}
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Hidden logo file input */}
       <input
         ref={logoInputRef}
