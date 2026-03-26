@@ -72,7 +72,7 @@ const IndustrySolutions = () => {
             Industry <span className="text-gradient-hero">solutions</span>
           </h2>
           <p className="text-sm font-jakarta text-muted-foreground">
-            Specialist AI agents for every sector — trained on the legislation that matters to you.
+            Specialist business advisors for every sector — trained on the legislation that matters to you.
           </p>
         </motion.div>
 
@@ -138,7 +138,7 @@ const IndustrySolutions = () => {
             className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-border bg-card text-sm font-syne font-bold text-foreground hover:border-primary/30 transition-colors"
             style={{ backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}
           >
-            {expanded ? "Collapse" : "See all 42 agents"}
+            {expanded ? "Collapse" : "See all 42 specialist tools"}
             <motion.span animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.3 }}>
               <ChevronDown size={16} />
             </motion.span>
