@@ -5,8 +5,9 @@ import {
   Sparkles, Video, Clock, Users, Copy, CheckCircle2, X, Film,
   Scissors, Wand2, Type, Music, Palette, Layers, Play, Download,
   RefreshCw, ChevronDown, ChevronUp, Clapperboard, Mic, ImageIcon,
-  LayoutGrid, FileText, Loader2, Save, BookmarkCheck
+  LayoutGrid, FileText, Loader2, Save, BookmarkCheck, Zap
 } from "lucide-react";
+import { toast } from "sonner";
 
 const ACCENT = "#E040FB";
 
@@ -71,6 +72,9 @@ export default function PrismVideoStudio({ onSendToChat }: { onSendToChat?: (msg
   const [copied, setCopied] = useState<string | null>(null);
   const [saved, setSaved] = useState<string | null>(null);
   const [expandedScene, setExpandedScene] = useState<number | null>(null);
+  const [generatingFrames, setGeneratingFrames] = useState<string | null>(null);
+  const [frameProgress, setFrameProgress] = useState<{ current: number; total: number }>({ current: 0, total: 0 });
+  const [generatedFrames, setGeneratedFrames] = useState<Record<string, { urls: string[]; prompts: string[] }>>({});
 
   const [form, setForm] = useState({
     topic: "",
