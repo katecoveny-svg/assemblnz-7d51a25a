@@ -21,6 +21,7 @@ import StructuredOutputCard, { detectOutputType } from "@/components/StructuredO
 import NexusEntryCard from "@/components/nexus/NexusEntryCard";
 import NexusJobSheet, { type JobSheetData, type DocumentStatus } from "@/components/nexus/NexusJobSheet";
 import HandoffCard, { detectHandoff } from "@/components/HandoffCard";
+import ProactiveAlertCards from "@/components/chat/ProactiveAlertCards";
 import { agentTemplates } from "@/data/templates";
 import { useAuth } from "@/hooks/useAuth";
 import AccountDropdown from "@/components/AccountDropdown";
@@ -1100,9 +1101,18 @@ const ChatPage = () => {
         return;
       }
 
+      // Detect @mentions to include cross-agent context
+      const mentionRegex = /@([A-Z]{2,15})\b/g;
+      const mentionedAgents: string[] = [];
+      let mentionMatch;
+      while ((mentionMatch = mentionRegex.exec(content)) !== null) {
+        const mentionedAgent = [...agents, echoAgent].find(a => a.name.toUpperCase() === mentionMatch![1]);
+        if (mentionedAgent) mentionedAgents.push(mentionedAgent.id);
+      }
+
       const body = isHaven
         ? { messages: apiMessages }
-        : { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, brandLogoUrl: brandLogoUrl || undefined, teReoPrompt: teReoPrompt || undefined, model: selectedModel };
+        : { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, brandLogoUrl: brandLogoUrl || undefined, teReoPrompt: teReoPrompt || undefined, model: selectedModel, mentionedAgents: mentionedAgents.length > 0 ? mentionedAgents : undefined };
 
       const invokeOptions: any = { body };
       if (isHaven && session?.access_token) {
@@ -1135,6 +1145,36 @@ const ChatPage = () => {
           format: "markdown",
           content_preview: assistantContent.substring(0, 300),
         }).then(() => {});
+      }
+
+      // Write business context to shared_context when key facts detected
+      if (user && assistantContent) {
+        const userText = content.toLowerCase();
+        const contextWrites: { key: string; value: any }[] = [];
+        
+        // Detect business identity facts from user messages
+        const bizNameMatch = content.match(/(?:my (?:business|company|shop|store|firm|practice) (?:is|called|named))\s+["']?([^"'\n,.]+)/i);
+        if (bizNameMatch) contextWrites.push({ key: "business_name", value: bizNameMatch[1].trim() });
+        
+        const industryMatch = content.match(/(?:we're|we are|i'm|i am|we run|i run)\s+(?:a|an|in)\s+(construction|hospitality|retail|automotive|legal|property|sports|agriculture|tourism|tech|marketing|nonprofit|logistics|finance|healthcare|education)\b/i);
+        if (industryMatch) contextWrites.push({ key: "industry", value: industryMatch[1].toLowerCase() });
+        
+        const teamMatch = content.match(/(\d+)\s+(?:staff|employees|people|team members)/i);
+        if (teamMatch) contextWrites.push({ key: "team_size", value: parseInt(teamMatch[1]) });
+        
+        const locationMatch = content.match(/(?:based in|located in|we're in|from)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/);
+        if (locationMatch) contextWrites.push({ key: "location", value: locationMatch[1] });
+
+        // Write detected facts to shared_context
+        for (const ctx of contextWrites) {
+          supabase.from("shared_context").upsert({
+            user_id: user.id,
+            context_key: ctx.key,
+            context_value: ctx.value,
+            source_agent: agentId || "echo",
+            confidence: 0.8,
+          }, { onConflict: "user_id,context_key" }).then(() => {});
+        }
       }
 
       // Process NEXUS workflow data from response
@@ -1241,6 +1281,34 @@ const ChatPage = () => {
   const showMsgCounter = user && !isPaid;
   const remaining = dailyLimit - dailyMessageCount;
 
+  // Render @AGENT_NAME mentions as colored pills
+  const renderWithMentions = (text: string) => {
+    const ALL_AGENTS_LIST = [echoAgent, ...agents];
+    const mentionRegex = /@([A-Z]{2,15})\b/g;
+    const parts: (string | React.ReactNode)[] = [];
+    let lastIndex = 0;
+    let match;
+    while ((match = mentionRegex.exec(text)) !== null) {
+      if (match.index > lastIndex) parts.push(text.slice(lastIndex, match.index));
+      const mentionName = match[1];
+      const mentionedAgent = ALL_AGENTS_LIST.find(a => a.name.toUpperCase() === mentionName);
+      if (mentionedAgent) {
+        parts.push(
+          <Link key={match.index} to={`/chat/${mentionedAgent.id}`}
+            className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md text-[11px] font-bold no-underline hover:opacity-80 transition-opacity mx-0.5"
+            style={{ backgroundColor: mentionedAgent.color + "20", color: mentionedAgent.color, border: `1px solid ${mentionedAgent.color}30` }}>
+            @{mentionedAgent.name}
+          </Link>
+        );
+      } else {
+        parts.push(match[0]);
+      }
+      lastIndex = match.index + match[0].length;
+    }
+    if (lastIndex < text.length) parts.push(text.slice(lastIndex));
+    return parts.length > 0 ? <>{parts}</> : text;
+  };
+
   const renderMessageContent = (msg: Message, msgIndex?: number) => {
     // Strip [GENERATE_IMAGE: ...] tags from displayed content
     const content = msg.content.replace(/\[GENERATE_IMAGE:\s*.*?\]/g, "").trim();
@@ -1295,6 +1363,11 @@ const ChatPage = () => {
           )}
         </>
       );
+    }
+
+    // Check for @mentions in user messages — render as pills
+    if (msg.role === "user" && /@[A-Z]{2,15}\b/.test(content)) {
+      return <div className="text-sm leading-relaxed">{renderWithMentions(content)}</div>;
     }
 
     return (
@@ -1725,6 +1798,9 @@ const ChatPage = () => {
           {/* Chat Area */}
           <div className={`${hasLivePreview ? "md:w-[40%] md:min-w-0 md:border-r md:border-border" : ""} ${hasLivePreview && sparkMobileView === "preview" ? "hidden md:flex" : "flex"} flex-col flex-1 min-h-0`}>
           <div className="flex-1 overflow-y-auto px-4 py-4">
+            {/* Proactive cross-agent alerts */}
+            {agentId && <ProactiveAlertCards currentAgentId={agentId} accentColor={accentColor} />}
+
             {showWelcome ? (
               <div className="flex flex-col items-center justify-center min-h-full text-center gap-4 py-6 opacity-0 animate-fade-up overflow-y-auto" style={{ animationFillMode: "forwards" }}>
                 <AgentWelcome agent={agent} />
