@@ -129,6 +129,12 @@ export const agentCapabilities: Record<string, AgentCapability[]> = {
     { bullet: "Biosecurity management", icon: Shield, title: "Biosecurity Plan", description: "Build a biosecurity response plan", prompt: "Create a biosecurity management plan for my farm." },
     { bullet: "Satellite crop monitoring", icon: Globe, title: "Crop Monitor", description: "Check crop health via satellite imagery", prompt: "Help me monitor my crop health using satellite data." },
   ],
+  echo: [
+    { bullet: "Answer business calls warmly", icon: Phone, title: "Answer Calls", description: "Professional call answering with lead qualification", prompt: "Answer my business calls — set up call answering with warm greetings and BANT lead qualification for my business." },
+    { bullet: "Qualify leads from inbox", icon: Briefcase, title: "Qualify Leads", description: "Score and triage inbound leads using BANT", prompt: "Qualify leads from my inbox — score each inquiry 1-100 using BANT criteria and flag hot leads for immediate follow-up." },
+    { bullet: "Draft email responses", icon: FileText, title: "Draft Responses", description: "Triage and draft professional email replies", prompt: "Draft responses to my emails — triage my inbox by urgency and generate professional replies for each message." },
+    { bullet: "Schedule meetings", icon: Calendar, title: "Schedule Meeting", description: "Coordinate calendars and book meetings", prompt: "Schedule a meeting with a prospect — suggest time options, draft the agenda, and prepare a calendar invite." },
+  ],
 };
 
 // Quick action labels (3-4 per agent, shown below chat input)
