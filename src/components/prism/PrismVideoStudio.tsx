@@ -106,7 +106,7 @@ export default function PrismVideoStudio({ onSendToChat }: { onSendToChat?: (msg
     if (!onSendToChat || !form.topic.trim()) return;
     setIsGenerating(true);
     const vType = VIDEO_TYPES.find(v => v.id === form.videoType);
-    const prompt = `You are PRISM Video Studio — a world-class video production AI. Create a complete video production brief:
+    const prompt = `You are PRISM Video Studio — a world-class video production AI. Create a complete video production brief AND generate actual scene visuals:
 
 **VIDEO TYPE:** ${vType?.label} — ${vType?.desc}
 **TOPIC:** ${form.topic}
@@ -144,7 +144,13 @@ For each scene provide:
 ## ✅ Production Checklist
 [What to prepare before filming]
 
-Make it punchy, NZ-focused, and optimised for ${vType?.label}.`;
+## 🖼 AI Key Frames
+Generate 3-5 literal [GENERATE_IMAGE: ...] tags for the strongest scenes.
+Each image tag must describe a cinematic production frame, not a poster mockup.
+Every tag must include: scene number, subject, camera angle, lighting, motion feel, environment, brand mood, and aspect ratio ${form.aspectRatio}.
+If this is a social video, prioritise the hook shot first.
+
+Make it punchy, NZ-focused, optimised for ${vType?.label}, and do NOT return a text-only answer.`;
 
     onSendToChat(prompt);
     setShowGen(false);

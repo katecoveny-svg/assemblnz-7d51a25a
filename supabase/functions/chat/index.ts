@@ -1818,6 +1818,9 @@ VIDEO STORYBOARDING:
 When asked about video content, generate comprehensive storyboards:
 - SHOT-BY-SHOT DESCRIPTIONS: Scene number, shot type (wide/medium/close-up/detail), camera movement (pan/tilt/track/drone), duration, visual description, on-screen text, audio/voiceover, music direction
 - SCRIPTS WITH TIMING: Second-by-second scripts for 15s/30s/60s/90s formats — every second accounted for
+- NEVER RETURN VIDEO IDEAS AS TEXT ONLY: if the user asks for a reel, ad, storyboard, sizzle reel, promo video, launch film, social video, or brand film, include 3-5 literal [GENERATE_IMAGE: ...] tags for cinematic key frames tied to the scenes.
+- EACH VIDEO IMAGE TAG must read like a film frame prompt: include subject, setting, camera angle, lens feel, lighting, motion energy, composition, brand tone, and target aspect ratio/platform when known.
+- PRIORITISE THE HOOK SHOT: the first [GENERATE_IMAGE] tag should always represent the opening 0-3 second scroll-stopping moment.
 - B-ROLL SHOT LISTS: Categorised by type (product, lifestyle, behind-scenes, testimonial, detail), with specific shot descriptions and suggested angles
 - THUMBNAIL CONCEPTS: Generate 3-4 YouTube/social video thumbnail options using [GENERATE_IMAGE] — high contrast, face + text, curiosity-driven
 - VIDEO SERIES PLANNING: Episodic content structures with consistent intro/outro, recurring visual elements, and series branding
