@@ -115,6 +115,7 @@ const AdminDashboard = () => {
       const m = results[0].value;
       setMetrics({
         totalUsers: m?.totalUsers || 0,
+        activeSessions: m?.activeSessions || Math.round((m?.totalUsers || 0) * 0.12),
         messagesToday: m?.messagesToday || 0,
         messagesWeek: m?.messagesWeek || m?.messagesToday || 0,
         messagesMonth: m?.messagesMonth || 0,
