@@ -74,3 +74,9 @@ verify_jwt = false
 
 [functions.agent-intelligence]
 verify_jwt = false
+
+[functions.plan-to-3d]
+verify_jwt = false
+
+[functions.stitch-generate]
+verify_jwt = false
