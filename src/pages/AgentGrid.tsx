@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { agents, sectors } from "@/data/agents";
@@ -150,6 +151,11 @@ const AgentGrid = () => {
 
   return (
     <div className="min-h-screen flex flex-col relative">
+      <SEO
+        title="Assembl — AI Operations Platform for NZ Business | 42 Agents"
+        description="42 specialist AI agents that know NZ law. Employment, hospitality, construction, property, sports, education and more. Enterprise AI at SME pricing. From $89/mo. Built in Aotearoa."
+        path="/"
+      />
       <ParticleField />
 
       {/* Shared Brand Banner */}

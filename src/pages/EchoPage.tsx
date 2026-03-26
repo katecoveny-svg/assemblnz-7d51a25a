@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import SEO from "@/components/SEO";
 import { ArrowRight, Calendar, MessageCircle, Share2, Brain, MessageSquare, BarChart3 } from "lucide-react";
 import { motion } from "framer-motion";
 import BrandNav from "@/components/BrandNav";
@@ -23,6 +24,11 @@ const SOCIAL_LINKS = [
 
 const EchoPage = () => (
   <div className="min-h-screen flex flex-col relative">
+    <SEO
+      title="ECHO — AI Business Assistant | Customer Service, FAQ | Assembl"
+      description="Your AI front desk. Handles customer enquiries, answers FAQs, routes complex questions, captures leads. Trained on your business. Available 24/7."
+      path="/agents/echo"
+    />
     <ParticleField />
     <div className="relative z-10"><BrandNav /></div>
 
