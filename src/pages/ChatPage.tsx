@@ -2062,6 +2062,26 @@ const ChatPage = () => {
             </div>
           )}
 
+          {/* Quick Actions Bar */}
+          {messages.length > 0 && (() => {
+            const quickActions = (agentCapabilities[agentId || ""] || []).slice(0, 3);
+            if (quickActions.length === 0) return null;
+            return (
+              <div className="px-4 py-1.5 shrink-0">
+                <div className="max-w-2xl mx-auto flex gap-1.5 overflow-x-auto scrollbar-hide">
+                  {quickActions.map((qa) => (
+                    <button key={qa.title} onClick={() => sendMessage(qa.prompt)}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-medium whitespace-nowrap shrink-0 transition-all hover:scale-[1.02]"
+                      style={{ background: `${agent.color}10`, color: agent.color, border: `1px solid ${agent.color}20` }}>
+                      <qa.icon size={11} />
+                      {qa.title}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
+
           {/* Input Bar */}
           <form onSubmit={handleSubmit} className="px-4 py-3 border-t border-border shrink-0">
             <div className="max-w-2xl mx-auto flex gap-2 items-center">
