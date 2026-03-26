@@ -3,14 +3,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
 const FAQS = [
-  { q: "What is Assembl?", a: "Assembl is an AI operations platform with 42 specialist agents trained on New Zealand legislation and industry best practice. It replaces multiple SaaS tools with one intelligence layer." },
-  { q: "Do I need technical skills to use it?", a: "Not at all. Every agent works through natural conversation — just type or speak. No code, no setup, no training required." },
+  { q: "What is Assembl?", a: "Assembl is an enterprise intelligence platform with 42 specialist business advisors trained on New Zealand legislation and industry best practice. It gives your team access to the kind of specialist knowledge usually reserved for large corporates — strategy, compliance, operations, and growth tools, all in one place." },
+  { q: "Do I need technical skills to use it?", a: "Not at all. Every advisor works through natural conversation — just type or speak. No code, no setup, no training required." },
   { q: "Is my data safe?", a: "Yes. All data is encrypted in transit and at rest. We follow NZISM guidelines and are SOC 2 ready. Your business data is never used to train models." },
-  { q: "What NZ legislation do agents know?", a: "Agents are trained on 50+ NZ Acts including the Employment Relations Act 2000, Building Act 2004, Health and Safety at Work Act 2015, Privacy Act 2020, Consumer Guarantees Act 1993, and many more." },
-  { q: "Can I try before I buy?", a: "Absolutely. Every agent offers 3 free messages with no signup required. You can explore all 42 agents before choosing a plan." },
+  { q: "What NZ legislation is built in?", a: "Our tools are trained on 50+ NZ Acts including the Employment Relations Act 2000, Building Act 2004, Health and Safety at Work Act 2015, Privacy Act 2020, Consumer Guarantees Act 1993, and many more." },
+  { q: "Can I try before I buy?", a: "Absolutely. Every specialist tool offers 3 free messages with no signup required. You can explore all 42 tools before choosing a plan." },
   { q: "How does the annual discount work?", a: "Annual billing saves you 15% compared to monthly. You're billed once per year at the discounted rate, and can cancel anytime." },
-  { q: "Can I embed agents on my website?", a: "Yes. Pro and above plans include an embeddable chat widget. Just copy the code snippet and paste it into your site — your agent goes live instantly." },
-  { q: "What industries do you cover?", a: "Construction, hospitality, property management, automotive, HR, finance, maritime, agriculture, nonprofit, government, health, education, and many more — 42 agents across every major NZ industry." },
+  { q: "Can I embed tools on my website?", a: "Yes. Pro and above plans include an embeddable chat widget. Just copy the code snippet and paste it into your site — your advisor goes live instantly." },
+  { q: "What industries do you cover?", a: "Construction, hospitality, property management, automotive, HR, finance, maritime, agriculture, nonprofit, government, health, education, and many more — 42 specialist advisors across every major NZ industry." },
 ];
 
 const FAQSection = () => {

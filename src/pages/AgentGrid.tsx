@@ -29,7 +29,7 @@ const PRICING_PLANS = [
     name: "Free",
     monthlyPrice: 0,
     color: "#A1A1AA",
-    features: ["3 messages per agent", "All 42 agents", "NZ legislation knowledge", "No signup required"],
+    features: ["3 messages per advisor", "All 42 specialist tools", "NZ legislation knowledge", "No signup required"],
     cta: "Start free",
     href: "/",
     external: false,
@@ -39,7 +39,7 @@ const PRICING_PLANS = [
     name: "Starter",
     monthlyPrice: 89,
     color: "#10B981",
-    features: ["1 AI agent", "100 messages/month", "NZ legislation references", "Email support"],
+    features: ["1 specialist advisor", "100 messages/month", "NZ legislation references", "Email support"],
     cta: "Get started",
     href: "https://buy.stripe.com/fZuaEZa1CdkA6573Wu3oA0b",
     external: true,
@@ -49,7 +49,7 @@ const PRICING_PLANS = [
     name: "Pro",
     monthlyPrice: 299,
     color: "#10B981",
-    features: ["3 AI agents + SPARK", "500 messages/month", "Brand DNA scanner", "Symbiotic workflows", "Priority support"],
+    features: ["3 specialist advisors + SPARK", "500 messages/month", "Brand DNA scanner", "Cross-tool workflows", "Priority support"],
     cta: "Start Pro",
     href: "https://buy.stripe.com/14A00l4Hi4O43WZ50y3oA0a",
     external: true,
@@ -59,7 +59,7 @@ const PRICING_PLANS = [
     name: "Business",
     monthlyPrice: 599,
     color: "#10B981",
-    features: ["All 42 AI agents", "2,000 messages/month", "Command Centre", "MCP API", "Phone support"],
+    features: ["All 42 specialist tools", "2,000 messages/month", "Command Centre", "MCP API", "Phone support"],
     cta: "Start Business",
     href: "https://buy.stripe.com/6oU9AVa1C6Wcbpr2Sq3oA09",
     external: true,
@@ -69,7 +69,7 @@ const PRICING_PLANS = [
     name: "Enterprise",
     monthlyPrice: 1499,
     color: "#B388FF",
-    features: ["Unlimited agents & messages", "Dedicated account manager", "Custom integrations", "SLA guarantee", "On-premise option", "SOC 2 compliant"],
+    features: ["Unlimited tools & messages", "Dedicated account manager", "Custom integrations", "SLA guarantee", "On-premise option", "SOC 2 compliant"],
     cta: "Contact sales",
     href: "/#contact",
     external: false,
@@ -78,16 +78,16 @@ const PRICING_PLANS = [
 ];
 
 const HOW_IT_WORKS = [
-  { step: "01", title: "Pick your agent", desc: "Choose from 42 specialists covering NZ industries from hospo to government.", icon: <Users size={24} /> },
-  { step: "02", title: "Teach your brand", desc: "Scan your website or paste your brand profile. Every agent remembers your context.", icon: <Zap size={24} /> },
-  { step: "03", title: "Get NZ advice", desc: "Ask anything. Get answers grounded in NZ legislation, regulations, and best practice.", icon: <BookOpen size={24} /> },
+  { step: "01", title: "Tell us about your business", desc: "Share your industry, team size, and goals. Your expert team adapts to you.", icon: <Users size={24} /> },
+  { step: "02", title: "Access your expert team", desc: "42 specialist advisors covering every NZ industry, all trained on NZ legislation.", icon: <Zap size={24} /> },
+  { step: "03", title: "Get specialist guidance", desc: "Ask anything. Get recommendations grounded in NZ legislation, regulations, and best practice.", icon: <BookOpen size={24} /> },
   { step: "04", title: "Run 24/7", desc: "Embed on your site, share with your team, or let customers chat directly.", icon: <Clock size={24} /> },
 ];
 
 const ALSO_BY_ASSEMBL = [
-  { title: "Custom AI Builds", desc: "Bespoke AI agents trained on your internal data, SOPs, and brand voice.", color: "#00FF88" },
+  { title: "Custom Intelligence Builds", desc: "Bespoke specialist advisors trained on your internal data, SOPs, and brand voice.", color: "#00FF88" },
   { title: "Website Chatbots", desc: "Drop-in chat widgets for your website — trained, branded, and always on.", color: "#00E5FF" },
-  { title: "AssemblFund", desc: "Our initiative to bring AI tools to Kiwi startups and community organisations.", color: "#B388FF" },
+  { title: "AssemblFund", desc: "Our initiative to bring enterprise tools to Kiwi startups and community organisations.", color: "#B388FF" },
 ];
 
 const AgentGrid = () => {
@@ -192,8 +192,8 @@ const AgentGrid = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-glow-cyan mb-2">Meet the team</h2>
-          <p className="text-sm font-jakarta text-muted-foreground">Tap any agent to chat live — no signup needed.</p>
+          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-glow-cyan mb-2">Your expert team</h2>
+          <p className="text-sm font-jakarta text-muted-foreground">Tap any advisor to chat live — no signup needed.</p>
         </motion.div>
 
         {/* Filter Bar */}
