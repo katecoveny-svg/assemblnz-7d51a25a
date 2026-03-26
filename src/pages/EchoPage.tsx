@@ -24,6 +24,11 @@ const SOCIAL_LINKS = [
 
 const EchoPage = () => (
   <div className="min-h-screen flex flex-col relative">
+    <SEO
+      title="ECHO — AI Business Assistant | Customer Service, FAQ | Assembl"
+      description="Your AI front desk. Handles customer enquiries, answers FAQs, routes complex questions, captures leads. Trained on your business. Available 24/7."
+      path="/agents/echo"
+    />
     <ParticleField />
     <div className="relative z-10"><BrandNav /></div>
 

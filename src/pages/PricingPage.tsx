@@ -35,6 +35,11 @@ const PricingPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col relative" style={{ background: '#09090B' }}>
+      <SEO
+        title="Assembl Pricing — From $89/mo | AI Agents for NZ Business"
+        description="Starter $89/mo (1 agent). Pro $299/mo (3 agents + SPARK). Business $599/mo (all 42 agents). Industry Suite $1,499/mo (custom agents + white-label). HELM Family from $14/mo."
+        path="/pricing"
+      />
       <BrandNav />
 
       {/* Hero */}

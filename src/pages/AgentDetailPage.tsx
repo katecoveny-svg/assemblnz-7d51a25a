@@ -91,8 +91,11 @@ const AgentDetailPage = () => {
   if (agentId === "echo") return <Navigate to="/agents/echo" replace />;
   if (!agent) return <Navigate to="/" replace />;
 
+  const seo = agentSEO[agentId || ""];
+
   return (
     <div className="min-h-screen flex flex-col relative" style={{ background: "hsl(var(--background))" }}>
+      {seo && <SEO title={seo.title} description={seo.description} path={`/agents/${agentId}`} />}
       <ParticleField />
       <div className="relative z-10">
         <BrandNav />
