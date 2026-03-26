@@ -1726,6 +1726,9 @@ const ChatPage = () => {
           {/* Chat Area */}
           <div className={`${hasLivePreview ? "md:w-[40%] md:min-w-0 md:border-r md:border-border" : ""} ${hasLivePreview && sparkMobileView === "preview" ? "hidden md:flex" : "flex"} flex-col flex-1 min-h-0`}>
           <div className="flex-1 overflow-y-auto px-4 py-4">
+            {/* Proactive cross-agent alerts */}
+            {agentId && <ProactiveAlertCards currentAgentId={agentId} accentColor={accentColor} />}
+
             {showWelcome ? (
               <div className="flex flex-col items-center justify-center min-h-full text-center gap-4 py-6 opacity-0 animate-fade-up overflow-y-auto" style={{ animationFillMode: "forwards" }}>
                 <AgentWelcome agent={agent} />
