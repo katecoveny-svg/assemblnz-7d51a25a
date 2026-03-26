@@ -16,11 +16,11 @@ const MAIN_PLANS = [
 const HELM_PLAN = { ...PRICING.helm, desc: "AI life admin for Kiwi families" };
 
 const FAQS = [
-  { q: "Can I try Assembl for free?", a: "Every agent is available for free — no signup required. You get 3 messages per agent to explore. If you like what you see, sign up for a plan to unlock more." },
+  { q: "Can I try Assembl for free?", a: "Every specialist tool is available for free — no signup required. You get 3 messages per advisor to explore. If you like what you see, sign up for a plan to unlock more." },
   { q: "How do message limits work?", a: "Starter gives you 100 messages per month. Pro provides 500 per month. Business gives you 2,000 and Suite provides 5,000. Enterprise is unlimited." },
-  { q: "What NZ legislation do the agents know?", a: "Our agents are trained on 50+ NZ Acts and regulations including the Employment Relations Act, Health & Safety at Work Act, Building Code, Food Act, Privacy Act, and many more." },
+  { q: "What NZ legislation is built in?", a: "Our tools are trained on 50+ NZ Acts and regulations including the Employment Relations Act, Health & Safety at Work Act, Building Code, Food Act, Privacy Act, and many more." },
   { q: "Can I cancel anytime?", a: "Yes. All plans are month-to-month with no lock-in contracts. Cancel anytime from your dashboard." },
-  { q: "What is HELM?", a: "HELM is our life admin AI agent designed for NZ families. It helps with meal planning, budgeting, school admin, and more — all with Kiwi context built in." },
+  { q: "What is HELM?", a: "HELM is our family life admin advisor designed for NZ families. It helps with meal planning, budgeting, school admin, and more — all with Kiwi context built in." },
   { q: "Do you offer discounts for nonprofits or startups?", a: "Yes! Through our AssemblFund initiative, we offer subsidised access for Kiwi startups and community organisations. Contact us at assembl@assembl.co.nz." },
 ];
 
@@ -40,7 +40,7 @@ const PricingPage = () => {
       <section className="pt-20 pb-10 sm:py-28">
         <div className="max-w-5xl mx-auto px-5 sm:px-6 text-center">
           <h1 className="text-2xl sm:text-5xl font-syne font-bold mb-3 leading-tight" style={{ color: '#FAFAFA', letterSpacing: '-0.025em' }}>
-            Simple pricing. Serious capability.
+            Access enterprise tools. SME pricing.
           </h1>
           <p className="text-sm sm:text-base font-jakarta max-w-xl mx-auto mb-6" style={{ color: '#A1A1AA' }}>
             Every plan includes NZ legislation, document templates, and proactive compliance alerts.

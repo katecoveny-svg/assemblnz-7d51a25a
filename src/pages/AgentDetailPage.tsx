@@ -21,8 +21,8 @@ const AgentDetailPage = () => {
     const jsonLd = {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      "name": `${agent.name} – Assembl AI Agent`,
-      "description": `${agent.tagline}. ${agent.role} powered by Assembl's AI platform for New Zealand businesses.`,
+      "name": `${agent.name} – Assembl Business Advisor`,
+      "description": `${agent.tagline}. ${agent.role} — specialist business intelligence for New Zealand ${agent.sector} businesses.`,
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web",
       "url": `https://assembl.co.nz/agents/${agent.id}`,
@@ -39,7 +39,7 @@ const AgentDetailPage = () => {
         "logo": "https://assembl.co.nz/placeholder.svg"
       },
       "featureList": agent.expertise,
-      "keywords": [agent.sector, "AI agent", "New Zealand", "business automation", ...agent.traits],
+      "keywords": [agent.sector, "business advisor", "New Zealand", "enterprise intelligence", ...agent.traits],
     };
 
     const script = document.createElement("script");
@@ -49,8 +49,8 @@ const AgentDetailPage = () => {
     document.getElementById("agent-jsonld")?.remove();
     document.head.appendChild(script);
 
-    const pageTitle = `${agent.name} – ${agent.sector} AI Agent | Assembl`;
-    const pageDesc = `${agent.name}: ${agent.tagline}. ${agent.role} – AI-powered automation for NZ ${agent.sector} businesses.`;
+    const pageTitle = `${agent.name} – Your ${agent.sector} Advisor | Assembl`;
+    const pageDesc = `${agent.name}: ${agent.tagline}. ${agent.role} — specialist business intelligence for NZ ${agent.sector} businesses.`;
     const pageUrl = `https://assembl.co.nz/agents/${agent.id}`;
     const pageImage = "https://assembl.co.nz/placeholder.svg";
 
