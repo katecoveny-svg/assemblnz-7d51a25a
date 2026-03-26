@@ -44,16 +44,6 @@ const TurfSection = () => {
                 >
                   NZ SPORT
                 </span>
-                <span
-                  className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full flex items-center gap-1"
-                  style={{
-                    background: `${TURF_COLOR}20`,
-                    color: TURF_COLOR,
-                    border: `1px solid ${TURF_COLOR}40`,
-                  }}
-                >
-                  <Mic size={8} /> VOICE
-                </span>
               </div>
 
               <h2
