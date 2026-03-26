@@ -319,6 +319,17 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
                     style={{ background: showEditor === s.id ? `${ACCENT}25` : `${ACCENT}10`, color: ACCENT }}>
                     <Scissors size={13} />
                   </button>
+                  {s.scenes && s.scenes.length > 0 && (
+                    <button
+                      onClick={() => generateVideoFrames(s)}
+                      disabled={generatingFrames === s.id}
+                      className="p-1.5 rounded-lg transition-all hover:scale-105 disabled:opacity-50"
+                      style={{ background: `linear-gradient(135deg, ${ACCENT}20, ${ACCENT}10)`, color: ACCENT, border: `1px solid ${ACCENT}30` }}
+                      title="Generate AI scene visuals"
+                    >
+                      {generatingFrames === s.id ? <Loader2 size={13} className="animate-spin" /> : <Zap size={13} />}
+                    </button>
+                  )}
                 </div>
               </div>
 
