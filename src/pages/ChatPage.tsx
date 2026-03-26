@@ -1108,7 +1108,7 @@ const ChatPage = () => {
 
       const body = isHaven
         ? { messages: apiMessages }
-        : { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, brandLogoUrl: brandLogoUrl || undefined, teReoPrompt: teReoPrompt || undefined, model: selectedModel, mentionedAgents: mentionedAgents.length > 0 ? mentionedAgents : undefined };
+        : { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, brandLogoUrl: brandLogoUrl || undefined, teReoPrompt: teReoPrompt || undefined, model: selectedModel, mentionedAgents: mentionedAgents.length > 0 ? mentionedAgents : undefined, receptionistMode: agentId === "echo" && receptionistMode ? true : undefined };
 
       const invokeOptions: any = { body };
       if (isHaven && session?.access_token) {
