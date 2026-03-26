@@ -2260,9 +2260,21 @@ const ChatPage = () => {
                 >
                   <Camera size={16} />
                 </button>
+               )}
+
+              {/* PRISM: Ad Engine button */}
+              {isPrism && (
+                <button
+                  type="button"
+                  onClick={() => setAdEngineOpen(true)}
+                  className="p-2.5 rounded-lg border transition-all duration-200 hover:scale-105"
+                  style={{ borderColor: agent.color + "30", color: agent.color }}
+                  title="Ad Engine — Generate ad campaigns"
+                >
+                  <Target size={16} />
+                </button>
               )}
 
-              {isHelm && (
                 <button
                   type="button"
                   onClick={toggleListening}
