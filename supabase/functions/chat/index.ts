@@ -3837,7 +3837,7 @@ Three methods — advise which is best for the business:
 2. ESTIMATION: Estimate current year tax. Flexibility but penalties if underestimated >$2K. Good for businesses with variable income.
 3. AIM (Accounting Income Method): Pay as you go via accounting software (Xero, MYOB). Two-monthly payments based on actual results. No UOMI if compliant. Best for seasonal businesses or high-growth companies.
 
-Use of money interest (UOMI): IRD charges interest on underpaid tax. Current rates: underpayment ~7.28%, overpayment ~0%. Tax pooling (Tax Management NZ, Tax Traders) can reduce UOMI exposure.
+Use of money interest (UOMI): IRD charges interest on underpaid tax. Current rates (2026): underpayment 9.89%, overpayment 3.27%. Tax pooling (Tax Management NZ, Tax Traders) can reduce UOMI exposure.
 
 RWT (Resident Withholding Tax):
 - Interest income: 10.5%, 17.5%, 30%, 33%, 39% (based on declared rate)
@@ -3846,7 +3846,7 @@ RWT (Resident Withholding Tax):
 - RWT on Māori Authority distributions
 
 FBT (Fringe Benefit Tax):
-- Motor vehicles: cost price × 20% = benefit value (or actual private use log). FBT rate: single rate 49.25% (flat), alternate rate (quarterly based on all-inclusive pay)
+- Motor vehicles: cost price × 20% = benefit value (or actual private use log). FBT rate: single rate 49.25% (flat), alternate rate (quarterly based on all-inclusive pay). Pooled alternate rate: 6.29% (2026).
 - Low-interest loans: prescribed rate − actual rate = benefit. Prescribed rate updated quarterly by IRD.
 - Employer contributions to insurance, club memberships, subsidised goods/services
 - Exempt: tools of trade, car parks on premises (if not >market value), small benefits (<$300/quarter per employee, $22,500 total cap)
@@ -3866,6 +3866,17 @@ TAX POOLING:
 - Can retrospectively cover underpaid provisional tax (within timeframes)
 - Reduces UOMI exposure significantly
 - Cost: typically pool interest rate vs IRD UOMI rate
+
+CRITICAL 2026 TAX & REGULATORY UPDATES:
+- INVESTMENT BOOST: 20% accelerated depreciation on eligible new assets purchased from May 2025. Businesses can claim an additional 20% deduction in the year the asset is first used or installed. Applies to new depreciable assets (not buildings, land, or intangibles). Significant tax planning opportunity — advise all business clients.
+- KiwiSaver: Employee AND employer minimum contribution increases to 3.5% from 1 April 2026, then 4% from 1 April 2028. Update all payroll systems. KiwiSaver employer contributions now apply to 16-17 year olds from April 2026.
+- BRIGHT-LINE: Reduced to 2 years for all property from 1 July 2024. Interest deductibility: 80% deductible 2025/26, 100% from 2026/27 for existing residential.
+- NON-RESIDENT VISITOR RULE: From April 2026, 275 days in any 18-month period triggers NZ tax residency (replacing the 325-day rule). Major impact on contractors, seasonal workers, and mobile professionals.
+- GloBE / PILLAR TWO: Global minimum tax of 15% for large MNEs (consolidated revenue >€750M) from 1 January 2025. NZ's Income Inclusion Rule (IIR) and Undertaxed Profits Rule (UTPR). Affects NZ subsidiaries of large multinationals and NZ-headquartered MNEs.
+- WAGE THEFT CRIMINALISED: From March 2025, deliberate non-payment or underpayment of wages is a criminal offence. Penalties include fines and imprisonment. Employers must ensure payroll accuracy.
+- AML/CFT: DIA becomes single supervisor for accountants (already) and lawyers (July 2026). All accounting practices must maintain current AML/CFT compliance programmes, conduct risk assessments, and file suspicious activity reports.
+- PAYDAY FILING: Employers must file employment information with IRD within 2 working days of each payday. Penalties for late filing.
+- TOP TAX RATE: 39% on income over $180,000 (individual). Trust tax rate 39% (from 2024). Company rate remains 28%.
 
 
 2. XERO INTEGRATION GUIDANCE
