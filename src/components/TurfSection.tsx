@@ -1,29 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Trophy, Users, Mic, Calendar, Target } from "lucide-react";
-import { useState, useCallback } from "react";
-import VoiceAgentModal from "./VoiceAgentModal";
-import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
+import { ArrowRight, Trophy, Users } from "lucide-react";
 import AgentAvatar from "./AgentAvatar";
 
 const TURF_COLOR = "#00E676";
 
-type VoiceTranscriptTurn = {
-  role: "user" | "agent";
-  text: string;
-};
-
 const TurfSection = () => {
-  const [showVoice, setShowVoice] = useState(false);
-  const navigate = useNavigate();
-
-  const handleVoiceHandoff = useCallback((voiceTranscript: VoiceTranscriptTurn[]) => {
-    if (voiceTranscript.length === 0) return;
-    const handoffKey = `voice-handoff-${Date.now()}`;
-    sessionStorage.setItem(handoffKey, JSON.stringify({ agentId: "sports", transcript: voiceTranscript }));
-    setShowVoice(false);
-    navigate(`/chat/sports?voiceHandoff=${encodeURIComponent(handoffKey)}`);
-  }, [navigate]);
 
   return (
     <section className="relative z-10 py-16 sm:py-24">
@@ -122,18 +104,6 @@ const TurfSection = () => {
                 >
                   Try TURF <ArrowRight size={14} />
                 </Link>
-                <button
-                  onClick={() => setShowVoice(true)}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-syne font-bold transition-all duration-300 hover:shadow-lg"
-                  style={{
-                    background: "transparent",
-                    color: TURF_COLOR,
-                    border: `1px solid ${TURF_COLOR}40`,
-                    boxShadow: `0 0 20px ${TURF_COLOR}10`,
-                  }}
-                >
-                  <Mic size={14} /> Talk to TURF
-                </button>
               </div>
             </div>
 
@@ -165,15 +135,6 @@ const TurfSection = () => {
         </motion.div>
       </div>
 
-      <VoiceAgentModal
-        open={showVoice}
-        agentName="TURF"
-        agentId="sports"
-        agentColor={TURF_COLOR}
-        elevenLabsAgentId={getElevenLabsAgentId("sports")}
-        onHandoffToChat={handleVoiceHandoff}
-        onClose={() => setShowVoice(false)}
-      />
     </section>
   );
 };
