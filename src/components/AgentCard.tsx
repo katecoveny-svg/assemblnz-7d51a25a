@@ -1,9 +1,10 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
-import { Mic } from "lucide-react";
+import { Mic, ChevronRight } from "lucide-react";
 import AgentAvatar from "@/components/AgentAvatar";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
+import { agentCapabilities } from "@/data/agentCapabilities";
 import type { Agent } from "@/data/agents";
 
 interface AgentCardProps {
@@ -30,6 +31,9 @@ const AgentCard = ({ agent, index }: AgentCardProps) => {
     mouseX.set(0.5);
     mouseY.set(0.5);
   };
+
+  const caps = agentCapabilities[agent.id];
+  const bullets = caps ? caps.slice(0, 3).map(c => c.bullet) : agent.expertise.slice(0, 3);
 
   return (
     <motion.div
@@ -76,20 +80,18 @@ const AgentCard = ({ agent, index }: AgentCardProps) => {
             <h3 className="text-base font-syne font-bold tracking-wide text-foreground">{agent.name}</h3>
             <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: agent.color, opacity: 0.5 }} />
           </div>
-          <p className="text-xs font-jakarta font-medium mb-1 text-muted-foreground">{agent.role}</p>
-          <p className="text-xs font-jakarta italic mb-3" style={{ color: 'hsl(var(--muted-foreground) / 0.6)' }}>"{agent.tagline}"</p>
-          <div className="flex flex-wrap gap-1.5 mb-3">
-            {agent.traits.map(t => (
-              <span key={t} className="text-[10px] font-jakarta px-2 py-0.5 rounded-full border border-border text-muted-foreground">
-                {t}
-              </span>
+          <p className="text-xs font-jakarta font-medium mb-2 text-muted-foreground">{agent.role}</p>
+
+          {/* Capability bullets */}
+          <ul className="space-y-1.5 mb-3">
+            {bullets.map((b) => (
+              <li key={b} className="flex items-start gap-2 text-[11px] font-jakarta text-foreground/70">
+                <ChevronRight size={10} className="mt-[3px] shrink-0" style={{ color: agent.color }} />
+                {b}
+              </li>
             ))}
-          </div>
-          <div className="flex flex-wrap gap-1 mb-4">
-            {agent.expertise.map(e => (
-              <span key={e} className="font-mono-jb text-[9px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground">{e}</span>
-            ))}
-          </div>
+          </ul>
+
           <div className="flex items-center gap-2 text-xs font-jakarta font-medium text-muted-foreground group-hover:text-foreground transition-colors">
             <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: agent.color, opacity: 0.5 }} />
             Chat now →

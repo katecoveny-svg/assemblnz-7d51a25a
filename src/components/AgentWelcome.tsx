@@ -10,7 +10,8 @@ interface AgentWelcomeProps {
 }
 
 const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
-  const capabilities = agentCapabilities[agent.id] || [];
+  const rawCaps = agentCapabilities[agent.id] || [];
+  const capabilities = rawCaps.map(c => typeof c === 'string' ? c : c.bullet);
   const { profile, user } = useAuth();
   const firstName = profile?.full_name?.split(" ")[0] || "";
   const greeting = getGreetingText(firstName);
