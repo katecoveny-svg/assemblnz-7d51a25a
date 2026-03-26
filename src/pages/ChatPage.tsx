@@ -2395,6 +2395,7 @@ const ChatPage = () => {
           void sendMessage(buildVoiceHandoffPrompt(voiceTranscript));
         }}
       />
+      {isPrism && <AdEngineModal open={adEngineOpen} onOpenChange={setAdEngineOpen} />}
     </div>
   );
 };
