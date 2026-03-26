@@ -51,6 +51,7 @@ import ForgeMarketing from "@/components/forge/ForgeMarketing";
 import ForgeEvents from "@/components/forge/ForgeEvents";
 import ForgeBrandHub from "@/components/forge/ForgeBrandHub";
 import ForgeTeam from "@/components/forge/ForgeTeam";
+import ForgeAudit from "@/components/forge/ForgeAudit";
 import ArohaContracts from "@/components/aroha/ArohaContracts";
 import ArohaOnboarding from "@/components/aroha/ArohaOnboarding";
 import ArohaPayroll from "@/components/aroha/ArohaPayroll";
@@ -847,8 +848,8 @@ const ChatPage = () => {
       tabs.push({ id: "iot_field", label: "IoT & Field", icon: <Radio size={13} /> });
     }
     if (isForge) {
-      ["Showroom", "Sales", "Parts", "Marketing", "Events", "Team", "Brand Hub"].forEach((label, i) => {
-        const ids = ["forge_showroom", "forge_sales", "forge_parts", "forge_marketing", "forge_events", "forge_team", "forge_brand"];
+      ["Showroom", "Sales", "Parts", "Marketing", "Events", "Team", "Brand Hub", "Audit"].forEach((label, i) => {
+        const ids = ["forge_showroom", "forge_sales", "forge_parts", "forge_marketing", "forge_events", "forge_team", "forge_brand", "forge_audit"];
         tabs.push({ id: ids[i], label });
       });
     }
@@ -1645,6 +1646,8 @@ const ChatPage = () => {
         <ForgeBrandHub />
       ) : activeTab === "forge_team" && isForge ? (
         <ForgeTeam />
+      ) : activeTab === "forge_audit" && isForge ? (
+        <ForgeAudit />
       ) : activeTab === "content_studio" && isMarketing ? (
         <ContentStudio onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "tender_writer" && isConstruction ? (
