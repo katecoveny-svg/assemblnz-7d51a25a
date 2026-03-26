@@ -1,4 +1,6 @@
 import { useParams, Link, Navigate } from "react-router-dom";
+import SEO from "@/components/SEO";
+import { agentSEO } from "@/data/agentSEO";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2, Zap, ArrowLeft, Sparkles } from "lucide-react";

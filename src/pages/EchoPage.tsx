@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import SEO from "@/components/SEO";
 import { ArrowRight, Calendar, MessageCircle, Share2, Brain, MessageSquare, BarChart3 } from "lucide-react";
 import { motion } from "framer-motion";
 import BrandNav from "@/components/BrandNav";

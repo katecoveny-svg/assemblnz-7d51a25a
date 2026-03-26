@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
 import { ChevronDown, Check } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
