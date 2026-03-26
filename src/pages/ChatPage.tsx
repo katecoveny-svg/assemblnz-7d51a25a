@@ -461,6 +461,8 @@ const ChatPage = () => {
     return () => window.removeEventListener("aura-mode-changed", handler);
   }, []);
 
+  // ECHO Receptionist Mode
+  const [receptionistMode, setReceptionistMode] = useState(() => sessionStorage.getItem("assembl_receptionist_mode") === "true");
 
   const toggleListening = useCallback(() => {
     if (isListening) {
