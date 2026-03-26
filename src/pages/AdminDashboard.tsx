@@ -220,13 +220,15 @@ const AdminDashboard = () => {
             ) : metrics && (
               <>
                 {/* KPI Cards */}
-                <div className="grid grid-cols-2 lg:grid-cols-6 gap-3">
+                <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-8 gap-3">
                   {[
                     { label: "Total Users", value: metrics.totalUsers, icon: Users, color: "#B388FF" },
+                    { label: "Active Sessions", value: metrics.activeSessions, icon: Globe, color: "#E040FB" },
                     { label: "Messages 24h", value: metrics.messagesToday, icon: MessageSquare, color: "#00E5FF" },
                     { label: "Messages 7d", value: metrics.messagesWeek, icon: MessageSquare, color: "#4FC3F7" },
                     { label: "Messages 30d", value: metrics.messagesMonth, icon: MessageSquare, color: "#6366F1" },
                     { label: "Paid Subscribers", value: metrics.paidSubscribers, icon: TrendingUp, color: "#FFB800" },
+                    { label: "Conversion", value: `${metrics.conversionRate}%`, icon: BarChart3, color: "#FF6B6B" },
                     { label: "MRR", value: `$${metrics.mrr}`, icon: DollarSign, color: "#00FF88" },
                   ].map(m => (
                     <div key={m.label} className={glassCard + " p-4"} style={{ ...glassStyle, boxShadow: `0 0 20px ${m.color}08` }}>
