@@ -1138,6 +1138,36 @@ const ChatPage = () => {
         }).then(() => {});
       }
 
+      // Write business context to shared_context when key facts detected
+      if (user && assistantContent) {
+        const userText = content.toLowerCase();
+        const contextWrites: { key: string; value: any }[] = [];
+        
+        // Detect business identity facts from user messages
+        const bizNameMatch = content.match(/(?:my (?:business|company|shop|store|firm|practice) (?:is|called|named))\s+["']?([^"'\n,.]+)/i);
+        if (bizNameMatch) contextWrites.push({ key: "business_name", value: bizNameMatch[1].trim() });
+        
+        const industryMatch = content.match(/(?:we're|we are|i'm|i am|we run|i run)\s+(?:a|an|in)\s+(construction|hospitality|retail|automotive|legal|property|sports|agriculture|tourism|tech|marketing|nonprofit|logistics|finance|healthcare|education)\b/i);
+        if (industryMatch) contextWrites.push({ key: "industry", value: industryMatch[1].toLowerCase() });
+        
+        const teamMatch = content.match(/(\d+)\s+(?:staff|employees|people|team members)/i);
+        if (teamMatch) contextWrites.push({ key: "team_size", value: parseInt(teamMatch[1]) });
+        
+        const locationMatch = content.match(/(?:based in|located in|we're in|from)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/);
+        if (locationMatch) contextWrites.push({ key: "location", value: locationMatch[1] });
+
+        // Write detected facts to shared_context
+        for (const ctx of contextWrites) {
+          supabase.from("shared_context").upsert({
+            user_id: user.id,
+            context_key: ctx.key,
+            context_value: ctx.value,
+            source_agent: agentId || "echo",
+            confidence: 0.8,
+          }, { onConflict: "user_id,context_key" }).then(() => {});
+        }
+      }
+
       // Process NEXUS workflow data from response
       if (isNexus && nexusWorkflowActive) {
         processNexusResponse(assistantContent);
