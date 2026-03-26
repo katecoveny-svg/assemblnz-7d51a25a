@@ -214,8 +214,8 @@ const AdminDashboard = () => {
         {tab === "overview" && (
           <>
             {loadingData && !metrics ? (
-              <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
-                {[1,2,3,4,5,6].map(i => <div key={i} className="h-28 rounded-2xl animate-pulse" style={glassStyle} />)}
+              <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-8 gap-3">
+                {[1,2,3,4,5,6,7,8].map(i => <div key={i} className="h-28 rounded-2xl animate-pulse" style={glassStyle} />)}
               </div>
             ) : metrics && (
               <>
