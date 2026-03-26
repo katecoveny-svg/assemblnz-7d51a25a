@@ -7,6 +7,7 @@ import AgentAvatar from "@/components/AgentAvatar";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Brain, ListChecks, Phone, Radio, Camera, RotateCcw } from "lucide-react";
 import { AGENT_LOADING_MESSAGES } from "@/engine/personality";
+import { agentCapabilities } from "@/data/agentCapabilities";
 import AgentMemoryPanel from "@/components/chat/AgentMemoryPanel";
 import ActionQueuePanel from "@/components/chat/ActionQueuePanel";
 import sparkCtaImg from "@/assets/agents/spark.png";
@@ -374,6 +375,8 @@ const ChatPage = () => {
   const [selectedModel, setSelectedModel] = useState<string>(() => sessionStorage.getItem("assembl_ai_model") || "gemini-flash");
   const [voiceModalOpen, setVoiceModalOpen] = useState(false);
   const [historyReady, setHistoryReady] = useState(false);
+  const [showOnboardingTooltip, setShowOnboardingTooltip] = useState(false);
+  const [onboardingStep, setOnboardingStep] = useState(0);
 
   // PRISM quick image generation modal
   const [prismImageModalOpen, setPrismImageModalOpen] = useState(false);
@@ -431,6 +434,25 @@ const ChatPage = () => {
   const hasLiveDataTab = ["maritime", "agriculture", "sports", "hospitality", "pm", "automotive", "construction"].includes(agentId || "");
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
+
+  // First-time onboarding tooltip
+  useEffect(() => {
+    if (!agentId) return;
+    const key = `assembl_onboarded_${agentId}`;
+    if (!localStorage.getItem(key)) {
+      const timer = setTimeout(() => setShowOnboardingTooltip(true), 800);
+      return () => clearTimeout(timer);
+    }
+  }, [agentId]);
+
+  const dismissOnboarding = () => {
+    if (onboardingStep < 2) {
+      setOnboardingStep(s => s + 1);
+    } else {
+      setShowOnboardingTooltip(false);
+      if (agentId) localStorage.setItem(`assembl_onboarded_${agentId}`, "1");
+    }
+  };
 
   // Listen for AURA mode changes to refresh tabs
   useEffect(() => {
@@ -837,84 +859,55 @@ const ChatPage = () => {
   const [sparkMobileView, setSparkMobileView] = useState<"chat" | "preview">("chat");
 
   // Collect agent-specific tabs (must be before early return)
-  const agentTabs = useMemo(() => {
+   const agentTabs = useMemo(() => {
     if (!agent) return [];
     const tabs: { id: string; label: string; icon?: React.ReactNode }[] = [];
-    if (hasTemplateTab) tabs.push({ id: "templates", label: "Templates", icon: <LayoutGrid size={13} /> });
-    if (isMarketing) tabs.push({ id: "content_studio", label: "Content Studio", icon: <Sparkles size={13} /> });
+
+    // Consolidate all agent-specific tool tabs under a "Tools" mega-tab
+    const toolTabs: { id: string; label: string }[] = [];
+    if (hasTemplateTab) toolTabs.push({ id: "templates", label: "Templates" });
+    if (isMarketing) toolTabs.push({ id: "content_studio", label: "Content Studio" });
     if (isConstruction) {
-      tabs.push({ id: "tender_writer", label: "Tenders", icon: <FileText size={13} /> });
-      tabs.push({ id: "awards", label: "Awards", icon: <Trophy size={13} /> });
-      tabs.push({ id: "hs_hub", label: "H&S", icon: <Shield size={13} /> });
-      tabs.push({ id: "esg", label: "ESG", icon: <Leaf size={13} /> });
-      tabs.push({ id: "iot_field", label: "IoT & Field", icon: <Radio size={13} /> });
+      ["tender_writer:Tenders", "awards:Awards", "hs_hub:H&S", "esg:ESG", "iot_field:IoT"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isForge) {
-      ["Showroom", "Sales", "Parts", "Marketing", "Events", "Team", "Brand Hub", "Audit"].forEach((label, i) => {
-        const ids = ["forge_showroom", "forge_sales", "forge_parts", "forge_marketing", "forge_events", "forge_team", "forge_brand", "forge_audit"];
-        tabs.push({ id: ids[i], label });
-      });
+      ["forge_showroom:Showroom", "forge_sales:Sales", "forge_parts:Parts", "forge_marketing:Marketing", "forge_events:Events", "forge_team:Team", "forge_brand:Brand Hub", "forge_audit:Audit"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isAroha) {
-      ["Contracts", "Onboarding", "Payroll", "Recruitment", "Retention", "People", "Setup"].forEach((label, i) => {
-        const ids = ["aroha_contracts", "aroha_onboarding", "aroha_payroll", "aroha_recruitment", "aroha_retention", "aroha_people", "aroha_company"];
-        tabs.push({ id: ids[i], label });
-      });
+      ["aroha_contracts:Contracts", "aroha_onboarding:Onboarding", "aroha_payroll:Payroll", "aroha_recruitment:Recruitment", "aroha_retention:Retention", "aroha_people:People", "aroha_company:Setup"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isAura) {
-      const auraTabs = [
-        { id: "aura_food_safety", label: "☑ Food Safety" },
-        { id: "aura_kitchen", label: "Menu Builder" },
-        { id: "aura_team", label: "Staff Rostering" },
-        { id: "aura_guest", label: "Guest Experience" },
-        { id: "aura_operations", label: "Compliance" },
-      ];
-      auraTabs.forEach(t => tabs.push(t));
+      ["aura_food_safety:Food Safety", "aura_kitchen:Menu Builder", "aura_team:Staff Rostering", "aura_guest:Guest Experience", "aura_operations:Compliance"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isHaven) {
-      ["Dashboard", "Properties", "Jobs", "Tradies", "Command", "Compliance", "Costs", "Docs", "Alerts"].forEach((label, i) => {
-        const ids = ["haven_dashboard", "haven_properties", "haven_jobs", "haven_tradies", "haven_command", "haven_compliance", "haven_costs", "haven_documents", "haven_notifications"];
-        tabs.push({ id: ids[i], label });
-      });
+      ["haven_dashboard:Dashboard", "haven_properties:Properties", "haven_jobs:Jobs", "haven_tradies:Tradies", "haven_command:Command", "haven_compliance:Compliance", "haven_costs:Costs", "haven_documents:Docs", "haven_notifications:Alerts"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isFlux) {
-      ["Pipeline", "Follow-Ups", "Clients"].forEach((label, i) => {
-        const ids = ["flux_pipeline", "flux_followups", "flux_clients"];
-        tabs.push({ id: ids[i], label });
-      });
+      ["flux_pipeline:Pipeline", "flux_followups:Follow-Ups", "flux_clients:Clients"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isPrism) {
-      ["Campaigns", "Social", "Brand Voice", "Creative", "Ad Studio", "Product", "Video", "Brand Lab", "Publisher"].forEach((label, i) => {
-        const ids = ["prism_campaigns", "prism_social", "prism_brand", "prism_creative", "prism_ads", "prism_product", "prism_video", "prism_brandlab", "prism_publisher"];
-        tabs.push({ id: ids[i], label });
-      });
+      ["prism_campaigns:Campaigns", "prism_social:Social", "prism_brand:Brand Voice", "prism_creative:Creative", "prism_ads:Ad Studio", "prism_product:Product", "prism_video:Video", "prism_brandlab:Brand Lab", "prism_publisher:Publisher"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isNonprofit) {
-      ["Campaign Writer", "Marketplace", "Impact", "Corporate"].forEach((label, i) => {
-        const ids = ["kindle_writer", "kindle_marketplace", "kindle_impact", "kindle_corporate"];
-        tabs.push({ id: ids[i], label });
-      });
+      ["kindle_writer:Campaign Writer", "kindle_marketplace:Marketplace", "kindle_impact:Impact", "kindle_corporate:Corporate"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
-    if (isAxis) tabs.push({ id: "axis_automations", label: "Automations" });
+    if (isAxis) toolTabs.push({ id: "axis_automations", label: "Automations" });
     if (isHelm) {
-      ["This Week", "Bus", "Timetable", "Inbox", "Review", "Rescue", "Settings"].forEach((label, i) => {
-        const ids = ["helm_week", "helm_bus", "helm_timetable", "helm_inbox", "helm_review", "helm_rescue", "helm_settings"];
-        tabs.push({ id: ids[i], label });
-      });
+      ["helm_week:This Week", "helm_bus:Bus", "helm_timetable:Timetable", "helm_inbox:Inbox", "helm_review:Review", "helm_rescue:Rescue", "helm_settings:Settings"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isSports) {
-      ["Event Manager", "Membership", "Facilities", "Sponsorship", "Performance", "Compliance"].forEach((label, i) => {
-        const ids = ["turf_events", "turf_membership", "turf_facilities", "turf_sponsorship", "turf_performance", "turf_compliance"];
-        tabs.push({ id: ids[i], label });
-      });
+      ["turf_events:Events", "turf_membership:Membership", "turf_facilities:Facilities", "turf_sponsorship:Sponsorship", "turf_performance:Performance", "turf_compliance:Compliance"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
-    // Voice Agent tab for all agents
-    {
-      tabs.push({ id: "voice_waitlist", label: "Voice", icon: <Mic size={13} /> });
-    }
-    if (hasLiveDataTab) tabs.push({ id: "live_data", label: "Live Data", icon: <Radio size={13} /> });
-    tabs.push({ id: "agent_training", label: "Train", icon: <Brain size={13} /> });
-    if (!isHelm && !isSports && agentId !== "maritime") tabs.push({ id: "internal_comms", label: "Comms", icon: <MessageSquare size={13} /> });
+    if (hasLiveDataTab) toolTabs.push({ id: "live_data", label: "Live Data" });
+    if (!isHelm && !isSports && agentId !== "maritime") toolTabs.push({ id: "internal_comms", label: "Comms" });
+
+    // Top-level tabs: Chat is always shown separately; these are the other 4
+    if (toolTabs.length > 0) tabs.push(...toolTabs.map(t => ({ id: t.id, label: t.label })));
+
+    // Voice tab
+    tabs.push({ id: "voice_waitlist", label: "Voice", icon: <Mic size={13} /> });
+    // Settings/Train tab
+    tabs.push({ id: "agent_training", label: "Settings", icon: <Brain size={13} /> });
     return tabs;
   }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm, isSports, hasLiveDataTab, auraModeKey]);
 
@@ -1558,6 +1551,50 @@ const ChatPage = () => {
         <div className="h-[1px]" style={{ background: `linear-gradient(90deg, transparent 0%, ${accentColor}20 30%, ${accentColor}20 70%, transparent 100%)` }} />
       </header>
 
+      {/* First-time onboarding tooltip */}
+      {showOnboardingTooltip && agent && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onClick={dismissOnboarding}>
+          <div className="w-full max-w-sm rounded-2xl p-5 space-y-4 animate-scale-in" style={{ background: "#0D0D14", border: `1px solid ${accentColor}30`, boxShadow: `0 0 40px ${accentColor}15` }} onClick={e => e.stopPropagation()}>
+            <div className="flex items-center gap-2">
+              {[0,1,2].map(i => (
+                <div key={i} className="h-1 flex-1 rounded-full transition-all" style={{ background: i <= onboardingStep ? accentColor : "rgba(255,255,255,0.06)" }} />
+              ))}
+            </div>
+            {onboardingStep === 0 && (
+              <div className="text-center space-y-2">
+                <AgentAvatar agentId={agent.id} color={agent.color} size={48} />
+                <h3 className="text-sm font-bold text-foreground">Welcome to {agent.name}</h3>
+                <p className="text-xs text-muted-foreground">{agent.tagline}</p>
+              </div>
+            )}
+            {onboardingStep === 1 && (
+              <div className="space-y-2">
+                <h3 className="text-sm font-bold text-foreground text-center">What I can do for you</h3>
+                <div className="space-y-1.5">
+                  {(agentCapabilities[agentId || ""] || []).slice(0, 3).map((cap) => (
+                    <div key={cap.title} className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{ background: `${accentColor}08` }}>
+                      <cap.icon size={13} style={{ color: accentColor }} />
+                      <span className="text-[11px] text-foreground/80">{cap.title}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {onboardingStep === 2 && (
+              <div className="space-y-2 text-center">
+                <h3 className="text-sm font-bold text-foreground">Try asking me...</h3>
+                <p className="text-xs text-muted-foreground italic px-4">"{agent.starters[0]}"</p>
+              </div>
+            )}
+            <button onClick={dismissOnboarding}
+              className="w-full py-2 rounded-lg text-xs font-semibold transition-all"
+              style={{ background: `${accentColor}15`, color: accentColor, border: `1px solid ${accentColor}25` }}>
+              {onboardingStep < 2 ? "Next" : "Get Started"}
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Hidden logo file input */}
       <input
         ref={logoInputRef}
@@ -1838,12 +1875,49 @@ const ChatPage = () => {
                     ))}
                   </div>
                 ) : (
-                  <div className="flex flex-col gap-2 w-full max-w-sm mt-2">
-                    {agent.starters.map((q) => (
-                      <button key={q} onClick={() => sendMessage(q)} className="text-left text-xs px-4 py-3 rounded-lg border border-border bg-card hover:border-foreground/10 transition-colors text-foreground/70">
-                        {q}
-                      </button>
-                    ))}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full max-w-lg mt-2">
+                    {(() => {
+                      const caps = (agentCapabilities[agentId || ""] || []).slice(0, 4);
+                      if (caps.length > 0) {
+                        return caps.map((cap) => (
+                          <button key={cap.prompt} onClick={() => sendMessage(cap.prompt)}
+                            className="text-left rounded-xl p-3.5 transition-all duration-200 hover:scale-[1.01] group relative overflow-hidden"
+                            style={{
+                              background: "rgba(14,14,26,0.7)",
+                              backdropFilter: "blur(16px)",
+                              WebkitBackdropFilter: "blur(16px)",
+                              border: `1px solid ${agent.color}15`,
+                              boxShadow: `0 0 0 0 ${agent.color}00`,
+                            }}
+                            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = agent.color + "40"; (e.currentTarget as HTMLElement).style.boxShadow = `0 0 20px ${agent.color}10`; }}
+                            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = agent.color + "15"; (e.currentTarget as HTMLElement).style.boxShadow = `0 0 0 0 ${agent.color}00`; }}
+                          >
+                            <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-0 group-hover:opacity-20 transition-opacity" style={{ background: `linear-gradient(90deg, transparent, ${agent.color}, transparent)` }} />
+                            <div className="flex items-start gap-2.5">
+                              <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style={{ background: `${agent.color}12`, border: `1px solid ${agent.color}20` }}>
+                                <cap.icon size={14} style={{ color: agent.color }} />
+                              </div>
+                              <div className="min-w-0">
+                                <p className="text-xs font-bold text-foreground mb-0.5">{cap.title}</p>
+                                <p className="text-[10px] text-muted-foreground leading-relaxed">{cap.description}</p>
+                              </div>
+                            </div>
+                          </button>
+                        ));
+                      }
+                      return agent.starters.map((q) => (
+                        <button key={q} onClick={() => sendMessage(q)}
+                          className="text-left rounded-xl p-3.5 transition-all duration-200 hover:scale-[1.01]"
+                          style={{
+                            background: "rgba(14,14,26,0.7)",
+                            backdropFilter: "blur(16px)",
+                            border: `1px solid ${agent.color}15`,
+                          }}
+                        >
+                          <p className="text-xs text-foreground/70">{q}</p>
+                        </button>
+                      ));
+                    })()}
                   </div>
                 )}
 
@@ -2052,6 +2126,26 @@ const ChatPage = () => {
               </div>
             </div>
           )}
+
+          {/* Quick Actions Bar */}
+          {messages.length > 0 && (() => {
+            const quickActions = (agentCapabilities[agentId || ""] || []).slice(0, 3);
+            if (quickActions.length === 0) return null;
+            return (
+              <div className="px-4 py-1.5 shrink-0">
+                <div className="max-w-2xl mx-auto flex gap-1.5 overflow-x-auto scrollbar-hide">
+                  {quickActions.map((qa) => (
+                    <button key={qa.title} onClick={() => sendMessage(qa.prompt)}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-medium whitespace-nowrap shrink-0 transition-all hover:scale-[1.02]"
+                      style={{ background: `${agent.color}10`, color: agent.color, border: `1px solid ${agent.color}20` }}>
+                      <qa.icon size={11} />
+                      {qa.title}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
 
           {/* Input Bar */}
           <form onSubmit={handleSubmit} className="px-4 py-3 border-t border-border shrink-0">
