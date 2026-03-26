@@ -321,9 +321,14 @@ async function fileToBase64(file: File): Promise<string> {
 
 const BINARY_FILE_TYPES = ["application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/msword", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.ms-excel"];
 
+const SLUG_TO_ID: Record<string, string> = {
+  "sports-recreation": "sports",
+};
+
 const ChatPage = () => {
-  const { agentId } = useParams<{ agentId: string }>();
+  const { agentId: rawAgentId } = useParams<{ agentId: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
+  const agentId = rawAgentId ? (SLUG_TO_ID[rawAgentId] ?? rawAgentId) : rawAgentId;
   const agent = agentId === "echo" ? echoAgent : agents.find((a) => a.id === agentId);
   const safeAgentName = agent?.name ?? "Assistant";
   const [messages, setMessages] = useState<Message[]>([]);
