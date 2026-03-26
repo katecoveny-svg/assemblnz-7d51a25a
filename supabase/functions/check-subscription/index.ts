@@ -31,26 +31,28 @@ serve(async (req) => {
 
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
-      return new Response(JSON.stringify({ error: "No authorization header" }), {
+      logStep("No authorization header, returning unsubscribed");
+      return new Response(JSON.stringify({ subscribed: false }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 401,
+        status: 200,
       });
     }
 
     const token = authHeader.replace("Bearer ", "");
     const { data: userData, error: userError } = await supabaseClient.auth.getUser(token);
     if (userError) {
-      logStep("Auth failed (likely expired token), returning 401", { message: userError.message });
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      logStep("Auth failed (likely expired token), returning unsubscribed", { message: userError.message });
+      return new Response(JSON.stringify({ subscribed: false }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 401,
+        status: 200,
       });
     }
     const user = userData.user;
     if (!user?.email) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      logStep("No user email, returning unsubscribed");
+      return new Response(JSON.stringify({ subscribed: false }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 401,
+        status: 200,
       });
     }
     logStep("User authenticated", { userId: user.id, email: user.email });
