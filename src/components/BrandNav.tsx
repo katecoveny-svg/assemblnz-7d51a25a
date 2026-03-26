@@ -44,15 +44,32 @@ const BrandNav = () => {
 
       {/* Desktop nav */}
       <nav className="hidden sm:flex items-center gap-5 text-xs font-jakarta">
-        {NAV_LINKS.map((link) => (
-          <Link
-            key={link.to}
-            to={link.to}
-            className="text-muted-foreground hover:text-foreground transition-colors duration-300"
-          >
-            {link.label}
-          </Link>
-        ))}
+        {NAV_LINKS.map((link) => {
+          const isHash = link.to.includes("#");
+          const handleClick = isHash
+            ? (e: React.MouseEvent) => {
+                e.preventDefault();
+                const hash = link.to.split("#")[1];
+                const basePath = link.to.split("#")[0] || "/";
+                if (location.pathname === basePath) {
+                  document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+                } else {
+                  navigate(basePath);
+                  setTimeout(() => document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" }), 300);
+                }
+              }
+            : undefined;
+          return (
+            <Link
+              key={link.to}
+              to={isHash ? "#" : link.to}
+              onClick={handleClick}
+              className="text-muted-foreground hover:text-foreground transition-colors duration-300"
+            >
+              {link.label}
+            </Link>
+          );
+        })}
         <AccountDropdown />
       </nav>
 
