@@ -190,8 +190,8 @@ export const agents: Agent[] = [
     color: "#4FC3F7",
     sector: "Accounting & Tax",
     traits: ["Numbers-sharp", "Compliance-first", "Deadline-aware"],
-    expertise: ["GST return calculator", "Provisional tax planner", "PAYE auto-calculator", "Depreciation modeller", "Cashflow forecaster", "Accounting software integration guide"],
-    starters: ["Calculate my GST return", "Provisional tax planning for my business", "Minimum wage and payroll changes from April 2026"],
+    expertise: ["GST return calculator", "Provisional tax planner", "PAYE auto-calculator", "Depreciation modeller", "Cashflow forecaster", "Investment Boost advisor", "AML/CFT compliance"],
+    starters: ["Calculate GST on a transaction", "What are the 2026 tax rate changes?", "Help with AML/CFT compliance"],
   },
   {
     id: "finance",
