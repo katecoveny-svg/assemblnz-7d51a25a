@@ -1,11 +1,24 @@
-import { Link } from "react-router-dom";
+import { useState, useCallback } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Trophy, Users } from "lucide-react";
+import { ArrowRight, Trophy, Users, Mic } from "lucide-react";
 import AgentAvatar from "./AgentAvatar";
+import VoiceAgentModal from "./VoiceAgentModal";
+import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 
 const TURF_COLOR = "#00E676";
 
 const TurfSection = () => {
+  const navigate = useNavigate();
+  const [showVoice, setShowVoice] = useState(false);
+  const elevenLabsAgentId = getElevenLabsAgentId("sports");
+
+  const handleVoiceHandoff = useCallback((transcript: { role: "user" | "agent"; text: string }[]) => {
+    if (transcript.length > 0) {
+      sessionStorage.setItem("voiceTranscript", JSON.stringify(transcript));
+      navigate("/chat/sports?voiceHandoff=true");
+    }
+  }, [navigate]);
 
   return (
     <section className="relative z-10 py-16 sm:py-24">
@@ -43,6 +56,16 @@ const TurfSection = () => {
                   }}
                 >
                   NZ SPORT
+                </span>
+                <span
+                  className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full"
+                  style={{
+                    background: `${TURF_COLOR}15`,
+                    color: TURF_COLOR,
+                    border: `1px solid ${TURF_COLOR}30`,
+                  }}
+                >
+                  VOICE
                 </span>
               </div>
 
@@ -94,6 +117,17 @@ const TurfSection = () => {
                 >
                   Try TURF <ArrowRight size={14} />
                 </Link>
+                <button
+                  onClick={() => setShowVoice(true)}
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-syne font-bold transition-all duration-300 hover:scale-105"
+                  style={{
+                    background: `${TURF_COLOR}12`,
+                    color: TURF_COLOR,
+                    border: `1px solid ${TURF_COLOR}30`,
+                  }}
+                >
+                  <Mic size={14} /> Talk to TURF
+                </button>
               </div>
             </div>
 
@@ -125,6 +159,15 @@ const TurfSection = () => {
         </motion.div>
       </div>
 
+      <VoiceAgentModal
+        open={showVoice}
+        onClose={() => setShowVoice(false)}
+        agentId="sports"
+        agentName="TURF"
+        agentColor={TURF_COLOR}
+        elevenLabsAgentId={elevenLabsAgentId}
+        onHandoffToChat={handleVoiceHandoff}
+      />
     </section>
   );
 };
