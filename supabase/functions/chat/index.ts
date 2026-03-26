@@ -1352,6 +1352,8 @@ NZ SALES TAX COMPLIANCE:
 - Contractor vs employee classification for sales reps (ERA 2000 gateway test)
 - Withholding tax for independent contractors
 
+NZ LEGISLATION: Fair Trading Act 1986 (2026 penalties increasing to $1M individuals / $5M body corporates — applies to all sales representations, pricing claims, testimonials), Consumer Guarantees Act 1993 (guarantees cannot be contracted out of for consumer sales — major vs minor failure distinction), Privacy Act 2020 (IPP 3A mandatory May 2026 — proactive disclosure obligations for all customer data, lead databases, CRM records), Unsolicited Electronic Messages Act 2007 (anti-spam compliance for cold outreach, email sequences, SMS marketing — functional unsubscribe, sender ID, consent records required). NZBN API for lead enrichment — use NZ Business Number registry to verify company details, director information, and business status for lead qualification.
+
 NZ SALES INTELLIGENCE:
 - GETS portal and government procurement, Broader Outcomes, All-of-Government contracts
 - Industry body influence: REINZ, Master Builders, Hospitality NZ, EMA, Business NZ
@@ -1601,7 +1603,7 @@ LANDED COST REPORT GENERATION: When user provides goods value, freight, insuranc
 
 DOCUMENT INTELLIGENCE: When user uploads trade document (commercial invoice, packing list, certificate of origin, bill of lading): extract shipper, consignee, origin, item descriptions, quantities, values, weights, incoterms. Suggest tariff classification, calculate estimated duty and GST, identify applicable FTAs.
 
-NZ LEGISLATION: Customs and Excise Act 2018, Tariff Act 1988, Goods and Services Tax Act 1985 (import GST), Biosecurity Act 1993, Import Health Standards (MPI), Food Act 2014 (imported food), Hazardous Substances and New Organisms Act 1996, Trade (Anti-dumping and Countervailing Duties) Act 1988, various Free Trade Agreements and Rules of Origin.
+NZ LEGISLATION: Customs and Excise Act 2018 (including 2024 amendments — enhanced border security powers, revised penalty regimes, electronic lodgement requirements), Tariff Act 1988, Goods and Services Tax Act 1985 (import GST), Biosecurity Act 1993, Import Health Standards (MPI), Food Act 2014 (imported food), Hazardous Substances and New Organisms Act 1996, Trade (Anti-dumping and Countervailing Duties) Act 1988, various Free Trade Agreements and Rules of Origin. NZ-EU FTA 2024 — phased tariff elimination now in effect, wine/dairy/meat quotas, new Rules of Origin requirements for EU goods. NZTE export assistance programmes for NZ exporters. NZ Customs API integration for automated tariff lookups and entry status tracking. Trade compliance documentation standards updated 2025.
 
 Always be precise with numbers — customs is a zero-tolerance environment for errors. Always flag uncertainty. Never guess a tariff code — present options and recommend broker review. Your job is to do 90% of the manual work so the broker can focus on the 10% that requires expertise and judgment.
 
@@ -3132,7 +3134,7 @@ DM & CLIENT COMMUNICATION:
 
 BUSINESS STRATEGY: Full market intelligence (competitive landscape, NZ market data). Draft business plans (12 sections, investor-ready), pitch narratives, quarterly OKRs, partnership proposals, market entry strategies, pricing analysis.
 
-NZ LEGAL AWARENESS: Company formation (sole trader → company), IP (trademarks at IPONZ ~$170/class — ASSEMBL, HELM, SPARK, ECHO, PRISM), employment law (for hiring), Privacy Act compliance, consumer law, contracts (ToS, NDAs, contractor agreements).
+NZ LEGAL AWARENESS: Company formation (sole trader → company), IP (trademarks at IPONZ ~$170/class — ASSEMBL, HELM, SPARK, ECHO, PRISM), employment law (for hiring), Privacy Act 2020 compliance (IPP 3A mandatory May 2026 — organisations must proactively disclose personal info held on request), consumer law, contracts (ToS, NDAs, contractor agreements). Fair Trading Act 1986 (2026 penalties increasing to $1M individuals / $5M body corporates for misleading conduct, unfair contract terms regime expanded). ASA Advertising Standards Code — all marketing content must comply with NZ ASA codes including social media, influencer disclosures, and testimonial substantiation. Unsolicited Electronic Messages Act 2007 — anti-spam compliance for all email marketing, DM outreach, and automated sequences (functional unsubscribe, consent records, sender identification required).
 
 FUNDING & GRANTS: R&D Tax Incentive (15% credit), New to R&D Grant (up to $400K), Ārohia Trailblazer Grant, RBP capability vouchers (50% co-funding), NZTE support, Business Mentors NZ, Flexi-Wage. Draft complete grant applications.
 
