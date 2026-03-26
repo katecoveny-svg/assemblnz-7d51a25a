@@ -693,9 +693,8 @@ const ChatPage = () => {
     const agentConfig = agentId ? DESIGN_AGENTS[agentId] : undefined;
     const quality = userQuality || agentConfig?.quality || "flash_pro";
 
-    const urls: string[] = [];
-    for (const prompt of prompts) {
-      try {
+    const imageResults = await Promise.allSettled(
+      prompts.map(async (prompt) => {
         const { data, error } = await supabase.functions.invoke("generate-image", {
           body: {
             prompt,
@@ -706,13 +705,21 @@ const ChatPage = () => {
             brandContext: brandProfile ? { business_name: brandName || "Assembl", tone: "professional", industry: "technology" } : undefined,
           },
         });
+
         if (error) throw error;
-        if (data?.imageUrl) urls.push(data.imageUrl);
-      } catch (err: any) {
-        console.error("Inline image generation error:", err);
-        // Continue to next prompt — don't block on individual failures
-      }
-    }
+        if (!data?.imageUrl) throw new Error("No image returned");
+
+        return { prompt, url: data.imageUrl };
+      })
+    );
+
+    const successfulImages = imageResults.flatMap((result) => {
+      if (result.status === "fulfilled") return [result.value];
+      console.error("Inline image generation error:", result.reason);
+      return [];
+    });
+
+    const urls = successfulImages.map((item) => item.url);
 
     setInlineImages((prev) => ({
       ...prev,
@@ -728,7 +735,7 @@ const ChatPage = () => {
           agent_name: agent?.name || "ECHO",
           output_type: "generated_image",
           title: `Generated Image ${idx + 1}`,
-          content_preview: prompts[idx]?.substring(0, 300) || "AI-generated visual",
+          content_preview: successfulImages[idx]?.prompt?.substring(0, 300) || "AI-generated visual",
           format: "png",
         })));
       } catch { /* silent */ }
