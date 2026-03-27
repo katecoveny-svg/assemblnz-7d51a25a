@@ -376,9 +376,66 @@ const DashboardPage = () => {
         {/* Morning Briefing */}
         <MorningBriefing />
 
+        {/* Health Monitor + Lead Pipeline Row */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {/* Health Monitor */}
+          <div className={glassCard + " p-5"} style={glassCardStyle}>
+            <TopGlow color="#00FF88" />
+            <SectionHeader icon={Activity} title="System Health" color="#00FF88" />
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {healthServices.map((svc) => {
+                const statusColor = svc.status === "ok" ? "#00FF88" : svc.status === "degraded" ? "#FFB800" : "#FF4D6A";
+                const SvcIcon = svc.icon;
+                return (
+                  <div key={svc.name} className="flex items-center gap-3 p-3 rounded-lg" style={{ background: "rgba(255,255,255,0.02)", border: `1px solid ${statusColor}15` }}>
+                    <span className="relative flex h-2.5 w-2.5 shrink-0">
+                      {svc.status === "ok" && <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-40" style={{ background: statusColor }} />}
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5" style={{ background: statusColor }} />
+                    </span>
+                    <SvcIcon size={12} style={{ color: statusColor }} className="shrink-0" />
+                    <div className="min-w-0">
+                      <p className="text-[10px] font-bold text-foreground capitalize">{svc.name.replace(/_/g, " ")}</p>
+                      <p className="text-[8px] text-muted-foreground/50 uppercase">{svc.status}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Lead Pipeline */}
+          <div className={glassCard + " p-5"} style={glassCardStyle}>
+            <TopGlow color="#00E5FF" />
+            <SectionHeader icon={Users} title="Lead Pipeline" color="#00E5FF" count={leads.length} />
+            {leads.length === 0 ? (
+              <EmptyState message="Contact form submissions and leads will appear here as they come in." />
+            ) : (
+              <div className="space-y-2 max-h-[220px] overflow-y-auto scrollbar-hide">
+                {leads.map((lead) => {
+                  const status = lead.lead_status || "new";
+                  const LEAD_COLORS: Record<string, string> = { new: "#00E5FF", contacted: "#B388FF", qualified: "#FFB800", converted: "#00FF88" };
+                  const lColor = LEAD_COLORS[status] || "#888";
+                  return (
+                    <div key={lead.id} className="flex items-center gap-3 p-2.5 rounded-lg" style={{ background: "rgba(255,255,255,0.02)" }}>
+                      <div className="w-2 h-2 rounded-full shrink-0" style={{ background: lColor }} />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium text-foreground truncate">{lead.name}</p>
+                        <p className="text-[9px] text-muted-foreground truncate">{lead.email}</p>
+                      </div>
+                      <span className="text-[8px] px-2 py-0.5 rounded-full font-bold uppercase shrink-0" style={{ background: `${lColor}15`, color: lColor }}>{status}</span>
+                      {lead.lead_score !== null && (
+                        <span className="text-[9px] font-bold tabular-nums" style={{ color: lead.lead_score >= 70 ? "#00FF88" : lead.lead_score >= 40 ? "#FFB800" : "#888" }}>{lead.lead_score}</span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* Business Score */}
         <BusinessScore />
-
 
         {/* Pending Actions — always visible */}
         <div className={glassCard + " p-5"} style={glassCardStyle}>
