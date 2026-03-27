@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect, useCallback, lazy, Suspense, useMemo } from "react";
 
 import { useParams, Link, useSearchParams } from "react-router-dom";
-import { agents } from "@/data/agents";
-import { echoAgent } from "@/data/agents";
+import { agents, echoAgent, pilotAgent } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Brain, ListChecks, Phone, Radio, Camera, RotateCcw, Target } from "lucide-react";
@@ -335,7 +334,7 @@ const ChatPage = () => {
   const { agentId: rawAgentId } = useParams<{ agentId: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
   const agentId = rawAgentId ? (SLUG_TO_ID[rawAgentId] ?? rawAgentId) : rawAgentId;
-  const agent = agentId === "echo" ? echoAgent : agents.find((a) => a.id === agentId);
+  const agent = agentId === "echo" ? echoAgent : agentId === "pilot" ? pilotAgent : agents.find((a) => a.id === agentId);
   const safeAgentName = agent?.name ?? "Assistant";
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState(() => {
@@ -1113,7 +1112,7 @@ const ChatPage = () => {
       const mentionedAgents: string[] = [];
       let mentionMatch;
       while ((mentionMatch = mentionRegex.exec(content)) !== null) {
-        const mentionedAgent = [...agents, echoAgent].find(a => a.name.toUpperCase() === mentionMatch![1]);
+        const mentionedAgent = [...agents, echoAgent, pilotAgent].find(a => a.name.toUpperCase() === mentionMatch![1]);
         if (mentionedAgent) mentionedAgents.push(mentionedAgent.id);
       }
 
@@ -1290,7 +1289,7 @@ const ChatPage = () => {
 
   // Render @AGENT_NAME mentions as colored pills
   const renderWithMentions = (text: string) => {
-    const ALL_AGENTS_LIST = [echoAgent, ...agents];
+    const ALL_AGENTS_LIST = [echoAgent, pilotAgent, ...agents];
     const mentionRegex = /@([A-Z]{2,15})\b/g;
     const parts: (string | React.ReactNode)[] = [];
     let lastIndex = 0;

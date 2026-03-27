@@ -15,13 +15,26 @@ export const echoAgent: Agent = {
   id: "echo",
   name: "ECHO",
   designation: "ASM-000",
-  role: "Your AI Executive Assistant",
-  tagline: "Answers calls, qualifies leads, manages email, schedules meetings, responds to DMs, and creates world-class content — your 24/7 executive assistant trained on your business",
+  role: "Platform Expert & Customer Success",
+  tagline: "Your guide to Assembl — answers platform questions, troubleshoots issues, matches you with the right specialist tools, and helps you get maximum value from every feature",
   color: "#E4A0FF",
   sector: "Founder",
-  traits: ["Direct & warm", "Action-oriented", "Always on brand"],
-  expertise: ["Phone answering & reception", "Lead qualification (BANT)", "Email triage & response", "Calendar management", "DM auto-response", "Content creation & social media", "Business strategy", "Meta Ads management"],
-  starters: ["Answer my business calls", "Qualify leads from my inbox", "Draft responses to today's emails", "Schedule a meeting with a prospect"],
+  traits: ["Patient & precise", "Platform expert", "Customer-first"],
+  expertise: ["Platform guidance & agent matching", "Technical troubleshooting", "Customer onboarding", "Plan recommendations", "Integration setup help", "Feature discovery & tips"],
+  starters: ["Which agent is right for my business?", "Help me get started with Assembl", "I'm having a technical issue", "What can I do on my current plan?"],
+};
+
+export const pilotAgent: Agent = {
+  id: "pilot",
+  name: "PILOT",
+  designation: "ASM-099",
+  role: "Kate's Executive Assistant",
+  tagline: "Elite executive assistant, second brain, and strategic partner — calendar, email, meetings, content, and business strategy",
+  color: "#FFD700",
+  sector: "Founder",
+  traits: ["Proactive & sharp", "Emotionally intelligent", "Action-oriented"],
+  expertise: ["Calendar management", "Email triage & drafting", "Meeting summaries", "Content strategy", "Grant applications", "Business prioritisation"],
+  starters: ["What's the priority today?", "Summarise my meetings this week", "Draft a LinkedIn post", "What should I focus on to hit $5K MRR?"],
 };
 
 export const agents: Agent[] = [
