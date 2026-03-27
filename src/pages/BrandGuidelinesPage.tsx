@@ -181,7 +181,7 @@ export default function BrandGuidelinesPage() {
           <div className="space-y-8 mb-10">
             {FONTS.map((f) => (
               <div key={f.name} className="p-5 rounded-xl border border-white/10 bg-white/[0.03]">
-                <h3 className={`text-2xl font-bold mb-1 ${f.name === "JetBrains Mono" ? "font-mono-jb" : f.name === "Space Grotesk" ? "font-display" : "font-inter"}`} style={{ color: f.name === "Space Grotesk" ? "#00E5FF" : f.name === "Inter" ? "#B388FF" : "#00E5A0" }}>
+                <h3 className={`text-2xl font-bold mb-1 ${f.name === "JetBrains Mono" ? "font-mono-jb" : f.name === "Space Grotesk" ? "font-display" : f.name === "Syne" ? "font-syne" : "font-body"}`} style={{ color: f.name === "Syne" ? "#00E5FF" : f.name === "Space Grotesk" ? "#00E5FF" : f.name === "Lora" ? "#B388FF" : "#00E5A0" }}>
                   {f.name}
                 </h3>
                 <p className="text-sm text-foreground/80 mb-1">{f.role} — Weights: {f.weights}</p>
