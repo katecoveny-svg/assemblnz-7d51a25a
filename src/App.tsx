@@ -49,6 +49,8 @@ const OnboardingPage = lazy(() => import("./pages/OnboardingPage"));
 const AdminHealthDashboard = lazy(() => import("./pages/AdminHealthDashboard"));
 const AdminLeadsDashboard = lazy(() => import("./pages/AdminLeadsDashboard"));
 const TurfDeadlinePage = lazy(() => import("./pages/TurfDeadlinePage"));
+const AdminAnalyticsDashboard = lazy(() => import("./pages/AdminAnalyticsDashboard"));
+const DevelopersPage = lazy(() => import("./pages/DevelopersPage"));
 
 const queryClient = new QueryClient();
 
@@ -96,6 +98,8 @@ const App = () => (
                   <Route path="/about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
                   <Route path="/onboarding" element={<Suspense fallback={null}><OnboardingPage /></Suspense>} />
                   <Route path="/turf-5-april-2026" element={<Suspense fallback={null}><TurfDeadlinePage /></Suspense>} />
+                  <Route path="/admin/analytics" element={<Suspense fallback={null}><AdminAnalyticsDashboard /></Suspense>} />
+                  <Route path="/developers" element={<Suspense fallback={null}><DevelopersPage /></Suspense>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
