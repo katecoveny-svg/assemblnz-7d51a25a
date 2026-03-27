@@ -101,6 +101,7 @@ const App = () => (
                   <Route path="/turf-5-april-2026" element={<Suspense fallback={null}><TurfDeadlinePage /></Suspense>} />
                   <Route path="/admin/analytics" element={<Suspense fallback={null}><AdminAnalyticsDashboard /></Suspense>} />
                   <Route path="/developers" element={<Suspense fallback={null}><DevelopersPage /></Suspense>} />
+                  <Route path="/brand-guidelines" element={<Suspense fallback={null}><BrandGuidelinesPage /></Suspense>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
