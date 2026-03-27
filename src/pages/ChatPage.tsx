@@ -2447,7 +2447,12 @@ const ChatPage = () => {
         elevenLabsAgentId={getElevenLabsAgentId(agent.id)}
         onHandoffToChat={(voiceTranscript) => {
           if (voiceTranscript.length === 0) return;
-          void sendMessage(buildVoiceHandoffPrompt(voiceTranscript));
+          const voiceMessages: Message[] = voiceTranscript.map(t => ({
+            role: t.role === "user" ? "user" as const : "assistant" as const,
+            content: t.text,
+          }));
+          setMessages(prev => [...prev, ...voiceMessages]);
+          void sendMessage("I've just switched from voice chat. Please continue our conversation here — I may need to upload files or images.");
         }}
       />
       {isPrism && <AdEngineModal open={adEngineOpen} onOpenChange={setAdEngineOpen} />}
