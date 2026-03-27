@@ -3,7 +3,8 @@ import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import {
   MessageSquare, FileText, Clock, Bookmark, ChevronRight, Trash2, History, Code2,
   ShieldCheck, ListChecks, Zap, Calendar, ArrowRight, Plug, AlertTriangle,
-  CheckCircle2, Trophy, RefreshCw, Wifi, WifiOff, Sparkles
+  CheckCircle2, Trophy, RefreshCw, Wifi, WifiOff, Sparkles,
+  Activity, DollarSign, Users, Globe, Mic, CreditCard, Server
 } from "lucide-react";
 import ParticleField from "@/components/ParticleField";
 import { toast } from "sonner";
@@ -28,6 +29,8 @@ interface WorkflowExecution { id: string; status: string; current_step: number; 
 interface ExportedOutput { id: string; agent_id: string; agent_name: string; output_type: string; title: string; content_preview: string | null; format: string; created_at: string; }
 interface ComplianceDeadline { id: string; title: string; description: string; due_date: string; severity: string; agents: string[]; category: string; }
 interface LegislationChange { id: string; title: string; act_name: string; effective_date: string; summary: string; impact: string; affected_agents: string[]; severity: string; action_required: string; }
+interface HealthService { name: string; status: "ok" | "degraded" | "down"; icon: any; lastChecked: string; }
+interface LeadItem { id: string; name: string; email: string; lead_status: string | null; lead_score: number | null; created_at: string; }
 
 const glassCard = "rounded-xl relative overflow-hidden";
 const glassCardStyle: React.CSSProperties = {
