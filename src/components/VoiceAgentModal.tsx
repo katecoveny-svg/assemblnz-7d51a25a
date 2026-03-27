@@ -397,13 +397,13 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
             </div>
           </div>
           <div className="flex items-center gap-1">
-            {/* Handoff to chat button */}
-            {transcript.length > 0 && (
+            {/* Handoff to chat button — always visible when voice is active */}
+            {isConnected && (
               <button
                 onClick={handleHandoffToChat}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-medium transition-all hover:scale-105"
-                style={{ background: `${agentColor}15`, border: `1px solid ${agentColor}30`, color: agentColor }}
-                title="Continue this conversation in text chat with document upload"
+                style={{ background: `${agentColor}20`, border: `1px solid ${agentColor}40`, color: agentColor }}
+                title="Switch to text chat — upload documents, images, and files"
               >
                 <MessageSquare size={12} /> Continue in Chat
               </button>
