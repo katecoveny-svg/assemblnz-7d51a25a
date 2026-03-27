@@ -154,6 +154,60 @@ export type Database = {
           },
         ]
       }
+      agent_analytics: {
+        Row: {
+          agent_name: string
+          complexity: string | null
+          created_at: string | null
+          error: boolean | null
+          error_message: string | null
+          estimated_cost_nzd: number | null
+          from_cache: boolean | null
+          id: string
+          input_tokens: number | null
+          message_count: number | null
+          model_used: string | null
+          output_tokens: number | null
+          response_time_ms: number | null
+          session_id: string | null
+          user_id: string
+        }
+        Insert: {
+          agent_name: string
+          complexity?: string | null
+          created_at?: string | null
+          error?: boolean | null
+          error_message?: string | null
+          estimated_cost_nzd?: number | null
+          from_cache?: boolean | null
+          id?: string
+          input_tokens?: number | null
+          message_count?: number | null
+          model_used?: string | null
+          output_tokens?: number | null
+          response_time_ms?: number | null
+          session_id?: string | null
+          user_id: string
+        }
+        Update: {
+          agent_name?: string
+          complexity?: string | null
+          created_at?: string | null
+          error?: boolean | null
+          error_message?: string | null
+          estimated_cost_nzd?: number | null
+          from_cache?: boolean | null
+          id?: string
+          input_tokens?: number | null
+          message_count?: number | null
+          model_used?: string | null
+          output_tokens?: number | null
+          response_time_ms?: number | null
+          session_id?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       agent_memory: {
         Row: {
           agent_id: string
@@ -1961,6 +2015,36 @@ export type Database = {
         }
         Relationships: []
       }
+      response_cache: {
+        Row: {
+          cache_key: string
+          created_at: string | null
+          expires_at: string
+          id: string
+          model_used: string | null
+          response_text: string
+          tokens_saved: number | null
+        }
+        Insert: {
+          cache_key: string
+          created_at?: string | null
+          expires_at: string
+          id?: string
+          model_used?: string | null
+          response_text: string
+          tokens_saved?: number | null
+        }
+        Update: {
+          cache_key?: string
+          created_at?: string | null
+          expires_at?: string
+          id?: string
+          model_used?: string | null
+          response_text?: string
+          tokens_saved?: number | null
+        }
+        Relationships: []
+      }
       saved_items: {
         Row: {
           agent_id: string
@@ -2421,6 +2505,36 @@ export type Database = {
         }
         Relationships: []
       }
+      usage_tracking: {
+        Row: {
+          cost_nzd: number | null
+          id: string
+          messages_used: number | null
+          period: string
+          tokens_used: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          cost_nzd?: number | null
+          id?: string
+          messages_used?: number | null
+          period: string
+          tokens_used?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          cost_nzd?: number | null
+          id?: string
+          messages_used?: number | null
+          period?: string
+          tokens_used?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_compliance_tasks: {
         Row: {
           completed_date: string | null
@@ -2494,6 +2608,42 @@ export type Database = {
           integration_type?: string
           last_synced_at?: string | null
           status?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_notifications: {
+        Row: {
+          action_url: string | null
+          agent_name: string
+          created_at: string | null
+          id: string
+          message: string
+          priority: string | null
+          read: boolean | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          action_url?: string | null
+          agent_name: string
+          created_at?: string | null
+          id?: string
+          message: string
+          priority?: string | null
+          read?: boolean | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          action_url?: string | null
+          agent_name?: string
+          created_at?: string | null
+          id?: string
+          message?: string
+          priority?: string | null
+          read?: boolean | null
+          title?: string
           user_id?: string
         }
         Relationships: []
