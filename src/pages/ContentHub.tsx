@@ -9,7 +9,8 @@ import AgentAvatar from "@/components/AgentAvatar";
 import {
   FileText, Image, BarChart3, Calendar, Grid3X3, List,
   Download, Copy, Search, Filter, RefreshCw, Sparkles,
-  MessageSquare, Palette, ChevronRight, Clock, Eye,
+  MessageSquare, Palette, ChevronRight, Clock, Eye, Brush,
+  Share2, Tag,
 } from "lucide-react";
 import { toast } from "sonner";
 
