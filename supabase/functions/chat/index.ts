@@ -7021,42 +7021,60 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
  // Add integration awareness to system prompt
  fullSystemPrompt += `\n\n[INTEGRATIONS: You have access to live integration tools. When the user asks about calendar events, scheduling, or their Canva designs, USE the tools to fetch real data or create items. Do NOT make up data — call the tool. If the tool returns an error about "not connected", tell the user to connect the integration via Integration Hub in settings.]`;
 
- const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
- method: "POST",
- headers: {
- "Content-Type": "application/json",
- "Authorization": `Bearer ${LOVABLE_API_KEY}`,
- },
- body: JSON.stringify({
- model: selectedModel,
- messages: [
- { role: "system", content: fullSystemPrompt },
- ...formattedMessages,
- ],
- max_tokens: 4096,
- tools: integrationTools,
- }),
- });
+ // ===== SELF-HEALING RETRY with model fallback =====
+ const FALLBACK_MODELS = [selectedModel, "google/gemini-2.5-flash-lite", "google/gemini-2.5-flash-lite"];
+ let response: Response | null = null;
+ let actualModelUsed = selectedModel;
+ let attempts = 0;
 
- if (!response.ok) {
- const errorBody = await response.text();
- console.error(`AI Gateway error [${response.status}]: ${errorBody}`);
- if (response.status === 429) {
- return new Response(
- JSON.stringify({ error: "Rate limited — please try again in a moment." }),
- { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
- );
+ for (let attempt = 0; attempt < 3; attempt++) {
+  attempts = attempt + 1;
+  actualModelUsed = FALLBACK_MODELS[attempt] || FALLBACK_MODELS[0];
+  try {
+   response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    method: "POST",
+    headers: {
+     "Content-Type": "application/json",
+     "Authorization": `Bearer ${LOVABLE_API_KEY}`,
+    },
+    body: JSON.stringify({
+     model: actualModelUsed,
+     messages: [
+      { role: "system", content: fullSystemPrompt },
+      ...formattedMessages,
+     ],
+     max_tokens: 4096,
+     tools: integrationTools,
+    }),
+   });
+   if (response.ok) break;
+   const errStatus = response.status;
+   if (errStatus === 402) {
+    return new Response(
+     JSON.stringify({ error: "AI credits exhausted — please top up in workspace settings." }),
+     { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
+   }
+   console.error(`AI Gateway attempt ${attempt + 1} failed [${errStatus}]`);
+   if (attempt < 2) await new Promise(r => setTimeout(r, 1000 * Math.pow(2, attempt)));
+  } catch (fetchErr) {
+   console.error(`AI Gateway fetch error attempt ${attempt + 1}:`, fetchErr);
+   if (attempt < 2) await new Promise(r => setTimeout(r, 1000 * Math.pow(2, attempt)));
+  }
  }
- if (response.status === 402) {
- return new Response(
- JSON.stringify({ error: "AI credits exhausted — please top up in workspace settings." }),
- { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } }
- );
- }
- return new Response(
- JSON.stringify({ error: "Failed to get response from AI" }),
- { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } }
- );
+
+ if (!response || !response.ok) {
+  // Log error analytics
+  if (userId) {
+   await sb.from("agent_analytics").insert({
+    user_id: userId, agent_name: agentId, model_used: actualModelUsed, complexity,
+    response_time_ms: Date.now() - startTime, error: true, error_message: "All retries failed",
+   }).catch(() => {});
+  }
+  return new Response(
+   JSON.stringify({ content: "I'm having a moment — could you try that again? If it keeps happening, try rephrasing your question.", error: true }),
+   { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+  );
  }
 
  const data = await response.json();
