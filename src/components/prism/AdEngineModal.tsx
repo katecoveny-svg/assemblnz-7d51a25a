@@ -180,8 +180,9 @@ export default function AdEngineModal({ open, onOpenChange }: { open: boolean; o
             body: { prompt: imagePrompt, size: c.platform === "instagram" ? "1024x1024" : "1792x1024" },
           });
           
-          if (res.data?.image_url) {
-            allCreatives[i].image_url = res.data.image_url;
+          const generatedUrl = res.data?.imageUrl || res.data?.image_url;
+          if (generatedUrl) {
+            allCreatives[i].image_url = generatedUrl;
           }
         } catch {
           // Image generation is optional
