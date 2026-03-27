@@ -564,6 +564,8 @@ const ChatPage = () => {
   useEffect(() => {
     return () => {
       window.speechSynthesis?.cancel();
+      activeAudioRef.current?.pause();
+      activeAudioRef.current = null;
       recognitionRef.current?.stop();
     };
   }, []);
