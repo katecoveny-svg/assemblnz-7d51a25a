@@ -43,8 +43,9 @@ const AGENT_COLORS = [
 ];
 
 const FONTS = [
+  { name: "Syne", role: "Logo & Wordmark", weights: "400, 500, 600, 700, 800", usage: "ASSEMBL wordmark only", url: "fonts.google.com/specimen/Syne" },
   { name: "Space Grotesk", role: "Display & Headlines", weights: "400, 500, 600, 700", usage: "Page titles, hero text, navigation, agent names", url: "fonts.google.com/specimen/Space+Grotesk" },
-  { name: "Inter", role: "Body & UI", weights: "300–900", usage: "Body copy, buttons, labels, form inputs", url: "fonts.google.com/specimen/Inter" },
+  { name: "Lora", role: "Body & UI", weights: "400–700 + Italic", usage: "Body copy, buttons, labels, form inputs. Fallback: Georgia", url: "fonts.google.com/specimen/Lora" },
   { name: "JetBrains Mono", role: "Code & Data", weights: "400, 500", usage: "Code blocks, data displays, API docs", url: "fonts.google.com/specimen/JetBrains+Mono" },
 ];
 
@@ -52,8 +53,8 @@ const TYPE_SCALE = [
   { level: "H1 — Hero", spec: "48–64px / Space Grotesk Bold" },
   { level: "H2 — Section", spec: "32–40px / Space Grotesk Semibold" },
   { level: "H3 — Card Title", spec: "20–24px / Space Grotesk Medium" },
-  { level: "Body", spec: "14–16px / Inter Regular" },
-  { level: "Small / Label", spec: "10–12px / Inter Medium" },
+  { level: "Body", spec: "14–16px / Lora Regular" },
+  { level: "Small / Label", spec: "10–12px / Lora Medium" },
   { level: "Code", spec: "13px / JetBrains Mono Regular" },
 ];
 
