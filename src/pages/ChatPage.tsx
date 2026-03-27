@@ -2323,7 +2323,7 @@ const ChatPage = () => {
                 <button
                   type="button"
                   onClick={toggleListening}
-                  className="p-2.5 rounded-lg border transition-all duration-200"
+                  className="hidden sm:flex p-2.5 rounded-lg border transition-all duration-200"
                   style={{
                     borderColor: isListening ? "#B388FF" : "hsl(var(--border))",
                     color: isListening ? "#B388FF" : "hsl(var(--muted-foreground))",
