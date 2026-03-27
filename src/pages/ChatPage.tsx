@@ -1112,7 +1112,7 @@ const ChatPage = () => {
       const mentionedAgents: string[] = [];
       let mentionMatch;
       while ((mentionMatch = mentionRegex.exec(content)) !== null) {
-        const mentionedAgent = [...agents, echoAgent].find(a => a.name.toUpperCase() === mentionMatch![1]);
+        const mentionedAgent = [...agents, echoAgent, pilotAgent].find(a => a.name.toUpperCase() === mentionMatch![1]);
         if (mentionedAgent) mentionedAgents.push(mentionedAgent.id);
       }
 
