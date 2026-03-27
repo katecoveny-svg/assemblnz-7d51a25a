@@ -494,14 +494,19 @@ const ChatPage = () => {
     setIsListening(true);
   }, [isListening]);
 
-  // Voice output (Text-to-Speech) for HELM
-  const speakText = useCallback((text: string, messageIndex: number) => {
+  // Voice output (Text-to-Speech) via ElevenLabs for all agents
+  const activeAudioRef = useRef<HTMLAudioElement | null>(null);
+  const speakText = useCallback(async (text: string, messageIndex: number) => {
     if (isSpeaking === messageIndex) {
-      window.speechSynthesis.cancel();
+      activeAudioRef.current?.pause();
+      activeAudioRef.current = null;
       setIsSpeaking(null);
       return;
     }
-    window.speechSynthesis.cancel();
+    // Stop any currently playing audio
+    activeAudioRef.current?.pause();
+    activeAudioRef.current = null;
+
     const cleanText = text
       .replace(/#{1,6}\s/g, "")
       .replace(/\*\*(.*?)\*\*/g, "$1")
@@ -509,16 +514,52 @@ const ChatPage = () => {
       .replace(/`(.*?)`/g, "$1")
       .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
       .replace(/[-•·]\s/g, "")
-      .replace(/\n{2,}/g, ". ");
-    const utterance = new SpeechSynthesisUtterance(cleanText);
-    utterance.lang = "en-NZ";
-    utterance.rate = 0.95;
-    utterance.pitch = 1;
-    utterance.onend = () => setIsSpeaking(null);
-    utterance.onerror = () => setIsSpeaking(null);
+      .replace(/\n{2,}/g, ". ")
+      .slice(0, 4000); // ElevenLabs limit
+
     setIsSpeaking(messageIndex);
-    window.speechSynthesis.speak(utterance);
-  }, [isSpeaking]);
+
+    try {
+      const session = await supabase.auth.getSession();
+      const tkn = session.data.session?.access_token;
+
+      // Determine voice style based on agent
+      const AGENT_VOICE_STYLES: Record<string, string> = {
+        hospitality: "warm", operations: "mate", sales: "mate",
+        marketing: "warm", hr: "warm", echo: "mate", customs: "professional",
+        automotive: "professional", construction: "professional", sports: "mate",
+      };
+      const voiceStyle = AGENT_VOICE_STYLES[agentId || ""] || "professional";
+
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/elevenlabs-tts`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+          Authorization: `Bearer ${tkn}`,
+        },
+        body: JSON.stringify({ text: cleanText, voiceId: "JBFqnCBsd6RMkjVDRZzb", voiceStyle }),
+      });
+
+      if (!res.ok) throw new Error("TTS failed");
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      activeAudioRef.current = audio;
+      audio.onended = () => { setIsSpeaking(null); activeAudioRef.current = null; URL.revokeObjectURL(url); };
+      audio.onerror = () => { setIsSpeaking(null); activeAudioRef.current = null; };
+      await audio.play();
+    } catch {
+      // Fallback to browser TTS if ElevenLabs fails
+      const utterance = new SpeechSynthesisUtterance(cleanText);
+      utterance.lang = "en-NZ";
+      utterance.rate = 0.95;
+      utterance.onend = () => setIsSpeaking(null);
+      utterance.onerror = () => setIsSpeaking(null);
+      window.speechSynthesis.speak(utterance);
+    }
+  }, [isSpeaking, agentId]);
 
   useEffect(() => {
     return () => {
