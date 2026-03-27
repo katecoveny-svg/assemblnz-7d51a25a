@@ -131,10 +131,16 @@ export const agentCapabilities: Record<string, AgentCapability[]> = {
     { bullet: "Satellite crop monitoring", icon: Globe, title: "Crop Monitor", description: "Check crop health via satellite imagery", prompt: "Help me monitor my crop health using satellite data." },
   ],
   echo: [
-    { bullet: "Answer business calls warmly", icon: Phone, title: "Answer Calls", description: "Professional call answering with lead qualification", prompt: "Answer my business calls — set up call answering with warm greetings and BANT lead qualification for my business." },
-    { bullet: "Qualify leads from inbox", icon: Briefcase, title: "Qualify Leads", description: "Score and triage inbound leads using BANT", prompt: "Qualify leads from my inbox — score each inquiry 1-100 using BANT criteria and flag hot leads for immediate follow-up." },
-    { bullet: "Draft email responses", icon: FileText, title: "Draft Responses", description: "Triage and draft professional email replies", prompt: "Draft responses to my emails — triage my inbox by urgency and generate professional replies for each message." },
-    { bullet: "Schedule meetings", icon: Calendar, title: "Schedule Meeting", description: "Coordinate calendars and book meetings", prompt: "Schedule a meeting with a prospect — suggest time options, draft the agenda, and prepare a calendar invite." },
+    { bullet: "Match you with the right agent", icon: Brain, title: "Agent Matcher", description: "Tell me your industry and I'll recommend your ideal tools", prompt: "Which Assembl agent is right for my business? I'll tell you about my industry and needs." },
+    { bullet: "Troubleshoot platform issues", icon: Shield, title: "Fix Issues", description: "Patient step-by-step technical troubleshooting", prompt: "I'm having a technical issue with the platform — can you help me troubleshoot?" },
+    { bullet: "Get started with Assembl", icon: Sparkles, title: "Onboarding Guide", description: "Personalised setup checklist for your business", prompt: "Help me get started with Assembl — walk me through the onboarding process for my business." },
+    { bullet: "Discover features on your plan", icon: Zap, title: "Plan Features", description: "Learn what your current plan can do", prompt: "What can I do on my current plan? Show me features I might not have discovered yet." },
+  ],
+  pilot: [
+    { bullet: "Plan today's priorities", icon: Calendar, title: "Daily Priority", description: "What's the ONE thing that moves the needle today?", prompt: "What's the priority today? Help me plan my day." },
+    { bullet: "Summarise meetings", icon: FileText, title: "Meeting Notes", description: "Structured notes with decisions and action items", prompt: "Summarise my last meeting — generate structured notes with key decisions and action items." },
+    { bullet: "Draft LinkedIn content", icon: Megaphone, title: "LinkedIn Post", description: "Draft posts in Kate's voice, lead with problems not AI", prompt: "Draft a LinkedIn post for this week — lead with a business problem, not AI." },
+    { bullet: "Track grants & funding", icon: DollarSign, title: "Grant Tracker", description: "Track applications, deadlines, and draft sections", prompt: "What grants should I be applying for? Help me track deadlines and draft application sections." },
   ],
   clinic: [
     { bullet: "APC renewal tracking", icon: Stethoscope, title: "APC Tracker", description: "Track practising certificate renewal dates", prompt: "When is my Annual Practising Certificate due for renewal? Help me track all my registration deadlines." },
