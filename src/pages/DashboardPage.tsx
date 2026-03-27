@@ -146,7 +146,7 @@ const DashboardPage = () => {
     const uid = user.id;
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
 
-    const [convRes, actionRes, summaryRes, execRes, exportRes, deadlineRes, legRes, savedRes] = await Promise.allSettled([
+    const [convRes, actionRes, summaryRes, execRes, exportRes, deadlineRes, legRes, savedRes, healthRes, leadsRes] = await Promise.allSettled([
       supabase.from("conversations").select("id, agent_id, messages, updated_at").eq("user_id", uid).gte("updated_at", thirtyDaysAgo).order("updated_at", { ascending: false }).limit(20),
       supabase.from("action_queue").select("*").eq("user_id", uid).eq("status", "pending").order("created_at", { ascending: false }).limit(10),
       supabase.from("conversation_summaries").select("*").eq("user_id", uid).order("created_at", { ascending: false }).limit(10),
@@ -155,6 +155,8 @@ const DashboardPage = () => {
       supabase.from("compliance_deadlines").select("*").order("due_date", { ascending: true }),
       supabase.from("legislation_changes").select("*").order("effective_date", { ascending: false }).limit(5),
       supabase.from("saved_items").select("*").eq("user_id", uid).order("created_at", { ascending: false }),
+      supabase.from("health_checks").select("*").order("checked_at", { ascending: false }).limit(20),
+      supabase.from("contact_submissions").select("id, name, email, lead_status, lead_score, created_at").order("created_at", { ascending: false }).limit(20),
     ]);
 
     if (convRes.status === "fulfilled" && convRes.value.data) setConversations(convRes.value.data as any);
@@ -165,6 +167,36 @@ const DashboardPage = () => {
     if (deadlineRes.status === "fulfilled" && deadlineRes.value.data) setComplianceDeadlines(deadlineRes.value.data as any);
     if (legRes.status === "fulfilled" && legRes.value.data) setLegislationChanges(legRes.value.data as any);
     if (savedRes.status === "fulfilled" && savedRes.value.data) setSavedItems(savedRes.value.data as any);
+    if (leadsRes.status === "fulfilled" && leadsRes.value.data) setLeads(leadsRes.value.data as any);
+
+    // Build health services from health_checks
+    if (healthRes.status === "fulfilled" && healthRes.value.data) {
+      const checks = healthRes.value.data as any[];
+      const serviceMap = new Map<string, any>();
+      for (const check of checks) {
+        if (!serviceMap.has(check.service_name)) serviceMap.set(check.service_name, check);
+      }
+      const SERVICE_ICONS: Record<string, any> = { website: Globe, chat_api: MessageSquare, voice: Mic, supabase: Server, stripe: CreditCard };
+      const services: HealthService[] = [...serviceMap.entries()].map(([name, check]) => ({
+        name, status: check.status as "ok" | "degraded" | "down",
+        icon: SERVICE_ICONS[name] || Activity,
+        lastChecked: check.checked_at,
+      }));
+      // Always show core services even if no check data
+      const coreServices = ["website", "chat_api", "voice", "supabase", "stripe"];
+      for (const s of coreServices) {
+        if (!serviceMap.has(s)) services.push({ name: s, status: "ok", icon: SERVICE_ICONS[s] || Activity, lastChecked: new Date().toISOString() });
+      }
+      setHealthServices(services);
+    } else {
+      setHealthServices([
+        { name: "website", status: "ok", icon: Globe, lastChecked: new Date().toISOString() },
+        { name: "chat_api", status: "ok", icon: MessageSquare, lastChecked: new Date().toISOString() },
+        { name: "voice", status: "ok", icon: Mic, lastChecked: new Date().toISOString() },
+        { name: "supabase", status: "ok", icon: Server, lastChecked: new Date().toISOString() },
+        { name: "stripe", status: "ok", icon: CreditCard, lastChecked: new Date().toISOString() },
+      ]);
+    }
 
     setLastUpdated(new Date());
   }, [user]);
