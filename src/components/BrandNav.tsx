@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import nexusLogo from "@/assets/nexus-logo.png";
 import AccountDropdown from "@/components/AccountDropdown";
+import NotificationBell from "@/components/NotificationBell";
 
 const NAV_LINKS = [
   { to: "/#expert-team", label: "Specialist Tools" },
@@ -74,11 +75,13 @@ const BrandNav = () => {
             </Link>
           );
         })}
+        <NotificationBell />
         <AccountDropdown />
       </nav>
 
       {/* Mobile */}
-      <div className="flex sm:hidden items-center">
+      <div className="flex sm:hidden items-center gap-1">
+        <NotificationBell />
         <AccountDropdown />
       </div>
     </header>

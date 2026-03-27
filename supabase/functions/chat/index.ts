@@ -6547,13 +6547,75 @@ FORMAT: When suggesting grants, include: grant name, administering body, approxi
 - TE REO MODE: When user requests "Te Reo Mode" or bilingual documents, add te reo greetings, bilingual headings, and culturally appropriate framing to all generated content
 `;
 
+// ===== SMART MODEL ROUTING =====
+function classifyComplexity(message: string): 'simple' | 'complex' {
+  const simplePatterns = [
+    /what is|how much|calculate|convert|when is|what date|gst|minimum wage/i,
+    /generate a template|draft a basic|simple question|what are the rates/i,
+    /public holiday|kiwisaver rate|tax bracket|acc levy|sick leave entitlement/i,
+  ];
+  if (simplePatterns.some(p => p.test(message))) return 'simple';
+  return 'complex';
+}
+
+// ===== RESPONSE CACHING =====
+const CACHE_PATTERNS: { pattern: RegExp; key: string; ttlMinutes: number }[] = [
+  { pattern: /(?:what is|current|nz)\s*(?:minimum wage|min wage)/i, key: "nz_minimum_wage_2026", ttlMinutes: 43200 },
+  { pattern: /(?:gst|goods and services tax)\s*(?:rate|percentage|how much)/i, key: "nz_gst_rate", ttlMinutes: 1440 },
+  { pattern: /kiwisaver\s*(?:rate|employer|contribution)/i, key: "nz_kiwisaver_rates_2026", ttlMinutes: 43200 },
+  { pattern: /(?:tax|paye)\s*(?:bracket|rate|threshold)/i, key: "nz_tax_brackets_2026", ttlMinutes: 43200 },
+  { pattern: /public\s*holiday/i, key: "nz_public_holidays_2026", ttlMinutes: 525600 },
+];
+
+function getCacheKey(message: string): string | null {
+  for (const { pattern, key } of CACHE_PATTERNS) {
+    if (pattern.test(message)) return key;
+  }
+  return null;
+}
+
+function getCacheTTL(message: string): number {
+  for (const { pattern, ttlMinutes } of CACHE_PATTERNS) {
+    if (pattern.test(message)) return ttlMinutes;
+  }
+  return 0;
+}
+
+// ===== COST CALCULATOR =====
+function calculateCost(model: string, usage: any): number {
+  // Approximate costs via Lovable gateway (NZD)
+  const rates: Record<string, { input: number; output: number }> = {
+    "google/gemini-3-flash-preview": { input: 0.0001, output: 0.0004 },
+    "google/gemini-2.5-flash-lite": { input: 0.00005, output: 0.0002 },
+    "google/gemini-2.5-pro": { input: 0.002, output: 0.01 },
+    "openai/gpt-5-mini": { input: 0.0005, output: 0.002 },
+    "openai/gpt-5": { input: 0.003, output: 0.015 },
+  };
+  const rate = rates[model] || rates["google/gemini-3-flash-preview"];
+  const inputCost = (usage?.prompt_tokens || usage?.input_tokens || 0) / 1000 * rate.input;
+  const outputCost = (usage?.completion_tokens || usage?.output_tokens || 0) / 1000 * rate.output;
+  return (inputCost + outputCost) * 1.65;
+}
+
+// ===== PLAN LIMITS =====
+const PLAN_LIMITS: Record<string, number> = {
+  free: 25,
+  starter: 100,
+  pro: 500,
+  business: 2000,
+  suite: 5000,
+  admin: 99999,
+};
+
 Deno.serve(async (req) => {
  if (req.method === "OPTIONS") {
  return new Response(null, { headers: corsHeaders });
  }
 
+ const startTime = Date.now();
+
  try {
- // Require authentication — prevents unauthenticated API credit abuse
+ // Require authentication
  const authHeader = req.headers.get("Authorization");
  if (!authHeader?.startsWith("Bearer ")) {
  return new Response(JSON.stringify({ error: "Unauthorized — please sign in to chat" }), {
@@ -6572,7 +6634,7 @@ Deno.serve(async (req) => {
  const body = await req.json();
  const { agentId, messages, brandContext, brandLogoUrl, teReoPrompt, propertyMode, model: requestedModel, getSystemPrompt, receptionistMode } = body;
 
- // Return system prompt for voice agent sync (no AI call needed)
+ // Return system prompt for voice agent sync
  if (getSystemPrompt && agentId) {
   const prompt = agentPrompts[agentId];
   if (!prompt) {
@@ -6584,6 +6646,47 @@ Deno.serve(async (req) => {
   );
  }
 
+ // ===== AUTH & USER RESOLUTION =====
+ const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+ const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+ const sb = createClient(supabaseUrl, serviceKey);
+ const userClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!, {
+   global: { headers: { Authorization: authHeader } },
+ });
+ const { data: { user: authUser } } = await userClient.auth.getUser();
+ const userId = authUser?.id || null;
+ const userEmail = authUser?.email || "";
+
+ // ===== USAGE LIMIT CHECK =====
+ if (userId) {
+   const period = new Date().toISOString().slice(0, 7);
+   const { data: usageRow } = await sb
+     .from("usage_tracking")
+     .select("messages_used")
+     .eq("user_id", userId)
+     .eq("period", period)
+     .maybeSingle();
+
+   // Determine user plan
+   const { data: roleRow } = await sb.rpc("get_user_role", { _user_id: userId });
+   const userPlan = roleRow || "free";
+   const isAdmin = userEmail.toLowerCase().trim() === "assembl@assembl.co.nz" || userEmail.toLowerCase().trim() === "kate@assembl.co.nz";
+   const limit = isAdmin ? 99999 : (PLAN_LIMITS[userPlan as string] || PLAN_LIMITS.free);
+   const used = usageRow?.messages_used || 0;
+
+   if (used >= limit) {
+     return new Response(
+       JSON.stringify({ error: `You've used all ${limit} messages this month. Upgrade your plan for more.`, code: "monthly_limit_reached", used, limit }),
+       { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+     );
+   }
+ }
+
+ // ===== SMART MODEL ROUTING =====
+ const lastUserMsg = messages?.[messages.length - 1];
+ const lastMsgText = typeof lastUserMsg?.content === "string" ? lastUserMsg.content : "";
+ const complexity = classifyComplexity(lastMsgText);
+
  // Allowed models whitelist
  const ALLOWED_MODELS_MAP: Record<string, string> = {
   "gemini-flash": "google/gemini-3-flash-preview",
@@ -6592,7 +6695,46 @@ Deno.serve(async (req) => {
   "gpt-5-mini": "openai/gpt-5-mini",
   "gpt-5": "openai/gpt-5",
   };
-  const selectedModel = (requestedModel && ALLOWED_MODELS_MAP[requestedModel]) || "google/gemini-3-flash-preview";
+
+ // If user explicitly chose a model, honour it. Otherwise, route by complexity.
+ let selectedModel: string;
+ if (requestedModel && ALLOWED_MODELS_MAP[requestedModel]) {
+   selectedModel = ALLOWED_MODELS_MAP[requestedModel];
+ } else {
+   selectedModel = complexity === "simple" ? "google/gemini-2.5-flash-lite" : "google/gemini-3-flash-preview";
+ }
+
+ // ===== CACHE CHECK =====
+ const cacheKey = getCacheKey(lastMsgText);
+ if (cacheKey) {
+   const { data: cached } = await sb
+     .from("response_cache")
+     .select("response_text")
+     .eq("cache_key", cacheKey)
+     .gt("expires_at", new Date().toISOString())
+     .maybeSingle();
+
+   if (cached) {
+     // Log analytics for cache hit
+     if (userId) {
+       const period = new Date().toISOString().slice(0, 7);
+       await sb.from("agent_analytics").insert({
+         user_id: userId, agent_name: agentId, model_used: "cache", complexity,
+         from_cache: true, response_time_ms: Date.now() - startTime, estimated_cost_nzd: 0,
+       });
+       await sb.from("usage_tracking").upsert(
+         { user_id: userId, period, messages_used: 1, tokens_used: 0, cost_nzd: 0 },
+         { onConflict: "user_id,period" }
+       );
+       // Increment message count
+       await sb.rpc("increment_usage", undefined).catch(() => {});
+     }
+     return new Response(
+       JSON.stringify({ content: cached.response_text, fromCache: true, model: "cache" }),
+       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+     );
+   }
+ }
 
   const systemPrompt = agentPrompts[agentId];
  if (!systemPrompt) {
@@ -6624,41 +6766,55 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
 `;
   }
 
- // SHARED BRAIN: Inject cross-agent context 
+ // SHARED BRAIN: Inject cross-agent context + agent memory
  try {
- const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
- const userClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!, {
- global: { headers: { Authorization: authHeader } },
- });
- const { data: { user: brainUser } } = await userClient.auth.getUser();
- if (brainUser) {
- // Fetch shared context facts
- const { data: ctxRows } = await userClient
- .from("shared_context")
- .select("context_key, context_value, source_agent, confidence")
- .eq("user_id", brainUser.id)
- .order("confidence", { ascending: false })
- .limit(30);
+ if (userId) {
+  // Fetch shared context facts
+  const { data: ctxRows } = await userClient
+  .from("shared_context")
+  .select("context_key, context_value, source_agent, confidence")
+  .eq("user_id", userId)
+  .order("confidence", { ascending: false })
+  .limit(30);
 
- // Fetch recent conversation summaries from OTHER agents
- const { data: summaries } = await userClient
- .from("conversation_summaries")
- .select("agent_id, summary, key_facts_extracted, created_at")
- .eq("user_id", brainUser.id)
- .neq("agent_id", agentId)
- .order("created_at", { ascending: false })
- .limit(5);
+  // Fetch agent-specific memories
+  const { data: memories } = await sb
+  .from("agent_memory")
+  .select("memory_key, memory_value")
+  .eq("user_id", userId)
+  .eq("agent_id", agentId)
+  .order("updated_at", { ascending: false })
+  .limit(10);
 
- if (ctxRows && ctxRows.length > 0) {
- const facts = ctxRows.map(r => `• ${r.context_key}: ${JSON.stringify(r.context_value)} (source: ${r.source_agent}, confidence: ${r.confidence})`).join("\n");
- fullSystemPrompt += `\n\n[SHARED BRAIN — Business facts collected by all agents for this user. Use these to personalise responses and avoid asking for information already known:\n${facts}]`;
+  // Fetch recent conversation summaries from OTHER agents
+  const { data: summaries } = await userClient
+  .from("conversation_summaries")
+  .select("agent_id, summary, key_facts_extracted, created_at")
+  .eq("user_id", userId)
+  .neq("agent_id", agentId)
+  .order("created_at", { ascending: false })
+  .limit(5);
+
+  if (ctxRows && ctxRows.length > 0) {
+  const facts = ctxRows.map(r => `• ${r.context_key}: ${JSON.stringify(r.context_value)} (source: ${r.source_agent}, confidence: ${r.confidence})`).join("\n");
+  fullSystemPrompt += `\n\n[SHARED BRAIN — Business facts collected by all agents for this user. Use these to personalise responses and avoid asking for information already known:\n${facts}]`;
+  }
+
+  if (memories && memories.length > 0) {
+  const memFacts = memories.map(m => `• ${m.memory_key}: ${JSON.stringify(m.memory_value)}`).join("\n");
+  fullSystemPrompt += `\n\n[YOUR MEMORY — Things you specifically remember about this user:\n${memFacts}]`;
+  }
+
+  if (summaries && summaries.length > 0) {
+  const sumText = summaries.map(s => `• ${s.agent_id}: ${s.summary}`).join("\n");
+  fullSystemPrompt += `\n\n[RECENT ACTIVITY FROM OTHER AGENTS:\n${sumText}]`;
   }
 
   // AUTO-FETCH BRAND PROFILE from DB for all agents (brand-aware content generation)
   const { data: brandRow } = await userClient
     .from("brand_profiles")
     .select("brand_dna, business_name, industry, tone, audience, key_message")
-    .eq("user_id", brainUser.id)
+    .eq("user_id", userId)
     .maybeSingle();
 
   if (brandRow?.brand_dna) {
@@ -6865,42 +7021,60 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
  // Add integration awareness to system prompt
  fullSystemPrompt += `\n\n[INTEGRATIONS: You have access to live integration tools. When the user asks about calendar events, scheduling, or their Canva designs, USE the tools to fetch real data or create items. Do NOT make up data — call the tool. If the tool returns an error about "not connected", tell the user to connect the integration via Integration Hub in settings.]`;
 
- const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
- method: "POST",
- headers: {
- "Content-Type": "application/json",
- "Authorization": `Bearer ${LOVABLE_API_KEY}`,
- },
- body: JSON.stringify({
- model: selectedModel,
- messages: [
- { role: "system", content: fullSystemPrompt },
- ...formattedMessages,
- ],
- max_tokens: 4096,
- tools: integrationTools,
- }),
- });
+ // ===== SELF-HEALING RETRY with model fallback =====
+ const FALLBACK_MODELS = [selectedModel, "google/gemini-2.5-flash-lite", "google/gemini-2.5-flash-lite"];
+ let response: Response | null = null;
+ let actualModelUsed = selectedModel;
+ let attempts = 0;
 
- if (!response.ok) {
- const errorBody = await response.text();
- console.error(`AI Gateway error [${response.status}]: ${errorBody}`);
- if (response.status === 429) {
- return new Response(
- JSON.stringify({ error: "Rate limited — please try again in a moment." }),
- { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
- );
+ for (let attempt = 0; attempt < 3; attempt++) {
+  attempts = attempt + 1;
+  actualModelUsed = FALLBACK_MODELS[attempt] || FALLBACK_MODELS[0];
+  try {
+   response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    method: "POST",
+    headers: {
+     "Content-Type": "application/json",
+     "Authorization": `Bearer ${LOVABLE_API_KEY}`,
+    },
+    body: JSON.stringify({
+     model: actualModelUsed,
+     messages: [
+      { role: "system", content: fullSystemPrompt },
+      ...formattedMessages,
+     ],
+     max_tokens: 4096,
+     tools: integrationTools,
+    }),
+   });
+   if (response.ok) break;
+   const errStatus = response.status;
+   if (errStatus === 402) {
+    return new Response(
+     JSON.stringify({ error: "AI credits exhausted — please top up in workspace settings." }),
+     { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
+   }
+   console.error(`AI Gateway attempt ${attempt + 1} failed [${errStatus}]`);
+   if (attempt < 2) await new Promise(r => setTimeout(r, 1000 * Math.pow(2, attempt)));
+  } catch (fetchErr) {
+   console.error(`AI Gateway fetch error attempt ${attempt + 1}:`, fetchErr);
+   if (attempt < 2) await new Promise(r => setTimeout(r, 1000 * Math.pow(2, attempt)));
+  }
  }
- if (response.status === 402) {
- return new Response(
- JSON.stringify({ error: "AI credits exhausted — please top up in workspace settings." }),
- { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } }
- );
- }
- return new Response(
- JSON.stringify({ error: "Failed to get response from AI" }),
- { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } }
- );
+
+ if (!response || !response.ok) {
+  // Log error analytics
+  if (userId) {
+   await sb.from("agent_analytics").insert({
+    user_id: userId, agent_name: agentId, model_used: actualModelUsed, complexity,
+    response_time_ms: Date.now() - startTime, error: true, error_message: "All retries failed",
+   }).catch(() => {});
+  }
+  return new Response(
+   JSON.stringify({ content: "I'm having a moment — could you try that again? If it keeps happening, try rephrasing your question.", error: true }),
+   { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+  );
  }
 
  const data = await response.json();
@@ -6990,75 +7164,94 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
 
  if (!content) content = "I couldn't generate a response.";
 
- // Log message for activity feed (best effort, don't block response)
+ // ===== ANALYTICS, CACHING, USAGE TRACKING (best effort) =====
+ const responseTime = Date.now() - startTime;
+ const usage = data?.usage || {};
+ const costNzd = calculateCost(actualModelUsed, usage);
+
  try {
- const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
- const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
- const sb = createClient(supabaseUrl, serviceKey);
- 
- const authHeader = req.headers.get("Authorization");
- let userId: string | null = null;
- let userName = "Anonymous";
- if (authHeader) {
- const userClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!, {
- global: { headers: { Authorization: authHeader } },
- });
- const { data: { user } } = await userClient.auth.getUser();
- if (user) {
- userId = user.id;
- userName = user.user_metadata?.full_name || user.email?.split("@")[0] || "User";
- }
- }
- 
- const lastUserMsg = messages[messages.length - 1];
- const preview = typeof lastUserMsg?.content === "string"
- ? lastUserMsg.content.substring(0, 50)
- : "(attachment)";
- 
+  const userName = authUser?.user_metadata?.full_name || authUser?.email?.split("@")[0] || "User";
+  const preview = typeof lastMsgText === "string" ? lastMsgText.substring(0, 50) : "(attachment)";
+
+  // Message log
   await sb.from("message_log").insert({
-  user_id: userId,
-  agent_id: agentId,
-  message_preview: preview,
-  user_name: userName,
+   user_id: userId, agent_id: agentId, message_preview: preview, user_name: userName,
   });
 
-  // SERVER-SIDE CONTEXT EXTRACTION: Auto-detect business facts from AI response and save to shared_context
+  // Agent analytics
+  if (userId) {
+   await sb.from("agent_analytics").insert({
+    user_id: userId, agent_name: agentId, model_used: actualModelUsed, complexity,
+    input_tokens: usage?.prompt_tokens || 0, output_tokens: usage?.completion_tokens || 0,
+    estimated_cost_nzd: costNzd, response_time_ms: responseTime, from_cache: false, error: false,
+   });
+
+   // Usage tracking — upsert increment
+   const period = new Date().toISOString().slice(0, 7);
+   const { data: existingUsage } = await sb.from("usage_tracking")
+    .select("messages_used, tokens_used, cost_nzd")
+    .eq("user_id", userId).eq("period", period).maybeSingle();
+
+   if (existingUsage) {
+    await sb.from("usage_tracking").update({
+     messages_used: (existingUsage.messages_used || 0) + 1,
+     tokens_used: (existingUsage.tokens_used || 0) + (usage?.total_tokens || 0),
+     cost_nzd: (existingUsage.cost_nzd || 0) + costNzd,
+     updated_at: new Date().toISOString(),
+    }).eq("user_id", userId).eq("period", period);
+   } else {
+    await sb.from("usage_tracking").insert({
+     user_id: userId, period,
+     messages_used: 1, tokens_used: usage?.total_tokens || 0, cost_nzd: costNzd,
+    });
+   }
+  }
+
+  // Cache response if cacheable
+  if (cacheKey && content) {
+   const ttl = getCacheTTL(lastMsgText);
+   if (ttl > 0) {
+    await sb.from("response_cache").upsert({
+     cache_key: cacheKey, response_text: content, model_used: actualModelUsed,
+     tokens_saved: usage?.total_tokens || 0,
+     expires_at: new Date(Date.now() + ttl * 60000).toISOString(),
+    }, { onConflict: "cache_key" });
+   }
+  }
+
+  // Context extraction
   if (userId && content) {
-  try {
-  const contextPatterns: { key: string; regex: RegExp }[] = [
+   const contextPatterns: { key: string; regex: RegExp }[] = [
     { key: "business_name", regex: /(?:your (?:business|company|organisation)[, ]+)([A-Z][A-Za-z0-9 &'.-]{2,40})/i },
     { key: "industry", regex: /(?:you(?:'re| are) in the |your industry[: ]+)([A-Za-z &/-]{3,40})/i },
     { key: "team_size", regex: /(?:you have |team of |staff of )(\d{1,5})\s*(?:staff|people|employees|team members)/i },
     { key: "location", regex: /(?:based in|located in|operating (?:in|from))\s+([A-Z][A-Za-z, ]{2,50})/i },
     { key: "gst_number", regex: /GST\s*(?:number|#|:)\s*(\d{2,3}-?\d{3}-?\d{3})/i },
     { key: "nzbn", regex: /NZBN[: ]\s*(\d{13})/i },
-  ];
-  for (const { key, regex } of contextPatterns) {
+   ];
+   for (const { key, regex } of contextPatterns) {
     const m = content.match(regex);
     if (m?.[1]) {
-      await sb.from("shared_context").upsert(
-        { user_id: userId, context_key: key, context_value: m[1].trim(), source_agent: agentId, confidence: 0.7 },
-        { onConflict: "user_id,context_key" }
-      );
+     await sb.from("shared_context").upsert(
+      { user_id: userId, context_key: key, context_value: m[1].trim(), source_agent: agentId, confidence: 0.7 },
+      { onConflict: "user_id,context_key" }
+     );
     }
+   }
   }
-  } catch (ctxErr) {
-    console.error("Context extraction error (non-critical):", ctxErr);
-  }
-  }
-  } catch (logErr) {
-  console.error("Message log error (non-critical):", logErr);
-  }
+ } catch (logErr) {
+  console.error("Post-response logging error (non-critical):", logErr);
+ }
 
  return new Response(
- JSON.stringify({ content }),
- { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+  JSON.stringify({ content, model: actualModelUsed, complexity, responseTime, fromCache: false }),
+  { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
  );
  } catch (error) {
  console.error("Chat function error:", error);
  return new Response(
- JSON.stringify({ error: "Internal server error" }),
- { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+  JSON.stringify({ content: "I'm having a moment — could you try that again? If it keeps happening, try rephrasing your question." }),
+  { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
  );
  }
 });
