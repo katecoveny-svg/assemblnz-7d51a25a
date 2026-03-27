@@ -178,17 +178,7 @@ const AgentGrid = () => {
         <AnimatedHero onScrollToGrid={scrollToGrid} />
       </div>
 
-      {/* ═══════════════════════ LIVE DEMO / STATS ═══════════════════════ */}
-      <LiveDemoSection />
-
-      {/* ═══════════════════════ FEATURED AGENTS ═══════════════════════ */}
-      <TurfSection />
-      <AuraSection />
-      <ApexSection />
-      <ArohaSection />
-      <EchoSection />
-
-      {/* ═══════════════════════ AGENT GRID ═══════════════════════ */}
+      {/* ═══════════════════════ AGENT GRID — Moved up for discoverability ═══════════════════════ */}
       <main id="expert-team" ref={gridRef} className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 w-full">
         {/* Section header */}
         <motion.div
