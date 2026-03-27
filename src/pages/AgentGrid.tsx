@@ -224,6 +224,16 @@ const AgentGrid = () => {
         </div>
       </main>
 
+      {/* ═══════════════════════ LIVE DEMO / STATS ═══════════════════════ */}
+      <LiveDemoSection />
+
+      {/* ═══════════════════════ FEATURED AGENTS ═══════════════════════ */}
+      <TurfSection />
+      <AuraSection />
+      <ApexSection />
+      <ArohaSection />
+      <EchoSection />
+
       {/* ═══════════════════════ HOW IT WORKS ═══════════════════════ */}
       <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
