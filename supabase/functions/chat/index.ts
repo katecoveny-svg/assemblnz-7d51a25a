@@ -6547,13 +6547,75 @@ FORMAT: When suggesting grants, include: grant name, administering body, approxi
 - TE REO MODE: When user requests "Te Reo Mode" or bilingual documents, add te reo greetings, bilingual headings, and culturally appropriate framing to all generated content
 `;
 
+// ===== SMART MODEL ROUTING =====
+function classifyComplexity(message: string): 'simple' | 'complex' {
+  const simplePatterns = [
+    /what is|how much|calculate|convert|when is|what date|gst|minimum wage/i,
+    /generate a template|draft a basic|simple question|what are the rates/i,
+    /public holiday|kiwisaver rate|tax bracket|acc levy|sick leave entitlement/i,
+  ];
+  if (simplePatterns.some(p => p.test(message))) return 'simple';
+  return 'complex';
+}
+
+// ===== RESPONSE CACHING =====
+const CACHE_PATTERNS: { pattern: RegExp; key: string; ttlMinutes: number }[] = [
+  { pattern: /(?:what is|current|nz)\s*(?:minimum wage|min wage)/i, key: "nz_minimum_wage_2026", ttlMinutes: 43200 },
+  { pattern: /(?:gst|goods and services tax)\s*(?:rate|percentage|how much)/i, key: "nz_gst_rate", ttlMinutes: 1440 },
+  { pattern: /kiwisaver\s*(?:rate|employer|contribution)/i, key: "nz_kiwisaver_rates_2026", ttlMinutes: 43200 },
+  { pattern: /(?:tax|paye)\s*(?:bracket|rate|threshold)/i, key: "nz_tax_brackets_2026", ttlMinutes: 43200 },
+  { pattern: /public\s*holiday/i, key: "nz_public_holidays_2026", ttlMinutes: 525600 },
+];
+
+function getCacheKey(message: string): string | null {
+  for (const { pattern, key } of CACHE_PATTERNS) {
+    if (pattern.test(message)) return key;
+  }
+  return null;
+}
+
+function getCacheTTL(message: string): number {
+  for (const { pattern, ttlMinutes } of CACHE_PATTERNS) {
+    if (pattern.test(message)) return ttlMinutes;
+  }
+  return 0;
+}
+
+// ===== COST CALCULATOR =====
+function calculateCost(model: string, usage: any): number {
+  // Approximate costs via Lovable gateway (NZD)
+  const rates: Record<string, { input: number; output: number }> = {
+    "google/gemini-3-flash-preview": { input: 0.0001, output: 0.0004 },
+    "google/gemini-2.5-flash-lite": { input: 0.00005, output: 0.0002 },
+    "google/gemini-2.5-pro": { input: 0.002, output: 0.01 },
+    "openai/gpt-5-mini": { input: 0.0005, output: 0.002 },
+    "openai/gpt-5": { input: 0.003, output: 0.015 },
+  };
+  const rate = rates[model] || rates["google/gemini-3-flash-preview"];
+  const inputCost = (usage?.prompt_tokens || usage?.input_tokens || 0) / 1000 * rate.input;
+  const outputCost = (usage?.completion_tokens || usage?.output_tokens || 0) / 1000 * rate.output;
+  return (inputCost + outputCost) * 1.65;
+}
+
+// ===== PLAN LIMITS =====
+const PLAN_LIMITS: Record<string, number> = {
+  free: 25,
+  starter: 100,
+  pro: 500,
+  business: 2000,
+  suite: 5000,
+  admin: 99999,
+};
+
 Deno.serve(async (req) => {
  if (req.method === "OPTIONS") {
  return new Response(null, { headers: corsHeaders });
  }
 
+ const startTime = Date.now();
+
  try {
- // Require authentication — prevents unauthenticated API credit abuse
+ // Require authentication
  const authHeader = req.headers.get("Authorization");
  if (!authHeader?.startsWith("Bearer ")) {
  return new Response(JSON.stringify({ error: "Unauthorized — please sign in to chat" }), {
@@ -6572,7 +6634,7 @@ Deno.serve(async (req) => {
  const body = await req.json();
  const { agentId, messages, brandContext, brandLogoUrl, teReoPrompt, propertyMode, model: requestedModel, getSystemPrompt, receptionistMode } = body;
 
- // Return system prompt for voice agent sync (no AI call needed)
+ // Return system prompt for voice agent sync
  if (getSystemPrompt && agentId) {
   const prompt = agentPrompts[agentId];
   if (!prompt) {
@@ -6584,6 +6646,47 @@ Deno.serve(async (req) => {
   );
  }
 
+ // ===== AUTH & USER RESOLUTION =====
+ const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+ const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+ const sb = createClient(supabaseUrl, serviceKey);
+ const userClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!, {
+   global: { headers: { Authorization: authHeader } },
+ });
+ const { data: { user: authUser } } = await userClient.auth.getUser();
+ const userId = authUser?.id || null;
+ const userEmail = authUser?.email || "";
+
+ // ===== USAGE LIMIT CHECK =====
+ if (userId) {
+   const period = new Date().toISOString().slice(0, 7);
+   const { data: usageRow } = await sb
+     .from("usage_tracking")
+     .select("messages_used")
+     .eq("user_id", userId)
+     .eq("period", period)
+     .maybeSingle();
+
+   // Determine user plan
+   const { data: roleRow } = await sb.rpc("get_user_role", { _user_id: userId });
+   const userPlan = roleRow || "free";
+   const isAdmin = userEmail.toLowerCase().trim() === "assembl@assembl.co.nz" || userEmail.toLowerCase().trim() === "kate@assembl.co.nz";
+   const limit = isAdmin ? 99999 : (PLAN_LIMITS[userPlan as string] || PLAN_LIMITS.free);
+   const used = usageRow?.messages_used || 0;
+
+   if (used >= limit) {
+     return new Response(
+       JSON.stringify({ error: `You've used all ${limit} messages this month. Upgrade your plan for more.`, code: "monthly_limit_reached", used, limit }),
+       { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+     );
+   }
+ }
+
+ // ===== SMART MODEL ROUTING =====
+ const lastUserMsg = messages?.[messages.length - 1];
+ const lastMsgText = typeof lastUserMsg?.content === "string" ? lastUserMsg.content : "";
+ const complexity = classifyComplexity(lastMsgText);
+
  // Allowed models whitelist
  const ALLOWED_MODELS_MAP: Record<string, string> = {
   "gemini-flash": "google/gemini-3-flash-preview",
@@ -6592,7 +6695,46 @@ Deno.serve(async (req) => {
   "gpt-5-mini": "openai/gpt-5-mini",
   "gpt-5": "openai/gpt-5",
   };
-  const selectedModel = (requestedModel && ALLOWED_MODELS_MAP[requestedModel]) || "google/gemini-3-flash-preview";
+
+ // If user explicitly chose a model, honour it. Otherwise, route by complexity.
+ let selectedModel: string;
+ if (requestedModel && ALLOWED_MODELS_MAP[requestedModel]) {
+   selectedModel = ALLOWED_MODELS_MAP[requestedModel];
+ } else {
+   selectedModel = complexity === "simple" ? "google/gemini-2.5-flash-lite" : "google/gemini-3-flash-preview";
+ }
+
+ // ===== CACHE CHECK =====
+ const cacheKey = getCacheKey(lastMsgText);
+ if (cacheKey) {
+   const { data: cached } = await sb
+     .from("response_cache")
+     .select("response_text")
+     .eq("cache_key", cacheKey)
+     .gt("expires_at", new Date().toISOString())
+     .maybeSingle();
+
+   if (cached) {
+     // Log analytics for cache hit
+     if (userId) {
+       const period = new Date().toISOString().slice(0, 7);
+       await sb.from("agent_analytics").insert({
+         user_id: userId, agent_name: agentId, model_used: "cache", complexity,
+         from_cache: true, response_time_ms: Date.now() - startTime, estimated_cost_nzd: 0,
+       });
+       await sb.from("usage_tracking").upsert(
+         { user_id: userId, period, messages_used: 1, tokens_used: 0, cost_nzd: 0 },
+         { onConflict: "user_id,period" }
+       );
+       // Increment message count
+       await sb.rpc("increment_usage", undefined).catch(() => {});
+     }
+     return new Response(
+       JSON.stringify({ content: cached.response_text, fromCache: true, model: "cache" }),
+       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+     );
+   }
+ }
 
   const systemPrompt = agentPrompts[agentId];
  if (!systemPrompt) {
