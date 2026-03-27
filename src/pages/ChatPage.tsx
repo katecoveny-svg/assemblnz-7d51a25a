@@ -1521,9 +1521,9 @@ const ChatPage = () => {
 
             <ConversationExport messages={messages} agentName={agent.name} agentDesignation={agent.designation} agentColor={agent.color} />
 
-            {/* Brand badge */}
+            {/* Brand badge — hidden on mobile */}
             {brandProfile ? (
-              <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium"
+              <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium"
                 style={{ backgroundColor: accentColor + "12", color: accentColor, border: `1px solid ${accentColor}20` }}>
                 <Globe size={11} />
                 <span className="max-w-[60px] truncate">{brandName}</span>
@@ -1531,22 +1531,22 @@ const ChatPage = () => {
               </div>
             ) : (
               <LockedButton feature="brand_scan" onClick={() => setBrandModalOpen(true)}
-                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors hover:opacity-80"
+                className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors hover:opacity-80"
                 style={{ color: accentColor, border: `1px solid ${accentColor}25` }}>
                 <Globe size={12} />
               </LockedButton>
             )}
 
-            {/* Logo badge */}
+            {/* Logo badge — hidden on mobile */}
             {brandLogoUrl ? (
-              <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium"
+              <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium"
                 style={{ backgroundColor: accentColor + "12", color: accentColor, border: `1px solid ${accentColor}20` }}>
                 <img src={brandLogoUrl} alt="Logo" className="w-4 h-4 rounded-sm object-contain" />
                 <button onClick={() => { setBrandLogoUrl(null); sessionStorage.removeItem("assembl_brand_logo"); }} className="hover:opacity-70"><X size={10} /></button>
               </div>
             ) : (
               <LockedButton feature="brand_scan" onClick={() => logoInputRef.current?.click()}
-                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors hover:opacity-80"
+                className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors hover:opacity-80"
                 style={{ color: accentColor, border: `1px solid ${accentColor}25` }}>
                 {isUploadingLogo ? <Loader2 size={12} className="animate-spin" /> : <Upload size={12} />}
               </LockedButton>
