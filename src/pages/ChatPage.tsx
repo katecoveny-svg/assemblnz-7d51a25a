@@ -891,7 +891,7 @@ const ChatPage = () => {
       ["flux_pipeline:Pipeline", "flux_followups:Follow-Ups", "flux_clients:Clients"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isPrism) {
-      ["prism_campaigns:Campaigns", "prism_social:Social", "prism_brand:Brand Voice", "prism_creative:Creative", "prism_ads:Ad Studio", "prism_adengine:🎯 Ad Engine", "prism_product:Product", "prism_video:Video", "prism_brandlab:Brand Lab", "prism_publisher:Publisher"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
+      ["prism_campaigns:Campaigns", "prism_brand:Brand Voice", "prism_creative:Creative", "prism_ads:Ad Studio", "prism_adengine:Ad Engine", "prism_product:Product", "prism_video:Video", "prism_brandlab:Brand Lab", "prism_publisher:Publisher"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isNonprofit) {
       ["kindle_writer:Campaign Writer", "kindle_marketplace:Marketplace", "kindle_impact:Impact", "kindle_corporate:Corporate"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });

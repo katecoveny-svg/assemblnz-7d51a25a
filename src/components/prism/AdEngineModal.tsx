@@ -263,7 +263,7 @@ export default function AdEngineModal({ open, onOpenChange }: { open: boolean; o
             <Target size={20} style={{ color: ACCENT }} />
             <div>
               <h2 className="text-lg font-syne font-bold" style={{ color: "hsl(var(--foreground))" }}>Ad Engine</h2>
-              <p className="text-xs" style={{ color: "hsl(var(--muted-foreground))" }}>AI-powered campaign generator</p>
+              <p className="text-xs" style={{ color: "hsl(var(--muted-foreground))" }}>Bulk campaign generator</p>
             </div>
           </div>
           {view === "results" && (
