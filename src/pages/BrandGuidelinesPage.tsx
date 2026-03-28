@@ -1,18 +1,17 @@
 import { motion } from "framer-motion";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
+import AgentAvatar from "@/components/AgentAvatar";
+import { agents as allAgents, echoAgent, pilotAgent } from "@/data/agents";
 import nexusLogo from "@/assets/nexus-logo-hires.png";
 import logoWordmark from "@/assets/assembl-logo-wordmark.png";
 import logoFull from "@/assets/brand/assembl-logo-full.png";
 import logoIcon from "@/assets/brand/assembl-icon.png";
 import heroRobot from "@/assets/agents/hero-orb-robot.png";
-import auraBot from "@/assets/agents/aura.png";
-import helmBot from "@/assets/agents/helm.png";
-import prismBot from "@/assets/agents/prism.png";
-import echoBot from "@/assets/agents/echo-fullbody.png";
-import sparkBot from "@/assets/agents/spark.png";
 import linkedinBanner from "@/assets/brand/social-linkedin-banner.png";
 import ogImage from "@/assets/brand/social-launch-og.png";
+
+const FULL_AGENT_LIST = [echoAgent, pilotAgent, ...allAgents];
 
 const CORE_COLORS = [
   { name: "Page Background", hex: "#09090F", hsl: "234 29% 5%", role: "--color-bg" },
@@ -30,27 +29,16 @@ const SURFACE_COLORS = [
   { name: "Border Strong", hex: "rgba(255,255,255,0.15)", role: "Active borders" },
 ];
 
-const AGENT_COLORS = [
-  { name: "TURF", hex: "#00FF88" }, { name: "AURA", hex: "#00E5A0" },
-  { name: "PRISM", hex: "#E040FB" }, { name: "HAVEN", hex: "#FF80AB" },
-  { name: "HELM", hex: "#B388FF" }, { name: "ECHO", hex: "#00E5FF" },
-  { name: "APEX", hex: "#FF4D6A" }, { name: "AROHA", hex: "#5B8CFF" },
-  { name: "FORGE", hex: "#FF4D6A" }, { name: "FLUX", hex: "#00E5FF" },
-  { name: "NEXUS", hex: "#00FF88" }, { name: "MARINER", hex: "#5B8CFF" },
-  { name: "SPARK", hex: "#FF8C42" }, { name: "GROVE", hex: "#7CFF6B" },
-  { name: "KINDLE", hex: "#FF8C42" },
-];
-
 const FONTS = [
-  { name: "Syne", role: "Display & Headlines", weights: "800 (ExtraBold)", usage: "ASSEMBL wordmark, page titles, hero text, section headings", url: "fonts.google.com/specimen/Syne" },
+  { name: "Lato", role: "Display & Headlines", weights: "900 (Black)", usage: "ASSEMBL wordmark, page titles, hero text, section headings", url: "fonts.google.com/specimen/Lato" },
   { name: "Plus Jakarta Sans", role: "Body & UI", weights: "400, 500, 600", usage: "Body copy, buttons, labels, form inputs, descriptions, navigation", url: "fonts.google.com/specimen/Plus+Jakarta+Sans" },
   { name: "JetBrains Mono", role: "Code & Data", weights: "400, 500", usage: "Code blocks, data labels, stat pills, technical values", url: "fonts.google.com/specimen/JetBrains+Mono" },
 ];
 
 const TYPE_SCALE = [
-  { level: "H1 — Hero", spec: "48–64px / Syne ExtraBold 800" },
-  { level: "H2 — Section", spec: "32–40px / Syne ExtraBold 800" },
-  { level: "H3 — Card Title", spec: "20–24px / Syne ExtraBold 800" },
+  { level: "H1 — Hero", spec: "48–64px / Lato Black 900" },
+  { level: "H2 — Section", spec: "32–40px / Lato Black 900" },
+  { level: "H3 — Card Title", spec: "20–24px / Lato Black 900" },
   { level: "Body", spec: "14–16px / Plus Jakarta Sans Regular 400" },
   { level: "Small / Label", spec: "10–12px / Plus Jakarta Sans Semibold 600" },
   { level: "Code / Data", spec: "13px / JetBrains Mono Regular 400" },
