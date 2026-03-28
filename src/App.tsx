@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useParams, Navigate } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -99,6 +99,7 @@ const App = () => (
                   <Route path="/about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
                   <Route path="/onboarding" element={<Suspense fallback={null}><OnboardingPage /></Suspense>} />
                   <Route path="/turf-5-april-2026" element={<Suspense fallback={null}><TurfDeadlinePage /></Suspense>} />
+                  <Route path="/turf" element={<Navigate to="/agents/sports" replace />} />
                   <Route path="/admin/analytics" element={<Suspense fallback={null}><AdminAnalyticsDashboard /></Suspense>} />
                   <Route path="/developers" element={<Suspense fallback={null}><DevelopersPage /></Suspense>} />
                   <Route path="/brand-guidelines" element={<Suspense fallback={null}><BrandGuidelinesPage /></Suspense>} />
