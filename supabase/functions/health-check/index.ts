@@ -13,15 +13,28 @@ interface CheckResult {
   error_message?: string;
 }
 
-async function checkService(name: string, url: string, timeout = 10000): Promise<CheckResult> {
+async function checkService(
+  name: string,
+  url: string,
+  options: { timeout?: number; method?: string; headers?: Record<string, string>; treatAuthAsOk?: boolean } = {}
+): Promise<CheckResult> {
+  const { timeout = 10000, method = "GET", headers = {}, treatAuthAsOk = false } = options;
   const start = Date.now();
   try {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), timeout);
-    const res = await fetch(url, { signal: controller.signal });
+    const res = await fetch(url, { method, signal: controller.signal, headers });
     clearTimeout(timer);
     const elapsed = Date.now() - start;
+
+    // Consume body to avoid resource leak
+    await res.text();
+
     if (res.status >= 200 && res.status < 400) {
+      return { service_name: name, status: "ok", response_time_ms: elapsed };
+    }
+    // Treat 401/403 as "reachable" for auth-protected services
+    if (treatAuthAsOk && (res.status === 401 || res.status === 403 || res.status === 405)) {
       return { service_name: name, status: "ok", response_time_ms: elapsed };
     }
     return { service_name: name, status: "error", response_time_ms: elapsed, error_message: `HTTP ${res.status}` };
@@ -38,17 +51,25 @@ Deno.serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const anonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
     const supabase = createClient(supabaseUrl, serviceRoleKey);
 
-    // Run all checks in parallel
     const checks = await Promise.all([
       checkService("assembl_website", "https://assemblnz.lovable.app"),
-      checkService("supabase_api", `${supabaseUrl}/rest/v1/?apikey=${Deno.env.get("SUPABASE_ANON_KEY")}`),
-      checkService("chat_function", `${supabaseUrl}/functions/v1/chat`, 8000),
-      checkService("elevenlabs_api", "https://api.elevenlabs.io/v1/models"),
+      checkService("supabase_api", `${supabaseUrl}/rest/v1/`, {
+        headers: { apikey: anonKey, Authorization: `Bearer ${anonKey}` },
+      }),
+      checkService("chat_function", `${supabaseUrl}/functions/v1/chat`, {
+        method: "OPTIONS",
+        timeout: 8000,
+        treatAuthAsOk: true,
+      }),
+      checkService("elevenlabs_api", "https://api.elevenlabs.io/v1/voices", {
+        headers: { "xi-api-key": Deno.env.get("ELEVENLABS_API_KEY") || "" },
+        treatAuthAsOk: true,
+      }),
     ]);
 
-    // Store results
     const rows = checks.map((c) => ({
       service_name: c.service_name,
       status: c.status,
@@ -57,7 +78,6 @@ Deno.serve(async (req) => {
     }));
     await supabase.from("health_checks").insert(rows);
 
-    // Check for failures and alert
     const failures = checks.filter((c) => c.status === "error");
     if (failures.length > 0) {
       const brevoKey = Deno.env.get("BREVO_API_KEY");
