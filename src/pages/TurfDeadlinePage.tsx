@@ -131,14 +131,13 @@ const TurfMiniChat = () => {
 
   const handleQuickStart = (sportName: string) => {
     if (loading) return;
-    const clubName = `My ${sportName} Club`;
-    const updated = { ...clubDetails, clubName, sport: sportName };
+    const updated = { ...clubDetails, sport: sportName };
     setClubDetails(updated);
     setMessages([
-      { role: "user", content: clubName },
-      { role: "assistant", content: `✅ Got it — ${clubName} playing ${sportName}. ${WIZARD_STEPS[2].question}` },
+      { role: "user", content: `${sportName} club` },
+      { role: "assistant", content: `✅ Great — a ${sportName} club! What is your club's full legal name?` },
     ]);
-    setWizardStep(2);
+    setWizardStep(1);
   };
 
   const handleWizardAnswer = async (answer: string) => {
