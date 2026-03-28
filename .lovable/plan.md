@@ -1,46 +1,41 @@
 
 
-## Fix Echo Voice and Health Check False Alerts
+## Fix ORA False Triggers and "Needs Your Attention" Accuracy
 
-### Problem Summary
-Three distinct issues are causing voice problems and dashboard noise:
+### Problems Identified
 
-1. **ElevenLabs TTS edge function is broken** — uses `supabase.auth.getClaims()` which does not exist in supabase-js v2. Any TTS fallback call will 500.
-2. **Health check URLs are wrong** — producing constant false "error" status for 3 of 4 services, making the health dashboard useless.
-3. **Conversational voice token endpoint** appears structurally correct but may fail silently if the ElevenLabs API key or agent IDs are stale.
+1. **Duplicate trigger rules** in `agent-intelligence/index.ts` — The `new_project|project_started` rule for `construction` appears TWICE (lines 39-46 and lines 57-65), generating double alerts for the same event.
+
+2. **Overly broad regex matching** — Patterns like `/deal_closed|deal_won|new_client/i` can match substrings in unrelated context keys (e.g., a context key containing "client" anywhere). This causes false cross-agent alerts that surface on wrong agent dashboards.
+
+3. **ORA false trigger** — ORA (publichealth, ASM-035) is not a target in any trigger rule, but the `ProactiveAlertCards` component shows alerts where `target_agent` OR `source_agent` matches — if any context key from a health-related agent matches a broad regex, ORA's dashboard picks it up. The target agents use generic IDs like `"hr"`, `"legal"`, `"finance"`, `"it"`, `"echo"` which don't map cleanly to actual agent IDs in the system (e.g., `"hr"` could be confused with health/hauora contexts).
+
+4. **"Needs Your Attention" inaccuracy** — The section blindly merges health faults, compliance deadlines, and legislation changes without deduplication or relevance filtering. Health faults from false health check failures (now fixed) may still be cached in the database.
 
 ### Plan
 
-**Step 1: Fix `elevenlabs-tts` edge function auth**
-- Replace `supabase.auth.getClaims(token)` with `supabase.auth.getUser()` (same pattern used in the conversation-token function)
-- This restores the TTS fallback voice for all agents
+**Step 1: Fix duplicate trigger rules in `agent-intelligence`**
+- Remove the duplicate `new_project|project_started` block (lines 57-65)
+- Make regexes more specific with word boundaries where possible
+- Ensure `targetAgent` IDs match actual agent IDs from the registry (e.g., `"hr"` → `"people"` or the correct agent ID used in routing)
 
-**Step 2: Fix health check URLs**
-- `supabase_api`: Use the REST healthcheck endpoint or pass the anon key via header instead of query param
-- `chat_function`: These functions require POST + auth; change to a simple HEAD/OPTIONS check or accept that 401 = "reachable"
-- `elevenlabs_api`: Update URL from `/v1/models` to a valid public endpoint (e.g. `/v1/voices` or the status endpoint)
-- Treat HTTP 401/403 as "reachable but auth-required" (status: `ok`) for services that need auth
+**Step 2: Verify agent ID mapping**
+- Cross-reference trigger rule `targetAgent` and `sourceAgent` values against actual agent IDs in `src/data/agents.ts`
+- Fix mismatches (the agents data uses IDs like `"people"` for AROHA, `"finance"` for LEDGER, `"sales"` for FLUX, etc.)
 
-**Step 3: Redeploy both edge functions**
-- Deploy `elevenlabs-tts` and `health-check`
-- Test both via invoke to confirm they work
+**Step 3: Fix ProactiveAlertCards filtering**
+- Tighten the query in `ProactiveAlertCards.tsx` to only show alerts where `target_agent` equals the current agent ID (not source_agent — source alerts belong on the source agent's page, not the target's)
+- This prevents ORA from showing alerts meant for other agents
 
-### Technical Details
+**Step 4: Clean up "Needs Your Attention"**
+- Add deduplication logic to prevent the same deadline appearing in both the attention list and the compliance section
+- Filter out stale health check errors (older than 1 hour) from the attention items
+- Cap the severity display so only genuinely actionable items surface
 
-**elevenlabs-tts fix** (lines ~37-42):
-```typescript
-// BEFORE (broken)
-const { data: claimsData, error: claimsError } = await supabase.auth.getClaims(token);
-if (claimsError || !claimsData?.claims) { ... }
+**Step 5: Redeploy `agent-intelligence` edge function**
 
-// AFTER (working)
-const { data: { user }, error: userError } = await supabase.auth.getUser();
-if (userError || !user) { ... }
-```
-
-**health-check fix** — update `checkService` calls:
-- Supabase API: pass apikey as header, not query param
-- Chat function: use OPTIONS method (hits CORS preflight, confirms function is alive)
-- ElevenLabs: check a valid public endpoint
-- Treat 401/403 responses as "service reachable" (not an error)
+### Files Modified
+- `supabase/functions/agent-intelligence/index.ts` — remove duplicate rules, tighten regexes
+- `src/components/chat/ProactiveAlertCards.tsx` — fix query to filter by `target_agent` only
+- `src/pages/DashboardPage.tsx` — improve attention items filtering and deduplication
 
