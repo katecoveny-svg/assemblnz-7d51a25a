@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   Calendar, MessageSquare, Bus, BookOpen, FileText, CheckCircle, Truck, Settings2,
   Send, Menu, X, ArrowLeft, Mic, MicOff, User, LogIn, ChevronRight,
+  ShoppingCart, CalendarCheck, Users, ListTodo,
 } from "lucide-react";
 import { toast } from "sonner";
 import HelmThisWeek from "@/components/helm/HelmThisWeek";
@@ -17,12 +18,16 @@ import HelmRescue from "@/components/helm/HelmRescue";
 import HelmSettings from "@/components/helm/HelmSettings";
 import HelmDashboard from "@/components/helm/HelmDashboard";
 import HelmQuickActions from "@/components/helm/HelmQuickActions";
+import HelmGroceryList from "@/components/helm/HelmGroceryList";
+import HelmAppointments from "@/components/helm/HelmAppointments";
+import HelmFamilyChat from "@/components/helm/HelmFamilyChat";
+import HelmTasks from "@/components/helm/HelmTasks";
 import helmImg from "@/assets/agents/helm-3d-avatar.png";
 import { setDynamicManifest } from "@/utils/pwaManifest";
 
 const HELM_COLOR = "#B388FF";
 
-type Tab = "chat" | "week" | "bus" | "timetable" | "inbox" | "review" | "rescue" | "settings";
+type Tab = "chat" | "groceries" | "appointments" | "family_chat" | "tasks" | "week" | "bus" | "timetable" | "inbox" | "review" | "rescue" | "settings";
 
 interface Message {
   role: "user" | "assistant";
@@ -37,6 +42,10 @@ interface DashboardItem {
 
 const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: "chat", label: "Chat", icon: <MessageSquare size={16} /> },
+  { id: "groceries", label: "Groceries", icon: <ShoppingCart size={16} /> },
+  { id: "appointments", label: "Appointments", icon: <CalendarCheck size={16} /> },
+  { id: "family_chat", label: "Family Chat", icon: <Users size={16} /> },
+  { id: "tasks", label: "Tasks", icon: <ListTodo size={16} /> },
   { id: "week", label: "This Week", icon: <Calendar size={16} /> },
   { id: "bus", label: "Bus Tracker", icon: <Bus size={16} /> },
   { id: "timetable", label: "Timetable", icon: <BookOpen size={16} /> },
@@ -54,11 +63,27 @@ export default function HelmApp() {
   const [loading, setLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [dashboardItems] = useState<DashboardItem[]>([]);
+  const [familyId, setFamilyId] = useState<string | null>(null);
+  const [familyMembers, setFamilyMembers] = useState<{ user_id: string; display_name: string }[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // Set dynamic PWA manifest for HELM
   useEffect(() => setDynamicManifest("operations"), []);
+
+  // Load family
+  useEffect(() => {
+    if (!user) return;
+    const loadFamily = async () => {
+      const { data: fm } = await supabase.from("family_members").select("family_id").eq("user_id", user.id).limit(1).single();
+      if (fm) {
+        setFamilyId(fm.family_id);
+        const { data: members } = await supabase.from("family_members").select("user_id, role").eq("family_id", fm.family_id);
+        setFamilyMembers((members || []).map((m: any) => ({ user_id: m.user_id, display_name: m.role || "Member" })));
+      }
+    };
+    loadFamily();
+  }, [user]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -307,6 +332,22 @@ export default function HelmApp() {
                   HELM by Assembl — AI-powered family admin for NZ
                 </p>
               </div>
+            </div>
+          ) : activeTab === "groceries" ? (
+            <div className="flex-1 overflow-y-auto px-4 py-4">
+              <HelmGroceryList familyId={familyId} />
+            </div>
+          ) : activeTab === "appointments" ? (
+            <div className="flex-1 overflow-y-auto px-4 py-4">
+              <HelmAppointments familyId={familyId} />
+            </div>
+          ) : activeTab === "family_chat" ? (
+            <div className="flex-1 overflow-hidden px-4 py-4">
+              <HelmFamilyChat familyId={familyId} familyMembers={familyMembers} />
+            </div>
+          ) : activeTab === "tasks" ? (
+            <div className="flex-1 overflow-y-auto px-4 py-4">
+              <HelmTasks familyId={familyId} />
             </div>
           ) : activeTab === "week" ? (
             <HelmThisWeek onSendToChat={switchToChat} />

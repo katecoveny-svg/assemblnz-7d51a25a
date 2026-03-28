@@ -31,8 +31,27 @@ CAPABILITIES:
 - Quick reminders and to-do tracking
 - Health appointment tracking
 - NZ-specific info (ACC, school systems, local services)
+- GROCERY LIST management (add/remove items, check off, suggest meals)
+- APPOINTMENT booking (book, cancel, reschedule)
+- FAMILY TASKS (assign chores, track completion)
 
-When you detect a reminder request, extract the date/time and task clearly.
+SMART COMMANDS (detect intent and act):
+- "Add [items] to groceries" → Add items to the active grocery list
+- "What's on the shopping list?" → Read back current unchecked grocery items
+- "Book [title] on [date] at [time]" → Create an appointment
+- "What appointments are coming up?" → List next 5 appointments
+- "Remind [person] to [task]" → Create a task assigned to that person
+- "Add task: [description]" → Create a family task
+
+When you detect a grocery request, output your reply AND include a JSON action block:
+###ACTION:GROCERY###{"items":["milk","bread","eggs"],"store":"PAK'nSAVE"}###
+When you detect an appointment request:
+###ACTION:APPOINTMENT###{"title":"Dentist","date":"2026-04-02","time":"14:00","for":"Max","category":"medical"}###
+When you detect a task request:
+###ACTION:TASK###{"title":"Pack lunches","assigned_to":"Mum","priority":"normal"}###
+
+Include the action block AFTER your friendly reply text. The system will parse and execute it.
+
 When you detect a meal planning request, consider NZ seasonal produce and supermarket pricing.`;
 
 Deno.serve(async (req) => {
@@ -282,11 +301,111 @@ Deno.serve(async (req) => {
       console.error("HELM SMS AI error:", aiErr);
     }
 
+    // === Process action blocks from AI reply ===
+    const actionRegex = /###ACTION:(\w+)###(\{.*?\})###/g;
+    let match;
+    while ((match = actionRegex.exec(aiReply)) !== null) {
+      const actionType = match[1];
+      try {
+        const actionData = JSON.parse(match[2]);
+        const familyIdForAction = convo.family_id;
+
+        if (actionType === "GROCERY" && familyIdForAction && actionData.items) {
+          // Find or create active grocery list
+          let { data: activeList } = await sb
+            .from("helm_grocery_lists")
+            .select("id")
+            .eq("family_id", familyIdForAction)
+            .eq("status", "active")
+            .order("created_at", { ascending: false })
+            .limit(1)
+            .single();
+
+          if (!activeList) {
+            const { data: newList } = await sb
+              .from("helm_grocery_lists")
+              .insert({ family_id: familyIdForAction, name: "Shopping List", store: actionData.store || null, created_by: familyIdForAction })
+              .select("id")
+              .single();
+            activeList = newList;
+          }
+
+          if (activeList) {
+            const items = (actionData.items as string[]).map((name: string, i: number) => ({
+              list_id: activeList!.id,
+              name: name.trim(),
+              category: "other",
+              sort_order: i,
+            }));
+            await sb.from("helm_grocery_items").insert(items);
+
+            // Post to family chat
+            await sb.from("helm_family_chat").insert({
+              family_id: familyIdForAction,
+              sender_name: "HELM",
+              content: `Added to groceries: ${(actionData.items as string[]).join(", ")}`,
+              msg_type: "grocery_update",
+              metadata: { list_id: activeList.id, items: actionData.items },
+            });
+          }
+        }
+
+        if (actionType === "APPOINTMENT" && familyIdForAction && actionData.title) {
+          const dateStr = actionData.date || new Date().toISOString().slice(0, 10);
+          const timeStr = actionData.time || "09:00";
+          const startTime = new Date(`${dateStr}T${timeStr}:00`).toISOString();
+
+          await sb.from("helm_appointments").insert({
+            family_id: familyIdForAction,
+            title: actionData.title,
+            start_time: startTime,
+            category: actionData.category || "general",
+            for_member: actionData.for || null,
+            location: actionData.location || null,
+            booked_via: "sms",
+            created_by: familyIdForAction,
+          });
+
+          // Post to family chat
+          await sb.from("helm_family_chat").insert({
+            family_id: familyIdForAction,
+            sender_name: "HELM",
+            content: `Appointment booked: ${actionData.title} on ${dateStr} at ${timeStr}${actionData.for ? ` for ${actionData.for}` : ""}`,
+            msg_type: "appointment_update",
+            metadata: actionData,
+          });
+        }
+
+        if (actionType === "TASK" && familyIdForAction && actionData.title) {
+          await sb.from("helm_tasks").insert({
+            family_id: familyIdForAction,
+            title: actionData.title,
+            assigned_to: actionData.assigned_to || null,
+            priority: actionData.priority || "normal",
+            category: actionData.category || "general",
+            created_by: familyIdForAction,
+          });
+
+          await sb.from("helm_family_chat").insert({
+            family_id: familyIdForAction,
+            sender_name: "HELM",
+            content: `New task: ${actionData.title}${actionData.assigned_to ? ` (assigned to ${actionData.assigned_to})` : ""}`,
+            msg_type: "system",
+          });
+        }
+      } catch (actionErr) {
+        console.error("Action processing error:", actionErr);
+      }
+    }
+
+    // Strip action blocks from the reply before sending to user
+    const cleanReply = aiReply.replace(/###ACTION:\w+###\{.*?\}###/g, "").trim();
+
     // === Log outbound message ===
     await sb.from("helm_sms_messages").insert({
       conversation_id: convo.id,
       direction: "outbound",
-      body: aiReply,
+      body: cleanReply,
       status: "sent",
     });
 
@@ -297,7 +416,7 @@ Deno.serve(async (req) => {
       .eq("id", convo.id);
 
     return new Response(
-      `<?xml version="1.0" encoding="UTF-8"?><Response><Message>${escapeXml(aiReply)}</Message></Response>`,
+      `<?xml version="1.0" encoding="UTF-8"?><Response><Message>${escapeXml(cleanReply)}</Message></Response>`,
       { headers: { ...corsHeaders, "Content-Type": "text/xml" } }
     );
   } catch (error) {
