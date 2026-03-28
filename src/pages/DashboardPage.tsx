@@ -29,7 +29,26 @@ interface WorkflowExecution { id: string; status: string; current_step: number; 
 interface ExportedOutput { id: string; agent_id: string; agent_name: string; output_type: string; title: string; content_preview: string | null; format: string; created_at: string; }
 interface ComplianceDeadline { id: string; title: string; description: string; due_date: string; severity: string; agents: string[]; category: string; }
 interface LegislationChange { id: string; title: string; act_name: string; effective_date: string; summary: string; impact: string; affected_agents: string[]; severity: string; action_required: string; }
-interface HealthService { name: string; status: "ok" | "degraded" | "down"; icon: any; lastChecked: string; }
+type HealthStatus = "ok" | "degraded" | "down";
+interface HealthService {
+  key: string;
+  name: string;
+  status: HealthStatus;
+  icon: any;
+  lastChecked: string;
+  to: string;
+  actionLabel: string;
+  errorMessage: string | null;
+}
+interface HealthFault {
+  id: string;
+  label: string;
+  status: HealthStatus;
+  checkedAt: string;
+  errorMessage: string | null;
+  to: string;
+  actionLabel: string;
+}
 interface LeadItem { id: string; name: string; email: string; lead_status: string | null; lead_score: number | null; created_at: string; }
 
 const glassCard = "rounded-xl relative overflow-hidden";
@@ -40,8 +59,93 @@ const glassCardStyle: React.CSSProperties = {
   border: "1px solid rgba(255,255,255,0.06)",
 };
 
-const PRIORITY_COLORS: Record<string, string> = { urgent: "#B388FF", high: "#6366F1", medium: "#00E5FF", low: "#00FF88" };
-const SEVERITY_COLORS: Record<string, string> = { critical: "#FF4D6A", high: "#FFB800", standard: "#00FF88", informational: "#00E5FF" };
+const PRIORITY_COLORS: Record<string, string> = { urgent: "#FF2D9B", high: "#00E5FF", medium: "#00E5FF", low: "#00FF88" };
+const SEVERITY_COLORS: Record<string, string> = { critical: "#FF2D9B", high: "#00E5FF", standard: "#00FF88", informational: "#00E5FF" };
+const HEALTH_STATUS_COLORS: Record<HealthStatus, string> = { ok: "#00FF88", degraded: "#00E5FF", down: "#FF2D9B" };
+const HEALTH_SERVICE_META: Record<string, { key: string; label: string; icon: any; to: string; actionLabel: string }> = {
+  website: { key: "website", label: "Website", icon: Globe, to: "/", actionLabel: "Open site" },
+  assembl_website: { key: "website", label: "Website", icon: Globe, to: "/", actionLabel: "Open site" },
+  chat_api: { key: "chat_api", label: "Chat Engine", icon: MessageSquare, to: "/chat/echo", actionLabel: "Test chat" },
+  chat_function: { key: "chat_api", label: "Chat Engine", icon: MessageSquare, to: "/chat/echo", actionLabel: "Test chat" },
+  voice: { key: "voice", label: "Voice", icon: Mic, to: "/chat/echo", actionLabel: "Test voice" },
+  elevenlabs_api: { key: "voice", label: "Voice", icon: Mic, to: "/chat/echo", actionLabel: "Test voice" },
+  supabase: { key: "supabase", label: "Database", icon: Server, to: "/dashboard", actionLabel: "Refresh dashboard" },
+  supabase_api: { key: "supabase", label: "Database", icon: Server, to: "/dashboard", actionLabel: "Refresh dashboard" },
+  stripe: { key: "stripe", label: "Billing", icon: CreditCard, to: "/pricing", actionLabel: "Open billing" },
+};
+const DEFAULT_HEALTH_SERVICE_KEYS = ["website", "chat_api", "voice", "supabase", "stripe"];
+
+const getHealthMeta = (serviceName: string) => (
+  HEALTH_SERVICE_META[serviceName] || {
+    key: serviceName,
+    label: serviceName.replace(/_/g, " "),
+    icon: Activity,
+    to: "/dashboard",
+    actionLabel: "Open area",
+  }
+);
+
+const normalizeHealthStatus = (status: string): HealthStatus => {
+  if (status === "ok") return "ok";
+  if (status === "degraded") return "degraded";
+  return "down";
+};
+
+const buildHealthState = (rows: any[]): { services: HealthService[]; faults: HealthFault[] } => {
+  const latestByKey = new Map<string, any>();
+
+  for (const row of rows) {
+    const meta = getHealthMeta(row.service_name);
+    if (!latestByKey.has(meta.key)) {
+      latestByKey.set(meta.key, { ...row, meta, normalizedStatus: normalizeHealthStatus(row.status) });
+    }
+  }
+
+  const services = DEFAULT_HEALTH_SERVICE_KEYS.map((key) => {
+    const meta = getHealthMeta(key);
+    const latest = latestByKey.get(key);
+
+    return {
+      key: meta.key,
+      name: meta.label,
+      status: latest?.normalizedStatus || "ok",
+      icon: meta.icon,
+      lastChecked: latest?.checked_at || new Date().toISOString(),
+      to: meta.to,
+      actionLabel: meta.actionLabel,
+      errorMessage: latest?.error_message || null,
+    } as HealthService;
+  });
+
+  latestByKey.forEach((latest, key) => {
+    if (!services.some((service) => service.key === key)) {
+      services.push({
+        key,
+        name: latest.meta.label,
+        status: latest.normalizedStatus,
+        icon: latest.meta.icon,
+        lastChecked: latest.checked_at,
+        to: latest.meta.to,
+        actionLabel: latest.meta.actionLabel,
+        errorMessage: latest.error_message || null,
+      });
+    }
+  });
+
+  const faults = services
+    .filter((service) => service.status !== "ok")
+    .map((service) => ({
+      id: `${service.key}-${service.lastChecked}`,
+      label: service.name,
+      status: service.status,
+      checkedAt: service.lastChecked,
+      errorMessage: service.errorMessage,
+      to: service.to,
+      actionLabel: service.actionLabel,
+    }));
+
+  return { faults, services };
+};
 
 const timeAgo = (d: string) => {
   const diff = Date.now() - new Date(d).getTime();
@@ -123,6 +227,7 @@ const DashboardPage = () => {
   const [complianceDeadlines, setComplianceDeadlines] = useState<ComplianceDeadline[]>([]);
   const [legislationChanges, setLegislationChanges] = useState<LegislationChange[]>([]);
   const [healthServices, setHealthServices] = useState<HealthService[]>([]);
+  const [healthFaults, setHealthFaults] = useState<HealthFault[]>([]);
   const [leads, setLeads] = useState<LeadItem[]>([]);
   const [isConnected, setIsConnected] = useState(true);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
@@ -169,33 +274,14 @@ const DashboardPage = () => {
     if (savedRes.status === "fulfilled" && savedRes.value.data) setSavedItems(savedRes.value.data as any);
     if (leadsRes.status === "fulfilled" && leadsRes.value.data) setLeads(leadsRes.value.data as any);
 
-    // Build health services from health_checks
     if (healthRes.status === "fulfilled" && healthRes.value.data) {
-      const checks = healthRes.value.data as any[];
-      const serviceMap = new Map<string, any>();
-      for (const check of checks) {
-        if (!serviceMap.has(check.service_name)) serviceMap.set(check.service_name, check);
-      }
-      const SERVICE_ICONS: Record<string, any> = { website: Globe, chat_api: MessageSquare, voice: Mic, supabase: Server, stripe: CreditCard };
-      const services: HealthService[] = [...serviceMap.entries()].map(([name, check]) => ({
-        name, status: check.status as "ok" | "degraded" | "down",
-        icon: SERVICE_ICONS[name] || Activity,
-        lastChecked: check.checked_at,
-      }));
-      // Always show core services even if no check data
-      const coreServices = ["website", "chat_api", "voice", "supabase", "stripe"];
-      for (const s of coreServices) {
-        if (!serviceMap.has(s)) services.push({ name: s, status: "ok", icon: SERVICE_ICONS[s] || Activity, lastChecked: new Date().toISOString() });
-      }
+      const { services, faults } = buildHealthState(healthRes.value.data as any[]);
       setHealthServices(services);
+      setHealthFaults(faults);
     } else {
-      setHealthServices([
-        { name: "website", status: "ok", icon: Globe, lastChecked: new Date().toISOString() },
-        { name: "chat_api", status: "ok", icon: MessageSquare, lastChecked: new Date().toISOString() },
-        { name: "voice", status: "ok", icon: Mic, lastChecked: new Date().toISOString() },
-        { name: "supabase", status: "ok", icon: Server, lastChecked: new Date().toISOString() },
-        { name: "stripe", status: "ok", icon: CreditCard, lastChecked: new Date().toISOString() },
-      ]);
+      const { services, faults } = buildHealthState([]);
+      setHealthServices(services);
+      setHealthFaults(faults);
     }
 
     setLastUpdated(new Date());
@@ -238,22 +324,9 @@ const DashboardPage = () => {
       .on("postgres_changes", { event: "*", schema: "public", table: "health_checks" }, () => {
         supabase.from("health_checks").select("*").order("checked_at", { ascending: false }).limit(20).then(({ data }) => {
           if (data) {
-            const checks = data as any[];
-            const serviceMap = new Map<string, any>();
-            for (const check of checks) {
-              if (!serviceMap.has(check.service_name)) serviceMap.set(check.service_name, check);
-            }
-            const SERVICE_ICONS_RT: Record<string, any> = { website: Globe, chat_api: MessageSquare, voice: Mic, supabase: Server, stripe: CreditCard };
-            const services: HealthService[] = [...serviceMap.entries()].map(([name, check]) => ({
-              name, status: check.status as "ok" | "degraded" | "down",
-              icon: SERVICE_ICONS_RT[name] || Activity,
-              lastChecked: check.checked_at,
-            }));
-            const coreServices = ["website", "chat_api", "voice", "supabase", "stripe"];
-            for (const s of coreServices) {
-              if (!serviceMap.has(s)) services.push({ name: s, status: "ok", icon: SERVICE_ICONS_RT[s] || Activity, lastChecked: new Date().toISOString() });
-            }
+            const { services, faults } = buildHealthState(data as any[]);
             setHealthServices(services);
+            setHealthFaults(faults);
             setLastUpdated(new Date());
           }
         });
@@ -333,14 +406,24 @@ const DashboardPage = () => {
 
   // Attention items
   const attentionItems = [
+    ...healthFaults.slice(0, 3).map(fault => ({
+      id: fault.id,
+      title: `${fault.label} issue`,
+      subtitle: timeAgo(fault.checkedAt),
+      severity: fault.status === "down" ? "critical" : "high",
+      agent: "echo",
+      description: fault.errorMessage || "A service needs attention.",
+      action: fault.actionLabel,
+      to: fault.to,
+    })),
     ...upcomingDeadlines.slice(0, 4).map(d => ({
       id: d.id, title: d.title, subtitle: `${daysUntil(d.due_date)} days`, severity: d.severity,
-      agent: d.agents?.[0] || "ledger", description: d.description, action: "Prepare",
+      agent: d.agents?.[0] || "ledger", description: d.description, action: "Prepare", to: `/chat/${(d.agents?.[0] || "ledger").toLowerCase()}`,
     })),
     ...legislationChanges.filter(l => { const d = daysUntil(l.effective_date); return d >= -30 && d <= 60; }).slice(0, 2).map(l => ({
       id: l.id, title: l.title,
       subtitle: daysUntil(l.effective_date) > 0 ? `Effective in ${daysUntil(l.effective_date)}d` : "Now in effect",
-      severity: l.severity, agent: l.affected_agents?.[0] || "echo", description: l.impact, action: "Review",
+      severity: l.severity, agent: l.affected_agents?.[0] || "echo", description: l.impact, action: "Review", to: `/chat/${(l.affected_agents?.[0] || "echo").toLowerCase()}`,
     })),
   ].slice(0, 6);
 
@@ -496,8 +579,43 @@ const DashboardPage = () => {
           </div>
         </div>
 
-        {/* Business Score */}
-        <BusinessScore />
+          <div className={glassCard + " p-5"} style={glassCardStyle}>
+            <TopGlow color="#FF2D9B" />
+            <SectionHeader icon={AlertTriangle} title="Active Faults" color="#FF2D9B" count={healthFaults.length} />
+            {healthFaults.length === 0 ? (
+              <EmptyState message="No active system faults detected right now." />
+            ) : (
+              <div className="space-y-2">
+                {healthFaults.map((fault) => {
+                  const faultColor = HEALTH_STATUS_COLORS[fault.status];
+                  return (
+                    <Link
+                      key={fault.id}
+                      to={fault.to}
+                      className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/[0.03] transition-colors"
+                      style={{ background: "rgba(255,255,255,0.02)", borderLeft: `3px solid ${faultColor}` }}
+                    >
+                      <div className="w-2 h-2 rounded-full shrink-0" style={{ background: faultColor }} />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <span className="text-xs font-bold text-foreground">{fault.label}</span>
+                          <span className="text-[9px] px-1.5 py-0.5 rounded-full font-medium uppercase" style={{ background: `${faultColor}15`, color: faultColor }}>{fault.status}</span>
+                        </div>
+                        <p className="text-[10px] text-muted-foreground truncate">{fault.errorMessage || "Service issue detected"}</p>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <p className="text-[9px] font-medium" style={{ color: faultColor }}>{fault.actionLabel} →</p>
+                        <p className="text-[8px] text-muted-foreground/50">{timeAgo(fault.checkedAt)}</p>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* Business Score */}
+          <BusinessScore />
 
         {/* Pending Actions — always visible */}
         <div className={glassCard + " p-5"} style={glassCardStyle}>
@@ -614,7 +732,7 @@ const DashboardPage = () => {
           ) : (
             <div className="space-y-2">
               {attentionItems.map((item) => {
-                const sevColor = SEVERITY_COLORS[item.severity] || "#FFB800";
+                const sevColor = SEVERITY_COLORS[item.severity] || "#00E5FF";
                 const agent = agents.find(a => a.id === item.agent || a.name.toLowerCase() === item.agent.toLowerCase());
                 const agentColor = agent?.color || sevColor;
                 return (
@@ -626,7 +744,7 @@ const DashboardPage = () => {
                       </div>
                       <p className="text-[10px] text-muted-foreground truncate">{item.description}</p>
                     </div>
-                    <Link to={`/chat/${item.agent}`} className="text-[10px] font-medium px-3 py-1.5 rounded-lg shrink-0 hover:opacity-80 transition-opacity" style={{ color: agentColor, border: `1px solid ${agentColor}30`, background: `${agentColor}08` }}>
+                    <Link to={item.to || `/chat/${item.agent}`} className="text-[10px] font-medium px-3 py-1.5 rounded-lg shrink-0 hover:opacity-80 transition-opacity" style={{ color: agentColor, border: `1px solid ${agentColor}30`, background: `${agentColor}08` }}>
                       {item.action} →
                     </Link>
                   </div>
