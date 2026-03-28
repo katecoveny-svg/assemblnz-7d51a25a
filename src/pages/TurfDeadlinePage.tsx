@@ -129,6 +129,18 @@ const TurfMiniChat = () => {
     }
   };
 
+  const handleQuickStart = (sportName: string) => {
+    if (loading) return;
+    const clubName = `My ${sportName} Club`;
+    const updated = { ...clubDetails, clubName, sport: sportName };
+    setClubDetails(updated);
+    setMessages([
+      { role: "user", content: clubName },
+      { role: "assistant", content: `✅ Got it — ${clubName} playing ${sportName}. ${WIZARD_STEPS[2].question}` },
+    ]);
+    setWizardStep(2);
+  };
+
   const handleWizardAnswer = async (answer: string) => {
     if (!answer.trim() || loading) return;
     const step = WIZARD_STEPS[wizardStep];
