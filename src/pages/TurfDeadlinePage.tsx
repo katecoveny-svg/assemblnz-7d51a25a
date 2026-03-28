@@ -129,6 +129,18 @@ const TurfMiniChat = () => {
     }
   };
 
+  const handleQuickStart = (sportName: string) => {
+    if (loading) return;
+    const clubName = `My ${sportName} Club`;
+    const updated = { ...clubDetails, clubName, sport: sportName };
+    setClubDetails(updated);
+    setMessages([
+      { role: "user", content: clubName },
+      { role: "assistant", content: `✅ Got it — ${clubName} playing ${sportName}. ${WIZARD_STEPS[2].question}` },
+    ]);
+    setWizardStep(2);
+  };
+
   const handleWizardAnswer = async (answer: string) => {
     if (!answer.trim() || loading) return;
     const step = WIZARD_STEPS[wizardStep];
@@ -260,14 +272,14 @@ Please include all mandatory sections: purpose and objects, officer duties, conf
                 </div>
                 {/* Quick-start buttons for common sports */}
                 <div className="flex flex-wrap gap-2 ml-10">
-                  {["Rugby Club", "Netball Club", "Cricket Club", "Football Club"].map((name) => (
+                  {["Rugby", "Netball", "Cricket", "Football"].map((sport) => (
                     <button
-                      key={name}
-                      onClick={() => handleWizardAnswer(`My ${name}`)}
+                      key={sport}
+                      onClick={() => handleQuickStart(sport)}
                       className="text-xs font-jakarta px-3 py-1.5 rounded-full border transition-all hover:scale-105"
                       style={{ borderColor: `${TURF_COLOR}30`, color: TURF_COLOR, background: `${TURF_COLOR}08` }}
                     >
-                      My {name}
+                      {sport} Club
                     </button>
                   ))}
                 </div>
