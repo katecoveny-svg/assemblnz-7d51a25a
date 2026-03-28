@@ -141,19 +141,6 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           <button
             onClick={onScrollToGrid}
             className="btn-ghost inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm"
-            style={{
-              background: 'hsl(var(--surface-2) / 0.4)',
-              border: '1px solid hsl(var(--border))',
-              backdropFilter: 'blur(12px)',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.borderColor = 'hsl(0 0% 100% / 0.15)';
-              e.currentTarget.style.background = 'hsl(var(--surface-2) / 0.6)';
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.borderColor = 'hsl(var(--border))';
-              e.currentTarget.style.background = 'hsl(var(--surface-2) / 0.4)';
-            }}
           >
             See the tools →
           </button>
