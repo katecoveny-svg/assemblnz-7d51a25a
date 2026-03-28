@@ -266,7 +266,7 @@ Please include all mandatory sections: purpose and objects, officer duties, conf
                   <div className="rounded-xl rounded-tl-sm px-4 py-3 text-sm font-jakarta text-foreground bg-muted/50 max-w-[85%]">
                     Kia ora! 👋 Let's get your club's constitution sorted before <strong>5 April 2026</strong>. I'll ask you {WIZARD_STEPS.length} quick questions, then generate a fully compliant document.
                     <br /><br />
-                    <strong>{WIZARD_STEPS[0].question}</strong>
+                    <strong>What sport or activity does your club play?</strong>
                   </div>
                 </div>
                 {/* Quick-start buttons for common sports */}
