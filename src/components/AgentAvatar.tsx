@@ -78,22 +78,6 @@ const AgentAvatar = ({ agentId, color, size = 40, showGlow = true, eager = false
           draggable={false}
         />
 
-        {/* Assembl tri-colour logo on chest */}
-        <img
-          src={chestLogo}
-          alt=""
-          className="absolute z-20 pointer-events-none"
-          style={{
-            width: logoSize,
-            height: logoSize,
-            left: "50%",
-            top: "54%",
-            transform: "translate(-50%, -50%)",
-            opacity: 0.92,
-            filter: `drop-shadow(0 0 4px ${hexToRgba(color, 0.5)})`,
-          }}
-          draggable={false}
-        />
 
         {/* Brand colour overlay — tints the white eyes/sparkles to the agent's brand colour */}
         {!isEcho && (
