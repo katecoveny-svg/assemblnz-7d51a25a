@@ -52,8 +52,8 @@ interface ClubDetails {
 }
 
 const WIZARD_STEPS = [
-  { key: "clubName" as const, label: "Club name", placeholder: "e.g. Tauranga Rugby Club", question: "What is your club's full legal name?" },
   { key: "sport" as const, label: "Sport / activity", placeholder: "e.g. Rugby, Netball, Cricket", question: "What sport or activity does your club operate?" },
+  { key: "clubName" as const, label: "Club name", placeholder: "e.g. Tauranga Rugby Club", question: "What is your club's full legal name?" },
   { key: "region" as const, label: "Region", placeholder: "e.g. Bay of Plenty, Auckland", question: "What region is your club based in?" },
   { key: "memberCount" as const, label: "Approx. members", placeholder: "e.g. 120", question: "Approximately how many members does your club have?" },
   { key: "committeSize" as const, label: "Committee size", placeholder: "e.g. 7", question: "How many committee/board members does your club have (or plan to have)?" },
@@ -131,14 +131,13 @@ const TurfMiniChat = () => {
 
   const handleQuickStart = (sportName: string) => {
     if (loading) return;
-    const clubName = `My ${sportName} Club`;
-    const updated = { ...clubDetails, clubName, sport: sportName };
+    const updated = { ...clubDetails, sport: sportName };
     setClubDetails(updated);
     setMessages([
-      { role: "user", content: clubName },
-      { role: "assistant", content: `✅ Got it — ${clubName} playing ${sportName}. ${WIZARD_STEPS[2].question}` },
+      { role: "user", content: `${sportName} club` },
+      { role: "assistant", content: `✅ Great — a ${sportName} club! What is your club's full legal name?` },
     ]);
-    setWizardStep(2);
+    setWizardStep(1);
   };
 
   const handleWizardAnswer = async (answer: string) => {
@@ -267,7 +266,7 @@ Please include all mandatory sections: purpose and objects, officer duties, conf
                   <div className="rounded-xl rounded-tl-sm px-4 py-3 text-sm font-jakarta text-foreground bg-muted/50 max-w-[85%]">
                     Kia ora! 👋 Let's get your club's constitution sorted before <strong>5 April 2026</strong>. I'll ask you {WIZARD_STEPS.length} quick questions, then generate a fully compliant document.
                     <br /><br />
-                    <strong>{WIZARD_STEPS[0].question}</strong>
+                    <strong>What sport or activity does your club play?</strong>
                   </div>
                 </div>
                 {/* Quick-start buttons for common sports */}
