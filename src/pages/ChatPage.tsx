@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback, lazy, Suspense, useMemo } from "react";
 import nexusLogo from "@/assets/nexus-logo.png";
-import { useParams, Link, useSearchParams } from "react-router-dom";
+import { useParams, Link, useSearchParams, useNavigate } from "react-router-dom";
 import { agents, echoAgent, pilotAgent } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
 import { supabase } from "@/integrations/supabase/client";
@@ -1366,6 +1366,27 @@ const ChatPage = () => {
     return parts.length > 0 ? <>{parts}</> : text;
   };
 
+  const mdComponents = useMemo(() => ({
+    a: ({ href, children, ...props }: any) => {
+      if (href && href.startsWith("/")) {
+        return (
+          <Link
+            to={href}
+            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold no-underline transition-all duration-200 hover:scale-105"
+            style={{
+              background: `${agent.color}20`,
+              color: agent.color,
+              border: `1px solid ${agent.color}30`,
+            }}
+          >
+            {children} →
+          </Link>
+        );
+      }
+      return <a href={href} target="_blank" rel="noopener noreferrer" {...props}>{children}</a>;
+    },
+  }), [agent.color]);
+
   const renderMessageContent = (msg: Message, msgIndex?: number) => {
     // Strip [GENERATE_IMAGE: ...] tags from displayed content
     const content = msg.content.replace(/\[GENERATE_IMAGE:\s*.*?\]/g, "").trim();
@@ -1414,7 +1435,7 @@ const ChatPage = () => {
               <HelmChecklist key={i} content={p.content} />
             ) : (
               <div key={i} className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-code:text-accent prose-headings:text-foreground prose-strong:text-foreground">
-                <ReactMarkdown>{p.content}</ReactMarkdown>
+                <ReactMarkdown components={mdComponents}>{p.content}</ReactMarkdown>
               </div>
             )
           )}
@@ -1429,7 +1450,7 @@ const ChatPage = () => {
 
     return (
       <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-code:text-accent prose-headings:text-foreground prose-strong:text-foreground">
-        <ReactMarkdown>{content}</ReactMarkdown>
+        <ReactMarkdown components={mdComponents}>{content}</ReactMarkdown>
       </div>
     );
   };
