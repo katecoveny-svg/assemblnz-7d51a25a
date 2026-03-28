@@ -52,6 +52,8 @@ const TurfDeadlinePage = lazy(() => import("./pages/TurfDeadlinePage"));
 const AdminAnalyticsDashboard = lazy(() => import("./pages/AdminAnalyticsDashboard"));
 const DevelopersPage = lazy(() => import("./pages/DevelopersPage"));
 const BrandGuidelinesPage = lazy(() => import("./pages/BrandGuidelinesPage"));
+const AuraLandingPage = lazy(() => import("./pages/AuraLandingPage"));
+const NexusLandingPage = lazy(() => import("./pages/NexusLandingPage"));
 
 const queryClient = new QueryClient();
 
@@ -99,7 +101,9 @@ const App = () => (
                   <Route path="/about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
                   <Route path="/onboarding" element={<Suspense fallback={null}><OnboardingPage /></Suspense>} />
                   <Route path="/turf-5-april-2026" element={<Suspense fallback={null}><TurfDeadlinePage /></Suspense>} />
-                  <Route path="/turf" element={<Navigate to="/agents/sports" replace />} />
+                  <Route path="/turf" element={<Navigate to="/turf-5-april-2026" replace />} />
+                  <Route path="/aura" element={<Suspense fallback={null}><AuraLandingPage /></Suspense>} />
+                  <Route path="/nexus" element={<Suspense fallback={null}><NexusLandingPage /></Suspense>} />
                   <Route path="/admin/analytics" element={<Suspense fallback={null}><AdminAnalyticsDashboard /></Suspense>} />
                   <Route path="/developers" element={<Suspense fallback={null}><DevelopersPage /></Suspense>} />
                   <Route path="/brand-guidelines" element={<Suspense fallback={null}><BrandGuidelinesPage /></Suspense>} />
