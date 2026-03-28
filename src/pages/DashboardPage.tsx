@@ -274,33 +274,14 @@ const DashboardPage = () => {
     if (savedRes.status === "fulfilled" && savedRes.value.data) setSavedItems(savedRes.value.data as any);
     if (leadsRes.status === "fulfilled" && leadsRes.value.data) setLeads(leadsRes.value.data as any);
 
-    // Build health services from health_checks
     if (healthRes.status === "fulfilled" && healthRes.value.data) {
-      const checks = healthRes.value.data as any[];
-      const serviceMap = new Map<string, any>();
-      for (const check of checks) {
-        if (!serviceMap.has(check.service_name)) serviceMap.set(check.service_name, check);
-      }
-      const SERVICE_ICONS: Record<string, any> = { website: Globe, chat_api: MessageSquare, voice: Mic, supabase: Server, stripe: CreditCard };
-      const services: HealthService[] = [...serviceMap.entries()].map(([name, check]) => ({
-        name, status: check.status as "ok" | "degraded" | "down",
-        icon: SERVICE_ICONS[name] || Activity,
-        lastChecked: check.checked_at,
-      }));
-      // Always show core services even if no check data
-      const coreServices = ["website", "chat_api", "voice", "supabase", "stripe"];
-      for (const s of coreServices) {
-        if (!serviceMap.has(s)) services.push({ name: s, status: "ok", icon: SERVICE_ICONS[s] || Activity, lastChecked: new Date().toISOString() });
-      }
+      const { services, faults } = buildHealthState(healthRes.value.data as any[]);
       setHealthServices(services);
+      setHealthFaults(faults);
     } else {
-      setHealthServices([
-        { name: "website", status: "ok", icon: Globe, lastChecked: new Date().toISOString() },
-        { name: "chat_api", status: "ok", icon: MessageSquare, lastChecked: new Date().toISOString() },
-        { name: "voice", status: "ok", icon: Mic, lastChecked: new Date().toISOString() },
-        { name: "supabase", status: "ok", icon: Server, lastChecked: new Date().toISOString() },
-        { name: "stripe", status: "ok", icon: CreditCard, lastChecked: new Date().toISOString() },
-      ]);
+      const { services, faults } = buildHealthState([]);
+      setHealthServices(services);
+      setHealthFaults(faults);
     }
 
     setLastUpdated(new Date());
@@ -343,22 +324,9 @@ const DashboardPage = () => {
       .on("postgres_changes", { event: "*", schema: "public", table: "health_checks" }, () => {
         supabase.from("health_checks").select("*").order("checked_at", { ascending: false }).limit(20).then(({ data }) => {
           if (data) {
-            const checks = data as any[];
-            const serviceMap = new Map<string, any>();
-            for (const check of checks) {
-              if (!serviceMap.has(check.service_name)) serviceMap.set(check.service_name, check);
-            }
-            const SERVICE_ICONS_RT: Record<string, any> = { website: Globe, chat_api: MessageSquare, voice: Mic, supabase: Server, stripe: CreditCard };
-            const services: HealthService[] = [...serviceMap.entries()].map(([name, check]) => ({
-              name, status: check.status as "ok" | "degraded" | "down",
-              icon: SERVICE_ICONS_RT[name] || Activity,
-              lastChecked: check.checked_at,
-            }));
-            const coreServices = ["website", "chat_api", "voice", "supabase", "stripe"];
-            for (const s of coreServices) {
-              if (!serviceMap.has(s)) services.push({ name: s, status: "ok", icon: SERVICE_ICONS_RT[s] || Activity, lastChecked: new Date().toISOString() });
-            }
+            const { services, faults } = buildHealthState(data as any[]);
             setHealthServices(services);
+            setHealthFaults(faults);
             setLastUpdated(new Date());
           }
         });
@@ -438,14 +406,24 @@ const DashboardPage = () => {
 
   // Attention items
   const attentionItems = [
+    ...healthFaults.slice(0, 3).map(fault => ({
+      id: fault.id,
+      title: `${fault.label} issue`,
+      subtitle: timeAgo(fault.checkedAt),
+      severity: fault.status === "down" ? "critical" : "high",
+      agent: "echo",
+      description: fault.errorMessage || "A service needs attention.",
+      action: fault.actionLabel,
+      to: fault.to,
+    })),
     ...upcomingDeadlines.slice(0, 4).map(d => ({
       id: d.id, title: d.title, subtitle: `${daysUntil(d.due_date)} days`, severity: d.severity,
-      agent: d.agents?.[0] || "ledger", description: d.description, action: "Prepare",
+      agent: d.agents?.[0] || "ledger", description: d.description, action: "Prepare", to: `/chat/${(d.agents?.[0] || "ledger").toLowerCase()}`,
     })),
     ...legislationChanges.filter(l => { const d = daysUntil(l.effective_date); return d >= -30 && d <= 60; }).slice(0, 2).map(l => ({
       id: l.id, title: l.title,
       subtitle: daysUntil(l.effective_date) > 0 ? `Effective in ${daysUntil(l.effective_date)}d` : "Now in effect",
-      severity: l.severity, agent: l.affected_agents?.[0] || "echo", description: l.impact, action: "Review",
+      severity: l.severity, agent: l.affected_agents?.[0] || "echo", description: l.impact, action: "Review", to: `/chat/${(l.affected_agents?.[0] || "echo").toLowerCase()}`,
     })),
   ].slice(0, 6);
 
@@ -719,7 +697,7 @@ const DashboardPage = () => {
           ) : (
             <div className="space-y-2">
               {attentionItems.map((item) => {
-                const sevColor = SEVERITY_COLORS[item.severity] || "#FFB800";
+                const sevColor = SEVERITY_COLORS[item.severity] || "#00E5FF";
                 const agent = agents.find(a => a.id === item.agent || a.name.toLowerCase() === item.agent.toLowerCase());
                 const agentColor = agent?.color || sevColor;
                 return (
@@ -731,7 +709,7 @@ const DashboardPage = () => {
                       </div>
                       <p className="text-[10px] text-muted-foreground truncate">{item.description}</p>
                     </div>
-                    <Link to={`/chat/${item.agent}`} className="text-[10px] font-medium px-3 py-1.5 rounded-lg shrink-0 hover:opacity-80 transition-opacity" style={{ color: agentColor, border: `1px solid ${agentColor}30`, background: `${agentColor}08` }}>
+                    <Link to={item.to || `/chat/${item.agent}`} className="text-[10px] font-medium px-3 py-1.5 rounded-lg shrink-0 hover:opacity-80 transition-opacity" style={{ color: agentColor, border: `1px solid ${agentColor}30`, background: `${agentColor}08` }}>
                       {item.action} →
                     </Link>
                   </div>
