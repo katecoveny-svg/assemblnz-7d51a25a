@@ -58,6 +58,7 @@ Deno.serve(async (req) => {
       checkService("assembl_website", "https://assemblnz.lovable.app"),
       checkService("supabase_api", `${supabaseUrl}/rest/v1/`, {
         headers: { apikey: anonKey, Authorization: `Bearer ${anonKey}` },
+        treatAuthAsOk: true,
       }),
       checkService("chat_function", `${supabaseUrl}/functions/v1/chat`, {
         method: "OPTIONS",
