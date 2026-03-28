@@ -110,6 +110,7 @@ import HelmReview from "@/components/helm/HelmReview";
 import HelmRescue from "@/components/helm/HelmRescue";
 import HelmSettings from "@/components/helm/HelmSettings";
 import AgentTraining from "@/components/shared/AgentTraining";
+import AgentSmsPanel from "@/components/shared/AgentSmsPanel";
 import LiveDataPanel from "@/components/shared/LiveDataPanel";
 import VoiceAgentLive from "@/components/VoiceAgentLive";
 import VoiceAgentModal from "@/components/VoiceAgentModal";
@@ -355,7 +356,7 @@ const ChatPage = () => {
   const [pendingImage, setPendingImage] = useState<File | null>(null);
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "iot_field" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "forge_audit" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aroha_retention" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "aura_pos" | "aura_food_safety" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "prism_brandlab" | "prism_publisher" | "prism_ads" | "prism_product" | "prism_adengine" | "axis_automations" | "agent_training" | "voice_waitlist" | "helm_week" | "helm_bus" | "helm_timetable" | "helm_inbox" | "helm_review" | "helm_rescue" | "helm_settings" | "kindle_writer" | "kindle_marketplace" | "kindle_impact" | "kindle_corporate" | "turf_events" | "turf_membership" | "turf_facilities" | "turf_sponsorship" | "turf_performance" | "turf_compliance" | "live_data">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "iot_field" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "forge_audit" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aroha_retention" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "aura_pos" | "aura_food_safety" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "prism_brandlab" | "prism_publisher" | "prism_ads" | "prism_product" | "prism_adengine" | "axis_automations" | "agent_training" | "voice_waitlist" | "agent_sms" | "helm_week" | "helm_bus" | "helm_timetable" | "helm_inbox" | "helm_review" | "helm_rescue" | "helm_settings" | "kindle_writer" | "kindle_marketplace" | "kindle_impact" | "kindle_corporate" | "turf_events" | "turf_membership" | "turf_facilities" | "turf_sponsorship" | "turf_performance" | "turf_compliance" | "live_data">("chat");
   const [showDeployModal, setShowDeployModal] = useState(false);
   const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
@@ -969,6 +970,8 @@ const ChatPage = () => {
 
     // Voice tab
     tabs.push({ id: "voice_waitlist", label: "Voice", icon: <Mic size={13} /> });
+    // SMS tab
+    tabs.push({ id: "agent_sms", label: "SMS", icon: <MessageSquare size={13} /> });
     // Settings/Train tab
     tabs.push({ id: "agent_training", label: "Settings", icon: <Brain size={13} /> });
     return tabs;
@@ -1775,6 +1778,8 @@ const ChatPage = () => {
         <KindleImpactDashboard />
       ) : activeTab === "kindle_corporate" && isNonprofit ? (
         <KindleCorporateDashboard onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "agent_sms" ? (
+        <AgentSmsPanel agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
       ) : activeTab === "voice_waitlist" ? (
         <VoiceAgentLive agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
       ) : activeTab === "agent_training" ? (
