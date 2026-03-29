@@ -50,6 +50,164 @@ export type Database = {
         }
         Relationships: []
       }
+      ad_campaigns: {
+        Row: {
+          created_at: string | null
+          id: string
+          industries: string[]
+          name: string
+          platforms: string[]
+          status: string | null
+          total_ads: number | null
+          user_id: string
+          visual_style: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          industries: string[]
+          name: string
+          platforms: string[]
+          status?: string | null
+          total_ads?: number | null
+          user_id: string
+          visual_style?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          industries?: string[]
+          name?: string
+          platforms?: string[]
+          status?: string | null
+          total_ads?: number | null
+          user_id?: string
+          visual_style?: string | null
+        }
+        Relationships: []
+      }
+      ad_creatives: {
+        Row: {
+          ad_structure: string
+          agent_name: string
+          campaign_id: string | null
+          created_at: string | null
+          cta: string
+          description: string | null
+          format: string
+          hashtags: string[] | null
+          headline: string
+          id: string
+          image_url: string | null
+          industry: string
+          pain_point: string
+          platform: string
+          primary_text: string
+          target_audience: string | null
+          user_id: string
+        }
+        Insert: {
+          ad_structure: string
+          agent_name: string
+          campaign_id?: string | null
+          created_at?: string | null
+          cta: string
+          description?: string | null
+          format?: string
+          hashtags?: string[] | null
+          headline: string
+          id?: string
+          image_url?: string | null
+          industry: string
+          pain_point: string
+          platform: string
+          primary_text: string
+          target_audience?: string | null
+          user_id: string
+        }
+        Update: {
+          ad_structure?: string
+          agent_name?: string
+          campaign_id?: string | null
+          created_at?: string | null
+          cta?: string
+          description?: string | null
+          format?: string
+          hashtags?: string[] | null
+          headline?: string
+          id?: string
+          image_url?: string | null
+          industry?: string
+          pain_point?: string
+          platform?: string
+          primary_text?: string
+          target_audience?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ad_creatives_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "ad_campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      agent_analytics: {
+        Row: {
+          agent_name: string
+          complexity: string | null
+          created_at: string | null
+          error: boolean | null
+          error_message: string | null
+          estimated_cost_nzd: number | null
+          from_cache: boolean | null
+          id: string
+          input_tokens: number | null
+          message_count: number | null
+          model_used: string | null
+          output_tokens: number | null
+          response_time_ms: number | null
+          session_id: string | null
+          user_id: string
+        }
+        Insert: {
+          agent_name: string
+          complexity?: string | null
+          created_at?: string | null
+          error?: boolean | null
+          error_message?: string | null
+          estimated_cost_nzd?: number | null
+          from_cache?: boolean | null
+          id?: string
+          input_tokens?: number | null
+          message_count?: number | null
+          model_used?: string | null
+          output_tokens?: number | null
+          response_time_ms?: number | null
+          session_id?: string | null
+          user_id: string
+        }
+        Update: {
+          agent_name?: string
+          complexity?: string | null
+          created_at?: string | null
+          error?: boolean | null
+          error_message?: string | null
+          estimated_cost_nzd?: number | null
+          from_cache?: boolean | null
+          id?: string
+          input_tokens?: number | null
+          message_count?: number | null
+          model_used?: string | null
+          output_tokens?: number | null
+          response_time_ms?: number | null
+          session_id?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       agent_memory: {
         Row: {
           agent_id: string
@@ -77,6 +235,99 @@ export type Database = {
           memory_value?: Json
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      agent_sms_config: {
+        Row: {
+          agent_id: string
+          channel: string
+          created_at: string
+          enabled: boolean
+          greeting: string
+          id: string
+          twilio_phone_number: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          agent_id: string
+          channel?: string
+          created_at?: string
+          enabled?: boolean
+          greeting?: string
+          id?: string
+          twilio_phone_number?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          agent_id?: string
+          channel?: string
+          created_at?: string
+          enabled?: boolean
+          greeting?: string
+          id?: string
+          twilio_phone_number?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      agent_sms_messages: {
+        Row: {
+          agent_id: string
+          body: string
+          channel: string
+          created_at: string
+          direction: string
+          id: string
+          image_description: string | null
+          media_caption: string | null
+          media_type: string | null
+          media_url: string | null
+          phone_number: string
+          status: string
+          twilio_sid: string | null
+          user_id: string
+          whatsapp_message_id: string | null
+          whatsapp_status: string | null
+        }
+        Insert: {
+          agent_id: string
+          body: string
+          channel?: string
+          created_at?: string
+          direction?: string
+          id?: string
+          image_description?: string | null
+          media_caption?: string | null
+          media_type?: string | null
+          media_url?: string | null
+          phone_number: string
+          status?: string
+          twilio_sid?: string | null
+          user_id: string
+          whatsapp_message_id?: string | null
+          whatsapp_status?: string | null
+        }
+        Update: {
+          agent_id?: string
+          body?: string
+          channel?: string
+          created_at?: string
+          direction?: string
+          id?: string
+          image_description?: string | null
+          media_caption?: string | null
+          media_type?: string | null
+          media_url?: string | null
+          phone_number?: string
+          status?: string
+          twilio_sid?: string | null
+          user_id?: string
+          whatsapp_message_id?: string | null
+          whatsapp_status?: string | null
         }
         Relationships: []
       }
@@ -562,24 +813,33 @@ export type Database = {
         Row: {
           created_at: string
           email: string
+          follow_up_sent: boolean | null
           id: string
           is_read: boolean
+          lead_score: number | null
+          lead_status: string | null
           message: string
           name: string
         }
         Insert: {
           created_at?: string
           email: string
+          follow_up_sent?: boolean | null
           id?: string
           is_read?: boolean
+          lead_score?: number | null
+          lead_status?: string | null
           message: string
           name: string
         }
         Update: {
           created_at?: string
           email?: string
+          follow_up_sent?: boolean | null
           id?: string
           is_read?: boolean
+          lead_score?: number | null
+          lead_status?: string | null
           message?: string
           name?: string
         }
@@ -723,6 +983,93 @@ export type Database = {
           },
         ]
       }
+      email_send_log: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          id: string
+          message_id: string | null
+          metadata: Json | null
+          recipient_email: string
+          status: string
+          template_name: string
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          message_id?: string | null
+          metadata?: Json | null
+          recipient_email: string
+          status: string
+          template_name: string
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          message_id?: string | null
+          metadata?: Json | null
+          recipient_email?: string
+          status?: string
+          template_name?: string
+        }
+        Relationships: []
+      }
+      email_send_state: {
+        Row: {
+          auth_email_ttl_minutes: number
+          batch_size: number
+          id: number
+          retry_after_until: string | null
+          send_delay_ms: number
+          transactional_email_ttl_minutes: number
+          updated_at: string
+        }
+        Insert: {
+          auth_email_ttl_minutes?: number
+          batch_size?: number
+          id?: number
+          retry_after_until?: string | null
+          send_delay_ms?: number
+          transactional_email_ttl_minutes?: number
+          updated_at?: string
+        }
+        Update: {
+          auth_email_ttl_minutes?: number
+          batch_size?: number
+          id?: number
+          retry_after_until?: string | null
+          send_delay_ms?: number
+          transactional_email_ttl_minutes?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      email_unsubscribe_tokens: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          token: string
+          used_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          token: string
+          used_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          token?: string
+          used_at?: string | null
+        }
+        Relationships: []
+      }
       events: {
         Row: {
           child_id: string | null
@@ -791,6 +1138,7 @@ export type Database = {
           created_at: string
           format: string | null
           id: string
+          image_url: string | null
           output_type: string
           title: string
           user_id: string
@@ -802,6 +1150,7 @@ export type Database = {
           created_at?: string
           format?: string | null
           id?: string
+          image_url?: string | null
           output_type?: string
           title: string
           user_id: string
@@ -813,6 +1162,7 @@ export type Database = {
           created_at?: string
           format?: string | null
           id?: string
+          image_url?: string | null
           output_type?: string
           title?: string
           user_id?: string
@@ -966,6 +1316,84 @@ export type Database = {
           },
         ]
       }
+      food_safety_checklists: {
+        Row: {
+          checklist_date: string
+          completed_at: string | null
+          completed_by: string
+          created_at: string | null
+          id: string
+          items: Json
+          shift: string | null
+          user_id: string
+        }
+        Insert: {
+          checklist_date: string
+          completed_at?: string | null
+          completed_by: string
+          created_at?: string | null
+          id?: string
+          items: Json
+          shift?: string | null
+          user_id: string
+        }
+        Update: {
+          checklist_date?: string
+          completed_at?: string | null
+          completed_by?: string
+          created_at?: string | null
+          id?: string
+          items?: Json
+          shift?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      food_safety_records: {
+        Row: {
+          checked_by: string
+          corrective_action: string | null
+          created_at: string | null
+          id: string
+          is_compliant: boolean | null
+          item_name: string | null
+          notes: string | null
+          record_date: string
+          record_type: string
+          shift: string | null
+          temperature: number | null
+          user_id: string
+        }
+        Insert: {
+          checked_by: string
+          corrective_action?: string | null
+          created_at?: string | null
+          id?: string
+          is_compliant?: boolean | null
+          item_name?: string | null
+          notes?: string | null
+          record_date: string
+          record_type: string
+          shift?: string | null
+          temperature?: number | null
+          user_id: string
+        }
+        Update: {
+          checked_by?: string
+          corrective_action?: string | null
+          created_at?: string | null
+          id?: string
+          is_compliant?: boolean | null
+          item_name?: string | null
+          notes?: string | null
+          record_date?: string
+          record_type?: string
+          shift?: string | null
+          temperature?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       gear_rules: {
         Row: {
           created_at: string
@@ -1034,6 +1462,36 @@ export type Database = {
         }
         Relationships: []
       }
+      health_checks: {
+        Row: {
+          checked_at: string
+          error_message: string | null
+          id: string
+          metadata: Json | null
+          response_time_ms: number | null
+          service_name: string
+          status: string
+        }
+        Insert: {
+          checked_at?: string
+          error_message?: string | null
+          id?: string
+          metadata?: Json | null
+          response_time_ms?: number | null
+          service_name: string
+          status?: string
+        }
+        Update: {
+          checked_at?: string
+          error_message?: string | null
+          id?: string
+          metadata?: Json | null
+          response_time_ms?: number | null
+          service_name?: string
+          status?: string
+        }
+        Relationships: []
+      }
       helm_integrations: {
         Row: {
           created_at: string
@@ -1065,6 +1523,88 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "helm_integrations_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      helm_sms_config: {
+        Row: {
+          briefing_time: string
+          created_at: string
+          enabled: boolean
+          family_id: string
+          id: string
+          morning_briefing: boolean
+          reminder_notifications: boolean
+          twilio_phone_number: string | null
+          updated_at: string
+        }
+        Insert: {
+          briefing_time?: string
+          created_at?: string
+          enabled?: boolean
+          family_id: string
+          id?: string
+          morning_briefing?: boolean
+          reminder_notifications?: boolean
+          twilio_phone_number?: string | null
+          updated_at?: string
+        }
+        Update: {
+          briefing_time?: string
+          created_at?: string
+          enabled?: boolean
+          family_id?: string
+          id?: string
+          morning_briefing?: boolean
+          reminder_notifications?: boolean
+          twilio_phone_number?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "helm_sms_config_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: true
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      helm_sms_conversations: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          family_id: string
+          id: string
+          opted_in: boolean
+          phone_number: string
+          verified: boolean
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          family_id: string
+          id?: string
+          opted_in?: boolean
+          phone_number: string
+          verified?: boolean
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          family_id?: string
+          id?: string
+          opted_in?: boolean
+          phone_number?: string
+          verified?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "helm_sms_conversations_family_id_fkey"
             columns: ["family_id"]
             isOneToOne: false
             referencedRelation: "families"
@@ -1112,6 +1652,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      industry_pain_points: {
+        Row: {
+          agent_name: string
+          created_at: string
+          hook: string | null
+          id: string
+          industry: string
+          last_updated: string
+          pain_point_text: string
+          severity: number
+          stat: string | null
+        }
+        Insert: {
+          agent_name: string
+          created_at?: string
+          hook?: string | null
+          id?: string
+          industry: string
+          last_updated?: string
+          pain_point_text: string
+          severity?: number
+          stat?: string | null
+        }
+        Update: {
+          agent_name?: string
+          created_at?: string
+          hook?: string | null
+          id?: string
+          industry?: string
+          last_updated?: string
+          pain_point_text?: string
+          severity?: number
+          stat?: string | null
+        }
+        Relationships: []
       }
       inspection_notes: {
         Row: {
@@ -1186,6 +1762,41 @@ export type Database = {
             columns: ["tradie_id"]
             isOneToOne: false
             referencedRelation: "tradies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lead_activity: {
+        Row: {
+          activity_type: string
+          created_at: string
+          details: string | null
+          id: string
+          metadata: Json | null
+          submission_id: string | null
+        }
+        Insert: {
+          activity_type: string
+          created_at?: string
+          details?: string | null
+          id?: string
+          metadata?: Json | null
+          submission_id?: string | null
+        }
+        Update: {
+          activity_type?: string
+          created_at?: string
+          details?: string | null
+          id?: string
+          metadata?: Json | null
+          submission_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_activity_submission_id_fkey"
+            columns: ["submission_id"]
+            isOneToOne: false
+            referencedRelation: "contact_submissions"
             referencedColumns: ["id"]
           },
         ]
@@ -1549,6 +2160,54 @@ export type Database = {
           },
         ]
       }
+      proactive_alerts: {
+        Row: {
+          alert_type: string
+          created_at: string
+          expires_at: string | null
+          id: string
+          is_dismissed: boolean
+          is_read: boolean
+          message: string
+          metadata: Json | null
+          severity: string
+          source_agent: string
+          target_agent: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          alert_type: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_dismissed?: boolean
+          is_read?: boolean
+          message: string
+          metadata?: Json | null
+          severity?: string
+          source_agent: string
+          target_agent: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          alert_type?: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_dismissed?: boolean
+          is_read?: boolean
+          message?: string
+          metadata?: Json | null
+          severity?: string
+          source_agent?: string
+          target_agent?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -1618,6 +2277,36 @@ export type Database = {
           tenant_phone?: string | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      response_cache: {
+        Row: {
+          cache_key: string
+          created_at: string | null
+          expires_at: string
+          id: string
+          model_used: string | null
+          response_text: string
+          tokens_saved: number | null
+        }
+        Insert: {
+          cache_key: string
+          created_at?: string | null
+          expires_at: string
+          id?: string
+          model_used?: string | null
+          response_text: string
+          tokens_saved?: number | null
+        }
+        Update: {
+          cache_key?: string
+          created_at?: string | null
+          expires_at?: string
+          id?: string
+          model_used?: string | null
+          response_text?: string
+          tokens_saved?: number | null
         }
         Relationships: []
       }
@@ -1732,6 +2421,7 @@ export type Database = {
           context_key: string
           context_value: Json
           created_at: string
+          expires_at: string | null
           id: string
           source_agent: string
           updated_at: string
@@ -1742,6 +2432,7 @@ export type Database = {
           context_key: string
           context_value?: Json
           created_at?: string
+          expires_at?: string | null
           id?: string
           source_agent: string
           updated_at?: string
@@ -1752,6 +2443,7 @@ export type Database = {
           context_key?: string
           context_value?: Json
           created_at?: string
+          expires_at?: string | null
           id?: string
           source_agent?: string
           updated_at?: string
@@ -1840,6 +2532,30 @@ export type Database = {
           updated_at?: string
           user_id?: string
           view_count?: number
+        }
+        Relationships: []
+      }
+      suppressed_emails: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          metadata: Json | null
+          reason: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          metadata?: Json | null
+          reason: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          metadata?: Json | null
+          reason?: string
         }
         Relationships: []
       }
@@ -2078,6 +2794,36 @@ export type Database = {
         }
         Relationships: []
       }
+      usage_tracking: {
+        Row: {
+          cost_nzd: number | null
+          id: string
+          messages_used: number | null
+          period: string
+          tokens_used: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          cost_nzd?: number | null
+          id?: string
+          messages_used?: number | null
+          period: string
+          tokens_used?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          cost_nzd?: number | null
+          id?: string
+          messages_used?: number | null
+          period?: string
+          tokens_used?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_compliance_tasks: {
         Row: {
           completed_date: string | null
@@ -2151,6 +2897,42 @@ export type Database = {
           integration_type?: string
           last_synced_at?: string | null
           status?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_notifications: {
+        Row: {
+          action_url: string | null
+          agent_name: string
+          created_at: string | null
+          id: string
+          message: string
+          priority: string | null
+          read: boolean | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          action_url?: string | null
+          agent_name: string
+          created_at?: string | null
+          id?: string
+          message: string
+          priority?: string | null
+          read?: boolean | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          action_url?: string | null
+          agent_name?: string
+          created_at?: string | null
+          id?: string
+          message?: string
+          priority?: string | null
+          read?: boolean | null
+          title?: string
           user_id?: string
         }
         Relationships: []
@@ -2317,6 +3099,54 @@ export type Database = {
         }
         Relationships: []
       }
+      whatsapp_templates: {
+        Row: {
+          admin_only: boolean
+          approval_notes: string | null
+          body_text: string
+          category: string
+          created_at: string
+          footer_text: string | null
+          id: string
+          language_code: string
+          status: string
+          template_name: string
+          updated_at: string
+          variables: Json | null
+          whatsapp_template_id: string | null
+        }
+        Insert: {
+          admin_only?: boolean
+          approval_notes?: string | null
+          body_text: string
+          category?: string
+          created_at?: string
+          footer_text?: string | null
+          id?: string
+          language_code?: string
+          status?: string
+          template_name: string
+          updated_at?: string
+          variables?: Json | null
+          whatsapp_template_id?: string | null
+        }
+        Update: {
+          admin_only?: boolean
+          approval_notes?: string | null
+          body_text?: string
+          category?: string
+          created_at?: string
+          footer_text?: string | null
+          id?: string
+          language_code?: string
+          status?: string
+          template_name?: string
+          updated_at?: string
+          variables?: Json | null
+          whatsapp_template_id?: string | null
+        }
+        Relationships: []
+      }
       workflow_executions: {
         Row: {
           completed_at: string | null
@@ -2402,6 +3232,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      delete_email: {
+        Args: { message_id: number; queue_name: string }
+        Returns: boolean
+      }
+      enqueue_email: {
+        Args: { payload: Json; queue_name: string }
+        Returns: number
+      }
       get_user_role: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["app_role"]
@@ -2416,6 +3254,23 @@ export type Database = {
       is_family_member: {
         Args: { _family_id: string; _user_id: string }
         Returns: boolean
+      }
+      move_to_dlq: {
+        Args: {
+          dlq_name: string
+          message_id: number
+          payload: Json
+          source_queue: string
+        }
+        Returns: number
+      }
+      read_email_batch: {
+        Args: { batch_size: number; queue_name: string; vt: number }
+        Returns: {
+          message: Json
+          msg_id: number
+          read_ct: number
+        }[]
       }
     }
     Enums: {
