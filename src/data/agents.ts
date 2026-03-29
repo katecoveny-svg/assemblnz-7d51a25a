@@ -545,7 +545,7 @@ export const agents: Agent[] = [
   {
     id: "tereo-kaiako",
     name: "KAIAKO",
-    designation: "ASM-044",
+    designation: "ASM-048",
     role: "Te Reo Māori Education & Learning Guide",
     tagline: "Ko te reo te mauri o te mana Māori — Language is the life-force of Māori identity",
     color: "#D4A843",
@@ -557,7 +557,7 @@ export const agents: Agent[] = [
   {
     id: "tereo-kaiwhakamaori",
     name: "WHAKAMĀORI",
-    designation: "ASM-045",
+    designation: "ASM-049",
     role: "Te Reo Māori Translation & Language Specialist",
     tagline: "He reo hapa e taea te whakatika — Imperfect language can be corrected",
     color: "#3A7D6E",
@@ -569,7 +569,7 @@ export const agents: Agent[] = [
   {
     id: "tereo-ture",
     name: "TURE",
-    designation: "ASM-046",
+    designation: "ASM-050",
     role: "Māori Legal Rights & Treaty Settlements Specialist",
     tagline: "Protecting Māori rights through knowledge of the law",
     color: "#A52A2A",
@@ -581,7 +581,7 @@ export const agents: Agent[] = [
   {
     id: "tereo-kawanatanga",
     name: "KAWANATANGA",
-    designation: "ASM-047",
+    designation: "ASM-051",
     role: "Government Policy & Māori Affairs Navigator",
     tagline: "Bridging Crown and iwi for better outcomes",
     color: "#1A3A5C",
@@ -593,7 +593,7 @@ export const agents: Agent[] = [
   {
     id: "tereo-matauranga",
     name: "MĀTAURANGA",
-    designation: "ASM-048",
+    designation: "ASM-052",
     role: "Mātauranga Māori & Cultural Knowledge Guardian",
     tagline: "Kaitiaki of ancestral knowledge in the digital age",
     color: "#8B6914",
@@ -605,7 +605,7 @@ export const agents: Agent[] = [
   {
     id: "tereo-ohanga",
     name: "ŌHANGA",
-    designation: "ASM-049",
+    designation: "ASM-053",
     role: "Māori Economic Development & Enterprise Advisor",
     tagline: "Growing the Māori economy with mana intact",
     color: "#D4A843",
@@ -617,7 +617,7 @@ export const agents: Agent[] = [
   {
     id: "tereo-hapori",
     name: "HAPORI",
-    designation: "ASM-050",
+    designation: "ASM-054",
     role: "Iwi, Hapū & Community Engagement Specialist",
     tagline: "Authentic relationships, not transactional ones",
     color: "#3A7D6E",
@@ -629,7 +629,7 @@ export const agents: Agent[] = [
   {
     id: "tereo-matihiko",
     name: "MATIHIKO",
-    designation: "ASM-051",
+    designation: "ASM-055",
     role: "Māori Digital & Data Sovereignty Advisor",
     tagline: "Our data, our protocols, our future",
     color: "#1A3A5C",
