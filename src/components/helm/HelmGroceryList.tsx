@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { Plus, Trash2, Check, ShoppingCart, Store, ChevronDown, ChevronUp } from "lucide-react";
+import { Plus, Trash2, Check, ShoppingCart, Store, ChevronDown, ChevronUp, ExternalLink, Truck } from "lucide-react";
 
 const CATEGORIES = [
   { value: "produce", label: "Produce", emoji: "🥬" },
@@ -18,7 +18,33 @@ const CATEGORIES = [
   { value: "other", label: "Other", emoji: "📦" },
 ] as const;
 
-const STORES = ["PAK'nSAVE", "Countdown", "New World", "Four Square", "Any"];
+// NZ online grocery stores with search/order URLs
+const NZ_STORES = [
+  {
+    id: "countdown",
+    name: "Countdown",
+    color: "#00A651",
+    searchUrl: "https://www.countdown.co.nz/shop/searchproducts?search=",
+    cartUrl: "https://www.countdown.co.nz/shop/cart",
+    logo: "🟢",
+  },
+  {
+    id: "paknsave",
+    name: "PAK'nSAVE",
+    color: "#FFD100",
+    searchUrl: "https://www.paknsave.co.nz/shop/search?q=",
+    cartUrl: "https://www.paknsave.co.nz/shop/cart",
+    logo: "🟡",
+  },
+  {
+    id: "newworld",
+    name: "New World",
+    color: "#E31837",
+    searchUrl: "https://www.newworld.co.nz/shop/search?q=",
+    cartUrl: "https://www.newworld.co.nz/shop/cart",
+    logo: "🔴",
+  },
+] as const;
 
 interface GroceryItem {
   id: string;
@@ -48,8 +74,24 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
   const [newQty, setNewQty] = useState("1");
   const [newCat, setNewCat] = useState("other");
   const [showAdd, setShowAdd] = useState(false);
+  const [selectedStore, setSelectedStore] = useState<string>("countdown");
   const [expandedCats, setExpandedCats] = useState<Set<string>>(new Set(CATEGORIES.map(c => c.value)));
   const [loading, setLoading] = useState(true);
+
+  // Build online shopping URL: searches for all unchecked items at chosen store
+  const getShopOnlineUrl = useCallback(() => {
+    const store = NZ_STORES.find(s => s.id === selectedStore) || NZ_STORES[0];
+    const unchecked = items.filter(i => !i.checked).map(i => i.name);
+    if (unchecked.length === 0) return store.cartUrl;
+    // Use the first unchecked item as search (stores don't support multi-item search)
+    return store.searchUrl + encodeURIComponent(unchecked[0]);
+  }, [items, selectedStore]);
+
+  // Build a URL that pre-loads all items as separate searches (opens store search)
+  const openStoreForItem = (itemName: string) => {
+    const store = NZ_STORES.find(s => s.id === selectedStore) || NZ_STORES[0];
+    window.open(store.searchUrl + encodeURIComponent(itemName), "_blank");
+  };
 
   // Load lists
   useEffect(() => {
@@ -189,6 +231,49 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
         </div>
       )}
 
+      {/* Order Online */}
+      {totalCount > 0 && (
+        <div className="bg-white/5 rounded-xl border border-white/5 p-4 space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Truck className="w-4 h-4 text-emerald-400" />
+              <span className="text-sm font-medium text-white/80">Order Online</span>
+            </div>
+            <span className="text-[10px] text-white/30">{items.filter(i => !i.checked).length} items to buy</span>
+          </div>
+          <div className="flex gap-2">
+            {NZ_STORES.map(store => (
+              <button
+                key={store.id}
+                onClick={() => setSelectedStore(store.id)}
+                className={`flex-1 text-[10px] px-2 py-2 rounded-lg border font-medium text-center transition-all ${
+                  selectedStore === store.id
+                    ? "text-white border-white/20"
+                    : "bg-white/5 border-white/5 text-white/40"
+                }`}
+                style={selectedStore === store.id ? { background: store.color + "20", borderColor: store.color + "40" } : undefined}
+              >
+                {store.logo} {store.name}
+              </button>
+            ))}
+          </div>
+          <a
+            href={getShopOnlineUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full text-sm py-2.5 rounded-lg font-semibold text-white flex items-center justify-center gap-2 transition-colors"
+            style={{ background: NZ_STORES.find(s => s.id === selectedStore)?.color || "#00A651" }}
+          >
+            <ShoppingCart className="w-4 h-4" />
+            Shop at {NZ_STORES.find(s => s.id === selectedStore)?.name}
+            <ExternalLink className="w-3 h-3 opacity-60" />
+          </a>
+          <p className="text-[9px] text-white/20 text-center">
+            Opens {NZ_STORES.find(s => s.id === selectedStore)?.name} online — search your items and add to cart
+          </p>
+        </div>
+      )}
+
       {/* Quick add */}
       {showAdd && (
         <div className="bg-white/5 border border-white/10 rounded-xl p-4 space-y-3">
@@ -261,6 +346,15 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
                       <span className="text-xs text-white/30 ml-2">x{item.quantity}</span>
                     )}
                   </div>
+                  {!item.checked && (
+                    <button
+                      onClick={() => openStoreForItem(item.name)}
+                      className="text-white/20 hover:text-emerald-400 transition-colors"
+                      title={`Find at ${NZ_STORES.find(s => s.id === selectedStore)?.name}`}
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </button>
+                  )}
                   <button onClick={() => deleteItem(item.id)} className="text-white/20 hover:text-red-400 transition-colors">
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
