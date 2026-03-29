@@ -12,6 +12,7 @@ import { agentCapabilities } from "@/data/agentCapabilities";
 import AgentSmsPanel from "@/components/shared/AgentSmsPanel";
 import AgentTraining from "@/components/shared/AgentTraining";
 import AgentAvatar from "@/components/AgentAvatar";
+import PWAInstallBanner from "@/components/PWAInstallBanner";
 import { setDynamicManifest } from "@/utils/pwaManifest";
 
 interface Message {
@@ -100,6 +101,7 @@ export default function AgentApp() {
 
   return (
     <div className="h-screen flex flex-col" style={{ background: "#09090F", color: "white" }}>
+      <PWAInstallBanner agentName={agent.name} agentColor={color} />
       {/* Top Bar */}
       <header className="flex items-center gap-3 px-4 py-3 border-b border-white/5 shrink-0">
         <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-1.5 rounded-lg hover:bg-white/5 transition lg:hidden">
