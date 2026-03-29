@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
+import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
 import { ChevronDown, Check } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import { useState } from "react";
-import { PRICING, COMPARISON_FEATURES, annualMonthly } from "@/data/pricing";
+import { PRICING, COMPARISON_FEATURES } from "@/data/pricing";
 
 const MAIN_PLANS = [
   PRICING.starter,
@@ -13,60 +14,46 @@ const MAIN_PLANS = [
   PRICING.suite,
 ];
 
-const HELM_PLAN = { ...PRICING.helm, desc: "AI life admin for Kiwi families" };
+const HELM_PLAN = { ...PRICING.helm, desc: "Life admin for Kiwi families" };
 
 const FAQS = [
-  { q: "Can I try Assembl for free?", a: "Every agent is available for free — no signup required. You get 3 messages per agent to explore. If you like what you see, sign up for a plan to unlock more." },
+  { q: "Can I try Assembl for free?", a: "Every specialist tool is available for free — no signup required. You get 3 messages per advisor to explore. If you like what you see, sign up for a plan to unlock more." },
   { q: "How do message limits work?", a: "Starter gives you 100 messages per month. Pro provides 500 per month. Business gives you 2,000 and Suite provides 5,000. Enterprise is unlimited." },
-  { q: "What NZ legislation do the agents know?", a: "Our agents are trained on 50+ NZ Acts and regulations including the Employment Relations Act, Health & Safety at Work Act, Building Code, Food Act, Privacy Act, and many more." },
+  { q: "What NZ legislation is built in?", a: "Our tools are trained on 50+ NZ Acts and regulations including the Employment Relations Act 2000, Health and Safety at Work Act 2015, Building Act 2004, Food Act 2014, Privacy Act 2020, and many more." },
   { q: "Can I cancel anytime?", a: "Yes. All plans are month-to-month with no lock-in contracts. Cancel anytime from your dashboard." },
-  { q: "What is HELM?", a: "HELM is our life admin AI agent designed for NZ families. It helps with meal planning, budgeting, school admin, and more — all with Kiwi context built in." },
-  { q: "Do you offer discounts for nonprofits or startups?", a: "Yes! Through our AssemblFund initiative, we offer subsidised access for Kiwi startups and community organisations. Contact us at kate@assembl.co.nz." },
+  { q: "What is HELM?", a: "HELM is our family life admin advisor designed for NZ families. It helps with meal planning, budgeting, school admin, and more — all with Kiwi context built in." },
+  { q: "Do you offer discounts for nonprofits or startups?", a: "Yes! Through our AssemblFund initiative, we offer subsidised access for Kiwi startups and community organisations. Contact us at assembl@assembl.co.nz." },
 ];
 
 const PricingPage = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [annual, setAnnual] = useState(false);
 
   const formatPrice = (price: number | null, label?: string) => {
     if (price === null) return label || 'Custom';
-    const p = annual ? annualMonthly(price) : price;
-    return `$${p}`;
+    return `$${price}`;
   };
 
   return (
     <div className="min-h-screen flex flex-col relative" style={{ background: '#09090B' }}>
+      <SEO
+        title="Assembl Pricing — Enterprise-Grade Business Intelligence | SME-Friendly Pricing"
+        description="Starter $89/mo (1 tool). Pro $299/mo (3 tools + SPARK). Business $599/mo (all 42 tools). Industry Suite $1,499/mo (custom tools + white-label). HELM Family from $14/mo."
+        path="/pricing"
+      />
       <BrandNav />
 
       {/* Hero */}
       <section className="pt-20 pb-10 sm:py-28">
         <div className="max-w-5xl mx-auto px-5 sm:px-6 text-center">
           <h1 className="text-2xl sm:text-5xl font-syne font-bold mb-3 leading-tight" style={{ color: '#FAFAFA', letterSpacing: '-0.025em' }}>
-            Simple pricing. Serious capability.
+            Enterprise-grade business intelligence. SME-friendly pricing.
           </h1>
           <p className="text-sm sm:text-base font-jakarta max-w-xl mx-auto mb-6" style={{ color: '#A1A1AA' }}>
-            Every plan includes NZ legislation, document templates, and proactive compliance alerts.
+            From $14/month. No lock-in. Cancel anytime. Every plan includes NZ legislation, document templates, and proactive compliance alerts.
           </p>
 
-          {/* Annual toggle */}
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <span className="text-xs font-jakarta" style={{ color: annual ? '#71717A' : '#FAFAFA' }}>Monthly</span>
-            <button
-              onClick={() => setAnnual(!annual)}
-              className="relative w-11 h-6 rounded-full transition-colors"
-              style={{ background: annual ? '#10B981' : 'rgba(255,255,255,0.1)' }}
-            >
-              <span
-                className="absolute top-0.5 w-5 h-5 rounded-full bg-white transition-transform"
-                style={{ left: annual ? '22px' : '2px' }}
-              />
-            </button>
-            <span className="text-xs font-jakarta" style={{ color: annual ? '#FAFAFA' : '#71717A' }}>
-              Annual <span style={{ color: '#10B981' }}>(save 15%)</span>
-            </span>
-          </div>
           <p className="text-xs font-jakarta" style={{ color: '#71717A' }}>
-            All prices in NZD. GST inclusive.
+            All prices in NZD. GST inclusive. Billed monthly.
           </p>
         </div>
       </section>
@@ -154,12 +141,12 @@ const PricingPage = () => {
                   </li>
                 ))}
               </ul>
-              <a
-                href="#contact"
+              <button
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
                 className="cta-glass-green block w-full text-center text-sm font-semibold py-2.5 rounded-lg"
               >
                 <span>Contact Us</span>
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -173,7 +160,7 @@ const PricingPage = () => {
             HELM — Life Admin for Families
           </h2>
           <p className="text-xs font-jakarta text-center mb-8" style={{ color: '#71717A' }}>
-            AI life admin built for Kiwi households
+            Life admin built for Kiwi households
           </p>
           <div
             className="flex flex-col rounded-xl p-6"
@@ -187,7 +174,7 @@ const PricingPage = () => {
             </p>
             <div className="flex items-baseline gap-1 mb-1">
               <span className="font-syne text-3xl font-bold" style={{ color: '#FAFAFA' }}>
-                ${annual ? annualMonthly(HELM_PLAN.price) : HELM_PLAN.price}
+                ${HELM_PLAN.price}
               </span>
               <span className="text-sm" style={{ color: '#71717A' }}>/mo</span>
             </div>
@@ -324,8 +311,8 @@ const PricingPage = () => {
         <div className="max-w-lg mx-auto px-5 sm:px-6 text-center">
           <p className="text-sm font-jakarta" style={{ color: '#71717A' }}>
             Enterprise inquiries:{' '}
-            <a href="mailto:kate@assembl.co.nz" className="underline" style={{ color: '#A1A1AA' }}>
-              kate@assembl.co.nz
+            <a href="mailto:assembl@assembl.co.nz" className="underline" style={{ color: '#A1A1AA' }}>
+              assembl@assembl.co.nz
             </a>
           </p>
         </div>

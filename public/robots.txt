@@ -1,16 +1,4 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
 User-agent: *
 Allow: /
 
-Sitemap: https://assembl.co.nz/sitemap.xml
+Sitemap: https://www.assembl.co.nz/sitemap.xml

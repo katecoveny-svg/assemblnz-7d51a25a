@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Plus, X, Users, Baby, Share2, Settings2, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
+import HelmSmsSettings from "./HelmSmsSettings";
 
 const HELM_COLOR = "#B388FF";
 
@@ -63,8 +64,14 @@ export default function HelmSettings() {
   const createFamily = async () => {
     if (!user || !familyName.trim()) return;
     try {
-      console.log("[HELM] Creating family:", familyName, region);
-      const { data: fam, error: famError } = await supabase.from("families").insert({ name: familyName, nz_region: region, created_by: user.id }).select().single();
+      // Verify active session before insert
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData?.session) {
+        toast.error("Your session has expired. Please sign in again.");
+        return;
+      }
+      console.log("[HELM] Creating family:", familyName, region, "uid:", sessionData.session.user.id);
+      const { data: fam, error: famError } = await supabase.from("families").insert({ name: familyName, nz_region: region, created_by: sessionData.session.user.id }).select().single();
       if (famError) { console.error("[HELM] Family insert error:", famError); toast.error("Failed to create family: " + famError.message); return; }
       if (fam) {
         console.log("[HELM] Family created, adding member:", fam.id);
@@ -209,6 +216,9 @@ export default function HelmSettings() {
           {children.length === 0 && <p className="text-xs text-white/25 py-4 text-center">No children added yet</p>}
         </div>
       </div>
+
+      {/* SMS Settings */}
+      <HelmSmsSettings familyId={family?.id || null} />
 
       {/* Invite Co-parent */}
       <div className="rounded-lg p-4" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>

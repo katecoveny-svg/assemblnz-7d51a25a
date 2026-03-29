@@ -1,93 +1,76 @@
 
 
-## Pricing Page Branding Refresh
+# Audit: Agent Mascots & PWA Installation
 
-The pricing page is mostly well-structured but has several elements that don't match the premium glassmorphism branding used across the rest of the site.
+## Current State
 
-### What needs fixing
+### Mascots — Mostly Correct
+The unified `AgentAvatar` component (`src/components/AgentAvatar.tsx`) correctly uses a **single base image** (`assembl-mascot-base.png`) with CSS `mix-blend-hue` and `mix-blend-saturation` overlays to tint eyes/glow to each agent's brand colour. This is used across 29 files.
 
-1. **FAQ section uses flat card styling** -- `bg-card border-border` instead of the glassmorphism treatment (rgba(14,14,26,0.7) + backdrop-blur + border-white/[0.06])
-2. **Section dividers are plain** -- basic `border-t border-border` lines instead of subtle gradient glow lines like the premium cards use
-3. **Bottom CTA section looks generic** -- needs glass card wrapper and neon glow treatment on the "Browse agents" button
-4. **Missing font-jakarta on body text** -- several `<p>` and `<span>` elements lack explicit font-jakarta class
-5. **HELM section needs visual distinction** -- add a subtle purple-tinted glass background or a top-edge glow to differentiate it from the business plans section
-6. **Trust signals bar is barely visible** -- needs slightly more contrast and a glass container
+**However, several pages bypass `AgentAvatar` and import individual agent PNGs directly:**
 
-### Files to modify
+| File | Import | Should Use |
+|------|--------|------------|
+| `HelmSection.tsx` | `helm-3d-avatar.png` | `AgentAvatar` with Helm colour |
+| `HelmApp.tsx` | `helm-3d-avatar.png` | `AgentAvatar` with Helm colour |
+| `EchoSection.tsx` | `echo-fullbody.png` | `AgentAvatar` with Echo colour |
+| `EchoPage.tsx` | `echo.png` | `AgentAvatar` with Echo colour |
+| `SparkSection.tsx` | `spark.png` | `AgentAvatar` with Spark colour |
+| `AgentApp.tsx` | `helm-3d-avatar.png` (lazy) | `AgentAvatar` |
 
-**`src/pages/PricingPage.tsx`** (single file, all changes):
-- FAQ accordion items: replace `rounded-xl border border-border bg-card` with glassmorphism inline styles matching the plan cards
-- Section `border-t border-border` dividers: replace with gradient glow `<div>` elements (green → cyan → pink, 1px height, partial opacity)
-- Bottom CTA: wrap in a glassmorphism card with neon border glow
-- Add `font-jakarta` to body/label text elements that are missing it
-- HELM section: add a subtle purple top-edge gradient glow line
-- Trust signals: wrap in a subtle glass container with slightly increased text opacity
+These six files use **different robot images** instead of the unified mascot template. `RobotIcon.tsx` is dead code (not imported anywhere).
 
-### No new files or dependencies needed
+Files that correctly stay as-is:
+- `AssemblHeroAgent.tsx` — uses `hero-orb-robot.png` (the hero, not an agent mascot)
+- `BrandGuidelinesPage.tsx` — uses `hero-orb-robot.png` for brand docs
+- `EchoChatWidget.tsx` — already uses `assembl-mascot-base.png`
+- `MyAppsPage.tsx` / `ChatPage.tsx` — use `spark.png` as a CTA illustration (not an avatar)
 
-All changes are CSS/className updates within the existing PricingPage component, using the same glassmorphism patterns already established in the plan cards above.
+### PWA — Already Working
+PWA is already configured:
+- `public/manifest.json` exists with correct metadata
+- `index.html` has manifest link and Apple meta tags
+- `public/sw.js` service worker handles caching
+- `src/utils/pwaManifest.ts` generates per-agent manifests dynamically
+- `AgentApp.tsx` and `HelmApp.tsx` both call `setDynamicManifest()` on mount
+
+**How to install as PWA**: On mobile (iOS Safari or Android Chrome), visit the agent app route (e.g., `/app/aura` or `/helm`), then use the browser's "Add to Home Screen" option. On desktop Chrome/Edge, click the install icon in the address bar.
 
 ---
 
-# Assembl Soul Architecture — Implementation Plan
+## Plan
 
-## Status Key
-- ⬜ Not started | 🔨 In progress | ✅ Done
+### Step 1 — Replace direct agent image imports with AgentAvatar (4 files)
+
+Update these files to use the `AgentAvatar` component instead of individual PNGs:
+
+1. **`src/components/HelmSection.tsx`** — Replace `helmImg` with `<AgentAvatar agentId="operations" color="#B388FF" size={180} />`
+2. **`src/components/EchoSection.tsx`** — Replace `echoImg` with `<AgentAvatar agentId="echo" color="#00E5FF" size={180} />`
+3. **`src/components/SparkSection.tsx`** — Replace `sparkImg` with `<AgentAvatar agentId="spark" color="#FF6B00" size={180} />`
+4. **`src/pages/EchoPage.tsx`** — Replace `echoImg` with `<AgentAvatar>`
+
+### Step 2 — Fix AgentApp.tsx avatar fallback
+
+Remove the `agentAvatars` lazy-load map and use `AgentAvatar` component directly for the chat header/sidebar avatar, so every agent gets the unified mascot with correct brand colour.
+
+### Step 3 — Fix HelmApp.tsx avatar
+
+Replace `helmImg` import with `AgentAvatar` component usage.
+
+### Step 4 — Delete dead code
+
+Remove `src/components/RobotIcon.tsx` (unused).
+
+### Step 5 — No PWA changes needed
+
+PWA is already functional. I will add a brief install-prompt banner or tooltip to agent app pages so users know they can install, OR simply document the install flow in the response.
 
 ---
 
-## SECTION 1: Humanist Engine — PRIORITY 1
-- ✅ `src/engine/personality.ts` — UserContext, time greetings, seasonal context, mood detection, milestones
-- ✅ Agent loading messages (per-agent personality strings)
-- ✅ Time-aware greetings in chat header (Mōrena, Good afternoon, etc.)
-- ✅ Smart empty states (contextual first-visit suggestions per agent)
-- ✅ Milestone tracking & celebration toasts (useMilestones hook)
-- ✅ Anniversary acknowledgment system (getAnniversaryMessage)
+## Technical Details
 
-## SECTION 2: Document Intelligence — PRIORITY 2
-- ✅ Upload interface (paperclip icon next to chat input — already existed)
-- ✅ DocumentIntelligenceCard component (scan-line animation, structured extraction results)
-- ⬜ Agent-specific document extraction prompts in edge function
-- ⬜ Multi-page PDF handling (up to 20 pages)
+- All agent colours come from `src/data/agents.ts` — no hardcoding needed in most cases
+- The `AgentAvatar` component handles glow, hue-shift, and eager/lazy loading
+- The hero robot (`hero-orb-robot.png`) and brand guidelines references remain untouched
+- `MyAppsPage.tsx` and `ChatPage.tsx` spark imports are CTA illustrations, not mascots — left as-is
 
-## SECTION 3: Compliance Autopilot — PRIORITY 3
-- ✅ Database tables: compliance_deadlines, user_compliance_tasks, legislation_changes
-- ✅ Seed NZ compliance deadlines
-- ✅ Seed recent legislation changes
-- ✅ Proactive alert edge function (compliance-alerts)
-- ⬜ Schedule via pg_cron (daily 6am NZST)
-- ⬜ Agent-specific proactive prompts in chat system prompt
-
-## SECTION 4: Self-Healing & Workflow Visualiser
-- ✅ `src/engine/self-healing.ts` — retry/healing logic, chain executor
-- ✅ `src/components/WorkflowVisualiser.tsx` — animated node graph with framer-motion
-- ✅ WorkflowVisualiser integrated into Command Centre dashboard
-- ⬜ Inline workflow visualiser in chat when symbiotic chain triggers
-- ⬜ Full-page workflow view at /workflows
-
-## SECTION 5: Voice Agents (Future-ready)
-- ✅ VoiceAgentWaitlist component with config preview + waitlist signup
-- ✅ Voice tab added to AURA, HAVEN, FORGE, FLUX agents
-- ⬜ voice_agent_config / voice_call_log tables (deferred until ElevenLabs integration)
-- ⬜ Full voice functionality (ElevenLabs + Twilio)
-
-## SECTION 6: Financial Forecasting
-- ✅ CashFlowTimeline component for visual forecasting display
-- ⬜ LEDGER forecasting prompt additions (edge function)
-- ⬜ Expense anomaly detection prompts
-- ⬜ Scenario modelling UI
-
-## SECTION 7: Advanced SPARK
-- ✅ SparkTemplateGrid with 10 pre-built NZ business templates
-- ✅ Template grid integrated into SPARK welcome screen
-- ⬜ Inline app generation (HTML widgets in chat)
-
-## SECTION 8: Command Centre Upgrade — PRIORITY 4
-- ✅ Compliance score ring (green/amber/red)
-- ✅ "Needs Your Attention" section with severity borders
-- ✅ Milestones display with celebration toasts
-- ✅ 90-day compliance calendar (horizontal scrollable)
-- ✅ Workflow Visualiser in dashboard
-- ✅ Real-time refresh via Supabase realtime subscription
-- ✅ Mobile responsive (2×2 KPI grid already implemented)
-- ⬜ Swipeable calendar on mobile

@@ -7,8 +7,9 @@ import { agents } from "@/data/agents";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 
 const FEATURED_IDS = [
-  "hospitality", "sales", "automotive", "marketing", "operations",
-  "echo", "customs", "construction", "maritime", "property",
+  "sports", "hospitality", "marketing", "property", "sales",
+  "automotive", "construction", "customs", "maritime", "operations",
+  "echo", "hr",
 ];
 
 const featured = agents.filter((a) => FEATURED_IDS.includes(a.id));
@@ -68,7 +69,7 @@ const AgentShowcase = () => {
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                 className="shrink-0"
               >
-                <AgentAvatar agentId={agent.id} color={agent.color} size={72} showGlow />
+                <AgentAvatar agentId={agent.id} color={agent.color} size={72} showGlow eager />
               </motion.div>
 
               <div className="min-w-0 flex-1">

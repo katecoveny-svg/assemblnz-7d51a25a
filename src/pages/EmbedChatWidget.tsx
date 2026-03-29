@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { agents } from "@/data/agents";
-import { echoAgent } from "@/data/agents";
+import { agents, echoAgent, pilotAgent } from "@/data/agents";
 import { supabase } from "@/integrations/supabase/client";
 import AgentAvatar from "@/components/AgentAvatar";
 import ReactMarkdown from "react-markdown";
@@ -17,7 +16,7 @@ const PREVIEW_LIMIT = 3;
 
 const EmbedChatWidget = () => {
   const { agentId } = useParams<{ agentId: string }>();
-  const agent = agentId === "echo" ? echoAgent : agents.find((a) => a.id === agentId);
+  const agent = agentId === "echo" ? echoAgent : agentId === "pilot" ? pilotAgent : agents.find((a) => a.id === agentId);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -144,9 +143,14 @@ const EmbedChatWidget = () => {
               }
             >
               {msg.role === "assistant" ? (
-                <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-headings:text-sm">
-                  <ReactMarkdown>{msg.content}</ReactMarkdown>
-                </div>
+                <>
+                  <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-headings:text-sm">
+                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                  </div>
+                  <p className="text-[9px] mt-2 leading-relaxed" style={{ color: "rgba(255, 255, 255, 0.35)" }}>
+                    AI-generated guidance — not a substitute for professional advice. Verify before acting.
+                  </p>
+                </>
               ) : (
                 msg.content
               )}
