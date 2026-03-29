@@ -29,7 +29,7 @@ export default function AgentApp() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [avatarSrc, setAvatarSrc] = useState<string | null>(null);
+  
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const agent = useMemo(() => agents.find(a => a.id === agentId), [agentId]);
@@ -41,15 +41,6 @@ export default function AgentApp() {
     if (agentId) return setDynamicManifest(agentId);
   }, [agentId]);
 
-  // Load avatar
-  useEffect(() => {
-    const loader = agentAvatars[agentId || ""];
-    if (loader) {
-      loader().then(m => setAvatarSrc(m.default)).catch(() => setAvatarSrc(null));
-    } else {
-      setAvatarSrc(null);
-    }
-  }, [agentId]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
