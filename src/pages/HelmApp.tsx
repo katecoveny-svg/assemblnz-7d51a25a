@@ -23,6 +23,7 @@ import HelmAppointments from "@/components/helm/HelmAppointments";
 import HelmFamilyChat from "@/components/helm/HelmFamilyChat";
 import HelmTasks from "@/components/helm/HelmTasks";
 import AgentAvatar from "@/components/AgentAvatar";
+import PWAInstallBanner from "@/components/PWAInstallBanner";
 import { setDynamicManifest } from "@/utils/pwaManifest";
 
 const HELM_COLOR = "#B388FF";
@@ -133,6 +134,7 @@ export default function HelmApp() {
 
   return (
     <div className="h-screen flex flex-col" style={{ background: "#09090F", color: "white" }}>
+      <PWAInstallBanner agentName="HELM" agentColor={HELM_COLOR} />
       {/* Top Bar */}
       <header className="flex items-center gap-3 px-4 py-3 border-b border-white/5 shrink-0">
         <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-1.5 rounded-lg hover:bg-white/5 transition lg:hidden">
