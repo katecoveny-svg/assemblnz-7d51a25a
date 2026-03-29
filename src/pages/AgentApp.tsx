@@ -105,14 +105,7 @@ export default function AgentApp() {
         <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-1.5 rounded-lg hover:bg-white/5 transition lg:hidden">
           <Menu size={18} className="text-white/60" />
         </button>
-        {avatarSrc ? (
-          <motion.img src={avatarSrc} alt={agent.name} className="w-8 h-8 object-contain"
-            style={{ filter: `drop-shadow(0 0 8px ${color}40)` }}
-            animate={{ y: [0, -2, 0] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} />
-        ) : (
-          <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
-            style={{ background: color + "30", color }}>{agent.name[0]}</div>
-        )}
+        <AgentAvatar agentId={agent.id} color={color} size={32} showGlow={false} eager />
         <div className="flex-1 min-w-0">
           <h1 className="text-sm font-bold font-syne" style={{ color }}>{agent.name}</h1>
           <p className="text-[9px] text-white/30 font-mono truncate">{agent.designation} · {agent.role}</p>
@@ -205,14 +198,9 @@ export default function AgentApp() {
               <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
                 {messages.length === 0 && (
                   <div className="flex flex-col items-center justify-center py-12">
-                    {avatarSrc ? (
-                      <motion.img src={avatarSrc} alt={agent.name} className="w-20 h-20 object-contain mb-4"
-                        style={{ filter: `drop-shadow(0 0 16px ${color}30)` }}
-                        animate={{ y: [0, -6, 0] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} />
-                    ) : (
-                      <div className="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-bold mb-4"
-                        style={{ background: color + "20", color }}>{agent.name[0]}</div>
-                    )}
+                    <div className="mb-4">
+                      <AgentAvatar agentId={agent.id} color={color} size={80} />
+                    </div>
                     <h2 className="text-lg font-syne font-bold mb-1" style={{ color }}>
                       {agent.name}
                     </h2>
@@ -252,9 +240,8 @@ export default function AgentApp() {
                 {messages.map((msg, i) => (
                   <div key={i} className={`flex gap-3 ${msg.role === "user" ? "justify-end" : ""}`}>
                     {msg.role === "assistant" && (
-                      <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center" style={{ background: color + "20" }}>
-                        {avatarSrc ? <img src={avatarSrc} alt="" className="w-5 h-5 object-contain" /> :
-                          <span className="text-[10px] font-bold" style={{ color }}>{agent.name[0]}</span>}
+                      <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center">
+                        <AgentAvatar agentId={agent.id} color={color} size={28} showGlow={false} />
                       </div>
                     )}
                     <div className="rounded-2xl px-4 py-2.5 max-w-[85%] text-sm leading-relaxed whitespace-pre-wrap"
@@ -275,9 +262,8 @@ export default function AgentApp() {
 
                 {loading && (
                   <div className="flex gap-3">
-                    <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center" style={{ background: color + "20" }}>
-                      {avatarSrc ? <img src={avatarSrc} alt="" className="w-5 h-5 object-contain" /> :
-                        <span className="text-[10px] font-bold" style={{ color }}>{agent.name[0]}</span>}
+                    <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center">
+                      <AgentAvatar agentId={agent.id} color={color} size={28} showGlow={false} />
                     </div>
                     <div className="rounded-2xl px-4 py-3" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}>
                       <div className="flex gap-1.5">
