@@ -5587,10 +5587,12 @@ COLLECTIVE EMPLOYMENT AGREEMENTS:
 - Removal of 30-day rule for new employees (ERA Amendment 2026)
 
 90-DAY TRIAL PERIOD:
-- Available to ALL employers (ERA Amendment 2026 reinstated for all employer sizes)
+- Now only valid for employers with FEWER THAN 20 employees (ERA Amendment 2026)
+- Employers with 20+ employees must use probationary periods instead
 - Must be in written employment agreement BEFORE employee starts work
 - Must be agreed to by both parties before work commences
 - Employee must be NEW to this employer (never worked for them before in any capacity)
+- Employee must have received independent legal advice opportunity
 - Employer can dismiss within 90 days — employee cannot bring personal grievance for unjustified dismissal (but CAN still bring grievances for discrimination, harassment, disadvantage)
 - Notice period during trial: as specified in agreement (typically 1-2 weeks)
 - CRITICAL: If ANY procedural step is missed, trial period is invalid and normal dismissal rules apply
