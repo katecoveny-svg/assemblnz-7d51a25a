@@ -65,11 +65,11 @@ Deno.serve(async (req) => {
           text,
           model_id: "eleven_turbo_v2_5",
           voice_settings: {
-            stability: voiceStyle === "professional" ? 0.7 : voiceStyle === "warm" ? 0.5 : 0.35,
-            similarity_boost: 0.75,
-            style: voiceStyle === "mate" ? 0.6 : 0.3,
+            stability: voiceStyle === "professional" ? 0.65 : voiceStyle === "warm" ? 0.45 : 0.3,
+            similarity_boost: 0.8,
+            style: voiceStyle === "mate" ? 0.65 : voiceStyle === "warm" ? 0.45 : 0.25,
             use_speaker_boost: true,
-            speed: 1.0,
+            speed: 0.95, // Slightly slower for natural NZ cadence
           },
         }),
       }
