@@ -369,8 +369,8 @@ const AgentGrid = () => {
       {/* ═══════════════════════ ALSO BY ASSEMBL ═══════════════════════ */}
       <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl sm:text-4xl font-display font-light tracking-[0.02em] text-center text-foreground mb-14">
-            Also by Assembl
+          <h2 className="text-2xl sm:text-4xl font-display tracking-[0.02em] text-center text-foreground mb-14 heading-glow section-heading" style={{ fontWeight: 700 }}>
+            Also by <span className="text-gradient-hero">Assembl</span>
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {ALSO_BY_ASSEMBL.map((item) => (
