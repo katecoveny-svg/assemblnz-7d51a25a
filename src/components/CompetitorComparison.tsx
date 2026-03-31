@@ -26,10 +26,10 @@ const CompetitorComparison = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
-        <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-foreground mb-3">
+        <h2 className="text-2xl sm:text-4xl font-display font-extrabold text-foreground mb-3">
           Replace <span className="text-primary">6+ subscriptions</span> with one platform
         </h2>
-        <p className="text-sm font-jakarta text-muted-foreground max-w-lg mx-auto">
+        <p className="text-sm font-body text-muted-foreground max-w-lg mx-auto">
           Stop paying for fragmented tools that don't talk to each other — and none of them know NZ law.
         </p>
       </motion.div>
@@ -45,7 +45,7 @@ const CompetitorComparison = () => (
         {REPLACES.map((item) => (
           <span
             key={item}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-jakarta font-medium border border-border bg-card text-muted-foreground"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-body font-medium border border-border bg-card text-muted-foreground"
           >
             <Check size={11} strokeWidth={3} className="text-primary" />
             {item}
@@ -66,8 +66,8 @@ const CompetitorComparison = () => (
             transition={{ delay: 0.1 + i * 0.05 }}
           >
             <v.icon size={20} className="text-primary mb-3" />
-            <h3 className="text-sm font-syne font-bold text-foreground mb-1">{v.label}</h3>
-            <p className="text-xs font-jakarta text-muted-foreground leading-relaxed">{v.desc}</p>
+            <h3 className="text-sm font-display font-bold text-foreground mb-1">{v.label}</h3>
+            <p className="text-xs font-body text-muted-foreground leading-relaxed">{v.desc}</p>
           </motion.div>
         ))}
       </div>
@@ -84,8 +84,8 @@ const CompetitorComparison = () => (
         <p className="text-[10px] font-mono-jb text-muted-foreground uppercase tracking-wider mb-3">
           All 44 specialist tools included
         </p>
-        <span className="text-2xl font-syne font-extrabold text-primary">From $89/mo NZD</span>
-        <p className="text-[10px] font-jakarta text-muted-foreground mt-2">
+        <span className="text-2xl font-display font-extrabold text-primary">From $89/mo NZD</span>
+        <p className="text-[10px] font-body text-muted-foreground mt-2">
           No per-seat charges. No hidden add-ons. Cancel anytime.
         </p>
       </motion.div>

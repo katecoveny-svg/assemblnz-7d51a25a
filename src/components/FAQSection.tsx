@@ -28,12 +28,12 @@ const FAQSection = () => {
         >
           <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">Support</p>
           <h2
-            className="text-2xl sm:text-[2.75rem] font-syne font-bold text-foreground mb-4"
+            className="text-2xl sm:text-[2.75rem] font-display font-bold text-foreground mb-4"
             style={{ letterSpacing: '-0.02em', lineHeight: '1.15' }}
           >
             Frequently asked <span className="text-gradient-hero">questions</span>
           </h2>
-          <p className="text-sm font-inter text-muted-foreground">Everything you need to know about Assembl.</p>
+          <p className="text-sm font-body text-muted-foreground">Everything you need to know about Assembl.</p>
         </motion.div>
 
         <div className="space-y-2.5">
@@ -59,7 +59,7 @@ const FAQSection = () => {
                   onClick={() => setOpenIndex(isOpen ? null : i)}
                   className="w-full flex items-center justify-between px-5 sm:px-6 py-4 sm:py-5 text-left"
                 >
-                  <span className="text-[13px] sm:text-sm font-syne font-bold text-foreground pr-4">{faq.q}</span>
+                  <span className="text-[13px] sm:text-sm font-display font-bold text-foreground pr-4">{faq.q}</span>
                   <ChevronDown
                     size={16}
                     className="shrink-0 text-muted-foreground/50 transition-transform duration-300"
@@ -75,7 +75,7 @@ const FAQSection = () => {
                       transition={{ duration: 0.25 }}
                       className="overflow-hidden"
                     >
-                      <p className="px-5 sm:px-6 pb-5 text-xs sm:text-[13px] font-inter text-muted-foreground leading-relaxed">
+                      <p className="px-5 sm:px-6 pb-5 text-xs sm:text-[13px] font-body text-muted-foreground leading-relaxed">
                         {faq.a}
                       </p>
                     </motion.div>
