@@ -24,6 +24,9 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import CompetitorComparison from "@/components/CompetitorComparison";
 import TrustSection from "@/components/landing/TrustSection";
 import IndustrySolutions from "@/components/landing/IndustrySolutions";
+import PipelineSection from "@/components/landing/PipelineSection";
+import KeyFeaturesSection from "@/components/landing/KeyFeaturesSection";
+import PackShowcase from "@/components/landing/PackShowcase";
 
 const PRICING_PLANS = [
   {
