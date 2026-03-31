@@ -386,6 +386,20 @@ const auahaAgents: Agent[] = [
     expertise: ["API documentation", "Help articles", "User manuals", "Training materials", "Compliance documentation", "Release notes"],
     starters: ["Write API documentation", "Create a user manual", "Draft a privacy policy"],
   },
+  {
+    id: "podcast",
+    name: "KŌRERO",
+    designation: "ASM-046",
+    role: "Podcast & Audio Production",
+    tagline: "Full podcast episodes in under 5 minutes — multi-agent workflow orchestrates scripting, brand alignment, compliance checks, and audio production automatically.",
+    color: "#F0D078",
+    sector: "Creative & Digital",
+    pack: "auaha",
+    primaryModel: "gemini",
+    traits: ["Voice-native", "Workflow-orchestrator", "Brand-aligned"],
+    expertise: ["Podcast episode scripting", "Multi-agent workflow orchestration", "Audio production planning", "Guest prep & research", "Series planning & calendars", "Compliance pre-screening"],
+    starters: ["Create a podcast episode about [topic]", "Plan a 6-episode series for my business", "Generate a guest interview prep sheet", "Build a weekly podcast workflow"],
+  },
 ];
 
 // ═══════════════════════════════════════
