@@ -139,6 +139,7 @@ const App = () => (
                   <Route path="/hanga/ata" element={<Suspense fallback={null}><AtaBimDashboard /></Suspense>} />
                   <Route path="/hanga/kaupapa" element={<Suspense fallback={null}><KaupapaDashboard /></Suspense>} />
                   <Route path="/hanga/rawa" element={<Suspense fallback={null}><RawaDashboard /></Suspense>} />
+                  <Route path="/hanga/whakaae" element={<Suspense fallback={null}><WhakaaeDashboard /></Suspense>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
