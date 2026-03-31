@@ -164,6 +164,15 @@
     box-shadow: 0 0 40px rgba(90,173,160,0.12), 0 0 80px rgba(90,173,160,0.04);
   }
 
+  /* Logo glow */
+  .logo-glow {
+    filter: drop-shadow(0 0 12px rgba(212,168,67,0.25)) drop-shadow(0 0 40px rgba(212,168,67,0.08));
+  }
+
+  .logo-glow-pounamu {
+    filter: drop-shadow(0 0 12px rgba(58,125,110,0.3)) drop-shadow(0 0 40px rgba(58,125,110,0.1));
+  }
+
   .glow-dot {
     @apply relative;
   }
