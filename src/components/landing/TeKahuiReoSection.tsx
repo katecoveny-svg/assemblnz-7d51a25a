@@ -2,16 +2,17 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import toroaIcon from "@/assets/brand/toroa-hero.png";
+import { teKahuiReoMark, ihoIcon, kanohiIcon, manaIcon, maharaIcon } from "@/assets/brand";
 
 const TE_KAHUI_REO_AGENTS = [
-  { name: "IHO", desc: "Intelligent router & orchestrator" },
-  { name: "KANOHI", desc: "Front-of-house interface" },
-  { name: "MANA", desc: "Access control & authentication" },
-  { name: "MAHARA", desc: "Memory & context engine" },
-  { name: "KAHU", desc: "Compliance & privacy guardian" },
-  { name: "TĀ", desc: "Audit & billing logger" },
-  { name: "PŪNAHA", desc: "System health monitor" },
-  { name: "TOHU", desc: "Notification & alert system" },
+  { name: "IHO", desc: "Intelligent router & orchestrator", icon: ihoIcon },
+  { name: "KANOHI", desc: "Front-of-house interface", icon: kanohiIcon },
+  { name: "MANA", desc: "Access control & authentication", icon: manaIcon },
+  { name: "MAHARA", desc: "Memory & context engine", icon: maharaIcon },
+  { name: "KAHU", desc: "Compliance & privacy guardian", icon: null },
+  { name: "TĀ", desc: "Audit & billing logger", icon: null },
+  { name: "PŪNAHA", desc: "System health monitor", icon: null },
+  { name: "TOHU", desc: "Notification & alert system", icon: null },
 ];
 
 const TeKahuiReoSection = () => (
@@ -38,18 +39,26 @@ const TeKahuiReoSection = () => (
         viewport={{ once: true }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        <p
-          className="uppercase mb-3"
-          style={{
-            fontFamily: "'Lato', sans-serif",
-            fontWeight: 900,
-            fontSize: "13px",
-            letterSpacing: "6px",
-            color: "#D4A843",
-          }}
-        >
-          Te Kāhui Reo
-        </p>
+        <div className="flex items-center justify-center gap-3 mb-3">
+          <img
+            src={teKahuiReoMark}
+            alt="Te Kāhui Reo"
+            className="w-8 h-8"
+            style={{ filter: "drop-shadow(0 0 12px rgba(212,168,67,0.5))" }}
+          />
+          <p
+            className="uppercase"
+            style={{
+              fontFamily: "'Lato', sans-serif",
+              fontWeight: 900,
+              fontSize: "13px",
+              letterSpacing: "6px",
+              color: "#D4A843",
+            }}
+          >
+            Te Kāhui Reo
+          </p>
+        </div>
         <h2
           style={{
             fontFamily: "'Lato', sans-serif",
@@ -113,18 +122,27 @@ const TeKahuiReoSection = () => (
               e.currentTarget.style.boxShadow = "none";
             }}
           >
-            <p
-              style={{
-                fontFamily: "'Lato', sans-serif",
-                fontWeight: 700,
-                fontSize: "13px",
-                color: "#FFFFFF",
-                letterSpacing: "2px",
-                marginBottom: "4px",
-              }}
-            >
-              {agent.name}
-            </p>
+            <div className="flex items-center gap-3 mb-2">
+              {agent.icon && (
+                <img
+                  src={agent.icon}
+                  alt={agent.name}
+                  className="w-7 h-7"
+                  style={{ filter: "drop-shadow(0 0 8px rgba(58,125,110,0.4))" }}
+                />
+              )}
+              <p
+                style={{
+                  fontFamily: "'Lato', sans-serif",
+                  fontWeight: 700,
+                  fontSize: "13px",
+                  color: "#FFFFFF",
+                  letterSpacing: "2px",
+                }}
+              >
+                {agent.name}
+              </p>
+            </div>
             <p
               style={{
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
