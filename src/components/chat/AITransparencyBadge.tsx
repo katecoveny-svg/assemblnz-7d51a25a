@@ -50,10 +50,10 @@ const AITransparencyBadge = () => {
             {/* Data Sovereignty */}
             <div>
               <h4 className="font-semibold text-foreground mb-1.5 flex items-center gap-1.5"><NeonGlobe size={14} /> Data Sovereignty</h4>
-              <p>Your conversations are processed via Anthropic's infrastructure, which operates on servers located in the United States. We acknowledge this means data crosses NZ borders during processing. Mitigations include:</p>
+              <p>Your conversations are processed via secure AI infrastructure. We acknowledge this means data may cross NZ borders during processing. Mitigations include:</p>
               <ul className="space-y-1 list-none mt-1.5">
-                <li>• Data is encrypted in transit (TLS 1.3) and at rest</li>
-                <li>• Anthropic does not retain or use your data for training</li>
+                <li>• Data is encrypted in transit (TLS 1.3) and at rest (AES-256)</li>
+                <li>• AI providers do not retain or use your data for training</li>
                 <li>• Our backend infrastructure uses industry-standard security practices</li>
                 <li>• User account data and metadata is stored in secure cloud infrastructure</li>
               </ul>
