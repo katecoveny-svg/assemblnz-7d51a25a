@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<defs>
+<radialGradient id="kowhai-grad" cx="35%" cy="35%">
+<stop offset="0%" style="stop-color:#F5E6C8;stop-opacity:1"/>
+<stop offset="70%" style="stop-color:#D4A843;stop-opacity:1"/>
+<stop offset="100%" style="stop-color:#B8892A;stop-opacity:1"/>
+</radialGradient>
+<filter id="glow">
+<feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+<feMerge>
+<feMergeNode in="coloredBlur"/>
+<feMergeNode in="SourceGraphic"/>
+</feMerge>
+</filter>
+</defs>
+<line x1="100" y1="30" x2="40" y2="160" stroke="white" stroke-width="1.5" opacity="0.25"/>
+<line x1="100" y1="30" x2="160" y2="160" stroke="white" stroke-width="1.5" opacity="0.25"/>
+<line x1="40" y1="160" x2="160" y2="160" stroke="white" stroke-width="1.5" opacity="0.25"/>
+<circle cx="100" cy="30" r="18" fill="url(#kowhai-grad)" filter="url(#glow)"/>
+<circle cx="100" cy="30" r="14" fill="none" stroke="white" stroke-width="2" opacity="0.4"/>
+<circle cx="40" cy="160" r="18" fill="url(#kowhai-grad)" filter="url(#glow)"/>
+<circle cx="40" cy="160" r="14" fill="none" stroke="white" stroke-width="2" opacity="0.4"/>
+<circle cx="160" cy="160" r="18" fill="url(#kowhai-grad)" filter="url(#glow)"/>
+<circle cx="160" cy="160" r="14" fill="none" stroke="white" stroke-width="2" opacity="0.4"/>
+</svg>
