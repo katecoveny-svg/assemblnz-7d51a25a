@@ -2660,6 +2660,115 @@ export type Database = {
         }
         Relationships: []
       }
+      sms_conversations: {
+        Row: {
+          agent_id: string
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          last_message_at: string | null
+          phone_number: string
+          sms_phone_number_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          agent_id: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          last_message_at?: string | null
+          phone_number: string
+          sms_phone_number_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          agent_id?: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          last_message_at?: string | null
+          phone_number?: string
+          sms_phone_number_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sms_conversations_sms_phone_number_id_fkey"
+            columns: ["sms_phone_number_id"]
+            isOneToOne: false
+            referencedRelation: "sms_phone_numbers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sms_messages: {
+        Row: {
+          body: string
+          conversation_id: string
+          created_at: string | null
+          direction: string
+          id: string
+          status: string | null
+          twilio_sid: string | null
+        }
+        Insert: {
+          body: string
+          conversation_id: string
+          created_at?: string | null
+          direction: string
+          id?: string
+          status?: string | null
+          twilio_sid?: string | null
+        }
+        Update: {
+          body?: string
+          conversation_id?: string
+          created_at?: string | null
+          direction?: string
+          id?: string
+          status?: string | null
+          twilio_sid?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sms_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "sms_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sms_phone_numbers: {
+        Row: {
+          agent_id: string
+          agent_name: string
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          twilio_number: string
+          updated_at: string | null
+        }
+        Insert: {
+          agent_id: string
+          agent_name: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          twilio_number: string
+          updated_at?: string | null
+        }
+        Update: {
+          agent_id?: string
+          agent_name?: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          twilio_number?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       social_posts: {
         Row: {
           caption: string
