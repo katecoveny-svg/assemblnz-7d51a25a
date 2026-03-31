@@ -194,7 +194,7 @@ const hangaAgents: Agent[] = [
     pack: "hanga",
     primaryModel: "claude",
     traits: ["Straight-talking", "Safety-first", "Code-fluent"],
-    expertise: ["Master project coordination", "BIM integration", "Budget & cost control", "Schedule management", "Risk register", "Compliance master checklist"],
+    expertise: ["Master project coordination", "BIM integration & clash detection", "4D construction scheduling", "Budget & cost control", "Schedule management", "Risk register", "Compliance master checklist"],
     starters: ["Generate a site safety plan", "Create a building consent application", "Draft a variation notice under NZS 3910"],
   },
   {
