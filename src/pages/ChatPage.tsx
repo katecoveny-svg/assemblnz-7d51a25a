@@ -1824,6 +1824,8 @@ const ChatPage = () => {
         <PrismBrandVoice onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "prism_adengine" && isPrism ? (
         <PrismAdEngine onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "prism_podcast" && isPrism ? (
+        <PrismPodcastStudio onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "axis_automations" && isAxis ? (
         <AxisAutomations />
       ) : activeTab === "kindle_writer" && isNonprofit ? (
