@@ -170,8 +170,14 @@ const PackLandingPage = () => {
               return (
                 <motion.div
                   key={agent.name}
-                  className="rounded-2xl p-5 group overflow-hidden relative"
+                  className="rounded-2xl p-5 group overflow-hidden relative cursor-pointer"
                   style={{ background: "rgba(15,15,26,0.8)", backdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.06)" }}
+                  onClick={() => {
+                    if (packSlug) {
+                      trackAgentEvent(packSlug, agent.name.toLowerCase().replace(/\s+/g, "-"), "click");
+                      trackPackEvent(packSlug, "agent_click", { agent: agent.name });
+                    }
+                  }}
                   initial={{ opacity: 0, y: 12 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
