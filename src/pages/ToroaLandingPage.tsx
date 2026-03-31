@@ -150,7 +150,7 @@ export default function ToroaLandingPage() {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-            <GlassCard className="max-w-xs mx-auto" style={{ borderRadius: 24, border: "1px solid rgba(255,255,255,0.1)" } as any}>
+            <div className="max-w-xs mx-auto rounded-3xl p-8" style={{ background: "rgba(15, 15, 26, 0.6)", backdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.1)" }}>
               <div className="space-y-3">
                 {/* Tōroa message */}
                 <div className="rounded-lg p-3" style={{ background: "rgba(58, 125, 110, 0.2)", borderLeft: "3px solid #3A7D6E" }}>
