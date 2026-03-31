@@ -132,17 +132,31 @@ const BrandNav = () => {
                     exit={{ opacity: 0, y: -4 }}
                     transition={{ duration: 0.15 }}
                   >
-                    {item.children.map((child) => (
-                      <button
-                        key={child.label}
-                        onClick={() => handleNavClick(child.to)}
-                        className="w-full text-left px-4 py-3 hover:bg-white/5 transition-colors block"
-                        style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}
-                      >
-                        <p className="text-xs font-medium" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>{child.label}</p>
-                        <p className="text-[10px] mt-0.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.35)" }}>{child.desc}</p>
-                      </button>
-                    ))}
+                    {item.children.map((child, ci) => {
+                      const isLast = item.children && ci === item.children.length - 1;
+                      const hasDivider = item.label === "Industry Packs" && ci === 3; // after Tōroa
+                      return (
+                        <div key={child.label}>
+                          {hasDivider && <div className="h-px mx-3" style={{ background: "rgba(255,255,255,0.08)" }} />}
+                          <button
+                            onClick={() => handleNavClick(child.to)}
+                            className="w-full text-left px-4 py-3 hover:bg-white/5 transition-colors block"
+                            style={{ borderBottom: isLast ? "none" : "1px solid rgba(255,255,255,0.04)" }}
+                          >
+                            <div className="flex items-center gap-2">
+                              <p className="text-xs font-medium" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>{child.label}</p>
+                              {child.badge === "LIVE" && (
+                                <span className="px-1.5 py-0.5 rounded text-[8px] font-bold uppercase" style={{ background: "#3A7D6E", color: "#FFFFFF", letterSpacing: "0.06em" }}>LIVE</span>
+                              )}
+                              {child.badge === "ADMIN" && (
+                                <span className="px-1.5 py-0.5 rounded text-[8px] font-bold uppercase" style={{ background: "#D4A843", color: "#09090F", letterSpacing: "0.06em" }}>ADMIN</span>
+                              )}
+                            </div>
+                            <p className="text-[10px] mt-0.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.35)" }}>{child.desc}</p>
+                          </button>
+                        </div>
+                      );
+                    })}
                   </motion.div>
                 )}
               </AnimatePresence>
