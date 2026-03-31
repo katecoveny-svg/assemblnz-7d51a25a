@@ -122,6 +122,12 @@ const PackLandingPage = () => {
               to={isToroa ? "/toroa/app" : `/chat/${agents[0]?.name.toLowerCase().replace(/\s+/g, "-") || "aroha"}`}
               className="inline-flex items-center gap-2 mt-8 px-8 py-3 rounded-xl text-sm font-bold transition-all hover:scale-105"
               style={{ fontFamily: "'Lato', sans-serif", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", background: "#D4A843", color: "#09090F" }}
+              onClick={() => {
+                if (packSlug) {
+                  trackPackEvent(packSlug, "trial_start");
+                  trackFunnelStep("trial_start");
+                }
+              }}
             >
               Try {pack?.pack_name?.split("(")[0]?.trim() || packSlug} <ArrowRight size={16} />
             </Link>
