@@ -8,7 +8,7 @@ const corsHeaders = {
 };
 
 // TŌROA system prompt (condensed for SMS — concise, text-friendly responses)
-const HELM_SMS_PROMPT = `You are TŌROA, a family life admin assistant for NZ families, communicating via text message (SMS).
+const TOROA_SMS_PROMPT = `You are TŌROA, a family life admin assistant for NZ families, communicating via text message (SMS).
 
 RULES FOR SMS:
 - Keep responses UNDER 300 characters when possible (SMS-friendly)
@@ -252,7 +252,7 @@ Deno.serve(async (req) => {
     }
 
     const fullPrompt =
-      HELM_SMS_PROMPT +
+      TOROA_SMS_PROMPT +
       (familyContext ? `\n\nFAMILY CONTEXT:${familyContext}` : "") +
       `\n\nCurrent date/time: ${new Date().toLocaleString("en-NZ", { timeZone: "Pacific/Auckland" })}`;
 
