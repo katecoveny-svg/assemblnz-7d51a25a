@@ -4,7 +4,7 @@ import {
   MessageSquare, FileText, Clock, Bookmark, ChevronRight, Trash2, History, Code2,
   ShieldCheck, ListChecks, Zap, Calendar, ArrowRight, Plug, AlertTriangle,
   CheckCircle2, Trophy, RefreshCw, Wifi, WifiOff, Sparkles,
-  Activity, DollarSign, Users, Globe, Mic, CreditCard, Server
+  Activity, DollarSign, Users, Globe, Mic, CreditCard, Server, Download, Copy
 } from "lucide-react";
 import ParticleField from "@/components/ParticleField";
 import { toast } from "sonner";
