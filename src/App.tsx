@@ -112,8 +112,8 @@ const App = () => (
                   <Route path="/welcome" element={<Navigate to="/onboarding" replace />} />
                   <Route path="/about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
                   <Route path="/onboarding" element={<Suspense fallback={null}><OnboardingPage /></Suspense>} />
-                  <Route path="/turf-5-april-2026" element={<Suspense fallback={null}><TurfDeadlinePage /></Suspense>} />
-                  <Route path="/turf" element={<Navigate to="/turf-5-april-2026" replace />} />
+                  <Route path="/turf" element={<Suspense fallback={null}><TurfDeadlinePage /></Suspense>} />
+                  <Route path="/turf-5-april-2026" element={<Navigate to="/turf" replace />} />
                   <Route path="/aura" element={<Suspense fallback={null}><AuraLandingPage /></Suspense>} />
                   <Route path="/nexus" element={<Suspense fallback={null}><NexusLandingPage /></Suspense>} />
                   <Route path="/admin/analytics" element={<Suspense fallback={null}><AdminAnalyticsDashboard /></Suspense>} />
