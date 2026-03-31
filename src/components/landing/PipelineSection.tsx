@@ -22,12 +22,12 @@ const PipelineSection = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
-        <span className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground uppercase">Architecture</span>
+        <span className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground uppercase">Platform Architecture</span>
         <h2 className="text-2xl sm:text-4xl font-display font-light tracking-wide text-foreground mt-2 mb-3">
-          The <span className="text-primary">Pipeline</span>
+          The <span className="text-primary">Compliance Pipeline</span>
         </h2>
         <p className="text-sm font-body text-muted-foreground max-w-lg mx-auto">
-          Every request flows through 10 steps — compliance-checked, audited, and context-enriched. No shortcuts.
+          User → Kanohi → Mana → Iho → Kahu → Model Router → Tā → Mahara. Every request compliance-checked, audited, and context-enriched.
         </p>
       </motion.div>
 
