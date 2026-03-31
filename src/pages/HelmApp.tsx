@@ -19,7 +19,7 @@ import HelmSettings from "@/components/helm/HelmSettings";
 import HelmDashboard from "@/components/helm/HelmDashboard";
 import HelmQuickActions from "@/components/helm/HelmQuickActions";
 import HelmGroceryList from "@/components/helm/HelmGroceryList";
-import HelmAppointments from "@/components/helm/HelmAppointments";
+import ToroaAppointments from "@/components/helm/ToroaAppointments";
 import HelmFamilyChat from "@/components/helm/HelmFamilyChat";
 import HelmTasks from "@/components/helm/HelmTasks";
 import AgentAvatar from "@/components/AgentAvatar";
@@ -56,7 +56,7 @@ const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: "settings", label: "Settings", icon: <Settings2 size={16} /> },
 ];
 
-export default function HelmApp() {
+export default function ToroaApp() {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<Tab>("chat");
   const [messages, setMessages] = useState<Message[]>([]);
@@ -329,7 +329,7 @@ export default function HelmApp() {
             </div>
           ) : activeTab === "appointments" ? (
             <div className="flex-1 overflow-y-auto px-4 py-4">
-              <HelmAppointments familyId={familyId} />
+              <ToroaAppointments familyId={familyId} />
             </div>
           ) : activeTab === "family_chat" ? (
             <div className="flex-1 overflow-hidden px-4 py-4">
