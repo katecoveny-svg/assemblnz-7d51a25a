@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250">
+<defs>
+<radialGradient id="kowhai-grad-large" cx="35%" cy="35%">
+<stop offset="0%" style="stop-color:#F5E6C8;stop-opacity:1"/>
+<stop offset="70%" style="stop-color:#D4A843;stop-opacity:1"/>
+<stop offset="100%" style="stop-color:#B8892A;stop-opacity:1"/>
+</radialGradient>
+<radialGradient id="pounamu-grad-large" cx="35%" cy="35%">
+<stop offset="0%" style="stop-color:#6FA89A;stop-opacity:1"/>
+<stop offset="70%" style="stop-color:#3A7D6E;stop-opacity:1"/>
+<stop offset="100%" style="stop-color:#2B5C54;stop-opacity:1"/>
+</radialGradient>
+<radialGradient id="tangaroa-grad" cx="35%" cy="35%">
+<stop offset="0%" style="stop-color:#4A6A92;stop-opacity:1"/>
+<stop offset="70%" style="stop-color:#1A3A5C;stop-opacity:1"/>
+<stop offset="100%" style="stop-color:#0F2538;stop-opacity:1"/>
+</radialGradient>
+<filter id="glow">
+<feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+<feMerge>
+<feMergeNode in="coloredBlur"/>
+<feMergeNode in="SourceGraphic"/>
+</feMerge>
+</filter>
+</defs>
+<g id="mark">
+<line x1="200" y1="30" x2="130" y2="100" stroke="white" stroke-width="1.5" opacity="0.25"/>
+<line x1="200" y1="30" x2="270" y2="100" stroke="white" stroke-width="1.5" opacity="0.25"/>
+<line x1="130" y1="100" x2="270" y2="100" stroke="white" stroke-width="1.5" opacity="0.25"/>
+<circle cx="200" cy="30" r="18" fill="url(#kowhai-grad-large)" filter="url(#glow)"/>
+<circle cx="200" cy="30" r="13.5" fill="none" stroke="white" stroke-width="1.5" opacity="0.4"/>
+<circle cx="130" cy="100" r="18" fill="url(#pounamu-grad-large)" filter="url(#glow)"/>
+<circle cx="130" cy="100" r="13.5" fill="none" stroke="white" stroke-width="1.5" opacity="0.4"/>
+<circle cx="270" cy="100" r="18" fill="url(#tangaroa-grad)" filter="url(#glow)"/>
+<circle cx="270" cy="100" r="13.5" fill="none" stroke="white" stroke-width="1.5" opacity="0.4"/>
+</g>
+<text x="200" y="210" font-family="Lato, sans-serif" font-size="40" font-weight="400" text-anchor="middle" fill="#D4A843" letter-spacing="5">TE KĀHUI REO</text>
+</svg>

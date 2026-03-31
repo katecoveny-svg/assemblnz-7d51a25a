@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Send } from "lucide-react";
-import nexusLogo from "@/assets/nexus-logo.png";
+import { assemblMark } from "@/assets/brand";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -151,7 +151,7 @@ const BrandFooter = () => {
         {/* Bottom */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-5">
           <Link to="/" className="flex items-center gap-2.5 group">
-            <img src={nexusLogo} alt="Assembl" className="w-7 h-7 object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
+            <img src={assemblMark} alt="Assembl" className="w-7 h-7 object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
             <span className="font-display font-bold tracking-[3px] uppercase text-xs text-foreground/80">ASSEMBL</span>
           </Link>
 

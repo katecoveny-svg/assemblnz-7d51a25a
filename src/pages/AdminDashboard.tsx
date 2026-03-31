@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { agents } from "@/data/agents";
-import nexusLogo from "@/assets/nexus-logo.png";
+import { assemblMark as nexusLogo } from "@/assets/brand";
 import AgentAvatar from "@/components/AgentAvatar";
 import BrandFooter from "@/components/BrandFooter";
 import {

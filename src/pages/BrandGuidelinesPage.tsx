@@ -3,7 +3,7 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import AgentAvatar from "@/components/AgentAvatar";
 import { agents as allAgents, echoAgent, pilotAgent } from "@/data/agents";
-import nexusLogo from "@/assets/nexus-logo-hires.png";
+import { assemblLogoFull as nexusLogo } from "@/assets/brand";
 import logoWordmark from "@/assets/assembl-logo-wordmark.png";
 import logoFull from "@/assets/brand/assembl-logo-full.png";
 import logoIcon from "@/assets/brand/assembl-icon.png";

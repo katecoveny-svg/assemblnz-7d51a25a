@@ -1,0 +1,110 @@
+<svg width="200" height="240" viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 3D screen gradient — tangaroa light -->
+    <radialGradient id="kanohiBody" cx="42%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#7AAFE0" stop-opacity="0.4"/>
+      <stop offset="35%" stop-color="#3A6A9C"/>
+      <stop offset="70%" stop-color="#1A3A5C"/>
+      <stop offset="100%" stop-color="#0F2440"/>
+    </radialGradient>
+    <!-- Screen glow -->
+    <radialGradient id="kanohiScreen" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#3A6A9C" stop-opacity="0.5"/>
+      <stop offset="50%" stop-color="#1A3A5C" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#0F2440" stop-opacity="0.1"/>
+    </radialGradient>
+    <!-- Aura -->
+    <radialGradient id="kanohiAura" cx="50%" cy="42%" r="50%">
+      <stop offset="0%" stop-color="#3A6A9C" stop-opacity="0.18"/>
+      <stop offset="60%" stop-color="#3A6A9C" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#3A6A9C" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Glow filters -->
+    <filter id="kanohiSoftGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="kanohiWideGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="kanohiStarGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="2" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Ambient aura glow -->
+  <ellipse cx="100" cy="80" rx="82" ry="55" fill="url(#kanohiAura)" filter="url(#kanohiWideGlow)"/>
+
+  <!-- Ma constellation stars -->
+  <circle cx="15" cy="14" r="1.6" fill="#E8E4DD" filter="url(#kanohiStarGlow)"/>
+  <circle cx="185" cy="18" r="1.8" fill="#E8E4DD" filter="url(#kanohiStarGlow)"/>
+  <circle cx="32" cy="40" r="1.0" fill="#F5F0E8" filter="url(#kanohiStarGlow)"/>
+  <circle cx="170" cy="34" r="1.2" fill="#F5F0E8" filter="url(#kanohiStarGlow)"/>
+  <circle cx="8" cy="65" r="0.7" fill="white" opacity="0.6"/>
+  <circle cx="192" cy="60" r="0.8" fill="white" opacity="0.5"/>
+  <circle cx="48" cy="10" r="0.6" fill="#E8E4DD" opacity="0.5"/>
+  <circle cx="152" cy="8" r="0.5" fill="white" opacity="0.4"/>
+  <circle cx="20" cy="130" r="0.5" fill="#E8E4DD" opacity="0.35"/>
+  <circle cx="180" cy="125" r="0.5" fill="white" opacity="0.3"/>
+  <circle cx="55" cy="155" r="0.6" fill="#F5F0E8" opacity="0.3"/>
+  <circle cx="145" cy="152" r="0.5" fill="#E8E4DD" opacity="0.25"/>
+
+  <!-- Monitor shadow (depth) -->
+  <rect x="30" y="30" width="144" height="95" rx="8" fill="#0F2440" opacity="0.3" transform="translate(3,3)"/>
+
+  <!-- Monitor body -->
+  <rect x="28" y="25" width="144" height="95" rx="8" fill="url(#kanohiBody)" filter="url(#kanohiSoftGlow)"/>
+
+  <!-- Monitor edge highlight -->
+  <rect x="28" y="25" width="144" height="95" rx="8" fill="none" stroke="#7AAFE0" stroke-width="1" opacity="0.3"/>
+
+  <!-- 3D shine on bezel -->
+  <rect x="30" y="27" width="70" height="40" rx="6" fill="white" opacity="0.05"/>
+
+  <!-- Screen (inner glow panel) -->
+  <rect x="38" y="35" width="124" height="72" rx="4" fill="url(#kanohiScreen)"/>
+  <rect x="38" y="35" width="124" height="72" rx="4" fill="none" stroke="#3A6A9C" stroke-width="0.8" opacity="0.25"/>
+
+  <!-- Dashboard elements on screen -->
+  <!-- Mini chart line -->
+  <polyline points="52,85 68,72 80,78 95,60 110,65 125,52 140,58 150,48" fill="none" stroke="#D4A843" stroke-width="1.5" opacity="0.6" filter="url(#kanohiSoftGlow)"/>
+  <!-- Mini data bars -->
+  <rect x="52" y="90" width="8" height="10" rx="1" fill="#3A7D6E" opacity="0.5"/>
+  <rect x="64" y="86" width="8" height="14" rx="1" fill="#3A7D6E" opacity="0.6"/>
+  <rect x="76" y="82" width="8" height="18" rx="1" fill="#5AADA0" opacity="0.5"/>
+  <rect x="88" y="88" width="8" height="12" rx="1" fill="#3A7D6E" opacity="0.5"/>
+  <!-- Status dot -->
+  <circle cx="145" cy="92" r="4" fill="#5AADA0" opacity="0.6" filter="url(#kanohiSoftGlow)"/>
+  <circle cx="145" cy="92" r="2" fill="white" opacity="0.5"/>
+
+  <!-- Monitor stand -->
+  <rect x="88" y="120" width="24" height="18" rx="2" fill="url(#kanohiBody)"/>
+  <rect x="88" y="120" width="24" height="18" rx="2" fill="none" stroke="#7AAFE0" stroke-width="0.6" opacity="0.2"/>
+  <!-- Stand base -->
+  <ellipse cx="100" cy="140" rx="28" ry="5" fill="url(#kanohiBody)"/>
+  <ellipse cx="100" cy="140" rx="28" ry="5" fill="none" stroke="#7AAFE0" stroke-width="0.6" opacity="0.2"/>
+  <!-- Stand 3D highlight -->
+  <rect x="89" y="122" width="10" height="8" rx="1" fill="white" opacity="0.04"/>
+
+  <!-- Tangaroa trail particles -->
+  <circle cx="18" cy="48" r="1.5" fill="#3A6A9C" opacity="0.2" filter="url(#kanohiStarGlow)"/>
+  <circle cx="182" cy="44" r="1.5" fill="#3A6A9C" opacity="0.2" filter="url(#kanohiStarGlow)"/>
+  <circle cx="25" cy="110" r="1.0" fill="#1A3A5C" opacity="0.15" filter="url(#kanohiStarGlow)"/>
+  <circle cx="175" cy="108" r="1.0" fill="#1A3A5C" opacity="0.15" filter="url(#kanohiStarGlow)"/>
+
+  <!-- Wordmark -->
+  <text x="100" y="195" font-family="Lato, sans-serif" font-size="20" font-weight="300" letter-spacing="6" text-anchor="middle" fill="#3A6A9C">KANOHI</text>
+  <text x="100" y="215" font-family="Plus Jakarta Sans, sans-serif" font-size="9" font-weight="300" letter-spacing="2" text-anchor="middle" fill="#E8E4DD" opacity="0.45">DASHBOARD</text>
+</svg>
