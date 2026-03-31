@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Copy, Download, Check, FileDown } from "lucide-react";
+import { Copy, Download, Check, FileDown, Share2, Link2 } from "lucide-react";
 import jsPDF from "jspdf";
 import ReactMarkdown from "react-markdown";
 import HelmChecklist from "@/components/helm/HelmChecklist";
@@ -48,11 +48,33 @@ function detectOutputType(content: string): string | null {
 
 const StructuredOutputCard = ({ title, content, agentName, agentColor, hasChecklist }: Props) => {
   const [copied, setCopied] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(content);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleShare = async () => {
+    const shareData = {
+      title: `${title} — ${agentName} via Assembl`,
+      text: content.substring(0, 280) + (content.length > 280 ? "…" : ""),
+      url: window.location.href,
+    };
+
+    if (navigator.share && navigator.canShare?.(shareData)) {
+      try {
+        await navigator.share(shareData);
+      } catch {
+        /* user cancelled */
+      }
+    } else {
+      // Fallback — copy link
+      await navigator.clipboard.writeText(window.location.href);
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 2000);
+    }
   };
 
   const handleDownloadCSV = () => {
@@ -84,9 +106,7 @@ const StructuredOutputCard = ({ title, content, agentName, agentColor, hasCheckl
 
   const handleDownloadPDF = () => {
     const doc = new jsPDF({ unit: "mm", format: "a4" });
-    const pageWidth = doc.internal.pageSize.getWidth();
     const margin = 20;
-    const maxWidth = pageWidth - margin * 2;
 
     let y = drawAssemblPDFHeader(doc, {
       agentName,
@@ -95,10 +115,7 @@ const StructuredOutputCard = ({ title, content, agentName, agentColor, hasCheckl
       margin,
     });
 
-    // Content rendering with proper formatting using shared renderer
     renderMarkdownToPDF(doc, content, { startY: y, margin });
-
-    // Footer on all pages
     drawAssemblPDFFooter(doc, { agentName, margin });
 
     doc.save(`${title.toLowerCase().replace(/\s+/g, "-")}.pdf`);
@@ -149,52 +166,79 @@ const StructuredOutputCard = ({ title, content, agentName, agentColor, hasCheckl
     );
   };
 
+  const ActionBtn = ({ onClick, children }: { onClick: () => void; children: React.ReactNode }) => (
+    <button
+      onClick={onClick}
+      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-body font-medium transition-all duration-200 hover:brightness-125"
+      style={{
+        background: `${agentColor}12`,
+        color: agentColor,
+        border: `1px solid ${agentColor}20`,
+      }}
+    >
+      {children}
+    </button>
+  );
+
   return (
     <div
       className="rounded-xl overflow-hidden my-2"
       style={{
-        background: "#0F0F1C",
+        background: "rgba(15, 15, 26, 0.8)",
+        backdropFilter: "blur(12px)",
+        border: "1px solid rgba(212, 168, 67, 0.12)",
         borderLeft: `3px solid ${agentColor}`,
-        border: `1px solid ${agentColor}15`,
-        borderLeftWidth: 3,
-        borderLeftColor: agentColor,
       }}
     >
-      <div className="px-4 py-2.5 flex items-center justify-between" style={{ borderBottom: `1px solid ${agentColor}10` }}>
-        <span className="text-xs font-display font-bold" style={{ color: agentColor }}>
+      {/* Header */}
+      <div
+        className="px-4 py-2.5 flex items-center justify-between"
+        style={{ borderBottom: "1px solid rgba(212, 168, 67, 0.08)" }}
+      >
+        <span className="text-xs font-display uppercase tracking-widest" style={{ color: agentColor, letterSpacing: "3px" }}>
           {title}
         </span>
+        <button
+          onClick={handleShare}
+          className="flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-body font-medium transition-all duration-200 hover:brightness-125"
+          style={{
+            color: agentColor,
+            border: `1px solid ${agentColor}25`,
+            background: `${agentColor}08`,
+          }}
+          title="Share this output"
+        >
+          {linkCopied ? <Check size={10} /> : <Share2 size={10} />}
+          {linkCopied ? "Link copied" : "Share"}
+        </button>
       </div>
 
+      {/* Content */}
       <div className="px-4 py-3 text-sm">
         {renderContent()}
       </div>
 
-      <div className="px-4 py-2.5 flex gap-2 flex-wrap" style={{ borderTop: `1px solid ${agentColor}10` }}>
-        <button
-          onClick={handleCopy}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-body font-medium transition-colors"
-          style={{ background: agentColor + "12", color: agentColor, border: `1px solid ${agentColor}20` }}
-        >
+      {/* Action bar */}
+      <div
+        className="px-4 py-2.5 flex gap-2 flex-wrap"
+        style={{ borderTop: "1px solid rgba(212, 168, 67, 0.08)" }}
+      >
+        <ActionBtn onClick={handleCopy}>
           {copied ? <Check size={11} /> : <Copy size={11} />}
-          {copied ? "Copied" : "Copy to clipboard"}
-        </button>
-        <button
-          onClick={handleDownloadPDF}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-body font-medium transition-colors"
-          style={{ background: agentColor + "12", color: agentColor, border: `1px solid ${agentColor}20` }}
-        >
+          {copied ? "Copied" : "Copy"}
+        </ActionBtn>
+        <ActionBtn onClick={handleDownloadPDF}>
           <FileDown size={11} />
-          Download as PDF
-        </button>
-        <button
-          onClick={handleDownloadCSV}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-body font-medium transition-colors"
-          style={{ background: agentColor + "12", color: agentColor, border: `1px solid ${agentColor}20` }}
-        >
+          PDF
+        </ActionBtn>
+        <ActionBtn onClick={handleDownloadCSV}>
           <Download size={11} />
-          Download as CSV
-        </button>
+          CSV
+        </ActionBtn>
+        <ActionBtn onClick={handleShare}>
+          <Link2 size={11} />
+          Share
+        </ActionBtn>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
-import { Download } from "lucide-react";
+import { useState } from "react";
+import { Download, Share2, Check } from "lucide-react";
 import jsPDF from "jspdf";
 import { drawAssemblPDFHeader, drawAssemblPDFFooter, renderMarkdownToPDF } from "@/lib/pdfBranding";
 import { supabase } from "@/integrations/supabase/client";
@@ -16,6 +17,8 @@ interface Props {
 }
 
 const ConversationExport = ({ messages, agentName, agentDesignation, agentColor }: Props) => {
+  const [shared, setShared] = useState(false);
+
   const handleExport = async () => {
     const doc = new jsPDF({ unit: "mm", format: "a4" });
     const margin = 20;
@@ -28,7 +31,6 @@ const ConversationExport = ({ messages, agentName, agentDesignation, agentColor 
       margin,
     });
 
-    // Render each message using the shared markdown renderer
     for (const msg of messages) {
       const sender = msg.role === "user" ? "You" : agentName;
       const cleanContent = msg.content.replace(/\[GENERATE_IMAGE:\s*.*?\]/g, "").trim();
@@ -43,13 +45,11 @@ const ConversationExport = ({ messages, agentName, agentDesignation, agentColor 
       y += 4;
     }
 
-    // Footer on all pages
     drawAssemblPDFFooter(doc, { agentName, margin });
 
     const fileName = `assembl-${agentName.toLowerCase()}-conversation-${new Date().toISOString().split("T")[0]}.pdf`;
     doc.save(fileName);
 
-    // Log export
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
@@ -66,19 +66,49 @@ const ConversationExport = ({ messages, agentName, agentDesignation, agentColor 
     } catch { /* silent */ }
   };
 
+  const handleShare = async () => {
+    const shareData = {
+      title: `${agentName} Conversation — Assembl`,
+      text: `Check out my ${agentName} conversation on Assembl`,
+      url: window.location.href,
+    };
+
+    if (navigator.share && navigator.canShare?.(shareData)) {
+      try {
+        await navigator.share(shareData);
+      } catch { /* user cancelled */ }
+    } else {
+      await navigator.clipboard.writeText(window.location.href);
+      setShared(true);
+      setTimeout(() => setShared(false), 2000);
+    }
+  };
+
   if (messages.length === 0) return null;
 
   return (
-    <button
-      onClick={handleExport}
-      className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-body font-medium transition-colors hover:opacity-80 shrink-0"
-      style={{ color: agentColor, border: `1px solid ${agentColor}20` }}
-      title="Export conversation as PDF"
-      aria-label="Export conversation as PDF"
-    >
-      <Download size={10} />
-      <span className="hidden sm:inline">Export</span>
-    </button>
+    <div className="flex items-center gap-1">
+      <button
+        onClick={handleExport}
+        className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-body font-medium transition-colors hover:opacity-80 shrink-0"
+        style={{ color: agentColor, border: `1px solid ${agentColor}20` }}
+        title="Export conversation as PDF"
+        aria-label="Export conversation as PDF"
+      >
+        <Download size={10} />
+        <span className="hidden sm:inline">Export</span>
+      </button>
+      <button
+        onClick={handleShare}
+        className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-body font-medium transition-colors hover:opacity-80 shrink-0"
+        style={{ color: agentColor, border: `1px solid ${agentColor}20` }}
+        title="Share conversation"
+        aria-label="Share conversation"
+      >
+        {shared ? <Check size={10} /> : <Share2 size={10} />}
+        <span className="hidden sm:inline">{shared ? "Copied" : "Share"}</span>
+      </button>
+    </div>
   );
 };
 
