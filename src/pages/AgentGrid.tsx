@@ -9,17 +9,13 @@ import ParticleField from "@/components/ParticleField";
 import AnimatedHero from "@/components/AnimatedHero";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
-import { X, Zap, Users, BookOpen, Clock, Send, ArrowRight, Check } from "lucide-react";
+import { X, Zap, Send, ArrowRight, Check } from "lucide-react";
 import { NeonWave } from "@/components/NeonIcons";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import LiveDemoSection from "@/components/LiveDemoSection";
 import FAQSection from "@/components/FAQSection";
-import CompetitorComparison from "@/components/CompetitorComparison";
-import TrustSection from "@/components/landing/TrustSection";
 import IndustrySolutions from "@/components/landing/IndustrySolutions";
-import PipelineSection from "@/components/landing/PipelineSection";
-import KeyFeaturesSection from "@/components/landing/KeyFeaturesSection";
 import PackShowcase from "@/components/landing/PackShowcase";
 
 const PACK_META: Record<string, { sector: string; description: string }> = {
@@ -85,12 +81,6 @@ const PRICING_PLANS = [
   },
 ];
 
-const HOW_IT_WORKS = [
-  { step: "01", title: "Tell us about your business", desc: "Share your industry, team size, and goals. Your specialist team adapts to you.", icon: <Users size={24} /> },
-  { step: "02", title: "Access your specialist tools", desc: "44 specialist tools covering every NZ industry, all trained on NZ legislation.", icon: <Zap size={24} /> },
-  { step: "03", title: "Get specialist guidance", desc: "Ask anything. Get recommendations grounded in NZ legislation, regulations, and best practice.", icon: <BookOpen size={24} /> },
-  { step: "04", title: "Run 24/7", desc: "Embed on your site, share with your team, or let customers chat directly.", icon: <Clock size={24} /> },
-];
 
 const ALSO_BY_ASSEMBL = [
   { title: "Custom Intelligence Builds", desc: "Bespoke specialist tools trained on your internal data, SOPs, and brand voice.", color: "hsl(var(--pounamu))" },
@@ -260,54 +250,6 @@ const AgentGrid = () => {
       {/* ═══════════════════════ PACK SHOWCASE ═══════════════════════ */}
       <PackShowcase />
 
-      {/* ═══════════════════════ PIPELINE ═══════════════════════ */}
-      <PipelineSection />
-
-      {/* ═══════════════════════ KEY FEATURES ═══════════════════════ */}
-      <KeyFeaturesSection />
-
-
-      {/* ═══════════════════════ HOW IT WORKS ═══════════════════════ */}
-      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <motion.h2
-            className="text-2xl sm:text-4xl font-display font-light tracking-[0.02em] text-center mb-14 text-foreground"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            How it works
-          </motion.h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {HOW_IT_WORKS.map((item, i) => (
-              <motion.div
-                key={item.step}
-                className="relative rounded-2xl p-6 group transition-colors duration-300 overflow-hidden border border-border bg-card"
-                style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                whileHover={{ y: -4 }}
-              >
-                <div className="absolute top-0 left-[15%] right-[15%] h-px bg-gradient-to-r from-transparent via-foreground/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="font-mono text-[10px] font-bold text-muted-foreground">{item.step}</span>
-                  <div className="text-foreground">{item.icon}</div>
-                </div>
-                <h3 className="text-sm font-display font-bold text-foreground mb-2">{item.title}</h3>
-                <p className="text-xs font-body text-muted-foreground leading-relaxed">{item.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════ TRUST ═══════════════════════ */}
-      <TrustSection />
-
-      {/* ═══════════════════════ COMPETITOR COMPARISON ═══════════════════════ */}
-      <CompetitorComparison />
 
       {/* ═══════════════════════ INDUSTRY SOLUTIONS ═══════════════════════ */}
       <IndustrySolutions />
