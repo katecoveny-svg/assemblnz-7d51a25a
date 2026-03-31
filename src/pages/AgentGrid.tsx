@@ -3,8 +3,6 @@ import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { agents, packs, echoAgent, pilotAgent } from "@/data/agents";
-import AgentCard from "@/components/AgentCard";
-import AgentAvatar from "@/components/AgentAvatar";
 import ParticleField from "@/components/ParticleField";
 import AnimatedHero from "@/components/AnimatedHero";
 import BrandNav from "@/components/BrandNav";
@@ -18,6 +16,7 @@ import FAQSection from "@/components/FAQSection";
 import IndustrySolutions from "@/components/landing/IndustrySolutions";
 import PackShowcase from "@/components/landing/PackShowcase";
 import HowItWorksSection from "@/components/HowItWorksSection";
+import PackGrid from "@/components/landing/PackGrid";
 
 const PACK_META: Record<string, { sector: string; description: string }> = {
   manaaki: { sector: "Hospitality & Tourism", description: "Care for customers, hospitality operations, tourism, and venue management" },
