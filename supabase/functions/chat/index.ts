@@ -6993,7 +6993,47 @@ Deno.serve(async (req) => {
  }
 
  const body = await req.json();
- const { agentId, messages, brandContext, brandLogoUrl, teReoPrompt, propertyMode, model: requestedModel, getSystemPrompt, receptionistMode } = body;
+ const { agentId: rawAgentId, messages, brandContext, brandLogoUrl, teReoPrompt, propertyMode, model: requestedModel, getSystemPrompt, receptionistMode } = body;
+
+ // Map frontend agent IDs (from agents.ts) to edge function prompt keys
+ const AGENT_ID_TO_PROMPT_KEY: Record<string, string> = {
+  software: "spark",
+  family: "operations",     // TŌROA
+  integration: "customs",   // NEXUS
+  netsec: "it",             // SIGNAL (secondary)
+  analytics: "pm",          // AXIS
+  innovation: "nonprofit",  // KINDLE
+  hotel: "hospitality",     // sub-agents → AURA
+  events: "hospitality",
+  coastal: "hospitality",
+  bar: "hospitality",
+  garden: "hospitality",
+  concierge: "hospitality",
+  bim: "construction",      // ATA → APEX
+  safety: "construction",
+  projectgov: "construction",
+  resource: "construction",
+  consent: "construction",
+  quality: "construction",
+  copywriting: "marketing", // MUSE → PRISM
+  design: "marketing",
+  video: "marketing",
+  experiential: "marketing",
+  techwriting: "marketing",
+  brandstrategy: "sports",  // TURF
+  strategy: "legal",        // SAGE → ANCHOR
+  risk: "legal",            // COMPASS (risk) → ANCHOR
+  datasecurity: "it",       // VAULT → SIGNAL
+  forecasting: "accounting",// MINT → LEDGER
+  monitoring: "it",         // SENTINEL → SIGNAL
+  crypto: "it",             // CIPHER → SIGNAL
+  messaging: "it",          // RELAY → SIGNAL
+  devops: "it",             // FORGE (devops) → SIGNAL
+  healthcompanion: "publichealth",// ORA → public health navigator
+  triage: "publichealth",        // TAHI → health triage
+  carenavigation: "health",      // VITAE care nav
+ };
+ const agentId = AGENT_ID_TO_PROMPT_KEY[rawAgentId] || rawAgentId;
 
  // Return system prompt for voice agent sync
  if (getSystemPrompt && agentId) {
