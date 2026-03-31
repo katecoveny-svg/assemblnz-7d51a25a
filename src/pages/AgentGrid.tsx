@@ -266,12 +266,6 @@ const AgentGrid = () => {
       {/* ═══════════════════════ KEY FEATURES ═══════════════════════ */}
       <KeyFeaturesSection />
 
-      {/* ═══════════════════════ FEATURED AGENTS ═══════════════════════ */}
-      <TurfSection />
-      <AuraSection />
-      <ApexSection />
-      <ArohaSection />
-      <EchoSection />
 
       {/* ═══════════════════════ HOW IT WORKS ═══════════════════════ */}
       <section className="relative z-10 py-20 sm:py-28 border-t border-border">

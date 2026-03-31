@@ -237,8 +237,6 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           </Link>
         </motion.div>
 
-        {/* Agent Showcase */}
-        <AgentShowcase />
       </div>
     </section>
   );
