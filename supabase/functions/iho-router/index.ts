@@ -88,7 +88,7 @@ const AGENT_REGISTRY: AgentConfig[] = [
 
   // PAKIHI — Business Operations
   { code: "ASM-023", name: "LEDGER", pack: "pakihi", primaryModel: "claude", skills: ["finance", "accounting", "tax", "gst"], keywords: ["gst", "tax", "invoice", "paye", "accounting", "xero", "myob", "financial", "profit", "loss", "balance sheet", "budget"] },
-  { code: "ASM-024", name: "AROHA", pack: "pakihi", primaryModel: "claude", skills: ["hr", "employment_law", "payroll"], keywords: ["employment", "hr", "leave", "sick", "holiday", "kiwisaver", "payroll", "contract", "agreement", "redundancy", "grievance", "hiring", "firing"] },
+  { code: "ASM-024", name: "AROHA", pack: "pakihi", primaryModel: "claude", skills: ["hr", "employment_law", "payroll"], keywords: ["employment", "hr", "leave", "sick", "holiday", "kiwisaver", "payroll", "contract", "agreement", "redundancy", "grievance", "hiring", "firing", "wage", "minimum wage", "salary", "staff", "employee", "employer", "parental leave", "bereavement"] },
   { code: "ASM-025", name: "TURF", pack: "pakihi", primaryModel: "claude", skills: ["marketing_strategy", "brand_positioning"], keywords: ["market research", "competitor", "positioning", "go-to-market", "launch", "persona", "advertising", "paid ads"] },
   { code: "ASM-026", name: "SAGE", pack: "pakihi", primaryModel: "claude", skills: ["business_strategy", "planning"], keywords: ["business plan", "strategy", "kpi", "strategic", "growth", "swot", "exit", "merger"] },
   { code: "ASM-027", name: "COMPASS", pack: "pakihi", primaryModel: "claude", skills: ["risk_management", "compliance"], keywords: ["risk", "compliance", "audit", "iso", "soc", "regulation", "continuity", "disaster recovery"] },
