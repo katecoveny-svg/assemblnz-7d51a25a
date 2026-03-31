@@ -183,8 +183,8 @@ const AgentGrid = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground mb-2">44 Intelligence Specialists</p>
-          <h2 className="text-2xl sm:text-3xl font-display font-light tracking-[0.02em] text-foreground mb-2">Your Specialist Team</h2>
+          <p className="font-mono-jb text-[10px] tracking-[4px] uppercase text-primary/60 mb-3">44 Intelligence Specialists</p>
+          <h2 className="text-2xl sm:text-4xl font-display tracking-[0.02em] text-foreground mb-3 heading-glow section-heading" style={{ fontWeight: 700 }}>Your Specialist Team</h2>
           <p className="text-sm font-body text-muted-foreground max-w-md mx-auto">Tap any tool to chat live — no signup needed.</p>
         </motion.div>
 
