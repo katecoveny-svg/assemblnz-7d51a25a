@@ -49,7 +49,7 @@ const HowItWorksSection = () => {
           </p>
           <h2
             className="text-2xl sm:text-4xl font-display tracking-[0.02em] text-foreground heading-glow section-heading"
-            style={{ fontWeight: 700 }}
+            style={{ fontWeight: 300 }}
           >
             How it works
           </h2>
@@ -91,7 +91,7 @@ const HowItWorksSection = () => {
                   <Icon size={18} style={{ color: "rgba(255,255,255,0.7)" }} />
                 </div>
 
-                <h3 className="text-sm font-display font-bold text-foreground mb-2">{step.title}</h3>
+                <h3 className="text-sm font-display font-light text-foreground mb-2">{step.title}</h3>
                 <p className="text-xs font-body text-muted-foreground leading-relaxed">{step.desc}</p>
 
                 {/* Bottom glow line on hover */}

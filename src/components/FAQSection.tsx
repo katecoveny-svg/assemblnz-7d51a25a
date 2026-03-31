@@ -29,7 +29,7 @@ const FAQSection = () => {
           <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">Support</p>
           <h2
             className="text-2xl sm:text-[2.75rem] font-display text-foreground mb-4 heading-glow section-heading"
-            style={{ letterSpacing: '-0.02em', lineHeight: '1.15', fontWeight: 700 }}
+            style={{ letterSpacing: '-0.02em', lineHeight: '1.15', fontWeight: 300 }}
           >
             Frequently asked <span className="text-gradient-hero">questions</span>
           </h2>
@@ -59,7 +59,7 @@ const FAQSection = () => {
                   onClick={() => setOpenIndex(isOpen ? null : i)}
                   className="w-full flex items-center justify-between px-5 sm:px-6 py-4 sm:py-5 text-left"
                 >
-                  <span className="text-[13px] sm:text-sm font-display font-bold text-foreground pr-4">{faq.q}</span>
+                  <span className="text-[13px] sm:text-sm font-display font-light text-foreground pr-4">{faq.q}</span>
                   <ChevronDown
                     size={16}
                     className="shrink-0 text-muted-foreground/50 transition-transform duration-300"

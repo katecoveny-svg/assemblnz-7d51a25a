@@ -120,7 +120,7 @@ const MarinerLanding = () => {
               ASM-021
             </span>
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-4 font-['Outfit']">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-light tracking-tight mb-4 font-display">
             Your AI skipper for{" "}
             <span style={{ color: NEON }}>NZ waters</span>
           </h1>
@@ -143,7 +143,7 @@ const MarinerLanding = () => {
 
       {/* Capabilities */}
       <section className="max-w-5xl mx-auto px-6 pb-20">
-        <h2 className="text-2xl font-bold text-center mb-10 font-['Outfit']">
+        <h2 className="text-2xl font-bold text-center mb-10 font-display">
           What MARINER knows
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -168,7 +168,7 @@ const MarinerLanding = () => {
 
       {/* Pricing */}
       <section className="max-w-5xl mx-auto px-6 pb-20">
-        <h2 className="text-2xl font-bold text-center mb-3 font-['Outfit']">
+        <h2 className="text-2xl font-bold text-center mb-3 font-display">
           Choose your plan
         </h2>
         <p className="text-center text-sm mb-10" style={{ color: "hsl(var(--muted-foreground))" }}>
@@ -189,7 +189,7 @@ const MarinerLanding = () => {
                 {t.name}
               </h3>
               <div className="flex items-baseline gap-1 mb-5">
-                <span className="text-3xl font-extrabold">{t.price}</span>
+                <span className="text-3xl font-light">{t.price}</span>
                 <span className="text-xs" style={{ color: "hsl(var(--muted-foreground))" }}>
                   {t.period}
                 </span>
@@ -229,7 +229,7 @@ const MarinerLanding = () => {
         >
           <div className="flex items-center gap-3 mb-4">
             <Shield size={28} style={{ color: NEON }} />
-            <h2 className="text-xl font-bold font-['Outfit']">
+            <h2 className="text-xl font-bold font-display">
               Coastguard NZ Partnership
             </h2>
           </div>

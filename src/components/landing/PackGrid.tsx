@@ -94,7 +94,7 @@ const PackGrid = () => {
           </p>
           <h2
             className="text-2xl sm:text-4xl font-display tracking-[0.02em] text-foreground mb-3 heading-glow section-heading"
-            style={{ fontWeight: 700 }}
+            style={{ fontWeight: 300 }}
           >
             Your Specialist Team
           </h2>
@@ -301,7 +301,7 @@ const PackGrid = () => {
         <div className="text-center">
           <Link
             to="/agents"
-            className="inline-flex items-center gap-2 text-xs font-display font-bold px-6 py-3 rounded-xl transition-all duration-300 hover:gap-3"
+            className="inline-flex items-center gap-2 text-xs font-display font-light px-6 py-3 rounded-xl transition-all duration-300 hover:gap-3"
             style={{
               color: "hsl(var(--kowhai))",
               border: "1px solid rgba(212,168,67,0.25)",
