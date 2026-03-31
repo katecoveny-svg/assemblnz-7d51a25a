@@ -93,9 +93,9 @@ const PilotDashboardCard = () => {
             {todayTasks.map((task) => (
               <div key={task.id} className="flex items-center gap-2 p-2 rounded-lg" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
                 {task.done ? (
-                  <CheckCircle2 size={12} className="text-assembl-green shrink-0" />
+                  <CheckCircle2 size={12} className="text-pounamu-light shrink-0" />
                 ) : task.priority === "high" ? (
-                  <AlertTriangle size={12} className="text-assembl-pink shrink-0" />
+                  <AlertTriangle size={12} className="text-rust shrink-0" />
                 ) : (
                   <Clock size={12} className="text-muted-foreground/40 shrink-0" />
                 )}
