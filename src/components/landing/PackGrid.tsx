@@ -277,7 +277,7 @@ const PackGrid = () => {
           >
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 shrink-0" style={{ filter: "drop-shadow(0 0 8px rgba(212,168,67,0.3))" }}>
-                <img src={toroaLogo} alt="Tōroa" className="w-full h-full" />
+                <img src={toroaIcon} alt="Tōroa" className="w-full h-full object-contain rounded-lg" />
               </div>
               <div>
                 <h3 className="font-display text-sm tracking-[3px] uppercase text-foreground" style={{ fontWeight: 300, fontFamily: "'Lato', sans-serif" }}>
