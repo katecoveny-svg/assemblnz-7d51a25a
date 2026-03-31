@@ -3119,6 +3119,45 @@ export type Database = {
         }
         Relationships: []
       }
+      onboarding_sessions: {
+        Row: {
+          completed: boolean
+          created_at: string
+          id: string
+          selected_pack: string | null
+          session_key: string | null
+          step_1_at: string | null
+          step_2_at: string | null
+          step_3_at: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string
+          id?: string
+          selected_pack?: string | null
+          session_key?: string | null
+          step_1_at?: string | null
+          step_2_at?: string | null
+          step_3_at?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string
+          id?: string
+          selected_pack?: string | null
+          session_key?: string | null
+          step_1_at?: string | null
+          step_2_at?: string | null
+          step_3_at?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       output_versions: {
         Row: {
           agent_id: string
