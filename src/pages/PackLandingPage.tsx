@@ -7,6 +7,7 @@ import ParticleField from "@/components/ParticleField";
 import SEO from "@/components/SEO";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 const ICON_MAP: Record<string, any> = {
   briefcase: Briefcase, hammer: Hammer, utensils: UtensilsCrossed,
