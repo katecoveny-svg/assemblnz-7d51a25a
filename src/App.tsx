@@ -71,6 +71,7 @@ const KaupapaDashboard = lazy(() => import("./components/hanga/KaupapaDashboard"
 const RawaDashboard = lazy(() => import("./components/hanga/RawaDashboard"));
 const WhakaaeDashboard = lazy(() => import("./components/hanga/WhakaaeDashboard"));
 const PaiDashboard = lazy(() => import("./components/hanga/PaiDashboard"));
+const KanohiDashboard = lazy(() => import("./components/hanga/KanohiDashboard"));
 
 const queryClient = new QueryClient();
 
