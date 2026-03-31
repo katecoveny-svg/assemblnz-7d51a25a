@@ -2,16 +2,15 @@ import { motion } from "framer-motion";
 import { User, Shield, Brain, Search, Lock, Database, GitBranch, Cpu, FileText, HardDrive, ArrowDown } from "lucide-react";
 
 const PIPELINE_STEPS = [
-  { step: "01", label: "KANOHI", desc: "User sends request from dashboard", icon: User, color: "hsl(var(--kowhai))" },
-  { step: "02", label: "MANA", desc: "Access control — user valid? Has permission?", icon: Shield, color: "hsl(var(--pounamu))" },
-  { step: "03", label: "IHO", desc: "Classifies intent — what does the user want?", icon: Brain, color: "hsl(var(--kowhai))" },
-  { step: "04", label: "IHO", desc: "Selects agent — which of 45 specialists?", icon: Search, color: "hsl(var(--kowhai))" },
-  { step: "05", label: "KAHU", desc: "Compliance check — PII detected? Privacy Act OK?", icon: Lock, color: "hsl(var(--pounamu))" },
-  { step: "06", label: "MAHARA", desc: "Retrieves context — relevant business memories", icon: Database, color: "hsl(var(--tangaroa-light))" },
-  { step: "07", label: "ROUTER", desc: "Selects AI model — Gemini vs Claude", icon: GitBranch, color: "hsl(var(--kowhai-light))" },
-  { step: "08", label: "AI MODEL", desc: "Processes request via Claude or Gemini", icon: Cpu, color: "hsl(var(--pounamu-light))" },
-  { step: "09", label: "TĀ", desc: "Logs everything — compliance & billing audit", icon: FileText, color: "hsl(var(--tangaroa-light))" },
-  { step: "10", label: "MAHARA", desc: "Stores new context for future sessions", icon: HardDrive, color: "hsl(var(--tangaroa-light))" },
+  { step: "01", label: "USER", desc: "Sends request from Kanohi dashboard or chat", icon: User, color: "hsl(var(--foreground))" },
+  { step: "02", label: "KANOHI", desc: "Bilingual dashboard — parses intent & language", icon: Search, color: "hsl(var(--kowhai))" },
+  { step: "03", label: "MANA", desc: "Access control — role, tenant, usage limits verified", icon: Shield, color: "hsl(var(--pounamu))" },
+  { step: "04", label: "IHO", desc: "Brain & router — classifies intent, selects agent", icon: Brain, color: "hsl(var(--kowhai))" },
+  { step: "05", label: "KAHU", desc: "Compliance guardian — PII masking, Privacy Act 2020", icon: Lock, color: "hsl(var(--pounamu))" },
+  { step: "06", label: "MODEL ROUTER", desc: "Selects AI model — Gemini (speed) or Claude (logic)", icon: GitBranch, color: "hsl(var(--kowhai-light))" },
+  { step: "07", label: "AI MODEL", desc: "Processes request via selected model", icon: Cpu, color: "hsl(var(--pounamu-light))" },
+  { step: "08", label: "TĀ", desc: "Audit trail — logs tokens, cost, compliance status", icon: FileText, color: "hsl(var(--tangaroa-light))" },
+  { step: "09", label: "MAHARA", desc: "Business memory — stores context for future sessions", icon: HardDrive, color: "hsl(var(--tangaroa-light))" },
 ];
 
 const PipelineSection = () => (
