@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { agents, sectors } from "@/data/agents";
+import { agents, packs, echoAgent, pilotAgent } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
 import AgentCard from "@/components/AgentCard";
 import ParticleField from "@/components/ParticleField";
@@ -28,204 +28,19 @@ import PipelineSection from "@/components/landing/PipelineSection";
 import KeyFeaturesSection from "@/components/landing/KeyFeaturesSection";
 import PackShowcase from "@/components/landing/PackShowcase";
 
-const PRICING_PLANS = [
-  {
-    name: "Free",
-    monthlyPrice: 0,
-    color: "#A1A1AA",
-    features: ["3 messages per advisor", "All 42 specialist tools", "NZ legislation knowledge", "No signup required"],
-    cta: "Start free",
-    href: "/",
-    external: false,
-    highlighted: false,
-  },
-  {
-    name: "Starter",
-    monthlyPrice: 89,
-    color: "#10B981",
-    features: ["1 specialist advisor", "100 messages/month", "NZ legislation references", "Email support"],
-    cta: "Get started",
-    href: "https://buy.stripe.com/fZuaEZa1CdkA6573Wu3oA0b",
-    external: true,
-    highlighted: false,
-  },
-  {
-    name: "Pro",
-    monthlyPrice: 299,
-    color: "#10B981",
-    features: ["3 specialist advisors + SPARK", "500 messages/month", "Brand DNA scanner", "Cross-tool workflows", "Priority support"],
-    cta: "Start Pro",
-    href: "https://buy.stripe.com/14A00l4Hi4O43WZ50y3oA0a",
-    external: true,
-    highlighted: true,
-  },
-  {
-    name: "Business",
-    monthlyPrice: 599,
-    color: "#10B981",
-    features: ["All 42 specialist tools", "2,000 messages/month", "Command Centre", "MCP API", "Phone support"],
-    cta: "Start Business",
-    href: "https://buy.stripe.com/6oU9AVa1C6Wcbpr2Sq3oA09",
-    external: true,
-    highlighted: false,
-  },
-  {
-    name: "Enterprise",
-    monthlyPrice: 1499,
-    color: "#B388FF",
-    features: ["Unlimited tools & messages", "Dedicated account manager", "Custom integrations", "SLA guarantee", "On-premise option", "SOC 2 compliant"],
-    cta: "Contact sales",
-    href: "/#contact",
-    external: false,
-    highlighted: false,
-  },
-];
+const PACK_META: Record<string, { sector: string; description: string }> = {
+  manaaki: { sector: "Hospitality & Tourism", description: "Care for customers, hospitality operations, tourism, and venue management" },
+  hanga: { sector: "Construction & Property", description: "Building, safety, consenting, and project governance for Aotearoa" },
+  auaha: { sector: "Creative & Digital", description: "Brand, content, video, social, and creative production" },
+  pakihi: { sector: "Business Operations", description: "Finance, HR, strategy, sales, risk, and operational excellence" },
+  hangarau: { sector: "Technology & Infrastructure", description: "Software, security, DevOps, integrations, and monitoring" },
+};
 
-const HOW_IT_WORKS = [
-  { step: "01", title: "Tell us about your business", desc: "Share your industry, team size, and goals. Your expert team adapts to you.", icon: <Users size={24} /> },
-  { step: "02", title: "Access your specialist tools", desc: "42 specialist tools covering every NZ industry, all trained on NZ legislation.", icon: <Zap size={24} /> },
-  { step: "03", title: "Get specialist guidance", desc: "Ask anything. Get recommendations grounded in NZ legislation, regulations, and best practice.", icon: <BookOpen size={24} /> },
-  { step: "04", title: "Run 24/7", desc: "Embed on your site, share with your team, or let customers chat directly.", icon: <Clock size={24} /> },
-];
-
-const ALSO_BY_ASSEMBL = [
-  { title: "Custom Intelligence Builds", desc: "Bespoke specialist tools trained on your internal data, SOPs, and brand voice.", color: "hsl(var(--pounamu))" },
-  { title: "Website Chatbots", desc: "Drop-in chat widgets for your website — trained, branded, and always on.", color: "hsl(var(--tangaroa-light))" },
-  { title: "AssemblFund", desc: "Our initiative to bring enterprise-grade tools to Kiwi startups and community organisations.", color: "hsl(var(--kowhai))" },
-];
-
-const AgentGrid = () => {
-  const [activeSector, setActiveSector] = useState("All");
-  const [isAnnual, setIsAnnual] = useState(false);
-  const [contactName, setContactName] = useState("");
-  const [contactEmail, setContactEmail] = useState("");
-  const [contactMessage, setContactMessage] = useState("");
-  const gridRef = useRef<HTMLDivElement>(null);
-
-  const brandProfile = sessionStorage.getItem("assembl_brand_profile");
-  const brandName = sessionStorage.getItem("assembl_brand_name");
-
-  const clearBrand = () => {
-    sessionStorage.removeItem("assembl_brand_profile");
-    sessionStorage.removeItem("assembl_brand_name");
-    window.dispatchEvent(new Event("storage"));
-    window.location.reload();
-  };
-
-  const scrollToGrid = () => {
-    gridRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const handleContactSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const trimmedName = contactName.trim();
-    const trimmedEmail = contactEmail.trim();
-    const trimmedMessage = contactMessage.trim();
-    try {
-      const { data: inserted, error } = await supabase.from("contact_submissions").insert({
-        name: trimmedName,
-        email: trimmedEmail,
-        message: trimmedMessage,
-      }).select("id").single();
-      if (error) throw error;
-
-      supabase.functions.invoke("send-contact-email", {
-        body: { name: trimmedName, email: trimmedEmail, message: trimmedMessage },
-      }).catch((err) => console.error("Contact email error:", err));
-
-      // Auto-qualify the lead with AI scoring
-      if (inserted?.id) {
-        supabase.functions.invoke("qualify-lead", {
-          body: { submissionId: inserted.id },
-        }).catch((err) => console.error("Lead qualification error:", err));
-      }
-
-      toast.success("Message sent! We'll be in touch soon.");
-      setContactName("");
-      setContactEmail("");
-      setContactMessage("");
-    } catch (err) {
-      toast.error("Something went wrong. Please try again.");
-      console.error("Contact form error:", err);
-    }
-  };
-
-  const filtered = activeSector === "All" ? agents : agents.filter(a => a.sector === activeSector);
-
-  return (
-    <div className="min-h-screen flex flex-col relative">
-      <SEO
-        title="Assembl | Business Intelligence Platform for NZ | 42 Specialist Tools"
-        description="42 specialist tools trained on 50+ NZ Acts. Employment, hospitality, construction, property, sports, and more. Enterprise-grade business intelligence at SME pricing. From $14/mo. Built in Aotearoa."
-        path="/"
-      />
-      <ParticleField />
-
-      {/* Shared Brand Banner */}
-      {brandProfile && brandName && (
-        <div className="relative z-10 bg-primary/5 border-b border-primary/10 px-4 py-2 flex items-center justify-center gap-2">
-          <NeonWave size={14} />
-          <span className="text-xs text-primary">Brand loaded: <strong>{brandName}</strong> — All agents have your context</span>
-          <button onClick={clearBrand} className="text-primary/60 hover:text-primary transition-colors">
-            <X size={14} />
-          </button>
-        </div>
-      )}
-
-      <div className="relative z-10">
-        <BrandNav />
-      </div>
-
-      {/* ═══════════════════════ HERO ═══════════════════════ */}
-      <div className="relative z-10">
-        <AnimatedHero onScrollToGrid={scrollToGrid} />
-      </div>
-
-      {/* ═══════════════════════ AGENT GRID — Moved up for discoverability ═══════════════════════ */}
-      <main id="expert-team" ref={gridRef} className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 w-full">
-        {/* Section header */}
-        <motion.div
-          className="text-center mb-10"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-glow-cyan mb-2">Your specialist tools</h2>
-          <p className="text-sm font-jakarta text-muted-foreground">Tap any tool to chat live — no signup needed.</p>
-        </motion.div>
-
-        {/* Filter Bar */}
-        <motion.div
-          className="flex flex-wrap gap-2 justify-center mb-10"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.2 }}
-        >
-          {sectors.map(sector => (
-            <motion.button
-              key={sector}
-              onClick={() => setActiveSector(sector)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-3 py-1.5 rounded-full text-xs font-jakarta font-medium transition-all duration-200 border ${
-                activeSector === sector
-                  ? "border-foreground/20 bg-foreground/5 text-foreground"
-                  : "border-border text-muted-foreground hover:border-foreground/10 hover:text-foreground"
-              }`}
-            >
-              {sector}
-            </motion.button>
-          ))}
-        </motion.div>
-
-        <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))" }}>
-          {filtered.map((agent, i) => (
-            <AgentCard key={agent.id} agent={agent} index={i} />
-          ))}
-        </div>
-      </main>
+const SPECIALIST_GROUP = {
+  label: "Specialist & Cross-Pack",
+  description: "Purpose-built tools that work across every industry pack",
+  sectors: ["Family & Life", "Māori & Te Tiriti", "Immigration", "Cross-pack"],
+};
 
       {/* ═══════════════════════ LIVE DEMO / STATS ═══════════════════════ */}
       <LiveDemoSection />
