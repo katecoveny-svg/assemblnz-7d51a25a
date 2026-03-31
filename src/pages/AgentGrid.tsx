@@ -182,7 +182,7 @@ const AgentGrid = () => {
       <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-4xl font-display tracking-[0.02em] text-foreground mb-3 heading-glow section-heading" style={{ fontWeight: 700 }}>
+            <h2 className="text-2xl sm:text-4xl font-display tracking-[0.02em] text-foreground mb-3 heading-glow section-heading" style={{ fontWeight: 300 }}>
               Enterprise-grade intelligence. <span className="text-gradient-hero">SME-friendly pricing.</span>
             </h2>
             <p className="text-sm font-body text-muted-foreground mb-6">From $14/month. No lock-in. Cancel anytime.</p>
@@ -316,7 +316,7 @@ const AgentGrid = () => {
               loading="lazy"
             />
           </motion.div>
-          <h2 className="text-2xl sm:text-3xl font-display tracking-[0.02em] text-foreground mb-3 flex items-center justify-center gap-2 heading-glow" style={{ fontWeight: 700 }}>Built in <span className="text-gradient-hero ml-2">Aotearoa</span></h2>
+          <h2 className="text-2xl sm:text-3xl font-display tracking-[0.02em] text-foreground mb-3 flex items-center justify-center gap-2 heading-glow" style={{ fontWeight: 300 }}>Built in <span className="text-gradient-hero ml-2">Aotearoa</span></h2>
           <p className="text-sm font-body text-muted-foreground leading-relaxed max-w-lg mx-auto mb-4">
             "I built Assembl because NZ businesses deserve specialist tools that understand our laws, our culture, and the way we work.
             Every tool is trained on real NZ legislation — not generic overseas advice."
@@ -330,7 +330,7 @@ const AgentGrid = () => {
       <section id="contact" className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-lg mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-display tracking-[0.02em] text-foreground mb-3 heading-glow section-heading" style={{ fontWeight: 700 }}>Get in touch</h2>
+            <h2 className="text-2xl sm:text-3xl font-display tracking-[0.02em] text-foreground mb-3 heading-glow section-heading" style={{ fontWeight: 300 }}>Get in touch</h2>
             <p className="text-sm font-body text-muted-foreground">Custom builds, enterprise pricing, or just to say kia ora.</p>
           </div>
           <form

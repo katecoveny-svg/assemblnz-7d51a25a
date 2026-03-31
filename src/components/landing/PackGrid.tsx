@@ -94,7 +94,7 @@ const PackGrid = () => {
           </p>
           <h2
             className="text-2xl sm:text-4xl font-display tracking-[0.02em] text-foreground mb-3 heading-glow section-heading"
-            style={{ fontWeight: 700 }}
+            style={{ fontWeight: 300 }}
           >
             Your Specialist Team
           </h2>
