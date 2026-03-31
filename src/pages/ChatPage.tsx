@@ -46,6 +46,7 @@ import ApexAwardsTracker from "@/components/apex/ApexAwardsTracker";
 import ApexHSHub from "@/components/apex/ApexHSHub";
 import ApexESGDashboard from "@/components/apex/ApexESGDashboard";
 import ApexIoTFieldTech from "@/components/apex/ApexIoTFieldTech";
+import BimAnalysisPanel from "@/components/shared/BimAnalysisPanel";
 import ForgeShowroom from "@/components/forge/ForgeShowroom";
 import ForgeSales from "@/components/forge/ForgeSales";
 import ForgePartsService from "@/components/forge/ForgePartsService";
