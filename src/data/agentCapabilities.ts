@@ -298,6 +298,12 @@ export const agentCapabilities: Record<string, AgentCapability[]> = {
     { bullet: "Emergency kit building", icon: Shield, title: "Emergency Kit", description: "Build a complete emergency survival kit", prompt: "What should be in my emergency kit? Build a complete list for a family of 4 for 7 days." },
     { bullet: "Civil defence planning", icon: FileText, title: "Emergency Plan", description: "Create a household emergency plan", prompt: "Create a household emergency plan — meeting points, communication plan, essential documents, and evacuation routes." },
   ],
+  netsec: [
+    { bullet: "Security audit checklist", icon: Shield, title: "Security Audit", description: "Run a web application or cloud infrastructure security audit", prompt: "Run a comprehensive security audit checklist for my web application. Cover authentication, authorisation, data protection, injection prevention, API security, logging, and dependencies." },
+    { bullet: "Incident response plan", icon: AlertTriangle, title: "Incident Response", description: "Create an incident response plan for your business", prompt: "Create a complete incident response plan for my NZ business. Include detection, containment, eradication, recovery, and Privacy Act 2020 breach notification procedures." },
+    { bullet: "NZISM compliance check", icon: FileText, title: "NZISM Compliance", description: "Assess your security posture against NZISM", prompt: "Assess my organisation's security posture against the NZ Information Security Manual (NZISM). What level are we at and what gaps need closing?" },
+    { bullet: "Security policy generation", icon: Briefcase, title: "Security Policies", description: "Generate NZ-compliant security policy documents", prompt: "Generate a comprehensive Information Security Policy for my NZ business. Include access control, encryption, authentication, incident response, business continuity, and compliance sections." },
+  ],
 };
 
 // Quick action labels (3-4 per agent, shown below chat input)
