@@ -171,7 +171,7 @@ export default function ToroaLandingPage() {
                   </p>
                 </div>
               </div>
-            </GlassCard>
+            </div>
           </motion.div>
         </div>
       </section>
