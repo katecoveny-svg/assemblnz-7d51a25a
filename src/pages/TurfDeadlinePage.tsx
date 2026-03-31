@@ -383,7 +383,7 @@ const TurfDeadlinePage = () => {
     setMeta("description", "NZ sports clubs must re-register under the Incorporated Societies Act 2022 by 5 April 2026. TURF generates a compliant constitution in minutes — free.", "name");
 
     return () => {
-      document.title = "Assembl | Business Intelligence Platform for NZ | 44 Specialist Tools";
+      document.title = "Assembl | Business Intelligence Platform for NZ | 45 Specialist Tools";
     };
   }, []);
 

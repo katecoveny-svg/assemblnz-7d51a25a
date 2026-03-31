@@ -23,7 +23,7 @@ const PRICING_PLANS = [
     name: "Free",
     monthlyPrice: 0,
     color: "#A1A1AA",
-    features: ["3 messages per advisor", "All 44 specialist tools", "NZ legislation knowledge", "No signup required"],
+    features: ["3 messages per advisor", "All 45 specialist tools", "NZ legislation knowledge", "No signup required"],
     cta: "Start free",
     href: "/",
     external: false,
@@ -53,7 +53,7 @@ const PRICING_PLANS = [
     name: "Business",
     monthlyPrice: 599,
     color: "#3A7D6E",
-    features: ["All 44 specialist tools", "2,000 messages/month", "Command Centre", "MCP API", "Phone support"],
+    features: ["All 45 specialist tools", "2,000 messages/month", "Command Centre", "MCP API", "Phone support"],
     cta: "Start Business",
     href: "https://buy.stripe.com/6oU9AVa1C6Wcbpr2Sq3oA09",
     external: true,
@@ -128,8 +128,8 @@ const AgentGrid = () => {
   return (
     <div className="min-h-screen flex flex-col relative">
       <SEO
-        title="Assembl | Business Intelligence Platform for NZ | 44 Specialist Tools"
-        description="44 specialist tools trained on 50+ NZ Acts. Employment, hospitality, construction, property, sports, and more. Enterprise-grade business intelligence at SME pricing. From $14/mo. Built in Aotearoa."
+        title="Assembl | Business Intelligence Platform for NZ | 45 Specialist Tools"
+        description="45 specialist tools trained on 50+ NZ Acts. Employment, hospitality, construction, property, sports, and more. Enterprise-grade business intelligence at SME pricing. From $14/mo. Built in Aotearoa."
         path="/"
       />
       <ParticleField />
@@ -423,7 +423,7 @@ const AgentGrid = () => {
               lineHeight: 1.7,
             }}
           >
-            "I kept watching NZ businesses pay for tools built in San Francisco that couldn't tell you the difference between the Holidays Act and the Fair Work Act. So I built 44 that could."
+            "I kept watching NZ businesses pay for tools built in San Francisco that couldn't tell you the difference between the Holidays Act and the Fair Work Act. So I built 45 that could."
           </p>
           <p style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "14px", color: "#FFFFFF" }}>Kate Hudson</p>
           <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "11px", color: "rgba(255,255,255,0.35)" }}>Founder, Assembl · Auckland</p>

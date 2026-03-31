@@ -177,7 +177,7 @@ const SpecialistTeamGrid = () => (
             e.currentTarget.style.boxShadow = "none";
           }}
         >
-          See all 44 specialist tools <ArrowRight size={14} />
+          See all 45 specialist tools <ArrowRight size={14} />
         </Link>
       </div>
     </div>

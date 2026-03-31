@@ -7046,11 +7046,12 @@ Deno.serve(async (req) => {
   resource: "construction",
   consent: "construction",
   quality: "construction",
-  copywriting: "marketing", // MUSE → PRISM
-  design: "marketing",
-  video: "marketing",
-  experiential: "marketing",
-  techwriting: "marketing",
+   copywriting: "marketing", // MUSE → PRISM
+   design: "marketing",
+   video: "marketing",
+   experiential: "marketing",
+   techwriting: "marketing",
+   podcast: "marketing",     // KŌRERO → PRISM (multi-agent workflow)
   brandstrategy: "sports",  // TURF
   strategy: "legal",        // SAGE → ANCHOR
   risk: "legal",            // COMPASS (risk) → ANCHOR

@@ -358,7 +358,7 @@ const EmbedPage = () => {
             {[
               { plan: "Starter", agents: "1 agent", price: "$89/mo", color: "#5AADA0", current: role === "starter" },
               { plan: "Pro", agents: "3 agents", price: "$299/mo", color: "#3A6A9C", current: role === "pro" },
-              { plan: "Business", agents: "All 44 agents", price: "$599/mo", color: "#3A6A9C", current: role === "business" },
+              { plan: "Business", agents: "All 45 agents", price: "$599/mo", color: "#3A6A9C", current: role === "business" },
             ].map((t) => (
               <div
                 key={t.plan}

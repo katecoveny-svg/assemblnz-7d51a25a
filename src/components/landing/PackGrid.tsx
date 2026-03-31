@@ -96,7 +96,7 @@ const PackGrid = () => {
             Your Specialist Team
           </h2>
           <p className="text-sm font-body text-muted-foreground max-w-lg mx-auto">
-            Five packs. 44 specialists. Pick your industry — your team is already trained.
+            Five packs. 45 specialists. Pick your industry — your team is already trained.
           </p>
         </motion.div>
 
@@ -295,7 +295,7 @@ const PackGrid = () => {
               background: "rgba(212,168,67,0.05)",
             }}
           >
-            View all 44 specialist tools <ArrowRight size={14} />
+            View all 45 specialist tools <ArrowRight size={14} />
           </Link>
         </div>
       </div>

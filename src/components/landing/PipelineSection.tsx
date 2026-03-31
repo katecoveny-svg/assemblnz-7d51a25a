@@ -5,7 +5,7 @@ const PIPELINE_STEPS = [
   { step: "01", label: "KANOHI", desc: "User sends request from dashboard", icon: User, color: "hsl(var(--kowhai))" },
   { step: "02", label: "MANA", desc: "Access control — user valid? Has permission?", icon: Shield, color: "hsl(var(--pounamu))" },
   { step: "03", label: "IHO", desc: "Classifies intent — what does the user want?", icon: Brain, color: "hsl(var(--kowhai))" },
-  { step: "04", label: "IHO", desc: "Selects agent — which of 44 specialists?", icon: Search, color: "hsl(var(--kowhai))" },
+  { step: "04", label: "IHO", desc: "Selects agent — which of 45 specialists?", icon: Search, color: "hsl(var(--kowhai))" },
   { step: "05", label: "KAHU", desc: "Compliance check — PII detected? Privacy Act OK?", icon: Lock, color: "hsl(var(--pounamu))" },
   { step: "06", label: "MAHARA", desc: "Retrieves context — relevant business memories", icon: Database, color: "hsl(var(--tangaroa-light))" },
   { step: "07", label: "ROUTER", desc: "Selects AI model — Gemini vs Claude", icon: GitBranch, color: "hsl(var(--kowhai-light))" },
