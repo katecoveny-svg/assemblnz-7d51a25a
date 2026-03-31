@@ -62,6 +62,7 @@ const DataPrivacyLegal = lazy(() => import("./pages/DataPrivacyLegal"));
 const InvestPage = lazy(() => import("./pages/InvestPage"));
 const HelmApp = lazy(() => import("./pages/HelmApp"));
 const AgentApp = lazy(() => import("./pages/AgentApp"));
+const AdminSmsPage = lazy(() => import("./pages/AdminSmsPage"));
 
 const queryClient = new QueryClient();
 
@@ -114,6 +115,7 @@ const App = () => (
                   <Route path="/nexus" element={<Suspense fallback={null}><NexusLandingPage /></Suspense>} />
                   <Route path="/admin/analytics" element={<Suspense fallback={null}><AdminAnalyticsDashboard /></Suspense>} />
                   <Route path="/admin/messages" element={<Suspense fallback={null}><AdminMessagesPage /></Suspense>} />
+                  <Route path="/admin/sms" element={<Suspense fallback={null}><AdminSmsPage /></Suspense>} />
                   <Route path="/developers" element={<Suspense fallback={null}><DevelopersPage /></Suspense>} />
                   <Route path="/brand-guidelines" element={<Suspense fallback={null}><BrandGuidelinesPage /></Suspense>} />
                   <Route path="/logo-stack" element={<Suspense fallback={null}><LogoStackPage /></Suspense>} />
