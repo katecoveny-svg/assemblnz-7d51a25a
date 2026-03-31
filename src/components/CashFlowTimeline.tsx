@@ -45,7 +45,7 @@ const CashFlowTimeline = ({ periods, currentBalance, agentColor = "#5AADA0" }: P
               <div className="rounded-lg p-3" style={{ background: "rgba(255,255,255,0.02)" }}>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-[10px] font-bold text-foreground uppercase tracking-wider">{period.label}</span>
-                  <span className="text-[10px] font-bold" style={{ color: isPositive ? "#5AADA0" : "#FF4D6A" }}>
+                  <span className="text-[10px] font-bold" style={{ color: isPositive ? "#5AADA0" : "#C85A54" }}>
                     {isPositive ? "+" : ""}{formatNZD(net)}
                   </span>
                 </div>
@@ -61,9 +61,9 @@ const CashFlowTimeline = ({ periods, currentBalance, agentColor = "#5AADA0" }: P
                 {period.outflows.map((f, j) => (
                   <div key={`out-${j}`} className="flex items-center justify-between py-0.5">
                     <span className="text-[9px] text-muted-foreground flex items-center gap-1">
-                      <TrendingDown size={8} className="text-[#FF4D6A]" /> {f.description}
+                      <TrendingDown size={8} className="text-[#C85A54]" /> {f.description}
                     </span>
-                    <span className="text-[9px] text-[#FF4D6A]">-{formatNZD(f.amount)}</span>
+                    <span className="text-[9px] text-[#C85A54]">-{formatNZD(f.amount)}</span>
                   </div>
                 ))}
 

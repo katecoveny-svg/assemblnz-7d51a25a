@@ -21,7 +21,7 @@ interface Recommendation {
 }
 
 const SCORE_GRADIENT = (score: number) =>
-  score >= 71 ? "#5AADA0" : score >= 41 ? "#FFB800" : "#FF4D6A";
+  score >= 71 ? "#5AADA0" : score >= 41 ? "#FFB800" : "#C85A54";
 
 const CircularGauge = ({ score, size = 180 }: { score: number; size?: number }) => {
   const [animatedScore, setAnimatedScore] = useState(0);

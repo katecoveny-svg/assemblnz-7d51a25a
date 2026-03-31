@@ -199,10 +199,10 @@ const LivePulse = ({ lastUpdated, isConnected }: { lastUpdated: Date | null; isC
     {isConnected ? (
       <>
         <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pounamu-light opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-pounamu" />
         </span>
-        <span className="text-[9px] text-emerald-400/70">Live</span>
+        <span className="text-[9px] text-pounamu-light/70">Live</span>
       </>
     ) : (
       <>
@@ -365,7 +365,7 @@ const DashboardPage = () => {
 
   // Compliance
   const complianceScore = complianceDeadlines.length > 0 ? Math.min(100, Math.round((exports.length / Math.max(1, complianceDeadlines.length)) * 100)) : 0;
-  const scoreColor = complianceScore >= 70 ? "#5AADA0" : complianceScore >= 40 ? "#FFB800" : "#FF4D6A";
+  const scoreColor = complianceScore >= 70 ? "#5AADA0" : complianceScore >= 40 ? "#FFB800" : "#C85A54";
 
   const latestWorkflow = executions.find(e => e.status === "running") || executions[0];
   const workflowSteps = latestWorkflow && Array.isArray(latestWorkflow.steps_log)
@@ -642,7 +642,7 @@ const DashboardPage = () => {
                     <Link to={`/chat/${action.agent_id.toLowerCase()}`} className="text-[9px] font-medium px-2 py-1 rounded-md shrink-0 hover:opacity-80 transition-opacity" style={{ color, border: `1px solid ${color}30` }}>
                       Do it <ArrowRight size={8} className="inline" />
                     </Link>
-                    <button onClick={() => completeAction(action.id)} className="text-muted-foreground/30 hover:text-emerald-400 transition-colors shrink-0">
+                    <button onClick={() => completeAction(action.id)} className="text-muted-foreground/30 hover:text-pounamu-light transition-colors shrink-0">
                       <CheckCircle2 size={14} />
                     </button>
                   </div>

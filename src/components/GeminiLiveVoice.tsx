@@ -384,9 +384,9 @@ const GeminiLiveVoice = ({ agentId, agentName, agentColor, systemPrompt }: Props
             disabled={isConnecting}
             className="p-4 rounded-full transition-all hover:scale-105"
             style={{
-              background: isConnected ? "#FF4D6A" : agentColor,
+              background: isConnected ? "#C85A54" : agentColor,
               color: "#0A0A14",
-              boxShadow: `0 0 20px ${isConnected ? "#FF4D6A40" : agentColor + "40"}`,
+              boxShadow: `0 0 20px ${isConnected ? "#C85A5440" : agentColor + "40"}`,
             }}
           >
             {isConnected ? <PhoneOff size={20} /> : <Phone size={20} />}

@@ -44,7 +44,7 @@ const TopGlow = ({ color }: { color: string }) => (
   <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: `linear-gradient(90deg, transparent, ${color}, transparent)` }} />
 );
 const StatusDot = ({ status }: { status: string }) => {
-  const c = status === "ok" ? "#5AADA0" : status === "degraded" ? "#FFB800" : "#FF4D6A";
+  const c = status === "ok" ? "#5AADA0" : status === "degraded" ? "#FFB800" : "#C85A54";
   return (
     <span className="relative flex h-2.5 w-2.5">
       {status === "ok" && <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-40" style={{ background: c }} />}
@@ -296,7 +296,7 @@ const AdminDashboard = () => {
                           <StatusDot status={svc.status} />
                           <span className="text-[11px] text-foreground flex-1">{svc.name}</span>
                           {svc.responseTime && <span className="text-[9px] text-muted-foreground tabular-nums">{svc.responseTime}ms</span>}
-                          <span className={`text-[9px] uppercase font-bold px-1.5 py-0.5 rounded-full ${svc.status === "ok" ? "text-emerald-400" : svc.status === "degraded" ? "text-amber-400" : "text-red-400"}`}
+                          <span className={`text-[9px] uppercase font-bold px-1.5 py-0.5 rounded-full ${svc.status === "ok" ? "text-pounamu-light" : svc.status === "degraded" ? "text-amber-400" : "text-red-400"}`}
                             style={{ background: svc.status === "ok" ? "rgba(0,255,136,0.1)" : svc.status === "degraded" ? "rgba(255,184,0,0.1)" : "rgba(255,77,106,0.1)" }}>
                             {svc.status}
                           </span>
@@ -391,8 +391,8 @@ const AdminDashboard = () => {
                     <Activity size={14} style={{ color: "#3A6A9C" }} />
                     <span className="text-sm font-bold text-foreground">Real-Time Agent Activity</span>
                     <span className="relative flex h-2 w-2 ml-1">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-50" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pounamu-light opacity-50" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-pounamu" />
                     </span>
                   </div>
                   {activity.length === 0 ? (
@@ -604,7 +604,7 @@ const AdminDashboard = () => {
                 <div className="divide-y divide-border">
                   {submissions.sort((a, b) => (b.lead_score || 0) - (a.lead_score || 0)).map(sub => {
                     const score = sub.lead_score || 0;
-                    const scoreColor = score >= 70 ? "#5AADA0" : score >= 40 ? "#FFB800" : "#FF4D6A";
+                    const scoreColor = score >= 70 ? "#5AADA0" : score >= 40 ? "#FFB800" : "#C85A54";
                     const status = sub.lead_status || "new";
                     return (
                       <div key={sub.id} className={`px-5 py-4 hover:bg-white/[0.02] ${!sub.is_read ? 'border-l-2' : ''}`} style={{ borderLeftColor: !sub.is_read ? "#3A6A9C" : "transparent" }}>
