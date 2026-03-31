@@ -62,7 +62,7 @@ const SparkSection = () => {
                 SPARK
               </h2>
               <p className="font-mono-jb text-[10px] mb-4 text-pounamu-light/40">
-                ASM-035 · App Builder & Digital Transformation
+                ASM-042 · App Builder & Digital Transformation
               </p>
               <h3 className="font-display font-bold text-base sm:text-lg mb-4 text-pounamu-light" style={{ textShadow: `0 0 12px rgba(90,173,160,0.25)` }}>
                 Build business apps with words.

@@ -571,7 +571,7 @@ const hangarauAgents: Agent[] = [
   {
     id: "software",
     name: "SPARK",
-    designation: "ASM-035",
+    designation: "ASM-042",
     role: "App Builder & Digital Transformation",
     tagline: "Need a quote calculator for your painting business? Describe it in plain English, SPARK builds it in seconds — no code, no developer, no $5K invoice.",
     color: "#5AADA0",
