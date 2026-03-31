@@ -30,7 +30,7 @@ const AITransparencyBadge = () => {
             {/* AI Model */}
             <div>
               <h4 className="font-semibold text-foreground mb-1.5 flex items-center gap-1.5"><NeonBrain size={14} /> AI Model</h4>
-              <p>Assembl agents are powered by <strong className="text-foreground">Claude</strong>, built by <strong className="text-foreground">Anthropic</strong> — one of the world's leading AI safety companies. We use Claude Sonnet 4 for fast, accurate, industry-specific responses grounded in New Zealand legislation and standards.</p>
+              <p>Assembl agents are powered by leading AI models from providers committed to safety and responsible AI. We deliver fast, accurate, industry-specific responses grounded in New Zealand legislation and standards.</p>
             </div>
 
             {/* Data Handling */}
