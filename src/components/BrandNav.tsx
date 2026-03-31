@@ -5,7 +5,7 @@ import NotificationBell from "@/components/NotificationBell";
 import { assemblMark } from "@/assets/brand";
 
 const NAV_LINKS = [
-  { to: "/#expert-team", label: "Specialist Tools" },
+  { to: "/content-hub", label: "Specialist Tools" },
   { to: "/content-hub", label: "Strategy Hub" },
   { to: "/pricing", label: "Pricing" },
   { to: "/embed", label: "Embed" },
