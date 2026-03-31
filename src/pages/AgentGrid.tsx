@@ -18,15 +18,6 @@ import PackShowcase from "@/components/landing/PackShowcase";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import PackGrid from "@/components/landing/PackGrid";
 
-const PACK_META: Record<string, { sector: string; description: string }> = {
-  manaaki: { sector: "Hospitality & Tourism", description: "Care for customers, hospitality operations, tourism, and venue management" },
-  hanga: { sector: "Construction & Property", description: "Building, safety, consenting, and project governance for Aotearoa" },
-  auaha: { sector: "Creative & Digital", description: "Brand, content, video, social, and creative production" },
-  pakihi: { sector: "Business Operations", description: "Finance, HR, strategy, sales, risk, and operational excellence" },
-  hangarau: { sector: "Technology & Infrastructure", description: "Software, security, DevOps, integrations, and monitoring" },
-};
-
-const SPECIALIST_SECTORS = ["Family & Life", "Māori & Te Tiriti", "Immigration"];
 
 const PRICING_PLANS = [
   {
