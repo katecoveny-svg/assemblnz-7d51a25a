@@ -30,8 +30,20 @@ const AboutPage = () => {
             The operating system for <span className="text-gradient-hero">NZ business</span>
           </h1>
           <p className="text-sm sm:text-base font-body text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Most businesses know they need to comply with NZ law. They just don't have time to read it all. Assembl has — 50+ Acts, from the Holidays Act to the Health and Safety at Work Act. Our 44 specialist tools turn that legislation into plain-English guidance, instant document generation, and compliance checks that take seconds instead of hours.
+            Assembl is 46 AI agents built for New Zealand businesses — from employment law to health compliance to hospitality operations. Every query hits a tikanga-governed compliance pipeline before it reaches you.
           </p>
+          <motion.p
+            className="mt-8 text-sm sm:text-base font-body max-w-2xl mx-auto leading-relaxed italic"
+            style={{
+              color: "hsl(var(--primary))",
+              textShadow: "0 0 20px hsl(var(--primary) / 0.3), 0 0 40px hsl(var(--primary) / 0.15)",
+            }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
+            I shouldn't need a translator for the Holidays Act. Or a cultural consultant for tikanga. Or a lawyer to check whether its output crosses the Medicines Act. We build intelligence that's native to Aotearoa — the law, the culture, the obligations your business already carries. Compliance-first. Culturally grounded. One platform, 46 agents, zero guesswork.
+          </motion.p>
         </motion.div>
       </section>
 
