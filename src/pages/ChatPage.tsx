@@ -124,6 +124,11 @@ import KindleMarketplace from "@/components/kindle/KindleMarketplace";
 import KindleImpactDashboard from "@/components/kindle/KindleImpactDashboard";
 import KindleCorporateDashboard from "@/components/kindle/KindleCorporateDashboard";
 import TeReoVideoLearner from "@/components/chat/TeReoVideoLearner";
+import OraCheckIn from "@/components/care/OraCheckIn";
+import TahiTriage from "@/components/care/TahiTriage";
+import VitaeCareJourneys from "@/components/care/VitaeCareJourneys";
+import ArohaCaregiverWellbeing from "@/components/care/ArohaCaregiverWellbeing";
+import HavenHomeSafety from "@/components/care/HavenHomeSafety";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
 import SparkPreview from "@/components/spark/SparkPreview";
