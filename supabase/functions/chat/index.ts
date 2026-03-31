@@ -7029,9 +7029,9 @@ Deno.serve(async (req) => {
   crypto: "it",             // CIPHER → SIGNAL
   messaging: "it",          // RELAY → SIGNAL
   devops: "it",             // FORGE (devops) → SIGNAL
-  healthcompanion: "health",// ORA → VITAE prompt (closest)
-  triage: "health",         // TAHI → VITAE prompt
-  carenavigation: "health", // VITAE care nav
+  healthcompanion: "publichealth",// ORA → public health navigator
+  triage: "publichealth",        // TAHI → health triage
+  carenavigation: "health",      // VITAE care nav
  };
  const agentId = AGENT_ID_TO_PROMPT_KEY[rawAgentId] || rawAgentId;
 
