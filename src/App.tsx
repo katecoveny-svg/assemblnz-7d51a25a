@@ -67,6 +67,7 @@ const AgentApp = lazy(() => import("./pages/AgentApp"));
 const AdminSmsPage = lazy(() => import("./pages/AdminSmsPage"));
 const CareDashboard = lazy(() => import("./pages/CareDashboard"));
 const AtaBimDashboard = lazy(() => import("./components/hanga/AtaBimDashboard"));
+const KaupapaDashboard = lazy(() => import("./components/hanga/KaupapaDashboard"));
 
 const queryClient = new QueryClient();
 
