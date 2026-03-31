@@ -206,7 +206,7 @@ const AgentGrid = () => {
               {/* Pack header */}
               <div className="flex items-center gap-3 mb-2">
                 <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: pack.color }} />
-                <h3 className="font-display font-light text-lg tracking-[0.02em] text-foreground">{pack.name}</h3>
+                <h3 className="font-display text-lg tracking-[0.02em] text-foreground heading-glow" style={{ fontWeight: 700 }}>{pack.name}</h3>
                 <span className="font-mono text-[10px] text-muted-foreground tracking-wider uppercase">{pack.label}</span>
               </div>
               <p className="text-xs font-body text-muted-foreground mb-6 ml-[22px]">{meta?.description}</p>
