@@ -230,6 +230,15 @@ const AgentGrid = () => {
       {/* ═══════════════════════ LIVE DEMO / STATS ═══════════════════════ */}
       <LiveDemoSection />
 
+      {/* ═══════════════════════ PACK SHOWCASE ═══════════════════════ */}
+      <PackShowcase />
+
+      {/* ═══════════════════════ PIPELINE ═══════════════════════ */}
+      <PipelineSection />
+
+      {/* ═══════════════════════ KEY FEATURES ═══════════════════════ */}
+      <KeyFeaturesSection />
+
       {/* ═══════════════════════ FEATURED AGENTS ═══════════════════════ */}
       <TurfSection />
       <AuraSection />
