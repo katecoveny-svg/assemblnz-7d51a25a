@@ -72,7 +72,7 @@ const LiveDemoSection = () => {
             <Link
               key={agent.id}
               to={`/chat/${agent.id}`}
-              className="group rounded-xl p-4 border border-border bg-card hover:border-foreground/20 transition-all duration-300 hover:-translate-y-1"
+              className="group rounded-xl p-4 border border-border bg-card card-glow-hover"
               style={{ backdropFilter: "blur(12px)" }}
             >
               <div className="flex items-start gap-3">
