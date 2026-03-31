@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
+import MaungaStarCluster from "@/components/MaungaStarCluster";
 
 interface AnimatedHeroProps {
   onScrollToGrid: () => void;
@@ -15,44 +16,16 @@ const STAT_PILLS = [
   { label: "Built in Aotearoa" },
 ];
 
-/* ── White glow orbs — soft floating particles ── */
-const ORBS = [
-  { x: "12%", y: "18%", size: 180, opacity: 0.06, dur: 22 },
-  { x: "78%", y: "12%", size: 240, opacity: 0.05, dur: 28 },
-  { x: "55%", y: "65%", size: 160, opacity: 0.04, dur: 25 },
-  { x: "25%", y: "72%", size: 200, opacity: 0.05, dur: 30 },
-  { x: "88%", y: "55%", size: 120, opacity: 0.04, dur: 20 },
-  { x: "40%", y: "30%", size: 100, opacity: 0.03, dur: 18 },
-];
-
 const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
   const isMobile = useIsMobile();
 
   return (
     <section className="relative overflow-hidden" style={{ minHeight: isMobile ? "100vh" : "92vh" }}>
 
-      {/* ── White glow orbs — ambient floating particles ── */}
-      {ORBS.map((orb, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full pointer-events-none"
-          style={{
-            left: orb.x,
-            top: orb.y,
-            width: isMobile ? orb.size * 0.6 : orb.size,
-            height: isMobile ? orb.size * 0.6 : orb.size,
-            background: `radial-gradient(circle, rgba(255,255,255,${orb.opacity}) 0%, rgba(255,255,255,${orb.opacity * 0.3}) 40%, transparent 70%)`,
-            filter: `blur(${orb.size * 0.3}px)`,
-            zIndex: 1,
-          }}
-          animate={{
-            x: [0, 15, -10, 0],
-            y: [0, -12, 8, 0],
-            opacity: [orb.opacity, orb.opacity * 1.5, orb.opacity * 0.7, orb.opacity],
-          }}
-          transition={{ duration: orb.dur, repeat: Infinity, ease: "easeInOut" }}
-        />
-      ))}
+      {/* ── Maunga + Star Cluster — background centrepiece ── */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ zIndex: 1 }}>
+        <MaungaStarCluster size={isMobile ? 500 : 800} showMaunga />
+      </div>
 
       {/* ── Hero content — centred ── */}
       <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 sm:px-6" style={{ minHeight: isMobile ? "100vh" : "92vh", paddingBottom: "80px" }}>
@@ -86,7 +59,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
             <circle cx="28" cy="26" r="3" fill="url(#hg)" opacity="0.7" />
           </motion.svg>
 
-          {/* ASSEMBL wordmark — white with massive glow */}
+          {/* ASSEMBL wordmark */}
           <motion.h2
             style={{
               fontFamily: "'Lato', sans-serif",
@@ -128,7 +101,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           </motion.p>
         </motion.div>
 
-        {/* ── Main heading — clear, high contrast ── */}
+        {/* ── Main heading ── */}
         <motion.div
           className="max-w-3xl mx-auto mb-5"
           initial={{ opacity: 0, y: 25 }}
