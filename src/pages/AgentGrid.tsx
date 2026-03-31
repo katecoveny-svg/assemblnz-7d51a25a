@@ -431,7 +431,7 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════ CONTACT ═══════ */}
-      <section id="contact" className="relative z-10 py-16 sm:py-24" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+      <section id="contact" className="relative z-10 pt-[80px] pb-[80px]" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div className="max-w-lg mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
             <h2
