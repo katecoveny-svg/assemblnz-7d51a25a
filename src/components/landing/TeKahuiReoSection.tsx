@@ -2,16 +2,17 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import toroaIcon from "@/assets/brand/toroa-hero.png";
+import { teKahuiReoMark, ihoIcon, kanohiIcon, manaIcon, maharaIcon } from "@/assets/brand";
 
 const TE_KAHUI_REO_AGENTS = [
-  { name: "IHO", desc: "Intelligent router & orchestrator" },
-  { name: "KANOHI", desc: "Front-of-house interface" },
-  { name: "MANA", desc: "Access control & authentication" },
-  { name: "MAHARA", desc: "Memory & context engine" },
-  { name: "KAHU", desc: "Compliance & privacy guardian" },
-  { name: "TĀ", desc: "Audit & billing logger" },
-  { name: "PŪNAHA", desc: "System health monitor" },
-  { name: "TOHU", desc: "Notification & alert system" },
+  { name: "IHO", desc: "Intelligent router & orchestrator", icon: ihoIcon },
+  { name: "KANOHI", desc: "Front-of-house interface", icon: kanohiIcon },
+  { name: "MANA", desc: "Access control & authentication", icon: manaIcon },
+  { name: "MAHARA", desc: "Memory & context engine", icon: maharaIcon },
+  { name: "KAHU", desc: "Compliance & privacy guardian", icon: null },
+  { name: "TĀ", desc: "Audit & billing logger", icon: null },
+  { name: "PŪNAHA", desc: "System health monitor", icon: null },
+  { name: "TOHU", desc: "Notification & alert system", icon: null },
 ];
 
 const TeKahuiReoSection = () => (
