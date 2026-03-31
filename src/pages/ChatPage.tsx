@@ -1890,6 +1890,14 @@ const ChatPage = () => {
         <ApexESGDashboard isPaid={isPaid} userRole={role || undefined} />
       ) : activeTab === "iot_field" && isConstruction ? (
         <ApexIoTFieldTech />
+      ) : activeTab === "bim_analyze" && isHanga ? (
+        <div className="flex-1 overflow-y-auto p-4"><BimAnalysisPanel agentId={agentId || "bim"} agentName={agent?.name || "ATA"} /></div>
+      ) : activeTab === "bim_clash" && isHanga ? (
+        <div className="flex-1 overflow-y-auto p-4"><BimAnalysisPanel agentId={agentId || "bim"} agentName={agent?.name || "ATA"} /></div>
+      ) : activeTab === "bim_schedule" && isHanga ? (
+        <div className="flex-1 overflow-y-auto p-4"><BimAnalysisPanel agentId={agentId || "bim"} agentName={agent?.name || "ATA"} /></div>
+      ) : activeTab === "bim_3d" && isHanga ? (
+        <div className="flex-1 overflow-y-auto p-4"><BimAnalysisPanel agentId={agentId || "bim"} agentName={agent?.name || "ATA"} /></div>
       ) : activeTab.startsWith("turf_") && isSports ? (
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
           <h2 className="text-sm font-bold" style={{ color: "#E4E4EC" }}>
