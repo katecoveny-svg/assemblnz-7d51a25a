@@ -122,6 +122,7 @@ import KindleCampaignWriter from "@/components/kindle/KindleCampaignWriter";
 import KindleMarketplace from "@/components/kindle/KindleMarketplace";
 import KindleImpactDashboard from "@/components/kindle/KindleImpactDashboard";
 import KindleCorporateDashboard from "@/components/kindle/KindleCorporateDashboard";
+import TeReoVideoLearner from "@/components/chat/TeReoVideoLearner";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
 import SparkPreview from "@/components/spark/SparkPreview";
@@ -402,7 +403,7 @@ const ChatPage = () => {
   const [pendingImage, setPendingImage] = useState<File | null>(null);
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "iot_field" | "bim_analyze" | "bim_clash" | "bim_schedule" | "bim_3d" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "forge_audit" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aroha_retention" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "aura_pos" | "aura_food_safety" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "prism_brandlab" | "prism_publisher" | "prism_ads" | "prism_product" | "prism_adengine" | "axis_automations" | "agent_training" | "voice_waitlist" | "agent_sms" | "helm_week" | "helm_bus" | "helm_timetable" | "helm_inbox" | "helm_review" | "helm_rescue" | "helm_settings" | "kindle_writer" | "kindle_marketplace" | "kindle_impact" | "kindle_corporate" | "turf_events" | "turf_membership" | "turf_facilities" | "turf_sponsorship" | "turf_performance" | "turf_compliance" | "live_data">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "iot_field" | "bim_analyze" | "bim_clash" | "bim_schedule" | "bim_3d" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "forge_audit" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aroha_retention" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "aura_pos" | "aura_food_safety" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "prism_brandlab" | "prism_publisher" | "prism_ads" | "prism_product" | "prism_adengine" | "axis_automations" | "agent_training" | "voice_waitlist" | "agent_sms" | "helm_week" | "helm_bus" | "helm_timetable" | "helm_inbox" | "helm_review" | "helm_rescue" | "helm_settings" | "kindle_writer" | "kindle_marketplace" | "kindle_impact" | "kindle_corporate" | "turf_events" | "turf_membership" | "turf_facilities" | "turf_sponsorship" | "turf_performance" | "turf_compliance" | "live_data" | "te_reo_learn">("chat");
   const [showDeployModal, setShowDeployModal] = useState(false);
   const [toroaView, setToroaView] = useState<"chat" | "dashboard">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
@@ -1014,6 +1015,9 @@ const ChatPage = () => {
       ["turf_events:Events", "turf_membership:Membership", "turf_facilities:Facilities", "turf_sponsorship:Sponsorship", "turf_performance:Performance", "turf_compliance:Compliance"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (hasLiveDataTab) toolTabs.push({ id: "live_data", label: "Live Data" });
+    // Te Reo Video Learner for TŌROA, ECHO, and Te Kāhui Reo agents
+    const teReoAgents = ["family", "echo", "tiriti"];
+    if (teReoAgents.includes(agentId || "")) toolTabs.push({ id: "te_reo_learn", label: "Mārama" });
     if (!isToroa && !isSports && agentId !== "maritime") toolTabs.push({ id: "internal_comms", label: "Comms" });
 
     // Top-level tabs: Chat is always shown separately; these are the other 4
@@ -1956,6 +1960,8 @@ const ChatPage = () => {
             <Sparkles size={14} /> Open in Chat
           </button>
         </div>
+      ) : activeTab === "te_reo_learn" ? (
+        <TeReoVideoLearner agentColor={accentColor} onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "live_data" && hasLiveDataTab ? (
         <LiveDataPanel agentId={agent.id} agentName={agent.name} agentColor={accentColor} onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "internal_comms" ? (
