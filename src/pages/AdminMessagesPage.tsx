@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
-import nexusLogo from "@/assets/nexus-logo.png";
+import { assemblMark as nexusLogo } from "@/assets/brand";
 import {
   MessageSquare, Send, Phone, Check, CheckCheck, AlertCircle,
   Image as ImageIcon, FileText, ArrowLeft, Search, Filter,

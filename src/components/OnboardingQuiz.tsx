@@ -2,7 +2,7 @@ import { useState, lazy, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
 import { agents } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
-import nexusLogo from "@/assets/nexus-logo.png";
+import { assemblMark as nexusLogo } from "@/assets/brand";
 import ParticleField from "@/components/ParticleField";
 
 const NexusHero3D = lazy(() => import("@/components/NexusHero3D"));

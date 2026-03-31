@@ -1,7 +1,7 @@
 import { X, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import nexusLogo from "@/assets/nexus-logo.png";
+import { assemblMark as nexusLogo } from "@/assets/brand";
 import { supabase } from "@/integrations/supabase/client";
 import { STRIPE_TIERS } from "@/data/stripeTiers";
 import { toast } from "sonner";
