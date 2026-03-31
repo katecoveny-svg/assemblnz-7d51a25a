@@ -1,294 +1,466 @@
-import { useState, useEffect } from "react";
-import { Link, useSearchParams, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Download, Sparkles, Scan, Code, Mail, ArrowRight, Check } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import jsPDF from "jspdf";
-import { drawAssemblPDFHeader, drawAssemblPDFFooter } from "@/lib/pdfBranding";
+import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, ArrowLeft, Briefcase, Hammer, UtensilsCrossed, Check, Clock, Sparkles, MessageSquare } from "lucide-react";
+import ParticleField from "@/components/ParticleField";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
-const PLAN_DETAILS: Record<string, { name: string; agents: string; price: string; features: string[] }> = {
-  starter: { name: "Starter", agents: "3 agents", price: "$89/mo", features: ["3 specialist agents", "500 messages/mo", "PDF export", "Email support"] },
-  pro: { name: "Pro", agents: "10 agents", price: "$299/mo", features: ["10 specialist agents", "2,500 messages/mo", "Voice agents", "Brand DNA scanner", "Priority support"] },
-  business: { name: "Business", agents: "Unlimited agents", price: "$599/mo", features: ["All 43 agents", "Unlimited messages", "Agent-to-agent workflows", "API access", "Dedicated account manager"] },
+/* ── industry data ── */
+const INDUSTRIES = [
+  { key: "pakihi", label: "Business Operations", reo: "Pakihi", Icon: Briefcase, color: "#D4A843" },
+  { key: "hanga", label: "Construction & Building", reo: "Hanga", Icon: Hammer, color: "#3A7D6E" },
+  { key: "manaaki", label: "Hospitality & Food Service", reo: "Manaaki", Icon: UtensilsCrossed, color: "#1A3A5C" },
+] as const;
+
+type PackKey = typeof INDUSTRIES[number]["key"];
+
+const PACK_DATA: Record<PackKey, {
+  agents: { name: string; desc: string }[];
+  problems: string[];
+}> = {
+  pakihi: {
+    agents: [
+      { name: "AROHA", desc: "HR & Employment Law — holiday act, leave, disciplinary processes" },
+      { name: "PULSE", desc: "Payroll Compliance — PAYE, KiwiSaver, payday filing" },
+      { name: "NEXUS", desc: "Business Intelligence — KPI dashboards and performance insights" },
+      { name: "PRISM", desc: "Financial Analysis — cash flow forecasting and budgeting" },
+      { name: "FORGE", desc: "Operations Management — workflow automation and efficiency" },
+    ],
+    problems: [
+      "Staying compliant with NZ employment law changes (Holidays Act, minimum wage, 90-day trials)",
+      "Managing payroll accuracy across PAYE, KiwiSaver, and ACC levies",
+      "Getting real-time visibility into business performance without spreadsheets",
+    ],
+  },
+  hanga: {
+    agents: [
+      { name: "Ārai", desc: "Site Safety & H&S — SSSP generation, hazard registers, WorkSafe compliance" },
+      { name: "Ata", desc: "BIM Management — model register, clash detection, LOD tracking" },
+      { name: "Kaupapa", desc: "Project Management — CCA claims, retention calculator, variations" },
+      { name: "Rawa", desc: "Resources & Procurement — tender tracking, workforce planning" },
+      { name: "Whakaaē", desc: "Consenting — building & resource consent tracking, RFIs" },
+    ],
+    problems: [
+      "Keeping up with WorkSafe requirements and site safety documentation",
+      "Managing the consent pipeline from lodgement to approval without delays",
+      "Tracking project costs, variations, and retention money under the CCA",
+    ],
+  },
+  manaaki: {
+    agents: [
+      { name: "AURA", desc: "Guest Experience — front of house, reservations, guest memory" },
+      { name: "HELM", desc: "Kitchen Operations — food safety plans, HACCP, temperature logs" },
+      { name: "MESA", desc: "Table Management — covers, turn times, floor plans" },
+      { name: "CELLAR", desc: "Beverage Management — alcohol licensing, stock, wine lists" },
+      { name: "HAVEN", desc: "Accommodation — room management, housekeeping, BWOF compliance" },
+    ],
+    problems: [
+      "Maintaining Food Control Plans and HACCP compliance for MPI audits",
+      "Managing alcohol licensing renewals and duty manager certifications",
+      "Optimising revenue per available seat/room with real-time data",
+    ],
+  },
 };
 
-function generateWelcomePDF(planKey: string) {
-  const plan = PLAN_DETAILS[planKey] || PLAN_DETAILS.pro;
-  const doc = new jsPDF({ unit: "mm", format: "a4" });
-  const margin = 20;
-  const pageWidth = doc.internal.pageSize.getWidth();
-  const maxW = pageWidth - margin * 2;
+const SESSION_KEY = "assembl_onboarding_session";
 
-  let y = drawAssemblPDFHeader(doc, {
-    documentTitle: "Welcome to Assembl",
-    subtitle: `${plan.name} Plan — Onboarding Guide`,
-  });
+const cardStyle: React.CSSProperties = {
+  background: "rgba(15,15,26,0.8)",
+  backdropFilter: "blur(20px)",
+  WebkitBackdropFilter: "blur(20px)",
+  border: "1px solid rgba(255,255,255,0.06)",
+};
 
-  // Welcome letter
-  doc.setFontSize(12);
-  doc.setFont("helvetica", "bold");
-  doc.setTextColor(20, 20, 35);
-  doc.text("Kia ora and welcome!", margin, y);
-  y += 7;
-
-  doc.setFontSize(9);
-  doc.setFont("helvetica", "normal");
-  doc.setTextColor(60);
-  const welcomeText =
-    "Thank you for choosing Assembl. I'm Kate Hudson, founder — and I built this platform because NZ businesses deserve AI that actually understands our legislation, our industries, and our way of doing things.\n\n" +
-    "This guide will get you up and running in under 10 minutes. Your agents are already trained on NZ law, industry best practices, and compliance requirements. They're ready to work — you just need to point them in the right direction.\n\n" +
-    "If you ever need help, email me directly at assembl@assembl.co.nz. I read every message.";
-  const lines = doc.splitTextToSize(welcomeText, maxW);
-  doc.text(lines, margin, y);
-  y += lines.length * 4.2 + 6;
-
-  // Plan details
-  doc.setFontSize(11);
-  doc.setFont("helvetica", "bold");
-  doc.setTextColor(20, 20, 35);
-  doc.text(`Your Plan: ${plan.name}`, margin, y);
-  y += 6;
-
-  doc.setFontSize(9);
-  doc.setFont("helvetica", "normal");
-  doc.setTextColor(60);
-  doc.text(`Price: ${plan.price}  •  ${plan.agents}`, margin, y);
-  y += 5;
-
-  plan.features.forEach((f) => {
-    doc.setFillColor(0, 229, 136);
-    doc.circle(margin + 2, y - 1, 1, "F");
-    doc.text(f, margin + 6, y);
-    y += 4.5;
-  });
-  y += 4;
-
-  // Quick start guide
-  doc.setFontSize(11);
-  doc.setFont("helvetica", "bold");
-  doc.setTextColor(20, 20, 35);
-  doc.text("Quick Start Guide", margin, y);
-  y += 7;
-
-  const steps = [
-    { title: "1. Choose Your First Agent", body: "Visit assembl.co.nz and browse the agent directory. Each agent specialises in a different area — APEX for construction, AURA for hospitality, FLUX for sales, LEDGER for accounting, and 39 more. Start with the one closest to your daily work." },
-    { title: "2. Scan Your Brand DNA", body: "Go to any agent's chat and ask it to scan your website. It will extract your brand colours, tone of voice, target audience, and key messages. Every output from that point will be on-brand — social posts, documents, proposals, everything." },
-    { title: "3. Train Your Agent", body: "Use the 'Train' tab to add your business context, FAQs, and specific rules. The more context you give, the better your agent performs. Think of it like briefing a new employee on their first day." },
-    { title: "4. Embed the Chat Widget", body: "Want AI on your website? Copy the embed code from the Embed page (assembl.co.nz/embed) and paste it into your site. Your customers can chat with your branded AI assistant 24/7." },
-    { title: "5. Explore Integrations", body: "Connect your calendar, accounting, project management, messaging, and more from Settings → Integrations. Your agents become more powerful with every connection." },
-  ];
-
-  doc.setFontSize(9);
-  steps.forEach((step) => {
-    if (y > 250) {
-      doc.addPage();
-      y = 20;
-    }
-    doc.setFont("helvetica", "bold");
-    doc.setTextColor(20, 20, 35);
-    doc.text(step.title, margin, y);
-    y += 5;
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(80);
-    const sl = doc.splitTextToSize(step.body, maxW);
-    doc.text(sl, margin, y);
-    y += sl.length * 4.2 + 5;
-  });
-
-  // Support info
-  if (y > 240) {
-    doc.addPage();
-    y = 20;
-  }
-  y += 4;
-  doc.setFontSize(11);
-  doc.setFont("helvetica", "bold");
-  doc.setTextColor(20, 20, 35);
-  doc.text("Support & Contact", margin, y);
-  y += 7;
-
-  doc.setFontSize(9);
-  doc.setFont("helvetica", "normal");
-  doc.setTextColor(60);
-  const supportLines = [
-    "Email: assembl@assembl.co.nz",
-    "Website: assembl.co.nz",
-    "Help: Just ask any agent — they can guide you through features",
-    "Billing: Manage your subscription at assembl.co.nz/pricing",
-    "",
-    "Ngā mihi nui,",
-    "Kate Hudson — Founder, Assembl",
-    "Auckland, Aotearoa New Zealand 🇳🇿",
-  ];
-  supportLines.forEach((l) => {
-    doc.text(l, margin, y);
-    y += 4.5;
-  });
-
-  drawAssemblPDFFooter(doc, { agentName: "Assembl Onboarding" });
-  doc.save("Assembl-Welcome-Guide.pdf");
-}
-
+/* ── Component ── */
 const OnboardingPage = () => {
-  const [searchParams] = useSearchParams();
-  const location = useLocation();
-  const planKey = searchParams.get("plan") || "pro";
-  const plan = PLAN_DETAILS[planKey] || PLAN_DETAILS.pro;
-  const [downloaded, setDownloaded] = useState(false);
-  const [autoDownloading, setAutoDownloading] = useState(false);
+  const [step, setStep] = useState(1);
+  const [selected, setSelected] = useState<PackKey | null>(null);
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { trackFunnelStep, trackPackEvent } = useAnalytics();
 
-  // Auto-download PDF when arriving from checkout redirect
+  // Restore session from localStorage
   useEffect(() => {
-    const fromCheckout = document.referrer.includes("/dashboard") || location.state?.fromCheckout;
-    if (!downloaded && !autoDownloading && fromCheckout) {
-      setAutoDownloading(true);
-      const timer = setTimeout(() => {
-        generateWelcomePDF(planKey);
-        setDownloaded(true);
-        setAutoDownloading(false);
-      }, 1500);
-      return () => clearTimeout(timer);
+    const saved = localStorage.getItem(SESSION_KEY);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed.selected) setSelected(parsed.selected);
+        if (parsed.step) setStep(parsed.step);
+        if (parsed.sessionId) setSessionId(parsed.sessionId);
+      } catch { /* ignore */ }
     }
-  }, [planKey, downloaded, autoDownloading, location.state]);
+  }, []);
 
-  const handleDownload = () => {
-    generateWelcomePDF(planKey);
-    setDownloaded(true);
+  // Persist to localStorage on change
+  useEffect(() => {
+    localStorage.setItem(SESSION_KEY, JSON.stringify({ selected, step, sessionId }));
+  }, [selected, step, sessionId]);
+
+  // Create/update DB session
+  const upsertSession = useCallback(async (pack: string | null, stepNum: number) => {
+    const stepField = `step_${stepNum}_at`;
+    const payload: any = {
+      selected_pack: pack,
+      [stepField]: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+
+    if (sessionId) {
+      await (supabase.from("onboarding_sessions") as any).update(payload).eq("id", sessionId);
+    } else {
+      payload.user_id = user?.id || null;
+      payload.session_key = user?.id ? null : crypto.randomUUID();
+      const { data } = await (supabase.from("onboarding_sessions") as any).insert(payload).select("id").single();
+      if (data?.id) setSessionId(data.id);
+    }
+  }, [sessionId, user?.id]);
+
+  const handleSelectIndustry = (key: PackKey) => {
+    setSelected(key);
   };
 
-  const quickActions = [
-    { icon: Sparkles, label: "Choose your first agent", href: "/", desc: "Browse all 43 specialist agents" },
-    { icon: Scan, label: "Scan your Brand DNA", href: "/chat/marketing", desc: "Let PRISM analyse your website" },
-    { icon: Code, label: "Embed the chat widget", href: "/embed", desc: "Add AI to your website in 30 seconds" },
-    { icon: Mail, label: "Contact support", href: "mailto:assembl@assembl.co.nz", desc: "assembl@assembl.co.nz" },
-  ];
+  const goToStep2 = async () => {
+    if (!selected) return;
+    await upsertSession(selected, 1);
+    trackFunnelStep("industry_select");
+    trackPackEvent(selected, "page_view");
+    setStep(2);
+  };
+
+  const goToStep3 = async () => {
+    if (!selected) return;
+    await upsertSession(selected, 2);
+    trackFunnelStep("trial_start");
+    trackPackEvent(selected, "trial_start");
+
+    // Auto-grant trial
+    if (user?.id) {
+      await (supabase.from("trial_subscriptions") as any).upsert({
+        user_id: user.id,
+        pack_slug: selected,
+        trial_started_at: new Date().toISOString(),
+        trial_expires_at: new Date(Date.now() + 14 * 86400000).toISOString(),
+        converted_to_paid: false,
+      }, { onConflict: "user_id,pack_slug" });
+
+      // Mark onboarding complete
+      if (sessionId) {
+        await (supabase.from("onboarding_sessions") as any).update({
+          completed: true,
+          step_3_at: new Date().toISOString(),
+          user_id: user.id,
+        }).eq("id", sessionId);
+      }
+    }
+
+    setStep(3);
+  };
+
+  const trialDaysLeft = 14;
+  const ind = INDUSTRIES.find(i => i.key === selected);
+  const packData = selected ? PACK_DATA[selected] : null;
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-20" style={{ background: "#09090F" }}>
-      <div className="fixed inset-0 pointer-events-none z-0" style={{
-        backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)",
-        backgroundSize: "24px 24px",
-      }} />
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 relative" style={{ background: "#09090F" }}>
+      <ParticleField />
 
-      <motion.div
-        className="relative z-10 w-full max-w-[720px] space-y-8"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        {/* Header */}
-        <div className="flex justify-center">
-          <motion.div
-            className="w-12 h-12 rounded-full flex items-center justify-center"
-            style={{ background: "hsl(var(--pounamu))" }}
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2, type: "spring" }}
-          >
-            <Check size={24} color="#09090F" strokeWidth={3} />
-          </motion.div>
-        </div>
-
-        <div className="text-center">
-          <h1 className="text-2xl sm:text-[2.5rem] font-display font-bold leading-tight" style={{ color: "#FAFAFA", letterSpacing: "-0.025em" }}>
-            Welcome to Assembl
-          </h1>
-          <p className="mt-2 text-sm" style={{ color: "#A1A1AA" }}>
-            Your <span className="font-semibold" style={{ color: "#5AADA0" }}>{plan.name}</span> plan is active — {plan.agents} ready to go
-          </p>
-        </div>
-
-        {/* Download PDF */}
-        <motion.div
-          className="rounded-xl p-6 border text-center"
-          style={{ background: "rgba(255,255,255,0.03)", borderColor: "rgba(255,255,255,0.06)" }}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          <h2 className="text-lg font-display font-bold mb-2" style={{ color: "#FAFAFA" }}>
-            Your Welcome Guide
-          </h2>
-          <p className="text-sm mb-4" style={{ color: "#A1A1AA" }}>
-            Download your personalised onboarding PDF — includes quick start steps, plan details, and support contacts.
-          </p>
-          <Button
-            onClick={handleDownload}
-            className="gap-2"
-            disabled={autoDownloading}
-            style={{ background: downloaded ? "hsl(var(--pounamu))" : "#5AADA0", color: "#09090F" }}
-          >
-            {autoDownloading ? <Sparkles size={16} className="animate-spin" /> : downloaded ? <Check size={16} /> : <Download size={16} />}
-            {autoDownloading ? "Your welcome pack is downloading…" : downloaded ? "Downloaded!" : "Download Welcome PDF"}
-          </Button>
-
-          <p className="text-xs mt-3" style={{ color: "#71717A" }}>
-            A copy has also been sent to your email address
-          </p>
-        </motion.div>
-
-        {/* Quick actions */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {quickActions.map((action, i) => (
-            <motion.div
-              key={action.label}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 + i * 0.1 }}
-            >
-              {action.href.startsWith("mailto:") ? (
-                <a
-                  href={action.href}
-                  className="block rounded-xl p-4 border transition-all hover:border-[#5AADA0]/30 group"
-                  style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: "rgba(0,255,136,0.1)" }}>
-                      <action.icon size={18} style={{ color: "#5AADA0" }} />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium" style={{ color: "#FAFAFA" }}>{action.label}</p>
-                      <p className="text-xs" style={{ color: "#71717A" }}>{action.desc}</p>
-                    </div>
-                    <ArrowRight size={14} className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "#5AADA0" }} />
-                  </div>
-                </a>
-              ) : (
-                <Link
-                  to={action.href}
-                  className="block rounded-xl p-4 border transition-all hover:border-[#5AADA0]/30 group"
-                  style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: "rgba(0,255,136,0.1)" }}>
-                      <action.icon size={18} style={{ color: "#5AADA0" }} />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium" style={{ color: "#FAFAFA" }}>{action.label}</p>
-                      <p className="text-xs" style={{ color: "#71717A" }}>{action.desc}</p>
-                    </div>
-                    <ArrowRight size={14} className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "#5AADA0" }} />
-                  </div>
-                </Link>
-              )}
-            </motion.div>
+      <div className="relative z-10 w-full max-w-[680px]">
+        {/* Progress bar */}
+        <div className="flex items-center gap-2 mb-8 px-2">
+          {[1, 2, 3].map(s => (
+            <div key={s} className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.08)" }}>
+              <motion.div
+                className="h-full rounded-full"
+                style={{ background: s <= step ? "#D4A843" : "transparent" }}
+                initial={{ width: 0 }}
+                animate={{ width: s <= step ? "100%" : "0%" }}
+                transition={{ duration: 0.4 }}
+              />
+            </div>
           ))}
+          <span className="text-[10px] font-mono ml-2" style={{ color: "rgba(255,255,255,0.3)" }}>
+            {step}/3
+          </span>
         </div>
 
-        {/* Auto-email note */}
-        <motion.div
-          className="rounded-lg p-4 border text-center"
-          style={{ background: "rgba(0,255,136,0.03)", borderColor: "rgba(0,255,136,0.1)" }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-        >
-          <p className="text-xs" style={{ color: "#A1A1AA" }}>
-             We've sent a welcome email to your inbox with your login details, this guide as a PDF attachment,
-            and links to get started. Check your spam folder if you don't see it within 5 minutes.
-          </p>
-        </motion.div>
-      </motion.div>
+        <AnimatePresence mode="wait">
+          {/* ═══ STEP 1: Industry Selection ═══ */}
+          {step === 1 && (
+            <motion.div
+              key="step1"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -30 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-6"
+            >
+              <div className="text-center">
+                <h1 className="text-xl sm:text-2xl font-bold" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "-0.025em", color: "#FFFFFF" }}>
+                  What industry are you in?
+                </h1>
+                <p className="text-sm mt-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.4)" }}>
+                  We'll personalise your experience with the right agents and templates
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                {INDUSTRIES.map(({ key, label, reo, Icon, color }) => (
+                  <motion.button
+                    key={key}
+                    onClick={() => handleSelectIndustry(key)}
+                    className="w-full rounded-2xl p-5 text-left transition-all"
+                    style={{
+                      ...cardStyle,
+                      border: selected === key ? `2px solid #D4A843` : "1px solid rgba(255,255,255,0.06)",
+                      boxShadow: selected === key ? "0 0 30px rgba(212,168,67,0.12)" : "none",
+                    }}
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${color}22` }}>
+                        <Icon size={22} style={{ color }} />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm font-bold" style={{ fontFamily: "'Lato', sans-serif", color: "#FFFFFF" }}>{label}</p>
+                        <p className="text-xs mt-0.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.4)" }}>
+                          {reo} Pack — {PACK_DATA[key].agents.length} specialist agents
+                        </p>
+                      </div>
+                      {selected === key && (
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          className="w-6 h-6 rounded-full flex items-center justify-center shrink-0"
+                          style={{ background: "#D4A843" }}
+                        >
+                          <Check size={14} style={{ color: "#09090F" }} strokeWidth={3} />
+                        </motion.div>
+                      )}
+                    </div>
+                  </motion.button>
+                ))}
+              </div>
+
+              <button
+                onClick={goToStep2}
+                disabled={!selected}
+                className="w-full py-3 rounded-xl text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                style={{
+                  fontFamily: "'Lato', sans-serif",
+                  background: selected ? "#D4A843" : "rgba(212,168,67,0.3)",
+                  color: "#09090F",
+                }}
+              >
+                Next <ArrowRight size={16} />
+              </button>
+            </motion.div>
+          )}
+
+          {/* ═══ STEP 2: Pack Preview ═══ */}
+          {step === 2 && ind && packData && (
+            <motion.div
+              key="step2"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -30 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-6"
+            >
+              <div className="text-center">
+                <h1 className="text-xl sm:text-2xl font-bold" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#FFFFFF" }}>
+                  {ind.reo} — {ind.label}
+                </h1>
+                <p className="text-sm mt-2" style={{ color: "rgba(255,255,255,0.4)" }}>
+                  Here's what your pack includes
+                </p>
+              </div>
+
+              {/* Agents list */}
+              <div className="rounded-2xl p-5" style={cardStyle}>
+                <h3 className="text-[10px] uppercase tracking-wider font-bold mb-3" style={{ fontFamily: "'Lato', sans-serif", color: "#D4A843", letterSpacing: "0.1em" }}>
+                  5 Key Agents You'll Use
+                </h3>
+                <div className="space-y-3">
+                  {packData.agents.map((agent, i) => (
+                    <div key={agent.name} className="flex items-start gap-3">
+                      <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 text-[10px] font-bold mt-0.5" style={{ background: "rgba(212,168,67,0.12)", color: "#D4A843" }}>
+                        {i + 1}
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold" style={{ color: "#FFFFFF" }}>{agent.name}</p>
+                        <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>{agent.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Problems */}
+              <div className="rounded-2xl p-5" style={cardStyle}>
+                <h3 className="text-[10px] uppercase tracking-wider font-bold mb-3" style={{ fontFamily: "'Lato', sans-serif", color: "#3A7D6E", letterSpacing: "0.1em" }}>
+                  Problems You'll Solve
+                </h3>
+                <div className="space-y-2.5">
+                  {packData.problems.map(problem => (
+                    <div key={problem} className="flex items-start gap-2.5">
+                      <Check size={14} className="shrink-0 mt-0.5" style={{ color: "#3A7D6E" }} />
+                      <p className="text-xs" style={{ color: "rgba(255,255,255,0.6)", lineHeight: 1.5 }}>{problem}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Trial highlight */}
+              <div className="rounded-2xl p-4 text-center" style={{ background: "rgba(212,168,67,0.06)", border: "1px solid rgba(212,168,67,0.15)" }}>
+                <div className="flex items-center justify-center gap-2 mb-1">
+                  <Clock size={14} style={{ color: "#D4A843" }} />
+                  <span className="text-xs font-bold" style={{ color: "#D4A843" }}>14-DAY FREE TRIAL</span>
+                </div>
+                <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.4)" }}>
+                  Full access to all {ind.reo} agents. No credit card required.
+                </p>
+              </div>
+
+              {/* Buttons */}
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setStep(1)}
+                  className="flex-1 py-3 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition-all"
+                  style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.5)" }}
+                >
+                  <ArrowLeft size={16} /> Back
+                </button>
+                <button
+                  onClick={goToStep3}
+                  className="flex-[2] py-3 rounded-xl text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all hover:scale-[1.02]"
+                  style={{ fontFamily: "'Lato', sans-serif", background: "#D4A843", color: "#09090F" }}
+                >
+                  Start Free Trial <ArrowRight size={16} />
+                </button>
+              </div>
+            </motion.div>
+          )}
+
+          {/* ═══ STEP 3: Welcome ═══ */}
+          {step === 3 && ind && packData && (
+            <motion.div
+              key="step3"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="space-y-6"
+            >
+              {/* Checkmark */}
+              <div className="flex justify-center">
+                <motion.div
+                  className="w-14 h-14 rounded-full flex items-center justify-center"
+                  style={{ background: "#3A7D6E" }}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.5, type: "spring" }}
+                >
+                  <Check size={28} style={{ color: "#FFFFFF" }} strokeWidth={3} />
+                </motion.div>
+              </div>
+
+              <div className="text-center">
+                <h1 className="text-xl sm:text-2xl font-bold" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#FFFFFF" }}>
+                  Welcome to {ind.reo}!
+                </h1>
+                <p className="text-sm mt-2" style={{ color: "rgba(255,255,255,0.4)" }}>
+                  Your 14-day trial starts now
+                </p>
+              </div>
+
+              {/* Countdown */}
+              <div className="rounded-2xl p-5 text-center" style={cardStyle}>
+                <div className="flex items-center justify-center gap-3">
+                  <div className="text-center">
+                    <p className="text-3xl font-bold" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#D4A843" }}>{trialDaysLeft}</p>
+                    <p className="text-[10px] uppercase tracking-wider mt-1" style={{ color: "rgba(255,255,255,0.4)" }}>Days Remaining</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Quick start */}
+              <div className="rounded-2xl p-5" style={cardStyle}>
+                <h3 className="text-[10px] uppercase tracking-wider font-bold mb-4" style={{ fontFamily: "'Lato', sans-serif", color: "#D4A843", letterSpacing: "0.1em" }}>
+                  Quick Start
+                </h3>
+
+                <button
+                  onClick={() => {
+                    trackPackEvent(selected!, "agent_click", { agent: packData.agents[0].name });
+                    navigate(`/packs/${selected}`);
+                  }}
+                  className="w-full rounded-xl p-4 mb-3 text-left transition-all hover:scale-[1.01] group"
+                  style={{ background: "rgba(212,168,67,0.08)", border: "1px solid rgba(212,168,67,0.15)" }}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "rgba(212,168,67,0.15)" }}>
+                      <MessageSquare size={18} style={{ color: "#D4A843" }} />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-bold" style={{ color: "#FFFFFF" }}>
+                        Click to explore: {packData.agents[0].name}
+                      </p>
+                      <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>
+                        {packData.agents[0].desc.split("—")[0].trim()}
+                      </p>
+                    </div>
+                    <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "#D4A843" }} />
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => navigate(`/packs/${selected}`)}
+                  className="w-full rounded-xl p-4 text-left transition-all hover:scale-[1.01] group"
+                  style={{ background: "rgba(58,125,110,0.08)", border: "1px solid rgba(58,125,110,0.15)" }}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "rgba(58,125,110,0.15)" }}>
+                      <Sparkles size={18} style={{ color: "#3A7D6E" }} />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-bold" style={{ color: "#FFFFFF" }}>
+                        Browse all {ind.reo} agents
+                      </p>
+                      <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>
+                        See every specialist in your pack
+                      </p>
+                    </div>
+                    <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "#3A7D6E" }} />
+                  </div>
+                </button>
+              </div>
+
+              {/* Email notification */}
+              <div className="rounded-xl p-3 text-center" style={{ background: "rgba(58,125,110,0.06)", border: "1px solid rgba(58,125,110,0.12)" }}>
+                <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.4)" }}>
+                  ✉ A confirmation email has been sent to your inbox
+                </p>
+              </div>
+
+              {/* Go to dashboard */}
+              <button
+                onClick={() => {
+                  localStorage.removeItem(SESSION_KEY);
+                  navigate("/");
+                }}
+                className="w-full py-3 rounded-xl text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all hover:scale-[1.02]"
+                style={{ fontFamily: "'Lato', sans-serif", background: "#D4A843", color: "#09090F" }}
+              >
+                Go to Dashboard <ArrowRight size={16} />
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 };
