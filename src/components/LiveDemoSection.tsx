@@ -52,7 +52,7 @@ const LiveDemoSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-foreground mb-2">
+          <h2 className="text-2xl sm:text-3xl font-display text-foreground mb-2 heading-glow section-heading" style={{ fontWeight: 700 }}>
             Your specialist <span className="text-gradient-hero">tools</span>
           </h2>
           <p className="text-sm font-body text-muted-foreground">
