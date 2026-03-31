@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
-import ConstellationHero from "@/components/ConstellationHero";
+
 
 interface AnimatedHeroProps {
   onScrollToGrid: () => void;
