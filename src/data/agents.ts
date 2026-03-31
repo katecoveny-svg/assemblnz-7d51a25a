@@ -571,16 +571,16 @@ const hangarauAgents: Agent[] = [
   {
     id: "software",
     name: "SPARK",
-    designation: "ASM-035",
-    role: "Software Development & Architecture",
-    tagline: "Code generation, architecture design, and API development",
+    designation: "ASM-042",
+    role: "App Builder & Digital Transformation",
+    tagline: "Need a quote calculator for your painting business? Describe it in plain English, SPARK builds it in seconds — no code, no developer, no $5K invoice.",
     color: "#5AADA0",
     sector: "Technology & Infrastructure",
     pack: "hangarau",
     primaryModel: "claude",
-    traits: ["Code-fluent", "Architecture-savvy", "Standards-driven"],
-    expertise: ["Code generation", "Architecture design", "API design", "Database optimisation", "Testing strategies", "Security code review"],
-    starters: ["Design a system architecture", "Build an API endpoint", "Code review my project"],
+    traits: ["Code-fluent", "NZ-compliance aware", "Privacy Act 2020 grounded"],
+    expertise: ["Web app generation", "Business calculator tools", "Client intake forms", "Interactive dashboards", "NZ API integration (Xero, NZBN, IRD)", "WCAG 2.1 AA accessibility", "Stripe NZ payments", "Privacy Act 2020 (IPP 3A) compliance"],
+    starters: ["Build me a quote calculator for my trade business", "Create a client intake form for my law firm", "Build a Healthy Homes compliance checklist app", "Generate a GST calculator"],
   },
   {
     id: "monitoring",
@@ -613,7 +613,7 @@ const hangarauAgents: Agent[] = [
   {
     id: "crypto",
     name: "CIPHER",
-    designation: "ASM-038",
+    designation: "ASM-040",
     role: "Cryptography & Security",
     tagline: "Encryption, key management, and security hardening",
     color: "#5AADA0",
@@ -676,7 +676,7 @@ const specialistAgents: Agent[] = [
   {
     id: "family",
     name: "TŌROA",
-    designation: "ASM-042",
+    designation: "ASM-043",
     role: "Family AI Navigator",
     tagline: "Schedules, meal plans, budgets, school admin, and family logistics — purpose-built for NZ families.",
     color: "#D4A843",
@@ -690,7 +690,7 @@ const specialistAgents: Agent[] = [
   {
     id: "tiriti",
     name: "TIKA",
-    designation: "ASM-043",
+    designation: "ASM-044",
     role: "Te Tiriti, Tikanga & Māori Business Advisor",
     tagline: "Grounding business in Te Tiriti obligations and tikanga Māori",
     color: "#8D6E63",
@@ -704,7 +704,7 @@ const specialistAgents: Agent[] = [
   {
     id: "immigration",
     name: "COMPASS",
-    designation: "ASM-044",
+    designation: "ASM-045",
     role: "Immigration & Visa Pathways",
     tagline: "Navigating NZ immigration with clarity — AEWV, Green List, and employer accreditation",
     color: "#3A6A9C",

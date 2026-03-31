@@ -38,31 +38,30 @@ const SparkPreview = ({ code, onIterate, onDeploy }: SparkPreviewProps) => {
   }, [code]);
 
   return (
-    <div className="flex flex-col h-full rounded-xl overflow-hidden" style={{ background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,107,0,0.15)" }}>
+    <div className="flex flex-col h-full rounded-xl overflow-hidden border border-pounamu-light/15" style={{ background: "rgba(0,0,0,0.3)" }}>
       {/* Toolbar */}
-      <div className="flex items-center gap-2 px-3 py-2 border-b" style={{ borderColor: "rgba(255,255,255,0.06)", background: "rgba(0,0,0,0.2)" }}>
-        <span className="text-[10px] font-mono-jb" style={{ color: "rgba(255,107,0,0.6)" }}>
+      <div className="flex items-center gap-2 px-3 py-2 border-b border-border/10" style={{ background: "rgba(0,0,0,0.2)" }}>
+        <span className="text-[10px] font-mono-jb text-pounamu-light/60">
           Live Preview
         </span>
         <div className="flex-1" />
         <button onClick={handleCopy} className="p-1.5 rounded hover:bg-white/5 transition-colors" title="Copy Code">
-          {copied ? <Check size={13} style={{ color: "#5AADA0" }} /> : <Copy size={13} style={{ color: "rgba(255,255,255,0.4)" }} />}
+          {copied ? <Check size={13} className="text-pounamu-light" /> : <Copy size={13} className="text-muted-foreground/40" />}
         </button>
         <button onClick={handleDownload} className="p-1.5 rounded hover:bg-white/5 transition-colors" title="Download HTML">
-          <Download size={13} style={{ color: "rgba(255,255,255,0.4)" }} />
+          <Download size={13} className="text-muted-foreground/40" />
         </button>
         <button onClick={handleFullScreen} className="p-1.5 rounded hover:bg-white/5 transition-colors" title="Open Full Screen">
-          <Maximize2 size={13} style={{ color: "rgba(255,255,255,0.4)" }} />
+          <Maximize2 size={13} className="text-muted-foreground/40" />
         </button>
         {onIterate && (
           <button onClick={onIterate} className="p-1.5 rounded hover:bg-white/5 transition-colors" title="Iterate">
-            <RefreshCw size={13} style={{ color: "#FF6B00" }} />
+            <RefreshCw size={13} className="text-pounamu-light" />
           </button>
         )}
         {onDeploy && (
-          <button onClick={onDeploy} className="flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-semibold transition-all hover:scale-[0.97]"
-            style={{ background: "#FF6B00", color: "#fff" }} title="Deploy Live">
-             Deploy
+          <button onClick={onDeploy} className="flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-semibold transition-all hover:scale-[0.97] bg-pounamu-light text-background" title="Deploy Live">
+            Deploy
           </button>
         )}
       </div>
