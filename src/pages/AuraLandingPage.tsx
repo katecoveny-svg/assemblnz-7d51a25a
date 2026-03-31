@@ -188,7 +188,7 @@ const AuraLandingPage = () => {
     setMeta("og:description", "Menu costing, food safety compliance, staff rostering, and guest CRM — purpose-built for NZ hospitality.");
     setMeta("og:url", "https://assembl.co.nz/aura");
     setMeta("description", "AURA replaces your 18-page Food Control Plan diary with a 90-second voice check. Menu costing, staff rostering, food safety, and guest CRM for NZ hospitality.", "name");
-    return () => { document.title = "Assembl | Business Intelligence Platform for NZ | 42 Specialist Tools"; };
+    return () => { document.title = "Assembl | Business Intelligence Platform for NZ | 44 Specialist Tools"; };
   }, []);
 
   return (

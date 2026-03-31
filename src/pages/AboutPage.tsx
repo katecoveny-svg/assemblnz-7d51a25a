@@ -6,7 +6,7 @@ import BrandFooter from "@/components/BrandFooter";
 import AgentAvatar from "@/components/AgentAvatar";
 
 const ROADMAP = [
-  { quarter: "Q1 2026", title: "Platform Launch", desc: "42 agents live with NZ legislation training, voice interface, and SPARK app builder.", done: true },
+  { quarter: "Q1 2026", title: "Platform Launch", desc: "44 agents live with NZ legislation training, voice interface, and SPARK app builder.", done: true },
   { quarter: "Q2 2026", title: "MCP API & Integrations", desc: "Accounting, job management, and Google Workspace integrations. Public API for enterprise.", done: false },
   { quarter: "Q3 2026", title: "Industry Suites", desc: "Dedicated multi-agent workflows for construction, hospitality, and property management.", done: false },
   { quarter: "Q4 2026", title: "Enterprise & Government", desc: "SOC 2 certification, on-premise deployment options, and government procurement compliance.", done: false },
@@ -31,7 +31,7 @@ const AboutPage = () => {
             The operating system for <span className="text-gradient-hero">NZ business</span>
           </h1>
           <p className="text-sm sm:text-base font-jakarta text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Most businesses know they need to comply with NZ law. They just don't have time to read it all. Assembl has — 50+ Acts, from the Holidays Act to the Health and Safety at Work Act. Our 42 specialist tools turn that legislation into plain-English guidance, instant document generation, and compliance checks that take seconds instead of hours.
+            Most businesses know they need to comply with NZ law. They just don't have time to read it all. Assembl has — 50+ Acts, from the Holidays Act to the Health and Safety at Work Act. Our 44 specialist tools turn that legislation into plain-English guidance, instant document generation, and compliance checks that take seconds instead of hours.
           </p>
         </motion.div>
       </section>

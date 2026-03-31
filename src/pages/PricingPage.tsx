@@ -37,7 +37,7 @@ const PricingPage = () => {
     <div className="min-h-screen flex flex-col relative" style={{ background: '#09090B' }}>
       <SEO
         title="Assembl Pricing — Enterprise-Grade Business Intelligence | SME-Friendly Pricing"
-        description="Starter $89/mo (1 tool). Pro $299/mo (3 tools + SPARK). Business $599/mo (all 42 tools). Industry Suite $1,499/mo (custom tools + white-label). HELM Family from $14/mo."
+        description="Starter $89/mo (1 tool). Pro $299/mo (3 tools + SPARK). Business $599/mo (all 44 tools). Industry Suite $1,499/mo (custom tools + white-label). HELM Family from $14/mo."
         path="/pricing"
       />
       <BrandNav />
