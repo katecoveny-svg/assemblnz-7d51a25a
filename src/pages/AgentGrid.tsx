@@ -406,7 +406,7 @@ const AgentGrid = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
           />
-          <h2 className="text-2xl sm:text-3xl font-display font-light tracking-[0.02em] text-foreground mb-3 flex items-center justify-center gap-2">Built in Aotearoa</h2>
+          <h2 className="text-2xl sm:text-3xl font-display tracking-[0.02em] text-foreground mb-3 flex items-center justify-center gap-2 heading-glow" style={{ fontWeight: 700 }}>Built in <span className="text-gradient-hero ml-2">Aotearoa</span></h2>
           <p className="text-sm font-body text-muted-foreground leading-relaxed max-w-lg mx-auto mb-4">
             "I built Assembl because NZ businesses deserve specialist tools that understand our laws, our culture, and the way we work.
             Every tool is trained on real NZ legislation — not generic overseas advice."
