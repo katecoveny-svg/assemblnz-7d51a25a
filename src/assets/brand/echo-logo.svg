@@ -1,0 +1,43 @@
+<svg width="300" height="250" viewBox="0 0 300 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="echoNodeTop" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#D4A843"/>
+    </radialGradient>
+    <radialGradient id="echoNodeBL" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#3A7D6E"/>
+    </radialGradient>
+    <radialGradient id="echoNodeBR" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#5AADA0"/>
+    </radialGradient>
+    <filter id="echoGlowFilter">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- Constellation triangle -->
+  <line x1="150" y1="35" x2="75" y2="135" stroke="#D4A843" stroke-width="1.5" opacity="0.2"/>
+  <line x1="75" y1="135" x2="225" y2="135" stroke="#D4A843" stroke-width="1.5" opacity="0.2"/>
+  <line x1="225" y1="135" x2="150" y2="35" stroke="#D4A843" stroke-width="1.5" opacity="0.2"/>
+  <!-- Echo ripple rings -->
+  <circle cx="150" cy="88" r="22" fill="none" stroke="#D4A843" stroke-width="1.2" opacity="0.15"/>
+  <circle cx="150" cy="88" r="38" fill="none" stroke="#D4A843" stroke-width="0.8" opacity="0.1"/>
+  <circle cx="150" cy="88" r="55" fill="none" stroke="#F0D078" stroke-width="0.5" opacity="0.06"/>
+  <!-- Three constellation nodes -->
+  <circle cx="150" cy="35" r="14" fill="url(#echoNodeTop)" filter="url(#echoGlowFilter)"/>
+  <circle cx="75" cy="135" r="14" fill="url(#echoNodeBL)" filter="url(#echoGlowFilter)"/>
+  <circle cx="225" cy="135" r="14" fill="url(#echoNodeBR)" filter="url(#echoGlowFilter)"/>
+  <!-- Centre echo point -->
+  <circle cx="150" cy="88" r="9" fill="#F0D078" filter="url(#echoGlowFilter)"/>
+  <circle cx="150" cy="88" r="4" fill="white" opacity="0.6"/>
+  <!-- Star particles -->
+  <circle cx="105" cy="55" r="1" fill="#F0D078" opacity="0.5"/>
+  <circle cx="195" cy="55" r="1" fill="#F0D078" opacity="0.5"/>
+  <circle cx="120" cy="145" r="0.8" fill="white" opacity="0.3"/>
+  <circle cx="180" cy="145" r="0.8" fill="white" opacity="0.3"/>
+  <!-- Wordmark -->
+  <text x="150" y="200" font-family="Lato, sans-serif" font-size="20" font-weight="300" letter-spacing="6" text-anchor="middle" fill="#F0D078">ECHO</text>
+  <text x="150" y="222" font-family="Plus Jakarta Sans, sans-serif" font-size="10" font-weight="300" letter-spacing="2" text-anchor="middle" fill="#F0D078" opacity="0.5">FOUNDER AI CLONE</text>
+</svg>
