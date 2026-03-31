@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
-import ConstellationHero from "@/components/ConstellationHero";
+
 
 interface AnimatedHeroProps {
   onScrollToGrid: () => void;
@@ -20,58 +20,37 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
   const isMobile = useIsMobile();
 
   return (
-    <section className="relative overflow-hidden flex flex-col" style={{ minHeight: "100vh", maxHeight: "100vh" }}>
-      {/* Full-bleed starfield background */}
-      <ConstellationHero fullBleed />
+    <section className="relative overflow-hidden flex flex-col" style={{ minHeight: "100vh" }}>
+      {/* Background */}
+      <div className="absolute inset-0 z-0" style={{ background: "#09090F" }} />
 
-
-      {/* Radial glow */}
-      <div
-        className="absolute inset-0 pointer-events-none z-[2]"
-        style={{
-          background:
-            "radial-gradient(ellipse 60% 50% at 50% 55%, rgba(212,168,67,0.06) 0%, transparent 70%), " +
-            "radial-gradient(ellipse 50% 40% at 50% 60%, rgba(58,125,110,0.05) 0%, transparent 60%)",
-        }}
-      />
-
-      {/* Content layer */}
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 sm:px-8">
-
-        {/* ASSEMBL wordmark */}
-        <motion.h2
-          className="uppercase text-foreground"
-          style={{
-            fontFamily: "'Lato', sans-serif",
-            fontWeight: 300,
-            fontSize: isMobile ? "2rem" : "3.5rem",
-            letterSpacing: isMobile ? "0.35em" : "0.5em",
-            lineHeight: 1,
-            marginBottom: isMobile ? "1rem" : "1.5rem",
-          }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+      {/* Video animation — top portion */}
+      <motion.div
+        className="relative z-[1] w-full flex items-center justify-center overflow-hidden"
+        style={{ height: isMobile ? "45vh" : "50vh" }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+      >
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover"
+          style={{ opacity: 0.85 }}
         >
-          Assembl
-        </motion.h2>
+          <source src="/videos/hero-matariki.mp4" type="video/mp4" />
+        </video>
+        {/* Bottom fade into content */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
+          style={{ background: "linear-gradient(to bottom, transparent, #09090F)" }}
+        />
+      </motion.div>
 
-        {/* Eyebrow */}
-        <motion.p
-          className="uppercase mb-4"
-          style={{
-            fontFamily: "'Lato', sans-serif",
-            fontWeight: 700,
-            fontSize: "13px",
-            letterSpacing: "4px",
-            color: "#D4A843",
-          }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          Business intelligence · Aotearoa
-        </motion.p>
+      {/* Content layer — below the video */}
+      <div className="relative z-10 flex flex-col items-center text-center px-6 sm:px-8" style={{ paddingTop: isMobile ? "1.5rem" : "2.5rem", paddingBottom: "3rem" }}>
 
         {/* Main headline */}
         <motion.h1
