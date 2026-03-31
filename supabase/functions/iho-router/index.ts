@@ -384,7 +384,7 @@ Deno.serve(async (req: Request) => {
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${LOVABLE_API_KEY}` },
-      body: JSON.stringify({ model: modelConfig.model, messages, max_tokens: modelConfig.maxTokens }),
+      body: JSON.stringify({ model: modelConfig.model, messages, max_completion_tokens: modelConfig.maxTokens }),
     });
 
     if (!aiResponse.ok) {
