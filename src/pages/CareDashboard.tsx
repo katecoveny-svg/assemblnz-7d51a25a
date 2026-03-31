@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { ArrowLeft, Phone, Pill, AlertTriangle, Heart, Activity, Home, Shield, TrendingUp, TrendingDown, Minus, Clock, CheckCircle, XCircle } from "lucide-react";
-import { SEO } from "@/components/SEO";
+import SEO from "@/components/SEO";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
 const KOWHAI = "#D4A843";
