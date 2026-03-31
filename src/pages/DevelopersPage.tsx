@@ -49,7 +49,7 @@ export default function DevelopersPage() {
           <div className="flex items-center gap-2 bg-background/60 rounded-lg px-4 py-3 font-mono text-sm">
             <span className="flex-1 truncate text-primary">{MCP_URL}</span>
             <button onClick={() => copy(MCP_URL, "url")} className="p-1.5 rounded hover:bg-muted/20 transition-colors">
-              {copied === "url" ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4 text-muted-foreground" />}
+              {copied === "url" ? <Check className="w-4 h-4 text-pounamu-light" /> : <Copy className="w-4 h-4 text-muted-foreground" />}
             </button>
           </div>
         </div>
@@ -68,7 +68,7 @@ export default function DevelopersPage() {
               onClick={() => copy(CLAUDE_CONFIG, "config")}
               className="absolute top-3 right-3 p-1.5 rounded hover:bg-muted/20 transition-colors"
             >
-              {copied === "config" ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4 text-muted-foreground" />}
+              {copied === "config" ? <Check className="w-4 h-4 text-pounamu-light" /> : <Copy className="w-4 h-4 text-muted-foreground" />}
             </button>
           </div>
         </div>

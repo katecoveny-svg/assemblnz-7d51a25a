@@ -68,7 +68,7 @@ export default function SparkAppViewer() {
           <input type="password" value={passwordInput} onChange={e => { setPasswordInput(e.target.value); setWrongPassword(false); }}
             placeholder="Enter password..."
             className="w-full px-3 py-2.5 rounded-lg text-xs font-body bg-transparent border outline-none"
-            style={{ borderColor: wrongPassword ? "#FF4D6A" : "rgba(255,255,255,0.06)", color: "#E4E4EC" }}
+            style={{ borderColor: wrongPassword ? "#C85A54" : "rgba(255,255,255,0.06)", color: "#E4E4EC" }}
             onKeyDown={e => e.key === "Enter" && checkPassword()} />
           {wrongPassword && <p className="text-[10px] text-red-400">Incorrect password</p>}
           <button onClick={checkPassword} className="w-full py-2.5 rounded-lg text-xs font-semibold"

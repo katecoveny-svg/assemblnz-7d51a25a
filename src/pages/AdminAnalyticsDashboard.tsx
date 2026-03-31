@@ -160,7 +160,7 @@ export default function AdminAnalyticsDashboard() {
               <StatCard icon={Activity} label="Messages Today" value={data.totalToday} sub={`${data.totalWeek} this week · ${data.totalMonth} this month`} />
               <StatCard icon={DollarSign} label="Cost Today (NZD)" value={`$${data.costToday.toFixed(2)}`} sub={`$${data.costWeek.toFixed(2)} week · $${data.costMonth.toFixed(2)} month`} color="text-amber-400" />
               <StatCard icon={Users} label="Active Users" value={data.activeUsers} sub="this month" color="text-cyan-400" />
-              <StatCard icon={Zap} label="Cache Hit Rate" value={`${data.cacheHitRate.toFixed(1)}%`} sub={`Error rate: ${data.errorRate.toFixed(1)}%`} color="text-emerald-400" />
+              <StatCard icon={Zap} label="Cache Hit Rate" value={`${data.cacheHitRate.toFixed(1)}%`} sub={`Error rate: ${data.errorRate.toFixed(1)}%`} color="text-pounamu-light" />
             </div>
 
             {/* Charts Row */}

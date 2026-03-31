@@ -117,7 +117,7 @@ export default function MyAppsPage() {
                     {app.status === "live" ? <><Pause size={10} /> Pause</> : <><Play size={10} /> Resume</>}
                   </button>
                   <button onClick={() => deleteApp(app.id)} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] font-medium"
-                    style={{ background: "rgba(255,77,106,0.05)", color: "#FF4D6A", border: "1px solid rgba(255,77,106,0.1)" }}>
+                    style={{ background: "rgba(255,77,106,0.05)", color: "#C85A54", border: "1px solid rgba(255,77,106,0.1)" }}>
                     <Trash2 size={10} /> Delete
                   </button>
                 </div>
