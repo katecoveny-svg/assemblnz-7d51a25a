@@ -89,9 +89,9 @@ const HOW_IT_WORKS = [
 ];
 
 const ALSO_BY_ASSEMBL = [
-  { title: "Custom Intelligence Builds", desc: "Bespoke specialist tools trained on your internal data, SOPs, and brand voice.", color: "#00FF88" },
-  { title: "Website Chatbots", desc: "Drop-in chat widgets for your website — trained, branded, and always on.", color: "#00E5FF" },
-  { title: "AssemblFund", desc: "Our initiative to bring enterprise-grade tools to Kiwi startups and community organisations.", color: "#B388FF" },
+  { title: "Custom Intelligence Builds", desc: "Bespoke specialist tools trained on your internal data, SOPs, and brand voice.", color: "hsl(var(--pounamu))" },
+  { title: "Website Chatbots", desc: "Drop-in chat widgets for your website — trained, branded, and always on.", color: "hsl(var(--tangaroa-light))" },
+  { title: "AssemblFund", desc: "Our initiative to bring enterprise-grade tools to Kiwi startups and community organisations.", color: "hsl(var(--kowhai))" },
 ];
 
 const AgentGrid = () => {
