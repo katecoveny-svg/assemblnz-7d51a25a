@@ -155,6 +155,9 @@ const AgentGrid = () => {
         <AnimatedHero onScrollToGrid={scrollToGrid} />
       </div>
 
+      {/* ═══════ FOUR LIVE PACKS ═══════ */}
+      <LivePacksHero />
+
       {/* ═══════ PLATFORM CORE — The Pipeline ═══════ */}
       <div id="pipeline">
         <PipelineSection />
