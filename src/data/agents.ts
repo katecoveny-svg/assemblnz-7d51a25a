@@ -613,7 +613,7 @@ const hangarauAgents: Agent[] = [
   {
     id: "crypto",
     name: "CIPHER",
-    designation: "ASM-038",
+    designation: "ASM-040",
     role: "Cryptography & Security",
     tagline: "Encryption, key management, and security hardening",
     color: "#5AADA0",

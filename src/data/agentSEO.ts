@@ -37,8 +37,8 @@ export const agentSEO: Record<string, { title: string; description: string }> = 
     description: "Handles customer enquiries, answers FAQs, routes complex questions, captures leads. Trained on your business. Available 24/7. Part of Assembl — business intelligence for NZ.",
   },
   spark: {
-    title: "SPARK — Build Custom Workflows Without Code | Assembl",
-    description: "Build custom business workflows — checklists, approval chains, compliance forms — without writing code or hiring a developer. Part of Assembl — business intelligence for NZ.",
+    title: "SPARK — Build Business Apps Without Code | Assembl",
+    description: "Need a quote calculator, client form, or compliance checklist? Describe it in plain English — SPARK builds it in seconds. Privacy Act 2020 compliant. WCAG 2.1 AA accessible. No developer needed. Part of Assembl — business intelligence for NZ.",
   },
   sales: {
     title: "FLUX — Sales Pipeline & Proposals | Assembl",

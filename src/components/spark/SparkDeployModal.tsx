@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Rocket, Copy, CheckCircle2, X, ExternalLink, Lock, Eye } from "lucide-react";
 
-const ACCENT = "#FF6B00";
+const ACCENT = "#5AADA0";
 
 interface SparkDeployModalProps {
   htmlContent: string;
