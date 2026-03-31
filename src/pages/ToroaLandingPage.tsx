@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import SEO from "@/components/SEO";
+import BrandNav from "@/components/BrandNav";
+import BrandFooter from "@/components/BrandFooter";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
