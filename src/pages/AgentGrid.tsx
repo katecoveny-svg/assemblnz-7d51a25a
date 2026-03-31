@@ -335,8 +335,13 @@ const AgentGrid = () => {
           </div>
           <form
             onSubmit={handleContactSubmit}
-            className="space-y-4 rounded-2xl p-6 border border-border bg-card"
-            style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+            className="space-y-4 rounded-2xl p-6"
+            style={{
+              background: "rgba(15,15,26,0.8)",
+              backdropFilter: "blur(12px)",
+              border: "1px solid rgba(255,255,255,0.08)",
+              boxShadow: "0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(212,168,67,0.03)",
+            }}
           >
             <div>
               <label className="block text-xs font-body font-medium text-foreground/70 mb-1.5">Name</label>
@@ -345,7 +350,10 @@ const AgentGrid = () => {
                 value={contactName}
                 onChange={(e) => setContactName(e.target.value)}
                 required
-                className="w-full px-4 py-2.5 rounded-xl text-sm border border-border bg-muted text-foreground font-body focus:outline-none focus:ring-2 focus:ring-ring transition-all"
+                className="w-full px-4 py-2.5 rounded-xl text-sm text-foreground font-body focus:outline-none transition-all duration-300"
+                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}
+                onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(212,168,67,0.3)"; e.currentTarget.style.boxShadow = "0 0 15px rgba(212,168,67,0.08)"; }}
+                onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)"; e.currentTarget.style.boxShadow = "none"; }}
                 placeholder="Your name"
               />
             </div>
@@ -356,7 +364,10 @@ const AgentGrid = () => {
                 value={contactEmail}
                 onChange={(e) => setContactEmail(e.target.value)}
                 required
-                className="w-full px-4 py-2.5 rounded-xl text-sm border border-border bg-muted text-foreground font-body focus:outline-none focus:ring-2 focus:ring-ring transition-all"
+                className="w-full px-4 py-2.5 rounded-xl text-sm text-foreground font-body focus:outline-none transition-all duration-300"
+                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}
+                onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(212,168,67,0.3)"; e.currentTarget.style.boxShadow = "0 0 15px rgba(212,168,67,0.08)"; }}
+                onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)"; e.currentTarget.style.boxShadow = "none"; }}
                 placeholder="your@email.co.nz"
               />
             </div>
@@ -367,13 +378,24 @@ const AgentGrid = () => {
                 onChange={(e) => setContactMessage(e.target.value)}
                 required
                 rows={4}
-                className="w-full px-4 py-2.5 rounded-xl text-sm border border-border bg-muted text-foreground font-body focus:outline-none focus:ring-2 focus:ring-ring resize-none transition-all"
+                className="w-full px-4 py-2.5 rounded-xl text-sm text-foreground font-body focus:outline-none resize-none transition-all duration-300"
+                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}
+                onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(212,168,67,0.3)"; e.currentTarget.style.boxShadow = "0 0 15px rgba(212,168,67,0.08)"; }}
+                onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)"; e.currentTarget.style.boxShadow = "none"; }}
                 placeholder="Tell us what you need..."
               />
             </div>
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-display font-bold bg-primary text-primary-foreground hover:shadow-[0_0_30px_hsl(var(--primary)/0.3)] transition-all duration-300"
+              className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-display font-bold transition-all duration-300"
+              style={{
+                background: "linear-gradient(135deg, rgba(212,168,67,0.2), rgba(58,125,110,0.2))",
+                border: "1px solid rgba(212,168,67,0.3)",
+                color: "#D4A843",
+                boxShadow: "0 0 20px rgba(212,168,67,0.1)",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0 0 35px rgba(212,168,67,0.2)"; e.currentTarget.style.borderColor = "rgba(212,168,67,0.5)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "0 0 20px rgba(212,168,67,0.1)"; e.currentTarget.style.borderColor = "rgba(212,168,67,0.3)"; }}
             >
               <Send size={14} /> Send message
             </button>
