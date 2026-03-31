@@ -69,6 +69,7 @@ const CareDashboard = lazy(() => import("./pages/CareDashboard"));
 const AtaBimDashboard = lazy(() => import("./components/hanga/AtaBimDashboard"));
 const KaupapaDashboard = lazy(() => import("./components/hanga/KaupapaDashboard"));
 const RawaDashboard = lazy(() => import("./components/hanga/RawaDashboard"));
+const WhakaaeDashboard = lazy(() => import("./components/hanga/WhakaaeDashboard"));
 
 const queryClient = new QueryClient();
 
@@ -138,6 +139,7 @@ const App = () => (
                   <Route path="/hanga/ata" element={<Suspense fallback={null}><AtaBimDashboard /></Suspense>} />
                   <Route path="/hanga/kaupapa" element={<Suspense fallback={null}><KaupapaDashboard /></Suspense>} />
                   <Route path="/hanga/rawa" element={<Suspense fallback={null}><RawaDashboard /></Suspense>} />
+                  <Route path="/hanga/whakaae" element={<Suspense fallback={null}><WhakaaeDashboard /></Suspense>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
