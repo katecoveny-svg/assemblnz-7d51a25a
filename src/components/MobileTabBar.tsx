@@ -1,12 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
-import { Bot, CreditCard, LayoutDashboard, FileText, Palette } from "lucide-react";
+import { Bot, CreditCard, LayoutDashboard, Layers, Shield } from "lucide-react";
 
 const TABS = [
-  { to: "/content-hub", label: "Agents", icon: Bot },
-  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/content-hub", label: "Content", icon: FileText },
-  { to: "/pricing", label: "Pricing", icon: CreditCard },
-  { to: "/brand-guidelines", label: "Brand", icon: Palette },
+  { to: "/", label: "Platform", icon: Shield, exact: true },
+  { to: "/content-hub", label: "Packs", icon: Layers, exact: false },
+  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard, exact: false },
+  { to: "/pricing", label: "Pricing", icon: CreditCard, exact: false },
+  { to: "/content-hub", label: "Agents", icon: Bot, exact: false },
 ];
 
 const MobileTabBar = () => {
@@ -23,11 +23,11 @@ const MobileTabBar = () => {
       }}
     >
       <div className="flex items-stretch justify-around h-14">
-        {TABS.map(({ to, label, icon: Icon }) => {
-          const active = to === "/" ? pathname === "/" : pathname.startsWith(to);
+        {TABS.map(({ to, label, icon: Icon, exact }) => {
+          const active = exact ? pathname === to : pathname.startsWith(to);
           return (
             <Link
-              key={to}
+              key={label}
               to={to}
               className="flex flex-col items-center justify-center gap-0.5 flex-1 transition-colors duration-300"
               style={{ color: active ? 'hsl(var(--foreground))' : 'hsl(var(--muted-foreground) / 0.4)' }}
