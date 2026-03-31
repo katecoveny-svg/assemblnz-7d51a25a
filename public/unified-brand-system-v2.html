@@ -240,10 +240,37 @@ canvas.sf { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1;
 
 /* ── MONO ── */
 .wm-mono-dark { font-family:'Lato',sans-serif; font-weight:300; font-size:14px; letter-spacing:6px; text-transform:uppercase; color:#0A0A14; }
-.mark-mono-dark { filter: brightness(0); }
+/* ── BACK NAV ── */
+.back-nav { position:sticky; top:0; z-index:100; background:rgba(9,9,15,.92); backdrop-filter:blur(16px); border-bottom:1px solid rgba(255,255,255,.04); padding:12px 40px; display:flex; align-items:center; justify-content:space-between; }
+.back-nav a { display:inline-flex; align-items:center; gap:8px; text-decoration:none; color:rgba(212,168,67,.7); font-family:'Lato',sans-serif; font-size:11px; font-weight:400; letter-spacing:2px; text-transform:uppercase; transition:color .3s; }
+.back-nav a:hover { color:#D4A843; }
+.back-nav .brand-title { font-size:10px; color:rgba(255,255,255,.3); letter-spacing:3px; }
+
+/* ── MOBILE RESPONSIVE ── */
+@media (max-width: 768px) {
+  .page { padding: 24px 16px 80px; }
+  .page-title { font-size: 22px; letter-spacing: 2px; }
+  .page-subtitle { font-size: 11px; }
+  .g2, .g3, .g4, .g5 { grid-template-columns: 1fr; }
+  .dl-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .card.hero, .card.xl { min-height: 200px; }
+  .back-nav { padding: 10px 16px; }
+}
+@media (max-width: 480px) {
+  .dl-grid { grid-template-columns: 1fr !important; }
+  .page-title { font-size: 18px; }
+}
 </style>
 </head>
 <body>
+
+<div class="back-nav">
+  <a href="/">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5m7-7l-7 7 7 7"/></svg>
+    Back to Assembl
+  </a>
+  <span class="brand-title">MĀRAMA BRAND SYSTEM</span>
+</div>
 
 <div class="page">
 
