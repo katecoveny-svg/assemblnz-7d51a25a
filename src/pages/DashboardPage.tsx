@@ -853,8 +853,8 @@ const DashboardPage = () => {
                         </div>
                         <div className="space-y-1">
                           {agentExports.slice(0, 3).map((exp) => (
-                            <Link key={exp.id} to={`/chat/${agent?.id || exp.agent_id}`} className="flex items-center justify-between py-1.5 px-2 rounded-lg hover:bg-white/[0.04] transition-colors cursor-pointer">
-                              <div className="flex items-center gap-2 flex-1 min-w-0">
+                            <div key={exp.id} className="flex items-center justify-between py-1.5 px-2 rounded-lg hover:bg-white/[0.04] transition-colors">
+                              <Link to={`/chat/${agent?.id || exp.agent_id}`} className="flex items-center gap-2 flex-1 min-w-0">
                                 {exp.output_type === "generated_image" && exp.image_url ? (
                                   <img src={exp.image_url} alt={exp.title} className="w-8 h-8 rounded object-cover shrink-0 border border-white/10" />
                                 ) : (
@@ -862,12 +862,27 @@ const DashboardPage = () => {
                                 )}
                                 <span className="text-[11px] text-foreground truncate">{exp.title}</span>
                                 <span className="text-[8px] px-1.5 py-0.5 rounded-full uppercase shrink-0" style={{ background: `${color}15`, color }}>{exp.format || exp.output_type}</span>
-                              </div>
-                              <div className="flex items-center gap-2 shrink-0 ml-2">
+                              </Link>
+                              <div className="flex items-center gap-1.5 shrink-0 ml-2">
+                                {exp.image_url && (
+                                  <a href={exp.image_url} download target="_blank" rel="noopener noreferrer"
+                                    className="p-1 rounded hover:bg-white/10 transition-colors" title="Download"
+                                    onClick={(e) => e.stopPropagation()}>
+                                    <Download size={10} style={{ color }} />
+                                  </a>
+                                )}
+                                {exp.content_preview && (
+                                  <button onClick={(e) => { e.stopPropagation(); navigator.clipboard.writeText(exp.content_preview || ""); toast.success("Copied to clipboard"); }}
+                                    className="p-1 rounded hover:bg-white/10 transition-colors" title="Copy content">
+                                    <Copy size={10} style={{ color }} />
+                                  </button>
+                                )}
                                 <span className="text-[9px] text-muted-foreground">{timeAgo(exp.created_at)}</span>
-                                <ChevronRight size={10} style={{ color }} />
+                                <Link to={`/chat/${agent?.id || exp.agent_id}`}>
+                                  <ChevronRight size={10} style={{ color }} />
+                                </Link>
                               </div>
-                            </Link>
+                            </div>
                           ))}
                           {agentExports.length > 3 && <p className="text-[9px] text-muted-foreground pl-4">+{agentExports.length - 3} more</p>}
                         </div>
