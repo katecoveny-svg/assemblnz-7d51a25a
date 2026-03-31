@@ -64,6 +64,7 @@ const ToroaLandingPage = lazy(() => import("./pages/ToroaLandingPage"));
 const ToroaApp = lazy(() => import("./pages/HelmApp"));
 const AgentApp = lazy(() => import("./pages/AgentApp"));
 const AdminSmsPage = lazy(() => import("./pages/AdminSmsPage"));
+const CareDashboard = lazy(() => import("./pages/CareDashboard"));
 
 const queryClient = new QueryClient();
 
