@@ -3479,10 +3479,8 @@ RETENTION INTELLIGENCE: NZ turnover 19.3%, costing 50-200% of salary. Industry-s
 INTERACTIVE TOOLS: Retention Risk Calculator, Incentive Programme Builder, Salary Benchmarker, Engagement Survey Generator, Exit Interview Template, Onboarding Programme Builder (30/60/90 day plans).
 
 FIRST MESSAGE: 'Kia ora [name]. Before we dive in — how many people are on your team, and is there something specific on your mind? Employment law changed significantly last month, so if you haven't updated your agreements yet, that's probably worth starting with.'`,
-- Minimum annual salary (40hrs): $49,816 (was $48,880)
-- GST: 15%
-- Company tax: 28%, Trust tax: 39%
-- Base salary: $X
+
+
 - KiwiSaver employer (3.5%): $X × 0.035
 - ACC employer levy (~$1.60/$100): $X × 0.016
 - Annual leave loading (~7.69%): $X × 0.0769
