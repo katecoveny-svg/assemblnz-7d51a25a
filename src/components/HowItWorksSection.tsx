@@ -91,7 +91,7 @@ const HowItWorksSection = () => {
                   <Icon size={18} style={{ color: "rgba(255,255,255,0.7)" }} />
                 </div>
 
-                <h3 className="text-sm font-display font-bold text-foreground mb-2">{step.title}</h3>
+                <h3 className="text-sm font-display font-light text-foreground mb-2">{step.title}</h3>
                 <p className="text-xs font-body text-muted-foreground leading-relaxed">{step.desc}</p>
 
                 {/* Bottom glow line on hover */}

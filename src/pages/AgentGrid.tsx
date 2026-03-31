@@ -190,7 +190,7 @@ const AgentGrid = () => {
             <div className="inline-flex items-center gap-3 rounded-full border border-border bg-card px-1.5 py-1.5">
               <button
                 onClick={() => setIsAnnual(false)}
-                className="px-4 py-1.5 rounded-full text-xs font-display font-bold transition-all"
+                className="px-4 py-1.5 rounded-full text-xs font-display font-light transition-all"
                 style={{
                   background: !isAnnual ? "hsl(var(--primary))" : "transparent",
                   color: !isAnnual ? "hsl(var(--primary-foreground))" : "hsl(var(--muted-foreground))",
@@ -200,7 +200,7 @@ const AgentGrid = () => {
               </button>
               <button
                 onClick={() => setIsAnnual(true)}
-                className="px-4 py-1.5 rounded-full text-xs font-display font-bold transition-all"
+                className="px-4 py-1.5 rounded-full text-xs font-display font-light transition-all"
                 style={{
                   background: isAnnual ? "hsl(var(--primary))" : "transparent",
                   color: isAnnual ? "hsl(var(--primary-foreground))" : "hsl(var(--muted-foreground))",
@@ -223,7 +223,7 @@ const AgentGrid = () => {
               return (
                 <div key={plan.name} className="relative pt-4">
                   {plan.highlighted && (
-                    <span className="absolute top-0 left-1/2 -translate-x-1/2 z-10 text-[10px] font-display font-bold px-3 py-1 rounded-full" style={{ background: plan.color, color: "hsl(var(--background))" }}>
+                    <span className="absolute top-0 left-1/2 -translate-x-1/2 z-10 text-[10px] font-display font-light px-3 py-1 rounded-full" style={{ background: plan.color, color: "hsl(var(--background))" }}>
                       MOST POPULAR
                     </span>
                   )}
@@ -236,9 +236,9 @@ const AgentGrid = () => {
                     }}
                   >
                     <span className="absolute top-0 left-[15%] right-[15%] h-px opacity-30" style={{ background: `linear-gradient(90deg, transparent, ${plan.color}, transparent)` }} />
-                    <h3 className="text-base font-display font-bold text-foreground">{plan.name}</h3>
+                    <h3 className="text-base font-display font-light text-foreground">{plan.name}</h3>
                     <div className="flex items-baseline gap-0.5 my-3">
-                      <span className="text-2xl font-display font-bold" style={{ color: plan.color }}>{price}</span>
+                      <span className="text-2xl font-display font-light" style={{ color: plan.color }}>{price}</span>
                       {period && <span className="text-[10px] font-body text-muted-foreground">{period}</span>}
                     </div>
                     {isAnnual && plan.monthlyPrice > 0 && (
@@ -259,7 +259,7 @@ const AgentGrid = () => {
                         href={plan.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block text-center text-xs font-display font-bold py-2.5 rounded-xl transition-all duration-300 hover:shadow-lg"
+                        className="block text-center text-xs font-display font-light py-2.5 rounded-xl transition-all duration-300 hover:shadow-lg"
                         style={{
                           background: plan.highlighted ? plan.color : "transparent",
                           color: plan.highlighted ? "#0A0A14" : plan.color,
@@ -272,7 +272,7 @@ const AgentGrid = () => {
                     ) : (
                       <Link
                         to={plan.href}
-                        className="block text-center text-xs font-display font-bold py-2.5 rounded-xl transition-all duration-300"
+                        className="block text-center text-xs font-display font-light py-2.5 rounded-xl transition-all duration-300"
                         style={{
                           background: plan.highlighted ? plan.color : "transparent",
                           color: plan.highlighted ? "#0A0A14" : plan.color,
@@ -321,7 +321,7 @@ const AgentGrid = () => {
             "I built Assembl because NZ businesses deserve specialist tools that understand our laws, our culture, and the way we work.
             Every tool is trained on real NZ legislation — not generic overseas advice."
           </p>
-          <p className="text-xs font-display font-bold text-foreground">Kate</p>
+          <p className="text-xs font-display font-light text-foreground">Kate</p>
           <p className="text-[11px] font-body text-muted-foreground">Founder, Assembl · Auckland</p>
         </div>
       </section>
@@ -387,7 +387,7 @@ const AgentGrid = () => {
             </div>
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-display font-bold transition-all duration-300"
+              className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-display font-light transition-all duration-300"
               style={{
                 background: "linear-gradient(135deg, rgba(212,168,67,0.2), rgba(58,125,110,0.2))",
                 border: "1px solid rgba(212,168,67,0.3)",

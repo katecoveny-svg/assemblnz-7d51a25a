@@ -59,7 +59,7 @@ const FAQSection = () => {
                   onClick={() => setOpenIndex(isOpen ? null : i)}
                   className="w-full flex items-center justify-between px-5 sm:px-6 py-4 sm:py-5 text-left"
                 >
-                  <span className="text-[13px] sm:text-sm font-display font-bold text-foreground pr-4">{faq.q}</span>
+                  <span className="text-[13px] sm:text-sm font-display font-light text-foreground pr-4">{faq.q}</span>
                   <ChevronDown
                     size={16}
                     className="shrink-0 text-muted-foreground/50 transition-transform duration-300"
