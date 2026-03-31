@@ -1,25 +1,66 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import AccountDropdown from "@/components/AccountDropdown";
 import NotificationBell from "@/components/NotificationBell";
 import { assemblMark } from "@/assets/brand";
 
-const NAV_LINKS = [
-  { to: "/content-hub", label: "Specialist Tools" },
-  { to: "/content-hub", label: "Strategy Hub" },
-  { to: "/pricing", label: "Pricing" },
-  { to: "/embed", label: "Embed" },
-  { to: "/dashboard", label: "Intelligence" },
-  { to: "/invest", label: "Invest" },
-  { to: "/brand-guidelines", label: "Brand" },
+interface NavItem {
+  label: string;
+  to?: string;
+  children?: { label: string; to: string; desc: string }[];
+}
+
+const NAV_ITEMS: NavItem[] = [
+  {
+    label: "Platform",
+    children: [
+      { label: "Iho — Brain & Router", to: "/#pipeline", desc: "Central intelligence orchestrator" },
+      { label: "Kahu — Compliance", to: "/#pipeline", desc: "PII masking & privacy guardian" },
+      { label: "Tā — Audit Trail", to: "/#pipeline", desc: "Every request logged & costed" },
+      { label: "Mahara — Memory", to: "/#pipeline", desc: "Business context engine" },
+      { label: "Mana — Access Control", to: "/#pipeline", desc: "Role-based permissions" },
+      { label: "Kanohi — Dashboard", to: "/dashboard", desc: "Bilingual intelligence hub" },
+    ],
+  },
+  {
+    label: "Industry Packs",
+    children: [
+      { label: "Manaaki — Hospitality", to: "/content-hub#manaaki", desc: "Food safety, liquor, guest comms" },
+      { label: "Hanga — Construction", to: "/hanga", desc: "Consents, safety, BIM, quality" },
+      { label: "Auaha — Creative", to: "/content-hub#auaha", desc: "Brand, social, imagery, campaigns" },
+      { label: "Pakihi — Business", to: "/content-hub#pakihi", desc: "Payroll, employment, GST, insurance" },
+      { label: "Hangarau — Technology", to: "/content-hub#hangarau", desc: "Cyber, apps, APIs, monitoring" },
+    ],
+  },
+  { label: "Te Kāhui Reo", to: "/#te-kahui-reo" },
+  { label: "Pricing", to: "/pricing" },
+  { label: "Dashboard", to: "/dashboard" },
+  { label: "Invest", to: "/invest" },
 ];
 
 const BrandNav = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+
+  const handleNavClick = (to: string) => {
+    setMobileOpen(false);
+    setOpenDropdown(null);
+    if (to.startsWith("/#")) {
+      const hash = to.slice(1);
+      if (location.pathname === "/") {
+        document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" });
+      } else {
+        navigate("/" + hash);
+      }
+    } else {
+      navigate(to);
+    }
+  };
 
   return (
     <>
@@ -54,23 +95,63 @@ const BrandNav = () => {
         <div className="flex-1" />
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-6 text-[13px]">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.label}
-              to={link.to}
-              className="font-body font-medium text-white/65 hover:text-foreground transition-colors duration-250 relative group"
-            >
-              {link.label}
-              <span className="absolute -bottom-1 left-0 w-0 h-px bg-primary/50 group-hover:w-full transition-all duration-300" />
-            </Link>
+        <nav className="hidden lg:flex items-center gap-1 text-[13px]">
+          {NAV_ITEMS.map((item) => (
+            <div key={item.label} className="relative" onMouseEnter={() => item.children && setOpenDropdown(item.label)} onMouseLeave={() => setOpenDropdown(null)}>
+              {item.children ? (
+                <button
+                  className="flex items-center gap-1 px-3 py-2 rounded-lg font-body font-medium text-white/65 hover:text-foreground transition-colors duration-250"
+                  onClick={() => setOpenDropdown(openDropdown === item.label ? null : item.label)}
+                >
+                  {item.label}
+                  <ChevronDown size={12} className="transition-transform" style={{ transform: openDropdown === item.label ? "rotate(180deg)" : "none" }} />
+                </button>
+              ) : (
+                <button
+                  onClick={() => handleNavClick(item.to!)}
+                  className="px-3 py-2 rounded-lg font-body font-medium text-white/65 hover:text-foreground transition-colors duration-250"
+                >
+                  {item.label}
+                </button>
+              )}
+
+              {/* Dropdown */}
+              <AnimatePresence>
+                {item.children && openDropdown === item.label && (
+                  <motion.div
+                    className="absolute top-full left-0 mt-1 w-[260px] rounded-xl overflow-hidden z-50"
+                    style={{
+                      background: "#0D0D15",
+                      border: "1px solid rgba(255,255,255,0.08)",
+                      boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+                    }}
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.15 }}
+                  >
+                    {item.children.map((child) => (
+                      <button
+                        key={child.label}
+                        onClick={() => handleNavClick(child.to)}
+                        className="w-full text-left px-4 py-3 hover:bg-white/5 transition-colors block"
+                        style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}
+                      >
+                        <p className="text-xs font-medium" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>{child.label}</p>
+                        <p className="text-[10px] mt-0.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.35)" }}>{child.desc}</p>
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           ))}
           <NotificationBell />
           <AccountDropdown />
         </nav>
 
-        {/* Mobile hamburger */}
-        <div className="flex md:hidden items-center gap-2">
+        {/* Tablet/Mobile hamburger */}
+        <div className="flex lg:hidden items-center gap-2">
           <NotificationBell />
           <button
             onClick={() => setMobileOpen(true)}
@@ -87,7 +168,6 @@ const BrandNav = () => {
       <AnimatePresence>
         {mobileOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               className="fixed inset-0 z-[60]"
               style={{ background: "rgba(0,0,0,0.6)" }}
@@ -96,9 +176,8 @@ const BrandNav = () => {
               exit={{ opacity: 0 }}
               onClick={() => setMobileOpen(false)}
             />
-            {/* Drawer */}
             <motion.div
-              className="fixed top-0 right-0 bottom-0 z-[70] w-[280px] flex flex-col"
+              className="fixed top-0 right-0 bottom-0 z-[70] w-[300px] flex flex-col overflow-y-auto"
               style={{
                 background: "#0D0D15",
                 borderLeft: "1px solid rgba(255,255,255,0.08)",
@@ -108,7 +187,6 @@ const BrandNav = () => {
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}
             >
-              {/* Close */}
               <div className="flex items-center justify-between px-5 py-4">
                 <span style={{ fontFamily: "'Lato', sans-serif", fontWeight: 700, fontSize: "12px", letterSpacing: "3px", color: "#D4A843" }}>MENU</span>
                 <button onClick={() => setMobileOpen(false)} className="p-1.5 rounded-lg" style={{ color: "rgba(255,255,255,0.6)" }} aria-label="Close menu">
@@ -116,29 +194,64 @@ const BrandNav = () => {
                 </button>
               </div>
 
-              {/* Links */}
               <nav className="flex-1 px-4 py-2 space-y-1">
-                {NAV_LINKS.map((link) => {
-                  const active = location.pathname === link.to;
+                {NAV_ITEMS.map((item) => {
+                  if (item.children) {
+                    const isExpanded = mobileExpanded === item.label;
+                    return (
+                      <div key={item.label}>
+                        <button
+                          onClick={() => setMobileExpanded(isExpanded ? null : item.label)}
+                          className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-body transition-all duration-200"
+                          style={{ color: isExpanded ? "#D4A843" : "rgba(255,255,255,0.7)", background: isExpanded ? "rgba(212,168,67,0.08)" : "transparent" }}
+                        >
+                          {item.label}
+                          <ChevronDown size={14} style={{ transform: isExpanded ? "rotate(180deg)" : "none", transition: "transform 0.2s" }} />
+                        </button>
+                        <AnimatePresence>
+                          {isExpanded && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="pl-4 py-1 space-y-0.5">
+                                {item.children.map((child) => (
+                                  <button
+                                    key={child.label}
+                                    onClick={() => handleNavClick(child.to)}
+                                    className="w-full text-left px-4 py-2.5 rounded-lg text-xs font-body text-white/50 hover:text-white hover:bg-white/5 transition-colors"
+                                  >
+                                    {child.label}
+                                  </button>
+                                ))}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    );
+                  }
+
+                  const active = item.to && location.pathname === item.to;
                   return (
-                    <Link
-                      key={link.label}
-                      to={link.to}
-                      onClick={() => setMobileOpen(false)}
-                      className="block px-4 py-3 rounded-xl text-sm font-body transition-all duration-200"
+                    <button
+                      key={item.label}
+                      onClick={() => handleNavClick(item.to!)}
+                      className="w-full text-left px-4 py-3 rounded-xl text-sm font-body transition-all duration-200"
                       style={{
                         color: active ? "#D4A843" : "rgba(255,255,255,0.7)",
                         background: active ? "rgba(212,168,67,0.08)" : "transparent",
                         fontWeight: active ? 600 : 400,
                       }}
                     >
-                      {link.label}
-                    </Link>
+                      {item.label}
+                    </button>
                   );
                 })}
               </nav>
 
-              {/* Account at bottom */}
               <div className="px-5 py-5 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
                 <AccountDropdown />
               </div>
