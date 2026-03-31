@@ -507,10 +507,10 @@ const AgentGrid = () => {
               style={{
                 fontFamily: "'Lato', sans-serif",
                 fontWeight: 400,
-                background: "linear-gradient(135deg, rgba(212,168,67,0.2), rgba(58,125,110,0.2))",
-                border: "1px solid rgba(212,168,67,0.3)",
-                color: "#D4A843",
-                boxShadow: "0 0 20px rgba(212,168,67,0.1)",
+                background: "#D4A843",
+                border: "1px solid #D4A843",
+                color: "#09090F",
+                boxShadow: "0 0 20px rgba(212,168,67,0.2)",
               }}
               onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0 0 35px rgba(212,168,67,0.2)"; e.currentTarget.style.borderColor = "rgba(212,168,67,0.5)"; }}
               onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "0 0 20px rgba(212,168,67,0.1)"; e.currentTarget.style.borderColor = "rgba(212,168,67,0.3)"; }}
