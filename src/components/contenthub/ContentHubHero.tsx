@@ -5,7 +5,7 @@ const ContentHubHero = () => {
   const [agentCount, setAgentCount] = useState(0);
 
   useEffect(() => {
-    const target = 42;
+    const target = 44;
     const duration = 2000;
     const step = duration / target;
     let current = 0;
