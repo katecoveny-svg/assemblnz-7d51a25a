@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import toroaIcon from "@/assets/brand/toroa-hero.png";
 
 const TE_KAHUI_REO_AGENTS = [
   { name: "IHO", desc: "Intelligent router & orchestrator" },
@@ -125,8 +126,90 @@ const TeKahuiReoSection = () => (
         ))}
       </div>
 
-      {/* CTA + Tōroa card */}
-      <div className="flex flex-col sm:flex-row items-center gap-5">
+      {/* Tōroa showcase with video + image */}
+      <motion.div
+        className="rounded-xl overflow-hidden mb-8"
+        style={{
+          background: "rgba(15,15,26,0.7)",
+          backdropFilter: "blur(10px)",
+          border: "1px solid rgba(212,168,67,0.2)",
+        }}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+      >
+        <div className="flex flex-col sm:flex-row">
+          {/* Video side */}
+          <div className="sm:w-1/2 relative">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover"
+              style={{ minHeight: "220px" }}
+            >
+              <source src="/videos/toroa-fly.mp4" type="video/mp4" />
+            </video>
+          </div>
+          {/* Info side */}
+          <div className="sm:w-1/2 p-6 flex flex-col justify-center">
+            <div className="flex items-center gap-3 mb-4">
+              <img src={toroaIcon} alt="Tōroa" className="w-12 h-12 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 12px rgba(212,168,67,0.3))" }} />
+              <div>
+                <span
+                  style={{
+                    fontFamily: "'Lato', sans-serif",
+                    fontWeight: 700,
+                    fontSize: "15px",
+                    color: "#D4A843",
+                    letterSpacing: "3px",
+                  }}
+                >
+                  TŌROA
+                </span>
+                <p
+                  style={{
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    fontWeight: 400,
+                    fontSize: "12px",
+                    color: "rgba(255,255,255,0.65)",
+                  }}
+                >
+                  Family AI Navigator
+                </p>
+              </div>
+            </div>
+            <p
+              style={{
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontWeight: 400,
+                fontSize: "14px",
+                color: "rgba(255,255,255,0.65)",
+                lineHeight: 1.7,
+                marginBottom: "16px",
+              }}
+            >
+              SMS-first whānau intelligence. Meal plans, budgets, school admin, and NZ benefit eligibility — all from a text message. From $14/mo.
+            </p>
+            <Link
+              to="/chat/toroa"
+              className="inline-flex items-center gap-2 text-sm transition-colors"
+              style={{
+                fontFamily: "'Lato', sans-serif",
+                fontWeight: 400,
+                color: "#D4A843",
+              }}
+            >
+              Try Tōroa <ArrowRight size={14} />
+            </Link>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* CTA */}
+      <div className="text-center">
         <Link
           to="/content-hub"
           className="inline-flex items-center gap-2 text-sm px-6 py-3 rounded-xl transition-all duration-300"
@@ -137,64 +220,9 @@ const TeKahuiReoSection = () => (
             border: "1px solid rgba(58,125,110,0.4)",
             background: "rgba(58,125,110,0.05)",
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = "rgba(58,125,110,0.6)";
-            e.currentTarget.style.boxShadow = "0 0 20px rgba(58,125,110,0.1)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = "rgba(58,125,110,0.4)";
-            e.currentTarget.style.boxShadow = "none";
-          }}
         >
           Explore Te Kāhui Reo <ArrowRight size={14} />
         </Link>
-
-        <div
-          className="flex-1 rounded-xl px-5 py-4"
-          style={{
-            background: "rgba(15,15,26,0.7)",
-            backdropFilter: "blur(10px)",
-            border: "1px solid rgba(212,168,67,0.15)",
-          }}
-        >
-          <div className="flex items-center justify-between flex-wrap gap-2">
-            <div>
-              <span
-                style={{
-                  fontFamily: "'Lato', sans-serif",
-                  fontWeight: 700,
-                  fontSize: "13px",
-                  color: "#D4A843",
-                  letterSpacing: "2px",
-                }}
-              >
-                TŌROA
-              </span>
-              <span
-                className="ml-3"
-                style={{
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  fontWeight: 400,
-                  fontSize: "12px",
-                  color: "rgba(255,255,255,0.65)",
-                }}
-              >
-                Family AI Navigator · SMS-first · Whānau intelligence · From $14/mo
-              </span>
-            </div>
-            <Link
-              to="/chat/toroa"
-              className="text-xs transition-colors"
-              style={{
-                fontFamily: "'Lato', sans-serif",
-                fontWeight: 400,
-                color: "#D4A843",
-              }}
-            >
-              Learn more →
-            </Link>
-          </div>
-        </div>
       </div>
     </div>
   </section>
