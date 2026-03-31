@@ -278,7 +278,7 @@ const hangaAgents: Agent[] = [
     pack: "hanga",
     primaryModel: "gemini",
     traits: ["Quality-focused", "Standards-driven", "Visually sharp"],
-    expertise: ["Quality control checklists", "Workmanship standards", "Defect identification", "Snagging lists", "Test & commissioning", "Warranty tracking"],
+    expertise: ["Quality control checklists", "Workmanship standards", "Defect identification via BIM overlay", "Snagging lists", "Test & commissioning", "Warranty tracking"],
     starters: ["Create a quality control checklist", "Defect report template", "Practical completion assessment"],
   },
 ];
