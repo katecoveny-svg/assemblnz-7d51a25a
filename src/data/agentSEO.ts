@@ -190,7 +190,6 @@ export const agentSEO: Record<string, { title: string; description: string }> = 
     title: "HAUMARU — Emergency Preparedness | Assembl",
     description: "Earthquake preparedness, tsunami zones, emergency kits, NEMA alerts, civil defence coordination. Prepared communities save lives. Part of Assembl — business intelligence for NZ.",
   },
-  },
   podcast: {
     title: "KŌRERO — AI Podcast Production | Multi-Agent Workflow | Assembl",
     description: "Full podcast episodes in under 5 minutes. KŌRERO orchestrates 5 specialist agents — strategy, scripting, production, brand alignment, and compliance — into one seamless workflow. Part of Assembl — business intelligence for NZ.",
