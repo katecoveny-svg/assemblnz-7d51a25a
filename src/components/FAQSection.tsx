@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
 const FAQS = [
-  { q: "What is Assembl?", a: "Most businesses know they need to comply with NZ law. They just don't have time to read it all. Assembl has — 50+ Acts, from the Holidays Act to the Health and Safety at Work Act. Our 44 specialist tools turn that legislation into plain-English guidance, instant document generation, and compliance checks that take seconds instead of hours." },
+  { q: "What is Assembl?", a: "Most businesses know they need to comply with NZ law. They just don't have time to read it all. Assembl has — 50+ Acts, from the Holidays Act to the Health and Safety at Work Act. Our 45 specialist tools turn that legislation into plain-English guidance, instant document generation, and compliance checks that take seconds instead of hours." },
   { q: "How is this different from ChatGPT?", a: "ChatGPT gives generic answers based on global training data. Assembl's 44 tools are each trained specifically on NZ legislation — the Employment Relations Act, Building Act, Food Act, Sale and Supply of Alcohol Act, and 50+ other NZ statutes. When you ask a compliance question, you get an answer grounded in the law that actually applies to your business, not American case law rephrased for a NZ audience." },
   { q: "What is the minimum wage in New Zealand in 2026?", a: "As of 1 April 2026, the NZ adult minimum wage is $23.65 per hour. The starting-out and training minimum wage is $18.92 per hour." },
   { q: "Do I need technical skills to use it?", a: "Not at all. Every advisor works through natural conversation — just type or speak. No code, no setup, no training required." },
@@ -15,7 +15,7 @@ const FAQS = [
   { q: "What happens if legislation changes?", a: "We monitor NZ legislative changes and update our tools regularly. When a rate changes (like minimum wage or KiwiSaver), a new regulation takes effect, or an Act is amended, the relevant specialist tools are updated to reflect the current law." },
   { q: "How does the annual discount work?", a: "Annual billing saves you 15% compared to monthly. You're billed once per year at the discounted rate, and can cancel anytime." },
   { q: "Can I embed tools on my website?", a: "Yes. Pro and above plans include an embeddable chat widget. Drop it straight into your website — instant compliance support for your team or customers." },
-  { q: "What industries do you cover?", a: "Construction, hospitality, property management, automotive, HR, finance, maritime, agriculture, nonprofit, government, health, education, and many more — 44 specialist tools across every major NZ industry." },
+  { q: "What industries do you cover?", a: "Construction, hospitality, property management, automotive, HR, finance, maritime, agriculture, nonprofit, government, health, education, and many more — 45 specialist tools across every major NZ industry." },
   { q: "Who built this?", a: "Assembl was founded in Auckland by Kate Hudson. Every tool is designed, trained, and maintained in Aotearoa. We're not a US company rebranded for NZ — we built this from the ground up for how New Zealand businesses actually operate." },
 ];
 

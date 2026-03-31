@@ -188,7 +188,7 @@ const NexusLandingPage = () => {
     setMeta("og:description", "Tariff classification, duty calculations, FTA analysis, and MPI compliance — without calling your broker every time.");
     setMeta("og:url", "https://assembl.co.nz/nexus");
     setMeta("description", "NEXUS processes commercial invoices to import entries in minutes. Auto tariff classification, duty & GST calculations, and MPI flag detection for NZ importers.", "name");
-    return () => { document.title = "Assembl | Business Intelligence Platform for NZ | 44 Specialist Tools"; };
+    return () => { document.title = "Assembl | Business Intelligence Platform for NZ | 45 Specialist Tools"; };
   }, []);
 
   return (

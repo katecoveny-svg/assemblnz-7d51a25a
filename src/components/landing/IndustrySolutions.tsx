@@ -159,7 +159,7 @@ const IndustrySolutions = () => {
               WebkitBackdropFilter: 'blur(16px)',
             }}
           >
-            {expanded ? "Collapse" : "See all 44 specialist tools"}
+            {expanded ? "Collapse" : "See all 45 specialist tools"}
             <motion.span animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.3 }}>
               <ChevronDown size={16} />
             </motion.span>

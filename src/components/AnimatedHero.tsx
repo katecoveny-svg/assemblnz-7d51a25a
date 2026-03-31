@@ -9,7 +9,7 @@ interface AnimatedHeroProps {
 }
 
 const STAT_PILLS = [
-  { value: "44", label: "specialist tools", color: "#D4A843" },
+  { value: "45", label: "specialist tools", color: "#D4A843" },
   { value: "50+", label: "NZ Acts", color: "#3A7D6E" },
   { value: "16", label: "industries", color: "#D4A843" },
   { value: "$89", label: "/mo NZD", color: "#3A7D6E" },

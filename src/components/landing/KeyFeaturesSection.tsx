@@ -13,7 +13,7 @@ const FEATURES = [
   },
   {
     icon: Users,
-    title: "44 Specialist Agents",
+    title: "45 Specialist Agents",
     desc: "Across 5 industry packs — each with specific skills, preferred AI model, and deep NZ expertise. Extensible for future agents.",
     color: "hsl(var(--pounamu))",
   },

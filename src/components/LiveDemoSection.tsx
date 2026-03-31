@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 import AgentAvatar from "@/components/AgentAvatar";
 
 const STATS = [
-  { value: "44", label: "Specialist Tools" },
+  { value: "45", label: "Specialist Tools" },
   { value: "50+", label: "NZ Acts" },
   { value: "16", label: "Industries" },
   { value: "24/7", label: "Always On" },
