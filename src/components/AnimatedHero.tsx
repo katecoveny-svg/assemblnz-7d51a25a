@@ -133,8 +133,8 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
         >
-          <button
-            onClick={onScrollToGrid}
+          <Link
+            to="/content-hub"
             className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm rounded-full transition-all duration-300"
             style={{
               fontFamily: "'Lato', sans-serif",
@@ -154,7 +154,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
             }}
           >
             Browse all tools <ArrowRight size={16} />
-          </button>
+          </Link>
           <Link
             to="/content-hub"
             className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm rounded-full transition-all duration-300"
