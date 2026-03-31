@@ -175,8 +175,8 @@ const AgentGrid = () => {
         <AnimatedHero onScrollToGrid={scrollToGrid} />
       </div>
 
-      {/* ═══════════════════════ INTELLIGENCE SPECIALISTS — Grouped by Pack ═══════════════════════ */}
-      <main id="expert-team" ref={gridRef} className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 w-full">
+      {/* ═══════════════════════ INTELLIGENCE SPECIALISTS — Pack Overview ═══════════════════════ */}
+      <main id="expert-team" ref={gridRef} className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-16 w-full">
         <motion.div
           className="text-center mb-14"
           initial={{ opacity: 0, y: 20 }}
@@ -186,63 +186,95 @@ const AgentGrid = () => {
         >
           <p className="font-mono-jb text-[10px] tracking-[4px] uppercase text-primary/60 mb-3">44 Intelligence Specialists</p>
           <h2 className="text-2xl sm:text-4xl font-display tracking-[0.02em] text-foreground mb-3 heading-glow section-heading" style={{ fontWeight: 700 }}>Your Specialist Team</h2>
-          <p className="text-sm font-body text-muted-foreground max-w-md mx-auto">Tap any tool to chat live — no signup needed.</p>
+          <p className="text-sm font-body text-muted-foreground max-w-md mx-auto">Five industry packs, each with specialist tools trained on NZ legislation.</p>
         </motion.div>
 
-        {/* 5 Industry Packs */}
-        {packs.map((pack, packIdx) => {
-          const packAgents = agents.filter(a => a.pack === pack.id);
-          const meta = PACK_META[pack.id];
-          if (packAgents.length === 0) return null;
+        {/* Pack cards — one per pack */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
+          {packs.map((pack, packIdx) => {
+            const packAgents = agents.filter(a => a.pack === pack.id);
+            const meta = PACK_META[pack.id];
+            if (packAgents.length === 0) return null;
 
-          return (
-            <motion.section
-              key={pack.id}
-              className="mb-16"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: packIdx * 0.05 }}
-            >
-              {/* Pack header */}
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: pack.color }} />
-                <h3 className="font-display text-lg tracking-[0.02em] text-foreground heading-glow" style={{ fontWeight: 700 }}>{pack.name}</h3>
-                <span className="font-mono text-[10px] text-muted-foreground tracking-wider uppercase">{pack.label}</span>
-              </div>
-              <p className="text-xs font-body text-muted-foreground mb-6 ml-[22px]">{meta?.description}</p>
+            return (
+              <motion.div
+                key={pack.id}
+                className="relative rounded-2xl p-6 border border-border bg-card group card-glow-hover"
+                style={{ backdropFilter: "blur(12px)" }}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: packIdx * 0.08 }}
+              >
+                {/* Top accent line */}
+                <span
+                  className="absolute top-0 left-[10%] right-[10%] h-px opacity-40"
+                  style={{ background: `linear-gradient(90deg, transparent, ${pack.color}80, transparent)` }}
+                />
 
-              <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))" }}>
-                {packAgents.map((agent, i) => (
-                  <AgentCard key={agent.id} agent={agent} index={i} />
-                ))}
-              </div>
-            </motion.section>
-          );
-        })}
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: pack.color, boxShadow: `0 0 12px ${pack.color}40` }} />
+                  <h3 className="font-display text-base tracking-[0.02em] text-foreground" style={{ fontWeight: 700 }}>{pack.name}</h3>
+                </div>
 
-        {/* Specialist & Cross-Pack Agents */}
-        {(specialistAgents.length > 0 || crossPackAgents.length > 0) && (
-          <motion.section
-            className="mb-16"
-            initial={{ opacity: 0, y: 30 }}
+                <p className="text-[11px] font-mono-jb tracking-wider uppercase mb-2" style={{ color: pack.color }}>{pack.label}</p>
+                <p className="text-xs font-body text-muted-foreground leading-relaxed mb-4">{meta?.description}</p>
+
+                {/* Agent count + top agent names */}
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {packAgents.slice(0, 4).map(a => (
+                    <span key={a.id} className="text-[10px] font-mono-jb px-2 py-0.5 rounded-full" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.5)" }}>
+                      {a.name}
+                    </span>
+                  ))}
+                  {packAgents.length > 4 && (
+                    <span className="text-[10px] font-mono-jb px-2 py-0.5 rounded-full" style={{ color: pack.color }}>
+                      +{packAgents.length - 4} more
+                    </span>
+                  )}
+                </div>
+
+                <Link
+                  to="/agents"
+                  className="inline-flex items-center gap-1.5 text-xs font-display font-bold transition-all group-hover:gap-2.5"
+                  style={{ color: pack.color }}
+                >
+                  Explore {packAgents.length} tools <ArrowRight size={12} />
+                </Link>
+
+                {/* Bottom glow */}
+                <span className="absolute bottom-0 left-[15%] right-[15%] h-px opacity-0 group-hover:opacity-30 transition-opacity" style={{ background: `linear-gradient(90deg, transparent, ${pack.color}60, transparent)` }} />
+              </motion.div>
+            );
+          })}
+
+          {/* Specialist & Cross-Pack card */}
+          <motion.div
+            className="relative rounded-2xl p-6 border border-border bg-card group card-glow-hover"
+            style={{ backdropFilter: "blur(12px)" }}
+            initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.5, delay: 0.25 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.4 }}
           >
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-2.5 h-2.5 rounded-full bg-foreground/30" />
-              <h3 className="font-display text-lg tracking-[0.02em] text-foreground heading-glow" style={{ fontWeight: 700 }}>Specialist &amp; Cross-Pack</h3>
+            <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)" }} />
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-3 h-3 rounded-full bg-foreground/30" style={{ boxShadow: "0 0 12px rgba(255,255,255,0.15)" }} />
+              <h3 className="font-display text-base tracking-[0.02em] text-foreground" style={{ fontWeight: 700 }}>Specialist &amp; Cross-Pack</h3>
             </div>
-            <p className="text-xs font-body text-muted-foreground mb-6 ml-[22px]">Purpose-built tools that work across every industry pack</p>
-
-            <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))" }}>
-              {[...crossPackAgents, ...specialistAgents].map((agent, i) => (
-                <AgentCard key={agent.id} agent={agent} index={i} />
+            <p className="text-xs font-body text-muted-foreground leading-relaxed mb-4">Purpose-built tools that work across every industry — including Tōroa (Family) and Echo (Founder AI).</p>
+            <div className="flex flex-wrap gap-1.5 mb-4">
+              {[...crossPackAgents, ...specialistAgents].slice(0, 4).map(a => (
+                <span key={a.id} className="text-[10px] font-mono-jb px-2 py-0.5 rounded-full" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.5)" }}>
+                  {a.name}
+                </span>
               ))}
             </div>
-          </motion.section>
-        )}
+            <Link to="/agents" className="inline-flex items-center gap-1.5 text-xs font-display font-bold text-foreground/60 transition-all group-hover:gap-2.5 group-hover:text-foreground/80">
+              View all specialists <ArrowRight size={12} />
+            </Link>
+          </motion.div>
+        </div>
       </main>
 
       {/* ═══════════════════════ HOW IT WORKS ═══════════════════════ */}
