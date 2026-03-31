@@ -1002,7 +1002,7 @@ const ChatPage = () => {
       ["flux_pipeline:Pipeline", "flux_followups:Follow-Ups", "flux_clients:Clients"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isPrism) {
-      ["prism_creative:Studio", "prism_brand:Brand", "prism_adengine:Ad Engine"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
+      ["prism_creative:Studio", "prism_brand:Brand", "prism_adengine:Ad Engine", "prism_podcast:Podcast"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isNonprofit) {
       ["kindle_writer:Campaign Writer", "kindle_marketplace:Marketplace", "kindle_impact:Impact", "kindle_corporate:Corporate"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
