@@ -127,6 +127,8 @@ const App = () => (
                   <Route path="/admin/analytics" element={<Suspense fallback={null}><AdminAnalyticsDashboard /></Suspense>} />
                   <Route path="/admin/messages" element={<Suspense fallback={null}><AdminMessagesPage /></Suspense>} />
                   <Route path="/admin/sms" element={<Suspense fallback={null}><AdminSmsPage /></Suspense>} />
+                  <Route path="/admin/packs" element={<Suspense fallback={null}><AdminPacksPage /></Suspense>} />
+                  <Route path="/packs/:packSlug" element={<Suspense fallback={null}><PackLandingPage /></Suspense>} />
                   <Route path="/developers" element={<Suspense fallback={null}><DevelopersPage /></Suspense>} />
                   <Route path="/brand-guidelines" element={<Suspense fallback={null}><BrandGuidelinesPage /></Suspense>} />
                   <Route path="/logo-stack" element={<Suspense fallback={null}><LogoStackPage /></Suspense>} />
