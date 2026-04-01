@@ -90,11 +90,10 @@ const PackGrid = () => {
 
                 <div className="p-5">
                   <div className="flex items-center gap-3 mb-3">
-                    <div
-                      className="w-8 h-8 shrink-0"
-                      style={{ filter: `drop-shadow(0 0 8px ${pack.color}40)` }}
+                     <div
+                      className="w-8 h-8 shrink-0 flex items-center justify-center"
                     >
-                      {CONSTELLATION_MARKS[pack.id]}
+                      {PACK_ICONS[pack.id]}
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3
