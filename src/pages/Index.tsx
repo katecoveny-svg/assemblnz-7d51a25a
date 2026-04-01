@@ -96,18 +96,25 @@ const Index = () => {
   const handlePilot = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await supabase.from("contact_submissions").insert({ name: pilotName, email: pilotEmail, message: `Founding pilot application — ${pilotBiz}` });
+      const msg = `Founding pilot application — ${pilotBiz}`;
+      const { data: inserted, error } = await supabase.from("contact_submissions").insert({ name: pilotName, email: pilotEmail, message: msg }).select("id").single();
+      if (error) throw error;
       toast.success("Application received! We'll be in touch.");
       setPilotName(""); setPilotEmail(""); setPilotBiz("");
+      supabase.functions.invoke("send-contact-email", { body: { name: pilotName, email: pilotEmail, message: msg } }).catch(console.error);
+      if (inserted?.id) supabase.functions.invoke("qualify-lead", { body: { submissionId: inserted.id } }).catch(console.error);
     } catch { toast.error("Something went wrong. Please try again."); }
   };
 
   const handleContact = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await supabase.from("contact_submissions").insert({ name: contactName, email: contactEmail, message: contactMsg });
+      const { data: inserted, error } = await supabase.from("contact_submissions").insert({ name: contactName, email: contactEmail, message: contactMsg }).select("id").single();
+      if (error) throw error;
       toast.success("Message sent. We'll get back to you soon.");
       setContactName(""); setContactEmail(""); setContactMsg("");
+      supabase.functions.invoke("send-contact-email", { body: { name: contactName, email: contactEmail, message: contactMsg } }).catch(console.error);
+      if (inserted?.id) supabase.functions.invoke("qualify-lead", { body: { submissionId: inserted.id } }).catch(console.error);
     } catch { toast.error("Something went wrong. Please try again."); }
   };
 
