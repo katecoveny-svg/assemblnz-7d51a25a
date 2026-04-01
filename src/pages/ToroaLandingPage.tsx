@@ -335,7 +335,6 @@ export default function ToroaLandingPage() {
       <section className="relative z-10 px-6 py-16 md:py-20">
         <div className="max-w-3xl mx-auto">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={0} className="text-center mb-8">
-            <span className="text-4xl block mb-4">🎓</span>
             <h2 className="font-display text-xl mb-3" style={{ fontWeight: 300, color: "#FFFFFF" }}>
               Try Mārama — instant learning from any video
             </h2>
