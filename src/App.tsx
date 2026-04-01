@@ -75,6 +75,7 @@ const KanohiDashboard = lazy(() => import("./components/hanga/KanohiDashboard"))
 const PackLandingPage = lazy(() => import("./pages/PackLandingPage"));
 const AdminPacksPage = lazy(() => import("./pages/AdminPacksPage"));
 const AdminPackAnalytics = lazy(() => import("./pages/AdminPackAnalytics"));
+const AdminMessagingDashboard = lazy(() => import("./pages/AdminMessagingDashboard"));
 
 const queryClient = new QueryClient();
 
