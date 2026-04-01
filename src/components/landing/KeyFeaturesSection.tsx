@@ -4,55 +4,17 @@ import {
   Lock, Fingerprint, Download, Activity
 } from "lucide-react";
 
+const GOLD = "#D4A843";
+
 const FEATURES = [
-  {
-    icon: Brain,
-    title: "Intent Classification",
-    desc: "Automatically detects which industry pack and agent is needed. Keyword matching, pattern recognition, and confidence scoring.",
-    color: "hsl(var(--kowhai))",
-  },
-  {
-    icon: Users,
-    title: "45 Specialist Agents",
-    desc: "Across 5 industry packs — each with specific skills, preferred AI model, and deep NZ expertise. Extensible for future agents.",
-    color: "hsl(var(--pounamu))",
-  },
-  {
-    icon: GitBranch,
-    title: "Model Routing",
-    desc: "Gemini for speed and multimodal. Claude for reasoning, compliance, and code. Cost-aware routing optimises every request.",
-    color: "hsl(var(--kowhai-light))",
-  },
-  {
-    icon: Shield,
-    title: "Privacy & Compliance",
-    desc: "PII detection for emails, IRD numbers, bank accounts. Privacy Act 2020 compliance across all 13 IPPs plus new IPP 3A.",
-    color: "hsl(var(--pounamu))",
-  },
-  {
-    icon: FileText,
-    title: "Audit Logging",
-    desc: "Every request logged — user, agent, model, tokens, cost, and compliance outcome. CSV export for external analysis.",
-    color: "hsl(var(--tangaroa-light))",
-  },
-  {
-    icon: Database,
-    title: "Business Memory",
-    desc: "Stores conversation context, project info, and preferences. Tag-based retrieval with age-based decay for relevance.",
-    color: "hsl(var(--tangaroa-light))",
-  },
-  {
-    icon: Lock,
-    title: "Access Control",
-    desc: "JWT authentication, 5 user roles (Admin to Trial), tenant isolation, and row-level security on every table.",
-    color: "hsl(var(--pounamu))",
-  },
-  {
-    icon: Fingerprint,
-    title: "Tikanga Alignment",
-    desc: "Cultural sensitivity checks ensure every response respects Māori values, te reo macrons, and Aotearoa context.",
-    color: "hsl(var(--kowhai))",
-  },
+  { icon: Brain, title: "Intent Classification", desc: "Automatically detects which industry pack and agent is needed. Keyword matching, pattern recognition, and confidence scoring." },
+  { icon: Users, title: "45 Specialist Agents", desc: "Across 5 industry packs — each with specific skills, preferred AI model, and deep NZ expertise. Extensible for future agents." },
+  { icon: GitBranch, title: "Model Routing", desc: "Gemini for speed and multimodal. Claude for reasoning, compliance, and code. Cost-aware routing optimises every request." },
+  { icon: Shield, title: "Privacy & Compliance", desc: "PII detection for emails, IRD numbers, bank accounts. Privacy Act 2020 compliance across all 13 IPPs plus new IPP 3A." },
+  { icon: FileText, title: "Audit Logging", desc: "Every request logged — user, agent, model, tokens, cost, and compliance outcome. CSV export for external analysis." },
+  { icon: Database, title: "Business Memory", desc: "Stores conversation context, project info, and preferences. Tag-based retrieval with age-based decay for relevance." },
+  { icon: Lock, title: "Access Control", desc: "JWT authentication, 5 user roles (Admin to Trial), tenant isolation, and row-level security on every table." },
+  { icon: Fingerprint, title: "Tikanga Alignment", desc: "Cultural sensitivity checks ensure every response respects Māori values, te reo macrons, and Aotearoa context." },
 ];
 
 const KeyFeaturesSection = () => (
