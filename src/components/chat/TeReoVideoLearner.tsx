@@ -405,7 +405,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                       {quizScore}/{data.quiz.length}
                     </p>
                     <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "12px", color: "rgba(255,255,255,0.5)" }}>
-                      {quizScore === data.quiz.length ? "Ka rawe! Perfect score! 🌟" : quizScore >= data.quiz.length / 2 ? "Ka pai! Good effort! 💪" : "Kia kaha! Keep practising! 📚"}
+                      {quizScore === data.quiz.length ? "Ka rawe! Perfect score!" : quizScore >= data.quiz.length / 2 ? "Ka pai! Good effort!" : "Kia kaha! Keep practising!"}
                     </p>
                     {onSendToChat && (
                       <button
