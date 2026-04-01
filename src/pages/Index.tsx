@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronDown, Building2, Scale, ShieldAlert, Utensils, HardHat, Palette, Briefcase, Cpu, Brain, Globe, Database, MessageSquare, Send } from "lucide-react";
+import { ArrowRight, ChevronDown, Building2, Scale, ShieldAlert, Brain, Globe, Database, MessageSquare, Send } from "lucide-react";
+import { manaakiMark, hangaMark, auahaMark, pakihiMark, hangarauMark } from "@/assets/brand";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
@@ -55,11 +56,11 @@ const STEPS = [
 
 /* ─── Industry packs ─── */
 const PACKS = [
-  { name: "Manaaki", sub: "Hospitality", icon: Utensils, desc: "Support guest experience, food safety, service operations, and venue workflows.", to: "/packs/manaaki", color: "#D4A843" },
-  { name: "Hanga", sub: "Construction", icon: HardHat, desc: "Support BIM, documentation, safety, project coordination, and quoting workflows.", to: "/packs/hanga", color: "#3A7D6E" },
-  { name: "Auaha", sub: "Creative", icon: Palette, desc: "Support strategy, content, campaigns, creative production, and brand execution.", to: "/packs/auaha", color: "#D4A843" },
-  { name: "Pakihi", sub: "Business Operations", icon: Briefcase, desc: "Support finance, HR, legal admin, planning, reporting, and internal operations.", to: "/packs/pakihi", color: "#3A7D6E" },
-  { name: "Hangarau", sub: "Technology", icon: Cpu, desc: "Support systems, monitoring, architecture, code workflows, and technical delivery.", to: "/packs/hangarau", color: "#1A3A5C" },
+  { name: "Manaaki", sub: "Hospitality", mark: manaakiMark, desc: "Support guest experience, food safety, service operations, and venue workflows.", to: "/packs/manaaki", color: "#D4A843" },
+  { name: "Hanga", sub: "Construction", mark: hangaMark, desc: "Support BIM, documentation, safety, project coordination, and quoting workflows.", to: "/packs/hanga", color: "#3A7D6E" },
+  { name: "Auaha", sub: "Creative", mark: auahaMark, desc: "Support strategy, content, campaigns, creative production, and brand execution.", to: "/packs/auaha", color: "#D4A843" },
+  { name: "Pakihi", sub: "Business Operations", mark: pakihiMark, desc: "Support finance, HR, legal admin, planning, reporting, and internal operations.", to: "/packs/pakihi", color: "#3A7D6E" },
+  { name: "Hangarau", sub: "Technology", mark: hangarauMark, desc: "Support systems, monitoring, architecture, code workflows, and technical delivery.", to: "/packs/hangarau", color: "#1A3A5C" },
 ];
 
 /* ─── Differentiators ─── */
@@ -118,7 +119,7 @@ const Index = () => {
       <BrandNav />
 
       {/* ═══ 1. HERO ═══ */}
-      <section className="relative flex flex-col items-center text-center px-6 sm:px-8 pt-20 sm:pt-28 pb-16">
+      <section className="relative z-0 flex flex-col items-center text-center px-6 sm:px-8 pt-20 sm:pt-28 pb-16">
         {/* Subtle radial glow */}
         <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 40% at 50% 30%, rgba(212,168,67,0.04) 0%, transparent 70%)" }} />
 
@@ -269,7 +270,7 @@ const Index = () => {
             {PACKS.map((p, i) => (
               <motion.div key={p.name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.5 }}>
                 <Link to={p.to} className="block rounded-2xl p-7 transition-all duration-300 hover:translate-y-[-2px] group" style={{ background: "rgba(15,15,26,0.5)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                  <p.icon size={28} className="mb-4" style={{ color: p.color }} />
+                  <img src={p.mark} alt={p.name} className="w-8 h-8 mb-4" />
                   <h3 className="text-base mb-1" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: "#FFFFFF" }}>
                     {p.name} <span style={{ color: "rgba(255,255,255,0.4)" }}>— {p.sub}</span>
                   </h3>
