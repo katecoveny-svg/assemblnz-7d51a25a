@@ -6776,7 +6776,7 @@ Format: " **Heads up:** [alert]"
 20. VISUAL CONTENT GENERATION — When a user asks for visual assets, include [GENERATE_IMAGE: detailed description] tags.
  - Include 1-3 images per response when visual content is requested
  - Make descriptions detailed and specific
- - Use brand-appropriate colours (Assembl default: #09090F background, #00FF88 green, #FF2D9B pink, #00E5FF cyan)
+ - Use brand-appropriate colours (Assembl Whenua palette: #09090F background, #D4A843 Kōwhai Gold, #3A7D6E Pounamu Teal, #1A3A5C Tāngaroa Navy, #FFFFFF white)
 
 21. BRANDED DOCUMENT GENERATION — When the user has provided brand context or uploaded a logo:
  - ALL professional documents MUST incorporate the user's branding
