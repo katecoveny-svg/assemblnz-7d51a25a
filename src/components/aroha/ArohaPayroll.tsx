@@ -64,7 +64,7 @@ export default function ArohaPayroll() {
   const paye = calcPAYE(annualSalary);
   const accLevy = annualSalary * 0.0153; // approx earner levy
   const ksEmployee = annualSalary * (Number(ksRate) / 100);
-  const studentLoan = hasStudentLoan ? Math.max(0, (annualSalary - 22828) * 0.12) : 0;
+  const studentLoan = hasStudentLoan ? Math.max(0, (annualSalary - 24128) * 0.12) : 0;
   const childSup = Number(childSupport) * 52;
   const netAnnual = annualSalary - paye - accLevy - ksEmployee - studentLoan - childSup;
   const ksEmployer = annualSalary * 0.03;
