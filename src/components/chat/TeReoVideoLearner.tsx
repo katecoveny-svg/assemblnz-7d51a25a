@@ -162,7 +162,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                   key={ex.id}
                   onClick={() => { setUrl(`https://www.youtube.com/watch?v=${ex.id}`); handleGenerate(`https://www.youtube.com/watch?v=${ex.id}`); }}
                   className="rounded-lg overflow-hidden text-left group"
-                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", transition: "all 200ms" }}
+                  style={{ background: `${agentColor}08`, border: `1px solid ${agentColor}20`, transition: "all 200ms" }}
                 >
                   <img
                     src={`https://img.youtube.com/vi/${ex.id}/mqdefault.jpg`}
@@ -170,7 +170,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                     className="w-full h-20 object-cover"
                     loading="lazy"
                   />
-                  <p className="px-2 py-1.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "10px", color: "rgba(255,255,255,0.65)" }}>
+                  <p className="px-2 py-1.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "10px", color: agentColor }}>
                     {ex.title}
                   </p>
                 </button>
