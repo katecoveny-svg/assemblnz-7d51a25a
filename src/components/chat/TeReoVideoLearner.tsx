@@ -162,7 +162,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                   key={ex.id}
                   onClick={() => { setUrl(`https://www.youtube.com/watch?v=${ex.id}`); handleGenerate(`https://www.youtube.com/watch?v=${ex.id}`); }}
                   className="rounded-lg overflow-hidden text-left group"
-                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", transition: "all 200ms" }}
+                  style={{ background: `${agentColor}08`, border: `1px solid ${agentColor}20`, transition: "all 200ms" }}
                 >
                   <img
                     src={`https://img.youtube.com/vi/${ex.id}/mqdefault.jpg`}
@@ -170,7 +170,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                     className="w-full h-20 object-cover"
                     loading="lazy"
                   />
-                  <p className="px-2 py-1.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "10px", color: "rgba(255,255,255,0.65)" }}>
+                  <p className="px-2 py-1.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "10px", color: agentColor }}>
                     {ex.title}
                   </p>
                 </button>
@@ -226,7 +226,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
               </p>
               {data.culturalContext && (
                 <p className="mt-2 pt-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "11px", color: agentColor, lineHeight: 1.5, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-                  🌿 {data.culturalContext}
+                  {data.culturalContext}
                 </p>
               )}
             </div>
@@ -326,7 +326,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                     </p>
                     {s.notes && (
                       <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "10px", color: "rgba(255,255,255,0.35)", fontStyle: "italic" }}>
-                        📝 {s.notes}
+                        {s.notes}
                       </p>
                     )}
                   </motion.div>
@@ -405,7 +405,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                       {quizScore}/{data.quiz.length}
                     </p>
                     <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "12px", color: "rgba(255,255,255,0.5)" }}>
-                      {quizScore === data.quiz.length ? "Ka rawe! Perfect score! 🌟" : quizScore >= data.quiz.length / 2 ? "Ka pai! Good effort! 💪" : "Kia kaha! Keep practising! 📚"}
+                      {quizScore === data.quiz.length ? "Ka rawe! Perfect score!" : quizScore >= data.quiz.length / 2 ? "Ka pai! Good effort!" : "Kia kaha! Keep practising!"}
                     </p>
                     {onSendToChat && (
                       <button
