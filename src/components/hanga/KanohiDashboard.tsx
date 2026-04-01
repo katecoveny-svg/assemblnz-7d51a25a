@@ -50,6 +50,8 @@ const Glass = ({ children, className = "", glow = false, navy = false }: {
 /* ── ĀRAI Inline Safety Dashboard ── */
 function AraiSafetyDashboard() {
   const [expandedRisk, setExpandedRisk] = useState<string | null>(null);
+  const [showAddHazard, setShowAddHazard] = useState(false);
+  const [matrixView, setMatrixView] = useState(true);
 
   const risks = [
     { id: "1", hazard: "Working at Height — scaffold access Level 4–6", category: "Falls", likelihood: 3, consequence: 5, controls: "Edge protection, harnesses, SiteSafe-trained workers, daily scaffold inspections", hierarchy: "Engineering", responsible: "Site Foreman", reviewDate: "10 Apr 2026", status: "Active" },
@@ -78,37 +80,151 @@ function AraiSafetyDashboard() {
 
   const riskScore = (l: number, c: number) => l * c;
   const riskColor = (s: number) => s >= 15 ? "#EF4444" : s >= 8 ? "#D4A843" : "#3A7D6E";
+  const riskLabel = (s: number) => s >= 15 ? "Extreme" : s >= 10 ? "High" : s >= 5 ? "Medium" : "Low";
 
   const totalHazards = risks.length;
+  const extremeRisks = risks.filter(r => riskScore(r.likelihood, r.consequence) >= 15).length;
   const openIncidents = incidents.filter(i => i.status !== "Closed").length;
-  const overdueReviews = 0;
   const inductedWorkers = workers.filter(w => w.inducted).length;
+  const daysWithoutIncident = 4; // Since 28 Mar
+
+  // Build 5x5 matrix data
+  const matrixCells: Record<string, typeof risks> = {};
+  risks.forEach(r => {
+    const key = `${r.likelihood}-${r.consequence}`;
+    if (!matrixCells[key]) matrixCells[key] = [];
+    matrixCells[key].push(r);
+  });
+
+  const matrixBg = (l: number, c: number) => {
+    const s = l * c;
+    if (s >= 15) return "rgba(239,68,68,0.25)";
+    if (s >= 10) return "rgba(239,68,68,0.12)";
+    if (s >= 5) return "rgba(212,168,67,0.15)";
+    return "rgba(58,125,110,0.10)";
+  };
 
   return (
     <div className="space-y-5">
-      {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      {/* Stats Row */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         {[
           { label: "Total Hazards", value: totalHazards, icon: <AlertTriangle size={18} />, accent: KOWHAI },
-          { label: "Open Incidents", value: openIncidents, icon: <XCircle size={18} />, accent: "#EF4444" },
-          { label: "Overdue Reviews", value: overdueReviews, icon: <Clock size={18} />, accent: POUNAMU },
-          { label: "Workers Inducted", value: `${inductedWorkers}/${workers.length}`, icon: <CheckCircle2 size={18} />, accent: "#5A8AB5" },
+          { label: "Extreme Risks", value: extremeRisks, icon: <XCircle size={18} />, accent: "#EF4444" },
+          { label: "Open Incidents", value: openIncidents, icon: <AlertTriangle size={18} />, accent: "#EF4444" },
+          { label: "Days Without Incident", value: daysWithoutIncident, icon: <CheckCircle2 size={18} />, accent: POUNAMU },
+          { label: "Workers Inducted", value: `${inductedWorkers}/${workers.length}`, icon: <HardHat size={18} />, accent: "#5A8AB5" },
         ].map(s => (
           <Glass key={s.label}>
-            <div className="p-4">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="p-1.5 rounded-lg" style={{ background: `${s.accent}20` }}>
+            <div className="p-3 md:p-4">
+              <div className="flex items-center gap-2 mb-1.5">
+                <div className="p-1 rounded-lg" style={{ background: `${s.accent}20` }}>
                   <span style={{ color: s.accent }}>{s.icon}</span>
                 </div>
               </div>
-              <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#FFFFFF" }}>{s.value}</p>
-              <p className="text-[11px] mt-0.5" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.45)" }}>{s.label}</p>
+              <p className="text-xl md:text-2xl font-light" style={{ fontFamily: "Lato", color: "#FFFFFF" }}>{s.value}</p>
+              <p className="text-[10px] mt-0.5" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.45)" }}>{s.label}</p>
             </div>
           </Glass>
         ))}
       </div>
 
-      {/* Risk Register */}
+      {/* 5×5 Risk Matrix */}
+      <Glass navy>
+        <div className="p-4">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-sm flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>
+              <Shield size={16} style={{ color: KOWHAI }} /> Risk Matrix (5×5)
+            </h3>
+            <div className="flex gap-2">
+              <button onClick={() => setMatrixView(!matrixView)} className="px-3 py-1.5 rounded-lg text-[10px] font-medium transition-all"
+                style={{ background: "rgba(255,255,255,0.04)", color: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                {matrixView ? "List View" : "Matrix View"}
+              </button>
+              <button onClick={() => setShowAddHazard(!showAddHazard)} className="px-3 py-1.5 rounded-lg text-[10px] font-medium flex items-center gap-1 transition-all hover:scale-[1.02]"
+                style={{ background: `${KOWHAI}15`, color: KOWHAI, border: `1px solid ${KOWHAI}30` }}>
+                <Building2 size={12} /> Add Hazard
+              </button>
+            </div>
+          </div>
+
+          {matrixView ? (
+            <div className="overflow-x-auto">
+              <div className="min-w-[400px]">
+                {/* Y-axis label */}
+                <div className="flex">
+                  <div className="w-20 flex items-center justify-center">
+                    <span className="text-[9px] -rotate-90 whitespace-nowrap" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
+                      LIKELIHOOD →
+                    </span>
+                  </div>
+                  <div className="flex-1">
+                    {/* Column headers */}
+                    <div className="grid grid-cols-5 gap-1 mb-1 ml-0">
+                      {[1,2,3,4,5].map(c => (
+                        <div key={c} className="text-center text-[9px] py-1" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>
+                          {c}
+                        </div>
+                      ))}
+                    </div>
+                    {/* Matrix rows (likelihood 5 → 1, top to bottom) */}
+                    {[5,4,3,2,1].map(l => (
+                      <div key={l} className="grid grid-cols-5 gap-1 mb-1">
+                        {[1,2,3,4,5].map(c => {
+                          const cellRisks = matrixCells[`${l}-${c}`] || [];
+                          const score = l * c;
+                          return (
+                            <div key={c} className="relative aspect-square rounded-lg flex flex-col items-center justify-center cursor-pointer transition-all hover:scale-[1.05]"
+                              style={{ background: matrixBg(l, c), border: cellRisks.length > 0 ? `2px solid ${riskColor(score)}50` : "1px solid rgba(255,255,255,0.03)" }}>
+                              <span className="text-[10px] font-bold" style={{ fontFamily: "JetBrains Mono", color: riskColor(score) }}>{score}</span>
+                              {cellRisks.length > 0 && (
+                                <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-bold"
+                                  style={{ background: riskColor(score), color: "#09090F" }}>
+                                  {cellRisks.length}
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ))}
+                    {/* X-axis label */}
+                    <div className="text-center mt-1">
+                      <span className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
+                        CONSEQUENCE →
+                      </span>
+                    </div>
+                  </div>
+                  {/* Legend on right side */}
+                  <div className="w-16 flex flex-col items-start justify-center gap-1 pl-2">
+                    {[5,4,3,2,1].map(l => (
+                      <div key={l} className="text-[8px] h-[calc((100%-4px)/5)]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
+                        L{l}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                {/* Legend strip */}
+                <div className="flex items-center gap-4 mt-3 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+                  {[
+                    { label: "Extreme (15–25)", color: "#EF4444" },
+                    { label: "High (10–14)", color: "#EF444480" },
+                    { label: "Medium (5–9)", color: "#D4A843" },
+                    { label: "Low (1–4)", color: "#3A7D6E" },
+                  ].map(l => (
+                    <div key={l.label} className="flex items-center gap-1.5">
+                      <div className="w-3 h-3 rounded" style={{ background: l.color + "40" }} />
+                      <span className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>{l.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : null}
+        </div>
+      </Glass>
+
+      {/* Risk Register List */}
       <Glass navy>
         <div className="p-4">
           <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>
@@ -119,30 +235,36 @@ function AraiSafetyDashboard() {
               const score = riskScore(r.likelihood, r.consequence);
               const isOpen = expandedRisk === r.id;
               return (
-                <div key={r.id} className="rounded-xl" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
+                <div key={r.id} className="rounded-xl transition-all" style={{ background: "rgba(255,255,255,0.02)", border: `1px solid ${isOpen ? riskColor(score) + "30" : "rgba(255,255,255,0.04)"}` }}>
                   <button onClick={() => setExpandedRisk(isOpen ? null : r.id)} className="w-full text-left p-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0" style={{ background: `${riskColor(score)}15`, color: riskColor(score), fontFamily: "JetBrains Mono" }}>
-                        {score}
+                      <div className="w-10 h-10 rounded-lg flex flex-col items-center justify-center text-[10px] font-bold flex-shrink-0" style={{ background: `${riskColor(score)}15`, color: riskColor(score), fontFamily: "JetBrains Mono" }}>
+                        <span className="text-base leading-none">{score}</span>
+                        <span className="text-[7px] opacity-60">{riskLabel(score)}</span>
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-xs truncate" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>{r.hazard}</p>
-                        <div className="flex gap-2 mt-0.5">
+                        <div className="flex gap-2 mt-1 flex-wrap">
                           <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: `${riskColor(score)}12`, color: riskColor(score), fontFamily: "JetBrains Mono" }}>{r.category}</span>
                           <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: "rgba(26,58,92,0.2)", color: "#5A8AB5", fontFamily: "JetBrains Mono" }}>{r.hierarchy}</span>
+                          <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: r.status === "Under Review" ? "rgba(212,168,67,0.12)" : "rgba(58,125,110,0.12)", color: r.status === "Under Review" ? KOWHAI : POUNAMU, fontFamily: "JetBrains Mono" }}>{r.status}</span>
                         </div>
                       </div>
+                      <ArrowRight size={14} className="flex-shrink-0 transition-transform" style={{ color: "rgba(255,255,255,0.2)", transform: isOpen ? "rotate(90deg)" : "none" }} />
                     </div>
                   </button>
                   {isOpen && (
-                    <div className="px-3 pb-3 text-[10px] space-y-1" style={{ borderTop: "1px solid rgba(255,255,255,0.04)", fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.45)" }}>
-                      <div className="pt-2 grid grid-cols-2 gap-2">
-                        <span>Likelihood: {r.likelihood}/5</span>
-                        <span>Consequence: {r.consequence}/5</span>
-                        <span>Responsible: {r.responsible}</span>
-                        <span>Review: {r.reviewDate}</span>
+                    <div className="px-3 pb-3 space-y-2" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+                      <div className="pt-3 grid grid-cols-2 gap-x-4 gap-y-1.5 text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.45)" }}>
+                        <div className="flex justify-between"><span>Likelihood</span><span style={{ color: "#FFFFFF" }}>{r.likelihood}/5</span></div>
+                        <div className="flex justify-between"><span>Consequence</span><span style={{ color: "#FFFFFF" }}>{r.consequence}/5</span></div>
+                        <div className="flex justify-between"><span>Responsible</span><span style={{ color: "#FFFFFF" }}>{r.responsible}</span></div>
+                        <div className="flex justify-between"><span>Review Date</span><span style={{ color: "#FFFFFF" }}>{r.reviewDate}</span></div>
                       </div>
-                      <p className="text-xs mt-1" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>{r.controls}</p>
+                      <div className="mt-2 p-2.5 rounded-lg" style={{ background: "rgba(255,255,255,0.02)" }}>
+                        <p className="text-[10px] font-medium mb-1" style={{ fontFamily: "JetBrains Mono", color: KOWHAI }}>Controls</p>
+                        <p className="text-xs leading-relaxed" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.6)" }}>{r.controls}</p>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -155,12 +277,21 @@ function AraiSafetyDashboard() {
       {/* Incident Log */}
       <Glass>
         <div className="p-4">
-          <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>
-            <AlertTriangle size={16} style={{ color: "#EF4444" }} /> Incident Log
-          </h3>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-sm flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>
+              <AlertTriangle size={16} style={{ color: "#EF4444" }} /> Incident Log
+            </h3>
+            <button className="px-3 py-1.5 rounded-lg text-[10px] font-medium flex items-center gap-1 transition-all hover:scale-[1.02]"
+              style={{ background: "rgba(239,68,68,0.1)", color: "#EF4444", border: "1px solid rgba(239,68,68,0.2)" }}>
+              <Building2 size={12} /> Report Incident
+            </button>
+          </div>
           <div className="space-y-2">
             {incidents.map(inc => (
               <div key={inc.id} className="p-3 rounded-xl flex items-start gap-3" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
+                <div className="w-1 h-full min-h-[40px] rounded-full flex-shrink-0" style={{
+                  background: inc.type === "Notifiable Event" ? "#EF4444" : inc.type === "Near Miss" ? KOWHAI : POUNAMU,
+                }} />
                 <div className="flex-1">
                   <div className="flex items-center gap-2 flex-wrap mb-1">
                     <span className="px-2 py-0.5 rounded-full text-[9px]" style={{
