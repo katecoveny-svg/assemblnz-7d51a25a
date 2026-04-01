@@ -21,7 +21,7 @@ interface Message {
   content: string;
 }
 
-type Tab = "chat" | "sms" | "settings";
+type Tab = "chat" | "sms" | "settings" | "dashboard";
 
 const SLUG_TO_ID: Record<string, string> = {
   "aura": "hospitality", "apex": "construction", "prism": "marketing",
