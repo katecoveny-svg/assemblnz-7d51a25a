@@ -1,14 +1,17 @@
 import { motion } from "framer-motion";
-import { Shield, Brain, Search, Lock, GitBranch, FileText, HardDrive } from "lucide-react";
+import { Shield, Brain, Search, Lock, GitBranch, FileText, Database } from "lucide-react";
+
+const GOLD = "#D4A843";
+const GOLD_GLOW = "0 0 12px rgba(212,168,67,0.4)";
 
 const PIPELINE_STEPS = [
-  { step: "01", label: "KANOHI", subtitle: "Dashboard", desc: "Bilingual interface — parses intent, language detection, and surfaces the right tools.", icon: Search, color: "hsl(var(--kowhai))" },
-  { step: "02", label: "MANA", subtitle: "Access Control", desc: "Role-based permissions, tenant isolation, and usage limits — verified before every request.", icon: Shield, color: "hsl(var(--pounamu))" },
-  { step: "03", label: "IHO", subtitle: "Brain & Router", desc: "Central intelligence — classifies intent across 45 specialist tools and selects the right agent.", icon: Brain, color: "hsl(var(--kowhai))" },
-  { step: "04", label: "KAHU", subtitle: "Compliance", desc: "PII masking, data classification, and Privacy Act 2020 enforcement on every query.", icon: Lock, color: "hsl(var(--pounamu))" },
-  { step: "05", label: "MODEL ROUTER", subtitle: "AI Selection", desc: "Picks the optimal model per task — Gemini for speed, Claude for complex reasoning.", icon: GitBranch, color: "hsl(var(--kowhai-light))" },
-  { step: "06", label: "TĀ", subtitle: "Audit Trail", desc: "Every token, cost, and compliance decision logged — full transparency for your business.", icon: FileText, color: "hsl(var(--tangaroa-light))" },
-  { step: "07", label: "MAHARA", subtitle: "Memory", desc: "Persistent business context — your agents remember preferences, history, and decisions.", icon: HardDrive, color: "hsl(var(--tangaroa-light))" },
+  { step: "01", label: "KANOHI", subtitle: "Dashboard", desc: "Bilingual interface — parses intent, language detection, and surfaces the right tools.", icon: Search },
+  { step: "02", label: "MANA", subtitle: "Access Control", desc: "Role-based permissions, tenant isolation, and usage limits — verified before every request.", icon: Shield },
+  { step: "03", label: "IHO", subtitle: "Brain & Router", desc: "Central intelligence — classifies intent across 45 specialist tools and selects the right agent.", icon: Brain },
+  { step: "04", label: "KAHU", subtitle: "Compliance", desc: "PII masking, data classification, and Privacy Act 2020 enforcement on every query.", icon: Lock },
+  { step: "05", label: "MODEL ROUTER", subtitle: "AI Selection", desc: "Picks the optimal model per task — Gemini for speed, Claude for complex reasoning.", icon: GitBranch },
+  { step: "06", label: "TĀ", subtitle: "Audit Trail", desc: "Every token, cost, and compliance decision logged — full transparency for your business.", icon: FileText },
+  { step: "07", label: "MAHARA", subtitle: "Memory", desc: "Persistent business context — your agents remember preferences, history, and decisions.", icon: Database },
 ];
 
 const PipelineSection = () => (
