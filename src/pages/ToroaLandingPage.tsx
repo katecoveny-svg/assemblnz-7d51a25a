@@ -383,7 +383,7 @@ export default function ToroaLandingPage() {
                 className="flex items-start gap-4 rounded-xl p-5 card-glow-hover"
                 style={{ background: "rgba(15,15,26,0.4)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 0 16px rgba(58,125,110,0.04), 0 4px 16px rgba(0,0,0,0.2)" }}
               >
-                <div className="w-1 h-8 rounded-full shrink-0 mt-0.5" style={{ background: "#D4A843", opacity: 0.4 }} />
+                <r.icon size={24} className="shrink-0 mt-0.5" style={{ color: r.color }} />
                 <div>
                   <h3 className="font-display text-sm mb-1" style={{ fontWeight: 300, color: "#FFFFFF" }}>{r.title}</h3>
                   <p className="font-body text-xs" style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.6 }}>{r.desc}</p>
