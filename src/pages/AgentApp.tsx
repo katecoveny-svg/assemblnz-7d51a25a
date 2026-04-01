@@ -114,7 +114,10 @@ export default function AgentApp() {
     );
   }
 
+  const isSignal = agentId === "netsec";
+
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
+    ...(isSignal ? [{ id: "dashboard" as Tab, label: "Dashboard", icon: <ShieldAlert size={16} /> }] : []),
     { id: "chat", label: "Chat", icon: <MessageSquare size={16} /> },
     { id: "sms", label: "SMS", icon: <Phone size={16} /> },
     { id: "settings", label: "Settings", icon: <Settings2 size={16} /> },
