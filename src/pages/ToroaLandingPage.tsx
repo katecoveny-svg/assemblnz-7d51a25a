@@ -217,33 +217,26 @@ export default function ToroaLandingPage() {
         </div>
       </section>
 
-      {/* ═══ MĀRAMA LEARNING TOOL — spotlight ═══ */}
+      {/* ═══ MĀRAMA LEARNING TOOL — live interactive ═══ */}
       <section className="relative z-10 px-6 py-16 md:py-20">
         <div className="max-w-3xl mx-auto">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={0}
-            className="rounded-2xl p-8 md:p-10 card-glow-hover text-center"
-            style={{ background: "rgba(15,15,26,0.7)", border: "1px solid rgba(212,168,67,0.15)", boxShadow: "0 0 40px rgba(212,168,67,0.08), 0 8px 40px rgba(0,0,0,0.3)" }}
-          >
-            <span className="text-4xl block mx-auto mb-5">🎓</span>
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={0} className="text-center mb-8">
+            <span className="text-4xl block mb-4">🎓</span>
             <h2 className="font-display text-xl mb-3" style={{ fontWeight: 300, color: "#FFFFFF" }}>
-              Mārama — instant learning from any video
+              Try Mārama — instant learning from any video
             </h2>
-            <p className="font-body text-sm mb-4" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.7, maxWidth: 520, margin: "0 auto" }}>
-              Drop in a YouTube URL and Tōroa instantly produces an interactive learning module — vocab flashcards with pronunciation guides, sentence translations, and interactive quizzes with immediate feedback.
+            <p className="font-body text-sm" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.7, maxWidth: 520, margin: "0 auto" }}>
+              Drop in a YouTube URL and get vocab flashcards, sentence translations, and interactive quizzes instantly.
             </p>
-            <p className="font-body text-xs" style={{ color: "rgba(255,255,255,0.35)", lineHeight: 1.6 }}>
-              Perfect for homework help, te reo Māori practice, or exploring any topic together as a whānau.
-            </p>
-            <div className="flex flex-wrap justify-center gap-3 mt-6">
-              {["Vocab flashcards", "Pronunciation guides", "Sentence translations", "Interactive quizzes"].map((t) => (
-                <span key={t} className="px-3 py-1.5 rounded-full text-[10px] stat-pill" style={{ fontFamily: "'JetBrains Mono', monospace", background: "rgba(212,168,67,0.08)", border: "1px solid rgba(212,168,67,0.2)", color: "rgba(255,255,255,0.6)", boxShadow: "0 0 12px rgba(212,168,67,0.06)" }}>
-                  {t}
-                </span>
-              ))}
-            </div>
           </motion.div>
+          <div className="rounded-2xl overflow-hidden" style={{ border: "1px solid rgba(212,168,67,0.2)", boxShadow: "0 0 40px rgba(212,168,67,0.08), 0 8px 40px rgba(0,0,0,0.3)", minHeight: 400 }}>
+            <TeReoVideoLearner agentColor="#D4A843" />
+          </div>
         </div>
       </section>
+
+      {/* ═══ TRY TŌROA — 3 free messages ═══ */}
+      <TryToroaChat />
 
       {/* ═══ MORE FEATURES — compact grid ═══ */}
       <section className="relative z-10 px-6 py-16 md:py-20">
