@@ -56,6 +56,7 @@ export default function PrismCreativeStudio({ onSendToChat }: { onSendToChat?: (
   const [quality, setQuality] = useState<"fast" | "pro">("pro");
   const [brandPreset, setBrandPreset] = useState<"assembl" | "custom">("assembl");
   const [numVariants, setNumVariants] = useState(2);
+  const [imageProvider, setImageProvider] = useState<"auto" | "gemini" | "ideogram" | "railway">("auto");
 
   const generate = () => {
     if (!onSendToChat || !subject.trim()) return;
