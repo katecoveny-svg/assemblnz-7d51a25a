@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronDown, Building2, Scale, ShieldAlert, Brain, Globe, Database, MessageSquare, Send } from "lucide-react";
-import { manaakiMark, hangaMark, auahaMark, pakihiMark, hangarauMark } from "@/assets/brand";
+import { ArrowRight, ChevronDown, Send } from "lucide-react";
+import { manaakiMark, hangaMark, auahaMark, pakihiMark, hangarauMark, ihoIcon, kanohiIcon, maharaIcon, manaIcon, teKahuiReoMark } from "@/assets/brand";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
@@ -65,11 +65,11 @@ const PACKS = [
 
 /* ─── Differentiators ─── */
 const DIFFS = [
-  { icon: Globe, title: "NZ business context", body: "Built around local business reality, not overseas defaults." },
-  { icon: Brain, title: "Specialist intelligence", body: "Purpose-built capability across five packs, not one generic assistant." },
-  { icon: Database, title: "Shared business memory", body: "Work compounds over time instead of resetting every session." },
-  { icon: MessageSquare, title: "Cultural & language intelligence", body: "Te Kāhui Reo strengthens trust, reo quality, and tikanga alignment." },
-  { icon: Building2, title: "Accessible SME pricing", body: "Enterprise-level capability without enterprise-only pricing." },
+  { mark: ihoIcon, title: "NZ business context", body: "Built around local business reality, not overseas defaults." },
+  { mark: kanohiIcon, title: "Specialist intelligence", body: "Purpose-built capability across five packs, not one generic assistant." },
+  { mark: maharaIcon, title: "Shared business memory", body: "Work compounds over time instead of resetting every session." },
+  { mark: teKahuiReoMark, title: "Cultural & language intelligence", body: "Te Kāhui Reo strengthens trust, reo quality, and tikanga alignment." },
+  { mark: manaIcon, title: "Accessible SME pricing", body: "Enterprise-level capability without enterprise-only pricing." },
 ];
 
 /* ─── Pricing tiers ─── */
@@ -197,14 +197,13 @@ const Index = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
-              { icon: Building2, stat: "605,000", label: "NZ enterprises" },
-              { icon: Scale, stat: "97%", label: "are small enterprises" },
-              { icon: ShieldAlert, stat: "$4.2B", label: "professional services spend" },
+              { stat: "605,000", label: "NZ enterprises" },
+              { stat: "97%", label: "are small enterprises" },
+              { stat: "$4.2B", label: "professional services spend" },
             ].map((c, i) => (
               <motion.div key={c.label} className="rounded-2xl p-6 text-center card-glow-hover" style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 0 20px rgba(212,168,67,0.06), 0 4px 20px rgba(0,0,0,0.3)" }}
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.5 }}>
-                <c.icon size={24} className="mx-auto mb-3" style={{ color: "#D4A843" }} />
-                <p className="text-2xl font-light mb-1" style={{ fontFamily: "'Lato', sans-serif", color: "#FFFFFF" }}>{c.stat}</p>
+                <p className="text-2xl font-light mb-1" style={{ fontFamily: "'Lato', sans-serif", color: "#D4A843" }}>{c.stat}</p>
                 <p className="text-xs" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.45)" }}>{c.label}</p>
               </motion.div>
             ))}
@@ -296,7 +295,7 @@ const Index = () => {
             {DIFFS.map((d, i) => (
               <motion.div key={d.title} className="rounded-2xl p-7 card-glow-hover" style={{ background: "rgba(15,15,26,0.5)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 0 20px rgba(58,125,110,0.05), 0 4px 20px rgba(0,0,0,0.3)" }}
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.5 }}>
-                <d.icon size={22} className="mb-4" style={{ color: "#3A7D6E" }} />
+                <img src={d.mark} alt="" className="w-6 h-6 mb-4 opacity-70" />
                 <h3 className="text-sm font-medium mb-2" style={{ fontFamily: "'Lato', sans-serif", color: "#FFFFFF" }}>{d.title}</h3>
                 <Body>{d.body}</Body>
               </motion.div>
