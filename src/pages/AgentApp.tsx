@@ -332,6 +332,8 @@ export default function AgentApp() {
             <AgentSmsPanel agentId={agent.id} agentName={agent.name} agentColor={color} />
           ) : activeTab === "settings" ? (
             <AgentTraining agentId={agent.id} agentName={agent.name} agentColor={color} />
+          ) : activeTab === "dashboard" ? (
+            <SignalDashboard onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
           ) : null}
         </main>
       </div>
