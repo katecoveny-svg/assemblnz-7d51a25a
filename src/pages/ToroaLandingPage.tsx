@@ -103,7 +103,7 @@ function TryToroaChat() {
         },
       });
       if (error) throw error;
-      const reply = data?.text || data?.choices?.[0]?.message?.content || "Kia ora! I'm here to help your whānau.";
+      const reply = data?.content || data?.text || data?.choices?.[0]?.message?.content || "Kia ora! I'm here to help your whānau.";
       setMessages(prev => [...prev, { role: "assistant", text: reply }]);
     } catch {
       setMessages(prev => [...prev, { role: "assistant", text: "Kia ora! I'm Tōroa — your family navigator. Try asking me about meal planning, school notices, or what the kids should wear today!" }]);
@@ -223,6 +223,16 @@ export default function ToroaLandingPage() {
     if (error) { toast.error("Something went wrong — please try again"); return; }
     setDone(true);
     setCount((c) => (c ?? 0) + 1);
+    // Notify admin
+    supabase.functions.invoke("send-contact-email", {
+      body: { name: firstName.trim() || "Tōroa Waitlist", email: email.trim(), message: `New Tōroa beta waitlist signup. Pain point: ${painPoint || "Not specified"}` },
+    }).catch(console.error);
+    // Also store in contact_submissions for admin dashboard
+    supabase.from("contact_submissions").insert({
+      name: firstName.trim() || "Tōroa Waitlist",
+      email: email.trim(),
+      message: `Tōroa beta waitlist signup. Pain point: ${painPoint || "Not specified"}`,
+    }).then(() => {});
   };
 
   const inputStyle = {
