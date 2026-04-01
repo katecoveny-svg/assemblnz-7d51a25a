@@ -56,11 +56,11 @@ const STEPS = [
 
 /* ─── Industry packs ─── */
 const PACKS = [
-  { name: "Manaaki", sub: "Hospitality", icon: Utensils, desc: "Support guest experience, food safety, service operations, and venue workflows.", to: "/packs/manaaki", color: "#D4A843" },
-  { name: "Hanga", sub: "Construction", icon: HardHat, desc: "Support BIM, documentation, safety, project coordination, and quoting workflows.", to: "/packs/hanga", color: "#3A7D6E" },
-  { name: "Auaha", sub: "Creative", icon: Palette, desc: "Support strategy, content, campaigns, creative production, and brand execution.", to: "/packs/auaha", color: "#D4A843" },
-  { name: "Pakihi", sub: "Business Operations", icon: Briefcase, desc: "Support finance, HR, legal admin, planning, reporting, and internal operations.", to: "/packs/pakihi", color: "#3A7D6E" },
-  { name: "Hangarau", sub: "Technology", icon: Cpu, desc: "Support systems, monitoring, architecture, code workflows, and technical delivery.", to: "/packs/hangarau", color: "#1A3A5C" },
+  { name: "Manaaki", sub: "Hospitality", mark: manaakiMark, desc: "Support guest experience, food safety, service operations, and venue workflows.", to: "/packs/manaaki", color: "#D4A843" },
+  { name: "Hanga", sub: "Construction", mark: hangaMark, desc: "Support BIM, documentation, safety, project coordination, and quoting workflows.", to: "/packs/hanga", color: "#3A7D6E" },
+  { name: "Auaha", sub: "Creative", mark: auahaMark, desc: "Support strategy, content, campaigns, creative production, and brand execution.", to: "/packs/auaha", color: "#D4A843" },
+  { name: "Pakihi", sub: "Business Operations", mark: pakihiMark, desc: "Support finance, HR, legal admin, planning, reporting, and internal operations.", to: "/packs/pakihi", color: "#3A7D6E" },
+  { name: "Hangarau", sub: "Technology", mark: hangarauMark, desc: "Support systems, monitoring, architecture, code workflows, and technical delivery.", to: "/packs/hangarau", color: "#1A3A5C" },
 ];
 
 /* ─── Differentiators ─── */
