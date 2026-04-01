@@ -6,7 +6,8 @@ import ParticleField from "@/components/ParticleField";
 import AnimatedHero from "@/components/AnimatedHero";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
-import { Send, ArrowRight, Briefcase, Zap, Shield, MessageSquare, Brain, Database } from "lucide-react";
+import { Send, ArrowRight } from "lucide-react";
+import { manaIcon, maharaIcon, kanohiIcon, ihoIcon, pakihiMark } from "@/assets/brand";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import PackGrid from "@/components/landing/PackGrid";
@@ -93,17 +94,17 @@ const AgentGrid = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               {
-                icon: Zap,
+                mark: ihoIcon,
                 title: "Win work",
                 desc: "Faster quotes, sharper proposals, better follow-up. Assembl helps you win more of the work you're already chasing.",
               },
               {
-                icon: Briefcase,
+                mark: pakihiMark,
                 title: "Run work",
                 desc: "Payroll, compliance, scheduling, client comms — the operational grind handled by specialists that know NZ law.",
               },
               {
-                icon: Shield,
+                mark: manaIcon,
                 title: "Stay sharp",
                 desc: "Legislation changes, deadline alerts, industry shifts — Assembl keeps you ahead without the reading.",
               },
@@ -121,7 +122,7 @@ const AgentGrid = () => {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
               >
-                <item.icon size={24} style={{ color: "#D4A843", marginBottom: "12px" }} />
+                <img src={item.mark} alt="" className="w-6 h-6 mb-3 opacity-70" />
                 <h3 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "18px", color: "#FFFFFF", marginBottom: "8px" }}>
                   {item.title}
                 </h3>
@@ -156,22 +157,22 @@ const AgentGrid = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {[
               {
-                icon: Shield,
+                mark: manaIcon,
                 title: "NZ context",
                 desc: "Trained on 50+ New Zealand Acts. Employment, health & safety, building, food safety, privacy — your obligations, not American advice.",
               },
               {
-                icon: Database,
+                mark: maharaIcon,
                 title: "Shared business memory",
                 desc: "Every agent shares context about your business. Ask one, and the others already know. No re-explaining.",
               },
               {
-                icon: Brain,
+                mark: ihoIcon,
                 title: "Specialist agents",
                 desc: "42 agents, each an expert in their domain. Not a chatbot pretending to know everything — dedicated specialists that go deep.",
               },
               {
-                icon: MessageSquare,
+                mark: kanohiIcon,
                 title: "Multi-channel delivery",
                 desc: "Chat, SMS, voice, email, embedded widgets. Your team gets answers wherever they already work.",
               },
@@ -189,7 +190,7 @@ const AgentGrid = () => {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
               >
-                <item.icon size={20} style={{ color: "#D4A843", marginBottom: "10px" }} />
+                <img src={item.mark} alt="" className="w-5 h-5 mb-2.5 opacity-70" />
                 <h3 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "16px", color: "#FFFFFF", marginBottom: "6px" }}>
                   {item.title}
                 </h3>
