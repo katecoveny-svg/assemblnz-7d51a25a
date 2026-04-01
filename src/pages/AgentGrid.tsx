@@ -94,17 +94,17 @@ const AgentGrid = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               {
-                icon: Zap,
+                mark: ihoIcon,
                 title: "Win work",
                 desc: "Faster quotes, sharper proposals, better follow-up. Assembl helps you win more of the work you're already chasing.",
               },
               {
-                icon: Briefcase,
+                mark: pakihiMark,
                 title: "Run work",
                 desc: "Payroll, compliance, scheduling, client comms — the operational grind handled by specialists that know NZ law.",
               },
               {
-                icon: Shield,
+                mark: manaIcon,
                 title: "Stay sharp",
                 desc: "Legislation changes, deadline alerts, industry shifts — Assembl keeps you ahead without the reading.",
               },
@@ -122,7 +122,7 @@ const AgentGrid = () => {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
               >
-                <item.icon size={24} style={{ color: "#D4A843", marginBottom: "12px" }} />
+                <img src={item.mark} alt="" className="w-6 h-6 mb-3 opacity-70" />
                 <h3 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "18px", color: "#FFFFFF", marginBottom: "8px" }}>
                   {item.title}
                 </h3>
