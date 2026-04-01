@@ -124,25 +124,41 @@ const TeKahuiReoSection = () => (
             }}
           >
             <div className="flex items-center gap-3 mb-2">
-              {agent.icon && (
+              {agent.icon ? (
                 <img
                   src={agent.icon}
                   alt={agent.name}
                   className="w-7 h-7"
                   style={{ filter: "drop-shadow(0 0 8px rgba(58,125,110,0.4))" }}
                 />
-              )}
-              <p
-                style={{
-                  fontFamily: "'Lato', sans-serif",
-                  fontWeight: 700,
-                  fontSize: "13px",
-                  color: "#FFFFFF",
-                  letterSpacing: "2px",
-                }}
-              >
-                {agent.name}
-              </p>
+              ) : agent.fallbackIcon ? (
+                <agent.fallbackIcon size={20} className="text-pounamu shrink-0" style={{ filter: "drop-shadow(0 0 8px rgba(58,125,110,0.4))" } as any} />
+              ) : null}
+              <div>
+                <p
+                  style={{
+                    fontFamily: "'Lato', sans-serif",
+                    fontWeight: 700,
+                    fontSize: "13px",
+                    color: "#FFFFFF",
+                    letterSpacing: "2px",
+                  }}
+                >
+                  {agent.name}
+                </p>
+                <p
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontWeight: 400,
+                    fontSize: "9px",
+                    color: "rgba(212,168,67,0.7)",
+                    letterSpacing: "2px",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {agent.subtitle}
+                </p>
+              </div>
             </div>
             <p
               style={{
