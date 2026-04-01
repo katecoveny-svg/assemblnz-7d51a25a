@@ -221,9 +221,9 @@ export default function ArohaPayroll() {
           <div className="p-4 rounded-xl border bg-card" style={{ borderColor: AROHA_COLOR + "30" }}>
             <h3 className="text-xs font-bold text-foreground mb-2">Current Minimum Wages (from 1 April 2026)</h3>
             <div className="space-y-1 text-[10px]">
-              <div className="flex justify-between"><span className="text-muted-foreground">Adult</span><span className="font-bold" style={{ color: AROHA_COLOR }}>$23.95/hour</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Starting-out</span><span className="font-bold text-foreground">$19.16/hour</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Training</span><span className="font-bold text-foreground">$19.16/hour</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Adult</span><span className="font-bold" style={{ color: AROHA_COLOR }}>$23.65/hour</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Starting-out</span><span className="font-bold text-foreground">$18.92/hour</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Training</span><span className="font-bold text-foreground">$18.92/hour</span></div>
             </div>
           </div>
           <h3 className="text-xs font-bold text-foreground">Compliance Checker</h3>
