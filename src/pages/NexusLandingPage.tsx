@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2, Ship, Package, Shield, FileText, Send, Bot, Loader2, Mic, Globe, Calculator } from "lucide-react";
 import AgentAvatar from "@/components/AgentAvatar";
+import assemblProfile from "@/assets/brand/assembl-profile.png";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import VoiceAgentModal from "@/components/VoiceAgentModal";
@@ -97,7 +98,7 @@ const NexusMiniChat = () => {
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
         >
           <div className="flex items-center gap-3 px-4 py-3 border-b border-border" style={{ background: `${NEXUS_COLOR}08` }}>
-            <AgentAvatar agentId="customs" color={NEXUS_COLOR} size={32} />
+            <img src={assemblProfile} alt="Assembl" className="w-8 h-8 rounded-full" />
             <div>
               <p className="text-sm font-display font-bold text-foreground">NEXUS</p>
               <p className="text-[10px] text-muted-foreground font-mono">Customs & Trade AI · Online</p>
@@ -202,7 +203,7 @@ const NexusLandingPage = () => {
           <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6 }} className="flex justify-center mb-8">
             <div className="relative">
               <div className="absolute inset-0 rounded-full blur-3xl opacity-20" style={{ background: NEXUS_COLOR }} />
-              <AgentAvatar agentId="customs" color={NEXUS_COLOR} size={120} />
+              <img src={assemblProfile} alt="Assembl" className="w-[120px] h-[120px] rounded-full" />
             </div>
           </motion.div>
 
