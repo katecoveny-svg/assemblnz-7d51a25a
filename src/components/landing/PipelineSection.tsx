@@ -47,7 +47,7 @@ const PipelineSection = () => (
             {/* Top accent line */}
             <span
               className="absolute top-0 left-[15%] right-[15%] h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-              style={{ background: `linear-gradient(90deg, transparent, ${step.color}, transparent)` }}
+              style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }}
             />
 
             <div className="flex items-center gap-3 mb-3">

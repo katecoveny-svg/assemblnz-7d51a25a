@@ -49,7 +49,7 @@ const KeyFeaturesSection = () => (
             {/* Top glow line */}
             <span
               className="absolute top-0 left-[15%] right-[15%] h-px opacity-0 group-hover:opacity-40 transition-opacity"
-              style={{ background: `linear-gradient(90deg, transparent, ${feat.color}, transparent)` }}
+              style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }}
             />
 
             <div
