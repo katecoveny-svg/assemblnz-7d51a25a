@@ -53,10 +53,10 @@ const KeyFeaturesSection = () => (
             />
 
             <div
-              className="w-9 h-9 rounded-lg flex items-center justify-center mb-3"
-              style={{ background: `${feat.color}15` }}
+              className="w-10 h-10 rounded-lg flex items-center justify-center mb-3"
+              style={{ background: `${GOLD}10`, boxShadow: `0 0 12px rgba(212,168,67,0.4)` }}
             >
-              <feat.icon size={16} style={{ color: feat.color }} />
+              <feat.icon size={32} style={{ color: GOLD, filter: `drop-shadow(0 0 6px rgba(212,168,67,0.5))` }} />
             </div>
 
             <h3 className="text-sm font-display font-light tracking-wide text-foreground mb-1.5">

@@ -54,17 +54,18 @@ const PipelineSection = () => (
               <div
                 className="w-10 h-10 rounded-lg shrink-0 flex items-center justify-center border"
                 style={{
-                  background: `${step.color}10`,
-                  borderColor: `${step.color}30`,
+                  background: `${GOLD}10`,
+                  borderColor: `${GOLD}30`,
+                  boxShadow: GOLD_GLOW,
                 }}
               >
-                <step.icon size={18} style={{ color: step.color }} />
+                <step.icon size={32} style={{ color: GOLD, filter: `drop-shadow(0 0 6px rgba(212,168,67,0.5))` }} />
               </div>
               <div>
                 <span className="font-mono text-[9px] tracking-widest text-muted-foreground block">{step.step}</span>
                 <h3
                   className="text-sm font-display font-light tracking-[0.15em] uppercase"
-                  style={{ color: step.color }}
+                  style={{ color: GOLD }}
                 >
                   {step.label}
                 </h3>
