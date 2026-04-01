@@ -1,13 +1,19 @@
 import { motion } from "framer-motion";
 import { packs } from "@/data/agents";
-import { Utensils, HardHat, Palette, Briefcase, Cpu } from "lucide-react";
+import BrandIcon3D, {
+  ManaakiIcon3D,
+  HangaIcon3D,
+  AuahaIcon3D,
+  PakihiIcon3D,
+  HangarauIcon3D,
+} from "@/components/BrandIcon3D";
 
-const PACK_ICONS: Record<string, React.ElementType> = {
-  manaaki: Utensils,
-  hanga: HardHat,
-  auaha: Palette,
-  pakihi: Briefcase,
-  hangarau: Cpu,
+const PACK_ICONS: Record<string, React.FC<{ size?: "sm" | "md" | "lg" | "xl"; variant?: "glass" | "solid" | "floating" }>> = {
+  manaaki: ManaakiIcon3D,
+  hanga: HangaIcon3D,
+  auaha: AuahaIcon3D,
+  pakihi: PakihiIcon3D,
+  hangarau: HangarauIcon3D,
 };
 
 const PACK_AGENTS: Record<string, string[]> = {
@@ -38,7 +44,7 @@ const PackShowcase = () => (
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {packs.map((pack, i) => {
-          const Icon = PACK_ICONS[pack.id] || Briefcase;
+          const IconComp = PACK_ICONS[pack.id];
           const agentNames = PACK_AGENTS[pack.id] || [];
 
           return (
@@ -63,13 +69,8 @@ const PackShowcase = () => (
                 style={{ background: `linear-gradient(90deg, transparent, ${pack.color}, transparent)` }}
               />
 
-              <div className="flex items-center gap-2.5 mb-3">
-                <div
-                  className="w-8 h-8 rounded-lg flex items-center justify-center"
-                  style={{ background: `${pack.color}15` }}
-                >
-                  <Icon size={14} style={{ color: pack.color }} />
-                </div>
+              <div className="flex items-center gap-3 mb-3">
+                {IconComp ? <IconComp size="sm" variant="floating" /> : null}
                 <div>
                   <h3
                     className="text-xs font-display font-light tracking-[0.02em]"

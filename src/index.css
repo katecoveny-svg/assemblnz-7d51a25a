@@ -491,6 +491,22 @@
   animation: scan-line 2s ease-in-out infinite;
 }
 
+/* ── 3D Brand Icon system ── */
+.brand-icon-3d {
+  cursor: default;
+}
+.brand-icon-3d:hover {
+  transform: translateY(-2px) scale(1.05);
+}
+
+@keyframes brand-icon-pulse-kf {
+  0%, 100% { box-shadow: 0 0 18px rgba(212,168,67,0.3), 0 4px 12px rgba(0,0,0,0.3); }
+  50% { box-shadow: 0 0 28px rgba(212,168,67,0.5), 0 4px 16px rgba(0,0,0,0.3); }
+}
+.brand-icon-pulse {
+  animation: brand-icon-pulse-kf 3s ease-in-out infinite;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
