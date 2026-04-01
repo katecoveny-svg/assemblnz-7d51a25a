@@ -307,7 +307,7 @@ export default function ToroaLandingPage() {
                 className="flex items-start gap-4 rounded-xl p-5 card-glow-hover"
                 style={{ background: "rgba(15,15,26,0.4)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 0 16px rgba(58,125,110,0.04), 0 4px 16px rgba(0,0,0,0.2)" }}
               >
-                <Smartphone size={18} style={{ color: "#D4A843", marginTop: "2px", flexShrink: 0 }} />
+                <span className="text-lg shrink-0 mt-0.5">📱</span>
                 <div>
                   <h3 className="font-display text-sm mb-1" style={{ fontWeight: 300, color: "#FFFFFF" }}>{r.title}</h3>
                   <p className="font-body text-xs" style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.6 }}>{r.desc}</p>
