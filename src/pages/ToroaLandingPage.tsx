@@ -179,7 +179,7 @@ function TryToroaChat() {
               </>
             ) : (
               <div className="w-full text-center py-2">
-                <p className="font-body text-xs mb-2" style={{ color: "rgba(255,255,255,0.5)" }}>You've used your 3 free messages</p>
+                <p className="font-body text-xs mb-2" style={{ color: "rgba(255,255,255,0.5)" }}>You've used your 2 free messages</p>
                 <a href="#waitlist" className="font-display text-sm transition-colors" style={{ color: "#D4A843", fontWeight: 300 }}>
                   Join the beta for unlimited access →
                 </a>
