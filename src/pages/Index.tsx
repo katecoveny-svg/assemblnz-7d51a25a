@@ -331,7 +331,7 @@ const Index = () => {
               We're working with a small group of early customers to shape the next stage of Assembl. Founding pilots receive hands-on onboarding, direct access, and early workflow design support.
             </Body>
           </motion.div>
-          <motion.form onSubmit={handlePilot} className="rounded-2xl p-8 text-left space-y-4" style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(255,255,255,0.08)" }}
+          <motion.form onSubmit={handlePilot} className="rounded-2xl p-8 text-left space-y-4 card-glow-hover" style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 0 30px rgba(212,168,67,0.08), 0 4px 24px rgba(0,0,0,0.4)" }}
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
             <input value={pilotName} onChange={(e) => setPilotName(e.target.value)} placeholder="Your name" required
               className="w-full px-4 py-3 rounded-xl text-sm font-body text-white placeholder:text-white/30 focus:outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }} />
