@@ -1,19 +1,21 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Brain, LayoutDashboard, ShieldCheck, Database, Shield, FileText, Activity, Bell } from "lucide-react";
 import toroaIcon from "@/assets/brand/toroa-hero.png";
-import { teKahuiReoMark, ihoIcon, kanohiIcon, manaIcon, maharaIcon } from "@/assets/brand";
-import { Shield, FileText, Activity, Bell } from "lucide-react";
+import { teKahuiReoMark } from "@/assets/brand";
 
-const TE_KAHUI_REO_AGENTS: Array<{ name: string; subtitle: string; desc: string; icon: string | null; fallbackIcon: any }> = [
-  { name: "IHO", subtitle: "Brain", desc: "Intelligent router & orchestrator", icon: ihoIcon, fallbackIcon: null },
-  { name: "KANOHI", subtitle: "Dashboard", desc: "Front-of-house interface", icon: kanohiIcon, fallbackIcon: null },
-  { name: "MANA", subtitle: "Access", desc: "Access control & authentication", icon: manaIcon, fallbackIcon: null },
-  { name: "MAHARA", subtitle: "Memory", desc: "Memory & context engine", icon: maharaIcon, fallbackIcon: null },
-  { name: "KAHU", subtitle: "Compliance", desc: "Compliance & privacy guardian", icon: null, fallbackIcon: Shield },
-  { name: "TĀ", subtitle: "Audit", desc: "Audit trail & billing logger", icon: null, fallbackIcon: FileText },
-  { name: "PŪNAHA", subtitle: "Health", desc: "System health monitor", icon: null, fallbackIcon: Activity },
-  { name: "TOHU", subtitle: "Alerts", desc: "Notification & alert system", icon: null, fallbackIcon: Bell },
+const GOLD = "#D4A843";
+const GOLD_STYLE = { color: GOLD, filter: "drop-shadow(0 0 6px rgba(212,168,67,0.5))" };
+
+const TE_KAHUI_REO_AGENTS = [
+  { name: "IHO", subtitle: "Brain", desc: "Intelligent router & orchestrator", Icon: Brain },
+  { name: "KANOHI", subtitle: "Dashboard", desc: "Front-of-house interface", Icon: LayoutDashboard },
+  { name: "MANA", subtitle: "Access", desc: "Access control & authentication", Icon: ShieldCheck },
+  { name: "MAHARA", subtitle: "Memory", desc: "Memory & context engine", Icon: Database },
+  { name: "KAHU", subtitle: "Compliance", desc: "Compliance & privacy guardian", Icon: Shield },
+  { name: "TĀ", subtitle: "Audit", desc: "Audit trail & billing logger", Icon: FileText },
+  { name: "PŪNAHA", subtitle: "Health", desc: "System health monitor", Icon: Activity },
+  { name: "TOHU", subtitle: "Alerts", desc: "Notification & alert system", Icon: Bell },
 ];
 
 const TeKahuiReoSection = () => (
@@ -124,16 +126,7 @@ const TeKahuiReoSection = () => (
             }}
           >
             <div className="flex items-center gap-3 mb-2">
-              {agent.icon ? (
-                <img
-                  src={agent.icon}
-                  alt={agent.name}
-                  className="w-7 h-7"
-                  style={{ filter: "drop-shadow(0 0 8px rgba(58,125,110,0.4))" }}
-                />
-              ) : agent.fallbackIcon ? (
-                <agent.fallbackIcon size={20} className="text-pounamu shrink-0" style={{ filter: "drop-shadow(0 0 8px rgba(58,125,110,0.4))" } as any} />
-              ) : null}
+              <agent.Icon size={24} style={GOLD_STYLE} className="shrink-0" />
               <div>
                 <p
                   style={{
