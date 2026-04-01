@@ -45,51 +45,21 @@ function Starfield() {
 
 /* ── Feature showcase cards ── */
 const HERO_FEATURES = [
-  {
-    icon: Camera,
-    title: "Photo → school notice parsed",
-    desc: "Snap a photo of a school newsletter or notice. Tōroa reads it, extracts dates, events, and deadlines, then adds them to your family calendar automatically.",
-    color: "#D4A843",
-  },
-  {
-    icon: CalendarDays,
-    title: "Calendar sync & gear lists",
-    desc: "School events, sports fixtures, and practices sync to one calendar. Tōroa auto-generates packing and gear lists the night before — so nothing gets forgotten.",
-    color: "#3A7D6E",
-  },
-  {
-    icon: Utensils,
-    title: "Photo your fridge → meal plan + shopping list",
-    desc: "Take a photo of what's in your fridge. Tōroa creates a weekly meal plan from what you have, then builds a smart shopping list for what you need.",
-    color: "#D4A843",
-  },
-  {
-    icon: Bus,
-    title: "Live Auckland bus tracking",
-    desc: "Real-time Auckland Transport bus positions. Know exactly when the school bus is arriving — no more standing in the rain guessing.",
-    color: "#1A6B9C",
-  },
-  {
-    icon: CloudSun,
-    title: "Live weather → dress the kids",
-    desc: "Tōroa checks the morning weather and texts you what the kids should wear today. Rain jacket? Sunhat? Shorts or long pants? Sorted.",
-    color: "#3A7D6E",
-  },
-  {
-    icon: Lock,
-    title: "Safe & secure family chat",
-    desc: "A private, encrypted family messaging space. No ads, no strangers, no algorithmic feeds — just your whānau, kept safe.",
-    color: "#D4A843",
-  },
+  { emoji: "📸", title: "Photo → school notice parsed", desc: "Snap a photo of a school newsletter or notice. Tōroa reads it, extracts dates, events, and deadlines, then adds them to your family calendar automatically.", color: "#D4A843" },
+  { emoji: "📅", title: "Calendar sync & gear lists", desc: "School events, sports fixtures, and practices sync to one calendar. Tōroa auto-generates packing and gear lists the night before — so nothing gets forgotten.", color: "#3A7D6E" },
+  { emoji: "🍽️", title: "Photo your fridge → meal plan + shopping list", desc: "Take a photo of what's in your fridge. Tōroa creates a weekly meal plan from what you have, then builds a smart shopping list for what you need.", color: "#D4A843" },
+  { emoji: "🚌", title: "Live Auckland bus tracking", desc: "Real-time Auckland Transport bus positions. Know exactly when the school bus is arriving — no more standing in the rain guessing.", color: "#1A6B9C" },
+  { emoji: "🌤️", title: "Live weather → dress the kids", desc: "Tōroa checks the morning weather and texts you what the kids should wear today. Rain jacket? Sunhat? Shorts or long pants? Sorted.", color: "#3A7D6E" },
+  { emoji: "🔒", title: "Safe & secure family chat", desc: "A private, encrypted family messaging space. No ads, no strangers, no algorithmic feeds — just your whānau, kept safe.", color: "#D4A843" },
 ];
 
 const MORE_FEATURES = [
-  { icon: Bell, title: "Smart reminders", desc: "Permission slips, rego renewals, vet appointments, bill due dates — Tōroa remembers so you don't have to." },
-  { icon: ShoppingCart, title: "Shared grocery lists", desc: "Build, share, and tick off shopping lists via text. Anyone in the whānau can add items on the go." },
-  { icon: Backpack, title: "Homework tracker", desc: "Track homework deadlines, reading logs, and projects. Get gentle nudges before things are due." },
-  { icon: Shield, title: "NZ-specific answers", desc: "FamilyBoost, Working for Families, school zones, holiday dates — Tōroa knows Aotearoa context." },
-  { icon: Clock, title: "Household budget", desc: "Track weekly spending, set limits, and get alerts — all via SMS. No spreadsheets needed." },
-  { icon: MessageSquare, title: "Just text", desc: "No app to download. No login to remember. Works on every phone, every age group. Instant." },
+  { emoji: "🔔", title: "Smart reminders", desc: "Permission slips, rego renewals, vet appointments, bill due dates — Tōroa remembers so you don't have to." },
+  { emoji: "🛒", title: "Shared grocery lists", desc: "Build, share, and tick off shopping lists via text. Anyone in the whānau can add items on the go." },
+  { emoji: "🎒", title: "Homework tracker", desc: "Track homework deadlines, reading logs, and projects. Get gentle nudges before things are due." },
+  { emoji: "🇳🇿", title: "NZ-specific answers", desc: "FamilyBoost, Working for Families, school zones, holiday dates — Tōroa knows Aotearoa context." },
+  { emoji: "💰", title: "Household budget", desc: "Track weekly spending, set limits, and get alerts — all via SMS. No spreadsheets needed." },
+  { emoji: "💬", title: "Just text", desc: "No app to download. No login to remember. Works on every phone, every age group. Instant." },
 ];
 
 const SMS_REASONS = [
