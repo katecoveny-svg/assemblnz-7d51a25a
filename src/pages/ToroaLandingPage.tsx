@@ -55,12 +55,12 @@ const HERO_FEATURES = [
 ];
 
 const MORE_FEATURES = [
-  { emoji: "🔔", title: "Smart reminders", desc: "Permission slips, rego renewals, vet appointments, bill due dates — Tōroa remembers so you don't have to." },
-  { emoji: "🛒", title: "Shared grocery lists", desc: "Build, share, and tick off shopping lists via text. Anyone in the whānau can add items on the go." },
-  { emoji: "🎒", title: "Homework tracker", desc: "Track homework deadlines, reading logs, and projects. Get gentle nudges before things are due." },
-  { emoji: "🇳🇿", title: "NZ-specific answers", desc: "FamilyBoost, Working for Families, school zones, holiday dates — Tōroa knows Aotearoa context." },
-  { emoji: "💰", title: "Household budget", desc: "Track weekly spending, set limits, and get alerts — all via SMS. No spreadsheets needed." },
-  { emoji: "💬", title: "Just text", desc: "No app to download. No login to remember. Works on every phone, every age group. Instant." },
+  { title: "Smart reminders", desc: "Permission slips, rego renewals, vet appointments, bill due dates — Tōroa remembers so you don't have to." },
+  { title: "Shared grocery lists", desc: "Build, share, and tick off shopping lists via text. Anyone in the whānau can add items on the go." },
+  { title: "Homework tracker", desc: "Track homework deadlines, reading logs, and projects. Get gentle nudges before things are due." },
+  { title: "NZ-specific answers", desc: "FamilyBoost, Working for Families, school zones, holiday dates — Tōroa knows Aotearoa context." },
+  { title: "Household budget", desc: "Track weekly spending, set limits, and get alerts — all via SMS. No spreadsheets needed." },
+  { title: "Just text", desc: "No app to download. No login to remember. Works on every phone, every age group. Instant." },
 ];
 
 const SMS_REASONS = [
