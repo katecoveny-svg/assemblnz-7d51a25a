@@ -3,11 +3,7 @@ import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import SEO from "@/components/SEO";
 import { toast } from "sonner";
-import {
-  ChevronDown, MessageSquare, Shield, Smartphone, Clock, Camera,
-  CalendarDays, ShoppingCart, Bus, CloudSun, Lock, Youtube,
-  Utensils, Backpack, Bell, Sparkles,
-} from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import toroaLogo from "@/assets/brand/toroa-logo.svg";
 
 const fadeUp = {
@@ -49,51 +45,21 @@ function Starfield() {
 
 /* ── Feature showcase cards ── */
 const HERO_FEATURES = [
-  {
-    icon: Camera,
-    title: "Photo → school notice parsed",
-    desc: "Snap a photo of a school newsletter or notice. Tōroa reads it, extracts dates, events, and deadlines, then adds them to your family calendar automatically.",
-    color: "#D4A843",
-  },
-  {
-    icon: CalendarDays,
-    title: "Calendar sync & gear lists",
-    desc: "School events, sports fixtures, and practices sync to one calendar. Tōroa auto-generates packing and gear lists the night before — so nothing gets forgotten.",
-    color: "#3A7D6E",
-  },
-  {
-    icon: Utensils,
-    title: "Photo your fridge → meal plan + shopping list",
-    desc: "Take a photo of what's in your fridge. Tōroa creates a weekly meal plan from what you have, then builds a smart shopping list for what you need.",
-    color: "#D4A843",
-  },
-  {
-    icon: Bus,
-    title: "Live Auckland bus tracking",
-    desc: "Real-time Auckland Transport bus positions. Know exactly when the school bus is arriving — no more standing in the rain guessing.",
-    color: "#1A6B9C",
-  },
-  {
-    icon: CloudSun,
-    title: "Live weather → dress the kids",
-    desc: "Tōroa checks the morning weather and texts you what the kids should wear today. Rain jacket? Sunhat? Shorts or long pants? Sorted.",
-    color: "#3A7D6E",
-  },
-  {
-    icon: Lock,
-    title: "Safe & secure family chat",
-    desc: "A private, encrypted family messaging space. No ads, no strangers, no algorithmic feeds — just your whānau, kept safe.",
-    color: "#D4A843",
-  },
+  { emoji: "📸", title: "Photo → school notice parsed", desc: "Snap a photo of a school newsletter or notice. Tōroa reads it, extracts dates, events, and deadlines, then adds them to your family calendar automatically.", color: "#D4A843" },
+  { emoji: "📅", title: "Calendar sync & gear lists", desc: "School events, sports fixtures, and practices sync to one calendar. Tōroa auto-generates packing and gear lists the night before — so nothing gets forgotten.", color: "#3A7D6E" },
+  { emoji: "🍽️", title: "Photo your fridge → meal plan + shopping list", desc: "Take a photo of what's in your fridge. Tōroa creates a weekly meal plan from what you have, then builds a smart shopping list for what you need.", color: "#D4A843" },
+  { emoji: "🚌", title: "Live Auckland bus tracking", desc: "Real-time Auckland Transport bus positions. Know exactly when the school bus is arriving — no more standing in the rain guessing.", color: "#1A6B9C" },
+  { emoji: "🌤️", title: "Live weather → dress the kids", desc: "Tōroa checks the morning weather and texts you what the kids should wear today. Rain jacket? Sunhat? Shorts or long pants? Sorted.", color: "#3A7D6E" },
+  { emoji: "🔒", title: "Safe & secure family chat", desc: "A private, encrypted family messaging space. No ads, no strangers, no algorithmic feeds — just your whānau, kept safe.", color: "#D4A843" },
 ];
 
 const MORE_FEATURES = [
-  { icon: Bell, title: "Smart reminders", desc: "Permission slips, rego renewals, vet appointments, bill due dates — Tōroa remembers so you don't have to." },
-  { icon: ShoppingCart, title: "Shared grocery lists", desc: "Build, share, and tick off shopping lists via text. Anyone in the whānau can add items on the go." },
-  { icon: Backpack, title: "Homework tracker", desc: "Track homework deadlines, reading logs, and projects. Get gentle nudges before things are due." },
-  { icon: Shield, title: "NZ-specific answers", desc: "FamilyBoost, Working for Families, school zones, holiday dates — Tōroa knows Aotearoa context." },
-  { icon: Clock, title: "Household budget", desc: "Track weekly spending, set limits, and get alerts — all via SMS. No spreadsheets needed." },
-  { icon: MessageSquare, title: "Just text", desc: "No app to download. No login to remember. Works on every phone, every age group. Instant." },
+  { emoji: "🔔", title: "Smart reminders", desc: "Permission slips, rego renewals, vet appointments, bill due dates — Tōroa remembers so you don't have to." },
+  { emoji: "🛒", title: "Shared grocery lists", desc: "Build, share, and tick off shopping lists via text. Anyone in the whānau can add items on the go." },
+  { emoji: "🎒", title: "Homework tracker", desc: "Track homework deadlines, reading logs, and projects. Get gentle nudges before things are due." },
+  { emoji: "🇳🇿", title: "NZ-specific answers", desc: "FamilyBoost, Working for Families, school zones, holiday dates — Tōroa knows Aotearoa context." },
+  { emoji: "💰", title: "Household budget", desc: "Track weekly spending, set limits, and get alerts — all via SMS. No spreadsheets needed." },
+  { emoji: "💬", title: "Just text", desc: "No app to download. No login to remember. Works on every phone, every age group. Instant." },
 ];
 
 const SMS_REASONS = [
@@ -241,9 +207,7 @@ export default function ToroaLandingPage() {
                 className="rounded-2xl p-6 card-glow-hover"
                 style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: `0 0 20px ${f.color}10, 0 4px 20px rgba(0,0,0,0.3)` }}
               >
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style={{ background: `${f.color}15`, border: `1px solid ${f.color}30` }}>
-                  <f.icon size={20} style={{ color: f.color }} />
-                </div>
+                <span className="text-2xl mb-4 block">{f.emoji}</span>
                 <h3 className="font-display text-sm mb-2" style={{ fontWeight: 400, color: "#FFFFFF" }}>{f.title}</h3>
                 <p className="font-body text-xs" style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.7 }}>{f.desc}</p>
               </motion.div>
@@ -259,9 +223,7 @@ export default function ToroaLandingPage() {
             className="rounded-2xl p-8 md:p-10 card-glow-hover text-center"
             style={{ background: "rgba(15,15,26,0.7)", border: "1px solid rgba(212,168,67,0.15)", boxShadow: "0 0 40px rgba(212,168,67,0.08), 0 8px 40px rgba(0,0,0,0.3)" }}
           >
-            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5" style={{ background: "rgba(212,168,67,0.1)", border: "1px solid rgba(212,168,67,0.25)" }}>
-              <Youtube size={28} style={{ color: "#D4A843" }} />
-            </div>
+            <span className="text-4xl block mx-auto mb-5">🎓</span>
             <h2 className="font-display text-xl mb-3" style={{ fontWeight: 300, color: "#FFFFFF" }}>
               Mārama — instant learning from any video
             </h2>
@@ -294,7 +256,7 @@ export default function ToroaLandingPage() {
                 className="rounded-xl p-5 card-glow-hover"
                 style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(212,168,67,0.12)", boxShadow: "0 0 16px rgba(212,168,67,0.04), 0 4px 16px rgba(0,0,0,0.25)" }}
               >
-                <f.icon size={20} style={{ color: "#D4A843", marginBottom: "10px" }} />
+                <span className="text-lg block mb-2.5">{f.emoji}</span>
                 <h3 className="font-display text-sm mb-1.5" style={{ fontWeight: 300, color: "#FFFFFF" }}>{f.title}</h3>
                 <p className="font-body text-[11px]" style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.7 }}>{f.desc}</p>
               </motion.div>
@@ -315,7 +277,7 @@ export default function ToroaLandingPage() {
                 className="flex items-start gap-4 rounded-xl p-5 card-glow-hover"
                 style={{ background: "rgba(15,15,26,0.4)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 0 16px rgba(58,125,110,0.04), 0 4px 16px rgba(0,0,0,0.2)" }}
               >
-                <Smartphone size={18} style={{ color: "#D4A843", marginTop: "2px", flexShrink: 0 }} />
+                <span className="text-lg shrink-0 mt-0.5">📱</span>
                 <div>
                   <h3 className="font-display text-sm mb-1" style={{ fontWeight: 300, color: "#FFFFFF" }}>{r.title}</h3>
                   <p className="font-body text-xs" style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.6 }}>{r.desc}</p>
@@ -329,7 +291,7 @@ export default function ToroaLandingPage() {
       {/* ═══ PRIVACY & TRUST ═══ */}
       <section className="relative z-10 px-6 py-16 md:py-20">
         <div className="max-w-2xl mx-auto text-center">
-          <Shield size={28} style={{ color: "#3A7D6E", margin: "0 auto 16px" }} />
+          <span className="text-3xl block mb-4">🛡️</span>
           <h2 className="font-display mb-4" style={{ fontWeight: 300, fontSize: "clamp(20px,3vw,26px)", color: "#FFFFFF" }}>
             Privacy and trust
           </h2>
