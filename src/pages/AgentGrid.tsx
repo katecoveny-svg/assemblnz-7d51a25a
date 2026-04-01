@@ -157,22 +157,22 @@ const AgentGrid = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {[
               {
-                icon: Shield,
+                mark: manaIcon,
                 title: "NZ context",
                 desc: "Trained on 50+ New Zealand Acts. Employment, health & safety, building, food safety, privacy — your obligations, not American advice.",
               },
               {
-                icon: Database,
+                mark: maharaIcon,
                 title: "Shared business memory",
                 desc: "Every agent shares context about your business. Ask one, and the others already know. No re-explaining.",
               },
               {
-                icon: Brain,
+                mark: ihoIcon,
                 title: "Specialist agents",
                 desc: "42 agents, each an expert in their domain. Not a chatbot pretending to know everything — dedicated specialists that go deep.",
               },
               {
-                icon: MessageSquare,
+                mark: kanohiIcon,
                 title: "Multi-channel delivery",
                 desc: "Chat, SMS, voice, email, embedded widgets. Your team gets answers wherever they already work.",
               },
@@ -190,7 +190,7 @@ const AgentGrid = () => {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
               >
-                <item.icon size={20} style={{ color: "#D4A843", marginBottom: "10px" }} />
+                <img src={item.mark} alt="" className="w-5 h-5 mb-2.5 opacity-70" />
                 <h3 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "16px", color: "#FFFFFF", marginBottom: "6px" }}>
                   {item.title}
                 </h3>
