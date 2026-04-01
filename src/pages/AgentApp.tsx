@@ -46,7 +46,7 @@ export default function AgentApp() {
   const { agentId: rawAgentId } = useParams<{ agentId: string }>();
   const agentId = rawAgentId ? (SLUG_TO_ID[rawAgentId] ?? rawAgentId) : rawAgentId;
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState<Tab>("chat");
+  const [activeTab, setActiveTab] = useState<Tab>(rawAgentId === "signal" ? "dashboard" : "chat");
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
