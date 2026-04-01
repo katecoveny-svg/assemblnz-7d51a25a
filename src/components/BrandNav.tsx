@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown } from "lucide-react";
 import AccountDropdown from "@/components/AccountDropdown";
 import NotificationBell from "@/components/NotificationBell";
-import { assemblMark } from "@/assets/brand";
+import CelestialLogo from "@/components/CelestialLogo";
 
 interface NavChild { label: string; to: string; desc: string; badge?: "LIVE" | "ADMIN" }
 interface NavItem {
