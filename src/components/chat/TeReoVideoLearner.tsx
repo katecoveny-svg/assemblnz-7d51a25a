@@ -326,7 +326,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                     </p>
                     {s.notes && (
                       <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "10px", color: "rgba(255,255,255,0.35)", fontStyle: "italic" }}>
-                        📝 {s.notes}
+                        {s.notes}
                       </p>
                     )}
                   </motion.div>
