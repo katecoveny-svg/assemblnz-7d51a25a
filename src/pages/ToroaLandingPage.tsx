@@ -84,7 +84,7 @@ function TryToroaChat() {
   const [messages, setMessages] = useState<{ role: "user" | "assistant"; text: string }[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const MAX_MSGS = 3;
+  const MAX_MSGS = 2;
   const used = messages.filter(m => m.role === "user").length;
   const remaining = MAX_MSGS - used;
 
@@ -99,8 +99,7 @@ function TryToroaChat() {
       const { data, error } = await supabase.functions.invoke("chat", {
         body: {
           messages: updated.map(m => ({ role: m.role, content: m.text })),
-          agentId: "toroa",
-          systemPrompt: "You are Tōroa, a warm and helpful SMS-first family AI navigator built for whānau in Aotearoa. Keep responses concise (2-3 sentences), friendly, and practical. You help with school notices, meal planning, bus tracking, weather, and family coordination. Always be encouraging and use simple language.",
+          agentId: "family",
         },
       });
       if (error) throw error;
@@ -180,7 +179,7 @@ function TryToroaChat() {
               </>
             ) : (
               <div className="w-full text-center py-2">
-                <p className="font-body text-xs mb-2" style={{ color: "rgba(255,255,255,0.5)" }}>You've used your 3 free messages</p>
+                <p className="font-body text-xs mb-2" style={{ color: "rgba(255,255,255,0.5)" }}>You've used your 2 free messages</p>
                 <a href="#waitlist" className="font-display text-sm transition-colors" style={{ color: "#D4A843", fontWeight: 300 }}>
                   Join the beta for unlimited access →
                 </a>
