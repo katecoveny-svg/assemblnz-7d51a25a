@@ -6,6 +6,7 @@ import { AuraGrid } from "./videos/AuraGrid";
 import { PrismGrid } from "./videos/PrismGrid";
 import { HavenGrid } from "./videos/HavenGrid";
 import { HelmGrid } from "./videos/HelmGrid";
+import { HangaBimGrid } from "./videos/HangaBimGrid";
 
 export const RemotionRoot = () => (
   <>
@@ -16,5 +17,6 @@ export const RemotionRoot = () => (
     <Composition id="prism-grid" component={PrismGrid} durationInFrames={270} fps={30} width={1080} height={1080} />
     <Composition id="haven-grid" component={HavenGrid} durationInFrames={270} fps={30} width={1080} height={1080} />
     <Composition id="helm-grid" component={HelmGrid} durationInFrames={270} fps={30} width={1080} height={1080} />
+    <Composition id="hanga-bim-grid" component={HangaBimGrid} durationInFrames={330} fps={30} width={1080} height={1080} />
   </>
 );

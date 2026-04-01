@@ -64,7 +64,7 @@ export default function ArohaPayroll() {
   const paye = calcPAYE(annualSalary);
   const accLevy = annualSalary * 0.0153; // approx earner levy
   const ksEmployee = annualSalary * (Number(ksRate) / 100);
-  const studentLoan = hasStudentLoan ? Math.max(0, (annualSalary - 22828) * 0.12) : 0;
+  const studentLoan = hasStudentLoan ? Math.max(0, (annualSalary - 24128) * 0.12) : 0;
   const childSup = Number(childSupport) * 52;
   const netAnnual = annualSalary - paye - accLevy - ksEmployee - studentLoan - childSup;
   const ksEmployer = annualSalary * 0.03;
@@ -84,7 +84,7 @@ export default function ArohaPayroll() {
   const mwTotalPay = Number(mwPay);
   const mwTotalHours = Number(mwHours) * (mwPeriod === "fortnightly" ? 2 : 1);
   const effectiveRate = mwPeriod === "fortnightly" ? mwTotalPay / mwTotalHours : mwTotalPay / Number(mwHours);
-  const meetsMinWage = effectiveRate >= 23.95;
+  const meetsMinWage = effectiveRate >= 23.65;
 
   const tabs = [
     { id: "pay" as const, label: "Pay Calculator", icon: <Calculator size={10} /> },
@@ -137,7 +137,7 @@ export default function ArohaPayroll() {
               <div className="flex justify-between"><span className="text-muted-foreground">PAYE Tax</span><span className="text-foreground">-${Math.round(paye).toLocaleString()}</span></div>
               <div className="flex justify-between"><span className="text-muted-foreground">ACC Earner Levy (~1.53%)</span><span className="text-foreground">-${Math.round(accLevy).toLocaleString()}</span></div>
               <div className="flex justify-between"><span className="text-muted-foreground">KiwiSaver ({ksRate}%)</span><span className="text-foreground">-${Math.round(ksEmployee).toLocaleString()}</span></div>
-              {hasStudentLoan && <div className="flex justify-between"><span className="text-muted-foreground">Student Loan (12% over $22,828)</span><span className="text-foreground">-${Math.round(studentLoan).toLocaleString()}</span></div>}
+              {hasStudentLoan && <div className="flex justify-between"><span className="text-muted-foreground">Student Loan (12% over $24,128)</span><span className="text-foreground">-${Math.round(studentLoan).toLocaleString()}</span></div>}
               {Number(childSupport) > 0 && <div className="flex justify-between"><span className="text-muted-foreground">Child Support</span><span className="text-foreground">-${Math.round(childSup).toLocaleString()}</span></div>}
               <div className="border-t border-border pt-1 mt-1 flex justify-between text-sm font-bold"><span className="text-foreground">Net Take-Home (annual)</span><span style={{ color: AROHA_COLOR }}>${Math.round(netAnnual).toLocaleString()}</span></div>
             </div>
@@ -221,9 +221,9 @@ export default function ArohaPayroll() {
           <div className="p-4 rounded-xl border bg-card" style={{ borderColor: AROHA_COLOR + "30" }}>
             <h3 className="text-xs font-bold text-foreground mb-2">Current Minimum Wages (from 1 April 2026)</h3>
             <div className="space-y-1 text-[10px]">
-              <div className="flex justify-between"><span className="text-muted-foreground">Adult</span><span className="font-bold" style={{ color: AROHA_COLOR }}>$23.95/hour</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Starting-out</span><span className="font-bold text-foreground">$19.16/hour</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Training</span><span className="font-bold text-foreground">$19.16/hour</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Adult</span><span className="font-bold" style={{ color: AROHA_COLOR }}>$23.65/hour</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Starting-out</span><span className="font-bold text-foreground">$18.92/hour</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Training</span><span className="font-bold text-foreground">$18.92/hour</span></div>
             </div>
           </div>
           <h3 className="text-xs font-bold text-foreground">Compliance Checker</h3>
@@ -239,8 +239,8 @@ export default function ArohaPayroll() {
               {meetsMinWage ? <NeonCheckmark size={18} color="#5AADA0" /> : <AlertCircle size={18} style={{ color: AROHA_COLOR }} />}
               <span className="text-sm font-bold" style={{ color: meetsMinWage ? "#5AADA0" : AROHA_COLOR }}>{meetsMinWage ? "Compliant" : "Below Minimum Wage"}</span>
             </div>
-            <p className="text-[10px] text-muted-foreground">Effective hourly rate: <strong className="text-foreground">${effectiveRate.toFixed(2)}/hour</strong> (minimum: $23.95/hour)</p>
-            {!meetsMinWage && <p className="text-[10px] mt-1" style={{ color: AROHA_COLOR }}>This rate is ${(23.95 - effectiveRate).toFixed(2)}/hour below the adult minimum wage. Increase pay to at least ${(23.95 * Number(mwHours) * (mwPeriod === "fortnightly" ? 2 : 1)).toFixed(2)} gross per {mwPeriod === "fortnightly" ? "fortnight" : "week"}.</p>}
+            <p className="text-[10px] text-muted-foreground">Effective hourly rate: <strong className="text-foreground">${effectiveRate.toFixed(2)}/hour</strong> (minimum: $23.65/hour)</p>
+            {!meetsMinWage && <p className="text-[10px] mt-1" style={{ color: AROHA_COLOR }}>This rate is ${(23.65 - effectiveRate).toFixed(2)}/hour below the adult minimum wage. Increase pay to at least ${(23.65 * Number(mwHours) * (mwPeriod === "fortnightly" ? 2 : 1)).toFixed(2)} gross per {mwPeriod === "fortnightly" ? "fortnight" : "week"}.</p>}
           </div>
         </div>
       )}
