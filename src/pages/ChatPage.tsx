@@ -2182,18 +2182,27 @@ const ChatPage = () => {
                   {messages.map((msg, i) => (
                     <div key={i}>
                       <div
-                        className={`flex gap-2 opacity-0 animate-fade-up ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+                        className={`flex gap-2.5 opacity-0 animate-fade-up ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                         style={{ animationDelay: `${i * 30}ms`, animationFillMode: "forwards" }}
                       >
-                        {msg.role === "assistant" && <AgentAvatar agentId={agent.id} color={agent.color} size={24} showGlow={false} />}
+                        {msg.role === "assistant" && (
+                          <div className="mt-1 shrink-0">
+                            <AgentAvatar agentId={agent.id} color={agent.color} size={28} showGlow={false} />
+                          </div>
+                        )}
                         <div
-                          className={`max-w-[85%] px-3.5 py-2.5 rounded-xl text-sm leading-relaxed ${
-                            msg.role === "user" ? "text-foreground rounded-br-sm" : "bg-card text-foreground/90 rounded-bl-sm"
+                          className={`max-w-[82%] text-sm leading-relaxed ${
+                            msg.role === "user"
+                              ? "px-4 py-3 rounded-2xl rounded-br-md text-foreground"
+                              : "px-4 py-3 rounded-2xl rounded-bl-md text-foreground/90"
                           }`}
-                          style={msg.role === "user" ? { background: `linear-gradient(135deg, ${agent.color}18, ${agent.color}08)`, border: `1px solid ${agent.color}15` } : {}}
+                          style={msg.role === "user"
+                            ? { background: `linear-gradient(135deg, ${agent.color}20, ${agent.color}10)`, border: `1px solid ${agent.color}18` }
+                            : { background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }
+                          }
                         >
                           {msg.imageUrl && (
-                            <img src={msg.imageUrl} alt="Uploaded" className="rounded-lg mb-2 max-h-48 w-auto object-cover" />
+                            <img src={msg.imageUrl} alt="Uploaded" className="rounded-xl mb-2 max-h-48 w-auto object-cover" />
                           )}
                           {msg.fileName && (
                             <div className="flex items-center gap-1.5 mb-2 text-xs text-foreground/60">
@@ -2203,16 +2212,16 @@ const ChatPage = () => {
                           )}
                           {renderMessageContent(msg, i)}
                           {msg.role === "assistant" && (
-                            <div className="flex items-start justify-between gap-2">
+                            <div className="flex items-start justify-between gap-2 mt-2 pt-2" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
                               <div className="flex-1">
                                 <LegislationCard content={msg.content} agentColor={agent.color} />
                                 <ResponseSources content={msg.content} />
                                 <AITransparencyBadge />
-                                <p className="text-[10px] mt-2 leading-relaxed" style={{ color: "rgba(255, 255, 255, 0.35)" }}>
-                                  AI-generated guidance — not a substitute for professional advice. Verify before acting.
+                                <p className="text-[9px] mt-1 leading-relaxed" style={{ color: "rgba(255, 255, 255, 0.2)" }}>
+                                  AI-generated · verify before acting
                                 </p>
                               </div>
-                              <div className="flex items-center gap-1">
+                              <div className="flex items-center gap-0.5 shrink-0">
                                 <button
                                     type="button"
                                     onClick={() => speakText(msg.content, i)}
@@ -2223,7 +2232,7 @@ const ChatPage = () => {
                                     }}
                                     title={isSpeaking === i ? "Stop speaking" : "Read aloud"}
                                   >
-                                    <Volume2 size={14} />
+                                    <Volume2 size={13} />
                                   </button>
                                 <MessagePDFButton content={msg.content} agentId={agent.id} agentName={agent.name} agentDesignation={agent.designation} agentColor={agent.color} />
                                 <SaveToLibrary content={msg.content} agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
@@ -2299,17 +2308,21 @@ const ChatPage = () => {
                     </div>
                   ))}
                   {isLoading && (
-                    <div className="flex gap-2 items-center">
-                      <AgentAvatar agentId={agent.id} color={agent.color} size={24} showGlow={false} />
-                      <div className="flex items-center gap-2 px-3 py-2">
-                        <div className="flex gap-1">
-                          {[0, 1, 2].map((i) => (
-                            <span key={i} className="w-1.5 h-1.5 rounded-full animate-bounce-dot" style={{ backgroundColor: agent.color, animationDelay: `${i * 0.2}s` }} />
-                          ))}
+                    <div className="flex gap-2.5 items-start">
+                      <div className="mt-1 shrink-0">
+                        <AgentAvatar agentId={agent.id} color={agent.color} size={28} showGlow={false} />
+                      </div>
+                      <div className="px-4 py-3 rounded-2xl rounded-bl-md" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }}>
+                        <div className="flex items-center gap-2">
+                          <div className="flex gap-1">
+                            {[0, 1, 2].map((i) => (
+                              <span key={i} className="w-1.5 h-1.5 rounded-full animate-bounce-dot" style={{ backgroundColor: agent.color, animationDelay: `${i * 0.2}s` }} />
+                            ))}
+                          </div>
+                          <span className="text-[11px] font-body" style={{ color: agent.color + "90" }}>
+                            {AGENT_LOADING_MESSAGES[agent.id] || "Thinking…"}
+                          </span>
                         </div>
-                        <span className="text-[11px] font-body" style={{ color: agent.color + "90" }}>
-                          {AGENT_LOADING_MESSAGES[agent.id] || "Thinking…"}
-                        </span>
                       </div>
                     </div>
                   )}
@@ -2382,8 +2395,8 @@ const ChatPage = () => {
           )}
 
           {/* Input Bar */}
-          <form onSubmit={handleSubmit} className="px-4 py-3 border-t border-border shrink-0">
-            <div className="max-w-2xl mx-auto flex gap-2 items-center">
+          <form onSubmit={handleSubmit} className="px-3 py-2.5 shrink-0" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+            <div className="max-w-2xl mx-auto flex gap-1.5 items-center rounded-2xl px-2 py-1" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
               {/* ARC / PRISM: dedicated image upload for 3D */}
               {(isArc || isPrism) && (
                 <>
@@ -2505,21 +2518,19 @@ const ChatPage = () => {
 
               <input
                 ref={inputRef} type="text" value={input} onChange={(e) => setInput(e.target.value)}
-                placeholder={isArc && pendingImage ? "Describe the building, or send to generate from image..." : isToroa ? (isListening ? "Listening..." : "Ask TŌROA anything — meals, budgets, schedules, life admin...") : isNexus ? "Ask NEXUS or upload a document..." : `Ask ${agent.name} anything...`}
-                className="flex-1 bg-card border border-border rounded-lg px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-1 focus:ring-offset-background focus:border-foreground/10 transition-colors"
+                placeholder={isArc && pendingImage ? "Describe the building..." : isToroa ? (isListening ? "Listening..." : "Ask TŌROA anything...") : isNexus ? "Ask NEXUS or upload..." : `Message ${agent.name}...`}
+                className="flex-1 bg-transparent border-none rounded-xl px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none transition-colors"
                 aria-label={`Message ${agent.name}`}
                 onKeyDown={(e) => { if (e.key === "Escape") inputRef.current?.blur(); }}
               />
               <button type="submit" disabled={(!input.trim() && !pendingImage && !pendingFile) || isLoading || isUploading}
-                className="px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 disabled:opacity-30"
+                className="p-2 rounded-xl font-medium text-sm transition-all duration-200 disabled:opacity-20"
                 style={{
                   backgroundColor: input.trim() || pendingImage || pendingFile ? agent.color : "transparent",
                   color: input.trim() || pendingImage || pendingFile ? "#0A0A14" : agent.color,
-                  border: `1px solid ${input.trim() || pendingImage || pendingFile ? agent.color : agent.color + "30"}`,
-                  boxShadow: input.trim() || pendingImage || pendingFile ? `0 0 16px ${agent.color}30` : "none",
                 }}
               >
-                <Send size={16} />
+                <Send size={18} />
               </button>
               {/* Voice Agent button */}
               <button
@@ -2537,19 +2548,15 @@ const ChatPage = () => {
               </button>
             </div>
           </form>
-          {/* Build with SPARK cross-agent CTA */}
-          {!isSpark && !isAura && (
-            <div className="px-4 pb-2 flex justify-end relative z-50">
+          {/* Build with SPARK cross-agent CTA — subtle inline */}
+          {!isSpark && !isAura && messages.length > 0 && (
+            <div className="px-4 pb-1.5 flex justify-end">
               <Link
                 to={`/chat/spark?from=${encodeURIComponent(agent.name)}&context=${encodeURIComponent(messages.filter(m => m.role === "user").slice(-1)[0]?.content || "")}`}
-                className="flex items-center gap-1.5 text-[11px] font-mono-jb px-3 py-1.5 rounded-lg transition-all duration-200 hover:scale-105"
-                style={{
-                  color: "#FF6B00",
-                  background: "rgba(255,107,0,0.08)",
-                  border: "1px solid rgba(255,107,0,0.15)",
-                }}
+                className="flex items-center gap-1 text-[9px] font-mono-jb px-2 py-1 rounded-lg transition-all opacity-40 hover:opacity-80"
+                style={{ color: "#FF6B00" }}
               >
-                <img src={sparkCtaImg} alt="" className="w-4 h-4 object-contain rounded-sm" />
+                <img src={sparkCtaImg} alt="" className="w-3 h-3 object-contain rounded-sm" />
                 Build with SPARK →
               </Link>
             </div>
