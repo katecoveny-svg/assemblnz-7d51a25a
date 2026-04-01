@@ -1,17 +1,12 @@
-// Custom SVG neon icons to replace generic emojis
-// All icons follow the branded "premium neon tech" aesthetic
+// Custom SVG icons aligned with the Whenua brand palette
+// Kōwhai Gold, Pounamu Teal, Tāngaroa Navy, White
 
 const C = {
-  green: "hsl(153,100%,50%)",
-  pink: "hsl(326,100%,59%)",
-  cyan: "hsl(189,100%,50%)",
-  orange: "hsl(20,100%,60%)",
-  gold: "hsl(43,100%,50%)",
-  blue: "hsl(224,100%,68%)",
-  lavender: "hsl(280,100%,76%)",
-  red: "hsl(0,80%,60%)",
-  lime: "hsl(85,100%,55%)",
-  teal: "hsl(174,100%,42%)"
+  gold: "#D4A843",
+  pounamu: "#3A7D6E",
+  tangaroa: "#1A3A5C",
+  white: "#FFFFFF",
+  muted: "rgba(255,255,255,0.6)",
 };
 
 type P = {size?: number;color?: string;};
