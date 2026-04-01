@@ -128,9 +128,9 @@ export default function ToroaLandingPage() {
         <div className="relative z-10 w-full max-w-4xl grid md:grid-cols-2 gap-10 items-center">
           {/* Left — copy */}
           <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.1 } } }}>
-            <motion.h1 variants={fadeUp} custom={0} className="font-display mb-4" style={{ fontWeight: 300, fontSize: "clamp(36px,6vw,56px)", color: "#D4A843", letterSpacing: "-0.01em" }}>
-              Tōroa
-            </motion.h1>
+            <motion.div variants={fadeUp} custom={0} className="mb-6">
+              <img src={toroaLogo} alt="Tōroa — Family AI Navigator" className="w-40 h-auto" />
+            </motion.div>
             <motion.p variants={fadeUp} custom={1} className="font-display text-lg mb-4" style={{ fontWeight: 300, color: "rgba(255,255,255,0.8)" }}>
               Your whānau's intelligent navigator.
             </motion.p>
