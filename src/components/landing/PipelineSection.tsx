@@ -28,7 +28,7 @@ const PipelineSection = () => (
           The <span className="text-primary">Compliance Pipeline</span>
         </h2>
         <p className="text-sm font-body text-muted-foreground max-w-lg mx-auto">
-          Every request is compliance-checked, audited, and context-enriched before it reaches you.
+          Every query passes through a tikanga-governed compliance pipeline before it reaches you.
         </p>
       </motion.div>
 
