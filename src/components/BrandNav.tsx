@@ -63,21 +63,15 @@ const BrandNav = () => {
         }}
       >
         <Link to="/" className="flex items-center gap-3 group">
-          <motion.img
-            src={assemblMark}
-            alt="Assembl"
-            className="w-9 h-9 object-contain"
-            animate={{
-              filter: [
-                'drop-shadow(0 0 6px rgba(212,168,67,0.5))',
-                'drop-shadow(0 0 14px rgba(212,168,67,0.9)) drop-shadow(0 0 28px rgba(58,125,110,0.2))',
-                'drop-shadow(0 0 6px rgba(212,168,67,0.5))',
-              ],
-            }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          />
+          <CelestialLogo size={36} />
           <div className="flex items-baseline gap-1.5">
-            <span style={{ fontFamily: "'Lato', sans-serif", fontWeight: 900, letterSpacing: "6px", textTransform: "uppercase", fontSize: "13px", background: "linear-gradient(90deg, #FFFFFF 0%, #FFFFFF 48%, #D4A843 72%, #3A7D6E 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>ASSEMBL</span>
+            <motion.span
+              style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "6px", textTransform: "uppercase", fontSize: "13px", color: "rgba(255,255,255,0.85)" }}
+              animate={{ textShadow: ["0 0 6px rgba(255,255,255,0.1)", "0 0 16px rgba(255,255,255,0.3)", "0 0 6px rgba(255,255,255,0.1)"] }}
+              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+            >
+              ASSEMBL
+            </motion.span>
             <span className="font-mono text-[10px] hidden sm:inline text-white/35">.co.nz</span>
           </div>
         </Link>
