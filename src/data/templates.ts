@@ -8,7 +8,7 @@ export interface Template {
 
 // Agents with a dedicated Templates tab
 export const TEMPLATE_TAB_AGENTS = [
-  "customs", "construction", "accounting", "legal", "property", "immigration", "marketing", "sales", "operations",
+  "customs", "construction", "accounting", "legal", "property", "immigration", "marketing", "sales", "operations", "hr",
 ];
 
 export const agentTemplates: Record<string, Template[]> = {
