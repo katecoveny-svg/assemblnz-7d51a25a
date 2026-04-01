@@ -246,7 +246,7 @@ const Index = () => {
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {STEPS.map((s, i) => (
-              <motion.div key={s.num} className="rounded-2xl p-8 relative" style={{ background: "rgba(15,15,26,0.5)", border: "1px solid rgba(255,255,255,0.06)" }}
+              <motion.div key={s.num} className="rounded-2xl p-8 relative card-glow-hover" style={{ background: "rgba(15,15,26,0.5)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 0 20px rgba(58,125,110,0.05), 0 4px 20px rgba(0,0,0,0.3)" }}
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.12, duration: 0.5 }}>
                 <span className="text-[40px] font-light absolute top-6 right-6" style={{ fontFamily: "'Lato', sans-serif", color: "rgba(212,168,67,0.12)" }}>{s.num}</span>
                 <h3 className="text-lg mb-3 mt-4" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: "#FFFFFF" }}>{s.title}</h3>
