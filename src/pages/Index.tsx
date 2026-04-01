@@ -272,7 +272,7 @@ const Index = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {PACKS.map((p, i) => (
               <motion.div key={p.name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.5 }}>
-                <Link to={p.to} className="block rounded-2xl p-7 transition-all duration-300 hover:translate-y-[-2px] group" style={{ background: "rgba(15,15,26,0.5)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                <Link to={p.to} className="block rounded-2xl p-7 transition-all duration-300 hover:translate-y-[-2px] group card-glow-hover" style={{ background: "rgba(15,15,26,0.5)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 0 20px rgba(212,168,67,0.05), 0 4px 20px rgba(0,0,0,0.3)" }}>
                   <img src={p.mark} alt={p.name} className="w-8 h-8 mb-4" />
                   <h3 className="text-base mb-1" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: "#FFFFFF" }}>
                     {p.name} <span style={{ color: "rgba(255,255,255,0.4)" }}>— {p.sub}</span>
