@@ -92,7 +92,7 @@ Generate:
 
 Then generate ${numVariants} visual variant${numVariants > 1 ? "s" : ""}, each with a genuinely different creative direction:
 
-${imageTags}${qualityTag}`
+${imageTags}${qualityTag}${providerTag}`
     );
   };
 
