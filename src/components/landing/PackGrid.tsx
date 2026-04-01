@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronDown, UtensilsCrossed, HardHat, Palette, Briefcase, Cpu } from "lucide-react";
 import { agents, packs } from "@/data/agents";
-import toroaIcon from "@/assets/brand/toroa-hero.png";
+import toroaIcon from "@/assets/brand/toroa-logo.svg";
 
 const PACK_ICONS: Record<string, React.ReactNode> = {
   manaaki: <UtensilsCrossed size={28} color="#D4A843" style={{ filter: "drop-shadow(0 0 6px rgba(212,168,67,0.5))" }} />,

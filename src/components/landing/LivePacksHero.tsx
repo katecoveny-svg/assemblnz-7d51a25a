@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import toroaIcon from "@/assets/brand/toroa-hero.png";
+import toroaIcon from "@/assets/brand/toroa-logo.svg";
 
 const CONSTELLATION_MARKS: Record<string, React.ReactNode> = {
   pakihi: (

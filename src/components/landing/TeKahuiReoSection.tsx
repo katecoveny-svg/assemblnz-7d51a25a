@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Brain, LayoutDashboard, ShieldCheck, Database, Shield, FileText, Activity, Bell } from "lucide-react";
-import toroaIcon from "@/assets/brand/toroa-hero.png";
+import toroaIcon from "@/assets/brand/toroa-logo.svg";
 import { teKahuiReoMark } from "@/assets/brand";
 
 const GOLD = "#D4A843";
