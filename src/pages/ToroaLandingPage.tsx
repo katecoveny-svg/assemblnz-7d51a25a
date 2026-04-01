@@ -44,9 +44,18 @@ function Starfield() {
 }
 
 const FEATURES = [
-  { icon: Clock, title: "Family admin", desc: "Reminders, school notices, appointments — the mental load shared with an AI that actually understands NZ family life." },
-  { icon: MessageSquare, title: "Everyday coordination", desc: "Meal plans, shopping lists, activity schedules — coordinated across parents, caregivers, and whānau." },
-  { icon: HelpCircle, title: "Useful information via SMS", desc: "Ask anything: 'What's the school holiday dates?', 'How do I apply for FamilyBoost?' — answers via text." },
+  { icon: Clock, title: "Reminders & deadlines", desc: "School notices, permission slips, rego renewals, vet appointments — Tōroa remembers so you don't have to." },
+  { icon: UtensilsCrossed, title: "Meal planning", desc: "Weekly meal plans based on what's in your fridge, dietary needs, and budget. Generates shopping lists automatically." },
+  { icon: CalendarDays, title: "Family calendar", desc: "Sports practice, pick-ups, birthday parties, school events — one place for the whole whānau's schedule." },
+  { icon: ShoppingCart, title: "Grocery & shopping lists", desc: "Build, share, and manage household shopping lists via text. Cross items off as you go." },
+  { icon: Bus, title: "School run coordination", desc: "Track bus routes, manage carpools, and coordinate drop-offs and pick-ups across multiple kids and schools." },
+  { icon: Receipt, title: "Household budget", desc: "Track spending, set weekly budgets, and get alerts when you're approaching limits — all via SMS." },
+  { icon: Heart, title: "Wellbeing check-ins", desc: "Gentle daily or weekly check-ins for family members. Track mood, energy, and sleep patterns over time." },
+  { icon: Stethoscope, title: "Health & appointments", desc: "GP visits, prescriptions, immunisation schedules, and specialist referrals — managed and reminded." },
+  { icon: BookOpen, title: "Homework & learning", desc: "Track homework deadlines, reading logs, and school projects. Summarise curriculum topics in plain English." },
+  { icon: Users, title: "Whānau coordination", desc: "Share tasks and responsibilities across parents, grandparents, and caregivers. Everyone stays in the loop via SMS." },
+  { icon: Shield, title: "NZ-specific answers", desc: "FamilyBoost, Working for Families, school zones, holiday dates — Tōroa knows Aotearoa context." },
+  { icon: MessageSquare, title: "Just text", desc: "No app to download. No login to remember. No notifications to manage. Just text like you would a friend." },
 ];
 
 const SMS_REASONS = [
