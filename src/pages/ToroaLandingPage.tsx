@@ -46,12 +46,12 @@ function Starfield() {
 
 /* ── Feature showcase cards ── */
 const HERO_FEATURES = [
-  { title: "Photo → school notice parsed", desc: "Snap a photo of a school newsletter or notice. Tōroa reads it, extracts dates, events, and deadlines, then adds them to your family calendar automatically.", color: "#D4A843" },
-  { title: "Calendar sync & gear lists", desc: "School events, sports fixtures, and practices sync to one calendar. Tōroa auto-generates packing and gear lists the night before — so nothing gets forgotten.", color: "#3A7D6E" },
-  { title: "Photo your fridge → meal plan + shopping list", desc: "Take a photo of what's in your fridge. Tōroa creates a weekly meal plan from what you have, then builds a smart shopping list for what you need.", color: "#D4A843" },
-  { title: "Live Auckland bus tracking", desc: "Real-time Auckland Transport bus positions. Know exactly when the school bus is arriving — no more standing in the rain guessing.", color: "#1A6B9C" },
-  { title: "Live weather → dress the kids", desc: "Tōroa checks the morning weather and texts you what the kids should wear today. Rain jacket? Sunhat? Shorts or long pants? Sorted.", color: "#3A7D6E" },
-  { title: "Safe & secure family chat", desc: "A private, encrypted family messaging space. No ads, no strangers, no algorithmic feeds — just your whānau, kept safe.", color: "#D4A843" },
+  { icon: Camera, title: "Photo → school notice parsed", desc: "Snap a photo of a school newsletter or notice. Tōroa reads it, extracts dates, events, and deadlines, then adds them to your family calendar automatically.", color: "#D4A843" },
+  { icon: CalendarDays, title: "Calendar sync & gear lists", desc: "School events, sports fixtures, and practices sync to one calendar. Tōroa auto-generates packing and gear lists the night before — so nothing gets forgotten.", color: "#3A7D6E" },
+  { icon: UtensilsCrossed, title: "Photo your fridge → meal plan + shopping list", desc: "Take a photo of what's in your fridge. Tōroa creates a weekly meal plan from what you have, then builds a smart shopping list for what you need.", color: "#D4A843" },
+  { icon: Bus, title: "Live Auckland bus tracking", desc: "Real-time Auckland Transport bus positions. Know exactly when the school bus is arriving — no more standing in the rain guessing.", color: "#3A7D6E" },
+  { icon: CloudSun, title: "Live weather → dress the kids", desc: "Tōroa checks the morning weather and texts you what the kids should wear today. Rain jacket? Sunhat? Shorts or long pants? Sorted.", color: "#D4A843" },
+  { icon: ShieldCheck, title: "Safe & secure family chat", desc: "A private, encrypted family messaging space. No ads, no strangers, no algorithmic feeds — just your whānau, kept safe.", color: "#3A7D6E" },
 ];
 
 const MORE_FEATURES = [
