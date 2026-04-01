@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import {
   MessageSquare, Send, Menu, X, ArrowLeft, User, LogIn, ChevronRight,
-  Settings2, Mic, Phone, BookOpen, FileText, Sparkles, LayoutGrid,
+  Settings2, Mic, Phone, BookOpen, FileText, Sparkles, LayoutGrid, ShieldAlert,
 } from "lucide-react";
 import { agents } from "@/data/agents";
 import { agentCapabilities } from "@/data/agentCapabilities";
@@ -14,13 +14,14 @@ import AgentTraining from "@/components/shared/AgentTraining";
 import AgentAvatar from "@/components/AgentAvatar";
 import PWAInstallBanner from "@/components/PWAInstallBanner";
 import { setDynamicManifest } from "@/utils/pwaManifest";
+import SignalDashboard from "@/components/signal/SignalDashboard";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
 }
 
-type Tab = "chat" | "sms" | "settings";
+type Tab = "chat" | "sms" | "settings" | "dashboard";
 
 const SLUG_TO_ID: Record<string, string> = {
   "aura": "hospitality", "apex": "construction", "prism": "marketing",
@@ -45,7 +46,7 @@ export default function AgentApp() {
   const { agentId: rawAgentId } = useParams<{ agentId: string }>();
   const agentId = rawAgentId ? (SLUG_TO_ID[rawAgentId] ?? rawAgentId) : rawAgentId;
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState<Tab>("chat");
+  const [activeTab, setActiveTab] = useState<Tab>(rawAgentId === "signal" ? "dashboard" : "chat");
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -113,7 +114,10 @@ export default function AgentApp() {
     );
   }
 
+  const isSignal = agentId === "netsec";
+
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
+    ...(isSignal ? [{ id: "dashboard" as Tab, label: "Dashboard", icon: <ShieldAlert size={16} /> }] : []),
     { id: "chat", label: "Chat", icon: <MessageSquare size={16} /> },
     { id: "sms", label: "SMS", icon: <Phone size={16} /> },
     { id: "settings", label: "Settings", icon: <Settings2 size={16} /> },
@@ -328,6 +332,8 @@ export default function AgentApp() {
             <AgentSmsPanel agentId={agent.id} agentName={agent.name} agentColor={color} />
           ) : activeTab === "settings" ? (
             <AgentTraining agentId={agent.id} agentName={agent.name} agentColor={color} />
+          ) : activeTab === "dashboard" ? (
+            <SignalDashboard onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
           ) : null}
         </main>
       </div>
