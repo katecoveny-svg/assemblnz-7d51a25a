@@ -19,6 +19,7 @@ import TeKahuiReoSection from "@/components/landing/TeKahuiReoSection";
 import EmbedDemoSection from "@/components/landing/EmbedDemoSection";
 import FourPouSection from "@/components/landing/FourPouSection";
 import LivePacksHero from "@/components/landing/LivePacksHero";
+import ProblemSection from "@/components/landing/ProblemSection";
 
 const PRICING_PLANS = [
   {
@@ -154,6 +155,9 @@ const AgentGrid = () => {
       <div className="relative z-10">
         <AnimatedHero onScrollToGrid={scrollToGrid} />
       </div>
+
+      {/* ═══════ THE PROBLEM ═══════ */}
+      <ProblemSection />
 
       {/* ═══════ FOUR LIVE PACKS ═══════ */}
       <LivePacksHero />
