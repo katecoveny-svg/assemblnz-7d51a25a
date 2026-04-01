@@ -403,7 +403,7 @@ const Index = () => {
               className="w-full px-4 py-3 rounded-xl text-sm font-body text-white placeholder:text-white/30 focus:outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }} />
             <textarea value={contactMsg} onChange={(e) => setContactMsg(e.target.value)} placeholder="How can we help?" rows={4} required
               className="w-full px-4 py-3 rounded-xl text-sm font-body text-white placeholder:text-white/30 focus:outline-none resize-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }} />
-            <button type="submit" className="w-full py-3.5 rounded-full text-sm font-medium flex items-center justify-center gap-2" style={{ fontFamily: "'Lato', sans-serif", background: "#D4A843", color: "#09090F" }}>
+            <button type="submit" className="cta-glass-green w-full py-3.5 rounded-full text-sm font-medium flex items-center justify-center gap-2">
               Send message <Send size={16} />
             </button>
           </motion.form>
