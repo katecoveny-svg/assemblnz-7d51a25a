@@ -3,7 +3,8 @@ import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import SEO from "@/components/SEO";
 import { toast } from "sonner";
-import { ChevronDown, MessageSquare, Shield, Smartphone, Clock, HelpCircle } from "lucide-react";
+import { ChevronDown, MessageSquare, Shield, Smartphone, Clock, HelpCircle, CalendarDays, ShoppingCart, UtensilsCrossed, Bus, Heart, Stethoscope, Receipt, BookOpen, Users } from "lucide-react";
+import toroaLogo from "@/assets/brand/toroa-logo.svg";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
