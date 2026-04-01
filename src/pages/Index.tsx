@@ -164,10 +164,10 @@ const Index = () => {
         <motion.div className="relative flex flex-col sm:flex-row gap-3 mt-8"
           style={{ zIndex: 1 }}
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.65 }}>
-          <a href="#founding-pilots" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm rounded-full" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, background: "#D4A843", color: "#09090F" }}>
+          <a href="#founding-pilots" className="cta-glass-green inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm rounded-full">
             Book a founding pilot <ArrowRight size={16} />
           </a>
-          <button onClick={scrollToPacks} className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm rounded-full" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, border: "1px solid rgba(58,125,110,0.4)", color: "#3A7D6E" }}>
+          <button onClick={scrollToPacks} className="cta-glass-outline inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm rounded-full">
             Explore industry packs →
           </button>
         </motion.div>
