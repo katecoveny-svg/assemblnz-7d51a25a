@@ -126,16 +126,7 @@ const TeKahuiReoSection = () => (
             }}
           >
             <div className="flex items-center gap-3 mb-2">
-              {agent.icon ? (
-                <img
-                  src={agent.icon}
-                  alt={agent.name}
-                  className="w-7 h-7"
-                  style={{ filter: "drop-shadow(0 0 8px rgba(58,125,110,0.4))" }}
-                />
-              ) : agent.fallbackIcon ? (
-                <agent.fallbackIcon size={20} className="text-pounamu shrink-0" style={{ filter: "drop-shadow(0 0 8px rgba(58,125,110,0.4))" } as any} />
-              ) : null}
+              <agent.Icon size={24} style={GOLD_STYLE} className="shrink-0" />
               <div>
                 <p
                   style={{
