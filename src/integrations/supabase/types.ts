@@ -3119,6 +3119,149 @@ export type Database = {
         }
         Relationships: []
       }
+      messaging_conversations: {
+        Row: {
+          assigned_agent: string | null
+          assigned_pack: string | null
+          channel: string
+          contact_name: string | null
+          created_at: string | null
+          id: string
+          metadata: Json | null
+          phone_number: string
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          assigned_agent?: string | null
+          assigned_pack?: string | null
+          channel: string
+          contact_name?: string | null
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          phone_number: string
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          assigned_agent?: string | null
+          assigned_pack?: string | null
+          channel?: string
+          contact_name?: string | null
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          phone_number?: string
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      messaging_messages: {
+        Row: {
+          agent_used: string | null
+          body: string | null
+          channel: string
+          compliance_checked: boolean | null
+          conversation_id: string | null
+          created_at: string | null
+          direction: string | null
+          from_number: string | null
+          id: string
+          media_type: string | null
+          media_url: string | null
+          model_used: string | null
+          response_time_ms: number | null
+          status: string | null
+          tnz_message_id: string | null
+          tnz_reference: string | null
+          to_number: string | null
+        }
+        Insert: {
+          agent_used?: string | null
+          body?: string | null
+          channel: string
+          compliance_checked?: boolean | null
+          conversation_id?: string | null
+          created_at?: string | null
+          direction?: string | null
+          from_number?: string | null
+          id?: string
+          media_type?: string | null
+          media_url?: string | null
+          model_used?: string | null
+          response_time_ms?: number | null
+          status?: string | null
+          tnz_message_id?: string | null
+          tnz_reference?: string | null
+          to_number?: string | null
+        }
+        Update: {
+          agent_used?: string | null
+          body?: string | null
+          channel?: string
+          compliance_checked?: boolean | null
+          conversation_id?: string | null
+          created_at?: string | null
+          direction?: string | null
+          from_number?: string | null
+          id?: string
+          media_type?: string | null
+          media_url?: string | null
+          model_used?: string | null
+          response_time_ms?: number | null
+          status?: string | null
+          tnz_message_id?: string | null
+          tnz_reference?: string | null
+          to_number?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messaging_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "messaging_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      messaging_templates: {
+        Row: {
+          approved: boolean | null
+          body_template: string
+          category: string | null
+          channel: string | null
+          created_at: string | null
+          id: string
+          language: string | null
+          template_name: string
+          variables: string[] | null
+        }
+        Insert: {
+          approved?: boolean | null
+          body_template: string
+          category?: string | null
+          channel?: string | null
+          created_at?: string | null
+          id?: string
+          language?: string | null
+          template_name: string
+          variables?: string[] | null
+        }
+        Update: {
+          approved?: boolean | null
+          body_template?: string
+          category?: string | null
+          channel?: string | null
+          created_at?: string | null
+          id?: string
+          language?: string | null
+          template_name?: string
+          variables?: string[] | null
+        }
+        Relationships: []
+      }
       onboarding_sessions: {
         Row: {
           completed: boolean
