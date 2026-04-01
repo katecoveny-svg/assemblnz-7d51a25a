@@ -1,12 +1,47 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Briefcase, Hammer, UtensilsCrossed, Heart } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import toroaIcon from "@/assets/brand/toroa-hero.png";
+
+const CONSTELLATION_MARKS: Record<string, React.ReactNode> = {
+  pakihi: (
+    <svg viewBox="0 0 30 30" className="w-full h-full">
+      <circle cx="20" cy="8" r="2.5" fill="#D4A843" />
+      <circle cx="20" cy="22" r="2.5" fill="#D4A843" />
+      <circle cx="7" cy="15" r="2.5" fill="#D4A843" />
+      <line x1="20" y1="8" x2="20" y2="22" stroke="#D4A843" strokeWidth="1" opacity="0.5" />
+      <line x1="20" y1="22" x2="7" y2="15" stroke="#D4A843" strokeWidth="1" opacity="0.5" />
+      <line x1="7" y1="15" x2="20" y2="8" stroke="#D4A843" strokeWidth="1" opacity="0.5" />
+    </svg>
+  ),
+  hanga: (
+    <svg viewBox="0 0 30 30" className="w-full h-full">
+      <circle cx="7" cy="5" r="2.5" fill="#3A7D6E" />
+      <circle cx="23" cy="5" r="2.5" fill="#3A7D6E" />
+      <circle cx="15" cy="22" r="2.5" fill="#3A7D6E" />
+      <line x1="7" y1="5" x2="23" y2="5" stroke="#3A7D6E" strokeWidth="1" opacity="0.5" />
+      <line x1="23" y1="5" x2="15" y2="22" stroke="#3A7D6E" strokeWidth="1" opacity="0.5" />
+      <line x1="15" y1="22" x2="7" y2="5" stroke="#3A7D6E" strokeWidth="1" opacity="0.5" />
+    </svg>
+  ),
+  manaaki: (
+    <svg viewBox="0 0 30 30" className="w-full h-full">
+      <circle cx="15" cy="5" r="2.5" fill="#D4A843" />
+      <circle cx="7" cy="22" r="2.5" fill="#D4A843" />
+      <circle cx="23" cy="22" r="2.5" fill="#D4A843" />
+      <line x1="15" y1="5" x2="7" y2="22" stroke="#D4A843" strokeWidth="1" opacity="0.5" />
+      <line x1="7" y1="22" x2="23" y2="22" stroke="#D4A843" strokeWidth="1" opacity="0.5" />
+      <line x1="23" y1="22" x2="15" y2="5" stroke="#D4A843" strokeWidth="1" opacity="0.5" />
+    </svg>
+  ),
+  toroa: null, // uses PNG
+};
 
 const LIVE_PACKS = [
-  { slug: "pakihi", name: "Pakihi", english: "Business", icon: Briefcase, agents: 12, desc: "HR, payroll, finance, operations — 12 agents for NZ businesses." },
-  { slug: "hanga", name: "Hanga", english: "Construction", icon: Hammer, agents: 7, desc: "Safety, BIM, consenting, quality — tikanga-aligned construction intelligence." },
-  { slug: "manaaki", name: "Manaaki", english: "Hospitality", icon: UtensilsCrossed, agents: 8, desc: "Food safety, licensing, reservations — front-of-house to kitchen." },
-  { slug: "toroa", name: "Tōroa", english: "Family Navigator", icon: Heart, agents: 1, desc: "Find services, track wellbeing, coordinate care — for Aotearoa whānau." },
+  { slug: "pakihi", name: "Pakihi", english: "Business", agents: 12, desc: "HR, payroll, finance, operations — 12 agents for NZ businesses." },
+  { slug: "hanga", name: "Hanga", english: "Construction", agents: 7, desc: "Safety, BIM, consenting, quality — tikanga-aligned construction intelligence." },
+  { slug: "manaaki", name: "Manaaki", english: "Hospitality", agents: 8, desc: "Food safety, licensing, reservations — front-of-house to kitchen." },
+  { slug: "toroa", name: "Tōroa", english: "Family Navigator", agents: 1, desc: "Find services, track wellbeing, coordinate care — for Aotearoa whānau." },
 ];
 
 const LivePacksHero = () => (
@@ -35,8 +70,14 @@ const LivePacksHero = () => (
           >
             <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-0 group-hover:opacity-40 transition-opacity duration-700" style={{ background: "linear-gradient(90deg, transparent, #D4A84370, transparent)" }} />
 
-            <div className="w-11 h-11 rounded-xl mb-4 flex items-center justify-center" style={{ background: "rgba(212,168,67,0.1)", border: "1px solid rgba(212,168,67,0.15)" }}>
-              <pack.icon size={20} style={{ color: "#D4A843" }} />
+            <div className="w-11 h-11 rounded-xl mb-4 flex items-center justify-center overflow-hidden" style={{ background: "rgba(212,168,67,0.1)", border: "1px solid rgba(212,168,67,0.15)" }}>
+              {pack.slug === "toroa" ? (
+                <img src={toroaIcon} alt="Tōroa" className="w-7 h-7 object-contain" />
+              ) : (
+                <div className="w-7 h-7" style={{ filter: "drop-shadow(0 0 6px rgba(212,168,67,0.3))" }}>
+                  {CONSTELLATION_MARKS[pack.slug]}
+                </div>
+              )}
             </div>
 
             <h3 className="text-base font-bold mb-0.5" style={{ fontFamily: "'Lato', sans-serif", color: "#FFFFFF" }}>{pack.name}</h3>
