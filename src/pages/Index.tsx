@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronDown, Building2, Scale, ShieldAlert, Utensils, HardHat, Palette, Briefcase, Cpu, Brain, Globe, Database, MessageSquare, Send } from "lucide-react";
+import { ArrowRight, ChevronDown, Building2, Scale, ShieldAlert, Brain, Globe, Database, MessageSquare, Send } from "lucide-react";
+import { manaakiMark, hangaMark, auahaMark, pakihiMark, hangarauMark } from "@/assets/brand";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
