@@ -226,7 +226,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
               </p>
               {data.culturalContext && (
                 <p className="mt-2 pt-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "11px", color: agentColor, lineHeight: 1.5, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-                  🌿 {data.culturalContext}
+                  {data.culturalContext}
                 </p>
               )}
             </div>
