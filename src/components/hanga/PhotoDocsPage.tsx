@@ -103,6 +103,7 @@ export default function PhotoDocsPage() {
                 )}
               </div>
             </Glass>
+            </div>
           </motion.div>
         ))}
       </div>
