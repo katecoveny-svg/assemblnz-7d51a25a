@@ -9,9 +9,8 @@ interface NavItem { label: string; to: string }
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Ngā Kete", to: "/kete" },
-  { label: "How it works", to: "/#how-it-works" },
   { label: "Pricing", to: "/pricing" },
-  { label: "Contact", to: "/#contact" },
+  { label: "Contact", to: "/contact" },
 ];
 
 const PACKS = [
