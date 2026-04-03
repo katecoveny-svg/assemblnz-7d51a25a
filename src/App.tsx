@@ -168,7 +168,12 @@ const App = () => (
                   <Route path="/data-privacy" element={<Suspense fallback={null}><DataPrivacyLegal /></Suspense>} />
                   <Route path="/invest" element={<Suspense fallback={null}><InvestPage /></Suspense>} />
                   <Route path="/kete" element={<Suspense fallback={null}><KeteOverviewPage /></Suspense>} />
+                  <Route path="/manaaki" element={<Suspense fallback={null}><ManaakiDashboard /></Suspense>} />
+                  <Route path="/pakihi" element={<Suspense fallback={null}><PakihiDashboard /></Suspense>} />
+                  <Route path="/hangarau" element={<Suspense fallback={null}><HangarauDashboard /></Suspense>} />
+                  <Route path="/te-kahui-reo" element={<Suspense fallback={null}><TeKahuiReoDashboard /></Suspense>} />
                   <Route path="/toroa" element={<Suspense fallback={null}><ToroaLandingPage /></Suspense>} />
+                  <Route path="/toroa/dashboard" element={<Suspense fallback={null}><ToroaDashboard /></Suspense>} />
                   <Route path="/toroa/app" element={<Suspense fallback={null}><ToroaApp /></Suspense>} />
                   <Route path="/toroa/install" element={<Suspense fallback={null}><ToroaInstallPage /></Suspense>} />
                   <Route path="/helm" element={<Navigate to="/toroa" replace />} />
