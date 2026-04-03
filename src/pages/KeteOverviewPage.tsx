@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, MessageSquare, Phone } from "lucide-react";
+import GlowIcon from "@/components/GlowIcon";
 import { KETE_CONFIG, KETE_BY_GROUP } from "@/components/kete/KeteConfig";
 import BrandNav from "@/components/BrandNav";
 import SEO from "@/components/SEO";
