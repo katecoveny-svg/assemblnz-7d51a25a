@@ -2,7 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   MessageSquare, Send, X, Brain, ShieldAlert, FolderKanban,
-  Layers, FileText, HardHat, ShieldCheck, Loader2, Sparkles
+  Layers, FileText, HardHat, ShieldCheck, Loader2, Sparkles,
+  Users, UtensilsCrossed, Lock, Heart, PenTool, Shield
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
@@ -13,16 +14,47 @@ const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/agent-router
 
 const AGENT_ICONS: Record<string, typeof Brain> = {
   Brain, ShieldAlert, FolderKanban, Layers, FileText, HardHat, ShieldCheck,
+  Users, UtensilsCrossed, Lock, Heart, PenTool, Shield,
 };
 
-const SUGGESTIONS = [
-  "Report a hazard on site",
-  "Check H&S compliance for working at height",
-  "Generate a payment claim",
-  "Create a toolbox talk topic",
-  "Analyse a contract clause",
-  "Check building consent status",
-];
+const PACK_SUGGESTIONS: Record<string, string[]> = {
+  hanga: [
+    "Report a hazard on site",
+    "Check H&S compliance for working at height",
+    "Generate a payment claim",
+    "Create a toolbox talk topic",
+    "Analyse a contract clause",
+    "Check building consent status",
+  ],
+  manaaki: [
+    "Check food safety compliance",
+    "Alcohol licence renewal status",
+    "Staff training gaps",
+    "Audit preparation checklist",
+    "Allergen management plan",
+    "Manager certificate requirements",
+  ],
+  pakihi: [
+    "Employment cost calculator",
+    "Draft employment agreement",
+    "Leave entitlements guide",
+    "Disciplinary process steps",
+    "KiwiSaver obligations",
+    "Redundancy consultation",
+  ],
+  auaha: [
+    "Create brand guidelines",
+    "Generate social media copy",
+    "Blog post outline",
+    "Email campaign draft",
+  ],
+  hangarau: [
+    "Security vulnerability scan",
+    "NZISM compliance check",
+    "Incident response plan",
+    "Cloud security review",
+  ],
+};
 
 interface Message {
   id: string;
@@ -32,7 +64,12 @@ interface Message {
   agentIcon?: string;
 }
 
-export default function HangaChatPanel() {
+interface PackChatPanelProps {
+  packId?: string;
+  packLabel?: string;
+}
+
+export default function HangaChatPanel({ packId = "hanga", packLabel = "Hanga Intelligence" }: PackChatPanelProps) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -65,7 +102,7 @@ export default function HangaChatPanel() {
         },
         body: JSON.stringify({
           message: text.trim(),
-          packId: "hanga",
+          packId,
           messages: messages.filter(m => m.role === "user" || m.role === "assistant")
             .map(m => ({ role: m.role, content: m.content })),
         }),
@@ -170,7 +207,7 @@ export default function HangaChatPanel() {
                   <Brain size={16} style={{ color: KOWHAI }} />
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-white">Hanga Intelligence</h3>
+                  <h3 className="text-sm font-semibold text-white">{packLabel}</h3>
                   <p className="text-[10px] text-white/40">
                     {activeAgent ? `${activeAgent} responding...` : "IHO routing active"}
                   </p>
@@ -193,7 +230,7 @@ export default function HangaChatPanel() {
                     <p className="text-[11px] text-white/30 mt-1">IHO will route your query to the right specialist</p>
                   </div>
                   <div className="flex flex-wrap gap-1.5 justify-center">
-                    {SUGGESTIONS.map(s => (
+                    {(PACK_SUGGESTIONS[packId] || PACK_SUGGESTIONS.hanga).map(s => (
                       <button
                         key={s}
                         onClick={() => sendMessage(s)}
