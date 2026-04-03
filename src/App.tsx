@@ -66,6 +66,7 @@ const ToroaApp = lazy(() => import("./pages/HelmApp"));
 const ToroaInstallPage = lazy(() => import("./pages/ToroaInstallPage"));
 const AgentApp = lazy(() => import("./pages/AgentApp"));
 const AdminSmsPage = lazy(() => import("./pages/AdminSmsPage"));
+const HowItWorksPage = lazy(() => import("./pages/HowItWorksPage"));
 const KeteOverviewPage = lazy(() => import("./pages/KeteOverviewPage"));
 const CareDashboard = lazy(() => import("./pages/CareDashboard"));
 const AtaBimDashboard = lazy(() => import("./components/hanga/AtaBimDashboard"));
