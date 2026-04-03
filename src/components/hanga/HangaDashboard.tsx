@@ -14,6 +14,7 @@ import KeteOnboardingCard from "@/components/KeteOnboardingCard";
 import HarakekePattern from "@/components/HarakekePattern";
 import WorkflowCards from "@/components/WorkflowCards";
 import VoiceFAB from "@/components/VoiceFAB";
+import KeteSmsExplainer from "@/components/sms/KeteSmsExplainer";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 const KOWHAI = "#D4A843";
@@ -358,6 +359,14 @@ export default function HangaDashboard() {
           </div>
         </TabsContent>
       </Tabs>
+
+      {/* SMS & WhatsApp Explainer */}
+      <KeteSmsExplainer
+        keteName="Hanga"
+        keteNameEn="Construction"
+        accentColor="#3A7D6E"
+        conversations={[]}
+      />
 
       <VoiceFAB packId="hanga" />
     </div>
