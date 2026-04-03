@@ -129,14 +129,13 @@ const BrandNav = () => {
             Tōroa
           </Link>
 
-          <a
-            href="#founding-pilots"
-            onClick={(e) => { e.preventDefault(); handleNavClick("/#founding-pilots"); }}
+          <Link
+            to="/contact"
             className="ml-2 px-5 py-2 rounded-full text-xs font-body font-medium transition-all duration-300"
             style={{ background: "#D4A843", color: "#09090F" }}
           >
-            Book a founding pilot
-          </a>
+            Book a Launch Sprint
+          </Link>
 
           <AccountDropdown />
         </nav>
