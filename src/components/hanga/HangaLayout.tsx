@@ -160,7 +160,7 @@ export default function HangaLayout() {
       </main>
 
       {/* AI Chat Panel */}
-      <HangaChatPanel />
+      <PackChatPanel packId="hanga" />
     </div>
   );
 }
