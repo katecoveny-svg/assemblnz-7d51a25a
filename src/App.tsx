@@ -98,6 +98,11 @@ const AuahaWebBuilder = lazy(() => import("./components/auaha/AuahaWebBuilder"))
 const AdminPacksPage = lazy(() => import("./pages/AdminPacksPage"));
 const AdminPackAnalytics = lazy(() => import("./pages/AdminPackAnalytics"));
 const AdminMessagingDashboard = lazy(() => import("./pages/AdminMessagingDashboard"));
+const ManaakiDashboard = lazy(() => import("./components/manaaki/ManaakiDashboard"));
+const PakihiDashboard = lazy(() => import("./components/pakihi/PakihiDashboard"));
+const HangarauDashboard = lazy(() => import("./components/hangarau/HangarauDashboard"));
+const TeKahuiReoDashboard = lazy(() => import("./components/te-kahui-reo/TeKahuiReoDashboard"));
+const ToroaDashboard = lazy(() => import("./components/toroa/ToroaDashboard"));
 
 const queryClient = new QueryClient();
 
