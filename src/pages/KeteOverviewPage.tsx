@@ -79,7 +79,7 @@ export default function KeteOverviewPage() {
                       </div>
                     </div>
                     <Link to={k.route} className="flex items-center gap-1 text-[10px] font-bold tracking-wider transition-colors" style={{ color: k.color }}>
-                      EXPLORE <ArrowRight size={12} />
+                      EXPLORE <GlowIcon name="ArrowRight" size={12} color={k.color} />
                     </Link>
                   </div>
                 </Glass>
