@@ -186,6 +186,19 @@ const App = () => (
                     <Route path="pai" element={<PaiDashboard />} />
                     <Route path="overview" element={<KanohiDashboard />} />
                   </Route>
+                  <Route path="/auaha" element={<Suspense fallback={null}><AuahaLayout /></Suspense>}>
+                    <Route index element={<AuahaDashboard />} />
+                    <Route path="campaign" element={<AuahaCampaignBuilder />} />
+                    <Route path="copy" element={<AuahaCopyStudio />} />
+                    <Route path="images" element={<AuahaImageStudio />} />
+                    <Route path="video" element={<AuahaVideoStudio />} />
+                    <Route path="podcast" element={<AuahaPodcastStudio />} />
+                    <Route path="ads" element={<AuahaAdManager />} />
+                    <Route path="calendar" element={<AuahaCalendar />} />
+                    <Route path="analytics" element={<AuahaAnalytics />} />
+                    <Route path="brand" element={<AuahaBrandIdentity />} />
+                    <Route path="web" element={<AuahaWebBuilder />} />
+                  </Route>
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
