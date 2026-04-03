@@ -76,7 +76,7 @@ export default function HangaChatPanel() {
         throw new Error(err.error || `Error ${resp.status}`);
       }
 
-      agentName = resp.headers.get("X-Agent-Name") || "IHO Brain";
+      agentName = decodeURIComponent(resp.headers.get("X-Agent-Name") || "IHO Brain");
       agentIcon = resp.headers.get("X-Agent-Icon") || "Brain";
       setActiveAgent(agentName);
 
