@@ -360,6 +360,14 @@ export default function HangaDashboard() {
         </TabsContent>
       </Tabs>
 
+      {/* SMS & WhatsApp Explainer */}
+      <KeteSmsExplainer
+        keteName="Hanga"
+        keteNameEn="Construction"
+        accentColor="#3A7D6E"
+        conversations={[]}
+      />
+
       <VoiceFAB packId="hanga" />
     </div>
   );
