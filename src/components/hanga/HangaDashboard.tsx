@@ -13,6 +13,7 @@ import {
 import KeteOnboardingCard from "@/components/KeteOnboardingCard";
 import HarakekePattern from "@/components/HarakekePattern";
 import WorkflowCards from "@/components/WorkflowCards";
+import KeteBrainChat from "@/components/KeteBrainChat";
 import VoiceFAB from "@/components/VoiceFAB";
 import KeteSmsExplainer from "@/components/sms/KeteSmsExplainer";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
