@@ -66,6 +66,7 @@ const ToroaApp = lazy(() => import("./pages/ToroaApp"));
 const ToroaInstallPage = lazy(() => import("./pages/ToroaInstallPage"));
 const AgentApp = lazy(() => import("./pages/AgentApp"));
 const AdminSmsPage = lazy(() => import("./pages/AdminSmsPage"));
+const HowItWorksPage = lazy(() => import("./pages/HowItWorksPage"));
 const KeteOverviewPage = lazy(() => import("./pages/KeteOverviewPage"));
 const CareDashboard = lazy(() => import("./pages/CareDashboard"));
 const AtaBimDashboard = lazy(() => import("./components/hanga/AtaBimDashboard"));
@@ -128,6 +129,11 @@ const App = () => (
                   <Route path="/dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
                   <Route path="/pricing" element={<Suspense fallback={null}><PricingPage /></Suspense>} />
                   <Route path="/contact" element={<Suspense fallback={null}><ContactPage /></Suspense>} />
+                  <Route path="/how-it-works" element={<Suspense fallback={null}><HowItWorksPage /></Suspense>} />
+                  <Route path="/content-hub" element={<Navigate to="/how-it-works" replace />} />
+                  <Route path="/agents" element={<Navigate to="/how-it-works" replace />} />
+                  <Route path="/tools" element={<Navigate to="/how-it-works" replace />} />
+                  <Route path="/founding-pilots" element={<Navigate to="/contact" replace />} />
                   <Route path="/admin" element={<Suspense fallback={null}><AdminLogin /></Suspense>} />
                   <Route path="/admin/forgot-password" element={<Suspense fallback={null}><AdminForgotPassword /></Suspense>} />
                   <Route path="/admin/reset-password" element={<Suspense fallback={null}><AdminResetPassword /></Suspense>} />
