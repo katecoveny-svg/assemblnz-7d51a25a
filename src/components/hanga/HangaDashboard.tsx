@@ -5,6 +5,11 @@ import {
   MapPin, TrendingUp, Activity, ChevronRight, Zap, HardHat, Brain
 } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import KeteOnboardingCard from "@/components/KeteOnboardingCard";
+import HarakekePattern from "@/components/HarakekePattern";
+import WorkflowCards from "@/components/WorkflowCards";
+import VoiceFAB from "@/components/VoiceFAB";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
@@ -65,7 +70,8 @@ const quickActions = [
 export default function HangaDashboard() {
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto">
-      {/* Header */}
+      <HarakekePattern className="mb-2 rounded" />
+      <KeteOnboardingCard packId="hanga" />
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-3 mb-1">
@@ -157,56 +163,73 @@ export default function HangaDashboard() {
         </Glass>
       </div>
 
-      {/* Quick Actions + Activity Feed */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        {/* Quick Actions */}
-        <Glass className="p-5">
-          <h3 className="text-sm font-semibold text-white mb-4">Quick Actions</h3>
-          <div className="grid grid-cols-2 gap-2">
-            {quickActions.map(a => (
-              <motion.a
-                key={a.label}
-                href={a.to}
-                className="flex flex-col items-center gap-2 p-4 rounded-xl transition-all"
-                style={{ background: `${a.color}08`, border: `1px solid ${a.color}20` }}
-                whileHover={{ scale: 1.02, boxShadow: `0 0 20px ${a.color}15` }}
-              >
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `${a.color}15` }}>
-                  <a.icon size={18} style={{ color: a.color }} />
-                </div>
-                <span className="text-[11px] text-white/60 text-center">{a.label}</span>
-              </motion.a>
-            ))}
-          </div>
-        </Glass>
+      {/* Workflows + Quick Actions + Activity */}
+      <Tabs defaultValue="overview" className="w-full">
+        <TabsList className="bg-transparent border border-white/[0.06] p-1">
+          <TabsTrigger value="overview" className="text-xs data-[state=active]:bg-white/[0.06]">Overview</TabsTrigger>
+          <TabsTrigger value="workflows" className="text-xs data-[state=active]:bg-white/[0.06]">Workflows</TabsTrigger>
+        </TabsList>
 
-        {/* Activity Feed */}
-        <Glass className="p-5 lg:col-span-2">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-semibold text-white">Activity Feed</h3>
-            <span className="text-[10px] text-white/30">Live</span>
+        <TabsContent value="overview">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
+            {/* Quick Actions */}
+            <Glass className="p-5">
+              <h3 className="text-sm font-semibold text-white mb-4">Quick Actions</h3>
+              <div className="grid grid-cols-2 gap-2">
+                {quickActions.map(a => (
+                  <motion.a
+                    key={a.label}
+                    href={a.to}
+                    className="flex flex-col items-center gap-2 p-4 rounded-xl transition-all"
+                    style={{ background: `${a.color}08`, border: `1px solid ${a.color}20` }}
+                    whileHover={{ scale: 1.02, boxShadow: `0 0 20px ${a.color}15` }}
+                  >
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `${a.color}15` }}>
+                      <a.icon size={18} style={{ color: a.color }} />
+                    </div>
+                    <span className="text-[11px] text-white/60 text-center">{a.label}</span>
+                  </motion.a>
+                ))}
+              </div>
+            </Glass>
+
+            {/* Activity Feed */}
+            <Glass className="p-5 lg:col-span-2">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-sm font-semibold text-white">Activity Feed</h3>
+                <span className="text-[10px] text-white/30">Live</span>
+              </div>
+              <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
+                {activities.map((a, i) => (
+                  <motion.div
+                    key={a.id}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.05 }}
+                    className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/[0.02] transition-colors"
+                  >
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: "rgba(255,255,255,0.04)" }}>
+                      <a.icon size={14} className="text-white/40" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs text-white/70 leading-relaxed">{a.text}</p>
+                      <span className="text-[10px] text-white/25">{a.time}</span>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </Glass>
           </div>
-          <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
-            {activities.map((a, i) => (
-              <motion.div
-                key={a.id}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.05 }}
-                className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/[0.02] transition-colors"
-              >
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: "rgba(255,255,255,0.04)" }}>
-                  <a.icon size={14} className="text-white/40" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs text-white/70 leading-relaxed">{a.text}</p>
-                  <span className="text-[10px] text-white/25">{a.time}</span>
-                </div>
-              </motion.div>
-            ))}
+        </TabsContent>
+
+        <TabsContent value="workflows">
+          <div className="mt-4">
+            <WorkflowCards packId="hanga" />
           </div>
-        </Glass>
-      </div>
+        </TabsContent>
+      </Tabs>
+
+      <VoiceFAB packId="hanga" />
     </div>
   );
 }

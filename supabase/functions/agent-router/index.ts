@@ -18,6 +18,7 @@ const AGENT_KEYWORDS: Record<string, string[]> = {
   aroha: ["employment", "hiring", "firing", "leave", "kiwisaver", "wages", "disciplinary", "grievance", "redundancy", "hr", "salary", "staff", "parental leave", "sick leave"],
   signal: ["security", "vulnerability", "breach", "hack", "nzism", "firewall", "cyber", "phishing", "malware", "mfa", "encryption"],
   privacy: ["privacy", "data", "ipp", "breach notification", "personal information", "privacy act"],
+  tereo: ["te reo", "māori", "macron", "pronunciation", "tikanga", "wānanga", "kupu", "translate", "mihi", "karakia"],
 };
 
 function classifyAgent(message: string, explicitAgent?: string): string {
