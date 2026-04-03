@@ -3951,6 +3951,42 @@ export type Database = {
         }
         Relationships: []
       }
+      sms_channels: {
+        Row: {
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          kete: string
+          phone_number: string
+          provider: string | null
+          tenant_id: string
+          updated_at: string | null
+          whatsapp_enabled: boolean | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          kete: string
+          phone_number: string
+          provider?: string | null
+          tenant_id: string
+          updated_at?: string | null
+          whatsapp_enabled?: boolean | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          kete?: string
+          phone_number?: string
+          provider?: string | null
+          tenant_id?: string
+          updated_at?: string | null
+          whatsapp_enabled?: boolean | null
+        }
+        Relationships: []
+      }
       sms_conversations: {
         Row: {
           agent_id: string
