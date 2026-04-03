@@ -107,7 +107,7 @@ export default function KeteOverviewPage() {
                       <p className="text-xs text-white/40 mb-2">{k.nameEn}</p>
                       <p className="text-[11px] text-white/30 leading-relaxed mb-3">{k.description}</p>
                       <Link to={k.route} className="flex items-center gap-1 text-[10px] font-bold tracking-wider" style={{ color: k.color }}>
-                        EXPLORE <ArrowRight size={12} />
+                        EXPLORE <GlowIcon name="ArrowRight" size={12} color={k.color} />
                       </Link>
                     </div>
                   </div>
