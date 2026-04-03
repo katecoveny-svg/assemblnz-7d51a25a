@@ -207,7 +207,7 @@ export default function HangaChatPanel({ packId = "hanga", packLabel = "Hanga In
                   <Brain size={16} style={{ color: KOWHAI }} />
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-white">Hanga Intelligence</h3>
+                  <h3 className="text-sm font-semibold text-white">{packLabel}</h3>
                   <p className="text-[10px] text-white/40">
                     {activeAgent ? `${activeAgent} responding...` : "IHO routing active"}
                   </p>
