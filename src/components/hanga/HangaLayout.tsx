@@ -158,6 +158,9 @@ export default function HangaLayout() {
       <main className="flex-1 min-w-0 overflow-x-hidden">
         <Outlet />
       </main>
+
+      {/* AI Chat Panel */}
+      <HangaChatPanel />
     </div>
   );
 }
