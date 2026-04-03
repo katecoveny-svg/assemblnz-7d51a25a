@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, MessageSquare, Phone } from "lucide-react";
+import GlowIcon from "@/components/GlowIcon";
 import { KETE_CONFIG, KETE_BY_GROUP } from "@/components/kete/KeteConfig";
 import BrandNav from "@/components/BrandNav";
 import SEO from "@/components/SEO";
@@ -53,7 +53,7 @@ export default function KeteOverviewPage() {
                 <Glass className="p-6 h-full group hover:border-opacity-30 transition-all" style={{ borderColor: `${k.color}15` }}>
                   <div className="flex items-start justify-between mb-4">
                     <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: `${k.color}12` }}>
-                      <k.icon size={22} style={{ color: k.color }} />
+                      <GlowIcon name={k.icon.displayName || k.icon.name || "Star"} size={22} color={k.color} />
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-[9px] px-2 py-0.5 rounded-full font-bold" style={{ background: `${k.color}15`, color: k.color }}>
@@ -70,16 +70,16 @@ export default function KeteOverviewPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="flex items-center gap-1">
-                        <Phone size={10} className="text-white/25" />
+                         <GlowIcon name="Phone" size={10} color="rgba(255,255,255,0.25)" />
                         <StatusDot status={k.smsStatus} />
                       </div>
                       <div className="flex items-center gap-1">
-                        <MessageSquare size={10} className="text-white/25" />
+                         <GlowIcon name="MessageSquare" size={10} color="rgba(255,255,255,0.25)" />
                         <StatusDot status={k.whatsappStatus} />
                       </div>
                     </div>
                     <Link to={k.route} className="flex items-center gap-1 text-[10px] font-bold tracking-wider transition-colors" style={{ color: k.color }}>
-                      EXPLORE <ArrowRight size={12} />
+                      EXPLORE <GlowIcon name="ArrowRight" size={12} color={k.color} />
                     </Link>
                   </div>
                 </Glass>
@@ -97,7 +97,7 @@ export default function KeteOverviewPage() {
                 <Glass className="p-6 h-full" style={{ borderColor: `${k.color}15` }}>
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${k.color}12` }}>
-                      <k.icon size={22} style={{ color: k.color }} />
+                      <GlowIcon name={k.icon.displayName || k.icon.name || "Star"} size={22} color={k.color} />
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
@@ -107,7 +107,7 @@ export default function KeteOverviewPage() {
                       <p className="text-xs text-white/40 mb-2">{k.nameEn}</p>
                       <p className="text-[11px] text-white/30 leading-relaxed mb-3">{k.description}</p>
                       <Link to={k.route} className="flex items-center gap-1 text-[10px] font-bold tracking-wider" style={{ color: k.color }}>
-                        EXPLORE <ArrowRight size={12} />
+                        EXPLORE <GlowIcon name="ArrowRight" size={12} color={k.color} />
                       </Link>
                     </div>
                   </div>
@@ -125,7 +125,7 @@ export default function KeteOverviewPage() {
               <Glass className="p-6" style={{ borderColor: `${k.color}20` }}>
                 <div className="flex flex-col sm:flex-row items-start gap-4">
                   <div className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${k.color}12` }}>
-                    <k.icon size={26} style={{ color: k.color }} />
+                    <GlowIcon name={k.icon.displayName || k.icon.name || "Star"} size={26} color={k.color} />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
@@ -136,13 +136,13 @@ export default function KeteOverviewPage() {
                     <p className="text-[11px] text-white/30 leading-relaxed mb-4">{k.description}</p>
                     <div className="flex items-center gap-4">
                       <div className="flex items-center gap-2">
-                        <Phone size={12} style={{ color: k.color }} />
+                        <GlowIcon name="Phone" size={12} color={k.color} />
                         <StatusDot status={k.smsStatus} />
-                        <MessageSquare size={12} style={{ color: k.color }} />
+                        <GlowIcon name="MessageSquare" size={12} color={k.color} />
                         <StatusDot status={k.whatsappStatus} />
                       </div>
                       <Link to={k.route} className="flex items-center gap-1 text-xs font-bold px-4 py-2 rounded-full transition-all hover:brightness-110" style={{ background: k.color, color: "#09090F" }}>
-                        Try Tōroa <ArrowRight size={14} />
+                        Try Tōroa <GlowIcon name="ArrowRight" size={14} color="#09090F" />
                       </Link>
                     </div>
                   </div>
