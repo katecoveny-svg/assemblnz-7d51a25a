@@ -70,7 +70,7 @@ export default function KeteOverviewPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="flex items-center gap-1">
-                        <Phone size={10} className="text-white/25" />
+                         <GlowIcon name="Phone" size={10} color="rgba(255,255,255,0.25)" />
                         <StatusDot status={k.smsStatus} />
                       </div>
                       <div className="flex items-center gap-1">
