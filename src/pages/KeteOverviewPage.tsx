@@ -136,13 +136,13 @@ export default function KeteOverviewPage() {
                     <p className="text-[11px] text-white/30 leading-relaxed mb-4">{k.description}</p>
                     <div className="flex items-center gap-4">
                       <div className="flex items-center gap-2">
-                        <Phone size={12} style={{ color: k.color }} />
+                        <GlowIcon name="Phone" size={12} color={k.color} />
                         <StatusDot status={k.smsStatus} />
-                        <MessageSquare size={12} style={{ color: k.color }} />
+                        <GlowIcon name="MessageSquare" size={12} color={k.color} />
                         <StatusDot status={k.whatsappStatus} />
                       </div>
                       <Link to={k.route} className="flex items-center gap-1 text-xs font-bold px-4 py-2 rounded-full transition-all hover:brightness-110" style={{ background: k.color, color: "#09090F" }}>
-                        Try Tōroa <ArrowRight size={14} />
+                        Try Tōroa <GlowIcon name="ArrowRight" size={14} color="#09090F" />
                       </Link>
                     </div>
                   </div>
