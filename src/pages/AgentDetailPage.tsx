@@ -8,6 +8,7 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import ParticleField from "@/components/ParticleField";
 import AgentAvatar from "@/components/AgentAvatar";
+import AgentSkillsSection from "@/components/agents/AgentSkillsSection";
 import { agents } from "@/data/agents";
 import { agentCapabilities } from "@/data/agentCapabilities";
 
@@ -316,6 +317,9 @@ const AgentDetailPage = () => {
           </div>
         </section>
       )}
+
+      {/* ── SKILLS & MCP WIRING ── */}
+      <AgentSkillsSection agentId={agent.id} agentColor={agent.color} />
 
       {/* ── CONVERSATION STARTERS ── */}
       <section className="relative z-10 py-16 sm:py-24" style={{ borderTop: "1px solid hsl(var(--border) / 0.3)" }}>
