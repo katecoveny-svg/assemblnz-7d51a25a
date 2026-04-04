@@ -29,7 +29,7 @@ const KeteGrid: React.FC = () => {
 
   return (
     <>
-      <SEO title="The Kete Collection | Assembl" description="Nine industry-specific agent packs for Aotearoa. Industry Kete, Specialist Kete, and Whānau Kete." />
+      <SEO title="The Kete Collection | Assembl" description="Nine industry-specific agent packs plus Shared Core for Aotearoa. 78 agents, 1 brain." />
       <div className="relative w-full max-w-[1400px] mx-auto px-6 md:px-8 py-16 md:py-20" style={{ background: "linear-gradient(135deg, #09090f 0%, #0f0f1a 100%)" }}>
         {/* Starfield */}
         <div className="fixed inset-0 pointer-events-none -z-10" style={{
