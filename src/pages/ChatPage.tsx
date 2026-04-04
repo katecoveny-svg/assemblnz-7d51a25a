@@ -48,6 +48,7 @@ import ApexESGDashboard from "@/components/apex/ApexESGDashboard";
 import ApexIoTFieldTech from "@/components/apex/ApexIoTFieldTech";
 import BimAnalysisPanel from "@/components/shared/BimAnalysisPanel";
 import ForgeShowroom from "@/components/forge/ForgeShowroom";
+import OdysseyTravelPlanner from "@/components/hauora/OdysseyTravelPlanner";
 import ForgeSales from "@/components/forge/ForgeSales";
 import ForgePartsService from "@/components/forge/ForgePartsService";
 import ForgeMarketing from "@/components/forge/ForgeMarketing";
@@ -420,7 +421,7 @@ const ChatPage = () => {
   const [pendingImage, setPendingImage] = useState<File | null>(null);
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "iot_field" | "bim_analyze" | "bim_clash" | "bim_schedule" | "bim_3d" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "forge_audit" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aroha_retention" | "aroha_caregiver" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "aura_pos" | "aura_food_safety" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "haven_safety" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "prism_brandlab" | "prism_publisher" | "prism_ads" | "prism_product" | "prism_adengine" | "prism_podcast" | "axis_automations" | "agent_training" | "voice_waitlist" | "agent_sms" | "helm_week" | "helm_bus" | "helm_timetable" | "helm_inbox" | "helm_review" | "helm_rescue" | "helm_settings" | "kindle_writer" | "kindle_marketplace" | "kindle_impact" | "kindle_corporate" | "turf_events" | "turf_membership" | "turf_facilities" | "turf_sponsorship" | "turf_performance" | "turf_compliance" | "live_data" | "te_reo_learn" | "ora_checkin" | "ora_dashboard" | "tahi_triage" | "vitae_journeys">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "iot_field" | "bim_analyze" | "bim_clash" | "bim_schedule" | "bim_3d" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "forge_audit" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aroha_retention" | "aroha_caregiver" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "aura_pos" | "aura_food_safety" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "haven_safety" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "prism_brandlab" | "prism_publisher" | "prism_ads" | "prism_product" | "prism_adengine" | "prism_podcast" | "axis_automations" | "agent_training" | "voice_waitlist" | "agent_sms" | "helm_week" | "helm_bus" | "helm_timetable" | "helm_inbox" | "helm_review" | "helm_rescue" | "helm_settings" | "kindle_writer" | "kindle_marketplace" | "kindle_impact" | "kindle_corporate" | "turf_events" | "turf_membership" | "turf_facilities" | "turf_sponsorship" | "turf_performance" | "turf_compliance" | "odyssey_planner" | "live_data" | "te_reo_learn" | "ora_checkin" | "ora_dashboard" | "tahi_triage" | "vitae_journeys">("chat");
   const [showDeployModal, setShowDeployModal] = useState(false);
   const [toroaView, setToroaView] = useState<"chat" | "dashboard">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
@@ -1042,6 +1043,9 @@ const ChatPage = () => {
     }
     if (isSports) {
       ["turf_events:Events", "turf_membership:Membership", "turf_facilities:Facilities", "turf_sponsorship:Sponsorship", "turf_performance:Performance", "turf_compliance:Compliance"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
+    }
+    if (agentId === "odyssey") {
+      toolTabs.push({ id: "odyssey_planner", label: "Trip Planner" });
     }
     if (hasLiveDataTab) toolTabs.push({ id: "live_data", label: "Live Data" });
     // Te Reo Video Learner for TŌROA, ECHO, and Te Kāhui Reo agents
@@ -2083,6 +2087,8 @@ const ChatPage = () => {
         <div className="flex-1 overflow-y-auto p-4"><BimAnalysisPanel agentId={agentId || "bim"} agentName={agent?.name || "ATA"} /></div>
       ) : activeTab === "bim_3d" && isHanga ? (
         <div className="flex-1 overflow-y-auto p-4"><BimAnalysisPanel agentId={agentId || "bim"} agentName={agent?.name || "ATA"} /></div>
+      ) : activeTab === "odyssey_planner" ? (
+        <div className="flex-1 overflow-y-auto p-4"><OdysseyTravelPlanner /></div>
       ) : activeTab.startsWith("turf_") && isSports ? (
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
           <h2 className="text-sm font-bold" style={{ color: "#E4E4EC" }}>

@@ -4049,6 +4049,42 @@ export type Database = {
         }
         Relationships: []
       }
+      saved_destinations: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          image_url: string | null
+          name: string
+          notes: string | null
+          rating: number | null
+          region: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name: string
+          notes?: string | null
+          rating?: number | null
+          region?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          notes?: string | null
+          rating?: number | null
+          region?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       saved_items: {
         Row: {
           agent_id: string
@@ -5594,6 +5630,57 @@ export type Database = {
           updated_at?: string
           user_id?: string
           website?: string | null
+        }
+        Relationships: []
+      }
+      travel_itineraries: {
+        Row: {
+          accommodation_style: string | null
+          budget_nzd: number | null
+          created_at: string | null
+          destination: string
+          end_date: string | null
+          id: string
+          interests: string[] | null
+          itinerary: Json | null
+          start_date: string | null
+          status: string | null
+          summary: string | null
+          travellers: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          accommodation_style?: string | null
+          budget_nzd?: number | null
+          created_at?: string | null
+          destination: string
+          end_date?: string | null
+          id?: string
+          interests?: string[] | null
+          itinerary?: Json | null
+          start_date?: string | null
+          status?: string | null
+          summary?: string | null
+          travellers?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          accommodation_style?: string | null
+          budget_nzd?: number | null
+          created_at?: string | null
+          destination?: string
+          end_date?: string | null
+          id?: string
+          interests?: string[] | null
+          itinerary?: Json | null
+          start_date?: string | null
+          status?: string | null
+          summary?: string | null
+          travellers?: number | null
+          updated_at?: string | null
+          user_id?: string
         }
         Relationships: []
       }
