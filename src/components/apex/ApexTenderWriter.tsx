@@ -133,7 +133,7 @@ Generate comprehensive, detailed content for this section. Include specific fram
     try {
       const content = await agentChat({ agentId: "construction", message: prompt, packId: "hanga" });
       setCompanyProfile(content);
-      localStorage.setItem("apex_company_profile", data.content);
+      localStorage.setItem("apex_company_profile", content);
     } catch { setCompanyProfile("Error scanning website. Please try again."); }
     finally { setIsScanning(false); }
   };
