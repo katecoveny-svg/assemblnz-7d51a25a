@@ -1045,6 +1045,7 @@ const ChatPage = () => {
     }
     if (agentId === "odyssey") {
       toolTabs.push({ id: "odyssey_planner", label: "Trip Planner" });
+    }
     if (hasLiveDataTab) toolTabs.push({ id: "live_data", label: "Live Data" });
     // Te Reo Video Learner for TŌROA, ECHO, and Te Kāhui Reo agents
     const teReoAgents = ["family", "echo", "tiriti"];
