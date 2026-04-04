@@ -78,16 +78,12 @@ export default function AgentApp() {
     setLoading(true);
 
     try {
-      const { data: session } = await supabase.auth.getSession();
-      const token = session?.session?.access_token;
-      const resp = { data: { content: await agentChat({
-        body: {
-          agentId: agentId,
-          messages: newMessages.map(m => ({ role: m.role, content: m.content })),
-        },
-        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      const lastMsg = newMessages[newMessages.length - 1];
+      const content = await agentChat({
+        agentId: agentId,
+        message: lastMsg.content,
+        messages: newMessages.slice(0, -1).map(m => ({ role: m.role, content: m.content })),
       });
-      const content = resp.data?.content || "Sorry, I couldn't process that. Please try again.";
       setMessages([...newMessages, { role: "assistant", content }]);
     } catch (err: any) {
       console.error("Agent chat error:", err);
