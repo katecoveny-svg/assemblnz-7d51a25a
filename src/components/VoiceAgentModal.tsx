@@ -40,46 +40,16 @@ async function fetchAgentSystemPrompt(agentId: string, accessToken: string | und
   }
 }
 
-// Note: For true NZ accent voices, create custom voices in ElevenLabs Voice Lab using NZ English samples
-// Voice style mapping for agent personas
-type VoiceStyle = "professional-nz" | "warm-kiwi" | "casual-kiwi";
+import { getKiwiVoiceStyle, getDefaultTtsVoiceId, type KiwiVoiceStyle } from "@/data/elevenLabsAgents";
 
-const VOICE_STYLE_LABELS: Record<VoiceStyle, string> = {
+// Note: For true NZ accent voices, create custom voices in ElevenLabs Voice Lab using NZ English samples
+const VOICE_STYLE_LABELS: Record<KiwiVoiceStyle, string> = {
   "professional-nz": "Professional NZ",
   "warm-kiwi": "Warm Kiwi",
   "casual-kiwi": "Casual Kiwi",
 };
 
-// Agent-specific default voice styles
-const AGENT_VOICE_DEFAULTS: Record<string, VoiceStyle> = {
-  hospitality: "warm-kiwi",    // AURA — hospitality warmth
-  tourism: "warm-kiwi",        // NOVA — welcoming warmth
-  construction: "professional-nz", // APEX — technical authority
-  automotive: "professional-nz",   // FORGE — technical authority
-  customs: "professional-nz",      // NEXUS/SIGNAL — authority
-  operations: "casual-kiwi",       // TŌROA — friendly approachable
-  echo: "casual-kiwi",            // ECHO — friendly approachable
-  accounting: "professional-nz",   // LEDGER — trust/authority
-  property: "professional-nz",     // HAVEN — trust/authority
-  sales: "casual-kiwi",           // FLUX — personable
-  marketing: "warm-kiwi",         // PRISM — creative warmth
-  hr: "warm-kiwi",                // AROHA — empathetic warmth
-  immigration: "professional-nz", // COMPASS — authority
-  finance: "professional-nz",     // VAULT — trust
-  insurance: "professional-nz",   // SHIELD — trust
-  education: "warm-kiwi",         // GROVE — nurturing
-  nonprofit: "warm-kiwi",         // KINDLE — compassion
-  maritime: "casual-kiwi",        // MARINER — nautical mate
-  retail: "warm-kiwi",            // PULSE — customer warmth
-  treaty: "warm-kiwi",            // TIKA — cultural respect
-};
-
-function getVoiceStyleForAgent(agentId: string): VoiceStyle {
-  return AGENT_VOICE_DEFAULTS[agentId] || "professional-nz";
-}
-
-// Map voice style to TTS stability/style params
-function getVoiceSettingsLabel(style: VoiceStyle): string {
+function getVoiceSettingsLabel(style: KiwiVoiceStyle): string {
   return style === "professional-nz" ? "professional" : style === "warm-kiwi" ? "warm" : "mate";
 }
 
