@@ -105,11 +105,8 @@ Write in professional, confident, third-person NZ English. Reference NZ Standard
 Generate comprehensive, detailed content for this section. Include specific frameworks, methodologies, and NZ regulatory references.`;
 
     try {
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: { agentId: "construction", messages: [{ role: "user", content: prompt }] },
-      });
-      if (error) throw error;
-      setSectionResults(prev => ({ ...prev, [sectionId]: data.content }));
+      const content = await agentChat({ agentId: "construction", message: prompt, packId: "hanga" });
+      setSectionResults(prev => ({ ...prev, [sectionId]: content }));
     } catch (err) {
       console.error("Section generation error:", err);
       setSectionResults(prev => ({ ...prev, [sectionId]: "Error generating section. Please try again." }));
