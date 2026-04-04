@@ -1,26 +1,29 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, HardHat, UtensilsCrossed, Palette, Briefcase, Cpu, Globe, Bird, Shield, ChevronDown } from "lucide-react";
+import { Menu, X, HardHat, UtensilsCrossed, Palette, Briefcase, Cpu, Globe, Bird, Shield, ChevronDown, Ship, HeartPulse } from "lucide-react";
 import AccountDropdown from "@/components/AccountDropdown";
 import CelestialLogo from "@/components/CelestialLogo";
 
 interface NavItem { label: string; to: string }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "How It Works", to: "/how-it-works" },
-  { label: "Pricing", to: "/pricing" },
-  { label: "About", to: "/about" },
+  { label: "How It Works", to: "/#how-it-works" },
+  { label: "Kete", to: "/#kete" },
+  { label: "Pricing", to: "/#pricing" },
+  { label: "Contact", to: "/#contact" },
 ];
 
 const PACKS = [
   { label: "Manaaki", sublabel: "Hospitality", to: "/manaaki", icon: UtensilsCrossed, color: "#D4A843", group: "business" },
   { label: "Hanga", sublabel: "Construction", to: "/hanga", icon: HardHat, color: "#3A7D6E", group: "business" },
-  { label: "Auaha", sublabel: "Creative", to: "/auaha", icon: Palette, color: "#F0D078", group: "business" },
-  { label: "Pakihi", sublabel: "Business", to: "/pakihi", icon: Briefcase, color: "#5AADA0", group: "business" },
-  { label: "Hangarau", sublabel: "Technology", to: "/hangarau", icon: Cpu, color: "#1A3A5C", group: "business" },
-  { label: "Te Kāhui Reo", sublabel: "Māori BI", to: "/te-kahui-reo", icon: Globe, color: "#3A6A9C", group: "specialist" },
-  { label: "Tōroa", sublabel: "Family", to: "/toroa", icon: Bird, color: "#D4A843", group: "whanau" },
+  { label: "Auaha", sublabel: "Creative", to: "/auaha", icon: Palette, color: "#C17A3A", group: "business" },
+  { label: "Pakihi", sublabel: "Business", to: "/pakihi", icon: Briefcase, color: "#4A7AB5", group: "business" },
+  { label: "Waka", sublabel: "Transport", to: "/kete/waka", icon: Ship, color: "#DEB887", group: "business" },
+  { label: "Hangarau", sublabel: "Technology", to: "/hangarau", icon: Cpu, color: "#7B68EE", group: "business" },
+  { label: "Hauora", sublabel: "Health & Sport", to: "/kete/hauora", icon: HeartPulse, color: "#90EE90", group: "specialist" },
+  { label: "Te Kāhui Reo", sublabel: "Māori BI", to: "/te-kahui-reo", icon: Globe, color: "#E8B4B8", group: "specialist" },
+  { label: "Tōroa", sublabel: "Family", to: "/toroa", icon: Bird, color: "#89CFF0", group: "whanau" },
 ];
 
 const BrandNav = () => {

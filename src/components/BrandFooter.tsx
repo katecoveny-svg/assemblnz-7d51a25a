@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Send } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,9 +7,9 @@ import CelestialLogo from "@/components/CelestialLogo";
 
 const FOOTER_LINKS = {
   Platform: [
-    { to: "/how-it-works", label: "How it works" },
-    { to: "/#why-assembl", label: "Why Assembl" },
-    { to: "/#te-kahui-reo", label: "Te Kāhui Reo" },
+    { to: "/#how-it-works", label: "How it works" },
+    { to: "/#kete", label: "Explore kete" },
+    { to: "/#try-assembl", label: "Try it" },
   ],
   "Industry Packs": [
     { to: "/manaaki", label: "Manaaki — Hospitality" },
@@ -19,10 +19,10 @@ const FOOTER_LINKS = {
     { to: "/hangarau", label: "Hangarau — Technology" },
   ],
   Company: [
-    { to: "/pricing", label: "Pricing" },
+    { to: "/#pricing", label: "Pricing" },
     { to: "/pricing", label: "Start free trial" },
     { to: "/about", label: "About" },
-    { to: "/brand-guidelines", label: "Brand Guidelines" },
+    { to: "/#contact", label: "Contact" },
   ],
   Legal: [
     { to: "/privacy", label: "Privacy" },
@@ -37,6 +37,29 @@ const SOCIAL_LINKS = [
   { label: "X", href: "https://x.com/AssemblNZ", icon: "x" },
   { label: "Facebook", href: "https://facebook.com/assemblnz", icon: "fb" },
 ];
+
+const FooterLink = ({ to, children }: { to: string; children: React.ReactNode }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (to.startsWith("/#")) {
+      e.preventDefault();
+      const hash = to.slice(1);
+      if (location.pathname === "/") {
+        document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" });
+      } else {
+        navigate("/" + hash);
+      }
+    }
+  };
+
+  return (
+    <Link to={to} onClick={handleClick} className="text-[12px] font-body text-muted-foreground hover:text-foreground transition-colors duration-300">
+      {children}
+    </Link>
+  );
+};
 
 const BrandFooter = () => {
   const [email, setEmail] = useState("");
@@ -74,9 +97,7 @@ const BrandFooter = () => {
               <ul className="space-y-2.5">
                 {links.map((link) => (
                   <li key={link.label}>
-                    <Link to={link.to} className="text-[12px] font-body text-muted-foreground hover:text-foreground transition-colors duration-300">
-                      {link.label}
-                    </Link>
+                    <FooterLink to={link.to}>{link.label}</FooterLink>
                   </li>
                 ))}
               </ul>
