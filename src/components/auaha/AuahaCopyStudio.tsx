@@ -37,45 +37,12 @@ export default function AuahaCopyStudio() {
     setOutput("");
 
     try {
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: {
-          messages: [
-            {
-              role: "system",
-              content: `You are MUSE, Assembl's elite NZ copywriter. COPY RULES (NON-NEGOTIABLE):
-Never use: unlock, transform, leverage, seamless, cutting-edge, game-changer, revolutionize, next-gen, empower, harness
-Never start with: "In today's...", "In a world where...", "As the industry evolves..."
-Never use the negation pattern: "It's not X, it's Y"
-Always: Lead with a hook. Be specific. Use NZ English. Sound like a person, not a press release.
-Write like a Kiwi copywriter who's been in the game for 15 years. Direct. Sharp. No fluff.`,
-            },
-            {
-              role: "user",
-              content: `Write a ${length} ${contentType} about: ${topic}\nTone: ${tone}\n\nInclude hashtags if it's social media. Include a subject line if it's email. Be platform-specific in format and length.`,
-            },
-          ],
-        },
+      const full = await agentChat({
+        agentId: "muse",
+        packId: "auaha",
+        message: `Write a ${length} ${contentType} about: ${topic}\nTone: ${tone}\n\nCOPY RULES: Never use: unlock, transform, leverage, seamless, cutting-edge, game-changer. Never start with "In today's...". Lead with a hook. Be specific. NZ English. Direct. Sharp. No fluff.\n\nInclude hashtags if it's social media. Include a subject line if it's email. Be platform-specific in format and length.`,
       });
-
-      if (error) throw error;
-
-      const reader = data?.body?.getReader();
-      if (!reader) throw new Error("No stream");
-      const decoder = new TextDecoder();
-      let full = "";
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        const chunk = decoder.decode(value, { stream: true });
-        for (const line of chunk.split("\n")) {
-          if (!line.startsWith("data: ") || line.includes("[DONE]")) continue;
-          try {
-            const parsed = JSON.parse(line.slice(6));
-            const c = parsed.choices?.[0]?.delta?.content;
-            if (c) { full += c; setOutput(full); }
-          } catch {}
-        }
-      }
+      setOutput(full);
       toast.success("MUSE has crafted your copy");
     } catch (e: any) {
       toast.error(e.message || "Generation failed");
