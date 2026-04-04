@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mic, MicOff, Volume2, Brain, Radio, ChevronRight } from "lucide-react";
+import GeminiLiveVoice from "@/components/GeminiLiveVoice";
 
 const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
@@ -32,6 +33,7 @@ const prompts = [
 ];
 
 export default function VoiceAgentPage() {
+  const [useLive, setUseLive] = useState(true);
   const [status, setStatus] = useState<VoiceStatus>("ready");
   const [transcript, setTranscript] = useState<TranscriptEntry[]>([
     { role: "agent", text: "Kia ora! I'm ĀRAI, your safety intelligence agent. How can I help you today?", time: "09:00" },
