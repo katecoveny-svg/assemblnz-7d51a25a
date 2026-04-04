@@ -55,12 +55,9 @@ const EmbedChatWidget = () => {
     setIsLoading(true);
 
     try {
-      const apiMessages = newMessages.map((m) => ({ role: m.role, content: m.content }));
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: { agentId: agent.id, messages: apiMessages },
-      });
-      if (error) throw error;
-      setMessages((prev) => [...prev, { role: "assistant", content: data.content }]);
+      const apiMessages = newMessages.slice(0, -1).map((m) => ({ role: m.role, content: m.content }));
+      const content = await agentChat({ agentId: agent.id, message: newMessages[newMessages.length - 1].content, messages: apiMessages });
+      setMessages((prev) => [...prev, { role: "assistant", content }]);
     } catch {
       setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, I'm having trouble connecting. Please try again." }]);
     } finally {
