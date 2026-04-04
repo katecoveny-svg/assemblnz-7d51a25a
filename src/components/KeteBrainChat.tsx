@@ -77,6 +77,7 @@ function BrainAvatar({ color, size = 48 }: { color: string; size?: number }) {
 
 export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColor, agentId }: KeteBrainChatProps) {
   const [open, setOpen] = useState(false);
+  const [showVoice, setShowVoice] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
