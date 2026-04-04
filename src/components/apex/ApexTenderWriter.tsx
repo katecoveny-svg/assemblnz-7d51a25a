@@ -131,11 +131,8 @@ Generate comprehensive, detailed content for this section. Include specific fram
     setIsScanning(true);
     const prompt = `You are APEX. The user wants to build a Company Profile from their website. Analyse this website URL and extract: company name, services offered, project portfolio/case studies, team members, certifications & awards, locations, years in business, and any notable achievements. Present as a structured company profile that can be used to auto-populate tenders and proposals.\n\nWebsite URL: ${scraperUrl}\n\nNote: Extract what you can infer from a typical NZ construction company website. If you cannot access the URL, generate a template profile structure the user can fill in.`;
     try {
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: { agentId: "construction", messages: [{ role: "user", content: prompt }] },
-      });
-      if (error) throw error;
-      setCompanyProfile(data.content);
+      const content = await agentChat({ agentId: "construction", message: prompt, packId: "hanga" });
+      setCompanyProfile(content);
       localStorage.setItem("apex_company_profile", data.content);
     } catch { setCompanyProfile("Error scanning website. Please try again."); }
     finally { setIsScanning(false); }
