@@ -144,62 +144,60 @@ const AgentGrid = () => {
       </div>
 
       {/* ═══════ OUTCOME SECTION ═══════ */}
-      <section className="relative z-10 py-20" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+      <section className="relative z-10 py-20 border-t border-white/10">
+        <div className="mx-auto max-w-5xl px-6 sm:px-10">
           <motion.div
-            className="text-center mb-12"
+            className="mb-10 text-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            <h2 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "1.75rem", color: "#FFFFFF", marginBottom: "0.75rem" }}>
+            <p className="mb-4 font-display text-[14px] font-bold uppercase tracking-[4px] text-[hsl(var(--kowhai))]">
+              WHAT CHANGES
+            </p>
+            <div className="text-white/10">
+              <TanikoDivider />
+            </div>
+            <h2 className="mx-auto mb-3 max-w-3xl font-display text-[2.1rem] font-light leading-[1.18] tracking-[0.01em] text-foreground sm:text-[3rem]">
               What Assembl does for your business
             </h2>
-            <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "14px", color: "rgba(255,255,255,0.5)", maxWidth: "480px", margin: "0 auto" }}>
+            <p className="mx-auto max-w-[34rem] font-body text-[15px] font-light leading-relaxed text-muted-foreground">
               Three outcomes that matter. Everything else follows.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              {
-                mark: ihoIcon,
-                title: "Win work",
-                desc: "Faster quotes, sharper proposals, better follow-up. Assembl helps you win more of the work you're already chasing.",
-              },
-              {
-                mark: pakihiMark,
-                title: "Run work",
-                desc: "Payroll, compliance, scheduling, client comms — the operational grind handled by specialists that know NZ law.",
-              },
-              {
-                mark: manaIcon,
-                title: "Stay sharp",
-                desc: "Legislation changes, deadline alerts, industry shifts — Assembl keeps you ahead without the reading.",
-              },
-            ].map((item, i) => (
-              <motion.div
-                key={item.title}
-                className="rounded-xl p-6"
-                style={{
-                  background: "rgba(15,15,26,0.7)",
-                  backdropFilter: "blur(10px)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                }}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-              >
-                <img src={item.mark} alt="" className="w-6 h-6 mb-3 opacity-70" />
-                <h3 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "18px", color: "#FFFFFF", marginBottom: "8px" }}>
-                  {item.title}
-                </h3>
-                <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.5)", lineHeight: 1.7 }}>
-                  {item.desc}
-                </p>
-              </motion.div>
-            ))}
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
+            {OUTCOME_CARDS.map((item, i) => {
+              const Motif = item.motif;
+
+              return (
+                <motion.article
+                  key={item.title}
+                  className={`outcome-card group relative min-h-[272px] overflow-hidden rounded-[24px] p-8 text-left ${item.glowClass}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.6, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+                  whileHover={{ y: -3 }}
+                >
+                  <div className={`pointer-events-none absolute ${item.motifPosition} ${item.accentClass} outcome-card__motif`}>
+                    <Motif />
+                  </div>
+
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_hsl(var(--foreground)/0.03),_transparent_55%)]" aria-hidden="true" />
+
+                  <div className="relative z-10 mt-14 space-y-4">
+                    <h3 className="font-display text-[24px] font-light tracking-[0.01em] text-foreground">
+                      {item.title}
+                    </h3>
+                    <p className="max-w-[30ch] font-body text-[15px] font-light leading-[1.85] text-muted-foreground md:max-w-none">
+                      {item.description}
+                    </p>
+                  </div>
+                </motion.article>
+              );
+            })}
           </div>
         </div>
       </section>
