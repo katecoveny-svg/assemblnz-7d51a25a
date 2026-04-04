@@ -3,6 +3,7 @@ import { Mic, MicOff, Phone, PhoneOff, Volume2, Loader2, Zap } from "lucide-reac
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
+import { GEMINI_KIWI_VOICES, getDefaultGeminiVoice } from "@/data/elevenLabsAgents";
 
 interface Props {
   agentId: string;
@@ -11,15 +12,8 @@ interface Props {
   systemPrompt?: string;
 }
 
-// Gemini Live voices mapped to NZ personas
-const GEMINI_VOICES = [
-  { id: "Kore", label: "Aroha", style: "warm-kiwi", desc: "Warm & empathetic — like a trusted NZ colleague" },
-  { id: "Puck", label: "Tama", style: "energetic-kiwi", desc: "Energetic & upbeat — classic Kiwi enthusiasm" },
-  { id: "Charon", label: "Rangi", style: "authoritative-nz", desc: "Deep & authoritative — NZ boardroom voice" },
-  { id: "Leda", label: "Mere", style: "professional-nz", desc: "Professional & measured — NZ business advisor" },
-  { id: "Aoede", label: "Hine", style: "bright-kiwi", desc: "Bright & clear — friendly NZ customer voice" },
-  { id: "Zephyr", label: "Kai", style: "casual-kiwi", desc: "Casual & relaxed — your Kiwi mate" },
-] as const;
+// Use centralized Gemini NZ voice definitions
+const GEMINI_VOICES = GEMINI_KIWI_VOICES;
 
 const NZ_VOICE_INSTRUCTION = `IMPORTANT VOICE STYLE: You are not a textbook — you are the friend who happens to know the subject really well. Speak with a natural New Zealand English accent and manner. Use Kiwi phrases naturally: "no worries", "sweet as", "good on ya", "that's a tricky one", "keen?". Start with the plain answer, then add backing detail. Don't lead with section numbers — lead with what the person needs to know. If something is genuinely complicated, say so: "This one's a bit of a minefield, actually." Light humour is fine — "The Holidays Act is... not exactly beach reading." Use te reo Māori greetings naturally (kia ora, ka pai, tēnā koe). Be warm, down-to-earth, and approachable — like a trusted Kiwi colleague, not a corporate bot. NEVER say "I'm just an AI" — instead say "I can tell you what the law says, but if you're in a tricky spot, here's who to call." Avoid American slang. When greeting, prefer "Kia ora" over "Hello".`;
 
@@ -36,7 +30,7 @@ const GeminiLiveVoice = ({ agentId, agentName, agentColor, systemPrompt }: Props
   const [isConnecting, setIsConnecting] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const [voiceName, setVoiceName] = useState<string>("Kore");
+  const [voiceName, setVoiceName] = useState<string>(() => getDefaultGeminiVoice(agentId));
   const [transcript, setTranscript] = useState<{ role: "user" | "agent"; text: string }[]>([]);
   const [volumeLevel, setVolumeLevel] = useState(0);
   const [showSettings, setShowSettings] = useState(false);

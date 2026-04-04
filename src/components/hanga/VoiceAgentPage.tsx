@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mic, MicOff, Volume2, Brain, Radio, ChevronRight } from "lucide-react";
+import GeminiLiveVoice from "@/components/GeminiLiveVoice";
 
 const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
@@ -32,6 +33,7 @@ const prompts = [
 ];
 
 export default function VoiceAgentPage() {
+  const [useLive, setUseLive] = useState(true);
   const [status, setStatus] = useState<VoiceStatus>("ready");
   const [transcript, setTranscript] = useState<TranscriptEntry[]>([
     { role: "agent", text: "Kia ora! I'm ĀRAI, your safety intelligence agent. How can I help you today?", time: "09:00" },
@@ -60,7 +62,7 @@ export default function VoiceAgentPage() {
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-3xl mx-auto">
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
         <h1 className="text-xl font-bold text-white flex items-center gap-2"><Mic size={22} style={{ color: KOWHAI }} /> Voice Agent — Reo</h1>
-        <p className="text-xs text-white/40">Hands-free construction intelligence</p>
+        <p className="text-xs text-white/40">Hands-free construction intelligence · NZ accent</p>
       </motion.div>
 
       {/* Agent indicator */}
@@ -70,58 +72,72 @@ export default function VoiceAgentPage() {
         </div>
         <div className="flex-1">
           <div className="text-xs text-white/70">Connected to <span style={{ color: POUNAMU }}>ĀRAI Safety Intelligence</span></div>
-          <div className="text-[10px] text-white/30">Powered by IHO — Te Iho</div>
+          <div className="text-[10px] text-white/30">Powered by IHO — Te Iho · Kiwi Voice</div>
         </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: POUNAMU }} />
-          <span className="text-[10px]" style={{ color: POUNAMU }}>Online</span>
-        </div>
-      </Glass>
-
-      {/* Mic button */}
-      <div className="flex flex-col items-center py-8">
-        <motion.button
-          onClick={toggleListening}
-          className="relative w-32 h-32 rounded-full flex items-center justify-center"
-          style={{ background: `linear-gradient(135deg, ${sc.color}30, ${sc.color}10)`, border: `2px solid ${sc.color}50` }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+        <button
+          onClick={() => setUseLive(!useLive)}
+          className="text-[9px] px-2 py-1 rounded-full border transition-all"
+          style={{ borderColor: `${useLive ? POUNAMU : KOWHAI}50`, color: useLive ? POUNAMU : KOWHAI }}
         >
-          {status === "listening" && (
-            <motion.div className="absolute inset-0 rounded-full" style={{ border: `2px solid ${sc.color}` }}
-              animate={{ scale: [1, 1.4, 1], opacity: [0.5, 0, 0.5] }} transition={{ repeat: Infinity, duration: 1.5 }} />
-          )}
-          {status === "listening" ? <MicOff size={40} style={{ color: sc.color }} /> :
-            status === "speaking" ? <Volume2 size={40} style={{ color: sc.color }} /> :
-            status === "processing" ? <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }}><Brain size={40} style={{ color: sc.color }} /></motion.div> :
-            <Mic size={40} style={{ color: sc.color }} />}
-        </motion.button>
-        <div className="mt-4 flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full" style={{ background: sc.color }} />
-          <span className="text-sm" style={{ color: sc.color }}>{sc.label}</span>
-        </div>
-        <span className="text-[10px] text-white/20 mt-1">{sc.labelMi}</span>
-      </div>
-
-      {/* Transcript */}
-      <Glass className="p-5">
-        <h3 className="text-sm font-semibold text-white mb-4">Transcript</h3>
-        <div className="space-y-3 max-h-64 overflow-y-auto">
-          {transcript.map((t, i) => (
-            <motion.div key={i} initial={{ opacity: 0, x: t.role === "user" ? 10 : -10 }} animate={{ opacity: 1, x: 0 }}
-              className={`flex ${t.role === "user" ? "justify-end" : "justify-start"}`}>
-              <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-xs leading-relaxed ${t.role === "user" ? "text-white" : "text-white/70"}`} style={{
-                background: t.role === "user" ? `${KOWHAI}20` : "rgba(255,255,255,0.04)",
-                border: `1px solid ${t.role === "user" ? `${KOWHAI}30` : "rgba(255,255,255,0.06)"}`,
-                borderRadius: t.role === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
-              }}>
-                {t.text}
-                <div className="text-[9px] text-white/20 mt-1">{t.time}</div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+          {useLive ? "Gemini Live" : "Demo Mode"}
+        </button>
       </Glass>
+
+      {useLive ? (
+        /* Real Gemini Live voice with NZ accent */
+        <GeminiLiveVoice
+          agentId="construction"
+          agentName="ĀRAI"
+          agentColor={POUNAMU}
+        />
+      ) : (
+        <>
+          {/* Demo mic button */}
+          <div className="flex flex-col items-center py-8">
+            <motion.button
+              onClick={toggleListening}
+              className="relative w-32 h-32 rounded-full flex items-center justify-center"
+              style={{ background: `linear-gradient(135deg, ${sc.color}30, ${sc.color}10)`, border: `2px solid ${sc.color}50` }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {status === "listening" && (
+                <motion.div className="absolute inset-0 rounded-full" style={{ border: `2px solid ${sc.color}` }}
+                  animate={{ scale: [1, 1.4, 1], opacity: [0.5, 0, 0.5] }} transition={{ repeat: Infinity, duration: 1.5 }} />
+              )}
+              {status === "listening" ? <MicOff size={40} style={{ color: sc.color }} /> :
+                status === "speaking" ? <Volume2 size={40} style={{ color: sc.color }} /> :
+                status === "processing" ? <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }}><Brain size={40} style={{ color: sc.color }} /></motion.div> :
+                <Mic size={40} style={{ color: sc.color }} />}
+            </motion.button>
+            <div className="mt-4 flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full" style={{ background: sc.color }} />
+              <span className="text-sm" style={{ color: sc.color }}>{sc.label}</span>
+            </div>
+            <span className="text-[10px] text-white/20 mt-1">{sc.labelMi}</span>
+          </div>
+
+          {/* Demo Transcript */}
+          <Glass className="p-5">
+            <h3 className="text-sm font-semibold text-white mb-4">Transcript</h3>
+            <div className="space-y-3 max-h-64 overflow-y-auto">
+              {transcript.map((t, i) => (
+                <motion.div key={i} initial={{ opacity: 0, x: t.role === "user" ? 10 : -10 }} animate={{ opacity: 1, x: 0 }}
+                  className={`flex ${t.role === "user" ? "justify-end" : "justify-start"}`}>
+                  <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-xs leading-relaxed ${t.role === "user" ? "text-white" : "text-white/70"}`} style={{
+                    background: t.role === "user" ? `${KOWHAI}20` : "rgba(255,255,255,0.04)",
+                    border: `1px solid ${t.role === "user" ? `${KOWHAI}30` : "rgba(255,255,255,0.06)"}`,
+                    borderRadius: t.role === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
+                  }}>
+                    {t.text}
+                    <div className="text-[9px] text-white/20 mt-1">{t.time}</div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </Glass>
+        </>
+      )}
 
       {/* Quick prompts */}
       <Glass className="p-5">

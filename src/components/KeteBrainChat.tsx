@@ -10,6 +10,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import ReactMarkdown from "react-markdown";
 import GlowIcon from "./GlowIcon";
+import VoiceAgentModal from "./VoiceAgentModal";
+import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 
 interface KeteBrainChatProps {
   keteId: string;
@@ -75,6 +77,7 @@ function BrainAvatar({ color, size = 48 }: { color: string; size?: number }) {
 
 export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColor, agentId }: KeteBrainChatProps) {
   const [open, setOpen] = useState(false);
+  const [showVoice, setShowVoice] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
@@ -144,23 +147,27 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
     }
   }, [input, isStreaming, messages, keteId, agentId]);
 
-  const startVoice = useCallback(async () => {
-    if (!user) return toast.error("Sign in to use voice");
-    try {
-      const { data, error } = await supabase.functions.invoke("gemini-live-token", {
-        body: { agentId: agentId || keteId, voiceName: "Kore" },
-      });
-      if (error || !data?.token) throw new Error("Voice token failed");
-      toast.success("Kia ora! Voice connected — speak now");
-      // The GeminiLiveVoice component handles the actual WebSocket connection
-      // For now, indicate voice is available
-    } catch (e: any) {
-      toast.error(e.message || "Voice connection failed");
-    }
-  }, [user, agentId, keteId]);
+  const effectiveAgentId = agentId || keteId;
 
   return (
     <>
+      {/* Voice Modal */}
+      <VoiceAgentModal
+        open={showVoice}
+        onClose={() => setShowVoice(false)}
+        agentId={effectiveAgentId}
+        agentName={keteName}
+        agentColor={accentColor}
+        elevenLabsAgentId={getElevenLabsAgentId(effectiveAgentId)}
+        onHandoffToChat={(voiceTranscript) => {
+          const converted = voiceTranscript.map(t => ({
+            role: t.role === "user" ? "user" as const : "assistant" as const,
+            content: t.text,
+          }));
+          setMessages(prev => [...prev, ...converted]);
+        }}
+      />
+
       {/* FAB */}
       <motion.button
         onClick={() => setOpen(!open)}
@@ -209,10 +216,10 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
                 <p className="text-white/40 text-[10px]">{keteNameEn} Intelligence • NZ Voice</p>
               </div>
               <button
-                onClick={startVoice}
+                onClick={() => setShowVoice(true)}
                 className="w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110"
                 style={{ background: hexRgba(accentColor, 0.15), border: `1px solid ${hexRgba(accentColor, 0.3)}` }}
-                title="Start voice chat"
+                title="Start Kiwi voice chat"
               >
                 <GlowIcon name="Mic" size={14} color={accentColor} />
               </button>
