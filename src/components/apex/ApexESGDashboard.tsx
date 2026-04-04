@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { agentChat } from "@/lib/agentChat";
 import { Leaf, BarChart3, FileText, Building2, ChevronRight, ArrowLeft, Copy, Check, Lock } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { AgentBarChart, AgentPieChart } from "@/components/shared/AgentCharts";

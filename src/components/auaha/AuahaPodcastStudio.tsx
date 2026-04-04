@@ -3,6 +3,7 @@ import { Mic, Upload, Play, Pause, Sparkles, FileText, Radio, AudioLines, Clock 
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { agentChat } from "@/lib/agentChat";
 import { useNavigate } from "react-router-dom";
 
 const ACCENT = "#F0D078";

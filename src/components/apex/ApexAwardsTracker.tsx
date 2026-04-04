@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { agentChat } from "@/lib/agentChat";
 import { Trophy, Bell, BellOff, ChevronRight, Copy, Check, ArrowLeft, Plus, Image, Lock, Calendar, ExternalLink } from "lucide-react";
 import { NeonTrophy } from "@/components/NeonIcons";
 import ReactMarkdown from "react-markdown";

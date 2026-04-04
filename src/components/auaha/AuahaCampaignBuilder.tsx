@@ -3,6 +3,7 @@ import { Megaphone, ArrowRight, ArrowLeft, Sparkles, Check, Copy, Image, Video, 
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { agentChat } from "@/lib/agentChat";
 
 const ACCENT = "#F0D078";
 const OBJECTIVES = ["Brand Awareness", "Lead Generation", "Sales", "Event Promotion", "Thought Leadership", "Product Launch"];
