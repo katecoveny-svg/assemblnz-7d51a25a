@@ -28,7 +28,7 @@ const VoiceAgentLive = ({ agentId, agentName, agentColor }: Props) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [responses, setResponses] = useState<{ role: "user" | "agent"; text: string }[]>([]);
-  const [voiceStyle, setVoiceStyle] = useState("professional");
+  const [voiceStyle, setVoiceStyle] = useState(() => getKiwiVoiceStyle(agentId));
   const [isMuted, setIsMuted] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [volumeLevel, setVolumeLevel] = useState(0);
