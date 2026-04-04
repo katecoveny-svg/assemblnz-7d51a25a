@@ -226,7 +226,7 @@ const CapabilityMap = () => (
         What's inside each kete
       </h2>
       <p className="text-sm font-body text-center text-muted-foreground mb-12 max-w-xl mx-auto">
-        44 specialist agents across 7 industry packs, powered by a shared governance layer.
+        78 specialist agents across 9 industry packs, powered by a shared governance layer.
       </p>
 
       {/* Channels */}
