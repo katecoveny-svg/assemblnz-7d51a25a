@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Users, QrCode, AlertOctagon, Clock, CheckCircle2, XCircle, Search } from "lucide-react";
+import { MapPin, Users, QrCode, AlertOctagon, Clock, CheckCircle2, XCircle, Search, CloudRain, Wind, Thermometer, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
@@ -27,14 +29,48 @@ const Glass = ({ children, className = "" }: { children: React.ReactNode; classN
   }}>{children}</div>
 );
 
+interface SiteConditions {
+  current: { temp: number; humidity: number; wind_speed: number; wind_gusts: number; precipitation: number };
+  construction_alerts: string[];
+  safe_to_work: boolean;
+}
+
 export default function SiteCheckinPage() {
   const [search, setSearch] = useState("");
   const [workers, setWorkers] = useState(WORKERS);
+  const [siteConditions, setSiteConditions] = useState<SiteConditions | null>(null);
+  const [loadingConditions, setLoadingConditions] = useState(true);
   const onSite = workers.filter(w => w.status === "on-site").length;
 
-  const toggleStatus = (id: string) => setWorkers(ws => ws.map(w => w.id === id ? { ...w, status: w.status === "on-site" ? "checked-out" : "on-site" } : w));
+  const toggleStatus = (id: string) => setWorkers(ws => ws.map(w =>
+    w.id === id ? { ...w, status: w.status === "on-site" ? "checked-out" : "on-site", checkInTime: w.status === "checked-out" ? new Date().toLocaleTimeString("en-NZ", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Pacific/Auckland" }) : w.checkInTime } : w
+  ));
+
+  // Fetch live site conditions from iot-construction
+  useEffect(() => {
+    async function fetchConditions() {
+      try {
+        const { data, error } = await supabase.functions.invoke("iot-construction", {
+          body: { action: "site_conditions", lat: -43.5321, lon: 172.6362 }, // Christchurch
+        });
+        if (error) throw error;
+        setSiteConditions(data);
+      } catch (e) {
+        console.error("Failed to fetch site conditions:", e);
+      } finally {
+        setLoadingConditions(false);
+      }
+    }
+    fetchConditions();
+    const interval = setInterval(fetchConditions, 5 * 60 * 1000); // refresh every 5 min
+    return () => clearInterval(interval);
+  }, []);
 
   const filtered = workers.filter(w => search === "" || w.name.toLowerCase().includes(search.toLowerCase()) || w.trade.toLowerCase().includes(search.toLowerCase()));
+
+  const handleMuster = () => {
+    toast.error("🚨 EMERGENCY MUSTER TRIGGERED — All workers report to Assembly Point A", { duration: 10000 });
+  };
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto">
@@ -42,6 +78,63 @@ export default function SiteCheckinPage() {
         <h1 className="text-xl font-bold text-white">Site Check-in — Tae Mai</h1>
         <p className="text-xs text-white/40">Christchurch Metro Sports Facility</p>
       </motion.div>
+
+      {/* Live Site Conditions */}
+      <Glass className="p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <CloudRain size={16} style={{ color: POUNAMU }} />
+          <span className="text-sm font-medium text-white/70">Live Site Conditions</span>
+          <span className="text-[9px] text-white/25">— from iot-construction</span>
+          {loadingConditions && <Loader2 size={12} className="animate-spin text-white/30" />}
+        </div>
+        {siteConditions ? (
+          <div className="space-y-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="flex items-center gap-2">
+                <Thermometer size={14} style={{ color: KOWHAI }} />
+                <div>
+                  <div className="text-lg font-bold text-white">{siteConditions.current.temp}°C</div>
+                  <div className="text-[10px] text-white/30">Temperature</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Wind size={14} style={{ color: KOWHAI }} />
+                <div>
+                  <div className="text-lg font-bold text-white">{siteConditions.current.wind_speed} km/h</div>
+                  <div className="text-[10px] text-white/30">Wind (gusts {siteConditions.current.wind_gusts})</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <CloudRain size={14} style={{ color: KOWHAI }} />
+                <div>
+                  <div className="text-lg font-bold text-white">{siteConditions.current.precipitation} mm</div>
+                  <div className="text-[10px] text-white/30">Precipitation</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className={`w-3 h-3 rounded-full ${siteConditions.safe_to_work ? "bg-green-500" : "bg-red-500"}`} />
+                <div>
+                  <div className={`text-sm font-bold ${siteConditions.safe_to_work ? "text-green-400" : "text-red-400"}`}>
+                    {siteConditions.safe_to_work ? "Safe to Work" : "Conditions Alert"}
+                  </div>
+                  <div className="text-[10px] text-white/30">Āhei mahi</div>
+                </div>
+              </div>
+            </div>
+            {siteConditions.construction_alerts.length > 0 && (
+              <div className="space-y-1">
+                {siteConditions.construction_alerts.map((alert, i) => (
+                  <div key={i} className="text-[11px] px-3 py-1.5 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20">
+                    ⚠️ {alert}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : !loadingConditions ? (
+          <div className="text-xs text-white/30">Unable to load conditions</div>
+        ) : null}
+      </Glass>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* Headcount */}
@@ -58,7 +151,7 @@ export default function SiteCheckinPage() {
           <div className="w-32 h-32 mx-auto rounded-xl flex items-center justify-center" style={{ background: "#fff" }}>
             <div className="grid grid-cols-5 gap-0.5 p-2">
               {Array.from({ length: 25 }).map((_, i) => (
-                <div key={i} className={`w-4 h-4 ${Math.random() > 0.4 ? "bg-black" : "bg-white"}`} />
+                <div key={i} className={`w-4 h-4 ${[0,1,2,3,4,5,9,10,14,15,19,20,21,22,23,24].includes(i) ? "bg-black" : "bg-white"}`} />
               ))}
             </div>
           </div>
@@ -70,6 +163,7 @@ export default function SiteCheckinPage() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={handleMuster}
             className="w-full py-6 rounded-2xl text-white font-bold text-lg flex flex-col items-center gap-2"
             style={{ background: "linear-gradient(135deg, #E44D4D, #CC3333)", boxShadow: "0 0 30px rgba(228,77,77,0.3)" }}
           >
