@@ -30,23 +30,11 @@ export const STRIPE_TIERS = {
     role: "business" as const,
     label: "Luxury Hospitality",
   },
-  toroa_starter: {
-    price_id: "price_1TCrQPPXAX9ohARRM5Ppeq4h",
-    product_id: "prod_UBDswdBqmFPkXz",
+  toroa: {
+    price_id: "price_1TILj8PXAX9ohARRZqtNCzRW",
+    product_id: "prod_UGtW4B1N1JxWUM",
     role: "starter" as const,
-    label: "Tōroa Starter",
-  },
-  toroa_family: {
-    price_id: "price_toroa_family",
-    product_id: "prod_toroa_family",
-    role: "starter" as const,
-    label: "Tōroa Family",
-  },
-  toroa_plus: {
-    price_id: "price_toroa_plus",
-    product_id: "prod_toroa_plus",
-    role: "pro" as const,
-    label: "Tōroa Plus",
+    label: "Tōroa",
   },
 } as const;
 
