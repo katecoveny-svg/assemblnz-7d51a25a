@@ -239,20 +239,63 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ═══ 3. WHAT ASSEMBL DOES (Outcomes) ═══ */}
+      {/* ═══ 3. WHAT CHANGES ═══ */}
       <section className={SECTION_STYLE}>
         <div className={INNER}>
-          <motion.div {...fade} className="text-center mb-14">
-            <Eyebrow>ONE PLATFORM</Eyebrow>
-            <SectionHeading>Win work. Run work. Stay sharp.</SectionHeading>
+          <motion.div {...fade} className="text-center mb-8">
+            <p style={{ fontFamily: "'Lato', sans-serif", fontWeight: 700, fontSize: "14px", letterSpacing: "4px", color: "#D4A843", textTransform: "uppercase" }}>
+              WHAT CHANGES
+            </p>
           </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <TanikoDivider />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mt-8">
             {OUTCOMES.map((o, i) => (
-              <motion.div key={o.title} className="rounded-2xl p-8 card-glow-hover" style={{ background: "rgba(15,15,26,0.5)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 0 20px rgba(212,168,67,0.05), 0 4px 20px rgba(0,0,0,0.3)" }}
-                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.12, duration: 0.5 }}>
-                <div className="w-10 h-1 rounded-full mb-5" style={{ background: o.color }} />
-                <h3 className="text-lg mb-3" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: "#FFFFFF" }}>{o.title}</h3>
-                <Body>{o.body}</Body>
+              <motion.div
+                key={o.title}
+                className="relative rounded-2xl p-8 overflow-hidden group cursor-pointer"
+                style={{
+                  background: "rgba(15,15,26,0.7)",
+                  backdropFilter: "blur(10px)",
+                  WebkitBackdropFilter: "blur(10px)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  willChange: "transform, opacity",
+                  transition: "border-color 300ms cubic-bezier(0.16,1,0.3,1), transform 300ms cubic-bezier(0.16,1,0.3,1), box-shadow 300ms cubic-bezier(0.16,1,0.3,1)",
+                }}
+                whileHover={{
+                  y: -3,
+                  borderColor: "rgba(255,255,255,0.25)",
+                  boxShadow: `0 0 30px ${o.color}30, 0 8px 32px rgba(0,0,0,0.4)`,
+                }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.15, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                tabIndex={0}
+              >
+                {/* Motif SVG */}
+                <div className="absolute pointer-events-none transition-all duration-300" style={{
+                  ...(o.iconPos === "top-left" ? { top: 12, left: 12 } : o.iconPos === "top-right" ? { top: 12, right: 12 } : { bottom: 12, left: "50%", transform: "translateX(-50%)" }),
+                  filter: "none",
+                }}
+                >
+                  <div className="group-hover:drop-shadow-lg transition-[filter] duration-300" style={{ filter: `drop-shadow(0 0 0px transparent)` }}>
+                    <style>{`.group:hover .motif-glow-${i} { filter: drop-shadow(0 0 12px ${o.color}50) !important; }`}</style>
+                    <div className={`motif-glow-${i}`}>
+                      <o.Icon />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="relative z-10" style={{ marginTop: o.iconPos === "top-left" || o.iconPos === "top-right" ? "48px" : "0" }}>
+                  <div className="w-10 h-[2px] rounded-full mb-5" style={{ background: o.color }} />
+                  <h3 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "24px", color: "#FFFFFF", marginBottom: "12px" }}>
+                    {o.title}
+                  </h3>
+                  <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 300, fontSize: "15px", lineHeight: 1.7, color: "rgba(255,255,255,0.65)" }}>
+                    {o.body}
+                  </p>
+                </div>
               </motion.div>
             ))}
           </div>
