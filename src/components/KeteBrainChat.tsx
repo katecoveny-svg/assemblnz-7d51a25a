@@ -162,8 +162,27 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
     }
   }, [user, agentId, keteId]);
 
+  const effectiveAgentId = agentId || keteId;
+
   return (
     <>
+      {/* Voice Modal */}
+      <VoiceAgentModal
+        open={showVoice}
+        onClose={() => setShowVoice(false)}
+        agentId={effectiveAgentId}
+        agentName={keteName}
+        agentColor={accentColor}
+        elevenLabsAgentId={getElevenLabsAgentId(effectiveAgentId)}
+        onHandoffToChat={(voiceTranscript) => {
+          const converted = voiceTranscript.map(t => ({
+            role: t.role === "user" ? "user" as const : "assistant" as const,
+            content: t.text,
+          }));
+          setMessages(prev => [...prev, ...converted]);
+        }}
+      />
+
       {/* FAB */}
       <motion.button
         onClick={() => setOpen(!open)}
