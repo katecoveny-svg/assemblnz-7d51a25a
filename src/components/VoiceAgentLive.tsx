@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { Mic, MicOff, Phone, PhoneOff, Volume2, VolumeX, Settings2, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { agentChat } from "@/lib/agentChat";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 

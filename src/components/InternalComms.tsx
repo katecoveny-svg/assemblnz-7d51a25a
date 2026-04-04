@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { agentChat } from "@/lib/agentChat";
 import { MessageSquare, Calendar, FileText, GraduationCap, BookOpen, RefreshCw, Star, Newspaper, Copy, Check, Lock, ArrowLeft, Sparkles } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 

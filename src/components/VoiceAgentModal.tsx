@@ -2,6 +2,7 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import { useConversation } from "@elevenlabs/react";
 import { X, Mic, Phone, PhoneOff, Loader2, MessageSquare } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { agentChat } from "@/lib/agentChat";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 
