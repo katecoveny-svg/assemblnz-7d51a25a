@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { KETE_DATA } from "./keteData";
+import { KETE_DATA, SHARED_CORE_AGENTS, TOTAL_AGENTS } from "./keteData";
 import KeteCard from "./KeteCard";
 import SEO from "@/components/SEO";
 
@@ -9,7 +9,6 @@ const KeteGrid: React.FC = () => {
   const industry = KETE_DATA.filter(k => k.category === "industry");
   const specialist = KETE_DATA.filter(k => k.category === "specialist");
   const whanau = KETE_DATA.filter(k => k.category === "whanau");
-  const totalAgents = KETE_DATA.reduce((s, k) => s + k.agentCount, 0);
 
   const Section = ({ title, kete }: { title: string; kete: typeof KETE_DATA }) => (
     <section className="mb-20 md:mb-24">
