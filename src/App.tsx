@@ -107,6 +107,7 @@ const PakihiDashboard = lazy(() => import("./components/pakihi/PakihiDashboard")
 const HangarauDashboard = lazy(() => import("./components/hangarau/HangarauDashboard"));
 const TeKahuiReoDashboard = lazy(() => import("./components/te-kahui-reo/TeKahuiReoDashboard"));
 const ToroaDashboard = lazy(() => import("./components/toroa/ToroaDashboard"));
+const SkillWiringDashboard = lazy(() => import("./components/admin/SkillWiringDashboard"));
 
 const queryClient = new QueryClient();
 
