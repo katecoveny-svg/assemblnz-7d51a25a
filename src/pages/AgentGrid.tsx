@@ -13,6 +13,75 @@ import { motion } from "framer-motion";
 import PackGrid from "@/components/landing/PackGrid";
 import EmbedDemoSection from "@/components/landing/EmbedDemoSection";
 
+const KoruMotif = () => (
+  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true" className="opacity-80">
+    <path
+      d="M40 8C40 8 20 16 20 36C20 50 30 56 40 56C50 56 56 48 56 40C56 32 50 28 44 28C38 28 34 32 34 36C34 40 38 44 42 44C46 44 48 42 48 40"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      fill="none"
+    />
+  </svg>
+);
+
+const TanikoMotif = () => (
+  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true" className="opacity-80">
+    <path d="M10 20L20 30L30 20L40 30L50 20L60 30L70 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+    <path d="M10 32L20 42L30 32L40 42L50 32L60 42L70 32" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+    <path d="M10 44L20 54L30 44L40 54L50 44L60 54L70 44" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+    <path d="M10 56L20 66L30 56L40 66L50 56L60 66L70 56" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+  </svg>
+);
+
+const MauaoMotif = () => (
+  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true" className="opacity-80">
+    <path d="M8 68L30 24L40 36L56 16L72 68" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+    <path d="M8 68H72" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+  </svg>
+);
+
+const TanikoDivider = () => (
+  <svg width="300" height="8" viewBox="0 0 300 8" fill="none" aria-hidden="true" className="mx-auto mb-4 h-2 w-full max-w-[300px] opacity-70">
+    <path
+      d="M0 4L10 0L20 4L30 0L40 4L50 0L60 4L70 0L80 4L90 0L100 4L110 0L120 4L130 0L140 4L150 0L160 4L170 0L180 4L190 0L200 4L210 0L220 4L230 0L240 4L250 0L260 4L270 0L280 4L290 0L300 4"
+      stroke="currentColor"
+      strokeWidth="1"
+      fill="none"
+    />
+  </svg>
+);
+
+const OUTCOME_CARDS = [
+  {
+    title: "Close Faster",
+    description:
+      "Better proposals start with speed. Assembl cuts the busywork, so your team pitches more, quotes tighter, closes harder.",
+    motif: KoruMotif,
+    accentClass: "text-[hsl(var(--kowhai))]",
+    glowClass: "outcome-card--kowhai",
+    motifPosition: "left-0 top-0",
+  },
+  {
+    title: "Run It Right",
+    description:
+      "Every NZ business juggles payroll, tax, compliance, schedules. Assembl handles it. Your team focuses on the work that makes money.",
+    motif: TanikoMotif,
+    accentClass: "text-[hsl(var(--pounamu))]",
+    glowClass: "outcome-card--pounamu",
+    motifPosition: "right-0 top-0",
+  },
+  {
+    title: "Alerts That Count",
+    description:
+      "NZ compliance changes weekly. Assembl flags what affects you — regulation, deadline, opportunity — so you're never caught flat.",
+    motif: MauaoMotif,
+    accentClass: "text-[hsl(var(--tangaroa))]",
+    glowClass: "outcome-card--tangaroa",
+    motifPosition: "left-1/2 bottom-0 -translate-x-1/2",
+  },
+] as const;
+
 const AgentGrid = () => {
   const [contactName, setContactName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
