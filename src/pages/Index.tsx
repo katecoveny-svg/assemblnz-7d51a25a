@@ -35,8 +35,9 @@ const INNER = "max-w-5xl mx-auto";
 /* ─── Micro-proof pills ─── */
 const PROOF = [
   "Built in Aotearoa",
-  "44 specialist agents",
-  "7 industry kete",
+  "78 specialist agents",
+  "9 industry kete",
+  "8 Shared Core agents",
   "NZ-context intelligence",
   "SMS-ready",
 ];
