@@ -68,6 +68,8 @@ const AgentApp = lazy(() => import("./pages/AgentApp"));
 const AdminSmsPage = lazy(() => import("./pages/AdminSmsPage"));
 const HowItWorksPage = lazy(() => import("./pages/HowItWorksPage"));
 const KeteOverviewPage = lazy(() => import("./pages/KeteOverviewPage"));
+const KeteCollectionPage = lazy(() => import("./pages/KeteCollectionPage"));
+const KeteDetailPageNew = lazy(() => import("./pages/KeteDetailPage"));
 const CareDashboard = lazy(() => import("./pages/CareDashboard"));
 const AtaBimDashboard = lazy(() => import("./components/hanga/AtaBimDashboard"));
 const KaupapaDashboard = lazy(() => import("./components/hanga/KaupapaDashboard"));
@@ -175,7 +177,8 @@ const App = () => (
                   <Route path="/data-sovereignty" element={<Suspense fallback={null}><DataSovereigntyPage /></Suspense>} />
                   <Route path="/data-privacy" element={<Suspense fallback={null}><DataPrivacyLegal /></Suspense>} />
                   <Route path="/invest" element={<Suspense fallback={null}><InvestPage /></Suspense>} />
-                  <Route path="/kete" element={<Suspense fallback={null}><KeteOverviewPage /></Suspense>} />
+                  <Route path="/kete" element={<Suspense fallback={null}><KeteCollectionPage /></Suspense>} />
+                  <Route path="/kete/:slug" element={<Suspense fallback={null}><KeteDetailPageNew /></Suspense>} />
                   <Route path="/manaaki" element={<Suspense fallback={null}><ManaakiDashboard /></Suspense>} />
                   <Route path="/pakihi" element={<Suspense fallback={null}><PakihiDashboard /></Suspense>} />
                   <Route path="/hangarau" element={<Suspense fallback={null}><HangarauDashboard /></Suspense>} />
