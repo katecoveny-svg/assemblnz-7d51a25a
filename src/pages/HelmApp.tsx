@@ -1,3 +1,4 @@
+import { agentChat } from "@/lib/agentChat";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -99,18 +100,12 @@ export default function ToroaApp() {
     setLoading(true);
 
     try {
-      const { data: session } = await supabase.auth.getSession();
-      const token = session?.session?.access_token;
-
-      const resp = await supabase.functions.invoke("chat", {
-        body: {
-          agentId: "operations",
-          messages: newMessages.map(m => ({ role: m.role, content: m.content })),
-        },
-        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      const lastMsg = newMessages[newMessages.length - 1];
+      const content = await agentChat({
+        agentId: "operations",
+        message: lastMsg.content,
+        messages: newMessages.slice(0, -1).map(m => ({ role: m.role, content: m.content })),
       });
-
-      const content = resp.data?.content || "Sorry, I couldn't process that. Please try again.";
       setMessages([...newMessages, { role: "assistant", content }]);
     } catch (err: any) {
       console.error("TŌROA chat error:", err);

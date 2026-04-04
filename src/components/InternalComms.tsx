@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { agentChat } from "@/lib/agentChat";
 import { MessageSquare, Calendar, FileText, GraduationCap, BookOpen, RefreshCw, Star, Newspaper, Copy, Check, Lock, ArrowLeft, Sparkles } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
@@ -108,11 +109,8 @@ const InternalComms = ({ agentId, agentName, agentColor, isPaid, userRole }: Pro
     const prompt = `You are ${agentName}, specialist in the ${agentId} sector. Generate a professional "${toolLabel}" for internal team communication. Use NZ English. Align with NZ employment law (Employment Relations Act 2000, Holidays Act 2003, Privacy Act 2020, HSWA 2015). Be practical and ready to use.\n\nUser input:\n${fields || "[Generate a comprehensive template]"}`;
 
     try {
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: { agentId, messages: [{ role: "user", content: prompt }] },
-      });
-      if (error) throw error;
-      setResult(data.content);
+      const content = await agentChat({ agentId, message: prompt });
+      setResult(content);
     } catch { setResult("Error generating content. Please try again."); }
     finally { setIsGenerating(false); }
   };

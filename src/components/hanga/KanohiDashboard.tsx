@@ -1,3 +1,4 @@
+import { agentChat } from "@/lib/agentChat";
 import { useState, useEffect, lazy, Suspense, useRef } from "react";
 import {
   Shield, HardHat, Layers, FolderKanban, Package, FileCheck, CheckCircle2,
@@ -525,20 +526,12 @@ function HangaChat({ projectName }: { projectName: string }) {
         content: m.content,
       }));
 
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: {
-          messages: [
-            {
-              role: "system",
-              content: `You are Hanga, a construction project intelligence assistant for Assembl. You help with NZ construction projects — site safety (ĀRAI), BIM (ATA), project management (KAUPAPA), resources (RAWA), consenting (WHAKAAĒ), and quality assurance (PAI). Current project: "${projectName}". Answer in NZ English with proper macrons. Be concise and actionable. Reference specific NZ legislation (Building Act 2004, Health & Safety at Work Act 2015, Construction Contracts Act 2002) when relevant.`,
-            },
-            ...history,
-          ],
-        },
+      const reply = await agentChat({
+        agentId: "construction",
+        packId: "hanga",
+        message: history[history.length - 1]?.content || "",
+        messages: history.slice(0, -1),
       });
-
-      if (error) throw error;
-      const reply = data?.choices?.[0]?.message?.content || data?.content || data?.message || "I'm here to help with your construction project. Could you rephrase your question?";
       setMessages(prev => [...prev, { role: "assistant", content: typeof reply === "string" ? reply : JSON.stringify(reply) }]);
     } catch {
       setMessages(prev => [...prev, { role: "assistant", content: "I'm currently unable to connect. Please try again shortly." }]);

@@ -1,3 +1,4 @@
+import { agentChat } from "@/lib/agentChat";
 import { useState } from "react";
 import { agents } from "@/data/agents";
 import { supabase } from "@/integrations/supabase/client";
@@ -85,10 +86,7 @@ Generate the following in a structured format:
 Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
 
     try {
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: { agentId: "marketing", messages: [{ role: "user", content: prompt }] },
-      });
-      if (error) throw error;
+      const data = { content: await agentChat({ agentId: "marketing", message: [{ role: "user", content: prompt }][[{ role: "user", content: prompt }].length-1].content, messages: [{ role: "user", content: prompt }].slice(0,-1) }) };
       setResult(data.content);
 
       // Extract the image direction for pre-filling

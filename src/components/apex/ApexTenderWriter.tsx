@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { agentChat } from "@/lib/agentChat";
 import { FileText, Globe, ClipboardList, Building2, ChevronRight, Copy, Check, Sparkles, Upload, Edit3, Download, Lock, ArrowLeft } from "lucide-react";
 import { ICON_MAP, NeonClipboard, NeonDocument, NeonWarning, NeonSafetyVest, NeonCheckmark, NeonSeedling, NeonHandshake, NeonCoin, NeonPaperclip, NeonTrophy, NeonStar, NeonWrench, NeonShield, NeonCalendar } from "@/components/NeonIcons";
 import ReactMarkdown from "react-markdown";
@@ -104,11 +105,8 @@ Write in professional, confident, third-person NZ English. Reference NZ Standard
 Generate comprehensive, detailed content for this section. Include specific frameworks, methodologies, and NZ regulatory references.`;
 
     try {
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: { agentId: "construction", messages: [{ role: "user", content: prompt }] },
-      });
-      if (error) throw error;
-      setSectionResults(prev => ({ ...prev, [sectionId]: data.content }));
+      const content = await agentChat({ agentId: "construction", message: prompt, packId: "hanga" });
+      setSectionResults(prev => ({ ...prev, [sectionId]: content }));
     } catch (err) {
       console.error("Section generation error:", err);
       setSectionResults(prev => ({ ...prev, [sectionId]: "Error generating section. Please try again." }));
@@ -122,11 +120,8 @@ Generate comprehensive, detailed content for this section. Include specific fram
     setIsAnalysing(true);
     const prompt = `You are APEX, NZ construction tender specialist. Analyse this tender document/RFP and produce a STRUCTURED RESPONSE FRAMEWORK. List every section needed with brief notes on what the evaluator is looking for. Identify key evaluation criteria, mandatory requirements, and any compliance traps.\n\nTENDER DOCUMENT:\n${tenderDoc}`;
     try {
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: { agentId: "construction", messages: [{ role: "user", content: prompt }] },
-      });
-      if (error) throw error;
-      setFramework(data.content);
+      const content = await agentChat({ agentId: "construction", message: prompt, packId: "hanga" });
+      setFramework(content);
     } catch { setFramework("Error analysing tender. Please try again."); }
     finally { setIsAnalysing(false); }
   };
@@ -136,12 +131,9 @@ Generate comprehensive, detailed content for this section. Include specific fram
     setIsScanning(true);
     const prompt = `You are APEX. The user wants to build a Company Profile from their website. Analyse this website URL and extract: company name, services offered, project portfolio/case studies, team members, certifications & awards, locations, years in business, and any notable achievements. Present as a structured company profile that can be used to auto-populate tenders and proposals.\n\nWebsite URL: ${scraperUrl}\n\nNote: Extract what you can infer from a typical NZ construction company website. If you cannot access the URL, generate a template profile structure the user can fill in.`;
     try {
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: { agentId: "construction", messages: [{ role: "user", content: prompt }] },
-      });
-      if (error) throw error;
-      setCompanyProfile(data.content);
-      localStorage.setItem("apex_company_profile", data.content);
+      const content = await agentChat({ agentId: "construction", message: prompt, packId: "hanga" });
+      setCompanyProfile(content);
+      localStorage.setItem("apex_company_profile", content);
     } catch { setCompanyProfile("Error scanning website. Please try again."); }
     finally { setIsScanning(false); }
   };
@@ -153,11 +145,8 @@ Generate comprehensive, detailed content for this section. Include specific fram
     const fields = Object.entries(pqqData).filter(([_, v]) => v?.trim()).map(([k, v]) => `${k}: ${v}`).join("\n");
     const prompt = `You are APEX, NZ construction prequalification specialist. Generate comprehensive PQQ (Prequalification Questionnaire) responses using this data:${profileContext}\n\nUSER DATA:\n${fields || "[No data provided — generate template responses]"}\n\nGenerate professional responses for each standard PQQ category: H&S record, financial stability, environmental policy, quality systems, insurance details, relevant experience. Write in confident third-person NZ English. Reference Tōtika, Site Safe, ISO standards, WorkSafe. Use NZD.`;
     try {
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: { agentId: "construction", messages: [{ role: "user", content: prompt }] },
-      });
-      if (error) throw error;
-      setPqqResult(data.content);
+      const content = await agentChat({ agentId: "construction", message: prompt, packId: "hanga" });
+      setPqqResult(content);
     } catch { setPqqResult("Error generating PQQ responses. Please try again."); }
     finally { setIsGeneratingPqq(false); }
   };

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { agentChat } from "@/lib/agentChat";
 import { Shield, Heart, Award, AlertTriangle, ChevronRight, ArrowLeft, Copy, Check, Lock, ExternalLink } from "lucide-react";
 import { NeonSafetyVest, NeonSiren, NeonWarning } from "@/components/NeonIcons";
 import ReactMarkdown from "react-markdown";
@@ -88,11 +89,8 @@ const ApexHSHub = ({ isPaid, userRole }: Props) => {
   const generate = async (key: string, prompt: string) => {
     setGenerating(key);
     try {
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: { agentId: "construction", messages: [{ role: "user", content: prompt }] },
-      });
-      if (error) throw error;
-      setGeneratedContent(prev => ({ ...prev, [key]: data.content }));
+      const content = await agentChat({ agentId: "construction", message: prompt, packId: "hanga" });
+      setGeneratedContent(prev => ({ ...prev, [key]: content }));
     } catch { setGeneratedContent(prev => ({ ...prev, [key]: "Error generating. Please try again." })); }
     finally { setGenerating(null); }
   };

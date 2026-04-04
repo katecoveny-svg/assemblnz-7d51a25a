@@ -1,3 +1,4 @@
+import { agentChat } from "@/lib/agentChat";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -66,10 +67,7 @@ const NexusMiniChat = () => {
 
     try {
       const apiMessages = newMessages.map((m) => ({ role: m.role, content: m.content }));
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: { agentId: "customs", messages: apiMessages },
-      });
-      if (error) throw error;
+      const data = { content: await agentChat({ agentId: "customs", message: apiMessages[apiMessages.length-1].content, messages: apiMessages.slice(0,-1) }) };
       if (data?.error) {
         const isAuth = typeof data.error === "string" && data.error.toLowerCase().includes("unauthorized");
         setMessages((prev) => [...prev, { role: "assistant", content: isAuth ? "You'll need to sign in to chat with me. Create a free account at /signup and then come back — or jump straight into the full experience at /chat/customs!" : data.error }]);
