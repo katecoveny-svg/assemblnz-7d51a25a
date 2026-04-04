@@ -145,11 +145,8 @@ Generate comprehensive, detailed content for this section. Include specific fram
     const fields = Object.entries(pqqData).filter(([_, v]) => v?.trim()).map(([k, v]) => `${k}: ${v}`).join("\n");
     const prompt = `You are APEX, NZ construction prequalification specialist. Generate comprehensive PQQ (Prequalification Questionnaire) responses using this data:${profileContext}\n\nUSER DATA:\n${fields || "[No data provided — generate template responses]"}\n\nGenerate professional responses for each standard PQQ category: H&S record, financial stability, environmental policy, quality systems, insurance details, relevant experience. Write in confident third-person NZ English. Reference Tōtika, Site Safe, ISO standards, WorkSafe. Use NZD.`;
     try {
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: { agentId: "construction", messages: [{ role: "user", content: prompt }] },
-      });
-      if (error) throw error;
-      setPqqResult(data.content);
+      const content = await agentChat({ agentId: "construction", message: prompt, packId: "hanga" });
+      setPqqResult(content);
     } catch { setPqqResult("Error generating PQQ responses. Please try again."); }
     finally { setIsGeneratingPqq(false); }
   };
