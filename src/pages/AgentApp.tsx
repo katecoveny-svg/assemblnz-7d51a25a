@@ -80,7 +80,7 @@ export default function AgentApp() {
     try {
       const { data: session } = await supabase.auth.getSession();
       const token = session?.session?.access_token;
-      const resp = await supabase.functions.invoke("chat", {
+      const resp = { data: { content: await agentChat({
         body: {
           agentId: agentId,
           messages: newMessages.map(m => ({ role: m.role, content: m.content })),

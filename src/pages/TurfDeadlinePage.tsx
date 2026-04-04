@@ -114,10 +114,7 @@ const TurfMiniChat = () => {
     setLoading(true);
     try {
       const apiMessages = [...history, { role: "user" as const, content: prompt }].map((m) => ({ role: m.role, content: m.content }));
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: { agentId: "sports", messages: apiMessages },
-      });
-      if (error) throw error;
+      const data = { content: await agentChat({ agentId: "sports", message: apiMessages[apiMessages.length-1].content, messages: apiMessages.slice(0,-1) }) };
       if (data?.error) {
         const isAuth = typeof data.error === "string" && data.error.toLowerCase().includes("unauthorized");
         return isAuth ? "You'll need to sign in to generate your constitution. Create a free account and head to /chat/sports!" : data.error;

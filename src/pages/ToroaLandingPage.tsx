@@ -120,10 +120,8 @@ function TryToroaChat() {
     setMessages(updated);
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: { messages: updated.map(m => ({ role: m.role, content: m.text })), agentId: "family" },
-      });
-      if (error) throw error;
+      const data = { content: await agentChat({ agentId: "family", packId: "toroa", message: updated[updated.length-1].text, messages: updated.slice(0,-1).map(m => ({ role: m.role, content: m.text })) }) };
+      
       const reply = data?.content || data?.text || data?.choices?.[0]?.message?.content || "Kia ora! I'm here to help your whānau.";
       setMessages(prev => [...prev, { role: "assistant", text: reply }]);
     } catch {

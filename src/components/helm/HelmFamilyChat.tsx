@@ -87,7 +87,7 @@ export default function HelmFamilyChat({ familyId, familyMembers }: { familyId: 
     if (lc.startsWith("helm ") || lc.startsWith("@helm") || lc.includes("add to groceries") || lc.includes("book ") || lc.includes("remind ")) {
       // Send to TŌROA agent via chat function
       try {
-        await supabase.functions.invoke("chat", {
+        await agentChat({
           body: {
             agentId: "operations",
             messages: [{ role: "user", content: input.trim() }],

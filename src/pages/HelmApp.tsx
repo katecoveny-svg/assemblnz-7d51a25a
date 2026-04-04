@@ -103,7 +103,7 @@ export default function ToroaApp() {
       const { data: session } = await supabase.auth.getSession();
       const token = session?.session?.access_token;
 
-      const resp = await supabase.functions.invoke("chat", {
+      const resp = { data: { content: await agentChat({
         body: {
           agentId: "operations",
           messages: newMessages.map(m => ({ role: m.role, content: m.content })),
