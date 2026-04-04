@@ -113,7 +113,7 @@ const LivePacksHero = () => (
         viewport={{ once: true }}
         transition={{ delay: 0.4 }}
       >
-        More packs coming Q4 2026
+        9 kete · 78 agents · Shared Core Foundation · $29/mo Tōroa consumer product
       </motion.p>
     </div>
   </section>
