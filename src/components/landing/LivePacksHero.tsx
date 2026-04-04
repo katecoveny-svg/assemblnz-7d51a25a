@@ -38,10 +38,15 @@ const CONSTELLATION_MARKS: Record<string, React.ReactNode> = {
 };
 
 const LIVE_PACKS = [
-  { slug: "pakihi", name: "Pakihi", english: "Business", agents: 12, desc: "HR, payroll, finance, operations — 12 agents for NZ businesses." },
-  { slug: "hanga", name: "Hanga", english: "Construction", agents: 7, desc: "Safety, BIM, consenting, quality — tikanga-aligned construction intelligence." },
-  { slug: "manaaki", name: "Manaaki", english: "Hospitality", agents: 8, desc: "Food safety, licensing, reservations — front-of-house to kitchen." },
-  { slug: "toroa", name: "Tōroa", english: "Family Navigator", agents: 1, desc: "Find services, track wellbeing, coordinate care — for Aotearoa whānau." },
+  { slug: "manaaki", name: "Manaaki", english: "Hospitality & Tourism", agents: 9, desc: "Food safety, liquor licensing, guest experience, luxury lodging, adventure tourism." },
+  { slug: "hanga", name: "Hanga", english: "Construction", agents: 9, desc: "Site safety, BIM, consenting, project management, architecture, tenders." },
+  { slug: "auaha", name: "Auaha", english: "Creative & Media", agents: 9, desc: "Copy, image, video, podcast, ads, analytics — the full creative pipeline." },
+  { slug: "pakihi", name: "Pakihi", english: "Business & Commerce", agents: 11, desc: "Accounting, insurance, retail, trade, agriculture, real estate, immigration." },
+  { slug: "waka", name: "Waka", english: "Transport & Vehicles", agents: 3, desc: "Automotive, maritime, trucking, logistics, dealership compliance." },
+  { slug: "hangarau", name: "Hangarau", english: "Technology", agents: 12, desc: "Security, DevOps, infrastructure, monitoring, environment, manufacturing, IP." },
+  { slug: "hauora", name: "Hauora", english: "Health & Lifestyle", agents: 8, desc: "Sport, health, beauty, nutrition, interior design, travel." },
+  { slug: "te-kahui-reo", name: "Te Kāhui Reo", english: "Māori Business Intelligence", agents: 8, desc: "Data sovereignty, whānau governance, iwi reporting, kaupapa Māori." },
+  { slug: "toroa", name: "Tōroa", english: "Family Navigator", agents: 1, desc: "SMS-first. No app, no login. Just text. School, meals, budgets, transport." },
 ];
 
 const LivePacksHero = () => (
