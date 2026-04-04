@@ -47,7 +47,7 @@ const KeteGrid: React.FC = () => {
             The Kete Collection
           </h1>
           <p className="text-base text-white/65 max-w-[600px] mx-auto leading-relaxed" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-            Nine industry-specific agent packs, built for Aotearoa. Each kete brings together agents, templates, and workflows for their domain.
+            Nine industry-specific agent packs plus a Shared Core foundation, built for Aotearoa. Each kete brings together specialist agents, templates, and workflows for their domain.
           </p>
         </header>
 
