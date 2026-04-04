@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { agentChat } from "@/lib/agentChat";
 import ReactMarkdown from "react-markdown";
 import { Send, X, Minimize2, RotateCcw } from "lucide-react";
 import { assemblMark } from "@/assets/brand";
