@@ -120,11 +120,8 @@ Generate comprehensive, detailed content for this section. Include specific fram
     setIsAnalysing(true);
     const prompt = `You are APEX, NZ construction tender specialist. Analyse this tender document/RFP and produce a STRUCTURED RESPONSE FRAMEWORK. List every section needed with brief notes on what the evaluator is looking for. Identify key evaluation criteria, mandatory requirements, and any compliance traps.\n\nTENDER DOCUMENT:\n${tenderDoc}`;
     try {
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: { agentId: "construction", messages: [{ role: "user", content: prompt }] },
-      });
-      if (error) throw error;
-      setFramework(data.content);
+      const content = await agentChat({ agentId: "construction", message: prompt, packId: "hanga" });
+      setFramework(content);
     } catch { setFramework("Error analysing tender. Please try again."); }
     finally { setIsAnalysing(false); }
   };
