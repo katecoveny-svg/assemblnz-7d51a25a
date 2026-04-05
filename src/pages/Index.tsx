@@ -55,9 +55,11 @@ const SectionHeading = ({ children }: { children: React.ReactNode }) => (
 const Body = ({
   children,
   className = "",
+  style,
 }: {
   children: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
 }) => (
   <p
     className={className}
