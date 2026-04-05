@@ -19,6 +19,7 @@ import { supabase } from "@/integrations/supabase/client";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
+import StarConstellationHero from "@/components/landing/StarConstellationHero";
 
 /* ── Shared micro-components ── */
 const Eyebrow = ({ children }: { children: string }) => (
@@ -54,9 +55,11 @@ const SectionHeading = ({ children }: { children: React.ReactNode }) => (
 const Body = ({
   children,
   className = "",
+  style,
 }: {
   children: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
 }) => (
   <p
     className={className}
@@ -65,6 +68,7 @@ const Body = ({
       fontSize: "15px",
       lineHeight: 1.75,
       color: "rgba(255,255,255,0.52)",
+      ...style,
     }}
   >
     {children}
@@ -244,8 +248,9 @@ const Index = () => {
       <BrandNav />
 
       {/* ═══ 1. HERO ═══ */}
-      <section className="px-6 sm:px-8 pt-28 sm:pt-36 pb-16 text-center">
-        <div className="max-w-3xl mx-auto">
+      <section className="relative px-6 sm:px-8 pt-28 sm:pt-36 pb-16 text-center overflow-hidden" style={{ minHeight: "520px" }}>
+        <StarConstellationHero />
+        <div className="relative z-10 max-w-3xl mx-auto">
           <motion.h1
             style={{
               fontFamily: "'Lato', sans-serif",
