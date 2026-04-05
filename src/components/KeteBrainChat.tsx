@@ -197,7 +197,7 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed bottom-24 right-4 z-50 w-[380px] max-w-[calc(100vw-2rem)] rounded-2xl overflow-hidden border"
+            className="fixed bottom-24 right-4 z-50 w-[380px] max-w-[calc(100vw-2rem)] rounded-2xl overflow-hidden border flex flex-col"
             style={{
               background: "rgba(9,9,15,0.95)",
               backdropFilter: "blur(24px)",
@@ -250,7 +250,7 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
             {/* Chat content */}
             {tab === "chat" && (
               <>
-                <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3" style={{ maxHeight: "calc(70vh - 200px)", minHeight: 200 }}>
+                <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3" style={{ minHeight: 120 }}>
                   {messages.length === 0 && (
                     <div className="text-center py-8">
                       <BrainAvatar color={accentColor} size={56} />
@@ -297,7 +297,7 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
                 </div>
 
                 {/* Input */}
-                <div className="p-3 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                <div className="shrink-0 p-3 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
                   <form onSubmit={(e) => { e.preventDefault(); sendMessage(); }} className="flex gap-2">
                     <input
                       value={input}
