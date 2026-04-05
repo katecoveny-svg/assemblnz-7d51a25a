@@ -82,8 +82,60 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
   const [input, setInput] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
   const [tab, setTab] = useState<"chat" | "sms" | "whatsapp">("chat");
+  const [conversationId, setConversationId] = useState<string | null>(null);
+  const [loaded, setLoaded] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
+  const effectiveAgentId = agentId || keteId;
+
+  // Load previous conversation on mount
+  useEffect(() => {
+    if (!user) { setLoaded(true); return; }
+    let active = true;
+    (async () => {
+      try {
+        const { data } = await supabase
+          .from("conversations")
+          .select("id, messages")
+          .eq("user_id", user.id)
+          .eq("agent_id", effectiveAgentId)
+          .order("updated_at", { ascending: false })
+          .limit(1);
+        if (!active) return;
+        if (data && data.length > 0) {
+          const conv = data[0] as any;
+          setConversationId(conv.id);
+          if (Array.isArray(conv.messages) && conv.messages.length > 0) {
+            setMessages(conv.messages as Msg[]);
+          }
+        }
+      } finally {
+        if (active) setLoaded(true);
+      }
+    })();
+    return () => { active = false; };
+  }, [user, effectiveAgentId]);
+
+  // Save conversation when messages change
+  useEffect(() => {
+    if (!user || !loaded || messages.length === 0) return;
+    const save = async () => {
+      if (conversationId) {
+        await supabase.from("conversations").update({
+          messages: messages as any,
+          updated_at: new Date().toISOString(),
+        }).eq("id", conversationId);
+      } else {
+        const { data } = await supabase.from("conversations").insert({
+          user_id: user.id,
+          agent_id: effectiveAgentId,
+          messages: messages as any,
+        }).select("id").single();
+        if (data) setConversationId((data as any).id);
+      }
+    };
+    save();
+  }, [messages, user, effectiveAgentId, conversationId, loaded]);
 
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
