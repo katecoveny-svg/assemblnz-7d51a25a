@@ -414,7 +414,7 @@ const Index = () => {
             {[
               { stat: "605,000", label: "NZ businesses" },
               { stat: "97%", label: "are small enterprises" },
-              { stat: "$4.2B", label: "professional services spend annually" },
+              { stat: "78", label: "specialist agents across 9 kete" },
             ].map((c, i) => (
               <motion.div
                 key={c.label}
