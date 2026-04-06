@@ -29,7 +29,7 @@ const Eyebrow = ({ children }: { children: string }) => (
       fontSize: "10px",
       letterSpacing: "0.18em",
       textTransform: "uppercase",
-      color: "#D4A843",
+      color: "#CBAE6D",
       marginBottom: "14px",
     }}
   >
