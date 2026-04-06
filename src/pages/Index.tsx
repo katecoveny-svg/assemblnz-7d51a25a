@@ -266,7 +266,7 @@ const Index = () => {
             transition={{ duration: 0.7 }}
           >
             The operating system for{" "}
-            <span style={{ color: "#D4A843" }}>NZ business.</span>
+            <span style={{ color: "#CBAE6D" }}>NZ business.</span>
           </motion.h1>
 
           <motion.p
