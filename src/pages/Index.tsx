@@ -598,12 +598,12 @@ const Index = () => {
       >
         <div className={INNER}>
           <motion.div {...fade} style={{ marginBottom: "40px" }}>
-            <Eyebrow>INDUSTRY PACKS</Eyebrow>
+            <Eyebrow>INDUSTRY KETE</Eyebrow>
             <SectionHeading>
-              Five specialist packs for NZ industries.
+              Nine specialist kete for NZ industries.
             </SectionHeading>
             <Body className="max-w-xl">
-              Each pack carries the knowledge, agents, and workflows your
+              Each kete carries the knowledge, agents, and workflows your
               industry requires — woven together in one platform.
             </Body>
           </motion.div>
