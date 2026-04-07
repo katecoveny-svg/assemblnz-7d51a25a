@@ -103,6 +103,9 @@ const PACKS = [
     mark: manaakiMark,
     desc: "Food safety, liquor licensing, guest experience, luxury lodging, adventure tourism.",
     to: "/manaaki",
+    accent: "#CBAE6D",
+    accentRgb: "203,174,109",
+    agents: 9,
   },
   {
     name: "Hanga",
@@ -110,6 +113,9 @@ const PACKS = [
     mark: hangaMark,
     desc: "Site to sign-off. Safety, BIM, consenting, project management, tenders.",
     to: "/hanga",
+    accent: "#2FCB89",
+    accentRgb: "47,203,137",
+    agents: 9,
   },
   {
     name: "Auaha",
@@ -117,6 +123,9 @@ const PACKS = [
     mark: auahaMark,
     desc: "Brief to published. Copy, image, video, podcast, ads, analytics.",
     to: "/auaha",
+    accent: "#B388FF",
+    accentRgb: "179,136,255",
+    agents: 9,
   },
   {
     name: "Pakihi",
@@ -124,6 +133,9 @@ const PACKS = [
     mark: pakihiMark,
     desc: "Accounting, insurance, retail, trade, agriculture, real estate.",
     to: "/pakihi",
+    accent: "#6B8FA3",
+    accentRgb: "107,143,163",
+    agents: 11,
   },
   {
     name: "Hangarau",
@@ -131,6 +143,9 @@ const PACKS = [
     mark: hangarauMark,
     desc: "Security, DevOps, infrastructure, monitoring, manufacturing, IP.",
     to: "/hangarau",
+    accent: "#5AADA0",
+    accentRgb: "90,173,160",
+    agents: 12,
   },
 ];
 
