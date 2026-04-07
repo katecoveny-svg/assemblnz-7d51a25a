@@ -1,8 +1,8 @@
-# Assembl — AI Operations Platform for NZ Businesses
+# Assembl — Specialist Workflows for NZ Businesses
 # assembl.co.nz
 
 ## What Assembl is
-Assembl is a business intelligence platform built in Aotearoa New Zealand. It provides 78 specialist AI agents across 9 industry kete (packs), plus a Shared Core foundation of 8 agents. Built on Lovable (frontend), Supabase (backend), and multi-model AI (Gemini, Claude, GPT). Every action flows through a compliance pipeline: Mana (Intent) → Iho (Brain) → Kahu (Policy) → Model → Tā (Execute) → Mahara (Memory).
+Assembl is a New Zealand-built platform designed to help businesses reduce admin, surface issues earlier, and keep people in control. Rather than replacing staff, Assembl supports the teams already doing the work — with specialist workflows that handle repetitive checks, reminders, approvals, and follow-through. Built on a governed architecture where every material action is policy-gated, explainable, and auditable. Simulation testing is used before broader deployment.
 
 ## Kete (Industry Packs)
 - Manaaki: Hospitality & Tourism (9 agents — AURA, SAFFRON, CELLAR, LUXE, MOANA, COAST, KURA, PAU, SUMMIT)
