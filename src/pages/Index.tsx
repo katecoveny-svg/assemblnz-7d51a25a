@@ -110,7 +110,7 @@ const PACKS = [
     name: "Hanga",
     sub: "Construction",
     mark: hangaMark,
-    desc: "Safety signals, schedule visibility, approvals, and site-admin follow-through — without the spreadsheet maze.",
+    desc: "Surface safety and schedule issues earlier. Route approvals faster. Keep a cleaner audit trail. SMS + dashboard.",
     to: "/hanga",
     accent: "#2FCB89",
     accentRgb: "47,203,137",
@@ -230,7 +230,7 @@ const Index = () => {
   const handlePilot = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const msg = `Founding pilot application — ${pilotBiz}`;
+      const msg = `Hanga pilot enquiry — ${pilotBiz}`;
       const { data: inserted, error } = await supabase
         .from("contact_submissions")
         .insert({ name: pilotName, email: pilotEmail, message: msg })
