@@ -7,33 +7,53 @@ scientific discovery, community portal) plug in without rewriting the runtime.
 
 ## What ships in this drop
 
+### Pilot 01 — Clinic scheduling
+
 - **Policy framework** (`src/aaaip/policy/`)
   - `types.ts` — `Policy`, `AgentAction`, `ComplianceDecision`, `OversightMode`
   - `library.ts` — six clinic-scheduling policies (no double-book, triage first,
     consent, fairness, uncertainty handoff, NZ data residency)
   - `engine.ts` — `ComplianceEngine` evaluates an action against every policy
     and returns one of `allow` / `needs_human` / `block`
-- **Digital twin** (`src/aaaip/simulation/clinic.ts`)
-  - Deterministic, seedable `ClinicSimulator` with patient arrivals,
-    emergencies, slot grid, fairness drift score, audit-friendly bookings
-- **Agent** (`src/aaaip/agent/clinic-agent.ts`)
-  - Picks the highest-acuity patient, proposes a slot, runs the proposal
-    through the compliance engine, escalates on uncertainty, applies on allow
-- **Audit log + metrics** (`src/aaaip/metrics/audit.ts`)
-  - In-memory store with subscribe/notify, aggregates, JSON export
-- **React runtime hook** (`src/aaaip/useAaaipRuntime.ts`)
-  - Owns one instance of each module and exposes `start / pause / step / reset
-    / approve / reject / injectEmergency / exportJson`
-- **Live demo dashboard** (`src/pages/AaaipDashboard.tsx`, route `/aaaip`)
-  - Sim controls, slot grid, patient inbox, decision feed, human approval
-    queue, verdict pie + policy-violation bar charts, full policy library view
-- **Tests** (`src/aaaip/__tests__/*.test.ts`)
-  - 14 unit tests covering the policy engine, agent, double-book invariant,
-    escalation paths, fairness drift, and human approval flow
+- **Digital twin** (`src/aaaip/simulation/clinic.ts`) — deterministic, seedable
+  `ClinicSimulator` with patient arrivals, emergencies, slot grid, fairness drift
+- **Agent** (`src/aaaip/agent/clinic-agent.ts`) — picks the highest-acuity
+  patient, proposes a slot, runs the proposal through the compliance engine
+- **Runtime hook** (`src/aaaip/useAaaipRuntime.ts`)
+
+### Pilot 02 — Human-robot collaboration
+
+- **Policies** (`src/aaaip/policy/human-robot.ts`) — seven HRC policies aligned
+  with ISO/TS 15066 + ISO 10218-2: stop on human-in-zone, force limit, speed
+  reduction near human, intent confirmation, sensor health gate, tool-change
+  acknowledgement, uncertainty handoff
+- **Workspace twin** (`src/aaaip/simulation/human-robot.ts`) — `RobotSimulator`
+  with four zones, drifting human operator, intent classifier with confidence,
+  sensor reliability noise, task queue with force/speed/tool requirements
+- **Robot agent** (`src/aaaip/agent/robot-agent.ts`) — selects the safest task,
+  adapts speed when humans are present, escalates on intent ambiguity or sensor
+  degradation
+- **Runtime hook** (`src/aaaip/useRobotRuntime.ts`)
+
+### Shared infrastructure
+
+- **Audit log + metrics** (`src/aaaip/metrics/audit.ts`) — in-memory store with
+  subscribe/notify, aggregates, JSON export hook for Lovable / Supabase / S3
+- **Runtime base interface** (`src/aaaip/runtime-base.ts`) — `AaaipRuntimeBase`
+  contract that both runtime hooks satisfy, so the dashboard chrome reuses one
+  approval queue, metrics view and policy viewer for every domain
+- **Live demo dashboard** (`src/pages/AaaipDashboard.tsx`, route `/aaaip`) —
+  domain switcher (Clinic ↔ Human-robot), live state view, decision feed,
+  approval queue, verdict pie + policy-violation bar charts, policy library
+- **Tests** (`src/aaaip/__tests__/*.test.ts`) — 26 unit tests across the policy
+  engine, both agents, both simulators, the double-book and human-zone
+  invariants, sensor degradation, intent ambiguity, and human approval flow
 
 ## Demo script for Gill Dobbie
 
-1. Open `/aaaip`.
+### Clinic walkthrough
+
+1. Open `/aaaip` (the Clinic switch is selected by default).
 2. Press **Run sim**. Watch the agent auto-approve routine bookings and the
    slot grid fill up.
 3. Press **Inject emergency**. The agent immediately reprioritises, blocks
@@ -44,9 +64,29 @@ scientific discovery, community portal) plug in without rewriting the runtime.
    policies are firing most often.
 6. Open the **Policies** tab to see every rule in plain English with its
    legal/ethical source.
-7. Press **Export** to download the full audit log as JSON — this is the
-   seam where Lovable's Supabase / S3 / Slack connectors plug in to ship the
-   data to AAAIP researchers.
+
+### Human-robot walkthrough
+
+1. Click the **Human-robot** switch in the header. The chrome stays the same;
+   the Live tab now shows a workspace with four zones, a robot, and an
+   operator drifting between zones.
+2. Press **Run sim**. The robot picks the safest queued task, adapts speed
+   when the operator is in a shared zone, and writes every decision to the
+   same audit feed.
+3. Press **Inject human intrusion** — the operator is force-moved into the
+   workbench. The agent immediately blocks any motion targeting that zone
+   (Stop-on-human-in-zone policy) and reprioritises tasks elsewhere.
+4. Press **Degrade sensor** — sensor reliability drops below the safety
+   threshold and the engine blocks all autonomous motion until reliability
+   recovers.
+5. Tool-change tasks land in the **Approvals** tab waiting for an explicit
+   operator acknowledgement before motion resumes.
+
+### Common to both pilots
+
+Press **Export** at any time to download the full audit log as JSON — this is
+the seam where Lovable's Supabase / S3 / Slack connectors plug in to ship the
+data to AAAIP researchers.
 
 ## How to add a new domain
 
@@ -63,11 +103,12 @@ Then re-export from `src/aaaip/index.ts` and add a tab/route to the dashboard.
 
 ### Suggested next slices
 
-| Domain | Simulator | Policies |
-|---|---|---|
-| Human-robot collaboration | Robot/operator co-task with sensor noise | Stop-on-human-in-zone, force limits, intent confirmation |
-| Scientific discovery | Drug-screening loop with Jupyter handoff | Data provenance, IRB consent, reproducibility seed |
-| Community portal | Forum moderation queue | Data sovereignty, te reo respect, mod-in-loop |
+| Domain | Status | Simulator | Policies |
+|---|---|---|---|
+| Clinic scheduling | shipped | `simulation/clinic.ts` | `policy/library.ts` |
+| Human-robot collaboration | shipped | `simulation/human-robot.ts` | `policy/human-robot.ts` |
+| Scientific discovery | next | Drug-screening loop with Jupyter handoff | Data provenance, IRB consent, reproducibility seed |
+| Community portal | next | Forum moderation queue | Data sovereignty, te reo respect, mod-in-loop |
 
 ## Lovable / Supabase integration points
 
@@ -97,18 +138,24 @@ build:
 ```
 src/aaaip/
 ├── index.ts                       # Public surface
-├── useAaaipRuntime.ts             # React hook glueing everything together
+├── runtime-base.ts                # AaaipRuntimeBase shared interface
+├── useAaaipRuntime.ts             # Clinic React hook
+├── useRobotRuntime.ts             # Human-robot React hook
 ├── policy/
 │   ├── types.ts                   # Core types
+│   ├── engine.ts                  # ComplianceEngine
 │   ├── library.ts                 # Clinic policies + predicates
-│   └── engine.ts                  # ComplianceEngine
+│   └── human-robot.ts             # Human-robot policies + predicates
 ├── simulation/
-│   └── clinic.ts                  # ClinicSimulator (digital twin)
+│   ├── clinic.ts                  # ClinicSimulator
+│   └── human-robot.ts             # RobotSimulator
 ├── agent/
-│   └── clinic-agent.ts            # ClinicAgent decision logic
+│   ├── clinic-agent.ts            # ClinicAgent
+│   └── robot-agent.ts             # RobotAgent
 ├── metrics/
 │   └── audit.ts                   # AuditLog + aggregates
 └── __tests__/
-    ├── policy-engine.test.ts      # 8 tests
-    └── clinic-agent.test.ts       # 5 tests + invariants
+    ├── policy-engine.test.ts      # 8 clinic-engine tests
+    ├── clinic-agent.test.ts       # 5 clinic-agent tests + invariants
+    └── robot.test.ts              # 13 HRC engine + agent tests
 ```

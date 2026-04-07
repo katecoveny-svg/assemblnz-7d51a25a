@@ -1,15 +1,19 @@
 // ═══════════════════════════════════════════════════════════════
 // AAAIP — Live Demo Dashboard
-// Single-page demo for Gill Dobbie: a clinic-scheduling agent
-// running against a digital-twin simulator under live policy
-// governance, with a human approval queue and metrics charts.
+// Single-page demo: a clinic-scheduling agent and a human-robot
+// collaboration agent, both running against digital-twin
+// simulators under live policy governance, with a human approval
+// queue and metrics charts. Domain switcher swaps the live view
+// while reusing the chrome.
 // ═══════════════════════════════════════════════════════════════
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
+  Activity,
   AlertTriangle,
   CheckCircle2,
   Clock,
+  Cpu,
   Download,
   Pause,
   Play,
@@ -51,7 +55,16 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 
-import { useAaaipRuntime } from "@/aaaip";
+import {
+  useAaaipRuntime,
+  useRobotRuntime,
+  type AaaipRuntime,
+  type AuditEntry,
+  type RobotRuntime,
+  type ZoneId,
+} from "@/aaaip";
+
+type DomainKey = "clinic" | "robot";
 
 const VERDICT_LABEL: Record<string, string> = {
   allow: "Auto-approved",
@@ -65,19 +78,45 @@ const VERDICT_COLOUR: Record<string, string> = {
   block: "#B83A3A",
 };
 
+const DOMAIN_META: Record<DomainKey, {
+  title: string;
+  pilotLabel: string;
+  description: string;
+  policyPrefix: string;
+}> = {
+  clinic: {
+    title: "Clinic Scheduling Digital Twin",
+    pilotLabel: "Aotearoa Agentic AI Platform · Pilot 01",
+    description:
+      "A policy-governed autonomous agent scheduling appointments inside a simulated clinic. Every decision is checked against AAAIP-aligned policies; uncertain cases are escalated to a human in the loop.",
+    policyPrefix: "clinic.",
+  },
+  robot: {
+    title: "Human-Robot Collaboration Twin",
+    pilotLabel: "Aotearoa Agentic AI Platform · Pilot 02",
+    description:
+      "A collaborative robot working alongside a human operator in a manufacturing cell. Sensors, intent classification, force limits and zone occupancy are all gated by ISO/TS 15066-aligned policies.",
+    policyPrefix: "robot.",
+  },
+};
+
 export default function AaaipDashboard() {
-  const rt = useAaaipRuntime();
+  const [domain, setDomain] = useState<DomainKey>("clinic");
+  const clinic = useAaaipRuntime();
+  const robot = useRobotRuntime();
+  const rt = domain === "clinic" ? clinic : robot;
+  const meta = DOMAIN_META[domain];
 
   const policyHitData = useMemo(
     () =>
       Object.entries(rt.metrics.policyHits)
         .map(([id, count]) => ({
           id,
-          name: id.replace("clinic.", ""),
+          name: id.replace(meta.policyPrefix, ""),
           count,
         }))
         .sort((a, b) => b.count - a.count),
-    [rt.metrics.policyHits],
+    [rt.metrics.policyHits, meta.policyPrefix],
   );
 
   const verdictData = useMemo(
@@ -95,7 +134,7 @@ export default function AaaipDashboard() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `aaaip-audit-${Date.now()}.json`;
+    a.download = `aaaip-${domain}-audit-${Date.now()}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -104,23 +143,25 @@ export default function AaaipDashboard() {
     <div className="min-h-screen bg-background text-foreground">
       <SEO
         title="AAAIP Live Demo · Assembl"
-        description="A simulation-tested, policy-governed autonomous clinic scheduling agent built for the Aotearoa Agentic AI Platform."
+        description="Simulation-tested, policy-governed autonomous agents for clinic scheduling and human-robot collaboration, built for the Aotearoa Agentic AI Platform."
       />
       <header className="border-b bg-muted/30">
-        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-6 py-8 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-              Aotearoa Agentic AI Platform · Pilot 01
-            </p>
-            <h1 className="mt-1 text-3xl font-semibold tracking-tight sm:text-4xl">
-              Clinic Scheduling Digital Twin
-            </h1>
-            <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-              A policy-governed autonomous agent scheduling appointments inside a
-              simulated clinic. Every decision is checked against AAAIP-aligned
-              policies; uncertain cases are escalated to a human in the loop.
-            </p>
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-8">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                {meta.pilotLabel}
+              </p>
+              <h1 className="mt-1 text-3xl font-semibold tracking-tight sm:text-4xl">
+                {meta.title}
+              </h1>
+              <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+                {meta.description}
+              </p>
+            </div>
+            <DomainSwitcher value={domain} onChange={setDomain} />
           </div>
+
           <div className="flex flex-wrap items-center gap-2">
             {rt.isRunning ? (
               <Button onClick={rt.pause} variant="outline">
@@ -137,10 +178,12 @@ export default function AaaipDashboard() {
               <SkipForward className="mr-1" />
               Step
             </Button>
-            <Button onClick={rt.injectEmergency} variant="outline">
-              <AlertTriangle className="mr-1" />
-              Inject emergency
-            </Button>
+            {rt.scenarioActions.map((sa) => (
+              <Button key={sa.id} onClick={sa.onTrigger} variant="outline">
+                <AlertTriangle className="mr-1" />
+                {sa.label}
+              </Button>
+            ))}
             <Button onClick={rt.reset} variant="ghost">
               <RefreshCw className="mr-1" />
               Reset
@@ -159,7 +202,13 @@ export default function AaaipDashboard() {
           <KpiCard
             label="Decisions made"
             value={rt.metrics.total}
-            icon={<Stethoscope className="h-4 w-4" />}
+            icon={
+              domain === "clinic" ? (
+                <Stethoscope className="h-4 w-4" />
+              ) : (
+                <Cpu className="h-4 w-4" />
+              )
+            }
           />
           <KpiCard
             label="Compliance rate"
@@ -196,73 +245,11 @@ export default function AaaipDashboard() {
           {/* ── Live tab ────────────────────────────────────── */}
           <TabsContent value="live" className="space-y-4">
             <div className="grid gap-4 lg:grid-cols-2">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Simulator state</CardTitle>
-                  <CardDescription>
-                    Tick {rt.world.now} · {rt.world.bookings.length}/
-                    {rt.world.slots.length} slots booked
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <p className="text-xs font-semibold uppercase text-muted-foreground">
-                      Patient inbox ({rt.world.inbox.length})
-                    </p>
-                    <div className="mt-2 space-y-1">
-                      {rt.world.inbox.length === 0 && (
-                        <p className="text-sm text-muted-foreground">— empty —</p>
-                      )}
-                      {rt.world.inbox.map((p) => (
-                        <div
-                          key={p.id}
-                          className="flex items-center justify-between rounded-md border px-3 py-1.5 text-sm"
-                        >
-                          <span>{p.name}</span>
-                          <div className="flex items-center gap-2">
-                            <Badge variant={p.acuity <= 2 ? "destructive" : "secondary"}>
-                              acuity {p.acuity}
-                            </Badge>
-                            {!p.consentOnFile && (
-                              <Badge variant="outline">no consent</Badge>
-                            )}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <Separator />
-                  <div>
-                    <p className="text-xs font-semibold uppercase text-muted-foreground">
-                      Slot grid
-                    </p>
-                    <div className="mt-2 grid grid-cols-8 gap-1 text-[10px]">
-                      {rt.world.slots.map((s) => {
-                        const taken = rt.world.occupiedSlots.includes(s.id);
-                        return (
-                          <div
-                            key={s.id}
-                            className={`flex h-10 items-center justify-center rounded ${
-                              taken
-                                ? "bg-primary/20 text-primary-foreground"
-                                : "bg-muted text-muted-foreground"
-                            }`}
-                            title={`${s.id} · ${s.clinicianId}`}
-                          >
-                            {s.id.replace("slot-", "")}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                  {rt.world.pendingEmergency && (
-                    <div className="flex items-center gap-2 rounded-md border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
-                      <AlertTriangle className="h-4 w-4" />
-                      Pending emergency — agent will escalate routine bookings.
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
+              {domain === "clinic" ? (
+                <ClinicLiveView rt={clinic} />
+              ) : (
+                <RobotLiveView rt={robot} />
+              )}
 
               <Card>
                 <CardHeader>
@@ -296,8 +283,9 @@ export default function AaaipDashboard() {
               <CardHeader>
                 <CardTitle>Human-in-the-loop queue</CardTitle>
                 <CardDescription>
-                  Decisions the agent flagged as uncertain or warning-level.
-                  Approve to apply, reject to drop the patient back to a clinician.
+                  {domain === "clinic"
+                    ? "Decisions the agent flagged as uncertain or warning-level. Approve to apply, reject to drop the patient back to a clinician."
+                    : "Motion plans the robot agent flagged as uncertain. Approve to execute, reject to drop the task back to the operator."}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -321,10 +309,7 @@ export default function AaaipDashboard() {
                         </p>
                       </div>
                       <div className="flex gap-2">
-                        <Button
-                          size="sm"
-                          onClick={() => rt.approve(entry.id)}
-                        >
+                        <Button size="sm" onClick={() => rt.approve(entry.id)}>
                           Approve
                         </Button>
                         <Button
@@ -416,14 +401,29 @@ export default function AaaipDashboard() {
                   label="Human approval rate"
                   value={`${Math.round(rt.metrics.humanApprovalRate * 100)}%`}
                 />
-                <Stat
-                  label="Fairness drift"
-                  value={rt.world.fairnessDriftScore.toFixed(2)}
-                />
-                <Stat
-                  label="Pending emergency"
-                  value={rt.world.pendingEmergency ? "yes" : "no"}
-                />
+                {domain === "clinic" ? (
+                  <>
+                    <Stat
+                      label="Fairness drift"
+                      value={clinic.world.fairnessDriftScore.toFixed(2)}
+                    />
+                    <Stat
+                      label="Pending emergency"
+                      value={clinic.world.pendingEmergency ? "yes" : "no"}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <Stat
+                      label="Sensor reliability"
+                      value={robot.world.sensorReliability.toFixed(2)}
+                    />
+                    <Stat
+                      label="Operator intent"
+                      value={`${robot.world.humanIntent} (${robot.world.humanIntentConfidence.toFixed(2)})`}
+                    />
+                  </>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
@@ -434,8 +434,9 @@ export default function AaaipDashboard() {
               <CardHeader>
                 <CardTitle>Policy library</CardTitle>
                 <CardDescription>
-                  Every rule the runtime enforces. Adding a new policy is one
-                  predicate function plus an entry in <code>library.ts</code>.
+                  Every rule the runtime enforces for this domain. Adding a new
+                  policy is one predicate function plus an entry in the domain's
+                  library file.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -475,7 +476,220 @@ export default function AaaipDashboard() {
   );
 }
 
-// ── Sub-components ───────────────────────────────────────────
+// ── Domain switcher ──────────────────────────────────────────
+
+function DomainSwitcher({
+  value,
+  onChange,
+}: {
+  value: DomainKey;
+  onChange: (v: DomainKey) => void;
+}) {
+  return (
+    <div className="inline-flex rounded-md border bg-background p-1 shadow-sm">
+      <button
+        type="button"
+        onClick={() => onChange("clinic")}
+        className={`flex items-center gap-2 rounded px-3 py-1.5 text-sm font-medium transition-colors ${
+          value === "clinic"
+            ? "bg-primary text-primary-foreground"
+            : "text-muted-foreground hover:bg-muted"
+        }`}
+      >
+        <Stethoscope className="h-4 w-4" />
+        Clinic
+      </button>
+      <button
+        type="button"
+        onClick={() => onChange("robot")}
+        className={`flex items-center gap-2 rounded px-3 py-1.5 text-sm font-medium transition-colors ${
+          value === "robot"
+            ? "bg-primary text-primary-foreground"
+            : "text-muted-foreground hover:bg-muted"
+        }`}
+      >
+        <Cpu className="h-4 w-4" />
+        Human-robot
+      </button>
+    </div>
+  );
+}
+
+// ── Clinic live view ─────────────────────────────────────────
+
+function ClinicLiveView({ rt }: { rt: AaaipRuntime }) {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Simulator state</CardTitle>
+        <CardDescription>
+          Tick {rt.world.now} · {rt.world.bookings.length}/{rt.world.slots.length}{" "}
+          slots booked
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div>
+          <p className="text-xs font-semibold uppercase text-muted-foreground">
+            Patient inbox ({rt.world.inbox.length})
+          </p>
+          <div className="mt-2 space-y-1">
+            {rt.world.inbox.length === 0 && (
+              <p className="text-sm text-muted-foreground">— empty —</p>
+            )}
+            {rt.world.inbox.map((p) => (
+              <div
+                key={p.id}
+                className="flex items-center justify-between rounded-md border px-3 py-1.5 text-sm"
+              >
+                <span>{p.name}</span>
+                <div className="flex items-center gap-2">
+                  <Badge variant={p.acuity <= 2 ? "destructive" : "secondary"}>
+                    acuity {p.acuity}
+                  </Badge>
+                  {!p.consentOnFile && <Badge variant="outline">no consent</Badge>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <Separator />
+        <div>
+          <p className="text-xs font-semibold uppercase text-muted-foreground">
+            Slot grid
+          </p>
+          <div className="mt-2 grid grid-cols-8 gap-1 text-[10px]">
+            {rt.world.slots.map((s) => {
+              const taken = rt.world.occupiedSlots.includes(s.id);
+              return (
+                <div
+                  key={s.id}
+                  className={`flex h-10 items-center justify-center rounded ${
+                    taken
+                      ? "bg-primary/20 text-primary-foreground"
+                      : "bg-muted text-muted-foreground"
+                  }`}
+                  title={`${s.id} · ${s.clinicianId}`}
+                >
+                  {s.id.replace("slot-", "")}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        {rt.world.pendingEmergency && (
+          <div className="flex items-center gap-2 rounded-md border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
+            <AlertTriangle className="h-4 w-4" />
+            Pending emergency — agent will escalate routine bookings.
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+// ── Robot live view ──────────────────────────────────────────
+
+const ZONE_LABEL: Record<ZoneId, string> = {
+  safe: "Safe",
+  shared: "Shared",
+  workbench: "Workbench",
+  restricted: "Restricted",
+};
+
+function RobotLiveView({ rt }: { rt: RobotRuntime }) {
+  const w = rt.world;
+  const zones: ZoneId[] = ["safe", "shared", "workbench", "restricted"];
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Workspace state</CardTitle>
+        <CardDescription>
+          Tick {w.now} · robot in {ZONE_LABEL[w.robotZone]} · tool {w.currentTool}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div>
+          <p className="text-xs font-semibold uppercase text-muted-foreground">
+            Zones
+          </p>
+          <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            {zones.map((z) => {
+              const human = w.humanZones.includes(z);
+              const robotHere = w.robotZone === z;
+              return (
+                <div
+                  key={z}
+                  className={`rounded-md border p-3 text-center text-xs ${
+                    human
+                      ? "border-destructive/60 bg-destructive/10"
+                      : "bg-muted/30"
+                  }`}
+                >
+                  <p className="font-semibold uppercase">{ZONE_LABEL[z]}</p>
+                  <div className="mt-1 flex flex-wrap items-center justify-center gap-1">
+                    {human && <Badge variant="destructive">Human</Badge>}
+                    {robotHere && <Badge>Robot</Badge>}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <Separator />
+
+        <div className="grid grid-cols-2 gap-3 text-xs">
+          <Stat
+            label="Operator intent"
+            value={`${w.humanIntent} (${w.humanIntentConfidence.toFixed(2)})`}
+          />
+          <Stat
+            label="Sensor reliability"
+            value={w.sensorReliability.toFixed(2)}
+          />
+          <Stat label="Force limit" value={`${w.forceLimitN} N`} />
+          <Stat label="Speed limit" value={`${w.collaborativeSpeedMmS} mm/s`} />
+        </div>
+
+        <Separator />
+
+        <div>
+          <p className="text-xs font-semibold uppercase text-muted-foreground">
+            Task queue ({w.taskQueue.length})
+          </p>
+          <div className="mt-2 space-y-1">
+            {w.taskQueue.length === 0 && (
+              <p className="text-sm text-muted-foreground">— empty —</p>
+            )}
+            {w.taskQueue.slice(0, 8).map((t) => (
+              <div
+                key={t.id}
+                className="flex items-center justify-between rounded-md border px-3 py-1.5 text-sm"
+              >
+                <span className="truncate">{t.label}</span>
+                <div className="flex shrink-0 items-center gap-2">
+                  <Badge variant="outline">{t.forceN} N</Badge>
+                  <Badge variant="outline">{ZONE_LABEL[t.targetZone]}</Badge>
+                  {t.toolChange && <Badge variant="secondary">tool</Badge>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {w.sensorReliability < 0.75 && (
+          <div className="flex items-center gap-2 rounded-md border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
+            <Activity className="h-4 w-4" />
+            Sensor reliability degraded — autonomous motion blocked.
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+// ── Shared sub-components ────────────────────────────────────
 
 function KpiCard({
   label,
@@ -508,11 +722,7 @@ function Stat({ label, value }: { label: string; value: string | number }) {
   );
 }
 
-function DecisionRow({
-  entry,
-}: {
-  entry: ReturnType<typeof useAaaipRuntime>["audit"][number];
-}) {
+function DecisionRow({ entry }: { entry: AuditEntry }) {
   const v = entry.decision.verdict;
   const colour = VERDICT_COLOUR[v];
   return (
@@ -535,9 +745,7 @@ function DecisionRow({
             </span>
           )}
         </div>
-        <p className="mt-1 truncate text-sm">
-          {entry.decision.action.rationale}
-        </p>
+        <p className="mt-1 truncate text-sm">{entry.decision.action.rationale}</p>
         <p className="mt-0.5 text-xs text-muted-foreground">
           {entry.decision.explanation}
         </p>

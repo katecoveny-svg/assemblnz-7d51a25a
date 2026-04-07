@@ -1,36 +1,40 @@
 // ═══════════════════════════════════════════════════════════════
-// AAAIP — React runtime hook
-// Owns one ClinicSimulator + ComplianceEngine + ClinicAgent +
-// AuditLog instance and exposes a small imperative API plus
-// reactive state for the dashboard.
+// AAAIP — Robot runtime hook
+// Owns one RobotSimulator + ComplianceEngine + RobotAgent +
+// AuditLog instance and exposes the same shape as useAaaipRuntime
+// so the dashboard chrome can render either domain.
 // ═══════════════════════════════════════════════════════════════
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { ClinicAgent, type AgentDecisionResult } from "./agent/clinic-agent";
+import { RobotAgent, type RobotAgentDecisionResult } from "./agent/robot-agent";
 import { AuditLog, type AuditEntry } from "./metrics/audit";
 import { ComplianceEngine } from "./policy/engine";
-import { CLINIC_POLICIES } from "./policy/library";
+import { ROBOT_POLICIES } from "./policy/human-robot";
 import type { AaaipRuntimeBase } from "./runtime-base";
-import { ClinicSimulator, type ClinicWorld } from "./simulation/clinic";
+import { RobotSimulator, type RobotWorld } from "./simulation/human-robot";
 
-export interface AaaipRuntime extends AaaipRuntimeBase {
-  domain: "clinic";
-  world: ClinicWorld;
-  step: () => AgentDecisionResult | null;
-  injectEmergency: () => void;
+export interface RobotRuntime extends AaaipRuntimeBase {
+  domain: "robot";
+  world: RobotWorld;
+  step: () => RobotAgentDecisionResult | null;
+  injectHumanIntrusion: () => void;
+  injectSensorFailure: () => void;
 }
 
-export function useAaaipRuntime(): AaaipRuntime {
-  const simRef = useRef<ClinicSimulator | null>(null);
-  const agentRef = useRef<ClinicAgent | null>(null);
+export function useRobotRuntime(): RobotRuntime {
+  const simRef = useRef<RobotSimulator | null>(null);
+  const agentRef = useRef<RobotAgent | null>(null);
   const auditRef = useRef<AuditLog | null>(null);
   const engineRef = useRef<ComplianceEngine | null>(null);
 
-  if (!simRef.current) simRef.current = new ClinicSimulator({ seed: 7 });
+  if (!simRef.current) simRef.current = new RobotSimulator({ seed: 11 });
   if (!engineRef.current)
-    engineRef.current = new ComplianceEngine({ policies: CLINIC_POLICIES });
-  if (!agentRef.current) agentRef.current = new ClinicAgent({ engine: engineRef.current });
+    engineRef.current = new ComplianceEngine({
+      policies: ROBOT_POLICIES,
+      defaultUncertaintyThreshold: 0.7,
+    });
+  if (!agentRef.current) agentRef.current = new RobotAgent({ engine: engineRef.current });
   if (!auditRef.current) auditRef.current = new AuditLog();
 
   const [, setRenderTick] = useState(0);
@@ -38,12 +42,11 @@ export function useAaaipRuntime(): AaaipRuntime {
   const [isRunning, setIsRunning] = useState(false);
   const [tickCount, setTickCount] = useState(0);
 
-  // Bridge audit log changes into React state.
   useEffect(() => {
     return auditRef.current!.subscribe(() => forceRender());
   }, [forceRender]);
 
-  const step = useCallback((): AgentDecisionResult | null => {
+  const step = useCallback((): RobotAgentDecisionResult | null => {
     const sim = simRef.current!;
     const agent = agentRef.current!;
     const audit = auditRef.current!;
@@ -55,7 +58,6 @@ export function useAaaipRuntime(): AaaipRuntime {
     return result;
   }, [forceRender]);
 
-  // Drive the loop while running.
   useEffect(() => {
     if (!isRunning) return;
     const id = window.setInterval(() => {
@@ -74,44 +76,33 @@ export function useAaaipRuntime(): AaaipRuntime {
     forceRender();
   }, [forceRender]);
 
-  const approve = useCallback(
-    (entryId: string) => {
-      const audit = auditRef.current!;
-      const entry = audit.list().find((e) => e.id === entryId);
-      if (!entry) return;
-      const payload = entry.decision.action.payload as {
-        patientId?: string;
-        slotId?: string;
-      };
-      if (payload.patientId && payload.slotId) {
-        agentRef.current!.approveAndApply(simRef.current!, payload.patientId, payload.slotId);
-      }
-      audit.override(entryId, "approved");
-    },
-    [],
-  );
+  const approve = useCallback((entryId: string) => {
+    const audit = auditRef.current!;
+    const entry = audit.list().find((e) => e.id === entryId);
+    if (!entry) return;
+    const payload = entry.decision.action.payload as { taskId?: string };
+    if (payload.taskId) {
+      agentRef.current!.approveAndApply(simRef.current!, payload.taskId);
+    }
+    audit.override(entryId, "approved");
+  }, []);
 
   const reject = useCallback((entryId: string) => {
     const audit = auditRef.current!;
     const entry = audit.list().find((e) => e.id === entryId);
     if (!entry) return;
-    const payload = entry.decision.action.payload as { patientId?: string };
-    if (payload.patientId) simRef.current!.drainInboxFor(payload.patientId);
+    const payload = entry.decision.action.payload as { taskId?: string };
+    if (payload.taskId) simRef.current!.dropTask(payload.taskId);
     audit.override(entryId, "rejected");
   }, []);
 
-  const injectEmergency = useCallback(() => {
-    // Force the next tick to spawn an emergency by mutating the inbox directly.
-    const sim = simRef.current!;
-    sim.world.pendingEmergency = true;
-    sim.world.inbox.push({
-      id: `manual-${Date.now()}`,
-      name: "Walk-in Emergency",
-      acuity: 1,
-      consentOnFile: true,
-      cohort: "A",
-      arrivedAt: sim.world.now,
-    });
+  const injectHumanIntrusion = useCallback(() => {
+    simRef.current!.injectHumanIntoZone("workbench");
+    forceRender();
+  }, [forceRender]);
+
+  const injectSensorFailure = useCallback(() => {
+    simRef.current!.injectSensorFailure();
     forceRender();
   }, [forceRender]);
 
@@ -123,7 +114,7 @@ export function useAaaipRuntime(): AaaipRuntime {
   const pendingApprovals = auditRef.current!.pendingApprovals();
 
   return {
-    domain: "clinic",
+    domain: "robot",
     world: simRef.current!.world,
     audit,
     pendingApprovals,
@@ -137,10 +128,12 @@ export function useAaaipRuntime(): AaaipRuntime {
     reset,
     approve,
     reject,
-    injectEmergency,
     exportJson,
+    injectHumanIntrusion,
+    injectSensorFailure,
     scenarioActions: [
-      { id: "emergency", label: "Inject emergency", onTrigger: injectEmergency },
+      { id: "intrusion", label: "Inject human intrusion", onTrigger: injectHumanIntrusion },
+      { id: "sensor_fail", label: "Degrade sensor", onTrigger: injectSensorFailure },
     ],
   };
 }
