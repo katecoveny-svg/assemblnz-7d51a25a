@@ -17,8 +17,6 @@ const PACKS = [
   { label: "Manaaki", sublabel: "Hospitality", to: "/manaaki", icon: UtensilsCrossed, color: "#D4A843", group: "business" },
   { label: "Waihanga", sublabel: "Construction", to: "/hanga", icon: HardHat, color: "#3A7D6E", group: "business" },
   { label: "Auaha", sublabel: "Creative", to: "/auaha", icon: Palette, color: "#F0D078", group: "business" },
-  { label: "Arataki", sublabel: "Automotive", to: "/arataki", icon: Car, color: "#1A3A5C", group: "business" },
-  { label: "Pikau", sublabel: "Freight & Customs", to: "/pikau", icon: Truck, color: "#5AADA0", group: "business" },
   { label: "Tōroa", sublabel: "Family", to: "/toroa", icon: Bird, color: "#D4A843", group: "whanau" },
 ];
 
