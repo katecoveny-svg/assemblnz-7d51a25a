@@ -290,6 +290,75 @@ const CAPABILITIES = [
   },
 ];
 
+/* ─── Try Tōroa SMS Demo ─── */
+function TryToroaSmsDemo() {
+  const [phone, setPhone] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  const send = async () => {
+    const cleaned = phone.replace(/\s/g, "");
+    if (!/^(\+?64|0)\d{7,10}$/.test(cleaned)) {
+      toast.error("Enter a valid NZ phone number");
+      return;
+    }
+    setSending(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("tnz-send", {
+        body: { channel: "sms", to: cleaned.startsWith("0") ? "+64" + cleaned.slice(1) : cleaned, message: "Kia ora! This is Tōroa — your whānau navigator. Text us anytime to get started. 🪶" },
+      });
+      if (error) throw error;
+      setSent(true);
+      toast.success("Demo SMS sent — check your phone!");
+    } catch {
+      toast.error("Could not send SMS right now. Try again shortly.");
+    } finally {
+      setSending(false);
+    }
+  };
+
+  return (
+    <Section>
+      <motion.div className="text-center max-w-md mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
+        <motion.div variants={fadeUp}><Eyebrow>Try it now</Eyebrow></motion.div>
+        <motion.div variants={fadeUp} custom={1}>
+          <SectionHeading>Send yourself a demo text</SectionHeading>
+          <p className="mt-3 text-sm opacity-50" style={{ color: BONE, fontFamily: '"Plus Jakarta Sans", sans-serif' }}>
+            Enter your NZ mobile number. We'll send one intro text — no spam, no sign-up.
+          </p>
+        </motion.div>
+        <motion.div variants={fadeUp} custom={2} className="mt-6 flex gap-2 max-w-xs mx-auto">
+          {sent ? (
+            <p className="text-sm w-full text-center py-3" style={{ color: GOLD }}>✓ Sent! Check your phone.</p>
+          ) : (
+            <>
+              <input
+                type="tel"
+                placeholder="021 123 4567"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                aria-label="New Zealand mobile number"
+                className="flex-1 rounded-full px-4 py-3 text-sm bg-white/5 border text-white placeholder:text-white/30 focus:outline-none"
+                style={{ borderColor: `${SKY}30`, fontFamily: '"Plus Jakarta Sans", sans-serif' }}
+                maxLength={15}
+              />
+              <button
+                onClick={send}
+                disabled={sending}
+                aria-label="Send demo SMS"
+                className="px-5 py-3 rounded-full text-sm font-medium transition-all"
+                style={{ background: SKY, color: BG, opacity: sending ? 0.5 : 1 }}
+              >
+                {sending ? "…" : "Send"}
+              </button>
+            </>
+          )}
+        </motion.div>
+      </motion.div>
+    </Section>
+  );
+}
+
 /* ─── Main page ─── */
 export default function ToroaLandingPage() {
   return (
@@ -612,6 +681,9 @@ export default function ToroaLandingPage() {
           </motion.div>
         </motion.div>
       </Section>
+
+      {/* ── SMS DEMO ── */}
+      <TryToroaSmsDemo />
 
       {/* ── 5. FOOTER ── */}
       <footer
