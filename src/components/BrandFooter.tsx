@@ -58,8 +58,8 @@ const BrandFooter = () => {
   };
 
   return (
-    <footer className="relative py-20 pb-32 sm:pb-20 px-6" style={{ background: "#060610" }}>
-      <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(0,207,255,0.25), rgba(0,255,156,0.15), transparent)" }} />
+    <footer className="relative py-20 pb-32 sm:pb-20 px-6" style={{ background: "#09090F" }}>
+      <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(212,168,67,0.3), rgba(58,125,110,0.2), transparent)" }} />
 
       <div className="max-w-6xl mx-auto relative z-10">
         <p className="text-center mb-14 text-sm font-body" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
@@ -87,16 +87,16 @@ const BrandFooter = () => {
             <p className="text-[11px] font-body text-muted-foreground mb-3 leading-relaxed">NZ business insights and product updates.</p>
             <form onSubmit={handleNewsletter} className="flex gap-2">
               <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.co.nz"
-                className="flex-1 px-3.5 py-2.5 rounded-xl text-xs font-body text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-[rgba(0,207,255,0.3)]"
-                style={{ background: "rgba(8,12,24,0.8)", border: "1px solid rgba(0,207,255,0.08)" }} required />
-              <button type="submit" className="px-3.5 py-2.5 rounded-xl transition-all hover:shadow-[0_0_12px_rgba(0,207,255,0.2)]" style={{ background: "rgba(0,207,255,0.12)", border: "1px solid rgba(0,207,255,0.25)", color: "#00CFFF" }}>
+                className="flex-1 px-3.5 py-2.5 rounded-xl text-xs font-body text-foreground placeholder:text-muted-foreground/50 focus:outline-none"
+                style={{ background: "rgba(15,15,26,0.8)", border: "1px solid rgba(255,255,255,0.08)" }} required />
+              <button type="submit" className="px-3.5 py-2.5 rounded-xl" style={{ background: "rgba(212,168,67,0.15)", border: "1px solid rgba(212,168,67,0.3)", color: "#D4A843" }}>
                 <Send size={12} />
               </button>
             </form>
           </div>
         </div>
 
-        <div className="h-px mb-10" style={{ background: "linear-gradient(90deg, transparent, rgba(0,207,255,0.08), transparent)" }} />
+        <div className="h-px mb-10" style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)" }} />
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-5 font-serif">
           <Link to="/" className="flex items-center gap-2.5 group">
@@ -106,8 +106,8 @@ const BrandFooter = () => {
           <div className="flex items-center gap-2.5 font-serif">
             {SOCIAL_LINKS.map((s) => (
               <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-bold text-muted-foreground/60 hover:text-foreground transition-all hover:border-[rgba(0,207,255,0.2)]"
-                style={{ fontFamily: "'JetBrains Mono', monospace", background: "rgba(8,12,24,0.6)", border: "1px solid rgba(0,207,255,0.06)" }}
+                className="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-bold text-muted-foreground/60 hover:text-foreground transition-colors"
+                style={{ fontFamily: "'JetBrains Mono', monospace", background: "rgba(15,15,26,0.6)", border: "1px solid rgba(255,255,255,0.06)" }}
                 title={s.label}>{s.icon}</a>
             ))}
           </div>

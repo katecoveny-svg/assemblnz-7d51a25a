@@ -14,12 +14,12 @@ const NAV_ITEMS: NavItem[] = [
 ];
 
 const PACKS = [
-  { label: "Manaaki", sublabel: "Hospitality", to: "/manaaki", icon: UtensilsCrossed, color: "#00CFFF", group: "business" },
-  { label: "Waihanga", sublabel: "Construction", to: "/hanga", icon: HardHat, color: "#00FF9C", group: "business" },
-  { label: "Auaha", sublabel: "Creative", to: "/auaha", icon: Palette, color: "#66E0FF", group: "business" },
-  { label: "Arataki", sublabel: "Automotive", to: "/arataki", icon: Car, color: "#1B5E6B", group: "business" },
-  { label: "Pikau", sublabel: "Freight & Customs", to: "/pikau", icon: Truck, color: "#00FF9C", group: "business" },
-  { label: "Tōroa", sublabel: "Family", to: "/toroa", icon: Bird, color: "#00CFFF", group: "whanau" },
+  { label: "Manaaki", sublabel: "Hospitality", to: "/manaaki", icon: UtensilsCrossed, color: "#D4A843", group: "business" },
+  { label: "Waihanga", sublabel: "Construction", to: "/hanga", icon: HardHat, color: "#3A7D6E", group: "business" },
+  { label: "Auaha", sublabel: "Creative", to: "/auaha", icon: Palette, color: "#F0D078", group: "business" },
+  { label: "Arataki", sublabel: "Automotive", to: "/arataki", icon: Car, color: "#1A3A5C", group: "business" },
+  { label: "Pikau", sublabel: "Freight & Customs", to: "/pikau", icon: Truck, color: "#5AADA0", group: "business" },
+  { label: "Tōroa", sublabel: "Family", to: "/toroa", icon: Bird, color: "#D4A843", group: "whanau" },
 ];
 
 const BrandNav = () => {
@@ -47,18 +47,13 @@ const BrandNav = () => {
     <>
       <header
         className="sticky top-0 z-[9999] flex items-center gap-3 px-5 sm:px-8 h-16 overflow-visible"
-        style={{
-          background: "rgba(6,6,16,0.85)",
-          backdropFilter: "blur(16px)",
-          WebkitBackdropFilter: "blur(16px)",
-          borderBottom: "1px solid rgba(0,207,255,0.06)",
-        }}
+        style={{ background: "#09090F", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
       >
         <Link to="/" className="flex items-center gap-3 group shrink-0">
           <CelestialLogo size={36} />
           <motion.span
             style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "6px", textTransform: "uppercase", fontSize: "13px", color: "rgba(255,255,255,0.85)" }}
-            animate={{ textShadow: ["0 0 6px rgba(0,207,255,0.1)", "0 0 16px rgba(0,207,255,0.3)", "0 0 6px rgba(0,207,255,0.1)"] }}
+            animate={{ textShadow: ["0 0 6px rgba(255,255,255,0.1)", "0 0 16px rgba(255,255,255,0.3)", "0 0 6px rgba(255,255,255,0.1)"] }}
             transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
           >
             ASSEMBL
@@ -89,16 +84,11 @@ const BrandNav = () => {
                   <div className="fixed inset-0 z-10" onClick={() => setPacksOpen(false)} />
                   <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }}
                     className="absolute top-full right-0 mt-2 z-20 w-[260px] rounded-xl p-2 space-y-0.5"
-                    style={{
-                      background: "rgba(8,12,24,0.92)",
-                      backdropFilter: "blur(20px)",
-                      border: "1px solid rgba(0,207,255,0.1)",
-                      boxShadow: "0 20px 40px rgba(0,0,0,0.5), 0 0 30px rgba(0,207,255,0.04)",
-                    }}>
+                    style={{ background: "#13131F", border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 20px 40px rgba(0,0,0,0.4)" }}>
                     {PACKS.map(pack => (
                       <button key={pack.label} onClick={() => handleNavClick(pack.to)}
                         className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/[0.04] transition-colors group">
-                        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${pack.color}12` }}>
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${pack.color}15` }}>
                           <pack.icon size={16} style={{ color: pack.color }} />
                         </div>
                         <div className="text-left">
@@ -107,7 +97,7 @@ const BrandNav = () => {
                         </div>
                       </button>
                     ))}
-                    <div className="border-t pt-1 mt-1" style={{ borderColor: "rgba(0,207,255,0.06)" }}>
+                    <div className="border-t pt-1 mt-1" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
                       <button onClick={() => handleNavClick("/hanga")}
                         className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/[0.04] transition-colors">
                         <Shield size={14} className="text-white/30 ml-1" />
@@ -121,8 +111,8 @@ const BrandNav = () => {
           </div>
 
           <Link to="/contact"
-            className="ml-2 px-5 py-2 rounded-full text-xs font-body font-medium transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,207,255,0.3)]"
-            style={{ background: "#00CFFF", color: "#060610" }}>
+            className="ml-2 px-5 py-2 rounded-full text-xs font-body font-medium transition-all duration-300"
+            style={{ background: "#D4A843", color: "#09090F" }}>
             Book a discovery call
           </Link>
 
@@ -141,17 +131,13 @@ const BrandNav = () => {
       <AnimatePresence>
         {mobileOpen && (
           <>
-            <motion.div className="fixed inset-0 z-[60]" style={{ background: "rgba(0,0,0,0.7)" }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setMobileOpen(false)} />
+            <motion.div className="fixed inset-0 z-[60]" style={{ background: "rgba(0,0,0,0.6)" }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setMobileOpen(false)} />
             <motion.div className="fixed top-0 right-0 bottom-0 z-[70] w-[300px] flex flex-col overflow-y-auto"
-              style={{
-                background: "rgba(8,8,20,0.95)",
-                backdropFilter: "blur(20px)",
-                borderLeft: "1px solid rgba(0,207,255,0.08)",
-              }}
+              style={{ background: "#0D0D15", borderLeft: "1px solid rgba(255,255,255,0.08)" }}
               initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}>
               <div className="flex items-center justify-between px-5 py-4">
-                <span style={{ fontFamily: "'Lato', sans-serif", fontWeight: 700, fontSize: "12px", letterSpacing: "3px", color: "#00CFFF" }}>MENU</span>
+                <span style={{ fontFamily: "'Lato', sans-serif", fontWeight: 700, fontSize: "12px", letterSpacing: "3px", color: "#D4A843" }}>MENU</span>
                 <button onClick={() => setMobileOpen(false)} className="p-1.5 rounded-lg" style={{ color: "rgba(255,255,255,0.6)" }} aria-label="Close menu">
                   <X size={20} />
                 </button>
@@ -167,7 +153,7 @@ const BrandNav = () => {
                 ))}
 
                 <div className="pt-2 pb-1">
-                  <span className="px-4 text-[10px] font-semibold tracking-widest" style={{ color: "#00CFFF" }}>INDUSTRY PACKS</span>
+                  <span className="px-4 text-[10px] font-semibold tracking-widest" style={{ color: "#D4A843" }}>INDUSTRY PACKS</span>
                 </div>
                 {PACKS.map(pack => (
                   <button key={pack.label} onClick={() => handleNavClick(pack.to)}
@@ -180,10 +166,10 @@ const BrandNav = () => {
                 ))}
               </nav>
 
-              <div className="px-5 py-5 border-t" style={{ borderColor: "rgba(0,207,255,0.06)" }}>
+              <div className="px-5 py-5 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
                 <Link to="/contact"
                   className="block w-full text-center px-5 py-3 rounded-full text-sm font-body font-medium mb-3"
-                  style={{ background: "#00CFFF", color: "#060610" }}
+                  style={{ background: "#D4A843", color: "#09090F" }}
                   onClick={() => setMobileOpen(false)}>
                   Book a discovery call
                 </Link>

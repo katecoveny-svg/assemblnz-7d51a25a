@@ -7,15 +7,15 @@ class ParticleErrorBoundary extends Component<{ children: ReactNode }, { hasErro
 }
 
 /**
- * Constellation Particle Field — Electric Blue + Aurora Green
- * Glowing data nodes, liquid glass orbs, flowing signal particles.
+ * Network Constellation Field — Full-viewport animated background
+ * with pounamu-green network nodes, liquid glass orbs, flowing
+ * signal particles, and glowing white star clusters.
  */
 
-const ELECTRIC = [0, 207, 255];
-const ELECTRIC_DIM = [0, 150, 200];
-const AURORA = [0, 255, 156];
+const POUNAMU = [47, 203, 137];
+const POUNAMU_DIM = [35, 150, 100];
 const WHITE = [255, 255, 255];
-const OCEAN = [27, 94, 107];
+const GOLD_HINT = [203, 174, 109];
 
 interface NetNode {
   x: number; y: number; r: number;
@@ -30,7 +30,6 @@ interface GlassOrb {
   vx: number; vy: number;
   phase: number; breatheSpeed: number;
   opacity: number;
-  color: number[];
 }
 
 interface FlowDot {
@@ -42,31 +41,32 @@ interface FlowDot {
 
 function buildNetwork(W: number, H: number) {
   const nodes: NetNode[] = [];
-  const clusterCount = Math.max(8, Math.min(16, Math.floor((W * H) / 70000)));
+  // Create clusters
+  const clusterCount = Math.max(8, Math.min(14, Math.floor((W * H) / 80000)));
   for (let c = 0; c < clusterCount; c++) {
     const cx = 50 + Math.random() * (W - 100);
     const cy = 50 + Math.random() * (H - 100);
-    const size = 4 + Math.floor(Math.random() * 6);
+    const size = 4 + Math.floor(Math.random() * 5);
     for (let i = 0; i < size; i++) {
       const angle = Math.random() * Math.PI * 2;
-      const dist = 10 + Math.random() * 60;
-      const isAurora = Math.random() < 0.3;
-      const isWhite = Math.random() < 0.2;
-      const isBright = i === 0 || Math.random() < 0.2;
+      const dist = 10 + Math.random() * 55;
+      const isWhite = Math.random() < 0.35;
+      const isBright = i === 0 || Math.random() < 0.15;
       nodes.push({
         x: cx + Math.cos(angle) * dist,
         y: cy + Math.sin(angle) * dist,
-        r: isBright ? 2.5 + Math.random() * 2.5 : 0.8 + Math.random() * 1.5,
-        baseAlpha: isBright ? 0.6 + Math.random() * 0.35 : 0.15 + Math.random() * 0.3,
+        r: isBright ? 2 + Math.random() * 2 : 0.8 + Math.random() * 1.2,
+        baseAlpha: isBright ? 0.6 + Math.random() * 0.3 : 0.2 + Math.random() * 0.3,
         pulsePhase: Math.random() * Math.PI * 2,
-        pulseSpeed: 0.003 + Math.random() * 0.007,
-        color: isWhite ? WHITE : (isAurora ? AURORA : ELECTRIC),
+        pulseSpeed: 0.003 + Math.random() * 0.006,
+        color: isWhite ? WHITE : (Math.random() < 0.1 ? GOLD_HINT : POUNAMU),
         connections: [],
       });
     }
   }
 
-  const maxDist = Math.min(W, H) * 0.13;
+  // Connect nearest within range
+  const maxDist = Math.min(W, H) * 0.12;
   for (let i = 0; i < nodes.length; i++) {
     const dists: { idx: number; d: number }[] = [];
     for (let j = 0; j < nodes.length; j++) {
@@ -78,7 +78,7 @@ function buildNetwork(W: number, H: number) {
     dists.sort((a, b) => a.d - b.d);
     nodes[i].connections = dists
       .filter(d => d.d < maxDist)
-      .slice(0, 2 + Math.floor(Math.random() * 3))
+      .slice(0, 2 + Math.floor(Math.random() * 2))
       .map(d => d.idx);
   }
 
@@ -117,31 +117,31 @@ const NetworkCanvas = () => {
 
       nodes = buildNetwork(W(), H());
 
+      // Glass orbs
       orbs = [];
-      const orbCount = Math.max(5, Math.min(10, Math.floor(W() / 180)));
+      const orbCount = Math.max(4, Math.min(8, Math.floor(W() / 200)));
       for (let i = 0; i < orbCount; i++) {
-        const isAurora = Math.random() < 0.35;
         orbs.push({
           x: Math.random() * W(),
           y: Math.random() * H(),
-          r: 35 + Math.random() * 70,
-          vx: (Math.random() - 0.5) * 0.15,
-          vy: (Math.random() - 0.5) * 0.1,
+          r: 30 + Math.random() * 60,
+          vx: (Math.random() - 0.5) * 0.12,
+          vy: (Math.random() - 0.5) * 0.08,
           phase: Math.random() * Math.PI * 2,
-          breatheSpeed: 0.15 + Math.random() * 0.35,
-          opacity: 0.02 + Math.random() * 0.04,
-          color: isAurora ? AURORA : ELECTRIC,
+          breatheSpeed: 0.15 + Math.random() * 0.3,
+          opacity: 0.02 + Math.random() * 0.03,
         });
       }
 
+      // Background stars
       bgStars = [];
-      const starCount = Math.max(100, Math.min(200, Math.floor((W() * H()) / 8000)));
+      const starCount = Math.max(80, Math.min(160, Math.floor((W() * H()) / 10000)));
       for (let i = 0; i < starCount; i++) {
         bgStars.push({
           x: Math.random() * W(),
           y: Math.random() * H(),
-          r: Math.random() < 0.08 ? 1.2 + Math.random() : 0.3 + Math.random() * 0.7,
-          a: Math.random() < 0.08 ? 0.5 + Math.random() * 0.3 : 0.06 + Math.random() * 0.18,
+          r: Math.random() < 0.1 ? 1 + Math.random() : 0.3 + Math.random() * 0.7,
+          a: Math.random() < 0.1 ? 0.4 + Math.random() * 0.3 : 0.08 + Math.random() * 0.2,
           phase: Math.random() * Math.PI * 2,
         });
       }
@@ -161,7 +161,7 @@ const NetworkCanvas = () => {
         t += 1;
 
         // Spawn flow particles
-        if (!prefersReduced && Math.random() < 0.25 && flows.length < 50 && nodes.length > 1) {
+        if (!prefersReduced && Math.random() < 0.2 && flows.length < 40 && nodes.length > 1) {
           const src = nodes[Math.floor(Math.random() * nodes.length)];
           if (src.connections.length > 0) {
             const tgt = nodes[src.connections[Math.floor(Math.random() * src.connections.length)]];
@@ -169,13 +169,13 @@ const NetworkCanvas = () => {
             const dy = tgt.y - src.y;
             const dist = Math.sqrt(dx * dx + dy * dy);
             if (dist > 5) {
-              const spd = 0.35 + Math.random() * 0.6;
+              const spd = 0.3 + Math.random() * 0.5;
               flows.push({
                 x: src.x, y: src.y,
                 vx: (dx / dist) * spd, vy: (dy / dist) * spd,
                 life: 0, maxLife: dist / spd,
-                size: 1 + Math.random() * 1.8,
-                color: Math.random() < 0.5 ? ELECTRIC : (Math.random() < 0.5 ? AURORA : WHITE),
+                size: 1 + Math.random() * 1.5,
+                color: Math.random() < 0.6 ? POUNAMU : WHITE,
               });
             }
           }
@@ -204,77 +204,64 @@ const NetworkCanvas = () => {
           const breathe = Math.sin(t * 0.01 * orb.breatheSpeed + orb.phase) * 0.25 + 0.75;
           const r = orb.r * (0.95 + breathe * 0.1);
           const a = orb.opacity * breathe;
-          const [cr, cg, cb] = orb.color;
-          const [dr, dg, db] = orb.color === AURORA ? [0, 180, 110] : ELECTRIC_DIM;
 
-          const g = ctx.createRadialGradient(orb.x, orb.y, r * 0.1, orb.x, orb.y, r);
-          g.addColorStop(0, `rgba(${cr},${cg},${cb},${a * 1.8})`);
-          g.addColorStop(0.4, `rgba(${dr},${dg},${db},${a * 0.5})`);
-          g.addColorStop(1, `rgba(${cr},${cg},${cb},0)`);
+          const g = ctx.createRadialGradient(orb.x, orb.y, r * 0.15, orb.x, orb.y, r);
+          g.addColorStop(0, `rgba(${POUNAMU[0]},${POUNAMU[1]},${POUNAMU[2]},${a * 1.5})`);
+          g.addColorStop(0.5, `rgba(${POUNAMU_DIM[0]},${POUNAMU_DIM[1]},${POUNAMU_DIM[2]},${a * 0.4})`);
+          g.addColorStop(1, `rgba(${POUNAMU[0]},${POUNAMU[1]},${POUNAMU[2]},0)`);
           ctx.beginPath();
           ctx.arc(orb.x, orb.y, r, 0, Math.PI * 2);
           ctx.fillStyle = g;
           ctx.fill();
 
-          // Glass rim highlight
+          // Glass rim
           ctx.beginPath();
-          ctx.arc(orb.x, orb.y, r * 0.78, 0, Math.PI * 2);
-          ctx.strokeStyle = `rgba(255,255,255,${a * 0.4})`;
+          ctx.arc(orb.x, orb.y, r * 0.82, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(255,255,255,${a * 0.5})`;
           ctx.lineWidth = 0.4;
           ctx.stroke();
         }
 
         // Connection lines
-        ctx.lineWidth = 0.4;
+        ctx.lineWidth = 0.35;
         for (const node of nodes) {
           for (const ci of node.connections) {
             const target = nodes[ci];
             const dx = target.x - node.x;
             const dy = target.y - node.y;
             const dist = Math.sqrt(dx * dx + dy * dy);
-            const maxDist = Math.min(w, h) * 0.13;
+            const maxDist = Math.min(w, h) * 0.12;
             if (dist > maxDist) continue;
-            const lineA = (1 - dist / maxDist) * 0.18;
-            const [cr, cg, cb] = node.color === AURORA ? AURORA : ELECTRIC;
+            const lineA = (1 - dist / maxDist) * 0.15;
             ctx.beginPath();
             ctx.moveTo(node.x, node.y);
             ctx.lineTo(target.x, target.y);
-            ctx.strokeStyle = `rgba(${cr},${cg},${cb},${lineA})`;
+            ctx.strokeStyle = `rgba(${POUNAMU[0]},${POUNAMU[1]},${POUNAMU[2]},${lineA})`;
             ctx.stroke();
           }
         }
 
-        // Data nodes with halos
+        // Nodes
         for (const node of nodes) {
           const pulse = prefersReduced ? 1 : Math.sin(t * 0.015 + node.pulsePhase) * 0.3 + 0.7;
           const a = node.baseAlpha * pulse;
           const r = node.r * (0.9 + pulse * 0.15);
           const [cr, cg, cb] = node.color;
 
-          // Outer halo for bright nodes
           if (node.baseAlpha > 0.5) {
-            const g = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, r * 8);
-            g.addColorStop(0, `rgba(${cr},${cg},${cb},${a * 0.25})`);
+            const g = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, r * 7);
+            g.addColorStop(0, `rgba(${cr},${cg},${cb},${a * 0.2})`);
             g.addColorStop(1, `rgba(${cr},${cg},${cb},0)`);
             ctx.beginPath();
-            ctx.arc(node.x, node.y, r * 8, 0, Math.PI * 2);
+            ctx.arc(node.x, node.y, r * 7, 0, Math.PI * 2);
             ctx.fillStyle = g;
             ctx.fill();
           }
 
-          // Core dot
           ctx.beginPath();
           ctx.arc(node.x, node.y, r, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(${cr},${cg},${cb},${a})`;
           ctx.fill();
-
-          // Inner white specular on bright nodes
-          if (node.baseAlpha > 0.5 && r > 2) {
-            ctx.beginPath();
-            ctx.arc(node.x - r * 0.2, node.y - r * 0.2, r * 0.35, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255,255,255,${a * 0.35})`;
-            ctx.fill();
-          }
         }
 
         // Flow particles
@@ -286,14 +273,14 @@ const NetworkCanvas = () => {
           if (fp.life > fp.maxLife) { flows.splice(i, 1); continue; }
           const lr = fp.life / fp.maxLife;
           const fadeA = lr < 0.1 ? lr / 0.1 : lr > 0.85 ? (1 - lr) / 0.15 : 1;
-          const a = fadeA * 0.8;
+          const a = fadeA * 0.7;
           const [cr, cg, cb] = fp.color;
 
-          const tg = ctx.createRadialGradient(fp.x, fp.y, 0, fp.x, fp.y, fp.size * 5);
-          tg.addColorStop(0, `rgba(${cr},${cg},${cb},${a * 0.35})`);
+          const tg = ctx.createRadialGradient(fp.x, fp.y, 0, fp.x, fp.y, fp.size * 4);
+          tg.addColorStop(0, `rgba(${cr},${cg},${cb},${a * 0.3})`);
           tg.addColorStop(1, `rgba(${cr},${cg},${cb},0)`);
           ctx.beginPath();
-          ctx.arc(fp.x, fp.y, fp.size * 5, 0, Math.PI * 2);
+          ctx.arc(fp.x, fp.y, fp.size * 4, 0, Math.PI * 2);
           ctx.fillStyle = tg;
           ctx.fill();
 
