@@ -11,7 +11,7 @@ import type { AuditEntry, AuditLog } from "./metrics/audit";
 import type { AaaipExportError, AaaipExportResponse } from "./api/export";
 
 /** UI-level domain key — distinct from `Domain` in policy/types.ts. */
-export type RuntimeDomainKey = "clinic" | "robot" | "science";
+export type RuntimeDomainKey = "clinic" | "robot" | "science" | "community";
 
 export interface AaaipRuntimeBase {
   domain: RuntimeDomainKey;

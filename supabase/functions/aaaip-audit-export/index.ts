@@ -34,7 +34,7 @@ interface IncomingPayload {
   aggregates?: IncomingAggregate;
 }
 
-const ALLOWED_DOMAINS = new Set(["clinic", "robot", "science"]);
+const ALLOWED_DOMAINS = new Set(["clinic", "robot", "science", "community"]);
 const MAX_ENTRIES = 1000;
 const MAX_BODY_BYTES = 1_000_000; // 1 MB
 

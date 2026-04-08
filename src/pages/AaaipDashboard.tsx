@@ -18,6 +18,7 @@ import {
   Cpu,
   Download,
   FlaskConical,
+  MessagesSquare,
   Pause,
   Play,
   RefreshCw,
@@ -63,14 +64,16 @@ import {
   useAaaipRuntime,
   useRobotRuntime,
   useScienceRuntime,
+  useCommunityRuntime,
   type AaaipRuntime,
   type AuditEntry,
+  type CommunityRuntime,
   type RobotRuntime,
   type ScienceRuntime,
   type ZoneId,
 } from "@/aaaip";
 
-type DomainKey = "clinic" | "robot" | "science";
+type DomainKey = "clinic" | "robot" | "science" | "community";
 
 const VERDICT_LABEL: Record<string, string> = {
   allow: "Auto-approved",
@@ -111,6 +114,13 @@ const DOMAIN_META: Record<DomainKey, {
       "An autonomous drug-screening agent dispatching compounds to a 96-well plate. Every assay is gated by data-provenance, IRB, dosage and reproducibility policies before it can run.",
     policyPrefix: "science.",
   },
+  community: {
+    title: "Community Portal Moderation",
+    pilotLabel: "Aotearoa Agentic AI Platform · Pilot 04",
+    description:
+      "An autonomous moderation agent for an AAAIP community portal. Posts are gated by harm, te reo respect, Māori data sovereignty, PII leak and misinformation review policies before publishing.",
+    policyPrefix: "community.",
+  },
 };
 
 export default function AaaipDashboard() {
@@ -118,8 +128,15 @@ export default function AaaipDashboard() {
   const clinic = useAaaipRuntime();
   const robot = useRobotRuntime();
   const science = useScienceRuntime();
+  const community = useCommunityRuntime();
   const rt =
-    domain === "clinic" ? clinic : domain === "robot" ? robot : science;
+    domain === "clinic"
+      ? clinic
+      : domain === "robot"
+        ? robot
+        : domain === "science"
+          ? science
+          : community;
   const meta = DOMAIN_META[domain];
 
   const policyHitData = useMemo(
@@ -256,8 +273,10 @@ export default function AaaipDashboard() {
                 <Stethoscope className="h-4 w-4" />
               ) : domain === "robot" ? (
                 <Cpu className="h-4 w-4" />
-              ) : (
+              ) : domain === "science" ? (
                 <FlaskConical className="h-4 w-4" />
+              ) : (
+                <MessagesSquare className="h-4 w-4" />
               )
             }
           />
@@ -299,6 +318,7 @@ export default function AaaipDashboard() {
               {domain === "clinic" && <ClinicLiveView rt={clinic} />}
               {domain === "robot" && <RobotLiveView rt={robot} />}
               {domain === "science" && <ScienceLiveView rt={science} />}
+              {domain === "community" && <CommunityLiveView rt={community} />}
 
               <Card>
                 <CardHeader>
@@ -338,6 +358,8 @@ export default function AaaipDashboard() {
                     "Motion plans the robot agent flagged as uncertain. Approve to execute, reject to drop the task back to the operator."}
                   {domain === "science" &&
                     "Screening proposals the science agent flagged as uncertain. Approve to dispatch the assay, reject to drop the compound back to the investigator."}
+                  {domain === "community" &&
+                    "Posts the moderation agent flagged as uncertain. Approve to publish, reject to hide the post."}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -488,6 +510,12 @@ export default function AaaipDashboard() {
                     />
                   </>
                 )}
+                {domain === "community" && (
+                  <>
+                    <Stat label="Published" value={community.world.published.length} />
+                    <Stat label="Rejected" value={community.world.rejected.length} />
+                  </>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
@@ -553,6 +581,7 @@ function DomainSwitcher({
     { key: "clinic", label: "Clinic", icon: <Stethoscope className="h-4 w-4" /> },
     { key: "robot", label: "Human-robot", icon: <Cpu className="h-4 w-4" /> },
     { key: "science", label: "Drug screening", icon: <FlaskConical className="h-4 w-4" /> },
+    { key: "community", label: "Community", icon: <MessagesSquare className="h-4 w-4" /> },
   ];
   return (
     <div className="inline-flex rounded-md border bg-background p-1 shadow-sm">
@@ -837,6 +866,77 @@ function ScienceLiveView({ rt }: { rt: ScienceRuntime }) {
             <AlertTriangle className="h-4 w-4" />
             One or more compounds are missing provenance or IRB approval — they
             will be blocked by the engine.
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+// ── Community live view ──────────────────────────────────────
+
+function CommunityLiveView({ rt }: { rt: CommunityRuntime }) {
+  const w = rt.world;
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Moderation queue</CardTitle>
+        <CardDescription>
+          Tick {w.now} · {w.published.length} published · {w.rejected.length} rejected
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div>
+          <p className="text-xs font-semibold uppercase text-muted-foreground">
+            Pending posts ({w.inbox.length})
+          </p>
+          <div className="mt-2 space-y-1">
+            {w.inbox.length === 0 && (
+              <p className="text-sm text-muted-foreground">— empty —</p>
+            )}
+            {w.inbox.slice(0, 6).map((p) => (
+              <div
+                key={p.id}
+                className="flex items-center justify-between rounded-md border px-3 py-1.5 text-sm"
+              >
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-medium">{p.title}</p>
+                  <p className="truncate text-xs text-muted-foreground">
+                    {p.author} · {p.kind}
+                  </p>
+                </div>
+                <div className="flex shrink-0 items-center gap-2">
+                  <Badge variant={p.harmScore > 0.5 ? "destructive" : "outline"}>
+                    harm {p.harmScore.toFixed(2)}
+                  </Badge>
+                  {p.containsTaonga && !p.iwiConsent && (
+                    <Badge variant="destructive">no iwi consent</Badge>
+                  )}
+                  {p.containsPii && !p.authorPiiOptIn && (
+                    <Badge variant="destructive">PII</Badge>
+                  )}
+                  {p.teReoConcernFlag && (
+                    <Badge variant="secondary">te reo flag</Badge>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <Separator />
+
+        <div className="grid grid-cols-2 gap-3 text-xs sm:grid-cols-4">
+          <Stat label="Te reo flags" value={w.totals.teReoFlags} />
+          <Stat label="Taonga flags" value={w.totals.taongaFlags} />
+          <Stat label="PII flags" value={w.totals.piiFlags} />
+          <Stat label="Harm flags" value={w.totals.harmFlags} />
+        </div>
+
+        {w.inbox.some((p) => p.harmScore >= 0.8) && (
+          <div className="flex items-center gap-2 rounded-md border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
+            <AlertTriangle className="h-4 w-4" />
+            One or more posts exceed the harm threshold — they will be hard-blocked.
           </div>
         )}
       </CardContent>
