@@ -17,7 +17,7 @@ export default {
         display: ['Lato', 'sans-serif'],
         body: ['"Plus Jakarta Sans"', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
-        // Legacy aliases — all map to correct Mārama fonts
+        // Legacy aliases — all map to correct fonts
         inter: ['"Plus Jakarta Sans"', 'sans-serif'],
         outfit: ['"Plus Jakarta Sans"', 'sans-serif'],
         syne: ['Lato', 'sans-serif'],
@@ -58,34 +58,34 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Whenua palette
+        // Constellation palette
         whenua: {
-          kowhai: '#D4A843',
-          'kowhai-light': '#F0D078',
-          pounamu: '#3A7D6E',
-          'pounamu-light': '#5AADA0',
-          tangaroa: '#1A3A5C',
-          'tangaroa-light': '#3A6A9C',
+          kowhai: '#00CFFF',
+          'kowhai-light': '#66E0FF',
+          pounamu: '#00FF9C',
+          'pounamu-light': '#66FFBF',
+          tangaroa: '#1B5E6B',
+          'tangaroa-light': '#2D8A9B',
           rust: '#C85A54',
         },
         // Assembl brand surfaces
         assembl: {
-          bg: '#09090F',
-          surface: '#0F0F1A',
-          'surface-2': '#16162A',
+          bg: '#060610',
+          surface: '#0A0A18',
+          'surface-2': '#12122A',
         },
-        // Legacy neon aliases → mapped to Whenua
+        // Legacy neon aliases → mapped to constellation
         neon: {
-          green: "#5AADA0",
+          green: "#00FF9C",
           pink: "#C85A54",
-          cyan: "#3A6A9C",
-          orange: "#D4A843",
-          lime: "#5AADA0",
+          cyan: "#00CFFF",
+          orange: "#00CFFF",
+          lime: "#00FF9C",
           red: "#C85A54",
-          gold: "#D4A843",
-          teal: "#3A7D6E",
-          blue: "#3A6A9C",
-          amber: "#F0D078",
+          gold: "#00CFFF",
+          teal: "#1B5E6B",
+          blue: "#00CFFF",
+          amber: "#66E0FF",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
