@@ -69,7 +69,8 @@ async function parsePayload(req: Request): Promise<InboundSms> {
     return { from: json.msisdn.startsWith("+") ? json.msisdn : `+${json.msisdn}`, to: json.to || "", body: json.text || json.message || "", messageId: json.messageId || json["message-id"] || "", provider: "vonage" };
   }
   if (json.Sender || json.From) {
-    return { from: json.Sender || json.From || json.from || "", to: json.Destination || json.To || json.to || "", body: json.Message || json.message || json.Body || json.body || "", messageId: json.MessageID || json.messageId || "", provider: "tnz" };
+    // TNZ v2.04 sends MessageText; older TNZ and direct callers may use Message/Body
+    return { from: json.Sender || json.From || json.from || "", to: json.Destination || json.To || json.to || "", body: json.MessageText || json.Message || json.message || json.Body || json.body || "", messageId: json.MessageID || json.messageId || json.Reference || "", provider: "tnz" };
   }
   return { from: json.from || json.phone || "", to: json.to || "", body: json.message || json.body || json.text || "", messageId: json.messageId || "", provider: "direct", mediaUrl: json.mediaUrl || json.imageUrl || undefined, mediaType: json.mediaType || "image/jpeg" };
 }
@@ -96,13 +97,14 @@ async function fetchMediaAsBase64(url: string): Promise<{ base64: string; mimeTy
 /* ── Send SMS ── */
 async function sendSms(to: string, message: string): Promise<void> {
   const token = Deno.env.get("TNZ_AUTH_TOKEN");
-  const base = Deno.env.get("TNZ_API_BASE") || "https://api.tnz.co.nz/api/v2.02";
+  // Always use v2.04 REST endpoint (confirmed working; v3.00 has different auth/payload)
+  const tnzSmsUrl = "https://api.tnz.co.nz/api/v2.04/send/sms";
   const from = Deno.env.get("TNZ_FROM_NUMBER") || "TOROA";
   if (!token) { console.warn("TNZ_AUTH_TOKEN not set"); return; }
   try {
-    await fetch(`${base}/send/sms`, {
+    await fetch(tnzSmsUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Basic ${token}` },
+      headers: { "Content-Type": "application/json; encoding='utf-8'", "Accept": "application/json; encoding='utf-8'", Authorization: `Basic ${token}` },
       body: JSON.stringify({ MessageData: { Message: message, Destinations: [{ Recipient: to }], Reference: `toroa-${Date.now()}`, FromNumber: from } }),
     });
   } catch (err) { console.error("SMS send error:", err); }
