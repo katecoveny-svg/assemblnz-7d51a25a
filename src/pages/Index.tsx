@@ -76,7 +76,7 @@ const SectionHeading = ({ children }: { children: React.ReactNode }) => (
 const Body = ({ children, className = "", style }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) => (
   <p
     className={`text-sm sm:text-[15px] leading-relaxed ${className}`}
-    style={{ fontFamily: FONT.body, color: C.textSec }}
+    style={{ fontFamily: FONT.body, color: C.textSec, ...style }}
   >
     {children}
   </p>
