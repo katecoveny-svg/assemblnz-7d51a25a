@@ -55,8 +55,9 @@ Deno.serve(async (req) => {
     const smsResponse = await fetch(`${tnzBase}/send/sms`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${tnzToken}`,
+        "Content-Type": "application/json; encoding='utf-8'",
+        "Accept": "application/json; encoding='utf-8'",
+        Authorization: `Basic ${tnzToken}`,
       },
       body: JSON.stringify({
         MessageData: {
