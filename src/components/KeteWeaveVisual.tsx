@@ -1,5 +1,10 @@
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
+
+/**
+ * KeteWeaveVisual — SVG woven flax kete basket with proper Māori basket silhouette
+ * Wide rim, tapered base, diagonal harakeke cross-weave, handle
+ */
 
 interface Props {
   size?: number;
@@ -14,34 +19,6 @@ const POUNAMU = "#3A7D6E";
 const POUNAMU_LIGHT = "#5AADA0";
 const POUNAMU_GLOW = "#7ECFC2";
 
-// Generate data-node stars distributed on a sphere
-function generateOrbNodes(count: number, radius: number, cx: number, cy: number) {
-  const nodes: { x: number; y: number; z: number; r: number; delay: number; label: string }[] = [];
-  const labels = [
-    "perception", "memory", "reasoning", "action", "explain", "simulate",
-    "audit", "policy", "context", "intent", "pii", "tikanga",
-    "workflow", "alert", "schedule", "approve", "route", "log",
-    "comply", "govern", "verify", "secure", "sync", "deploy",
-  ];
-  const phi = (1 + Math.sqrt(5)) / 2;
-  for (let i = 0; i < count; i++) {
-    const y = 1 - (i / (count - 1)) * 2;
-    const radiusAtY = Math.sqrt(1 - y * y);
-    const theta = 2 * Math.PI * i / phi;
-    const nx = Math.cos(theta) * radiusAtY;
-    const nz = Math.sin(theta) * radiusAtY;
-    nodes.push({
-      x: cx + nx * radius,
-      y: cy + y * radius * 0.85,
-      z: nz,
-      r: 1.5 + Math.random() * 1.5,
-      delay: i * 0.06,
-      label: labels[i % labels.length],
-    });
-  }
-  return nodes;
-}
-
 export default function KeteWeaveVisual({
   size = 200,
   accentColor = POUNAMU,
@@ -51,293 +28,213 @@ export default function KeteWeaveVisual({
   showGlow = true,
 }: Props) {
   const [tick, setTick] = useState(0);
-  const isHero = size >= 280;
-  const nodeCount = isHero ? 24 : 0;
-  const orbR = isHero ? 110 : 85;
-
-  const orbNodes = useMemo(
-    () => (showNodes && isHero ? generateOrbNodes(nodeCount, orbR, 150, 155) : []),
-    [nodeCount, orbR, showNodes, isHero]
-  );
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = setInterval(() => setTick((t) => t + 1), 500);
+    const id = setInterval(() => setTick(t => t + 1), 600);
     return () => clearInterval(id);
   }, []);
 
-  const uid = accentColor.replace(/[^a-zA-Z0-9]/g, "") + size;
-  const hRows = [110, 127, 144, 161, 178, 195];
-  const vCols = [75, 92, 109, 126, 143, 160];
-  const vb = isHero ? "0 0 300 310" : "0 0 200 230";
-  const bx = isHero ? 150 : 100;
-  const by = isHero ? 155 : 120;
+  const uid = (accentColor + size).replace(/[^a-zA-Z0-9]/g, "");
 
-  // Basket path offset for hero
-  const bOff = isHero ? 30 : 0;
+  // Kete geometry — centred at 100,120 in a 200×230 viewBox
+  const cx = 100, cy = 125;
+  const rimW = 65;       // half-width at rim
+  const baseW = 25;      // half-width at base
+  const rimY = 70;       // top of basket
+  const baseY = 195;     // bottom of basket
+  const cpY = 160;       // taper control point
+
+  const bodyPath = `M ${cx - rimW} ${rimY}
+    Q ${cx - rimW * 0.95} ${cpY} ${cx - baseW} ${baseY}
+    Q ${cx} ${baseY + 12} ${cx + baseW} ${baseY}
+    Q ${cx + rimW * 0.95} ${cpY} ${cx + rimW} ${rimY}`;
+
+  const handlePath = `M ${cx - rimW * 0.5} ${rimY}
+    Q ${cx} ${rimY - 50} ${cx + rimW * 0.5} ${rimY}`;
+
+  const rimPath = `M ${cx - rimW} ${rimY} L ${cx + rimW} ${rimY}`;
+
+  // Width at a given Y for clipping weave to body
+  const widthAtY = (y: number) => {
+    const t = (y - rimY) / (baseY - rimY);
+    return rimW + (baseW - rimW) * t * t;
+  };
+
+  // Diagonal weave count
+  const weaveCount = 6;
+  const step = (baseY - rimY) / (weaveCount + 1);
+
+  // Build diagonal weave lines
+  const diag1: string[] = [];
+  const diag2: string[] = [];
+  const hBands: string[] = [];
+
+  for (let i = 1; i <= weaveCount; i++) {
+    const startY = rimY + step * (i - 1);
+    const endY = Math.min(rimY + step * (i + 2), baseY);
+    const sw = widthAtY(startY);
+    const ew = widthAtY(endY);
+    diag1.push(`M ${cx - sw * 0.85} ${startY} L ${cx + ew * 0.6} ${endY}`);
+    diag2.push(`M ${cx + sw * 0.85} ${startY} L ${cx - ew * 0.6} ${endY}`);
+  }
+
+  for (let i = 1; i <= weaveCount + 1; i++) {
+    const y = rimY + step * i;
+    if (y >= baseY) break;
+    const w = widthAtY(y);
+    hBands.push(`M ${cx - w * 0.92} ${y} Q ${cx} ${y - 1.5} ${cx + w * 0.92} ${y}`);
+  }
+
+  // Node intersections
+  const nodePositions: { x: number; y: number }[] = [];
+  if (showNodes) {
+    for (let i = 1; i <= weaveCount; i++) {
+      const y = rimY + step * i;
+      if (y >= baseY - 5) break;
+      const w = widthAtY(y);
+      const cols = 4;
+      for (let j = 0; j < cols; j++) {
+        const x = cx - w * 0.7 + (w * 1.4 / (cols - 1)) * j;
+        nodePositions.push({ x, y });
+      }
+    }
+  }
 
   return (
-    <div className={`relative inline-flex items-center justify-center ${className}`} style={{ width: size, height: size * 1.1 }}>
-      {/* Outer pulsing orb glow */}
+    <div
+      className={`relative inline-flex items-center justify-center ${className}`}
+      style={{ width: size, height: size * 1.15 }}
+    >
       {showGlow && (
         <>
           <motion.div
             className="absolute rounded-full"
-            style={{ inset: "-40%", background: `radial-gradient(circle, ${POUNAMU}20 0%, ${POUNAMU}08 30%, transparent 55%)` }}
-            animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.8, 0.3] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            style={{ inset: "-30%", background: `radial-gradient(circle, ${accentColor}15 0%, transparent 55%)` }}
+            animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.7, 0.3] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
           />
-          <motion.div
-            className="absolute rounded-full"
-            style={{ inset: "-20%", background: `radial-gradient(circle, ${POUNAMU_GLOW}12 0%, transparent 45%)`, border: `1px solid ${POUNAMU}18` }}
-            animate={{ scale: [0.92, 1.08, 0.92], opacity: [0.2, 0.55, 0.2] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.7 }}
-          />
-          {isHero && (
-            <motion.div
-              className="absolute rounded-full"
-              style={{ inset: "-55%", background: `radial-gradient(circle, ${POUNAMU}10 0%, transparent 40%)` }}
-              animate={{ scale: [1.05, 1.2, 1.05], opacity: [0.15, 0.4, 0.15] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            />
-          )}
         </>
       )}
 
-      {/* Spinning SVG */}
-      <motion.svg
-        viewBox={vb}
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-full h-full"
-        role="img"
-        aria-label="Kete basket — woven knowledge container"
-        style={{ filter: `drop-shadow(0 0 ${isHero ? 25 : 8}px ${POUNAMU}50)` }}
-        animate={isHero ? { rotateY: [0, 360] } : undefined}
-        transition={isHero ? { duration: 40, repeat: Infinity, ease: "linear" } : undefined}
+      <svg viewBox="0 0 200 230" xmlns="http://www.w3.org/2000/svg" className="w-full h-full"
+        role="img" aria-label="Kete basket — woven flax knowledge container"
+        style={{ filter: `drop-shadow(0 0 ${size > 80 ? 12 : 5}px ${accentColor}40)` }}
       >
         <defs>
-          <radialGradient id={`orb-${uid}`} cx="35%" cy="28%" r="65%">
-            <stop offset="0%" stopColor={POUNAMU_GLOW} stopOpacity="0.2" />
-            <stop offset="35%" stopColor={POUNAMU} stopOpacity="0.1" />
-            <stop offset="100%" stopColor={POUNAMU} stopOpacity="0" />
-          </radialGradient>
-          <radialGradient id={`glass-${uid}`} cx="40%" cy="35%">
-            <stop offset="0%" stopColor={accentColor} stopOpacity="0.15" />
+          <radialGradient id={`glow-${uid}`} cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stopColor={accentColor} stopOpacity="0.1" />
             <stop offset="100%" stopColor={accentColor} stopOpacity="0" />
           </radialGradient>
-          <filter id={`starGlow-${uid}`}>
-            <feGaussianBlur stdDeviation="4" result="blur" />
-            <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-          </filter>
-          <filter id={`nodeGlow-${uid}`}>
-            <feGaussianBlur stdDeviation="2.5" result="blur" />
-            <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+          <filter id={`ng-${uid}`}>
+            <feGaussianBlur stdDeviation="2.5" result="b" />
+            <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
           </filter>
         </defs>
 
-        {/* Orb sphere rings */}
-        <circle cx={bx} cy={by} r={orbR} fill={`url(#orb-${uid})`} />
-        <circle cx={bx} cy={by} r={orbR - 2} fill="none" stroke={POUNAMU} strokeWidth="0.8" opacity="0.25" />
-        {isHero && <circle cx={bx} cy={by} r={orbR - 8} fill="none" stroke={POUNAMU_LIGHT} strokeWidth="0.4" opacity="0.12" />}
-        {isHero && <circle cx={bx} cy={by} r={orbR + 12} fill="none" stroke={POUNAMU} strokeWidth="0.3" opacity="0.08" strokeDasharray="4 8" />}
+        {/* Soft fill */}
+        <path d={bodyPath} fill={`url(#glow-${uid})`} />
 
-        {/* Specular highlight */}
-        <ellipse cx={bx - 20} cy={by - orbR * 0.45} rx={orbR * 0.4} ry={orbR * 0.18} fill="white" opacity="0.04" />
-
-        {/* ═══ DATA NODE STARS ═══ */}
-        {orbNodes.map((node, i) => {
-          const depth = (node.z + 1) / 2; // 0 = back, 1 = front
-          const isActive = (tick + i) % 5 === 0;
-          const opacity = 0.3 + depth * 0.7;
-          const r = node.r * (0.6 + depth * 0.6);
-          return (
-            <g key={`star-${i}`}>
-              {/* Connection lines to nearest neighbors */}
-              {i > 0 && i % 3 === 0 && (
-                <motion.line
-                  x1={node.x} y1={node.y}
-                  x2={orbNodes[(i - 1) % orbNodes.length].x}
-                  y2={orbNodes[(i - 1) % orbNodes.length].y}
-                  stroke={POUNAMU_LIGHT}
-                  strokeWidth="0.3"
-                  opacity={depth * 0.15}
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ delay: 1.5 + node.delay, duration: 0.8 }}
-                />
-              )}
-              {/* Pulse ring on active nodes */}
-              {isActive && (
-                <motion.circle
-                  cx={node.x} cy={node.y} r={r * 4}
-                  fill="none" stroke={POUNAMU_GLOW} strokeWidth="0.5"
-                  initial={{ scale: 0.5, opacity: 0.7 }}
-                  animate={{ scale: 2, opacity: 0 }}
-                  transition={{ duration: 1.2 }}
-                />
-              )}
-              {/* Star node */}
-              <motion.circle
-                cx={node.x} cy={node.y}
-                r={isActive ? r * 1.8 : r}
-                fill={isActive ? POUNAMU_GLOW : accentColor}
-                filter={isActive ? `url(#starGlow-${uid})` : undefined}
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity }}
-                transition={{ delay: 0.8 + node.delay, duration: 0.4 }}
-              />
-              {/* White specular */}
-              <motion.circle
-                cx={node.x - 0.4} cy={node.y - 0.4}
-                r={r * 0.35}
-                fill="white"
-                opacity={isActive ? 0.7 : 0.2}
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.9 + node.delay, duration: 0.2 }}
-              />
-            </g>
-          );
-        })}
-
-        {/* ═══ KETE BASKET ═══ */}
-        {/* Body glass fill */}
-        <path
-          d={isHero
-            ? "M 65 110 Q 65 230 150 240 Q 235 230 235 110"
-            : "M 35 80 Q 35 190 100 200 Q 165 190 165 80"
-          }
-          fill={`url(#glass-${uid})`}
-        />
-        {/* Body stroke */}
+        {/* Basket body stroke */}
         <motion.path
-          d={isHero
-            ? "M 65 110 Q 65 230 150 240 Q 235 230 235 110"
-            : "M 35 80 Q 35 190 100 200 Q 165 190 165 80"
-          }
-          fill="none" stroke={accentColor} strokeWidth="2.5" strokeLinecap="round"
+          d={bodyPath} fill="none" stroke={accentColor} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"
           initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 1 }}
+          animate={{ pathLength: 1, opacity: 0.85 }}
           transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
         />
-        {/* Inner highlight */}
         <motion.path
-          d={isHero
-            ? "M 70 112 Q 70 226 150 236 Q 230 226 230 112"
-            : "M 40 82 Q 40 186 100 196 Q 160 186 160 82"
-          }
-          fill="none" stroke="white" strokeWidth="0.5" opacity="0.08"
+          d={bodyPath} fill="none" stroke="white" strokeWidth="0.4" opacity="0.06"
           initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
-          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
         />
 
-        {/* Horizontal weave */}
-        {(isHero
-          ? [125, 142, 159, 176, 193, 210]
-          : hRows
-        ).map((y, i) => {
-          const inset = i * 1.5;
-          const wave = Math.sin(i * 0.8) * 2;
-          const left = isHero ? 72 - inset : 42 - inset;
-          const right = isHero ? 228 + inset : 158 + inset;
-          const mid = isHero ? 150 : 100;
-          return (
-            <g key={`h-${y}`}>
-              <motion.path
-                d={`M ${left} ${y + wave} Q ${mid} ${y - 3 + wave} ${right} ${y + wave}`}
-                fill="none"
-                stroke={i % 2 === 0 ? accentColor : accentLight}
-                strokeWidth="1.4" opacity="0.7"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ pathLength: 1, opacity: 0.7 }}
-                transition={{ duration: 0.8, delay: 0.3 + i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-              />
-              <motion.path
-                d={`M ${left} ${y + wave + 1.5} Q ${mid} ${y - 1.5 + wave} ${right} ${y + wave + 1.5}`}
-                fill="none" stroke="black" strokeWidth="0.5" opacity="0.15"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-                transition={{ duration: 0.8, delay: 0.3 + i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-              />
-            </g>
-          );
-        })}
-
-        {/* Vertical weave */}
-        {(isHero
-          ? [85, 102, 119, 136, 153, 170, 185, 200, 215]
-          : vCols
-        ).map((x, i) => (
-          <motion.line
-            key={`v-${x}`}
-            x1={x} y1={isHero ? 115 : 85}
-            x2={x + (i % 2 === 0 ? 2 : -2)} y2={isHero ? 230 : 190}
-            stroke={i % 2 === 0 ? accentColor : accentLight}
-            strokeWidth="1.3" opacity="0.6"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ pathLength: 1, opacity: 0.6 }}
-            transition={{ duration: 0.8, delay: 0.5 + i * 0.06, ease: [0.16, 1, 0.3, 1] }}
-          />
-        ))}
-
-        {/* Weave intersection nodes (non-hero only) */}
-        {showNodes && !isHero && hRows.map((y, yi) =>
-          vCols.map((x, xi) => {
-            const nodeIdx = yi * vCols.length + xi;
-            const isFlashing = (tick + nodeIdx) % 7 === 0;
-            return (
-              <g key={`n-${x}-${y}`} filter={isFlashing ? `url(#nodeGlow-${uid})` : undefined}>
-                {isFlashing && (
-                  <motion.circle cx={x} cy={y} r={8} fill="none" stroke={POUNAMU_GLOW} strokeWidth="0.5"
-                    initial={{ scale: 0.5, opacity: 0.8 }}
-                    animate={{ scale: 1.5, opacity: 0 }}
-                    transition={{ duration: 0.8 }}
-                  />
-                )}
-                <motion.circle
-                  cx={x} cy={y}
-                  r={isFlashing ? 3.5 : 2.2}
-                  fill={isFlashing ? POUNAMU_GLOW : accentColor}
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: isFlashing ? 1 : 0.7 }}
-                  transition={{ delay: 0.8 + nodeIdx * 0.03, duration: 0.3 }}
-                />
-                <motion.circle
-                  cx={x - 0.5} cy={y - 0.5}
-                  r={0.9}
-                  fill="white" opacity={isFlashing ? 0.6 : 0.15}
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.9 + nodeIdx * 0.03, duration: 0.2 }}
-                />
-              </g>
-            );
-          })
-        )}
+        {/* Rim */}
+        <motion.path
+          d={rimPath} fill="none" stroke={accentColor} strokeWidth="3" strokeLinecap="round"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ pathLength: 1, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        />
 
         {/* Handle */}
         <motion.path
-          d={isHero
-            ? "M 100 110 Q 150 35 200 110"
-            : "M 65 80 Q 100 20 135 80"
-          }
-          fill="none" stroke={accentColor} strokeWidth="2.8" strokeLinecap="round"
+          d={handlePath} fill="none" stroke={accentColor} strokeWidth="2.5" strokeLinecap="round"
           initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
-          transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1, delay: 0.3 }}
         />
         <motion.path
-          d={isHero
-            ? "M 105 107 Q 150 42 195 107"
-            : "M 70 77 Q 100 28 130 77"
-          }
-          fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1.2" strokeLinecap="round"
+          d={handlePath} fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1" strokeLinecap="round"
           initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
-          transition={{ duration: 0.8, delay: 1 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
         />
-      </motion.svg>
+
+        {/* Diagonal weave — left to right */}
+        {diag1.map((d, i) => (
+          <motion.path
+            key={`d1-${i}`} d={d}
+            fill="none" stroke={accentColor} strokeWidth="1" opacity="0.45"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 0.45 }}
+            transition={{ duration: 0.6, delay: 0.4 + i * 0.07 }}
+          />
+        ))}
+        {/* Diagonal weave — right to left */}
+        {diag2.map((d, i) => (
+          <motion.path
+            key={`d2-${i}`} d={d}
+            fill="none" stroke={accentLight} strokeWidth="1" opacity="0.35"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 0.35 }}
+            transition={{ duration: 0.6, delay: 0.5 + i * 0.07 }}
+          />
+        ))}
+        {/* Horizontal bands */}
+        {hBands.map((d, i) => (
+          <motion.path
+            key={`hb-${i}`} d={d}
+            fill="none" stroke={accentColor} strokeWidth="0.6" opacity="0.25"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 0.25 }}
+            transition={{ duration: 0.5, delay: 0.6 + i * 0.05 }}
+          />
+        ))}
+
+        {/* Intersection nodes */}
+        {nodePositions.map((node, ni) => {
+          const isActive = (tick + ni) % 7 === 0;
+          return (
+            <g key={`n-${ni}`} filter={isActive ? `url(#ng-${uid})` : undefined}>
+              {isActive && (
+                <motion.circle
+                  cx={node.x} cy={node.y} r={7}
+                  fill="none" stroke={POUNAMU_GLOW} strokeWidth="0.4"
+                  initial={{ scale: 0.5, opacity: 0.7 }}
+                  animate={{ scale: 1.5, opacity: 0 }}
+                  transition={{ duration: 0.8 }}
+                />
+              )}
+              <motion.circle
+                cx={node.x} cy={node.y}
+                r={isActive ? 3 : 1.8}
+                fill={isActive ? POUNAMU_GLOW : accentColor}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: isActive ? 1 : 0.6 }}
+                transition={{ delay: 0.7 + ni * 0.03, duration: 0.3 }}
+              />
+              <motion.circle
+                cx={node.x - 0.4} cy={node.y - 0.4} r={0.6}
+                fill="white" opacity={isActive ? 0.5 : 0.12}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.8 + ni * 0.03, duration: 0.2 }}
+              />
+            </g>
+          );
+        })}
+      </svg>
     </div>
   );
 }
