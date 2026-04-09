@@ -13,12 +13,15 @@ import {
   Activity,
   AlertTriangle,
   Anchor,
+  Bird,
   Briefcase,
+  Car,
   CheckCircle2,
   Clock,
   Cloud,
   Cpu,
   Download,
+  Fuel,
   FlaskConical,
   HardHat,
   MessagesSquare,
@@ -81,6 +84,7 @@ import {
 
 import {
   useAaaipRuntime,
+  useArataikiRuntime,
   useAuahaRuntime,
   useManaakiRuntime,
   useCommunityRuntime,
@@ -90,6 +94,7 @@ import {
   useScienceRuntime,
   useToroRuntime,
   type AaaipRuntime,
+  type ArataikiRuntime,
   type AuahaRuntime,
   type AuditEntry,
   type ManaakiRuntime,
@@ -111,6 +116,7 @@ type DomainKey =
   | "pikau"
   | "manaaki"
   | "auaha"
+  | "arataki"
   | "toro";
 
 const VERDICT_LABEL: Record<string, string> = {
@@ -225,11 +231,22 @@ const DOMAIN_META: Record<DomainKey, DomainMeta> = {
     accentLight: "#D4A843",
     keteVariant: "tricolor",
   },
+  arataki: {
+    title: "Arataki — Automotive Digital Twin",
+    pilotLabel: "Aotearoa Agentic AI Platform · Pilot 10",
+    description:
+      "A dealer intelligence agent handling customer enquiries, finance quotes, test drives, trade-ins and live fuel-price economics. CCCFA disclosure, Fair Trading Act economy claims, Motor Vehicle Sales Act licensing, odometer integrity and Consumer Guarantees policies gate every outbound response. Includes a live ICE-vs-EV total-cost-of-ownership calculator driven by the shared FuelOracle.",
+    policyPrefix: "arataki.",
+    group: "industry",
+    accentColor: "#C65D4E",
+    accentLight: "#E88072",
+    keteVariant: "standard",
+  },
   toro: {
-    title: "Tōro — Whānau Family Navigator Twin",
+    title: "Tōro — Whānau Family Navigator",
     pilotLabel: "Aotearoa Agentic AI Platform · Pilot 09",
     description:
-      "A maritime dispatch agent. Weather/sea-state, STCW crew rest, customs manifest integrity and MPI biosecurity policies gate every vessel dispatch and cargo release.",
+      "An SMS-first whānau family navigator sending school notices, meal ideas, budget alerts, learning prompts and reminders. Parental-consent, age-appropriate, financial-harm, wellbeing-crisis and te reo integrity policies gate every outbound message.",
     policyPrefix: "toro.",
     group: "industry",
     accentColor: "#D4A843",
@@ -247,6 +264,7 @@ export default function AaaipDashboard() {
   const waihanga = useWaihangaRuntime();
   const pikau = usePikauRuntime();
   const manaaki = useManaakiRuntime();
+  const arataki = useArataikiRuntime();
   const auaha = useAuahaRuntime();
   const toro = useToroRuntime();
   const rt =
@@ -258,6 +276,7 @@ export default function AaaipDashboard() {
     domain === "pikau" ? pikau :
     domain === "manaaki" ? manaaki :
     domain === "auaha" ? auaha :
+    domain === "arataki" ? arataki :
     toro;
   const meta = DOMAIN_META[domain];
 
@@ -468,6 +487,7 @@ export default function AaaipDashboard() {
               {domain === "pikau" && <PikauLiveView rt={pikau} />}
               {domain === "manaaki" && <ManaakiLiveView rt={manaaki} />}
               {domain === "auaha" && <AuahaLiveView rt={auaha} />}
+              {domain === "arataki" && <ArataikiLiveView rt={arataki} />}
               {domain === "toro" && <ToroLiveView rt={toro} />}
 
               <Card>
@@ -518,8 +538,10 @@ export default function AaaipDashboard() {
                     "Front-of-house decisions flagged for manager review. Approve to apply, reject to drop."}
                   {domain === "auaha" &&
                     "Creative assets flagged for brand-manager / kaitiaki review. Approve to publish, reject to hide."}
+                  {domain === "arataki" &&
+                    "Dealer actions flagged for sales-manager review — finance quotes, fuel-economy claims, trade-ins. Approve to send, reject to drop."}
                   {domain === "toro" &&
-                    "Maritime decisions flagged for harbour-master review. Approve to dispatch or release, reject to hold."}
+                    "Whānau messages flagged for kaiāwhina review — child data, high-risk budget advice, te reo content. Approve to send, reject to hold."}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -718,6 +740,18 @@ export default function AaaipDashboard() {
                     <Stat label="Te reo flags" value={auaha.world.alerts.teReoFlags} />
                   </>
                 )}
+                {domain === "arataki" && (
+                  <>
+                    <Stat
+                      label="Petrol 91"
+                      value={`$${arataki.world.fuel.petrol91.toFixed(2)}/L`}
+                    />
+                    <Stat
+                      label="Diesel"
+                      value={`$${arataki.world.fuel.diesel.toFixed(2)}/L`}
+                    />
+                  </>
+                )}
                 {domain === "toro" && (
                   <>
                     <Stat
@@ -799,6 +833,7 @@ const DOMAIN_OPTIONS: Array<{ key: DomainKey; label: string; group: "foundation"
   { key: "pikau", label: "Pikau — freight & customs", group: "industry" },
   { key: "manaaki", label: "Manaaki — hospitality", group: "industry" },
   { key: "auaha", label: "Auaha — creative", group: "industry" },
+  { key: "arataki", label: "Arataki — automotive", group: "industry" },
   { key: "toro", label: "Tōro — whānau navigator", group: "industry" },
 ];
 
@@ -821,8 +856,10 @@ function DomainIcon({ domain }: { domain: DomainKey }) {
       return <UtensilsCrossed className={cls} />;
     case "auaha":
       return <Palette className={cls} />;
+    case "arataki":
+      return <Car className={cls} />;
     case "toro":
-      return <Ship className={cls} />;
+      return <Bird className={cls} />;
     default:
       return <Briefcase className={cls} />;
   }
@@ -1447,6 +1484,154 @@ function AuahaLiveView({ rt }: { rt: AuahaRuntime }) {
               </div>
             ))}
           </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// ── Arataki (automotive) live view ───────────────────────────
+
+function ArataikiLiveView({ rt }: { rt: ArataikiRuntime }) {
+  const w = rt.world;
+  const tco = rt.lastTco;
+  const fuelShock = w.fuel.events.length > 0;
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Car className="h-5 w-5" />
+          Dealer state
+        </CardTitle>
+        <CardDescription>
+          Tick {w.now} · {w.inventory.length} vehicles listed · MVTR{" "}
+          {w.mvtrNumber}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {/* Live fuel price oracle */}
+        <div className="rounded-lg border bg-card/60 p-3">
+          <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase text-muted-foreground">
+            <Fuel className="h-3.5 w-3.5" /> Live NZ fuel prices
+            {fuelShock && (
+              <Badge variant="destructive" className="ml-auto">
+                {w.fuel.events[0]}
+              </Badge>
+            )}
+          </div>
+          <div className="grid grid-cols-4 gap-2 text-center text-xs">
+            <div className="rounded border p-2">
+              <p className="text-[10px] uppercase text-muted-foreground">91</p>
+              <p className="mt-1 font-semibold">${w.fuel.petrol91.toFixed(2)}</p>
+              <p className="text-[9px] text-muted-foreground">NZD / L</p>
+            </div>
+            <div className="rounded border p-2">
+              <p className="text-[10px] uppercase text-muted-foreground">95</p>
+              <p className="mt-1 font-semibold">${w.fuel.petrol95.toFixed(2)}</p>
+              <p className="text-[9px] text-muted-foreground">NZD / L</p>
+            </div>
+            <div className="rounded border p-2">
+              <p className="text-[10px] uppercase text-muted-foreground">Diesel</p>
+              <p className="mt-1 font-semibold">${w.fuel.diesel.toFixed(2)}</p>
+              <p className="text-[9px] text-muted-foreground">NZD / L</p>
+            </div>
+            <div className="rounded border p-2">
+              <p className="text-[10px] uppercase text-muted-foreground">EV</p>
+              <p className="mt-1 font-semibold">${w.fuel.ev.toFixed(2)}</p>
+              <p className="text-[9px] text-muted-foreground">NZD / kWh</p>
+            </div>
+          </div>
+        </div>
+
+        {/* ICE-vs-EV TCO comparison — last quote */}
+        {tco && (
+          <div className="rounded-lg border bg-card/60 p-3">
+            <p className="mb-2 text-xs font-semibold uppercase text-muted-foreground">
+              Last 5-year total cost of ownership (14,000 km/yr)
+            </p>
+            <div className="grid grid-cols-2 gap-3 text-xs">
+              <div className="rounded border border-amber-500/30 bg-amber-500/5 p-2">
+                <p className="text-[10px] uppercase text-amber-700">ICE</p>
+                <p className="mt-1 text-lg font-semibold">
+                  ${tco.ice.totalNzd.toLocaleString()}
+                </p>
+                <p className="text-[10px] text-muted-foreground">
+                  fuel ${tco.ice.fuelNzd.toLocaleString()} · ${tco.ice.perKmNzd}/km
+                </p>
+              </div>
+              <div className="rounded border border-emerald-500/30 bg-emerald-500/5 p-2">
+                <p className="text-[10px] uppercase text-emerald-700">EV</p>
+                <p className="mt-1 text-lg font-semibold">
+                  ${tco.ev.totalNzd.toLocaleString()}
+                </p>
+                <p className="text-[10px] text-muted-foreground">
+                  fuel ${tco.ev.fuelNzd.toLocaleString()} · ${tco.ev.perKmNzd}/km
+                </p>
+              </div>
+            </div>
+            <p className="mt-2 text-center text-xs font-medium">
+              EV saves{" "}
+              <span
+                className={
+                  tco.savingsNzd > 0 ? "text-emerald-600" : "text-destructive"
+                }
+              >
+                ${tco.savingsNzd.toLocaleString()}
+              </span>{" "}
+              over 5 years at today's prices
+            </p>
+          </div>
+        )}
+
+        <Separator />
+
+        {/* Inbox */}
+        <div>
+          <p className="text-xs font-semibold uppercase text-muted-foreground">
+            Customer inbox ({w.inbox.length})
+          </p>
+          <div className="mt-2 space-y-1">
+            {w.inbox.length === 0 && (
+              <p className="text-sm text-muted-foreground">— empty —</p>
+            )}
+            {w.inbox.slice(0, 6).map((e) => {
+              const veh = w.inventory.find((v) => v.id === e.vehicleId);
+              return (
+                <div
+                  key={e.id}
+                  className="flex items-center justify-between rounded-md border px-3 py-1.5 text-sm"
+                >
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate">
+                      {e.name} · {veh?.make} {veh?.model}
+                    </p>
+                    <p className="truncate text-[10px] text-muted-foreground">
+                      {e.kind.replace(/_/g, " ")}
+                    </p>
+                  </div>
+                  <div className="flex shrink-0 items-center gap-2">
+                    {e.kind === "quote_finance" && e.cccfaDisclosuresAttached !== true && (
+                      <Badge variant="destructive">no CCCFA</Badge>
+                    )}
+                    {veh?.odometerTamperFlag && (
+                      <Badge variant="destructive">odometer</Badge>
+                    )}
+                    {e.kind === "share_with_partner" && e.customerOptIn !== true && (
+                      <Badge variant="destructive">no opt-in</Badge>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* KPIs */}
+        <div className="grid grid-cols-2 gap-2 text-xs sm:grid-cols-4">
+          <Stat label="Handled" value={w.handled.length} />
+          <Stat label="Rejected" value={w.rejected.length} />
+          <Stat label="CCCFA blocks" value={w.alerts.cccfaBlocks} />
+          <Stat label="Odometer" value={w.alerts.odometerBlocks} />
         </div>
       </CardContent>
     </Card>

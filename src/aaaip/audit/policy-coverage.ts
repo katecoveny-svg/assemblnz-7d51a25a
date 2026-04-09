@@ -123,6 +123,15 @@ export const PILOT_COVERAGE: PilotCoverageEntry[] = [
     note: "6 policies. NZ Copyright Act 1994, ASA Code, Te Taura Whiri, Te Mana Raraunga, IFCN.",
   },
   {
+    id: "arataki",
+    name: "Arataki — Automotive (Pilot 10)",
+    module: "src/aaaip/**/arataki + src/aaaip/utils/fuel-oracle",
+    domain: "automotive",
+    status: "wired",
+    policies: ["consent", "safety", "human_in_loop"],
+    note: "7 policies. CCCFA 2003, Fair Trading Act 1986, Motor Vehicle Sales Act 2003, Waka Kotahi odometer rules, CGA 1993, Privacy Act IPP 3 & 11. Includes live ICE-vs-EV TCO calculator powered by the shared FuelOracle. Addresses the Dealer Inventory Optimiser revenue opportunity.",
+  },
+  {
     id: "toro",
     name: "Tōro — Whānau Family Navigator (Pilot 09)",
     module: "src/aaaip/**/toro + src/components/toroa/**",

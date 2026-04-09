@@ -43,6 +43,7 @@ const ALLOWED_DOMAINS = new Set([
   "pikau",
   "manaaki",
   "auaha",
+  "arataki",
   "toro",
 ]);
 const MAX_ENTRIES = 1000;

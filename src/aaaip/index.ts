@@ -81,3 +81,10 @@ export * from "./policy/toro";
 export * from "./simulation/toro";
 export * from "./agent/toro-agent";
 export * from "./useToroRuntime";
+
+// ── Pilot 10 — Arataki (automotive dealer intelligence) ─────
+export * from "./utils/fuel-oracle";
+export * from "./policy/arataki";
+export * from "./simulation/arataki";
+export * from "./agent/arataki-agent";
+export * from "./useArataikiRuntime";

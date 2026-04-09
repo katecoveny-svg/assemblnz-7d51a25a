@@ -13,7 +13,8 @@ import type { AaaipExportError, AaaipExportResponse } from "./api/export";
 /**
  * UI-level domain key — distinct from `Domain` in policy/types.ts.
  * These match the canonical Assembl Kete names (Waihanga, Manaaki,
- * Pikau, Auaha) plus the demo / research pilots.
+ * Pikau, Auaha, Arataki) plus the Tōro whānau product and the
+ * foundation research pilots.
  */
 export type RuntimeDomainKey =
   | "clinic"
@@ -24,6 +25,7 @@ export type RuntimeDomainKey =
   | "pikau"
   | "manaaki"
   | "auaha"
+  | "arataki"
   | "toro";
 
 export interface AaaipRuntimeBase {
