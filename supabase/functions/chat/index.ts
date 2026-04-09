@@ -6804,6 +6804,11 @@ Deno.serve(async (req) => {
  }
 
  // ===== AUTH & USER RESOLUTION =====
+ // Admin brand block is collected here and applied once `fullSystemPrompt`
+ // is declared later (outside the usage-limit block), so the admin
+ // injection survives re-assignment and crosses block scope safely.
+ let adminBrandAddendum = "";
+
  const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
  const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
  const sb = createClient(supabaseUrl, serviceKey);
@@ -6831,10 +6836,11 @@ Deno.serve(async (req) => {
     const limit = isAdmin ? 99999 : (PLAN_LIMITS[userPlan as string] || PLAN_LIMITS.free);
     const used = usageRow?.messages_used || 0;
 
-    let fullSystemPrompt = "";
-    // PRISM ADMIN BRAND INJECTION — When admin uses PRISM, inject full Assembl brand guidelines
+    // PRISM ADMIN BRAND INJECTION — When admin uses PRISM, inject full Assembl brand guidelines.
+    // Written into `adminBrandAddendum` (declared above, outer scope) and
+    // appended to `fullSystemPrompt` once that variable exists.
     if (isAdmin && (agentId === "marketing" || rawAgentId === "marketing")) {
-      fullSystemPrompt = (fullSystemPrompt || "") + `
+      adminBrandAddendum += `
 
 [ADMIN BRAND CONTEXT — ASSEMBL BRAND GUIDELINES]
 You are creating content FOR Assembl (assembl.co.nz). This is your own brand. Apply these guidelines to ALL outputs:
@@ -6960,7 +6966,7 @@ IMAGERY STYLE: When generating images, use the 'Dark Cosmic Aotearoa' aesthetic 
  }
 
   // Build full system prompt with shared behaviours, optional brand context, and language preference
-  fullSystemPrompt = systemPrompt + `
+  let fullSystemPrompt = systemPrompt + `
 
 ADVISOR FRAMING (CRITICAL — apply to ALL responses):
 You are a specialist business advisor and strategic partner, not a replacement for human expertise. You work ALONGSIDE the business owner and their team — you're the expert knowledge resource they can access anytime. Frame your responses as recommendations, insights, and draft documents that the user and their team can review, refine, and implement. Always remind users to verify critical compliance documents with qualified professionals. When discussing what you do, use terms like "specialist advisor", "your expert team", "specialist intelligence" — never "AI agent" or "bot".
@@ -6970,6 +6976,9 @@ Assembl is "The operating system for NZ business." It is a B2B platform with 42 
 
 Lead with business outcomes: Win work (proposals, tenders, outreach), Run work (HR, payroll, operations), Stay sharp (compliance, memory, intelligence). Do NOT lead with compliance fear or technical architecture. Tone: calm, premium, practical, understated, intelligent, NZ-first, trustworthy. Avoid: hype, "revolutionary", "disruptive", AI jargon, compliance fear language, cyberpunk energy, internal architecture jargon.
 ` + SHARED_BEHAVIOURS;
+
+  // Apply the PRISM admin brand addendum collected earlier (if any).
+  if (adminBrandAddendum) fullSystemPrompt += adminBrandAddendum;
 
   // ECHO Receptionist Mode override
   if (agentId === "echo" && receptionistMode) {
