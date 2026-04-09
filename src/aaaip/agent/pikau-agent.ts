@@ -43,6 +43,8 @@ export class PikauAgent {
         driverMinutesRemaining: task.driverMinutesRemaining,
         fuelBurnLitres: task.fuelBurnLitres,
         fuelBudgetLitres: task.fuelBudgetLitres,
+        fuelCostNzdEstimate: task.fuelCostNzdEstimate,
+        fuelCostBudgetNzd: task.fuelCostBudgetNzd,
         reeferTempC: task.reeferTempC,
         targetTempC: task.targetTempC,
         region: task.region,

@@ -21,6 +21,8 @@ export interface PikauRuntime extends AaaipRuntimeBase {
   injectDriverFatigue: () => void;
   injectColdChainBreak: () => void;
   injectSensorFailure: () => void;
+  /** Inject a Strait of Hormuz fuel shock — diesel +74%. */
+  injectFuelShock: () => void;
 }
 
 export function usePikauRuntime(): PikauRuntime {
@@ -92,6 +94,7 @@ export function usePikauRuntime(): PikauRuntime {
   const injectDriverFatigue = useCallback(() => { simRef.current!.injectDriverFatigue(); forceRender(); }, [forceRender]);
   const injectColdChainBreak = useCallback(() => { simRef.current!.injectColdChainBreak(); forceRender(); }, [forceRender]);
   const injectSensorFailure = useCallback(() => { simRef.current!.injectSensorFailure(); forceRender(); }, [forceRender]);
+  const injectFuelShock = useCallback(() => { simRef.current!.injectFuelShock(); forceRender(); }, [forceRender]);
 
   const exportJson = useCallback(
     () => auditRef.current!.exportJson({ domain: "pikau", pilotLabel: PILOT_LABEL }),
@@ -113,11 +116,12 @@ export function usePikauRuntime(): PikauRuntime {
     world: simRef.current!.world,
     audit, pendingApprovals, isRunning, tickCount, policies, metrics,
     start, pause, step, reset, approve, reject, exportJson, submitToAaaip,
-    injectDriverFatigue, injectColdChainBreak, injectSensorFailure,
+    injectDriverFatigue, injectColdChainBreak, injectSensorFailure, injectFuelShock,
     scenarioActions: [
       { id: "fatigue", label: "Inject fatigued driver", onTrigger: injectDriverFatigue },
       { id: "cold", label: "Inject cold-chain break", onTrigger: injectColdChainBreak },
       { id: "sensor", label: "Degrade sensors", onTrigger: injectSensorFailure },
+      { id: "fuel-shock", label: "Strait of Hormuz fuel shock (+74% diesel)", onTrigger: injectFuelShock },
     ],
   };
 }

@@ -1324,6 +1324,7 @@ function WaihangaLiveView({ rt }: { rt: WaihangaRuntime }) {
 
 function PikauLiveView({ rt }: { rt: PikauRuntime }) {
   const w = rt.world;
+  const fuelShocked = w.fuel.events.includes("strait_of_hormuz_shock");
   return (
     <Card>
       <CardHeader>
@@ -1334,10 +1335,23 @@ function PikauLiveView({ rt }: { rt: PikauRuntime }) {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid grid-cols-3 gap-3 text-xs">
+        {/* Fuel price strip */}
+        <div className={`flex items-center justify-between rounded-md border px-3 py-2 text-xs ${fuelShocked ? "border-destructive/40 bg-destructive/5" : ""}`}>
+          <span className="font-semibold uppercase tracking-wider text-muted-foreground">
+            Live diesel price
+          </span>
+          <div className="flex items-center gap-2">
+            <span className="font-mono font-medium">NZ${w.fuel.diesel.toFixed(2)}/L</span>
+            {fuelShocked && (
+              <Badge variant="destructive" className="text-[10px]">Fuel shock active</Badge>
+            )}
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-3 text-xs sm:grid-cols-4">
           <Stat label="Fatigue blocks" value={w.alerts.fatigueBlocks} />
           <Stat label="Cold chain breaks" value={w.alerts.coldChainBreaks} />
           <Stat label="Sensor failures" value={w.alerts.sensorFailures} />
+          <Stat label="Cost overruns" value={w.alerts.fuelCostOverruns} />
         </div>
         <Separator />
         <div>
@@ -1355,7 +1369,18 @@ function PikauLiveView({ rt }: { rt: PikauRuntime }) {
               >
                 <span className="truncate">{t.label}</span>
                 <div className="flex shrink-0 items-center gap-2">
-                  {t.kind === "assign_route" && (
+                  {t.kind === "assign_route" && t.fuelCostNzdEstimate !== undefined && (
+                    <Badge
+                      variant={
+                        t.fuelCostNzdEstimate > (t.fuelCostBudgetNzd ?? 200)
+                          ? "destructive"
+                          : "outline"
+                      }
+                    >
+                      NZ${t.fuelCostNzdEstimate.toFixed(0)}
+                    </Badge>
+                  )}
+                  {t.kind === "assign_route" && t.fuelCostNzdEstimate === undefined && (
                     <Badge variant={(t.driverMinutesRemaining ?? 999) < 30 ? "destructive" : "outline"}>
                       {t.driverMinutesRemaining}m left
                     </Badge>

@@ -118,6 +118,41 @@ const ecoPredicate: PolicyPredicate = (action) => {
   return pass(ECO_DRIVE.id, "warn");
 };
 
+/**
+ * FUEL_COST_CAP — replaces the litre-only ECO_DRIVE check with a
+ * live-price NZD check powered by FuelOracle. When fuel prices spike
+ * (e.g. after a geopolitical shock), routes that were previously
+ * under-budget become over-budget and must go to human review.
+ *
+ * The action payload carries:
+ *   fuelCostNzdEstimate  — agent's current-price cost estimate in NZD
+ *   fuelCostBudgetNzd    — route NZD budget (defaults to $200 if omitted)
+ */
+const FUEL_COST_CAP: Policy = {
+  id: "pikau.fuel_cost_cap",
+  domain: "freight_customs",
+  name: "Fuel cost cap (NZD)",
+  rationale:
+    "Routes whose estimated fuel cost in NZD exceeds the dispatcher-set budget must be flagged for human review. NZD-based (not litre-based) so live price movements — including geopolitical fuel shocks — automatically tighten the gate.",
+  source: "Internal ESG target + FuelOracle live pricing + ICCT freight efficiency guidance",
+  severity: "warn",
+  oversight: "ask_each_time",
+  tags: ["sustainability", "esg", "fuel-cost"],
+};
+const fuelCostCapPredicate: PolicyPredicate = (action) => {
+  if (action.kind !== "assign_route") return pass(FUEL_COST_CAP.id, "warn");
+  const costNzd = (action.payload.fuelCostNzdEstimate as number | undefined) ?? 0;
+  const budgetNzd = (action.payload.fuelCostBudgetNzd as number | undefined) ?? 200;
+  if (costNzd > budgetNzd) {
+    return fail(
+      FUEL_COST_CAP.id,
+      "warn",
+      `Fuel cost NZ$${costNzd.toFixed(2)} exceeds budget NZ$${budgetNzd.toFixed(2)} — send to controller for approval.`,
+    );
+  }
+  return pass(FUEL_COST_CAP.id, "warn");
+};
+
 const UNCERTAINTY: Policy = {
   id: "pikau.uncertainty_handoff",
   domain: "freight_customs",
@@ -142,6 +177,7 @@ export const PIKAU_POLICIES: RegisteredPolicy[] = [
   { policy: SENSOR_HEALTH, predicate: sensorHealthPredicate },
   { policy: DATA_RESIDENCY, predicate: residencyPredicate },
   { policy: ECO_DRIVE, predicate: ecoPredicate },
+  { policy: FUEL_COST_CAP, predicate: fuelCostCapPredicate },
   { policy: UNCERTAINTY, predicate: uncertaintyPredicate },
 ];
 export const PIKAU_POLICY_METADATA: Policy[] = PIKAU_POLICIES.map((p) => p.policy);
