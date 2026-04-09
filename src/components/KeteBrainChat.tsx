@@ -305,7 +305,7 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
                   {messages.length === 0 && (
                     <div className="text-center py-8">
                       <BrainAvatar color={accentColor} size={56} />
-                      <p className="text-white/50 text-xs mt-3">Kia ora! I'm the {keteName} brain.</p>
+                      <p className="text-white/50 text-xs mt-3">Kia ora! I'm the {keteName} specialist.</p>
                       <p className="text-white/30 text-[10px] mt-1">Ask me anything about {keteNameEn.toLowerCase()}.</p>
                     </div>
                   )}
