@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { agentChat } from "@/lib/agentChat";
+import { agentChatStream } from "@/lib/agentChat";
 import ReactMarkdown from "react-markdown";
 import { Send, X, Minimize2, RotateCcw } from "lucide-react";
 import { assemblMark } from "@/assets/brand";
@@ -55,28 +55,48 @@ const EchoChatWidget = () => {
 
   if (isChatPage) return null;
 
-  const sendMessage = async (content: string) => {
-    if (!content.trim() || isLoading) return;
-    const userMessage: Message = { role: "user", content: content.trim() };
+  const sendMessage = async (userInput: string) => {
+    if (!userInput.trim() || isLoading) return;
+    const userMessage: Message = { role: "user", content: userInput.trim() };
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInput("");
     setIsLoading(true);
 
-    try {
-      const lastMsg = newMessages[newMessages.length - 1].content;
-      const content = await agentChat({
-        agentId: "echo",
-        message: lastMsg,
-        messages: newMessages.slice(0, -1).map((m) => ({ role: m.role, content: m.content })),
-      });
-      setMessages((prev) => [...prev, { role: "assistant", content }]);
-    } catch {
-      setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, I'm having trouble connecting right now. Try again shortly." }]);
-    } finally {
-      setIsLoading(false);
-      inputRef.current?.focus();
-    }
+    // Add placeholder for streaming
+    setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
+
+    await agentChatStream({
+      agentId: "echo",
+      message: userInput.trim(),
+      messages: messages.map((m) => ({ role: m.role, content: m.content })),
+      onDelta: (text) => {
+        setMessages((prev) => {
+          const updated = [...prev];
+          updated[updated.length - 1] = {
+            role: "assistant",
+            content: updated[updated.length - 1].content + text,
+          };
+          return updated;
+        });
+      },
+      onDone: () => {
+        setIsLoading(false);
+        inputRef.current?.focus();
+      },
+      onError: () => {
+        setMessages((prev) => {
+          const updated = [...prev];
+          updated[updated.length - 1] = {
+            role: "assistant",
+            content: "Having trouble connecting right now. Try again shortly.",
+          };
+          return updated;
+        });
+        setIsLoading(false);
+        inputRef.current?.focus();
+      },
+    });
   };
 
   return (
@@ -144,7 +164,7 @@ const EchoChatWidget = () => {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <span className="font-display font-light text-sm tracking-wide" style={{ color: ECHO_COLOR }}>Echo</span>
-                <span className="text-[10px] font-body text-muted-foreground">· assembl hero agent</span>
+                <span className="text-[10px] font-body text-muted-foreground">· assembl · Auckland</span>
                 <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#5AADA0", boxShadow: "0 0 6px #5AADA0" }} />
               </div>
             </div>
@@ -181,10 +201,14 @@ const EchoChatWidget = () => {
               <div className="flex flex-col items-center justify-center h-full text-center gap-3">
                 <img src={assemblMark} alt="Echo" className="w-14 h-14 object-contain logo-glow" />
                 <p className="text-sm font-body text-foreground/70 max-w-[280px] leading-relaxed">
-                  Hey — I'm Echo, assembl's hero agent. Ask me anything about our platform, pricing, or how our agents can help your business.
+                  Kia ora — I'm Echo. Tell me about your business and I'll show you which kete fits, what your team would actually use, and what it costs.
                 </p>
                 <div className="flex flex-col gap-1.5 w-full max-w-xs mt-2">
-                  {["What does assembl do?", "Which agent is right for my business?", "Tell me about pricing"].map((q) => (
+                  {[
+                    "Which kete is right for my business?",
+                    "How does the compliance layer work?",
+                    "What's included in the Leader plan?",
+                  ].map((q) => (
                     <button
                       key={q}
                       onClick={() => sendMessage(q)}
