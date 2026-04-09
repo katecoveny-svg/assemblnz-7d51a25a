@@ -1,0 +1,57 @@
+# MANAAKI scenario: Food safety — happy path
+# Scenario ID: manaaki-food-safety-restaurant-30seats-happy
+# Kete: MANAAKI
+# Version: 0.1.0 · 2026-04-09
+
+id: manaaki-food-safety-restaurant-30seats-happy
+kete: MANAAKI
+title: "Food safety compliance review — 30-seat Wellington restaurant, no material gaps"
+buyer_persona: >
+  The owner or operations manager of a 30-seat Wellington restaurant.
+  Has a current food control plan, valid on-licence, and allergen menus in place.
+  Wants a signed evidence pack to show their food safety programme is in order
+  before an MPI verification audit.
+seed: 71
+
+generator_inputs:
+  seat_count: 30
+  staff_count: 30
+  industry: hospitality
+  data_scenario: baseline_compliant
+  food_control_plan_current: true
+  allergen_training_complete: true
+  liquor_licence_valid: true
+  has_haccp_records: true
+
+workflow_id: manaaki-food-safety-v0.1
+
+expected_bundle:
+  simulated: true
+  finding_count_min: 1
+  finding_count_max: 8
+  pipeline_stages_expected:
+    - kahu
+    - iho
+    - ta
+    - mahara
+    - mana
+  kete_extension_fields_required: []
+
+success_criteria:
+  - description: "Bundle is valid — all findings have source pointers"
+    assertion: no_unsourced_findings
+    params: {}
+
+  - description: "Bundle is correctly marked as simulated"
+    assertion: bundle_valid
+    params:
+      simulated: true
+
+  - description: "At least one Food Act finding produced"
+    assertion: finding_exists
+    params:
+      source_type: law
+      label_contains: "Food Act 2014"
+
+public_visibility: true
+last_verified: null   # [TODO: set when scenario is first run green]

@@ -1,0 +1,62 @@
+# MANAAKI scenario: Food safety — gap path (FCP not current, allergen training gaps)
+# Scenario ID: manaaki-food-safety-gap-restaurant-30seats
+# Kete: MANAAKI
+# Version: 0.1.0 · 2026-04-09
+
+id: manaaki-food-safety-gap-restaurant-30seats
+kete: MANAAKI
+title: "Food safety compliance review — 30-seat Wellington restaurant, FCP and allergen gaps found"
+buyer_persona: >
+  Same Wellington restaurant, but this time the review finds that the food
+  control plan has not been reviewed since the last verification audit (over
+  12 months ago), and 8 of 30 staff have not completed allergen awareness training.
+  The pack shows the buyer exactly what a material gap finding looks like.
+seed: 89
+
+generator_inputs:
+  seat_count: 30
+  staff_count: 30
+  industry: hospitality
+  data_scenario: food_control_plan_gap
+  food_control_plan_current: false   # trigger condition
+  allergen_training_complete: false  # secondary gap
+  liquor_licence_valid: true
+  has_haccp_records: true
+
+workflow_id: manaaki-food-safety-v0.1
+
+expected_bundle:
+  simulated: true
+  finding_count_min: 2
+  finding_count_max: 10
+  pipeline_stages_expected:
+    - kahu
+    - iho
+    - ta
+    - mahara
+    - mana
+  kete_extension_fields_required: []
+
+success_criteria:
+  - description: "Bundle is valid — all findings have source pointers"
+    assertion: no_unsourced_findings
+    params: {}
+
+  - description: "Bundle is correctly marked as simulated"
+    assertion: bundle_valid
+    params:
+      simulated: true
+
+  - description: "At least one Food Act 2014 finding produced"
+    assertion: finding_exists
+    params:
+      source_type: law
+      label_contains: "Food Act 2014"
+
+  - description: "At least one high severity finding (FCP gap is material risk)"
+    assertion: finding_severity
+    params:
+      min_severity: high
+
+public_visibility: true
+last_verified: null   # [TODO: set when scenario is first run green]

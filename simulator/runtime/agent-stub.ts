@@ -13,7 +13,7 @@
  * [TODO: Milestone 4+] Replace with real managed-agents runtime shim.
  */
 
-import type { WorkflowResult, Kete, Citation, Finding } from '../../evidence-bundles/schema.js';
+import type { WorkflowResult, Kete, Citation, Finding, KeteExtension } from '../../evidence-bundles/schema.js';
 import type { PikauExtension } from '../../evidence-bundles/schema.js';
 import type { GeneratorOutput } from '../types.js';
 
@@ -35,21 +35,8 @@ export async function runAgentStub(
   });
   const kete = generatorOutput.kete as Kete;
 
-  // ── Produce scenario-appropriate findings + citations for PIKAU ─────────
-  const scenarioParams = (generatorOutput.fixtures.scenario_params ?? {}) as {
-    ipp3a_exposure: string;
-    overseas_data_processor: boolean;
-    employees_notified: boolean;
-    has_vendor_register: boolean;
-  };
-
-  const isIPP3ATriggered =
-    scenarioParams.ipp3a_exposure === 'high' ||
-    (scenarioParams.overseas_data_processor && !scenarioParams.employees_notified);
-
-  const { citations, findings, keteExtension } = isIPP3ATriggered
-    ? buildIPP3ATriggeredOutputs(now)
-    : buildHappyPathOutputs(now);
+  // ── Route to kete-specific output builder ────────────────────────────────
+  const { citations, findings, keteExtension } = buildKeteOutputs(generatorOutput.kete, generatorOutput.fixtures, now);
 
   const result: WorkflowResult = {
     bundle_id: `stub-${generatorOutput.scenario_id}-${generatorOutput.seed}`,
@@ -91,6 +78,28 @@ export async function runAgentStub(
 
   void workflowId;
   return result;
+}
+
+// ── Kete router ───────────────────────────────────────────────────────────────
+
+function buildKeteOutputs(
+  kete: string,
+  fixtures: Record<string, unknown>,
+  now: string,
+): { citations: Citation[]; findings: Finding[]; keteExtension: KeteExtension } {
+  if (kete === 'MANAAKI') {
+    return buildManaakiOutputs(fixtures, now);
+  }
+  // Default: PIKAU privacy logic
+  const scenarioParams = (fixtures.scenario_params ?? {}) as {
+    ipp3a_exposure: string;
+    overseas_data_processor: boolean;
+    employees_notified: boolean;
+  };
+  const isIPP3ATriggered =
+    scenarioParams.ipp3a_exposure === 'high' ||
+    (scenarioParams.overseas_data_processor && !scenarioParams.employees_notified);
+  return isIPP3ATriggered ? buildIPP3ATriggeredOutputs(now) : buildHappyPathOutputs(now);
 }
 
 // ── Happy-path outputs (ipp3a_exposure: low) ──────────────────────────────────
@@ -306,4 +315,101 @@ function buildIPP3ATriggeredOutputs(now: string): {
   };
 
   return { citations, findings, keteExtension };
+}
+
+// ── MANAAKI outputs (Food Act 2014 / hospitality compliance) ──────────────────
+
+function buildManaakiOutputs(
+  fixtures: Record<string, unknown>,
+  now: string,
+): { citations: Citation[]; findings: Finding[]; keteExtension: KeteExtension } {
+  const params = (fixtures.scenario_params ?? {}) as {
+    food_control_plan_current: boolean;
+    allergen_training_complete: boolean;
+    staff_missing_allergen_training: number;
+    staff_count: number;
+  };
+
+  const citations: Citation[] = [
+    {
+      id: 'cit-food-act-2014-fcp',
+      type: 'law',
+      label: 'Food Act 2014 s60',
+      locator: 'Food Act 2014 s60 — Requirement to operate under a food control plan registered with MPI',
+      retrieved_at: now,
+    },
+    {
+      id: 'cit-food-act-2014-duty',
+      type: 'law',
+      label: 'Food Act 2014 s19',
+      locator: 'Food Act 2014 s19 — General duty to ensure food is suitable and does not pose safety risk',
+      retrieved_at: now,
+    },
+    {
+      id: 'cit-hswa-2015',
+      type: 'law',
+      label: 'HSWA 2015 s36',
+      locator: 'Health and Safety at Work Act 2015 s36 — Primary duty of care: ensure health and safety of workers',
+      retrieved_at: now,
+    },
+  ];
+
+  const findings: Finding[] = [];
+
+  if (!params.food_control_plan_current) {
+    findings.push({
+      id: 'f-001',
+      statement:
+        'The food control plan (FCP) has not been reviewed within the required period. Under the Food Act 2014, ' +
+        'the business must operate under a current, MPI-registered FCP and ensure it is reviewed at least annually ' +
+        'or when operations change materially. An out-of-date FCP is a material compliance gap that could result ' +
+        'in a failed MPI verification audit.',
+      source_pointer: 'cit-food-act-2014-fcp',
+      severity: 'high',
+      kete_extension: null,
+    });
+  }
+
+  if (!params.allergen_training_complete) {
+    const missing = params.staff_missing_allergen_training ?? 0;
+    const total = params.staff_count ?? 30;
+    findings.push({
+      id: findings.length === 0 ? 'f-001' : 'f-002',
+      statement:
+        `${missing} of ${total} staff have not completed allergen awareness training. Under the Food Act 2014 s19 ` +
+        'general duty and the HSWA 2015 primary duty of care, the business must ensure all food handlers can ' +
+        'identify and correctly communicate the 14 major allergens. A guest allergen incident without training ' +
+        'records in place could constitute a breach of the general duty.',
+      source_pointer: 'cit-food-act-2014-duty',
+      severity: 'high',
+      kete_extension: null,
+    });
+  }
+
+  // Always include at least one maintenance finding
+  findings.push({
+    id: `f-00${findings.length + 1}`,
+    statement:
+      'HACCP critical limit records and temperature logs should be cross-checked against the registered food ' +
+      'control plan before the next MPI verification audit. Ensure corrective action records are completed for ' +
+      'any exceedances, as incomplete records are a common audit finding under the Food Act 2014.',
+    source_pointer: 'cit-food-act-2014-fcp',
+    severity: params.food_control_plan_current ? 'low' : 'medium',
+    kete_extension: null,
+  });
+
+  if (params.food_control_plan_current && params.allergen_training_complete) {
+    // Happy path: add a positive info finding
+    findings.push({
+      id: `f-00${findings.length + 1}`,
+      statement:
+        'Food control plan is current and registered with MPI. Allergen awareness training is documented for ' +
+        'all food handlers. The business is well-positioned for its next MPI verification audit.',
+      source_pointer: 'cit-food-act-2014-fcp',
+      severity: 'info',
+      kete_extension: null,
+    });
+  }
+
+  return { citations, findings, keteExtension: {} };
 }

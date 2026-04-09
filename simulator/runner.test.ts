@@ -149,3 +149,76 @@ describe('PIKAU — IPP3A triggered café', () => {
     expect(JSON.stringify(r1.fixtures.vendor_register)).toBe(JSON.stringify(r2.fixtures.vendor_register));
   });
 });
+
+// ─── MANAAKI happy path ───────────────────────────────────────────────────────
+
+describe('MANAAKI — happy path restaurant', () => {
+  it('loads the scenario from YAML', () => {
+    const scenario = loadScenario('manaaki/happy-path-restaurant-30seats.yaml');
+    expect(scenario.id).toBe('manaaki-food-safety-restaurant-30seats-happy');
+    expect(scenario.kete).toBe('MANAAKI');
+    expect(scenario.seed).toBe(71);
+    expect(scenario.success_criteria.length).toBeGreaterThan(0);
+  });
+
+  it('runs end-to-end and passes all success criteria', async () => {
+    const scenario = loadScenario('manaaki/happy-path-restaurant-30seats.yaml');
+    const result = await runScenario(scenario);
+
+    if (!result.passed) {
+      console.error('Scenario failures:', JSON.stringify(result.failures, null, 2));
+    }
+
+    expect(result.passed).toBe(true);
+    expect(result.failures).toHaveLength(0);
+  });
+
+  it('produces a simulated MANAAKI bundle artifact', async () => {
+    const scenario = loadScenario('manaaki/happy-path-restaurant-30seats.yaml');
+    const result = await runScenario(scenario);
+    expect(result.bundle_artifact).not.toBeNull();
+    expect(result.bundle_artifact!.manifest.simulated).toBe(true);
+    expect(result.bundle_artifact!.manifest.kete).toBe('MANAAKI');
+  });
+
+  it('generator output is deterministic — same seed produces same staff records', async () => {
+    const { manaakiGenerator } = await import('./generators/manaaki/index.js');
+    const params = { seat_count: 30, staff_count: 30, food_control_plan_current: true, allergen_training_complete: true };
+    const r1 = manaakiGenerator.generate('test', 71, params);
+    const r2 = manaakiGenerator.generate('test', 71, params);
+    expect(JSON.stringify(r1.fixtures.staff_records)).toBe(JSON.stringify(r2.fixtures.staff_records));
+  });
+});
+
+// ─── MANAAKI food safety gap ───────────────────────────────────────────────────
+
+describe('MANAAKI — food safety gap restaurant', () => {
+  it('loads the scenario from YAML', () => {
+    const scenario = loadScenario('manaaki/food-safety-gap-restaurant-30seats.yaml');
+    expect(scenario.id).toBe('manaaki-food-safety-gap-restaurant-30seats');
+    expect(scenario.kete).toBe('MANAAKI');
+    expect(scenario.seed).toBe(89);
+  });
+
+  it('runs end-to-end and passes all success criteria', async () => {
+    const scenario = loadScenario('manaaki/food-safety-gap-restaurant-30seats.yaml');
+    const result = await runScenario(scenario);
+
+    if (!result.passed) {
+      console.error('Scenario failures:', JSON.stringify(result.failures, null, 2));
+    }
+
+    expect(result.passed).toBe(true);
+    expect(result.failures).toHaveLength(0);
+  });
+
+  it('has at least one high severity finding for FCP gap', async () => {
+    const { manaakiGenerator } = await import('./generators/manaaki/index.js');
+    const { runAgentStub } = await import('./runtime/agent-stub.js');
+    const scenario = loadScenario('manaaki/food-safety-gap-restaurant-30seats.yaml');
+    const gen = manaakiGenerator.generate(scenario.id, scenario.seed, scenario.generator_inputs);
+    const wr = await runAgentStub(gen, scenario.workflow_id);
+    const high = wr.findings.filter(f => f.severity === 'high' || f.severity === 'critical');
+    expect(high.length).toBeGreaterThan(0);
+  });
+});

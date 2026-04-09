@@ -13,12 +13,14 @@ import type { ScenarioConfig, ScenarioRunResult, ScenarioFailure, SuccessCriteri
 import type { BundleArtifact, WorkflowResult } from '../../evidence-bundles/schema.js';
 import type { PikauExtension } from '../../evidence-bundles/schema.js';
 import { pikauGenerator } from '../generators/pikau/index.js';
+import { manaakiGenerator } from '../generators/manaaki/index.js';
 import { runAgentStub } from './agent-stub.js';
 import { buildBundle } from '../../evidence-bundles/generator.js';
 
 const GENERATORS: Record<string, import('../types.js').KeteGenerator> = {
   PIKAU: pikauGenerator,
-  // [TODO: Milestone 9+] add MANAAKI, WAIHANGA, ARATAKI, AUAHA generators
+  MANAAKI: manaakiGenerator,
+  // [TODO: Milestone 10+] add WAIHANGA, ARATAKI, AUAHA generators
 };
 
 /** Severity rank for ordering comparisons. */
