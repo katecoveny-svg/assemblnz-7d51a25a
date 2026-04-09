@@ -6942,7 +6942,7 @@ IMAGERY STYLE: When generating images, use the 'Dark Cosmic Aotearoa' aesthetic 
          { onConflict: "user_id,period" }
        );
        // Increment message count
-       await sb.rpc("increment_usage", undefined).catch(() => {});
+       try { await sb.rpc("increment_usage", undefined); } catch (_e) { /* ignore */ }
      }
      return new Response(
        JSON.stringify({ content: cached.response_text, fromCache: true, model: "cache" }),
@@ -7286,10 +7286,12 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
  if (!response || !response.ok) {
   // Log error analytics
   if (userId) {
-   await sb.from("agent_analytics").insert({
-    user_id: userId, agent_name: agentId, model_used: actualModelUsed, complexity,
-    response_time_ms: Date.now() - startTime, error: true, error_message: "All retries failed",
-   }).catch(() => {});
+    try {
+     await sb.from("agent_analytics").insert({
+      user_id: userId, agent_name: agentId, model_used: actualModelUsed, complexity,
+      response_time_ms: Date.now() - startTime, error: true, error_message: "All retries failed",
+     });
+    } catch (_e) { /* ignore */ }
   }
   return new Response(
    JSON.stringify({ content: "I'm having a moment — could you try that again? If it keeps happening, try rephrasing your question.", error: true }),
