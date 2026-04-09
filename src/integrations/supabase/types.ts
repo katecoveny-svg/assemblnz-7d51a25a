@@ -14,6 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
+      aaaip_audit_exports: {
+        Row: {
+          allowed: number
+          applied: number
+          blocked: number
+          compliance_rate: number | null
+          created_at: string
+          domain: string
+          entries: Json
+          entry_count: number
+          exported_at: string
+          human_approval_rate: number | null
+          id: string
+          needs_human: number
+          pilot_label: string | null
+          policy_hits: Json
+          source_ip: string | null
+          total_decisions: number
+          user_agent: string | null
+        }
+        Insert: {
+          allowed?: number
+          applied?: number
+          blocked?: number
+          compliance_rate?: number | null
+          created_at?: string
+          domain: string
+          entries?: Json
+          entry_count?: number
+          exported_at: string
+          human_approval_rate?: number | null
+          id?: string
+          needs_human?: number
+          pilot_label?: string | null
+          policy_hits?: Json
+          source_ip?: string | null
+          total_decisions?: number
+          user_agent?: string | null
+        }
+        Update: {
+          allowed?: number
+          applied?: number
+          blocked?: number
+          compliance_rate?: number | null
+          created_at?: string
+          domain?: string
+          entries?: Json
+          entry_count?: number
+          exported_at?: string
+          human_approval_rate?: number | null
+          id?: string
+          needs_human?: number
+          pilot_label?: string | null
+          policy_hits?: Json
+          source_ip?: string | null
+          total_decisions?: number
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       action_queue: {
         Row: {
           agent_id: string
@@ -462,6 +522,57 @@ export type Database = {
           is_online?: boolean
           maintenance_message?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      agent_test_results: {
+        Row: {
+          agent_slug: string
+          audit_entry: Json | null
+          created_at: string
+          id: string
+          kete: string
+          overall_verdict: string | null
+          prompt: string
+          response: string | null
+          run_by: string | null
+          verdict_iho: string | null
+          verdict_kahu: string | null
+          verdict_mahara: string | null
+          verdict_mana: string | null
+          verdict_ta: string | null
+        }
+        Insert: {
+          agent_slug: string
+          audit_entry?: Json | null
+          created_at?: string
+          id?: string
+          kete: string
+          overall_verdict?: string | null
+          prompt: string
+          response?: string | null
+          run_by?: string | null
+          verdict_iho?: string | null
+          verdict_kahu?: string | null
+          verdict_mahara?: string | null
+          verdict_mana?: string | null
+          verdict_ta?: string | null
+        }
+        Update: {
+          agent_slug?: string
+          audit_entry?: Json | null
+          created_at?: string
+          id?: string
+          kete?: string
+          overall_verdict?: string | null
+          prompt?: string
+          response?: string | null
+          run_by?: string | null
+          verdict_iho?: string | null
+          verdict_kahu?: string | null
+          verdict_mahara?: string | null
+          verdict_mana?: string | null
+          verdict_ta?: string | null
         }
         Relationships: []
       }
@@ -1478,33 +1589,45 @@ export type Database = {
           email: string
           follow_up_sent: boolean | null
           id: string
+          interest: string | null
           is_read: boolean
           lead_score: number | null
           lead_status: string | null
           message: string
           name: string
+          pain_area: string | null
+          phone: string | null
+          website: string | null
         }
         Insert: {
           created_at?: string
           email: string
           follow_up_sent?: boolean | null
           id?: string
+          interest?: string | null
           is_read?: boolean
           lead_score?: number | null
           lead_status?: string | null
           message: string
           name: string
+          pain_area?: string | null
+          phone?: string | null
+          website?: string | null
         }
         Update: {
           created_at?: string
           email?: string
           follow_up_sent?: boolean | null
           id?: string
+          interest?: string | null
           is_read?: boolean
           lead_score?: number | null
           lead_status?: string | null
           message?: string
           name?: string
+          pain_area?: string | null
+          phone?: string | null
+          website?: string | null
         }
         Relationships: []
       }

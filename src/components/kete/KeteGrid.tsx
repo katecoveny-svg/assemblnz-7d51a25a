@@ -45,7 +45,7 @@ const KeteGrid: React.FC = () => {
   return (
     <>
       <SEO
-        title="The Kete Collection | Assembl"
+        title="The Kete Collection | assembl"
         description="Five industry-specific kete plus a shared core platform — built in Aotearoa, grounded in NZ legislation."
       />
       <div className="kete-grid-wrapper relative w-full max-w-[1400px] mx-auto px-6 md:px-8 py-16 md:py-20">
@@ -81,7 +81,7 @@ const KeteGrid: React.FC = () => {
             style={{
               fontFamily: "'Lato', sans-serif",
               fontWeight: 300,
-              background: "linear-gradient(135deg, #D4A843 0%, #F0D078 100%)",
+              background: "linear-gradient(135deg, #3A7D6E 0%, #7ECFC2 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
             }}
@@ -115,7 +115,7 @@ const KeteGrid: React.FC = () => {
           <span>·</span>
           <span>{SHARED_CORE_AGENTS.length} CORE</span>
           <span>·</span>
-          <span>1 BRAIN</span>
+          <span>1 SHARED INTELLIGENCE</span>
         </div>
       </div>
     </>

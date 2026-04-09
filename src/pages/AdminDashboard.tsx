@@ -12,6 +12,7 @@ import {
   FileText, Download, FolderOpen, Activity, Heart, Zap, Globe,
   BarChart3, Clock, Star, AlertTriangle, CheckCircle2,
 } from "lucide-react";
+import AgentTestResultsTab from "@/components/admin/AgentTestResultsTab";
 
 interface Metrics {
   totalUsers: number;
@@ -57,7 +58,7 @@ const LEAD_COLORS: Record<string, string> = { new: "#3A6A9C", contacted: "#3A6A9
 const AdminDashboard = () => {
   const { user, isAdmin, loading: authLoading, signOut } = useAuth();
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"overview" | "users" | "agents" | "activity" | "leads" | "documents" | "test">("overview");
+  const [tab, setTab] = useState<"overview" | "users" | "agents" | "activity" | "leads" | "documents" | "test" | "test-results">("overview");
   const [metrics, setMetrics] = useState<Metrics | null>(null);
   const [users, setUsers] = useState<UserRow[]>([]);
   const [agentStatuses, setAgentStatuses] = useState<AgentStatus[]>([]);
@@ -179,7 +180,7 @@ const AdminDashboard = () => {
   const getAgentInfo = (id: string) => agents.find(a => a.id === id);
   const getStatus = (id: string) => agentStatuses.find(a => a.agent_id === id);
 
-  const tabs = ["overview", "users", "agents", "activity", "leads", "documents", "test"] as const;
+  const tabs = ["overview", "users", "agents", "activity", "leads", "documents", "test", "test-results"] as const;
 
   return (
     <div className="min-h-screen star-field flex flex-col">
@@ -643,6 +644,22 @@ const AdminDashboard = () => {
                           </div>
                         </div>
                         <p className="text-xs text-foreground/70 leading-relaxed">{sub.message}</p>
+                        {((sub as any).phone || (sub as any).website || (sub as any).pain_area || (sub as any).interest) && (
+                          <div className="flex flex-wrap gap-2 mt-2">
+                            {(sub as any).pain_area && (
+                              <span className="text-[9px] px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400">Pain: {(sub as any).pain_area}</span>
+                            )}
+                            {(sub as any).interest && (
+                              <span className="text-[9px] px-2 py-0.5 rounded-full bg-pounamu/10 text-pounamu-light">Kete: {(sub as any).interest}</span>
+                            )}
+                            {(sub as any).phone && (
+                              <span className="text-[9px] px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400">📞 {(sub as any).phone}</span>
+                            )}
+                            {(sub as any).website && (
+                              <a href={(sub as any).website} target="_blank" rel="noopener noreferrer" className="text-[9px] px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 hover:underline">🌐 {(sub as any).website}</a>
+                            )}
+                          </div>
+                        )}
                       </div>
                     );
                   })}
@@ -756,6 +773,11 @@ const AdminDashboard = () => {
               ))}
             </div>
           </div>
+        )}
+
+        {/* TEST RESULTS TAB */}
+        {tab === "test-results" && (
+          <AgentTestResultsTab />
         )}
       </main>
       <BrandFooter />

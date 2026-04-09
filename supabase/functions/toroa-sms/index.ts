@@ -107,13 +107,14 @@ async function fetchMediaAsBase64(url: string): Promise<{ base64: string; mimeTy
 /* ── Send SMS ── */
 async function sendSms(to: string, message: string): Promise<void> {
   const token = Deno.env.get("TNZ_AUTH_TOKEN");
-  const base = Deno.env.get("TNZ_API_BASE") || "https://api.tnz.co.nz/api/v2.02";
+  // Always use v2.04 REST endpoint (confirmed working; v3.00 has different auth/payload)
+  const tnzSmsUrl = "https://api.tnz.co.nz/api/v2.04/send/sms";
   const from = Deno.env.get("TNZ_FROM_NUMBER") || "TOROA";
   if (!token) { console.warn("TNZ_AUTH_TOKEN not set"); return; }
   try {
-    await fetch(`${base}/send/sms`, {
+    await fetch(tnzSmsUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Basic ${token}` },
+      headers: { "Content-Type": "application/json; encoding='utf-8'", "Accept": "application/json; encoding='utf-8'", Authorization: `Basic ${token}` },
       body: JSON.stringify({ MessageData: { Message: message, Destinations: [{ Recipient: to }], Reference: `toroa-${Date.now()}`, FromNumber: from } }),
     });
   } catch (err) { console.error("SMS send error:", err); }

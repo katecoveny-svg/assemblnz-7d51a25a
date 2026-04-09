@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, HardHat, UtensilsCrossed, Palette, Bird, Shield, ChevronDown } from "lucide-react";
 import AccountDropdown from "@/components/AccountDropdown";
 import CelestialLogo from "@/components/CelestialLogo";
+import KiaOraPopup from "@/components/KiaOraPopup";
 
 interface NavItem { label: string; to: string }
 
@@ -11,13 +12,14 @@ const NAV_ITEMS: NavItem[] = [
   { label: "How It Works", to: "/how-it-works" },
   { label: "Pricing", to: "/pricing" },
   { label: "About", to: "/about" },
+  { label: "Research Lab", to: "/aaaip" },
 ];
 
 const PACKS = [
-  { label: "Manaaki", sublabel: "Hospitality", to: "/manaaki", icon: UtensilsCrossed, color: "#D4A843", group: "business" },
+  { label: "Manaaki", sublabel: "Hospitality", to: "/packs/manaaki", icon: UtensilsCrossed, color: "#D4A843", group: "business" },
   { label: "Waihanga", sublabel: "Construction", to: "/hanga", icon: HardHat, color: "#3A7D6E", group: "business" },
   { label: "Auaha", sublabel: "Creative", to: "/auaha", icon: Palette, color: "#F0D078", group: "business" },
-  { label: "Tōroa", sublabel: "Family", to: "/toroa", icon: Bird, color: "#D4A843", group: "whanau" },
+  { label: "Tōro", sublabel: "Family", to: "/toroa", icon: Bird, color: "#D4A843", group: "whanau" },
 ];
 
 const BrandNav = () => {
@@ -25,6 +27,7 @@ const BrandNav = () => {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [packsOpen, setPacksOpen] = useState(false);
+  const [kiaOraOpen, setKiaOraOpen] = useState(false);
 
   const handleNavClick = (to: string) => {
     setMobileOpen(false);
@@ -50,11 +53,11 @@ const BrandNav = () => {
         <Link to="/" className="flex items-center gap-3 group shrink-0">
           <CelestialLogo size={36} />
           <motion.span
-            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "6px", textTransform: "uppercase", fontSize: "13px", color: "rgba(255,255,255,0.85)" }}
+            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "6px", textTransform: "lowercase", fontSize: "13px", color: "rgba(255,255,255,0.85)" }}
             animate={{ textShadow: ["0 0 6px rgba(255,255,255,0.1)", "0 0 16px rgba(255,255,255,0.3)", "0 0 6px rgba(255,255,255,0.1)"] }}
             transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
           >
-            ASSEMBL
+            assembl
           </motion.span>
         </Link>
 
@@ -96,7 +99,14 @@ const BrandNav = () => {
                       </button>
                     ))}
                     <div className="border-t pt-1 mt-1" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-                      <button onClick={() => handleNavClick("/hanga")}
+                      <button onClick={() => handleNavClick("/toroa")}
+                        className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/[0.04] transition-colors">
+                        <Bird size={14} className="text-white/30 ml-1" />
+                        <span className="text-[11px] text-white/40">Tōroa — Whānau Navigator</span>
+                      </button>
+                    </div>
+                    <div className="border-t pt-1 mt-1" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                      <button onClick={() => handleNavClick("/packs/hanga")}
                         className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/[0.04] transition-colors">
                         <Shield size={14} className="text-white/30 ml-1" />
                         <span className="text-[11px] text-white/40">SIGNAL Security — Shared</span>
@@ -108,11 +118,11 @@ const BrandNav = () => {
             </AnimatePresence>
           </div>
 
-          <Link to="/contact"
+          <button onClick={() => setKiaOraOpen(true)}
             className="ml-2 px-5 py-2 rounded-full text-xs font-body font-medium transition-all duration-300"
-            style={{ background: "#D4A843", color: "#09090F" }}>
-            Book a discovery call
-          </Link>
+            style={{ background: "#3A7D6E", color: "#FFFFFF" }}>
+            Kia ora — let's talk
+          </button>
 
           <AccountDropdown />
         </nav>
@@ -135,7 +145,7 @@ const BrandNav = () => {
               initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}>
               <div className="flex items-center justify-between px-5 py-4">
-                <span style={{ fontFamily: "'Lato', sans-serif", fontWeight: 700, fontSize: "12px", letterSpacing: "3px", color: "#D4A843" }}>MENU</span>
+                <span style={{ fontFamily: "'Lato', sans-serif", fontWeight: 700, fontSize: "12px", letterSpacing: "3px", color: "#5AADA0" }}>MENU</span>
                 <button onClick={() => setMobileOpen(false)} className="p-1.5 rounded-lg" style={{ color: "rgba(255,255,255,0.6)" }} aria-label="Close menu">
                   <X size={20} />
                 </button>
@@ -151,7 +161,7 @@ const BrandNav = () => {
                 ))}
 
                 <div className="pt-2 pb-1">
-                  <span className="px-4 text-[10px] font-semibold tracking-widest" style={{ color: "#D4A843" }}>INDUSTRY PACKS</span>
+                  <span className="px-4 text-[10px] font-semibold tracking-widest" style={{ color: "#5AADA0" }}>INDUSTRY PACKS</span>
                 </div>
                 {PACKS.map(pack => (
                   <button key={pack.label} onClick={() => handleNavClick(pack.to)}
@@ -165,18 +175,20 @@ const BrandNav = () => {
               </nav>
 
               <div className="px-5 py-5 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-                <Link to="/contact"
+                <button
                   className="block w-full text-center px-5 py-3 rounded-full text-sm font-body font-medium mb-3"
-                  style={{ background: "#D4A843", color: "#09090F" }}
-                  onClick={() => setMobileOpen(false)}>
-                  Book a discovery call
-                </Link>
+                  style={{ background: "#3A7D6E", color: "#FFFFFF" }}
+                  onClick={() => { setMobileOpen(false); setKiaOraOpen(true); }}>
+                  Kia ora — let's talk
+                </button>
                 <AccountDropdown />
               </div>
             </motion.div>
           </>
         )}
       </AnimatePresence>
+
+      <KiaOraPopup open={kiaOraOpen} onClose={() => setKiaOraOpen(false)} />
     </>
   );
 };
