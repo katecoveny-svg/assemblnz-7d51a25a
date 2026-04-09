@@ -243,8 +243,8 @@ const Index = () => {
   return (
     <div className="min-h-screen relative" style={{ background: C.bg, color: C.white }}>
       <SEO
-        title="assembl — Governed Operational Intelligence for Aotearoa"
-        description="Simulation-tested specialist digital workers for NZ business. Six-layer agent stack: perception, memory, reasoning, action, explanation, simulation. From $1,490/mo NZD ex GST."
+        title="assembl — Every workflow ends in a pack you can file, forward or footnote"
+        description="Five industry kete for NZ business. Each run ends in a signed evidence pack — your hospitality audit, privacy review, or site sign-off. File it, forward it, footnote it. From $1,490/mo NZD ex GST."
       />
       <BrandNav />
 
@@ -271,7 +271,7 @@ const Index = () => {
               boxShadow: "0 0 30px rgba(58,125,110,0.1)",
             }}
           >
-            Governed Intelligence for Aotearoa — specialist kete for real NZ operations
+            Evidence packs for Aotearoa — file it · forward it · footnote it
           </span>
         </motion.div>
 
@@ -290,7 +290,7 @@ const Index = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.75, delay: 0.5, ease }}
         >
-          You're a 5-person business doing the work of 50.{" "}
+          Every workflow ends in a pack you can{" "}
           <span
             style={{
               background: `linear-gradient(135deg, ${C.pounamu} 0%, ${C.pounamuGlow} 50%, ${C.pounamu} 100%)`,
@@ -299,7 +299,7 @@ const Index = () => {
               backgroundClip: "text",
             }}
           >
-            assembl is the rest of the team.
+            file, forward or footnote.
           </span>
         </motion.h1>
 
@@ -311,7 +311,7 @@ const Index = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, delay: 0.65, ease }}
         >
-          Specialist digital workers that sit inside your existing workflows — governed by policy rules, tested against simulated scenarios, and built around NZ legislation. Not a chatbot. Not a workforce replacement. Better operational outcomes, stronger compliance, faster decisions.
+          Five industry kete, each built to end in a signed evidence pack. Your hospitality audit, privacy review, or site sign-off — the work runs, the pack builds. Your auditor can read it. Your lawyer can rely on it. Your client can sign it.
         </motion.p>
 
         {/* CTAs */}
@@ -322,12 +322,12 @@ const Index = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8, ease }}
         >
-          <button
-            onClick={scrollToPilot}
+          <a
+            href="#packs"
             className="cta-glass-green inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm"
           >
-            Start a founding pilot <ArrowRight size={15} />
-          </button>
+            See a sample pack <ArrowRight size={15} />
+          </a>
           <a
             href="#pricing"
             className="btn-ghost inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm"
