@@ -1,20 +1,23 @@
 /**
  * Agent stub — Assembl simulator runtime
- * Version: stub · 0.1.0 · 2026-04-09
+ * Version: 0.1.0 · 2026-04-09
  *
  * A placeholder agent that accepts GeneratorOutput and returns a WorkflowResult.
- * Used by the simulator runner during development, before real agent workflows are wired.
+ * Produces deterministic, scenario-appropriate findings and citations based on
+ * the fixture data — specifically the scenario_params (ipp3a_exposure,
+ * overseas_data_processor, employees_notified) and vendor_register.
  *
- * This stub is thrown away when the runner is wired to the managed agents runtime.
- * It exists so scenarios can be developed and CI can run before migration completes.
+ * Used by the simulator runner during development before real agent workflows
+ * are wired to the managed agents runtime.
  *
- * Full implementation: Milestone 3 (simulator runner v0.1)
+ * [TODO: Milestone 4+] Replace with real managed-agents runtime shim.
  */
 
-import type { WorkflowResult, Kete } from '../../evidence-bundles/schema.js';
+import type { WorkflowResult, Kete, Citation, Finding } from '../../evidence-bundles/schema.js';
+import type { PikauExtension } from '../../evidence-bundles/schema.js';
 import type { GeneratorOutput } from '../types.js';
 
-// [TODO: Milestone 3] Replace stub with a real runtime shim that:
+// [TODO: Milestone 4+] Replace stub with a real runtime shim that:
 //   1. Loads the kete's system prompt from agents/{kete}/<name>/system-prompt.md
 //   2. Loads the KB files referenced in agents/{kete}/<name>/kb-refs.md
 //   3. Calls the managed agents API (with local fallback adapter during dev)
@@ -25,10 +28,29 @@ export async function runAgentStub(
   workflowId: string,
 ): Promise<WorkflowResult> {
   const now = new Date().toISOString();
+  const stage = (offsetMs = 0) => ({
+    started_at: new Date(Date.now() - offsetMs).toISOString(),
+    finished_at: new Date(Date.now() - offsetMs + 2000).toISOString(),
+    notes: 'stub',
+  });
   const kete = generatorOutput.kete as Kete;
 
-  // Stub: returns a minimal valid WorkflowResult for schema testing only.
-  // Findings are empty — real analysis not implemented here.
+  // ── Produce scenario-appropriate findings + citations for PIKAU ─────────
+  const scenarioParams = (generatorOutput.fixtures.scenario_params ?? {}) as {
+    ipp3a_exposure: string;
+    overseas_data_processor: boolean;
+    employees_notified: boolean;
+    has_vendor_register: boolean;
+  };
+
+  const isIPP3ATriggered =
+    scenarioParams.ipp3a_exposure === 'high' ||
+    (scenarioParams.overseas_data_processor && !scenarioParams.employees_notified);
+
+  const { citations, findings, keteExtension } = isIPP3ATriggered
+    ? buildIPP3ATriggeredOutputs(now)
+    : buildHappyPathOutputs(now);
+
   const result: WorkflowResult = {
     bundle_id: `stub-${generatorOutput.scenario_id}-${generatorOutput.seed}`,
     schema_version: '0.1.0',
@@ -41,11 +63,11 @@ export async function runAgentStub(
     },
 
     pipeline: {
-      kahu: { started_at: now, finished_at: now, notes: 'stub' },
-      iho: { started_at: now, finished_at: now, notes: 'stub' },
-      ta: { started_at: now, finished_at: now, notes: 'stub' },
-      mahara: { started_at: now, finished_at: now, notes: 'stub' },
-      mana: { started_at: now, finished_at: now, notes: 'stub' },
+      kahu:   stage(12_000),
+      iho:    stage(10_000),
+      ta:     stage(6_000),
+      mahara: stage(3_000),
+      mana:   stage(1_000),
     },
 
     inputs: [
@@ -54,19 +76,234 @@ export async function runAgentStub(
         kind: 'simulator-fixture',
         source_ref: `simulator/scenarios/${kete.toLowerCase()}/${generatorOutput.scenario_id}.yaml`,
         content_hash: 'stub-hash',
-        simulated: true,   // all simulator inputs are simulated
+        simulated: true,
       },
     ],
 
     steps: [],
-    findings: [],
-    citations: [],
+    findings,
+    citations,
     reviewer: null,
-    simulated: true,   // always true — all simulator inputs are simulated
+    simulated: true,
 
-    kete_extension: {},   // [TODO: Milestone 3] populate per-kete extension
+    kete_extension: keteExtension,
   };
 
-  void workflowId;   // used when wired to the managed agents runtime
+  void workflowId;
   return result;
+}
+
+// ── Happy-path outputs (ipp3a_exposure: low) ──────────────────────────────────
+
+function buildHappyPathOutputs(now: string): {
+  citations: Citation[];
+  findings: Finding[];
+  keteExtension: PikauExtension;
+} {
+  const citations: Citation[] = [
+    {
+      id: 'cit-pa2020-ipp3',
+      type: 'law',
+      label: 'Privacy Act 2020 IPP3',
+      locator: 'Privacy Act 2020 s21 IPP3 — Collection of personal information from subject',
+      retrieved_at: now,
+    },
+    {
+      id: 'cit-pa2020-ipp5',
+      type: 'law',
+      label: 'Privacy Act 2020 IPP5',
+      locator: 'Privacy Act 2020 s21 IPP5 — Storage and security of personal information',
+      retrieved_at: now,
+    },
+    {
+      id: 'cit-pa2020-ipp9',
+      type: 'law',
+      label: 'Privacy Act 2020 IPP9',
+      locator: 'Privacy Act 2020 s21 IPP9 — Retention of personal information',
+      retrieved_at: now,
+    },
+    {
+      id: 'cit-pa2020-ipp11',
+      type: 'law',
+      label: 'Privacy Act 2020 IPP11',
+      locator: 'Privacy Act 2020 s21 IPP11 — Limits on disclosure of personal information',
+      retrieved_at: now,
+    },
+  ];
+
+  const findings: Finding[] = [
+    {
+      id: 'f-001',
+      statement:
+        'No vendor register is in place. The business cannot demonstrate which third parties hold personal information on its behalf, or that data processing agreements are in place — a gap under IPP5.',
+      source_pointer: 'cit-pa2020-ipp5',
+      severity: 'medium',
+      kete_extension: null,
+    },
+    {
+      id: 'f-002',
+      statement:
+        'No customer-facing privacy policy is displayed at the point of collection. Customers are not being informed of how their personal information is used, held, and disclosed as required by IPP3.',
+      source_pointer: 'cit-pa2020-ipp3',
+      severity: 'medium',
+      kete_extension: null,
+    },
+    {
+      id: 'f-003',
+      statement:
+        'No documented data retention policy exists. Personal information — including staff records and customer contact details — may be held indefinitely, creating unnecessary risk under IPP9.',
+      source_pointer: 'cit-pa2020-ipp9',
+      severity: 'low',
+      kete_extension: null,
+    },
+    {
+      id: 'f-004',
+      statement:
+        'Staff emails containing personal customer information are not subject to a formal disclosure policy. Without an IPP11-aligned policy, inadvertent disclosure risk is elevated.',
+      source_pointer: 'cit-pa2020-ipp11',
+      severity: 'low',
+      kete_extension: null,
+    },
+  ];
+
+  const keteExtension: PikauExtension = {
+    ipp_snapshot: [
+      { principle: 'IPP3', status: 'at_risk', notes: 'No privacy policy at point of collection' },
+      { principle: 'IPP5', status: 'at_risk', notes: 'No vendor register or DPAs confirmed' },
+      { principle: 'IPP9', status: 'at_risk', notes: 'No documented data retention policy' },
+      { principle: 'IPP11', status: 'at_risk', notes: 'No formal disclosure policy for staff emails' },
+      { principle: 'IPP3A', status: 'not_applicable', notes: 'No significant indirect collection identified in this review' },
+    ],
+    data_inventory_ref: null,
+    breach_risk_score: 'low',
+    named_privacy_officer: null,
+    dpia_reference: null,
+    ipp3a_collection_source_notices: [],
+  };
+
+  return { citations, findings, keteExtension };
+}
+
+// ── IPP3A-triggered outputs (ipp3a_exposure: high, employees_notified: false) ─
+
+function buildIPP3ATriggeredOutputs(now: string): {
+  citations: Citation[];
+  findings: Finding[];
+  keteExtension: PikauExtension;
+} {
+  const citations: Citation[] = [
+    {
+      id: 'cit-pa2020-ipp3',
+      type: 'law',
+      label: 'Privacy Act 2020 IPP3',
+      locator: 'Privacy Act 2020 s21 IPP3 — Collection of personal information from subject',
+      retrieved_at: now,
+    },
+    {
+      id: 'cit-pa2020-ipp5',
+      type: 'law',
+      label: 'Privacy Act 2020 IPP5',
+      locator: 'Privacy Act 2020 s21 IPP5 — Storage and security of personal information',
+      retrieved_at: now,
+    },
+    {
+      id: 'cit-pa2020-ipp3a',
+      type: 'law',
+      label: 'Privacy Act 2020 s22A (IPP3A)',
+      locator:
+        'Privacy Act 2020 s22A — IPP3A: Collection of personal information from someone other than the individual. ' +
+        'Effective 1 May 2026. Where an agency collects personal information from a source other than the individual, ' +
+        'it must take reasonable steps to ensure the individual is aware of the collection.',
+      retrieved_at: now,
+    },
+    {
+      id: 'cit-pa2020-ipp9',
+      type: 'law',
+      label: 'Privacy Act 2020 IPP9',
+      locator: 'Privacy Act 2020 s21 IPP9 — Retention of personal information',
+      retrieved_at: now,
+    },
+  ];
+
+  const findings: Finding[] = [
+    {
+      id: 'f-001',
+      statement:
+        'Employee roster and payroll data is being shared with an overseas payroll processor ' +
+        '(FlexiRosta Pty Ltd, Australia) without employees being notified of the indirect collection. ' +
+        'This is a breach of IPP3A effective 1 May 2026. Employees have not been made aware that their ' +
+        'schedule, contact details, and payroll information is transferred to a third-party overseas processor.',
+      source_pointer: 'cit-pa2020-ipp3a',
+      severity: 'critical',
+      kete_extension: null,
+    },
+    {
+      id: 'f-002',
+      statement:
+        'No IPP3A collection source notice has been issued to affected employees. ' +
+        'The business must take reasonable steps to notify employees of the indirect collection ' +
+        'by the rostering system before or at the time of collection, or as soon as practicable afterwards.',
+      source_pointer: 'cit-pa2020-ipp3a',
+      severity: 'high',
+      kete_extension: null,
+    },
+    {
+      id: 'f-003',
+      statement:
+        'No data processing agreement (DPA) is in place with the overseas payroll processor. ' +
+        'The processor holds IRD numbers, bank account details, and salary information. ' +
+        'Without a DPA, the business cannot demonstrate adequate safeguards under IPP5.',
+      source_pointer: 'cit-pa2020-ipp5',
+      severity: 'high',
+      kete_extension: null,
+    },
+    {
+      id: 'f-004',
+      statement:
+        'No vendor register exists. The business cannot demonstrate which third parties hold ' +
+        'personal information on its behalf. At minimum, the rostering vendor and overseas payroll ' +
+        'processor must be documented with data types held and DPA status.',
+      source_pointer: 'cit-pa2020-ipp5',
+      severity: 'medium',
+      kete_extension: null,
+    },
+    {
+      id: 'f-005',
+      statement:
+        'No customer-facing privacy policy is displayed at the point of collection. ' +
+        'Customers are not being informed of how their personal information is used per IPP3.',
+      source_pointer: 'cit-pa2020-ipp3',
+      severity: 'medium',
+      kete_extension: null,
+    },
+  ];
+
+  const keteExtension: PikauExtension = {
+    ipp_snapshot: [
+      { principle: 'IPP3', status: 'at_risk', notes: 'No privacy policy at point of collection' },
+      { principle: 'IPP5', status: 'non_compliant', notes: 'No DPA with overseas processor; no vendor register' },
+      { principle: 'IPP9', status: 'unknown', notes: 'Not assessed in this review' },
+      {
+        principle: 'IPP3A',
+        status: 'at_risk',
+        notes:
+          'Indirect collection occurring via rostering system → overseas payroll. ' +
+          'Employees not notified. Effective 1 May 2026 — immediate remediation required.',
+      },
+    ],
+    data_inventory_ref: null,
+    breach_risk_score: 'high',
+    named_privacy_officer: null,
+    dpia_reference: null,
+    ipp3a_collection_source_notices: [
+      {
+        data_type: 'employee_roster_and_payroll',
+        collection_method: 'indirect',
+        source_ref: 'vendor:FlexiRosta-overseas-payroll',
+        notice_given: false,
+      },
+    ],
+  };
+
+  return { citations, findings, keteExtension };
 }

@@ -1,30 +1,33 @@
 /**
  * Scenario runner — Assembl simulator
- * Version: stub · 0.1.0 · 2026-04-09
+ * Version: 0.1.0 · 2026-04-09
  *
  * Takes a ScenarioConfig, runs it through the generator + agent, pipes the
  * WorkflowResult to the evidence bundle generator, and asserts the output
  * matches the scenario's success criteria.
  *
- * Full implementation: Milestone 3 (simulator runner v0.1)
+ * [TODO: Milestone 4+] Replace runAgentStub with the real managed agents runtime shim.
  */
 
-import type { ScenarioConfig, ScenarioRunResult, ScenarioFailure } from '../types.js';
-import type { BundleArtifact } from '../../evidence-bundles/schema.js';
+import type { ScenarioConfig, ScenarioRunResult, ScenarioFailure, SuccessCriteria } from '../types.js';
+import type { BundleArtifact, WorkflowResult } from '../../evidence-bundles/schema.js';
+import type { PikauExtension } from '../../evidence-bundles/schema.js';
 import { pikauGenerator } from '../generators/pikau/index.js';
 import { runAgentStub } from './agent-stub.js';
 import { buildBundle } from '../../evidence-bundles/generator.js';
 
 const GENERATORS: Record<string, import('../types.js').KeteGenerator> = {
   PIKAU: pikauGenerator,
-  // [TODO: Milestone 6+] add MANAAKI, WAIHANGA, ARATAKI, AUAHA generators
+  // [TODO: Milestone 9+] add MANAAKI, WAIHANGA, ARATAKI, AUAHA generators
+};
+
+/** Severity rank for ordering comparisons. */
+const SEVERITY_RANK: Record<string, number> = {
+  info: 0, low: 1, medium: 2, high: 3, critical: 4,
 };
 
 /**
  * Run a single scenario and return the result.
- *
- * [TODO: Milestone 3] Replace runAgentStub with the real managed agents runtime shim.
- * [TODO: Milestone 3] Implement all success_criteria assertion types.
  */
 export async function runScenario(scenario: ScenarioConfig): Promise<ScenarioRunResult> {
   const start = Date.now();
@@ -44,7 +47,7 @@ export async function runScenario(scenario: ScenarioConfig): Promise<ScenarioRun
   // 1. Generate synthetic fixtures
   const generatorOutput = generator.generate(scenario.id, scenario.seed, scenario.generator_inputs);
 
-  // 2. Run through the agent (stub for now)
+  // 2. Run through the agent (stub — see agent-stub.ts)
   const workflowResult = await runAgentStub(generatorOutput, scenario.workflow_id);
 
   // 3. Build the evidence pack
@@ -68,7 +71,6 @@ export async function runScenario(scenario: ScenarioConfig): Promise<ScenarioRun
 
   // 4. Assert success criteria
   const failures: ScenarioFailure[] = [];
-
   for (const criterion of scenario.success_criteria) {
     const failure = assertCriterion(criterion, workflowResult, bundleArtifact);
     if (failure) failures.push(failure);
@@ -84,16 +86,15 @@ export async function runScenario(scenario: ScenarioConfig): Promise<ScenarioRun
   };
 }
 
-/**
- * [TODO: Milestone 3] Implement all assertion types properly.
- * Stubs pass everything for now so the skeleton compiles and CI runs.
- */
+// ── Assertion implementations ─────────────────────────────────────────────────
+
 function assertCriterion(
-  criterion: import('../types.js').SuccessCriteria,
-  workflowResult: import('../../evidence-bundles/schema.js').WorkflowResult,
+  criterion: SuccessCriteria,
+  workflowResult: WorkflowResult,
   _bundle: BundleArtifact,
 ): ScenarioFailure | null {
   switch (criterion.assertion) {
+
     case 'no_unsourced_findings': {
       const unsourced = workflowResult.findings.filter(f => !f.source_pointer);
       if (unsourced.length > 0) {
@@ -107,7 +108,8 @@ function assertCriterion(
     }
 
     case 'bundle_valid': {
-      if (criterion.params.simulated && !workflowResult.simulated) {
+      const params = criterion.params as { simulated?: boolean };
+      if (params.simulated && !workflowResult.simulated) {
         return {
           criterion: criterion.description,
           expected: 'simulated: true',
@@ -117,10 +119,65 @@ function assertCriterion(
       return null;
     }
 
-    case 'ipp_snapshot_status':     // [TODO: Milestone 3]
-    case 'finding_exists':          // [TODO: Milestone 3]
-    case 'finding_severity':        // [TODO: Milestone 3]
-      return null;   // stub: pass all for now
+    case 'ipp_snapshot_status': {
+      const params = criterion.params as { principle: string; expected_statuses: string[] };
+      const ext = workflowResult.kete_extension as PikauExtension;
+      const snapshot = ext?.ipp_snapshot ?? [];
+      const entry = snapshot.find(e => e.principle === params.principle);
+      if (!entry) {
+        const available = snapshot.map(e => e.principle).join(', ') || 'none';
+        return {
+          criterion: criterion.description,
+          expected: `ipp_snapshot entry for ${params.principle}`,
+          actual: `no entry found; available: [${available}]`,
+        };
+      }
+      if (!params.expected_statuses.includes(entry.status)) {
+        return {
+          criterion: criterion.description,
+          expected: `${params.principle} status one of [${params.expected_statuses.join(', ')}]`,
+          actual: `status: ${entry.status}`,
+        };
+      }
+      return null;
+    }
+
+    case 'finding_exists': {
+      const params = criterion.params as { source_type?: string; label_contains?: string };
+      const matchingCitations = workflowResult.citations.filter(c => {
+        const typeMatch = !params.source_type || c.type === params.source_type;
+        const labelMatch = !params.label_contains || c.label.includes(params.label_contains);
+        return typeMatch && labelMatch;
+      });
+      const hasMatchingFinding = workflowResult.findings.some(f =>
+        matchingCitations.some(c => c.id === f.source_pointer),
+      );
+      if (!hasMatchingFinding) {
+        return {
+          criterion: criterion.description,
+          expected: `finding with citation type=${params.source_type ?? 'any'} label containing "${params.label_contains ?? ''}"`,
+          actual: 'no matching finding found',
+        };
+      }
+      return null;
+    }
+
+    case 'finding_severity': {
+      const params = criterion.params as { min_severity: string };
+      const minRank = SEVERITY_RANK[params.min_severity] ?? 0;
+      const hasHighEnough = workflowResult.findings.some(
+        f => (SEVERITY_RANK[f.severity] ?? 0) >= minRank,
+      );
+      if (!hasHighEnough) {
+        const found = workflowResult.findings.map(f => f.severity).join(', ') || 'none';
+        return {
+          criterion: criterion.description,
+          expected: `at least one finding with severity >= ${params.min_severity}`,
+          actual: `severities found: [${found}]`,
+        };
+      }
+      return null;
+    }
 
     default:
       return null;
