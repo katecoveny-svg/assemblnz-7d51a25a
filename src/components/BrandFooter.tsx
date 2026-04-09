@@ -37,7 +37,7 @@ const FOOTER_LINKS = {
 const SOCIAL_LINKS = [
   { label: "LinkedIn", href: "https://linkedin.com/company/assemblnz", icon: "in" },
   { label: "Instagram", href: "https://www.instagram.com/assemblnz", icon: "ig" },
-  { label: "X", href: "https://x.com/AssemblNZ", icon: "x" },
+  { label: "X", href: "https://x.com/assemblNZ", icon: "x" },
   { label: "Facebook", href: "https://facebook.com/assemblnz", icon: "fb" },
 ];
 
@@ -83,7 +83,7 @@ const BrandFooter = () => {
         message: "Newsletter signup from footer",
       });
       await supabase.functions.invoke("newsletter-signup", { body: { email: email.trim() } });
-      toast.success("Subscribed! Welcome to the Assembl whānau.");
+      toast.success("Subscribed! Welcome to the assembl whānau.");
       setEmail("");
     } catch {
       toast.error("Subscription failed. Please try again.");
@@ -222,7 +222,7 @@ const BrandFooter = () => {
               className="tracking-[3px] uppercase text-xs text-foreground/80"
               style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}
             >
-              ASSEMBL
+              assembl
             </span>
           </Link>
 
@@ -252,7 +252,7 @@ const BrandFooter = () => {
             className="text-[10px] text-muted-foreground/60 text-center sm:text-right"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
           >
-            © 2026 Assembl. All rights reserved. Auckland, New Zealand.
+            © 2026 assembl. All rights reserved. Auckland, New Zealand.
           </p>
         </div>
 
@@ -260,7 +260,7 @@ const BrandFooter = () => {
           className="text-[9px] mt-6 text-center text-muted-foreground/30 leading-relaxed max-w-2xl mx-auto"
           style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
         >
-          Assembl provides governed, simulation-tested operational intelligence for NZ business. Outputs should be verified by qualified professionals before reliance. assembl@assembl.co.nz · www.assembl.co.nz
+          assembl provides governed, simulation-tested operational intelligence for NZ business. Outputs should be verified by qualified professionals before reliance. assembl@assembl.co.nz · www.assembl.co.nz
         </p>
       </div>
     </footer>
