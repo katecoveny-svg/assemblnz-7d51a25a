@@ -222,3 +222,76 @@ describe('MANAAKI — food safety gap restaurant', () => {
     expect(high.length).toBeGreaterThan(0);
   });
 });
+
+// ─── WAIHANGA happy path ───────────────────────────────────────────────────────
+
+describe('WAIHANGA — happy path build site', () => {
+  it('loads the scenario from YAML', () => {
+    const scenario = loadScenario('waihanga/happy-path-build-site.yaml');
+    expect(scenario.id).toBe('waihanga-site-safety-build-site-happy');
+    expect(scenario.kete).toBe('WAIHANGA');
+    expect(scenario.seed).toBe(53);
+    expect(scenario.success_criteria.length).toBeGreaterThan(0);
+  });
+
+  it('runs end-to-end and passes all success criteria', async () => {
+    const scenario = loadScenario('waihanga/happy-path-build-site.yaml');
+    const result = await runScenario(scenario);
+
+    if (!result.passed) {
+      console.error('Scenario failures:', JSON.stringify(result.failures, null, 2));
+    }
+
+    expect(result.passed).toBe(true);
+    expect(result.failures).toHaveLength(0);
+  });
+
+  it('produces a simulated WAIHANGA bundle artifact', async () => {
+    const scenario = loadScenario('waihanga/happy-path-build-site.yaml');
+    const result = await runScenario(scenario);
+    expect(result.bundle_artifact).not.toBeNull();
+    expect(result.bundle_artifact!.manifest.simulated).toBe(true);
+    expect(result.bundle_artifact!.manifest.kete).toBe('WAIHANGA');
+  });
+
+  it('generator output is deterministic — same seed produces same crew records', async () => {
+    const { waihangaGenerator } = await import('./generators/waihanga/index.js');
+    const params = { crew_size: 12, site_safety_plan_current: true, subcontractor_induction_complete: true };
+    const r1 = waihangaGenerator.generate('test', 53, params);
+    const r2 = waihangaGenerator.generate('test', 53, params);
+    expect(JSON.stringify(r1.fixtures.crew_records)).toBe(JSON.stringify(r2.fixtures.crew_records));
+  });
+});
+
+// ─── WAIHANGA site safety gap ─────────────────────────────────────────────────
+
+describe('WAIHANGA — site safety gap build site', () => {
+  it('loads the scenario from YAML', () => {
+    const scenario = loadScenario('waihanga/site-safety-gap-build-site.yaml');
+    expect(scenario.id).toBe('waihanga-site-safety-gap-build-site');
+    expect(scenario.kete).toBe('WAIHANGA');
+    expect(scenario.seed).toBe(67);
+  });
+
+  it('runs end-to-end and passes all success criteria', async () => {
+    const scenario = loadScenario('waihanga/site-safety-gap-build-site.yaml');
+    const result = await runScenario(scenario);
+
+    if (!result.passed) {
+      console.error('Scenario failures:', JSON.stringify(result.failures, null, 2));
+    }
+
+    expect(result.passed).toBe(true);
+    expect(result.failures).toHaveLength(0);
+  });
+
+  it('has at least one high severity finding for SSP gap', async () => {
+    const { waihangaGenerator } = await import('./generators/waihanga/index.js');
+    const { runAgentStub } = await import('./runtime/agent-stub.js');
+    const scenario = loadScenario('waihanga/site-safety-gap-build-site.yaml');
+    const gen = waihangaGenerator.generate(scenario.id, scenario.seed, scenario.generator_inputs);
+    const wr = await runAgentStub(gen, scenario.workflow_id);
+    const high = wr.findings.filter(f => f.severity === 'high' || f.severity === 'critical');
+    expect(high.length).toBeGreaterThan(0);
+  });
+});

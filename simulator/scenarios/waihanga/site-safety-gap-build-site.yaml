@@ -1,0 +1,61 @@
+# WAIHANGA scenario: Site safety — gap path (SSP not current, induction gaps)
+# Scenario ID: waihanga-site-safety-gap-build-site
+# Kete: WAIHANGA
+# Version: 0.1.0 · 2026-04-09
+
+id: waihanga-site-safety-gap-build-site
+kete: WAIHANGA
+title: "Site safety compliance review — residential build site, SSP and induction gaps found"
+buyer_persona: >
+  Same small Wellington builder, but the site safety plan has not been
+  reviewed since the site started 8 months ago, and 3 of 12 crew have not
+  completed site inductions. Demonstrates what a material H&S gap finding
+  looks like before a WorkSafe visit.
+seed: 67
+
+generator_inputs:
+  crew_size: 12
+  site_type: residential_new_build
+  data_scenario: site_safety_gap
+  site_safety_plan_current: false   # trigger condition
+  subcontractor_induction_complete: false  # secondary gap
+  toolbox_talk_records: true
+  building_consent_active: true
+
+workflow_id: waihanga-site-safety-v0.1
+
+expected_bundle:
+  simulated: true
+  finding_count_min: 2
+  finding_count_max: 10
+  pipeline_stages_expected:
+    - kahu
+    - iho
+    - ta
+    - mahara
+    - mana
+  kete_extension_fields_required: []
+
+success_criteria:
+  - description: "Bundle is valid — all findings have source pointers"
+    assertion: no_unsourced_findings
+    params: {}
+
+  - description: "Bundle is correctly marked as simulated"
+    assertion: bundle_valid
+    params:
+      simulated: true
+
+  - description: "At least one HSWA 2015 finding produced"
+    assertion: finding_exists
+    params:
+      source_type: law
+      label_contains: "HSWA 2015"
+
+  - description: "At least one high severity finding (SSP gap is material)"
+    assertion: finding_severity
+    params:
+      min_severity: high
+
+public_visibility: true
+last_verified: null

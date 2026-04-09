@@ -90,6 +90,9 @@ function buildKeteOutputs(
   if (kete === 'MANAAKI') {
     return buildManaakiOutputs(fixtures, now);
   }
+  if (kete === 'WAIHANGA') {
+    return buildWaihangaOutputs(fixtures, now);
+  }
   // Default: PIKAU privacy logic
   const scenarioParams = (fixtures.scenario_params ?? {}) as {
     ipp3a_exposure: string;
@@ -406,6 +409,103 @@ function buildManaakiOutputs(
         'Food control plan is current and registered with MPI. Allergen awareness training is documented for ' +
         'all food handlers. The business is well-positioned for its next MPI verification audit.',
       source_pointer: 'cit-food-act-2014-fcp',
+      severity: 'info',
+      kete_extension: null,
+    });
+  }
+
+  return { citations, findings, keteExtension: {} };
+}
+
+// ── WAIHANGA outputs (HSWA 2015 / construction site safety) ──────────────────
+
+function buildWaihangaOutputs(
+  fixtures: Record<string, unknown>,
+  now: string,
+): { citations: Citation[]; findings: Finding[]; keteExtension: KeteExtension } {
+  const params = (fixtures.scenario_params ?? {}) as {
+    site_safety_plan_current: boolean;
+    subcontractor_induction_complete: boolean;
+    crew_missing_induction: number;
+    crew_size: number;
+    toolbox_talk_records: boolean;
+  };
+
+  const citations: Citation[] = [
+    {
+      id: 'cit-hswa-2015-s36',
+      type: 'law',
+      label: 'HSWA 2015 s36',
+      locator: 'Health and Safety at Work Act 2015 s36 — Primary duty of care: PCBU must ensure work health and safety so far as is reasonably practicable',
+      retrieved_at: now,
+    },
+    {
+      id: 'cit-hswa-2015-s48',
+      type: 'law',
+      label: 'HSWA 2015 s48',
+      locator: 'Health and Safety at Work Act 2015 s48 — Duty of PCBU who designs, manufactures, or supplies plant, substances, or structures',
+      retrieved_at: now,
+    },
+    {
+      id: 'cit-building-act-2004',
+      type: 'law',
+      label: 'Building Act 2004 s17',
+      locator: 'Building Act 2004 s17 — All building work must comply with the building code',
+      retrieved_at: now,
+    },
+  ];
+
+  const findings: Finding[] = [];
+
+  if (!params.site_safety_plan_current) {
+    findings.push({
+      id: 'f-001',
+      statement:
+        'The site safety plan (SSP) has not been reviewed since the site commenced. Under HSWA 2015 s36, ' +
+        'the PCBU must ensure the health and safety of workers by maintaining an up-to-date SSP that reflects ' +
+        'current site conditions, hazards, and controls. An out-of-date SSP is a material compliance gap ' +
+        'and a common finding in WorkSafe proactive assessments.',
+      source_pointer: 'cit-hswa-2015-s36',
+      severity: 'high',
+      kete_extension: null,
+    });
+  }
+
+  if (!params.subcontractor_induction_complete) {
+    const missing = params.crew_missing_induction ?? 0;
+    const total = params.crew_size ?? 12;
+    findings.push({
+      id: findings.length === 0 ? 'f-001' : 'f-002',
+      statement:
+        `${missing} of ${total} crew members have not completed a site induction. Under HSWA 2015 s36, ` +
+        'the PCBU must ensure workers understand the site hazards, emergency procedures, and control measures ' +
+        'before commencing work. Uninducted workers on site is a critical H&S exposure — any incident ' +
+        'involving an uninducted worker would likely be viewed as a failure of the primary duty of care.',
+      source_pointer: 'cit-hswa-2015-s36',
+      severity: 'high',
+      kete_extension: null,
+    });
+  }
+
+  // Always include a maintenance finding
+  findings.push({
+    id: `f-00${findings.length + 1}`,
+    statement:
+      'Hazard register entries should be reviewed before any significant phase change (e.g. from framing ' +
+      'to weathertight). HSWA 2015 s36 requires controls to be reassessed when work conditions change. ' +
+      'Ensure corrective actions from any incidents or near misses are recorded and closed out.',
+    source_pointer: 'cit-hswa-2015-s36',
+    severity: params.site_safety_plan_current ? 'low' : 'medium',
+    kete_extension: null,
+  });
+
+  if (params.site_safety_plan_current && params.subcontractor_induction_complete) {
+    findings.push({
+      id: `f-00${findings.length + 1}`,
+      statement:
+        'Site safety plan is current and all crew have completed site inductions. Toolbox talk records ' +
+        'are maintained. The site is well-positioned for a WorkSafe proactive assessment.',
+      source_pointer: 'cit-hswa-2015-s36',
       severity: 'info',
       kete_extension: null,
     });

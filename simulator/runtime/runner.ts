@@ -14,13 +14,15 @@ import type { BundleArtifact, WorkflowResult } from '../../evidence-bundles/sche
 import type { PikauExtension } from '../../evidence-bundles/schema.js';
 import { pikauGenerator } from '../generators/pikau/index.js';
 import { manaakiGenerator } from '../generators/manaaki/index.js';
+import { waihangaGenerator } from '../generators/waihanga/index.js';
 import { runAgentStub } from './agent-stub.js';
 import { buildBundle } from '../../evidence-bundles/generator.js';
 
 const GENERATORS: Record<string, import('../types.js').KeteGenerator> = {
   PIKAU: pikauGenerator,
   MANAAKI: manaakiGenerator,
-  // [TODO: Milestone 10+] add WAIHANGA, ARATAKI, AUAHA generators
+  WAIHANGA: waihangaGenerator,
+  // [TODO: Milestone 11+] add ARATAKI, AUAHA generators
 };
 
 /** Severity rank for ordering comparisons. */

@@ -1,0 +1,56 @@
+# WAIHANGA scenario: Site safety — happy path
+# Scenario ID: waihanga-site-safety-build-site-happy
+# Kete: WAIHANGA
+# Version: 0.1.0 · 2026-04-09
+
+id: waihanga-site-safety-build-site-happy
+kete: WAIHANGA
+title: "Site safety compliance review — residential build site, no material gaps"
+buyer_persona: >
+  A small Wellington residential builder with an active site and a crew of 12.
+  Has current site safety plan, inducted all subcontractors, and maintains
+  toolbox talk records. Wants a signed evidence pack ahead of a WorkSafe
+  workplace assessment.
+seed: 53
+
+generator_inputs:
+  crew_size: 12
+  site_type: residential_new_build
+  data_scenario: baseline_compliant
+  site_safety_plan_current: true
+  subcontractor_induction_complete: true
+  toolbox_talk_records: true
+  building_consent_active: true
+
+workflow_id: waihanga-site-safety-v0.1
+
+expected_bundle:
+  simulated: true
+  finding_count_min: 1
+  finding_count_max: 8
+  pipeline_stages_expected:
+    - kahu
+    - iho
+    - ta
+    - mahara
+    - mana
+  kete_extension_fields_required: []
+
+success_criteria:
+  - description: "Bundle is valid — all findings have source pointers"
+    assertion: no_unsourced_findings
+    params: {}
+
+  - description: "Bundle is correctly marked as simulated"
+    assertion: bundle_valid
+    params:
+      simulated: true
+
+  - description: "At least one HSWA finding produced"
+    assertion: finding_exists
+    params:
+      source_type: law
+      label_contains: "HSWA 2015"
+
+public_visibility: true
+last_verified: null
