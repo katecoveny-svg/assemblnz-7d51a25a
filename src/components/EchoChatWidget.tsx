@@ -91,7 +91,7 @@ const EchoChatWidget = () => {
             border: `1px solid rgba(212,168,67,0.35)`,
             boxShadow: `0 0 18px rgba(212,168,67,0.55), 0 0 40px rgba(212,168,67,0.2), 0 4px 16px rgba(0,0,0,0.5)`,
           }}
-          title="Chat with Echo — Assembl's Hero Agent"
+          title="Chat with Echo — assembl's hero agent"
         >
           <img
             src={assemblMark}
@@ -144,7 +144,7 @@ const EchoChatWidget = () => {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <span className="font-display font-light text-sm tracking-wide" style={{ color: ECHO_COLOR }}>Echo</span>
-                <span className="text-[10px] font-body text-muted-foreground">· Assembl Hero Agent</span>
+                <span className="text-[10px] font-body text-muted-foreground">· assembl hero agent</span>
                 <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#5AADA0", boxShadow: "0 0 6px #5AADA0" }} />
               </div>
             </div>
@@ -181,10 +181,10 @@ const EchoChatWidget = () => {
               <div className="flex flex-col items-center justify-center h-full text-center gap-3">
                 <img src={assemblMark} alt="Echo" className="w-14 h-14 object-contain logo-glow" />
                 <p className="text-sm font-body text-foreground/70 max-w-[280px] leading-relaxed">
-                  Hey — I'm Echo, Assembl's hero agent. Ask me anything about our platform, pricing, or how our agents can help your business.
+                  Hey — I'm Echo, assembl's hero agent. Ask me anything about our platform, pricing, or how our agents can help your business.
                 </p>
                 <div className="flex flex-col gap-1.5 w-full max-w-xs mt-2">
-                  {["What does Assembl do?", "Which agent is right for my business?", "Tell me about pricing"].map((q) => (
+                  {["What does assembl do?", "Which agent is right for my business?", "Tell me about pricing"].map((q) => (
                     <button
                       key={q}
                       onClick={() => sendMessage(q)}
