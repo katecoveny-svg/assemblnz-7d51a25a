@@ -226,21 +226,17 @@ const PackGrid = () => {
             >
               <div className="flex items-center gap-3">
                 <div
-                  className="w-10 h-10 shrink-0"
+                  className="w-12 h-12 shrink-0 flex items-center justify-center"
                   style={{ filter: "drop-shadow(0 0 8px rgba(212,168,67,0.3))" }}
                 >
-                  <img
-                    src={toroaIcon}
-                    alt="Tōroa"
-                    className="w-full h-full object-contain rounded-lg"
-                  />
+                  <AlbatrossIcon className="w-full h-auto" />
                 </div>
                 <div>
                   <h3
                     className="font-display text-sm tracking-[3px] uppercase text-foreground"
                     style={{ fontWeight: 300 }}
                   >
-                    Tōroa
+                    Toro
                   </h3>
                   <p className="text-[11px] font-body text-muted-foreground mt-0.5">
                     Family AI Navigator · SMS-first · $29/mo
