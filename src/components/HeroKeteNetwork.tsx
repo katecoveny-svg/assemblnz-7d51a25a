@@ -2,8 +2,8 @@ import { motion } from "framer-motion";
 import { useEffect, useState, useMemo } from "react";
 
 /**
- * HeroKeteNetwork — A network of 3D spinning kete orbs connected by signal lines.
- * Central large orb + satellite orbs in green, blue, and white.
+ * HeroKeteNetwork — A network of 3D woven flax kete baskets
+ * Each kete has a proper basket silhouette: wide rim, tapered base, diagonal harakeke weave, handle
  */
 
 const POUNAMU = "#3A7D6E";
@@ -13,55 +13,94 @@ const SIGNAL_BLUE = "#4A9FD4";
 const STAR_WHITE = "#E8E8E8";
 
 interface OrbDef {
-  cx: number;
-  cy: number;
-  r: number;
-  color: string;
-  glowColor: string;
-  spinDuration: number;
-  spinDelay: number;
-  label: string;
+  cx: number; cy: number; r: number;
+  color: string; glowColor: string;
+  spinDuration: number; spinDelay: number; label: string;
 }
 
-// Fibonacci sphere nodes for inside each orb
-function fibNodes(count: number, radius: number, cx: number, cy: number) {
-  const nodes: { x: number; y: number; z: number; r: number }[] = [];
+/** Proper kete basket silhouette path — wide rim tapering to rounded base */
+function ketePath(cx: number, cy: number, r: number) {
+  const rimW = r * 0.9;          // half-width at rim
+  const baseW = r * 0.35;        // half-width at base
+  const rimY = cy - r * 0.45;    // top of basket
+  const baseY = cy + r * 0.55;   // bottom
+  const cpY = cy + r * 0.3;      // control point for taper curve
+
+  // Basket body — trapezoidal with rounded bottom
+  const body = `M ${cx - rimW} ${rimY}
+    Q ${cx - rimW * 0.95} ${cpY} ${cx - baseW} ${baseY}
+    Q ${cx} ${baseY + r * 0.15} ${cx + baseW} ${baseY}
+    Q ${cx + rimW * 0.95} ${cpY} ${cx + rimW} ${rimY}`;
+
+  // Handle arc
+  const handle = `M ${cx - rimW * 0.55} ${rimY}
+    Q ${cx} ${rimY - r * 0.55} ${cx + rimW * 0.55} ${rimY}`;
+
+  // Rim line
+  const rim = `M ${cx - rimW} ${rimY} L ${cx + rimW} ${rimY}`;
+
+  return { body, handle, rim, rimY, baseY, rimW, baseW, cpY };
+}
+
+/** Diagonal harakeke (flax) weave lines inside the kete shape */
+function flaxWeave(cx: number, cy: number, r: number, count: number) {
+  const rimW = r * 0.9;
+  const baseW = r * 0.35;
+  const rimY = cy - r * 0.45;
+  const baseY = cy + r * 0.55;
+
+  // Helper: width at a given Y
+  const widthAtY = (y: number) => {
+    const t = (y - rimY) / (baseY - rimY); // 0 at rim, 1 at base
+    return rimW + (baseW - rimW) * t * t;  // quadratic taper
+  };
+
+  const diag1: string[] = []; // top-left to bottom-right
+  const diag2: string[] = []; // top-right to bottom-left
+
+  const step = (baseY - rimY) / (count + 1);
+
+  for (let i = 1; i <= count; i++) {
+    const startY = rimY + step * (i - 1);
+    const endY = Math.min(rimY + step * (i + 2), baseY);
+    const startW = widthAtY(startY);
+    const endW = widthAtY(endY);
+
+    // Diagonal left→right
+    diag1.push(`M ${cx - startW * 0.85} ${startY} L ${cx + endW * 0.6} ${endY}`);
+    // Diagonal right→left
+    diag2.push(`M ${cx + startW * 0.85} ${startY} L ${cx - endW * 0.6} ${endY}`);
+  }
+
+  // Horizontal weave bands
+  const hBands: string[] = [];
+  for (let i = 1; i <= count + 1; i++) {
+    const y = rimY + step * i;
+    if (y >= baseY) break;
+    const w = widthAtY(y);
+    hBands.push(`M ${cx - w * 0.92} ${y} Q ${cx} ${y - 1.5} ${cx + w * 0.92} ${y}`);
+  }
+
+  return { diag1, diag2, hBands };
+}
+
+/** Fibonacci-distributed data nodes inside basket area */
+function dataNodes(cx: number, cy: number, r: number, count: number) {
+  const rimY = cy - r * 0.4;
+  const baseY = cy + r * 0.45;
+  const rimW = r * 0.8;
+  const baseW = r * 0.3;
+  const nodes: { x: number; y: number; depth: number }[] = [];
   const phi = (1 + Math.sqrt(5)) / 2;
   for (let i = 0; i < count; i++) {
-    const y = 1 - (i / (count - 1)) * 2;
-    const rAtY = Math.sqrt(1 - y * y);
-    const theta = 2 * Math.PI * i / phi;
-    nodes.push({
-      x: cx + Math.cos(theta) * rAtY * radius,
-      y: cy + y * radius * 0.85,
-      z: Math.sin(theta) * rAtY,
-      r: 1.2 + Math.random() * 1.2,
-    });
+    const t = i / (count - 1);
+    const y = rimY + t * (baseY - rimY);
+    const w = rimW + (baseW - rimW) * t * t;
+    const angle = 2 * Math.PI * i / phi;
+    const rx = Math.cos(angle) * w * 0.7;
+    nodes.push({ x: cx + rx, y, depth: (Math.sin(angle) + 1) / 2 });
   }
   return nodes;
-}
-
-// Weave lines for a kete at given center and size
-function weaveStrands(cx: number, cy: number, size: number) {
-  const hCount = 5;
-  const vCount = 5;
-  const top = cy - size * 0.35;
-  const bottom = cy + size * 0.4;
-  const left = cx - size * 0.45;
-  const right = cx + size * 0.45;
-  const hLines: string[] = [];
-  const vLines: { x1: number; y1: number; x2: number; y2: number }[] = [];
-  
-  for (let i = 0; i < hCount; i++) {
-    const y = top + ((bottom - top) / (hCount - 1)) * i;
-    const wave = Math.sin(i * 0.8) * 1.5;
-    hLines.push(`M ${left} ${y + wave} Q ${cx} ${y - 2 + wave} ${right} ${y + wave}`);
-  }
-  for (let i = 0; i < vCount; i++) {
-    const x = left + ((right - left) / (vCount - 1)) * i;
-    vLines.push({ x1: x, y1: top, x2: x + (i % 2 === 0 ? 1 : -1), y2: bottom });
-  }
-  return { hLines, vLines };
 }
 
 export default function HeroKeteNetwork({ isMobile = false }: { isMobile?: boolean }) {
@@ -69,207 +108,192 @@ export default function HeroKeteNetwork({ isMobile = false }: { isMobile?: boole
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = setInterval(() => setTick(t => t + 1), 450);
+    const id = setInterval(() => setTick(t => t + 1), 500);
     return () => clearInterval(id);
   }, []);
 
   const width = isMobile ? 360 : 720;
-  const height = isMobile ? 400 : 480;
-  const mainR = isMobile ? 100 : 140;
+  const height = isMobile ? 420 : 500;
+  const mainR = isMobile ? 110 : 150;
 
   const orbs: OrbDef[] = useMemo(() => {
     const cx = width / 2;
-    const cy = height / 2 - 10;
+    const cy = height / 2;
     if (isMobile) {
       return [
-        { cx, cy, r: mainR, color: POUNAMU, glowColor: POUNAMU_GLOW, spinDuration: 30, spinDelay: 0, label: "assembl" },
-        { cx: cx - 120, cy: cy - 60, r: 32, color: SIGNAL_BLUE, glowColor: "#7AC4E8", spinDuration: 20, spinDelay: 0.5, label: "perceive" },
-        { cx: cx + 120, cy: cy - 50, r: 28, color: STAR_WHITE, glowColor: "#FFFFFF", spinDuration: 25, spinDelay: 1, label: "reason" },
-        { cx: cx - 100, cy: cy + 90, r: 25, color: POUNAMU_LIGHT, glowColor: POUNAMU_GLOW, spinDuration: 22, spinDelay: 1.5, label: "govern" },
-        { cx: cx + 110, cy: cy + 80, r: 30, color: SIGNAL_BLUE, glowColor: "#7AC4E8", spinDuration: 18, spinDelay: 0.8, label: "simulate" },
+        { cx, cy, r: mainR, color: POUNAMU, glowColor: POUNAMU_GLOW, spinDuration: 35, spinDelay: 0, label: "assembl" },
+        { cx: cx - 115, cy: cy - 70, r: 35, color: SIGNAL_BLUE, glowColor: "#7AC4E8", spinDuration: 22, spinDelay: 0.5, label: "perceive" },
+        { cx: cx + 115, cy: cy - 55, r: 30, color: STAR_WHITE, glowColor: "#FFF", spinDuration: 26, spinDelay: 1, label: "reason" },
+        { cx: cx - 100, cy: cy + 100, r: 28, color: POUNAMU_LIGHT, glowColor: POUNAMU_GLOW, spinDuration: 24, spinDelay: 1.5, label: "govern" },
+        { cx: cx + 105, cy: cy + 95, r: 32, color: SIGNAL_BLUE, glowColor: "#7AC4E8", spinDuration: 20, spinDelay: 0.8, label: "simulate" },
       ];
     }
     return [
-      { cx, cy, r: mainR, color: POUNAMU, glowColor: POUNAMU_GLOW, spinDuration: 35, spinDelay: 0, label: "assembl" },
-      { cx: cx - 220, cy: cy - 80, r: 42, color: SIGNAL_BLUE, glowColor: "#7AC4E8", spinDuration: 20, spinDelay: 0.5, label: "perceive" },
-      { cx: cx + 230, cy: cy - 60, r: 38, color: STAR_WHITE, glowColor: "#FFFFFF", spinDuration: 25, spinDelay: 1, label: "reason" },
-      { cx: cx - 200, cy: cy + 100, r: 35, color: POUNAMU_LIGHT, glowColor: POUNAMU_GLOW, spinDuration: 22, spinDelay: 1.5, label: "govern" },
-      { cx: cx + 210, cy: cy + 110, r: 40, color: SIGNAL_BLUE, glowColor: "#7AC4E8", spinDuration: 18, spinDelay: 0.8, label: "simulate" },
-      { cx: cx - 80, cy: cy - 150, r: 22, color: STAR_WHITE, glowColor: "#FFFFFF", spinDuration: 28, spinDelay: 2, label: "memory" },
-      { cx: cx + 90, cy: cy - 140, r: 26, color: POUNAMU, glowColor: POUNAMU_GLOW, spinDuration: 24, spinDelay: 1.2, label: "action" },
-      { cx: cx, cy: cy + 160, r: 28, color: SIGNAL_BLUE, glowColor: "#7AC4E8", spinDuration: 26, spinDelay: 0.3, label: "explain" },
+      { cx, cy, r: mainR, color: POUNAMU, glowColor: POUNAMU_GLOW, spinDuration: 40, spinDelay: 0, label: "assembl" },
+      { cx: cx - 225, cy: cy - 80, r: 48, color: SIGNAL_BLUE, glowColor: "#7AC4E8", spinDuration: 22, spinDelay: 0.5, label: "perceive" },
+      { cx: cx + 235, cy: cy - 60, r: 42, color: STAR_WHITE, glowColor: "#FFF", spinDuration: 28, spinDelay: 1, label: "reason" },
+      { cx: cx - 210, cy: cy + 110, r: 40, color: POUNAMU_LIGHT, glowColor: POUNAMU_GLOW, spinDuration: 24, spinDelay: 1.5, label: "govern" },
+      { cx: cx + 220, cy: cy + 120, r: 44, color: SIGNAL_BLUE, glowColor: "#7AC4E8", spinDuration: 20, spinDelay: 0.8, label: "simulate" },
+      { cx: cx - 80, cy: cy - 160, r: 26, color: STAR_WHITE, glowColor: "#FFF", spinDuration: 30, spinDelay: 2, label: "memory" },
+      { cx: cx + 90, cy: cy - 150, r: 30, color: POUNAMU, glowColor: POUNAMU_GLOW, spinDuration: 26, spinDelay: 1.2, label: "action" },
+      { cx: cx, cy: cy + 170, r: 32, color: SIGNAL_BLUE, glowColor: "#7AC4E8", spinDuration: 28, spinDelay: 0.3, label: "explain" },
     ];
   }, [width, height, isMobile, mainR]);
 
-  // Connection lines from satellite orbs to center
-  const centerOrb = orbs[0];
+  const center = orbs[0];
 
   return (
     <div className="relative w-full flex justify-center" style={{ height }}>
-      {/* Ambient glow layers */}
+      {/* Ambient glow */}
       <div className="absolute inset-0 pointer-events-none" style={{
-        background: `radial-gradient(ellipse 50% 45% at 50% 45%, rgba(58,125,110,0.12) 0%, transparent 60%)`
+        background: `radial-gradient(ellipse 50% 45% at 50% 48%, rgba(58,125,110,0.12) 0%, transparent 60%)`
       }} />
       <div className="absolute inset-0 pointer-events-none" style={{
-        background: `radial-gradient(ellipse 30% 25% at 35% 40%, rgba(74,159,212,0.06) 0%, transparent 50%)`
-      }} />
-      <div className="absolute inset-0 pointer-events-none" style={{
-        background: `radial-gradient(ellipse 25% 20% at 65% 35%, rgba(255,255,255,0.03) 0%, transparent 45%)`
+        background: `radial-gradient(ellipse 30% 25% at 35% 42%, rgba(74,159,212,0.06) 0%, transparent 50%)`
       }} />
 
       <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-full" style={{ maxWidth: width }}>
         <defs>
-          <filter id="heroOrbGlow">
-            <feGaussianBlur stdDeviation="6" result="blur" />
-            <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-          </filter>
-          <filter id="heroStarGlow">
-            <feGaussianBlur stdDeviation="3" result="blur" />
-            <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-          </filter>
-          <filter id="connectionGlow">
-            <feGaussianBlur stdDeviation="2" />
-          </filter>
+          <filter id="keteGlow"><feGaussianBlur stdDeviation="5" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+          <filter id="starPulse"><feGaussianBlur stdDeviation="3" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+          <filter id="lineGlow"><feGaussianBlur stdDeviation="2" /></filter>
         </defs>
 
         {/* ═══ CONNECTION LINES ═══ */}
         {orbs.slice(1).map((orb, i) => (
           <g key={`conn-${i}`}>
-            {/* Glow line */}
             <motion.line
-              x1={centerOrb.cx} y1={centerOrb.cy}
-              x2={orb.cx} y2={orb.cy}
-              stroke={orb.color}
-              strokeWidth="1.5"
-              filter="url(#connectionGlow)"
+              x1={center.cx} y1={center.cy} x2={orb.cx} y2={orb.cy}
+              stroke={orb.color} strokeWidth="1.2" filter="url(#lineGlow)"
               initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 0.15 }}
-              transition={{ duration: 1.2, delay: 0.8 + i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+              animate={{ pathLength: 1, opacity: 0.12 }}
+              transition={{ duration: 1.2, delay: 0.8 + i * 0.15 }}
             />
-            {/* Sharp line */}
             <motion.line
-              x1={centerOrb.cx} y1={centerOrb.cy}
-              x2={orb.cx} y2={orb.cy}
-              stroke={orb.color}
-              strokeWidth="0.5"
-              strokeDasharray="4 6"
+              x1={center.cx} y1={center.cy} x2={orb.cx} y2={orb.cy}
+              stroke={orb.color} strokeWidth="0.4" strokeDasharray="3 5"
               initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 0.3 }}
-              transition={{ duration: 1.5, delay: 1 + i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+              animate={{ pathLength: 1, opacity: 0.25 }}
+              transition={{ duration: 1.5, delay: 1 + i * 0.15 }}
             />
             {/* Travelling pulse */}
-            <motion.circle
-              r={2}
-              fill={orb.glowColor}
-              filter="url(#heroStarGlow)"
+            <motion.circle r={1.8} fill={orb.glowColor} filter="url(#starPulse)"
               initial={{ opacity: 0 }}
-              animate={{
-                cx: [centerOrb.cx, orb.cx],
-                cy: [centerOrb.cy, orb.cy],
-                opacity: [0.8, 0],
-              }}
-              transition={{ duration: 2.5, delay: 2 + i * 0.6, repeat: Infinity, repeatDelay: 4 + i }}
+              animate={{ cx: [center.cx, orb.cx], cy: [center.cy, orb.cy], opacity: [0.7, 0] }}
+              transition={{ duration: 2.5, delay: 2 + i * 0.7, repeat: Infinity, repeatDelay: 5 + i }}
             />
           </g>
         ))}
 
-        {/* ═══ ORBS ═══ */}
+        {/* ═══ KETE BASKETS ═══ */}
         {orbs.map((orb, oi) => {
           const isMain = oi === 0;
-          const nodeCount = isMain ? 20 : 6;
-          const nodes = fibNodes(nodeCount, orb.r * 0.75, orb.cx, orb.cy);
-          const weave = weaveStrands(orb.cx, orb.cy, orb.r * 1.6);
+          const kete = ketePath(orb.cx, orb.cy, orb.r);
+          const weave = flaxWeave(orb.cx, orb.cy, orb.r, isMain ? 7 : 4);
+          const nodes = isMain ? dataNodes(orb.cx, orb.cy, orb.r, 16) : dataNodes(orb.cx, orb.cy, orb.r, 5);
+          const sw = isMain ? 2 : 1.2; // stroke width
 
           return (
-            <g key={`orb-${oi}`}>
-              {/* Outer glow ring */}
+            <g key={`kete-${oi}`}>
+              {/* Outer glow orb */}
               <motion.circle
-                cx={orb.cx} cy={orb.cy} r={orb.r + (isMain ? 20 : 8)}
-                fill="none" stroke={orb.color} strokeWidth="0.3" opacity="0.1"
-                strokeDasharray={isMain ? "6 10" : "3 6"}
+                cx={orb.cx} cy={orb.cy} r={orb.r + (isMain ? 25 : 10)}
+                fill="none" stroke={orb.color} strokeWidth="0.3" strokeDasharray={isMain ? "5 8" : "3 5"}
+                opacity="0.08"
                 animate={{ rotate: [0, 360] }}
-                transition={{ duration: orb.spinDuration * 2, repeat: Infinity, ease: "linear" }}
+                transition={{ duration: orb.spinDuration * 1.5, repeat: Infinity, ease: "linear" }}
                 style={{ transformOrigin: `${orb.cx}px ${orb.cy}px` }}
               />
 
-              {/* Orb sphere gradient */}
-              <radialGradient id={`orbGrad-${oi}`} cx="35%" cy="28%" r="65%">
-                <stop offset="0%" stopColor={orb.glowColor} stopOpacity={isMain ? "0.2" : "0.15"} />
-                <stop offset="40%" stopColor={orb.color} stopOpacity={isMain ? "0.1" : "0.08"} />
+              {/* Soft inner glow */}
+              <radialGradient id={`kg-${oi}`} cx="40%" cy="30%" r="70%">
+                <stop offset="0%" stopColor={orb.glowColor} stopOpacity={isMain ? "0.12" : "0.08"} />
                 <stop offset="100%" stopColor={orb.color} stopOpacity="0" />
               </radialGradient>
-              <circle cx={orb.cx} cy={orb.cy} r={orb.r} fill={`url(#orbGrad-${oi})`} />
-              <circle cx={orb.cx} cy={orb.cy} r={orb.r - 2} fill="none" stroke={orb.color} strokeWidth="0.8" opacity="0.25" />
-              {isMain && <circle cx={orb.cx} cy={orb.cy} r={orb.r - 8} fill="none" stroke={orb.glowColor} strokeWidth="0.4" opacity="0.12" />}
+              <ellipse cx={orb.cx} cy={orb.cy} rx={orb.r * 0.9} ry={orb.r * 0.7} fill={`url(#kg-${oi})`} />
 
-              {/* Specular highlight */}
-              <ellipse
-                cx={orb.cx - orb.r * 0.15}
-                cy={orb.cy - orb.r * 0.4}
-                rx={orb.r * 0.35}
-                ry={orb.r * 0.15}
-                fill="white" opacity="0.04"
-              />
-
-              {/* ── Rotating weave group ── */}
+              {/* ── Slowly rotating kete ── */}
               <motion.g
                 animate={{ rotate: [0, 360] }}
                 transition={{ duration: orb.spinDuration, repeat: Infinity, ease: "linear" }}
                 style={{ transformOrigin: `${orb.cx}px ${orb.cy}px` }}
               >
-                {/* Kete basket body */}
-                <motion.ellipse
-                  cx={orb.cx} cy={orb.cy}
-                  rx={orb.r * 0.55} ry={orb.r * 0.65}
-                  fill="none" stroke={orb.color} strokeWidth={isMain ? 2 : 1.2} strokeLinecap="round"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 0.6 }}
-                  transition={{ duration: 1.5, delay: orb.spinDelay, ease: [0.16, 1, 0.3, 1] }}
-                />
-
-                {/* Horizontal weave */}
-                {weave.hLines.map((d, i) => (
-                  <motion.path
-                    key={`hw-${oi}-${i}`} d={d}
-                    fill="none" stroke={i % 2 === 0 ? orb.color : orb.glowColor}
-                    strokeWidth={isMain ? 1.2 : 0.7} opacity="0.5"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 0.5 }}
-                    transition={{ duration: 0.8, delay: orb.spinDelay + 0.3 + i * 0.08 }}
-                  />
-                ))}
-
-                {/* Vertical weave */}
-                {weave.vLines.map((l, i) => (
-                  <motion.line
-                    key={`vw-${oi}-${i}`}
-                    x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2}
-                    stroke={i % 2 === 0 ? orb.color : orb.glowColor}
-                    strokeWidth={isMain ? 1 : 0.6} opacity="0.4"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 0.4 }}
-                    transition={{ duration: 0.8, delay: orb.spinDelay + 0.5 + i * 0.06 }}
-                  />
-                ))}
-
-                {/* Handle arc */}
+                {/* Basket body silhouette */}
                 <motion.path
-                  d={`M ${orb.cx - orb.r * 0.3} ${orb.cy - orb.r * 0.35} Q ${orb.cx} ${orb.cy - orb.r * 0.7} ${orb.cx + orb.r * 0.3} ${orb.cy - orb.r * 0.35}`}
-                  fill="none" stroke={orb.color} strokeWidth={isMain ? 2.2 : 1} strokeLinecap="round"
+                  d={kete.body} fill="none" stroke={orb.color} strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 0.8 }}
+                  transition={{ duration: 1.5, delay: orb.spinDelay }}
+                />
+                {/* Inner body highlight */}
+                <motion.path
+                  d={kete.body} fill="none" stroke="white" strokeWidth={sw * 0.3} opacity="0.06"
                   initial={{ pathLength: 0 }}
                   animate={{ pathLength: 1 }}
-                  transition={{ duration: 1, delay: orb.spinDelay + 0.2 }}
+                  transition={{ duration: 1.5, delay: orb.spinDelay + 0.1 }}
                 />
+
+                {/* Rim — thicker line */}
+                <motion.path
+                  d={kete.rim} fill="none" stroke={orb.color} strokeWidth={sw * 1.5} strokeLinecap="round"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 0.9 }}
+                  transition={{ duration: 0.8, delay: orb.spinDelay + 0.2 }}
+                />
+
+                {/* Handle */}
+                <motion.path
+                  d={kete.handle} fill="none" stroke={orb.color} strokeWidth={sw * 1.2} strokeLinecap="round"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ duration: 1, delay: orb.spinDelay + 0.3 }}
+                />
+                <motion.path
+                  d={kete.handle} fill="none" stroke="white" strokeWidth={sw * 0.3} opacity="0.1"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ duration: 1, delay: orb.spinDelay + 0.4 }}
+                />
+
+                {/* ── Diagonal flax weave — left-to-right ── */}
+                {weave.diag1.map((d, i) => (
+                  <motion.path
+                    key={`d1-${oi}-${i}`} d={d}
+                    fill="none" stroke={orb.color} strokeWidth={sw * 0.6} opacity="0.4"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 0.4 }}
+                    transition={{ duration: 0.6, delay: orb.spinDelay + 0.5 + i * 0.08 }}
+                  />
+                ))}
+                {/* Diagonal flax weave — right-to-left */}
+                {weave.diag2.map((d, i) => (
+                  <motion.path
+                    key={`d2-${oi}-${i}`} d={d}
+                    fill="none" stroke={i % 2 === 0 ? orb.glowColor : orb.color} strokeWidth={sw * 0.6} opacity="0.35"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 0.35 }}
+                    transition={{ duration: 0.6, delay: orb.spinDelay + 0.6 + i * 0.08 }}
+                  />
+                ))}
+                {/* Horizontal bands */}
+                {weave.hBands.map((d, i) => (
+                  <motion.path
+                    key={`hb-${oi}-${i}`} d={d}
+                    fill="none" stroke={orb.color} strokeWidth={sw * 0.45} opacity="0.25"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 0.25 }}
+                    transition={{ duration: 0.5, delay: orb.spinDelay + 0.7 + i * 0.06 }}
+                  />
+                ))}
               </motion.g>
 
-              {/* ── Data star nodes (don't spin, float independently) ── */}
+              {/* ── Data star nodes (independent of spin) ── */}
               {nodes.map((node, ni) => {
-                const depth = (node.z + 1) / 2;
-                const isActive = (tick + ni + oi * 7) % 6 === 0;
-                const opacity = 0.25 + depth * 0.75;
-                const r = node.r * (0.5 + depth * 0.5);
+                const isActive = (tick + ni + oi * 5) % 6 === 0;
+                const r = 1.2 + node.depth * 1.2;
+                const op = 0.3 + node.depth * 0.6;
                 return (
-                  <g key={`star-${oi}-${ni}`}>
+                  <g key={`n-${oi}-${ni}`}>
                     {isActive && (
                       <motion.circle
                         cx={node.x} cy={node.y} r={r * 5}
@@ -281,19 +305,19 @@ export default function HeroKeteNetwork({ isMobile = false }: { isMobile?: boole
                     )}
                     <motion.circle
                       cx={node.x} cy={node.y}
-                      r={isActive ? r * 2 : r}
+                      r={isActive ? r * 1.8 : r}
                       fill={isActive ? orb.glowColor : orb.color}
-                      filter={isActive ? "url(#heroStarGlow)" : undefined}
+                      filter={isActive ? "url(#starPulse)" : undefined}
                       initial={{ scale: 0, opacity: 0 }}
-                      animate={{ scale: 1, opacity }}
-                      transition={{ delay: orb.spinDelay + 0.6 + ni * 0.04, duration: 0.4 }}
+                      animate={{ scale: 1, opacity: op }}
+                      transition={{ delay: orb.spinDelay + 0.8 + ni * 0.05, duration: 0.4 }}
                     />
                     <motion.circle
                       cx={node.x - 0.3} cy={node.y - 0.3} r={r * 0.3}
                       fill="white" opacity={isActive ? 0.6 : 0.15}
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      transition={{ delay: orb.spinDelay + 0.7 + ni * 0.04, duration: 0.2 }}
+                      transition={{ delay: orb.spinDelay + 0.9 + ni * 0.05, duration: 0.2 }}
                     />
                   </g>
                 );
@@ -302,15 +326,12 @@ export default function HeroKeteNetwork({ isMobile = false }: { isMobile?: boole
               {/* Label */}
               {!isMain && (
                 <motion.text
-                  x={orb.cx} y={orb.cy + orb.r + 14}
-                  textAnchor="middle"
-                  fill={orb.color}
-                  fontSize="8"
-                  fontFamily="'JetBrains Mono', monospace"
-                  letterSpacing="2"
-                  opacity="0.4"
+                  x={orb.cx} y={orb.cy + orb.r + 16}
+                  textAnchor="middle" fill={orb.color}
+                  fontSize="8" fontFamily="'JetBrains Mono', monospace"
+                  letterSpacing="2" opacity="0.35"
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.4 }}
+                  animate={{ opacity: 0.35 }}
                   transition={{ delay: orb.spinDelay + 1.5 }}
                 >
                   {orb.label.toUpperCase()}
