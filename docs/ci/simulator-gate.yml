@@ -1,0 +1,65 @@
+# simulator-gate.yml — Assembl CI
+# Version: 0.1.0 · 2026-04-09
+#
+# HOW TO INSTALL:
+#   cp docs/ci/simulator-gate.yml .github/workflows/simulator-gate.yml
+#   git add .github/workflows/simulator-gate.yml
+#   git commit -m "ci: install simulator-gate workflow"
+#   git push
+#
+# WHY NOT AUTO-INSTALLED:
+#   The token used by Claude Code (gho_ncNg...) lacks the 'workflow' scope.
+#   GitHub requires 'workflow' scope to create or update .github/workflows/ files.
+#   Kate must copy this file manually (or grant the token 'workflow' scope).
+#
+# GATE SCOPE:
+#   1. tsc (tsconfig.app.json)       — app type safety
+#   2. tsc (tsconfig.simulator.json) — simulator + evidence-bundles type safety
+#   3. vitest --project simulator    — evidence-bundle generator tests + PIKAU scenario tests
+#   4. vite build --mode development — build smoke check
+#
+# NOTE: app tests (src/**) are excluded from this gate.
+# 4 pre-existing test failures in src/aaaip/ and src/test/waihanga/ have
+# missing imports that pre-date this codebase and are tracked separately.
+# They are not caused by simulator/evidence-bundles work and do not block merge.
+
+name: simulator-gate
+
+on:
+  push:
+    branches:
+      - main
+      - 'claude/**'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  quality-gate:
+    name: Quality gate — tsc + simulator + build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript check — app
+        run: npx tsc -p tsconfig.app.json --noEmit
+
+      - name: TypeScript check — simulator + evidence-bundles
+        run: npx tsc -p tsconfig.simulator.json --noEmit
+
+      - name: Simulator + evidence-bundle tests
+        run: npx vitest run --project simulator --reporter=verbose
+
+      - name: Vite build smoke check
+        run: npx vite build --mode development
