@@ -82,7 +82,8 @@ Deno.serve(async (req) => {
     switch (action) {
       case "get_metrics": {
         // Total users
-        const { count: totalUsers } = await supabase.auth.admin.listUsers({ perPage: 1 });
+const { data: usersListData } = await supabase.auth.admin.listUsers({ perPage: 1 });
+        const totalUsers = usersListData?.users?.length ?? 0;
         
         // Get all users for subscriber count
         const { data: allUsersData } = await supabase.auth.admin.listUsers({ perPage: 1000 });
@@ -258,7 +259,8 @@ Deno.serve(async (req) => {
     }
   } catch (err) {
     console.error("Admin API error:", err);
-    return new Response(JSON.stringify({ error: err.message }), {
+    const errMsg = err instanceof Error ? err.message : String(err);
+    return new Response(JSON.stringify({ error: errMsg }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
