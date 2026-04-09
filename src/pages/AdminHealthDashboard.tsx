@@ -28,7 +28,14 @@ const SERVICE_LABELS: Record<string, string> = {
   assembl_website: "Assembl Website",
   supabase_api: "Database API",
   chat_function: "Chat Engine",
+  stitch_generate: "Image Generation",
   elevenlabs_api: "Voice Engine",
+  stripe_api: "Payments",
+  tnz_api: "SMS (TNZ)",
+  lovable_ai_gateway: "AI Gateway",
+  open_meteo_weather: "Weather (Open-Meteo)",
+  nz_fuel_prices: "Fuel Prices (MBIE)",
+  mapbox_routes: "Routes (MapBox)",
 };
 
 export default function AdminHealthDashboard() {

@@ -60,22 +60,37 @@ function makeRng(seed: number) {
   };
 }
 
-/** Base-case NZ fuel prices (Q1 2026 equilibrium, NZD). */
-const BASE = {
+export interface FuelBaseprices {
+  petrol91: number;
+  petrol95: number;
+  diesel: number;
+  ev: number;
+}
+
+/** Base-case NZ fuel prices (Q1 2026 equilibrium, NZD). Used as fallback. */
+const DEFAULT_BASE: FuelBaseprices = {
   petrol91: 2.85,
   petrol95: 3.05,
   diesel: 2.40,
   ev: 0.35, // public DC charger, NZD per kWh
 };
 
+
 export interface FuelOracleOptions {
   seed?: number;
   /** Starting multiplier on every fuel (1.0 = baseline). */
   startMultiplier?: number;
+  /**
+   * Override base prices with live data from getNzFuelPrices().
+   * If provided, the oracle uses these as its equilibrium anchor instead of
+   * the hardcoded Q1 2026 defaults. Pass in from the nz-fuel-prices data source.
+   */
+  liveBase?: FuelBaseprices;
 }
 
 export class FuelOracle {
   private readonly rng: () => number;
+  private readonly base: FuelBaseprices;
   private tick = 0;
   /** Running multipliers on base prices. Independent per fuel kind. */
   private multipliers: Record<FuelKind, number> = {
@@ -89,6 +104,7 @@ export class FuelOracle {
 
   constructor(opts: FuelOracleOptions = {}) {
     this.rng = makeRng(opts.seed ?? 97);
+    this.base = opts.liveBase ?? DEFAULT_BASE;
     const m = opts.startMultiplier ?? 1;
     for (const k of Object.keys(this.multipliers) as FuelKind[]) {
       this.multipliers[k] = m;
@@ -115,10 +131,10 @@ export class FuelOracle {
   snapshot(): FuelPriceSnapshot {
     return {
       tick: this.tick,
-      petrol91: round(BASE.petrol91 * this.multipliers.petrol91),
-      petrol95: round(BASE.petrol95 * this.multipliers.petrol95),
-      diesel: round(BASE.diesel * this.multipliers.diesel),
-      ev: round(BASE.ev * this.multipliers.ev),
+      petrol91: round(this.base.petrol91 * this.multipliers.petrol91),
+      petrol95: round(this.base.petrol95 * this.multipliers.petrol95),
+      diesel: round(this.base.diesel * this.multipliers.diesel),
+      ev: round(this.base.ev * this.multipliers.ev),
       events: [...this.activeEvents],
     };
   }

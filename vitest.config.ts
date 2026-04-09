@@ -5,10 +5,29 @@ import path from "path";
 export default defineConfig({
   plugins: [react()],
   test: {
-    environment: "jsdom",
-    globals: true,
-    setupFiles: ["./src/test/setup.ts"],
-    include: ["src/**/*.{test,spec}.{ts,tsx}"],
+    projects: [
+      {
+        plugins: [react()],
+        test: {
+          name: "app",
+          environment: "jsdom",
+          globals: true,
+          setupFiles: ["./src/test/setup.ts"],
+          include: ["src/**/*.{test,spec}.{ts,tsx}"],
+        },
+      },
+      {
+        test: {
+          name: "simulator",
+          environment: "node",
+          globals: true,
+          include: [
+            "simulator/**/*.{test,spec}.ts",
+            "evidence-bundles/**/*.{test,spec}.ts",
+          ],
+        },
+      },
+    ],
   },
   resolve: {
     alias: { "@": path.resolve(__dirname, "./src") },

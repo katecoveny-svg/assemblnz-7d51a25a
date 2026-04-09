@@ -94,6 +94,21 @@ Deno.serve(async (req) => {
         treatAuthAsOk: true,
         category: "ai",
       }),
+      // Data sources
+      checkService("open_meteo_weather", "https://api.open-meteo.com/v1/forecast?latitude=-36.86&longitude=174.77&current=temperature_2m", {
+        timeout: 8000,
+        category: "data",
+      }),
+      checkService("nz_fuel_prices", `${supabaseUrl}/functions/v1/nz-fuel-prices`, {
+        method: "OPTIONS",
+        treatAuthAsOk: true,
+        category: "data",
+      }),
+      checkService("mapbox_routes", `${supabaseUrl}/functions/v1/nz-routes`, {
+        method: "OPTIONS",
+        treatAuthAsOk: true,
+        category: "data",
+      }),
     ]);
 
     // Store results
@@ -119,6 +134,7 @@ Deno.serve(async (req) => {
           frontend: "🟡 MEDIUM",
           voice: "🟡 MEDIUM",
           comms: "🟠 HIGH",
+          data: "🟡 MEDIUM",
         };
 
         const failDetails = failures.map((f) => {
