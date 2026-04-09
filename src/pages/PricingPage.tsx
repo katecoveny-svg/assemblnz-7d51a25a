@@ -56,9 +56,9 @@ const PricingHero = () => (
 /* ── Section B: Offer Stack ── */
 const OFFERS = [
   { icon: Rocket, badge: "START HERE", badgeColor: "hsl(var(--primary))", title: "Talk to us first", desc: "Every business is different. We start with a 30-minute discovery call to map your workflows, pick the right kete, and agree what success looks like before you sign anything.", time: "Up and running in 10 business days", price: "Free 30-minute discovery call", cta: "Book a call", to: "/contact" },
-  { icon: Layers, badge: "FOUNDATION", badgeColor: "hsl(var(--pounamu))", title: "Core Platform", desc: "Included in every subscription. Your central routing engine (Iho), governance pipeline, SIGNAL security, SMS/WhatsApp messaging, and dashboard access.", price: "Included in every plan", note: "This is the foundation. Every kete runs on Core.", includes: ["Iho routing engine", "SIGNAL security agent", "Compliance pipeline (Kahu → Tā → Mahara → Mana)", "SMS & WhatsApp access", "Dashboard & analytics", "NZ data residency on Enterprise"] },
-  { icon: Package, badge: "SPECIALIST AI", badgeColor: "hsl(var(--tangaroa-light))", title: "Industry Kete", desc: "Each kete is a complete AI operations hub with specialist agents, intelligence dashboards, and end-to-end workflows. Choose the kete that match your industry.", price: "From NZ$590/month", list: "Manaaki · Waihanga · Auaha · Arataki · Pikau", cta: "See all packs", scrollTo: "packs" },
-  { icon: Crown, badge: "ENTERPRISE", badgeColor: "hsl(var(--primary))", title: "Enterprise", desc: "All 5 kete, unlimited seats, attested NZ data residency, 99.9% uptime SLA, named success manager, signed quarterly compliance review. Replaces a fraction of a full-time compliance manager.", price: "NZ$2,890/month + $2,990 setup", cta: "Talk to us", to: "/contact", includes: ["Named success manager", "Quarterly compliance review (signed)", "Monthly audit report", "NZ data residency (attested)", "99.9% uptime SLA"] },
+  { icon: Layers, badge: "FOUNDATION", badgeColor: "hsl(var(--pounamu))", title: "Core Platform", desc: "Included in every subscription. Your central routing engine (Iho), governance pipeline, SIGNAL security, SMS/WhatsApp messaging, and dashboard access.", price: "Included in every plan", note: "This is the foundation. Every kete runs on Core.", includes: ["Iho routing engine", "SIGNAL security agent", "Compliance pipeline (Kahu → Iho → Tā → Mahara → Mana)", "SMS & WhatsApp access", "Dashboard & analytics", "NZ data residency on Enterprise"] },
+  { icon: Package, badge: "SPECIALIST AI", badgeColor: "hsl(var(--tangaroa-light))", title: "Industry Kete", desc: "Each kete is a complete AI operations hub with specialist agents, intelligence dashboards, and end-to-end workflows. Choose the kete that match your industry.", price: "From NZ$1,490/month", list: "Manaaki · Waihanga · Auaha · Arataki · Pikau", cta: "See all packs", scrollTo: "packs" },
+  { icon: Crown, badge: "ENTERPRISE", badgeColor: "hsl(var(--primary))", title: "Enterprise", desc: "All 5 kete, unlimited seats, attested NZ data residency, 99.9% uptime SLA, named success manager, signed quarterly compliance review. Replaces a fraction of a full-time compliance manager.", price: "NZ$2,990/month + $2,890 setup", cta: "Talk to us", to: "/contact", includes: ["Named success manager", "Quarterly compliance review (signed)", "Monthly audit report", "NZ data residency (attested)", "99.9% uptime SLA"] },
 ];
 
 const OfferStack = () => (
@@ -117,24 +117,24 @@ const TIERS = [
     cta: "Join the waitlist", highlight: false,
   },
   {
-    name: "Operator", sub: "$590/mo", accent: "hsl(var(--pounamu-light))", badge: "ENTRY",
-    price: "NZ$590/mo", setup: "+ $1,490 setup (splittable across first 3 invoices)",
+    name: "Operator", sub: "$1,490/mo", accent: "hsl(var(--pounamu-light))", badge: "ENTRY",
+    price: "NZ$1,490/mo", setup: "+ $590 setup (splittable across first 3 invoices)",
     best: "Sole traders and micro-SMEs — one industry, one team, one source of truth",
     features: ["1 industry kete (your pick)", "Up to 5 seats", "Tikanga compliance layer", "Privacy Act 2020 + AAAIP alignment", "SMS, WhatsApp & dashboard access", "3 training hours / year", "Email support, 1 business day", "99.0% uptime"],
     goodFor: "Builders · Cafés · Single-discipline trades · Owner-operator carriers · Solo agencies",
     cta: "Talk to us", highlight: false,
   },
   {
-    name: "Leader", sub: "$1,290/mo", accent: "hsl(var(--primary))", badge: "MOST POPULAR",
-    price: "NZ$1,290/mo", setup: "+ $1,990 setup (splittable across first 3 invoices)",
+    name: "Leader", sub: "$1,990/mo", accent: "hsl(var(--primary))", badge: "MOST POPULAR",
+    price: "NZ$1,990/mo", setup: "+ $1,290 setup (splittable across first 3 invoices)",
     best: "Multi-discipline SMEs and growing teams — covers two parts of the business with quarterly compliance review",
     features: ["2 industry kete (your pick)", "Up to 15 seats", "Quarterly compliance review (signed)", "Monthly audit report", "8 training hours / year", "Email + chat, 4 business hours", "99.5% uptime", "Optional NZ data residency"],
     goodFor: "Hospitality groups · Construction firms · Multi-disc trades · Creative studios · Workshops",
     cta: "Talk to us", highlight: true,
   },
   {
-    name: "Enterprise", sub: "$2,890/mo", accent: "hsl(var(--tangaroa))", badge: "FULL PLATFORM",
-    price: "NZ$2,890/mo", setup: "+ $2,990 setup (splittable across first 3 invoices)",
+    name: "Enterprise", sub: "$2,990/mo", accent: "hsl(var(--tangaroa))", badge: "FULL PLATFORM",
+    price: "NZ$2,990/mo", setup: "+ $2,890 setup (splittable across first 3 invoices)",
     best: "Multi-site, regulated, high-stakes operations — every kete, the SLA, and a named human to call",
     features: ["All 5 industry kete", "Unlimited seats", "NZ data residency (attested)", "99.9% uptime SLA", "Named success manager", "Quarterly compliance review (signed)", "Monthly audit report", "16 training hours / year", "Priority phone + chat, 1 business hour"],
     goodFor: "Multi-site hospo · Construction PMO · Regional freight · Franchise networks · Regulated operations",
@@ -188,7 +188,10 @@ const PricingTiers = () => (
           </motion.div>
         ))}
       </div>
-      <p className="text-[11px] font-body text-muted-foreground/40 text-center mt-8 max-w-2xl mx-auto">
+      <p className="text-sm font-body text-center mt-8 italic" style={{ color: "hsl(var(--primary))" }}>
+        Save 12% on annual plans with code ANNUAL12.
+      </p>
+      <p className="text-[11px] font-body text-muted-foreground/40 text-center mt-3 max-w-2xl mx-auto">
         All prices in NZD, ex GST (add 15% at invoice). Setup fees can be split across the first 3 invoices on request. Monthly subscriptions include platform hosting, AI compute, agent support, and governance. Existing customers on the legacy model are grandfathered until 2027-04-08.
       </p>
       <p className="text-xs font-body text-center mt-6 mb-2">
@@ -221,7 +224,7 @@ const KETE_DATA = [
   { name: "Manaaki", eng: "Hospitality", desc: "Food safety, liquor licensing, guest experience, tourism operations", accent: "hsl(var(--primary))" },
   { name: "Waihanga", eng: "Construction", desc: "Site safety, consenting, project management, quality and sign-off", accent: "hsl(var(--pounamu))" },
   { name: "Auaha", eng: "Creative", desc: "Brief to publish — copy, image, video, podcast, ads, analytics", accent: "hsl(var(--kowhai-light))" },
-  { name: "Arataki", eng: "Automotive", desc: "Workshops, fleet, vehicle compliance, service scheduling", accent: "hsl(var(--tangaroa-light))" },
+  { name: "Arataki", eng: "Business Operations", desc: "Dealership compliance, finance disclosure, and customer enquiry — the showroom back office handled.", accent: "hsl(var(--tangaroa-light))" },
   { name: "Pikau", eng: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance", accent: "hsl(var(--tangaroa))" },
 ];
 
@@ -275,7 +278,7 @@ const CapabilityMap = () => (
         <div className="flex items-center gap-2 mb-2">
           <span className="text-[9px] font-display tracking-[2px] uppercase px-2 py-0.5 rounded-full" style={{ background: "rgba(212,168,67,0.15)", color: "hsl(var(--primary))", fontWeight: 700 }}>CONSUMER</span>
         </div>
-        <h3 className="text-base font-display text-foreground mb-1" style={{ fontWeight: 300 }}>Tōroa</h3>
+        <h3 className="text-base font-display text-foreground mb-1" style={{ fontWeight: 300 }}>Tōro</h3>
         <p className="text-[11px] font-body text-muted-foreground/60 mb-2">Family Navigator · 1 agent</p>
         <p className="text-xs font-body text-muted-foreground">SMS-first family AI. No app. Just text. $29/mo</p>
       </motion.div>
@@ -295,7 +298,7 @@ const CapabilityMap = () => (
           ))}
         </div>
         <p className="text-[10px] font-body text-muted-foreground/30 text-center mt-4">
-          User → Mana (access) → Iho (route) → Kahu (check) → Agent → Tā (log) → Mahara (remember)
+          User → Kahu (check) → Iho (route) → Tā (log) → Mahara (memory) → Mana (access) → Agent
         </p>
       </div>
     </div>
@@ -309,7 +312,7 @@ const ToroaSection = () => {
     <section className="py-16 sm:py-20">
       <div className="max-w-3xl mx-auto px-5 text-center">
         <p className="text-[11px] font-display tracking-[5px] uppercase mb-3" style={{ fontWeight: 700, color: "hsl(var(--primary))" }}>FOR WHĀNAU</p>
-        <h2 className="text-xl sm:text-3xl font-display text-foreground mb-6" style={{ fontWeight: 300 }}>Tōroa — Your family's intelligent navigator</h2>
+        <h2 className="text-xl sm:text-3xl font-display text-foreground mb-6" style={{ fontWeight: 300 }}>Tōro — Your family's intelligent navigator</h2>
         <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="glass-card glow-card-hover rounded-2xl p-8 inline-block text-left" style={{ borderColor: "rgba(212,168,67,0.2)" }}>
           <p className="text-2xl font-mono text-foreground mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500 }}>NZ$29<span className="text-sm text-muted-foreground">/month</span></p>
           <p className="text-xs font-body text-muted-foreground mb-5">No app. No login. Just text.</p>
@@ -407,7 +410,7 @@ const PricingPage = () => (
   <div className="min-h-screen flex flex-col bg-background">
     <SEO
       title="Assembl Pricing — Business Intelligence Built for Aotearoa"
-      description="Family $29/mo · Operator $590/mo · Leader $1,290/mo · Enterprise $2,890/mo · Outcome from $5,000/mo. NZD ex GST. AI operations across 5 industry kete with governance, privacy, and tikanga built in."
+      description="Family $29/mo · Operator $1,490/mo · Leader $1,990/mo · Enterprise $2,990/mo · Outcome from $5,000/mo. NZD ex GST. AI operations across 5 industry kete with governance, privacy, and tikanga built in."
       path="/pricing"
     />
     <BrandNav />

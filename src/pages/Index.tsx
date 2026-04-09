@@ -86,7 +86,7 @@ const PROOF = [
   "5 industry kete",
   "6-layer agent stack",
   "Simulation-tested",
-  "From $590 NZD/mo",
+  "From $1,490 NZD/mo",
 ];
 
 const PACKS: {
@@ -100,7 +100,7 @@ const PACKS: {
   { reo: "Manaaki", en: "Hospitality", desc: "Food Act plans, liquor licensing, guest experience, tourism operators.", color: "#3A7D6E", accentLight: "#5AADA0", to: "/packs/manaaki" },
   { reo: "Waihanga", en: "Construction", desc: "Site to sign-off. H&S, consenting, project programmes, quality records.", color: "#1A3A5C", accentLight: "#2A5A8C", to: "/hanga" },
   { reo: "Auaha", en: "Creative", desc: "Brief to published. Copy, image, video, podcast, ads, analytics.", color: "#D4A843", accentLight: "#E8C76A", to: "/packs/auaha" },
-  { reo: "Arataki", en: "Automotive", desc: "Workshops, fleet, vehicle compliance, service scheduling.", color: "#E8E8E8", accentLight: "rgba(255,255,255,0.7)", to: "/contact" },
+  { reo: "Arataki", en: "Business Operations", desc: "Dealership compliance, finance disclosure, and customer enquiry — the showroom back office handled.", color: "#E8E8E8", accentLight: "rgba(255,255,255,0.7)", to: "/contact" },
   { reo: "Pikau", en: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance.", color: "#7ECFC2", accentLight: "#A8E6DA", to: "/contact" },
 ];
 
@@ -133,8 +133,8 @@ const PRICING = [
   },
   {
     name: "Operator",
-    price: "$590",
-    setup: "+ $1,490 setup (invoiced separately)",
+    price: "$1,490",
+    setup: "+ $590 setup (invoiced separately)",
     desc: "Sole traders and micro-SMEs. One kete, up to 5 seats, email support.",
     features: ["1 industry kete (your pick)", "Up to 5 seats", "Tikanga compliance layer", "Email support, 1 business day"],
     highlight: true,
@@ -144,8 +144,8 @@ const PRICING = [
   },
   {
     name: "Leader",
-    price: "$1,290",
-    setup: "+ $1,990 setup (invoiced separately)",
+    price: "$1,990",
+    setup: "+ $1,290 setup (invoiced separately)",
     desc: "Multi-discipline SMEs. Two kete, 15 seats, signed quarterly compliance review.",
     features: ["2 industry kete", "Up to 15 seats", "Quarterly compliance review (signed)", "Monthly audit report"],
     highlight: false,
@@ -154,8 +154,8 @@ const PRICING = [
   },
   {
     name: "Enterprise",
-    price: "$2,890",
-    setup: "+ $2,990 setup (invoiced separately)",
+    price: "$2,990",
+    setup: "+ $2,890 setup (invoiced separately)",
     desc: "Multi-site, regulated, high-stakes. All five kete, unlimited seats, named success manager, 99.9% uptime SLA.",
     features: ["All 5 industry kete", "Unlimited seats", "NZ data residency", "Named success manager", "99.9% uptime SLA"],
     highlight: false,
@@ -244,7 +244,7 @@ const Index = () => {
     <div className="min-h-screen relative" style={{ background: C.bg, color: C.white }}>
       <SEO
         title="assembl — Governed Operational Intelligence for Aotearoa"
-        description="Simulation-tested specialist digital workers for NZ business. Six-layer agent stack: perception, memory, reasoning, action, explanation, simulation. From $590/mo NZD ex GST."
+        description="Simulation-tested specialist digital workers for NZ business. Six-layer agent stack: perception, memory, reasoning, action, explanation, simulation. From $1,490/mo NZD ex GST."
       />
       <BrandNav />
 
@@ -271,7 +271,7 @@ const Index = () => {
               boxShadow: "0 0 30px rgba(58,125,110,0.1)",
             }}
           >
-            Governed operational intelligence for Aotearoa
+            Governed Intelligence for Aotearoa — specialist kete for real NZ operations
           </span>
         </motion.div>
 
@@ -735,14 +735,14 @@ const Index = () => {
             </div>
             <Eyebrow>ALSO FROM ASSEMBL</Eyebrow>
             <h3 className="text-2xl uppercase tracking-[4px] mb-4" style={{ fontFamily: FONT.heading, fontWeight: 300, color: C.white }}>
-              Toro
+              Tōro
             </h3>
             <Body className="mb-8">SMS-first whānau navigator for Aotearoa. No app, no login, just text. $29/month.</Body>
             <Link
               to="/toroa"
               className="btn-ghost inline-flex items-center gap-2 px-8 py-3.5 text-sm rounded-full"
             >
-              Visit Toro <ArrowRight size={15} />
+              Visit Tōro <ArrowRight size={15} />
             </Link>
           </motion.div>
         </div>
