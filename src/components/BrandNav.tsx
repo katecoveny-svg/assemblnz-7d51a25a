@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, HardHat, UtensilsCrossed, Palette, Briefcase, Cpu, Bird, Shield, ChevronDown } from "lucide-react";
+import { Menu, X, HardHat, UtensilsCrossed, Palette, Bird, Shield, ChevronDown } from "lucide-react";
 import AccountDropdown from "@/components/AccountDropdown";
 import CelestialLogo from "@/components/CelestialLogo";
 import KiaOraPopup from "@/components/KiaOraPopup";
@@ -18,7 +18,8 @@ const NAV_ITEMS: NavItem[] = [
 const PACKS = [
   { label: "Manaaki", sublabel: "Hospitality", to: "/packs/manaaki", icon: UtensilsCrossed, color: "#D4A843", group: "business" },
   { label: "Waihanga", sublabel: "Construction", to: "/hanga", icon: HardHat, color: "#3A7D6E", group: "business" },
-  { label: "Auaha", sublabel: "Creative", to: "/packs/auaha", icon: Palette, color: "#F0D078", group: "business" },
+  { label: "Auaha", sublabel: "Creative", to: "/auaha", icon: Palette, color: "#F0D078", group: "business" },
+  { label: "Tōro", sublabel: "Family", to: "/toroa", icon: Bird, color: "#D4A843", group: "whanau" },
 ];
 
 const BrandNav = () => {
