@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import PaywallModal from "@/components/PaywallModal";
 
 const ACCENT = "#F0D078";
 const VOICES = ["Kore (Balanced NZ)", "Puck (Youthful)", "Charon (Authoritative)", "Fenrir (Bold)", "Zephyr (Calm)"];
@@ -30,8 +32,16 @@ function GlassCard({ children, className = "" }: { children: React.ReactNode; cl
   );
 }
 
+/** Pure gate decision — exported so it can be unit-tested without mounting the component. */
+export function resolveVideoGate(isAdmin: boolean, subscribed: boolean): "proceed" | "paywall" {
+  if (isAdmin) return "proceed";
+  return subscribed ? "proceed" : "paywall";
+}
+
 export default function AuahaVideoStudio() {
   const navigate = useNavigate();
+  const { isAdmin, session } = useAuth();
+
   const [workflow, setWorkflow] = useState<"quick" | "full" | "narration">("quick");
   const [scenes, setScenes] = useState<Scene[]>([{ text: "", visual: "", duration: 5 }]);
   const [voice, setVoice] = useState(VOICES[0]);
@@ -41,6 +51,7 @@ export default function AuahaVideoStudio() {
   const [frames, setFrames] = useState<string[]>([]);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [quickPrompt, setQuickPrompt] = useState("");
+  const [paywallOpen, setPaywallOpen] = useState(false);
 
   const addScene = () => setScenes([...scenes, { text: "", visual: "", duration: 5 }]);
   const removeScene = (i: number) => setScenes(scenes.filter((_, idx) => idx !== i));
@@ -51,14 +62,43 @@ export default function AuahaVideoStudio() {
   };
 
   const totalDuration = scenes.reduce((sum, s) => sum + s.duration, 0);
-  const estimatedCost = provider === "runway" ? `~$${(totalDuration * 0.05).toFixed(2)}` 
+  const estimatedCost = provider === "runway" ? `~$${(totalDuration * 0.05).toFixed(2)}`
     : provider === "fal" ? `~$${(totalDuration * 0.07).toFixed(2)}`
     : "Free (scene frames)";
+
+  /**
+   * Returns true if generation should proceed.
+   * Admins bypass the check entirely; everyone else must have an active subscription.
+   * Always resets isGenerating on failure so the button can't get stuck.
+   */
+  const checkGate = async (): Promise<boolean> => {
+    if (isAdmin) return true;
+
+    try {
+      const headers: Record<string, string> = {};
+      if (session?.access_token) headers["Authorization"] = `Bearer ${session.access_token}`;
+      const { data, error } = await supabase.functions.invoke("check-subscription", { headers });
+      if (error) throw error;
+      const decision = resolveVideoGate(false, !!data?.subscribed);
+      if (decision === "paywall") {
+        setPaywallOpen(true);
+        return false;
+      }
+      return true;
+    } catch {
+      // If the subscription check itself errors, fail safe — show the paywall rather than
+      // accidentally granting access or silently blocking without feedback.
+      setPaywallOpen(true);
+      return false;
+    }
+  };
 
   const generateQuickVideo = async () => {
     if (!quickPrompt.trim()) return toast.error("Describe your video");
     setIsGenerating(true);
     try {
+      if (!(await checkGate())) return;
+
       const selectedProvider = provider === "auto" ? "fal" : provider;
       const { data, error } = await supabase.functions.invoke("generate-video", {
         body: {
@@ -86,6 +126,8 @@ export default function AuahaVideoStudio() {
     if (validScenes.length === 0) return toast.error("Add at least one scene with a visual description");
     setIsGenerating(true);
     try {
+      if (!(await checkGate())) return;
+
       const { data, error } = await supabase.functions.invoke("generate-video", {
         body: { scenes: validScenes, aspectRatio: aspect.ratio, title: "Full Production Video", videoType: "marketing" },
       });
@@ -147,7 +189,7 @@ export default function AuahaVideoStudio() {
             <textarea value={quickPrompt} onChange={(e) => setQuickPrompt(e.target.value)}
               className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white text-sm min-h-[120px] placeholder:text-white/20"
               placeholder="E.g. A professional NZ landscape with text overlay revealing 'Business in a Kete' — cinematic drone shot" />
-            
+
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="text-white/50 text-xs block mb-1">Aspect Ratio</label>
@@ -281,6 +323,14 @@ export default function AuahaVideoStudio() {
           </div>
         </GlassCard>
       )}
+
+      {/* Paywall — shown when subscription check fails */}
+      <PaywallModal
+        type="daily_limit"
+        agentName="Video Studio"
+        open={paywallOpen}
+        onClose={() => setPaywallOpen(false)}
+      />
     </div>
   );
 }
