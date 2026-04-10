@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
+import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 
 const ROADMAP = [
   { quarter: "Q1 2026", title: "Platform launch", desc: "Five industry kete live — Manaaki, Waihanga, Auaha, Arataki, Pikau — with NZ legislation grounding, SMS access, and tikanga compliance pipeline.", done: true },
@@ -21,7 +22,8 @@ const MARKET_STATS = [
 
 const AboutPage = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <GlowPageWrapper accentColor="#3A7D6E">
+    <div className="min-h-screen flex flex-col">
       <SEO title="About Assembl — Specialist operational workflows for NZ business" description="Specialist operational workflows across five industry kete, built for New Zealand businesses. Every output runs through a tikanga compliance pipeline." path="/about" />
       <BrandNav />
 
