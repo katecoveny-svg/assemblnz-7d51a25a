@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Zap, ArrowLeft, ToggleLeft, ToggleRight, ChevronRight, Plus, Users, Home, Trophy, Handshake, MessageSquare, BarChart3, AlertTriangle, FileText, CalendarClock, HardHat, Receipt, Ship, Building2, ShieldCheck, Eye, Route, BookOpen, Brain, Scale } from "lucide-react";
+import { Zap, ArrowLeft, ToggleLeft, ToggleRight, ChevronRight, Plus, Users, Home, Trophy, Handshake, MessageSquare, BarChart3, AlertTriangle, FileText, CalendarClock, HardHat, Receipt, Ship, Building2, ShieldCheck, Eye, Route, BookOpen, Brain, Scale, Package, Hash, PenTool, FileCheck, Forward, FileDigit } from "lucide-react";
 import ParticleField from "@/components/ParticleField";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
@@ -158,6 +158,25 @@ const WorkflowSettings = () => {
                           </div>
                         </div>
                       )}
+
+                      {/* Evidence pack output */}
+                      <div>
+                        <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mb-1.5">Output → Evidence pack</p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {[
+                            { icon: PenTool, label: "Signed" },
+                            { icon: Hash, label: "SHA-256 hashed" },
+                            { icon: FileCheck, label: "Sourced" },
+                            { icon: Package, label: "File-able (.zip)" },
+                            { icon: Forward, label: "Forward-able" },
+                            { icon: FileDigit, label: "Footnote-able" },
+                          ].map(({ icon: Ico, label }) => (
+                            <span key={label} className="inline-flex items-center gap-1 text-[9px] px-2 py-0.5 rounded-full bg-[#D4A01215] border border-[#D4A01230] text-[#D4A012] font-medium">
+                              <Ico size={10} /> {label}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
 
                       {/* Trigger + Steps */}
                       <div>
