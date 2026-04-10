@@ -229,15 +229,6 @@ const PricingTiers = () => (
       <p className="text-[11px] font-body text-muted-foreground/40 text-center mt-3 max-w-2xl mx-auto">
         All prices in NZD, ex GST (add 15% at invoice). Setup fees can be split across the first 3 invoices on request. Monthly subscriptions include platform hosting, AI compute, agent support, and governance. Existing customers on the legacy model are grandfathered until 2027-04-08.
       </p>
-      <p className="text-xs font-body text-center mt-6 mb-2">
-        <span className="text-[11px] font-display tracking-[3px] uppercase" style={{ color: "hsl(var(--primary))", fontWeight: 700 }}>OUTCOME — FROM $5,000/MO</span>
-      </p>
-      <p className="text-[11px] font-body text-muted-foreground/50 text-center max-w-xl mx-auto mb-4">
-        Bespoke engagements where Assembl takes on the outcome — freight route optimisation, building maintenance scheduling, fleet uptime. Base fee + 10–20% of measured savings. Scoped per engagement.
-      </p>
-      <p className="text-xs font-body text-center">
-        <Link to="/contact" className="text-primary hover:underline">Talk to us about an Outcome engagement →</Link>
-      </p>
     </div>
   </section>
 );
