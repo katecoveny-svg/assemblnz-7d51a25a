@@ -24,7 +24,13 @@ const PIPELINE_STAGES = [
   { key: "iho", label: "Iho", desc: "Route", icon: Route },
   { key: "ta", label: "Tā", desc: "Audit log", icon: BookOpen },
   { key: "mahara", label: "Mahara", desc: "Memory", icon: Brain },
-  { key: "mana", label: "Mana", desc: "Tikanga gate", icon: Scale },
+  { key: "mana", label: "Mana", desc: "Tikanga · Privacy · Sector Acts", icon: Scale },
+] as const;
+
+const MANA_GATE_CHECKS = [
+  { label: "Tikanga", desc: "Macrons, Te Reo accuracy, cultural respect" },
+  { label: "Privacy Act 2020", desc: "PII masked, IPP 3A disclosure" },
+  { label: "Sector Acts", desc: "Statutory citations for referenced legislation" },
 ] as const;
 
 const WORKFLOW_ICONS: Record<string, any> = {
