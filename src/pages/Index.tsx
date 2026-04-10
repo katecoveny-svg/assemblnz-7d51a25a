@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Send, ChevronDown, Check } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -60,23 +60,27 @@ const Eyebrow = ({ children, color }: { children: string; color?: string }) => (
   </span>
 );
 
-const SectionHeading = ({ children }: { children: React.ReactNode }) => (
+const SectionHeading = React.forwardRef<HTMLHeadingElement, { children: React.ReactNode }>(({ children }, ref) => (
   <h2
+    ref={ref}
     className="text-3xl sm:text-4xl lg:text-5xl uppercase tracking-[2px] sm:tracking-[4px] mb-6"
     style={{ fontFamily: FONT.heading, fontWeight: 300, color: C.white, lineHeight: 1.15 }}
   >
     {children}
   </h2>
-);
+));
+SectionHeading.displayName = "SectionHeading";
 
-const Body = ({ children, className = "", style }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) => (
+const Body = React.forwardRef<HTMLParagraphElement, { children: React.ReactNode; className?: string; style?: React.CSSProperties }>(({ children, className = "", style }, ref) => (
   <p
+    ref={ref}
     className={`text-sm sm:text-[15px] leading-relaxed ${className}`}
     style={{ fontFamily: FONT.body, color: C.textSec, ...style }}
   >
     {children}
   </p>
-);
+));
+Body.displayName = "Body";
 
 const SEC = "relative px-6 sm:px-8 py-24 sm:py-32";
 const INNER = "max-w-5xl mx-auto";
