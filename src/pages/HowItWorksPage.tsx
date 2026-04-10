@@ -33,8 +33,8 @@ const STEPS = [
   {
     num: "01",
     title: "Understand your business",
-    desc: "During onboarding, we map your current workflows, tools, and pain points. We start with a 30-minute discovery call before any contract is signed.",
-    details: ["30-minute discovery call", "Workflow mapping", "Pain point audit", "No commitment required"],
+    desc: "During onboarding, we map your current workflows, tools, and pain points. No contract required before we start.",
+    details: ["Workflow mapping session", "Workflow mapping", "Pain point audit", "No commitment required"],
     color: C.gold,
     accentLight: C.goldLight,
   },
@@ -171,7 +171,7 @@ const HowItWorksPage = () => (
         <motion.div {...fade} className="text-center mb-16">
           <Eyebrow color={C.teal}>THREE STEPS</Eyebrow>
           <h2 className="text-2xl sm:text-4xl" style={{ fontFamily: FONT.heading, fontWeight: 300, letterSpacing: "1px" }}>
-            From discovery call to live operations.
+            From first contact to live operations.
           </h2>
         </motion.div>
 
@@ -377,7 +377,7 @@ const HowItWorksPage = () => (
             Ready to see how it works for your business?
           </h2>
           <p className="text-sm mb-8" style={{ fontFamily: FONT.body, color: C.textSec }}>
-            Book a free 30-minute discovery call. We'll map your workflows and show you exactly which kete fit.
+            Tell us about your business and we'll show you exactly which kete fit your workflows.
           </p>
           <Link
             to="/contact"
@@ -390,7 +390,7 @@ const HowItWorksPage = () => (
               boxShadow: `0 0 30px ${C.gold}30`,
             }}
           >
-            Book a discovery call <ArrowRight size={16} />
+            Get started <ArrowRight size={16} />
           </Link>
         </motion.div>
       </div>

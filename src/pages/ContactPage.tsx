@@ -17,7 +17,7 @@ const INDUSTRIES = [
 ];
 
 const INTERESTS = [
-  "Discovery call",
+  "Get started",
   "Operator ($590/mo)",
   "Leader ($1,290/mo)",
   "Enterprise ($2,890/mo)",
@@ -57,27 +57,27 @@ const ContactPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <SEO title="Contact Us — Assembl" description="Book a 30-minute discovery call. We'll help you map your workflows and explore how Assembl can take the admin load off your team." path="/contact" />
+      <SEO title="Get Started — Assembl" description="Tell us about your business and we'll show you exactly which kete can run your workflows. Zero phone call required." path="/contact" />
       <BrandNav />
 
       <section className="flex-1 py-16 sm:py-24">
         <div className="max-w-xl mx-auto px-5 sm:px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <p className="text-[11px] font-display tracking-[5px] uppercase text-center mb-3" style={{ fontWeight: 700, color: "hsl(var(--primary))" }}>
-              BOOK A DISCOVERY CALL
+              GET STARTED
             </p>
             <h1 className="text-2xl sm:text-4xl font-display text-center mb-3 text-foreground" style={{ fontWeight: 300 }}>
               Let's talk about your business
             </h1>
             <p className="text-sm font-body text-center text-muted-foreground mb-10 max-w-md mx-auto">
-              We'll show you how Assembl can automate the work that wastes your time. Free 30-minute discovery call.
+              We'll show you how Assembl can automate the work that wastes your time. No phone call required.
             </p>
 
             {sent ? (
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="glass-card p-10 text-center rounded-2xl">
                 <CheckCircle size={48} className="mx-auto mb-4 text-primary" />
                 <h2 className="text-lg font-display text-foreground mb-2" style={{ fontWeight: 300 }}>Thanks! We'll contact you within 24 hours.</h2>
-                <p className="text-sm font-body text-muted-foreground">We'll book your 30-minute discovery call and help map your workflows.</p>
+                <p className="text-sm font-body text-muted-foreground">We'll be in touch within 24 hours to get you set up.</p>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="glass-card p-6 sm:p-8 rounded-2xl space-y-5">
@@ -127,7 +127,7 @@ const ContactPage = () => {
 
                 <button type="submit" disabled={sending} className="w-full py-3 rounded-lg text-sm font-body font-medium flex items-center justify-center gap-2 transition-all" style={{ background: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))" }}>
                   <Send size={16} />
-                  {sending ? "Sending…" : "Book my discovery call"}
+                  {sending ? "Sending…" : "Get started"}
                 </button>
 
                 <p className="text-[11px] font-body text-muted-foreground/40 text-center">

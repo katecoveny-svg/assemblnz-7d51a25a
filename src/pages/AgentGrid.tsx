@@ -273,7 +273,7 @@ const AgentGrid = () => {
       {/* ═══════ LIVE DEMO ═══════ */}
       <EmbedDemoSection />
 
-      {/* ═══════ DISCOVERY CALL ═══════ */}
+      {/* ═══════ GET STARTED ═══════ */}
       <section id="launch-sprint" className="relative z-10 py-20" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center">
           <motion.div
@@ -282,10 +282,10 @@ const AgentGrid = () => {
             viewport={{ once: true }}
           >
             <h2 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "1.75rem", color: "#FFFFFF", marginBottom: "0.75rem" }}>
-              Book a <span style={{ color: "#D4A843" }}>discovery call</span>
+              Get started with <span style={{ color: "#D4A843" }}>Assembl</span>
             </h2>
             <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "14px", color: "rgba(255,255,255,0.5)", maxWidth: "480px", margin: "0 auto 2rem" }}>
-              Free 30-minute discovery call. We'll map your workflows and show you which kete fit your business.
+              Tell us about your business and we'll show you which kete can run your workflows.
             </p>
           </motion.div>
 
@@ -346,7 +346,7 @@ const AgentGrid = () => {
                 boxShadow: "0 0 20px rgba(212,168,67,0.2)",
               }}
             >
-              <Send size={14} /> Book discovery call
+              <Send size={14} /> Get started
             </button>
           </form>
         </div>

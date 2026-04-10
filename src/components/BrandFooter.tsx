@@ -17,8 +17,8 @@ const FOOTER_LINKS = {
     { to: "/packs/manaaki", label: "Manaaki — Hospitality" },
     { to: "/hanga", label: "Waihanga — Construction" },
     { to: "/auaha", label: "Auaha — Creative" },
-    { to: "/packs/pakihi", label: "Arataki — Business Ops" },
-    { to: "/packs/hangarau", label: "Pikau — Freight & Customs" },
+    { to: "/kete/arataki", label: "Arataki — Automotive" },
+    { to: "/pikau", label: "Pikau — Freight & Customs" },
   ],
   Products: [
     { to: "/toroa", label: "Toro — Family Navigator" },

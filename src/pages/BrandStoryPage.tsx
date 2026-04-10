@@ -351,7 +351,7 @@ const BrandStoryPage = () => {
                 transition: "opacity 0.2s",
               }}
             >
-              Book a discovery call
+              Get started
             </Link>
             <Link
               to="/pricing"
@@ -790,8 +790,7 @@ const BrandStoryPage = () => {
               Join the Assembl whānau
             </h2>
             <p style={{ ...T.body, maxWidth: "440px", margin: "0 auto 36px" }}>
-              Book a free 30-minute discovery call. We'll map your workflows and show you
-              which kete fit your business.
+              Tell us about your business and we'll show you which kete fit your workflows.
             </p>
 
             <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
@@ -812,7 +811,7 @@ const BrandStoryPage = () => {
                   transition: "opacity 0.2s",
                 }}
               >
-                Book a discovery call
+                Get started
               </Link>
               <Link
                 to="/pricing"

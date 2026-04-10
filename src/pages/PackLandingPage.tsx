@@ -156,7 +156,7 @@ const PackLandingPage = () => {
                 }
               }}
             >
-              Book a discovery call <ArrowRight size={16} />
+              Get started <ArrowRight size={16} />
             </Link>
           </motion.div>
         </section>

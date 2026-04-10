@@ -53,7 +53,7 @@ const PricingHero = () => (
       </div>
       <div className="flex flex-wrap justify-center gap-3">
         <Link to="/contact" className="px-7 py-3 rounded-full text-sm font-body font-medium transition-all" style={{ background: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))" }}>
-          Book a discovery call
+          Get started
         </Link>
         <button onClick={() => document.getElementById("packs")?.scrollIntoView({ behavior: "smooth" })} className="px-7 py-3 rounded-full text-sm font-body font-medium border transition-all" style={{ borderColor: "rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.7)" }}>
           Explore the kete
@@ -65,7 +65,7 @@ const PricingHero = () => (
 
 /* ── Section B: Offer Stack ── */
 const OFFERS = [
-  { icon: Rocket, badge: "START HERE", badgeColor: "hsl(var(--primary))", title: "Talk to us first", desc: "Every business is different. We start with a 30-minute discovery call to map your workflows, pick the right kete, and agree what success looks like before you sign anything.", time: "Up and running in 10 business days", price: "Free 30-minute discovery call", cta: "Book a call", to: "/contact" },
+  { icon: Rocket, badge: "START HERE", badgeColor: "hsl(var(--primary))", title: "Talk to us first", desc: "Every business is different. We map your workflows, pick the right kete, and agree what success looks like before you sign anything.", time: "Up and running in 10 business days", price: "Free workflow mapping", cta: "Get started", to: "/contact" },
   { icon: Layers, badge: "FOUNDATION", badgeColor: "hsl(var(--pounamu))", title: "Core Platform", desc: "Included in every subscription. Your central routing engine (Iho), governance pipeline, SIGNAL security, SMS/WhatsApp messaging, and dashboard access.", price: "Included in every plan", note: "This is the foundation. Every kete runs on Core.", includes: ["Iho routing engine", "SIGNAL security agent", "Compliance pipeline (Kahu → Iho → Tā → Mahara → Mana)", "SMS & WhatsApp access", "Dashboard & analytics", "NZ data residency on Enterprise"] },
   { icon: Package, badge: "SPECIALIST AI", badgeColor: "hsl(var(--tangaroa-light))", title: "Industry Kete", desc: "Each kete is a complete AI operations hub with specialist agents, governance pipeline, and evidence pack output. Every workflow run ends in a signed pack — structured, sourced, and ready to file.", price: "From NZ$1,490/month", list: "Manaaki · Waihanga · Auaha · Arataki · Pikau", cta: "See all packs", scrollTo: "packs" },
   { icon: Crown, badge: "ENTERPRISE", badgeColor: "hsl(var(--primary))", title: "Enterprise", desc: "All 5 kete, unlimited seats, attested NZ data residency, 99.9% uptime SLA, named success manager, signed quarterly compliance review. Replaces a fraction of a full-time compliance manager.", price: "NZ$2,990/month + $2,890 setup", cta: "Talk to us", to: "/contact", includes: ["Named success manager", "Quarterly compliance review (signed)", "Monthly audit report", "NZ data residency (attested)", "99.9% uptime SLA"] },
@@ -362,7 +362,7 @@ const ToroaSection = () => {
 /* ── Section F: FAQ ── */
 const FAQS = [
   { q: "What's a kete?", a: "A kete is a traditional Māori woven basket, typically crafted from harakeke (New Zealand flax). We use it as a metaphor for our industry packs — each kete is a carefully woven collection of AI agents designed for a specific industry." },
-  { q: "How does onboarding work?", a: "Book a 30-minute discovery call. We map your workflows, agree on the right kete and tier, then run a 10-business-day setup: kickoff workshop, data import, brand kit, two policy gates, and a pilot kit. The setup fee covers the work. If we miss the 10-day window, we refund the setup fee." },
+  { q: "How does onboarding work?", a: "Fill out our get started form. We map your workflows, agree on the right kete and tier, then run a 10-business-day setup: kickoff workshop, data import, brand kit, two policy gates, and a pilot kit. The setup fee covers the work. If we miss the 10-day window, we refund the setup fee." },
   { q: "Can I start with one kete and add more later?", a: "Absolutely. Operator includes 1 kete. Leader includes 2. Enterprise includes all 5. You can also add an extra kete to Operator or Leader for $290/mo per kete without changing tiers." },
   { q: "How does SMS/WhatsApp work?", a: "You get a dedicated NZ phone number for each kete. Your team texts questions and the right agent answers in seconds. WhatsApp groups let your team share photos, voice messages, and documents directly with agents." },
   { q: "Where is my data stored?", a: "Operator and Leader run on standard NZ-region infrastructure. Enterprise includes attested NZ data residency. We follow the NZ Privacy Act 2020 and our tikanga governance layer ensures your data is treated with the care and respect it deserves." },
@@ -414,11 +414,11 @@ const CTAFooter = () => (
         Ready to build your kete?
       </h2>
       <p className="text-sm font-body text-muted-foreground mb-8 max-w-lg mx-auto">
-        Book a free 30-minute discovery call. We'll map your workflows and show you exactly which agents can run them.
+        Tell us about your business and we'll show you exactly which agents can run your workflows.
       </p>
       <div className="flex flex-wrap justify-center gap-3 mb-6">
         <Link to="/contact" className="px-7 py-3 rounded-full text-sm font-body font-medium transition-all" style={{ background: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))" }}>
-          Book a discovery call
+          Get started
         </Link>
         <Link to="/kete" className="px-7 py-3 rounded-full text-sm font-body font-medium border transition-all" style={{ borderColor: "rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.7)" }}>
           View the demo

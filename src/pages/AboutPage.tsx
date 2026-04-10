@@ -138,7 +138,7 @@ const AboutPage = () => {
           <p className="text-xs font-display text-foreground" style={{ fontWeight: 300 }}>Kate</p>
           <p className="text-[11px] font-body text-muted-foreground">Founder & CEO · Auckland, New Zealand</p>
           <Link to="/contact" className="inline-flex items-center gap-2 mt-4 text-sm font-display text-primary hover:text-foreground transition-colors" style={{ fontWeight: 300 }}>
-            Book a discovery call <ArrowRight size={14} />
+            Get started <ArrowRight size={14} />
           </Link>
         </div>
       </section>

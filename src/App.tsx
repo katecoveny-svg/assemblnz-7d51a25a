@@ -108,9 +108,7 @@ const AdminPacksPage = lazy(() => import("./pages/AdminPacksPage"));
 const AdminPackAnalytics = lazy(() => import("./pages/AdminPackAnalytics"));
 const AdminMessagingDashboard = lazy(() => import("./pages/AdminMessagingDashboard"));
 const ManaakiDashboard = lazy(() => import("./components/manaaki/ManaakiDashboard"));
-const PakihiDashboard = lazy(() => import("./components/pakihi/PakihiDashboard"));
-const HangarauDashboard = lazy(() => import("./components/hangarau/HangarauDashboard"));
-const TeKahuiReoDashboard = lazy(() => import("./components/te-kahui-reo/TeKahuiReoDashboard"));
+// PakihiDashboard, HangarauDashboard, TeKahuiReoDashboard — retired kete, routes removed 2026-04-10
 const ToroaDashboard = lazy(() => import("./components/toroa/ToroaDashboard"));
 const SkillWiringDashboard = lazy(() => import("./components/admin/SkillWiringDashboard"));
 const SkillHubPage = lazy(() => import("./pages/SkillHubPage"));
@@ -205,9 +203,10 @@ const App = () => (
                   <Route path="/kete" element={<Suspense fallback={null}><KeteCollectionPage /></Suspense>} />
                   <Route path="/kete/:slug" element={<Suspense fallback={null}><KeteDetailPageNew /></Suspense>} />
                   <Route path="/manaaki" element={<Suspense fallback={null}><ManaakiDashboard /></Suspense>} />
-                  <Route path="/pakihi" element={<Suspense fallback={null}><PakihiDashboard /></Suspense>} />
-                  <Route path="/hangarau" element={<Suspense fallback={null}><HangarauDashboard /></Suspense>} />
-                  <Route path="/te-kahui-reo" element={<Suspense fallback={null}><TeKahuiReoDashboard /></Suspense>} />
+                  {/* Retired kete — redirected 2026-04-10 */}
+                  <Route path="/pakihi" element={<Navigate to="/" replace />} />
+                  <Route path="/hangarau" element={<Navigate to="/" replace />} />
+                  <Route path="/te-kahui-reo" element={<Navigate to="/" replace />} />
                   <Route path="/toroa" element={<Suspense fallback={null}><ToroaLandingPage /></Suspense>} />
                   <Route path="/toroa/dashboard" element={<Suspense fallback={null}><ToroaDashboard /></Suspense>} />
                   <Route path="/toroa/app" element={<Suspense fallback={null}><ToroaApp /></Suspense>} />
