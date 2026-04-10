@@ -17,7 +17,7 @@ const NAV_ITEMS: NavItem[] = [
 
 const PACKS = [
   { label: "Manaaki", sublabel: "Hospitality", to: "/packs/manaaki", icon: UtensilsCrossed, color: "#D4A843", group: "business" },
-  { label: "Waihanga", sublabel: "Construction", to: "/hanga", icon: HardHat, color: "#3A7D6E", group: "business" },
+  { label: "Waihanga", sublabel: "Construction", to: "/waihanga", icon: HardHat, color: "#3A7D6E", group: "business" },
   { label: "Auaha", sublabel: "Creative", to: "/auaha", icon: Palette, color: "#F0D078", group: "business" },
   { label: "Tōroa", sublabel: "Family", to: "/toroa", icon: Bird, color: "#D4A843", group: "whanau" },
 ];
@@ -106,7 +106,7 @@ const BrandNav = () => {
                       </button>
                     </div>
                     <div className="border-t pt-1 mt-1" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-                      <button onClick={() => handleNavClick("/packs/hanga")}
+                      <button onClick={() => handleNavClick("/packs/waihanga")}
                         className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/[0.04] transition-colors">
                         <Shield size={14} className="text-white/30 ml-1" />
                         <span className="text-[11px] text-white/40">SIGNAL Security — Shared</span>

@@ -6,7 +6,7 @@ export default function KeteSelector() {
   const location = useLocation();
 
   const isActive = (id: string) => {
-    if (id === "hanga") return location.pathname.startsWith("/hanga");
+    if (id === "waihanga") return location.pathname.startsWith("/waihanga");
     if (id === "toroa") return location.pathname.startsWith("/toroa");
     return location.pathname.includes(id);
   };

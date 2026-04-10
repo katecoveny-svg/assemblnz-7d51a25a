@@ -15,7 +15,7 @@ const FOOTER_LINKS = {
   ],
   "Industry Kete": [
     { to: "/packs/manaaki", label: "Manaaki — Hospitality" },
-    { to: "/hanga", label: "Waihanga — Construction" },
+    { to: "/waihanga", label: "Waihanga — Construction" },
     { to: "/auaha", label: "Auaha — Creative" },
     { to: "/kete/arataki", label: "Arataki — Automotive" },
     { to: "/pikau", label: "Pikau — Freight & Customs" },

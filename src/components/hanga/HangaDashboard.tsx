@@ -38,9 +38,9 @@ const Glass = ({ children, className = "", glow = false }: { children: React.Rea
 
 /* ── Static data ── */
 const agents = [
-  { name: "KAUPAPA", role: "PROGRAMME & CLAIMS", desc: "Critical path tracking & Form 1 claims.", status: "ANALYSING", color: KOWHAI, to: "/hanga/kaupapa" },
-  { name: "ĀRAI", role: "SAFETY & RISK", desc: "Site-specific H&S risk register.", status: "MONITORING", color: POUNAMU, to: "/hanga/arai" },
-  { name: "KAHU", role: "COMPLIANCE", desc: "CCA 2002 & Retention trust audit.", status: "IDLE", color: "#6B7280", to: "/hanga/docs" },
+  { name: "KAUPAPA", role: "PROGRAMME & CLAIMS", desc: "Critical path tracking & Form 1 claims.", status: "ANALYSING", color: KOWHAI, to: "/waihanga/kaupapa" },
+  { name: "ĀRAI", role: "SAFETY & RISK", desc: "Site-specific H&S risk register.", status: "MONITORING", color: POUNAMU, to: "/waihanga/arai" },
+  { name: "KAHU", role: "COMPLIANCE", desc: "CCA 2002 & Retention trust audit.", status: "IDLE", color: "#6B7280", to: "/waihanga/docs" },
 ];
 
 const programmeData = [
@@ -85,12 +85,12 @@ export default function HangaDashboard() {
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-5 max-w-[1400px] mx-auto">
       <HarakekePattern className="mb-1 rounded" />
-      <KeteOnboardingCard packId="hanga" />
+      <KeteOnboardingCard packId="waihanga" />
 
       {/* ── Header ── */}
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight" style={{ fontFamily: "'Inter', sans-serif" }}>HANGA</h1>
+          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight" style={{ fontFamily: "'Inter', sans-serif" }}>WAIHANGA</h1>
           <span className="text-[9px] font-bold tracking-[0.2em] px-3 py-1 rounded-full" style={{ background: `${KOWHAI}18`, color: KOWHAI, border: `1px solid ${KOWHAI}30` }}>
             CONSTRUCTION INTELLIGENCE
           </span>
@@ -158,13 +158,13 @@ export default function HangaDashboard() {
           </div>
 
           {/* CTA: Tender Analysis */}
-          <Link to="/hanga/tender" className="mt-4 flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs text-black transition-all hover:brightness-110" style={{ background: KOWHAI }}>
+          <Link to="/waihanga/tender" className="mt-4 flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs text-black transition-all hover:brightness-110" style={{ background: KOWHAI }}>
             NEW TENDER ANALYSIS <ArrowUpRight size={14} />
           </Link>
           <p className="text-[9px] text-white/25 mt-1.5 px-1">PRIORITY 1 HOOK · SAVE ~14 HOURS</p>
 
           {/* CTA: Payment Claim */}
-          <Link to="/hanga/kaupapa" className="mt-3 flex items-center gap-2 text-white/50 hover:text-white/80 text-[11px] font-medium transition-colors">
+          <Link to="/waihanga/kaupapa" className="mt-3 flex items-center gap-2 text-white/50 hover:text-white/80 text-[11px] font-medium transition-colors">
             <FileText size={13} /> DRAFT PAYMENT CLAIM (FORM 1)
           </Link>
         </Glass>
@@ -231,7 +231,7 @@ export default function HangaDashboard() {
               <div className="h-1.5 rounded-full bg-white/5">
                 <div className="h-full rounded-full" style={{ width: "82%", background: `linear-gradient(90deg, ${POUNAMU}, ${KOWHAI})` }} />
               </div>
-              <Link to="/hanga/docs" className="flex items-center gap-1.5 text-[10px] font-bold tracking-wider transition-colors hover:brightness-125" style={{ color: KOWHAI }}>
+              <Link to="/waihanga/docs" className="flex items-center gap-1.5 text-[10px] font-bold tracking-wider transition-colors hover:brightness-125" style={{ color: KOWHAI }}>
                 AUDIT RETENTION LEDGER <ExternalLink size={10} />
               </Link>
             </div>
@@ -282,10 +282,10 @@ export default function HangaDashboard() {
               <h3 className="text-[11px] font-bold text-white/50 tracking-wider mb-3">QUICK ACTIONS</h3>
               <div className="space-y-2">
                 {[
-                  { label: "Report Hazard", labelMi: "Pūrongo Mōrearea", icon: AlertTriangle, color: "#E44D4D", to: "/hanga/arai" },
-                  { label: "Payment Claim", labelMi: "Tono Utu", icon: DollarSign, color: KOWHAI, to: "/hanga/kaupapa" },
-                  { label: "Site Muster", labelMi: "Tae Mai", icon: MapPin, color: POUNAMU, to: "/hanga/site-checkin" },
-                  { label: "Generate Report", labelMi: "Pūrongo", icon: FileText, color: TANGAROA, to: "/hanga/docs" },
+                  { label: "Report Hazard", labelMi: "Pūrongo Mōrearea", icon: AlertTriangle, color: "#E44D4D", to: "/waihanga/arai" },
+                  { label: "Payment Claim", labelMi: "Tono Utu", icon: DollarSign, color: KOWHAI, to: "/waihanga/kaupapa" },
+                  { label: "Site Muster", labelMi: "Tae Mai", icon: MapPin, color: POUNAMU, to: "/waihanga/site-checkin" },
+                  { label: "Generate Report", labelMi: "Pūrongo", icon: FileText, color: TANGAROA, to: "/waihanga/docs" },
                 ].map(a => (
                   <Link key={a.label} to={a.to} className="flex items-center gap-3 p-3 rounded-xl transition-all hover:bg-white/[0.03]" style={{ border: "1px solid rgba(255,255,255,0.04)" }}>
                     <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${a.color}12` }}>
@@ -356,20 +356,20 @@ export default function HangaDashboard() {
 
         <TabsContent value="workflows">
           <div className="mt-4">
-            <WorkflowCards packId="hanga" />
+            <WorkflowCards packId="waihanga" />
           </div>
         </TabsContent>
       </Tabs>
 
       {/* SMS & WhatsApp Explainer */}
       <KeteSmsExplainer
-        keteName="Hanga"
+        keteName="Waihanga"
         keteNameEn="Construction"
         accentColor="#3A7D6E"
         conversations={[]}
       />
 
-      <KeteBrainChat keteId="hanga" keteName="Hanga" keteNameEn="Construction" accentColor="#3A7D6E" />
+      <KeteBrainChat keteId="waihanga" keteName="Waihanga" keteNameEn="Construction" accentColor="#3A7D6E" />
     </div>
   );
 }

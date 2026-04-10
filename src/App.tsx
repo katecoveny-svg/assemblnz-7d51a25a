@@ -225,7 +225,9 @@ const App = () => (
                     <Route path="setup" element={<Suspense fallback={null}><ArohaCompanySetup /></Suspense>} />
                     <Route path="retention" element={<Suspense fallback={null}><ArohaRetention /></Suspense>} />
                   </Route>
-                  <Route path="/hanga" element={<Suspense fallback={null}><HangaLayout /></Suspense>}>
+                  <Route path="/hanga/*" element={<Navigate to="/waihanga" replace />} />
+                  <Route path="/hanga" element={<Navigate to="/waihanga" replace />} />
+                  <Route path="/waihanga" element={<Suspense fallback={null}><HangaLayout /></Suspense>}>
                     <Route index element={<HangaDashboard />} />
                     <Route path="arai" element={<AraiSafetyPage />} />
                     <Route path="kaupapa" element={<KaupapaDashboard />} />

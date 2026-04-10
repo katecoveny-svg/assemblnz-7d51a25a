@@ -23,7 +23,7 @@ const KETE_PACKS = [
     wananga: "Te Kete Tuauri",
     wanangaEn: "Physical world & craft",
     icon: HardHat,
-    to: "/hanga",
+    to: "/waihanga",
     color: "#3A7D6E",
     agents: "16 agents",
     desc: "Site to sign-off. Safety, consenting, project management, tenders.",
