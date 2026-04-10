@@ -82,7 +82,13 @@ export * from "./simulation/toro";
 export * from "./agent/toro-agent";
 export * from "./useToroRuntime";
 
-// ── Pilot 10 — Arataki (automotive dealer intelligence) ─────
+// ── Pilot 10 — Te Reo Tikanga Advisory ───────────────────────
+export * from "./policy/te-reo";
+export * from "./simulation/te-reo";
+export * from "./agent/te-reo-agent";
+export * from "./useTeReoRuntime";
+
+// ── Pilot 11 — Arataki (automotive dealer intelligence) ─────
 export * from "./utils/fuel-oracle";
 export * from "./policy/arataki";
 export * from "./simulation/arataki";
