@@ -165,6 +165,22 @@ const WorkflowSettings = () => {
                         </div>
                       )}
 
+                      {/* Mana gate enforcement */}
+                      <div className="rounded-lg p-3" style={{ background: "rgba(220, 38, 38, 0.04)", border: "1px solid rgba(220, 38, 38, 0.12)" }}>
+                        <div className="flex items-center gap-2 mb-2">
+                          <Ban size={12} className="text-red-400" />
+                          <p className="text-[9px] font-bold text-red-400 uppercase tracking-wider">Kete refuses to close pack if Mana gate fails</p>
+                        </div>
+                        <div className="grid grid-cols-3 gap-2">
+                          {MANA_GATE_CHECKS.map((check) => (
+                            <div key={check.label} className="text-center">
+                              <span className="text-[10px] font-bold text-foreground block">{check.label}</span>
+                              <span className="text-[8px] text-muted-foreground">{check.desc}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
                       {/* Evidence pack output */}
                       <div>
                         <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mb-1.5">Output → Evidence pack</p>
