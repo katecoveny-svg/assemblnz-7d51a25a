@@ -368,6 +368,6 @@ export default function HangaDashboard() {
       />
 
       <KeteBrainChat keteId="waihanga" keteName="Waihanga" keteNameEn="Construction" accentColor="#3A7D6E" />
-    </div>
+    </KeteDashboardShell>
   );
 }
