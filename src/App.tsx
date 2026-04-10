@@ -30,6 +30,7 @@ const AdminForgotPassword = lazy(() => import("./pages/AdminForgotPassword"));
 const AdminResetPassword = lazy(() => import("./pages/AdminResetPassword"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const PricingPage = lazy(() => import("./pages/PricingPage"));
+const ClaimsRegisterPage = lazy(() => import("./pages/ClaimsRegisterPage"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfUse = lazy(() => import("./pages/TermsOfUse"));
 const CookiePolicy = lazy(() => import("./pages/CookiePolicy"));
