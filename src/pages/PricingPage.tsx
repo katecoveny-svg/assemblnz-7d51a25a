@@ -195,9 +195,17 @@ const PricingTiers = () => (
             <p className="text-xs font-body text-muted-foreground mb-4 italic">Best for: {t.best}</p>
             <div className="h-px mb-4" style={{ background: "rgba(255,255,255,0.06)" }} />
             <ul className="space-y-2 mb-4 flex-1">
-              {t.features.map(f => (
-                <li key={f} className="flex items-start gap-2 text-xs font-body text-muted-foreground">
-                  <Check size={14} className="mt-0.5 shrink-0" style={{ color: t.accent }} />{f}
+              {t.features.map(f => {
+                const hasFootnote = f.includes("⁷");
+                const text = hasFootnote ? f.replace("⁷", "") : f;
+                return (
+                  <li key={f} className="flex items-start gap-2 text-xs font-body text-muted-foreground">
+                    <Check size={14} className="mt-0.5 shrink-0" style={{ color: t.accent }} />
+                    {text}
+                    {hasFootnote && <Link to="/claims-register#claim-7" className="text-primary hover:underline align-super text-[0.7em]">⁷</Link>}
+                  </li>
+                );
+              })}
                 </li>
               ))}
             </ul>
