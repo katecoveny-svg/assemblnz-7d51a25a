@@ -1,17 +1,12 @@
-import { motion } from "framer-motion";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area } from "recharts";
 import KeteBrainChat from "@/components/KeteBrainChat";
 import GlowIcon from "@/components/GlowIcon";
 import { AaaipGuardBadge } from "@/aaaip";
+import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
+import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 
 const ACCENT = "#1A3A5C";
 const ACCENT_LIGHT = "#4A7AAC";
-const Glass = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <div className={`rounded-2xl border backdrop-blur-md ${className}`}
-    style={{ background: "linear-gradient(135deg, rgba(15,15,26,0.85), rgba(15,15,26,0.65))", borderColor: "rgba(26,58,92,0.2)" }}>
-    {children}
-  </div>
-);
 
 const uptimeData = [
   { hour: "00", uptime: 99.9 }, { hour: "04", uptime: 99.95 }, { hour: "08", uptime: 99.8 },
@@ -42,37 +37,31 @@ const metrics = [
 
 export default function HangarauDashboard() {
   return (
-    <div className="min-h-screen p-4 md:p-8 space-y-6" style={{ background: "#09090F" }}>
-      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <GlowIcon name="Cpu" size={32} color={ACCENT_LIGHT} />
-          <div>
-            <h1 className="text-2xl font-bold text-white/90" style={{ fontFamily: "'Lato', sans-serif" }}>Hangarau</h1>
-            <p className="text-xs text-white/40">Technology & Engineering Intelligence</p>
-          </div>
-        </div>
-        <AaaipGuardBadge
-          domain="pikau"
-          accentColor={ACCENT_LIGHT}
-          subtitle="Pikau policies gate freight ops"
-        />
-      </motion.div>
-
+    <KeteDashboardShell
+      name="Hangarau"
+      subtitle="Technology & Engineering Intelligence"
+      accentColor={ACCENT}
+      accentLight={ACCENT_LIGHT}
+      variant="standard"
+      headerExtra={
+        <AaaipGuardBadge domain="pikau" accentColor={ACCENT_LIGHT} subtitle="Pikau policies gate freight ops" />
+      }
+    >
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {metrics.map(m => (
-          <Glass key={m.label} className="p-4">
+          <DashboardGlassCard key={m.label} accentColor={ACCENT_LIGHT} className="p-4">
             <div className="flex items-center gap-2 mb-2">
               <GlowIcon name={m.icon} size={16} color={ACCENT_LIGHT} />
               <span className="text-[10px] text-white/40 uppercase tracking-wider">{m.label}</span>
             </div>
             <div className="text-xl font-bold text-white/90" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{m.value}</div>
             <span className="text-[10px] text-emerald-400">{m.trend}</span>
-          </Glass>
+          </DashboardGlassCard>
         ))}
       </div>
 
       <div className="grid md:grid-cols-2 gap-4">
-        <Glass className="p-4">
+        <DashboardGlassCard accentColor={ACCENT_LIGHT} className="p-4">
           <h3 className="text-xs font-semibold text-white/60 mb-3">System Uptime (%)</h3>
           <ResponsiveContainer width="100%" height={180}>
             <AreaChart data={uptimeData}>
@@ -82,8 +71,8 @@ export default function HangarauDashboard() {
               <Area type="monotone" dataKey="uptime" stroke={ACCENT_LIGHT} fill={`${ACCENT_LIGHT}20`} strokeWidth={2} />
             </AreaChart>
           </ResponsiveContainer>
-        </Glass>
-        <Glass className="p-4">
+        </DashboardGlassCard>
+        <DashboardGlassCard accentColor={ACCENT_LIGHT} className="p-4">
           <h3 className="text-xs font-semibold text-white/60 mb-3">Deployments Per Week</h3>
           <ResponsiveContainer width="100%" height={180}>
             <BarChart data={deployData}>
@@ -93,10 +82,10 @@ export default function HangarauDashboard() {
               <Bar dataKey="deploys" fill={ACCENT_LIGHT} radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
-        </Glass>
+        </DashboardGlassCard>
       </div>
 
-      <Glass className="p-4">
+      <DashboardGlassCard accentColor={ACCENT_LIGHT} className="p-4">
         <h3 className="text-xs font-semibold text-white/60 mb-3">Specialist Agents</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           {agents.map(a => (
@@ -110,9 +99,9 @@ export default function HangarauDashboard() {
             </div>
           ))}
         </div>
-      </Glass>
+      </DashboardGlassCard>
 
       <KeteBrainChat keteId="hangarau" keteName="Hangarau" keteNameEn="Technology" accentColor={ACCENT_LIGHT} />
-    </div>
+    </KeteDashboardShell>
   );
 }

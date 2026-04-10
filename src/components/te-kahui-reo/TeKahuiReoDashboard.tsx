@@ -1,15 +1,11 @@
-import { motion } from "framer-motion";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import KeteBrainChat from "@/components/KeteBrainChat";
 import GlowIcon from "@/components/GlowIcon";
+import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
+import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 
 const ACCENT = "#3A6A9C";
-const Glass = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <div className={`rounded-2xl border backdrop-blur-md ${className}`}
-    style={{ background: "linear-gradient(135deg, rgba(15,15,26,0.85), rgba(15,15,26,0.65))", borderColor: "rgba(58,106,156,0.15)" }}>
-    {children}
-  </div>
-);
+const ACCENT_LIGHT = "#6B8DF5";
 
 const biData = [
   { metric: "Whānau Ora", score: 82 }, { metric: "Kaitiaki", score: 91 },
@@ -37,36 +33,34 @@ const metrics = [
 
 export default function TeKahuiReoDashboard() {
   return (
-    <div className="min-h-screen p-4 md:p-8 space-y-6" style={{ background: "#09090F" }}>
-      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-3">
-        <GlowIcon name="Globe" size={32} color={ACCENT} />
-        <div>
-          <h1 className="text-2xl font-bold text-white/90" style={{ fontFamily: "'Lato', sans-serif" }}>Te Kāhui Reo</h1>
-          <p className="text-xs text-white/40">Māori Business Intelligence — Kaupapa Māori</p>
-        </div>
-      </motion.div>
-
+    <KeteDashboardShell
+      name="Te Kāhui Reo"
+      subtitle="Māori Business Intelligence — Kaupapa Māori"
+      accentColor={ACCENT}
+      accentLight={ACCENT_LIGHT}
+      variant="tricolor"
+    >
       {/* Wānanga reference */}
-      <Glass className="p-3">
+      <DashboardGlassCard accentColor={ACCENT} glow className="p-3">
         <p className="text-xs text-white/50 italic">
           "Ngā Kete o te Wānanga — all three baskets of knowledge woven together. This is BI built from tikanga up."
         </p>
-      </Glass>
+      </DashboardGlassCard>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {metrics.map(m => (
-          <Glass key={m.label} className="p-4">
+          <DashboardGlassCard key={m.label} accentColor={ACCENT} className="p-4">
             <div className="flex items-center gap-2 mb-2">
               <GlowIcon name={m.icon} size={16} color={ACCENT} />
               <span className="text-[10px] text-white/40 uppercase tracking-wider">{m.label}</span>
             </div>
             <div className="text-xl font-bold text-white/90" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{m.value}</div>
             <span className="text-[10px] text-emerald-400">{m.trend}</span>
-          </Glass>
+          </DashboardGlassCard>
         ))}
       </div>
 
-      <Glass className="p-4">
+      <DashboardGlassCard accentColor={ACCENT} className="p-4">
         <h3 className="text-xs font-semibold text-white/60 mb-3">Kaupapa Māori Performance Index</h3>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={biData} layout="vertical">
@@ -76,9 +70,9 @@ export default function TeKahuiReoDashboard() {
             <Bar dataKey="score" fill={ACCENT} radius={[0, 6, 6, 0]} />
           </BarChart>
         </ResponsiveContainer>
-      </Glass>
+      </DashboardGlassCard>
 
-      <Glass className="p-4">
+      <DashboardGlassCard accentColor={ACCENT} className="p-4">
         <h3 className="text-xs font-semibold text-white/60 mb-3">Specialist Agents</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           {agents.map(a => (
@@ -92,9 +86,9 @@ export default function TeKahuiReoDashboard() {
             </div>
           ))}
         </div>
-      </Glass>
+      </DashboardGlassCard>
 
       <KeteBrainChat keteId="te-kahui-reo" keteName="Te Kāhui Reo" keteNameEn="Māori BI" accentColor={ACCENT} />
-    </div>
+    </KeteDashboardShell>
   );
 }
