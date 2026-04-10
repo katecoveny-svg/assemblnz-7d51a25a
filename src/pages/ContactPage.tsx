@@ -4,6 +4,7 @@ import { Send, CheckCircle } from "lucide-react";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
+import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 import { supabase } from "@/integrations/supabase/client";
 
 const INDUSTRIES = [
@@ -56,7 +57,8 @@ const ContactPage = () => {
   const labelClass = "block text-xs font-body text-muted-foreground mb-1.5 tracking-wide";
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <GlowPageWrapper accentColor="#3A7D6E">
+    <div className="min-h-screen flex flex-col">
       <SEO title="Get Started — Assembl" description="Tell us about your business and we'll show you exactly which kete can run your workflows. Zero phone call required." path="/contact" />
       <BrandNav />
 
@@ -141,6 +143,7 @@ const ContactPage = () => {
 
       <BrandFooter />
     </div>
+    </GlowPageWrapper>
   );
 };
 

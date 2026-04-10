@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Send, ChevronDown, Check } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -11,6 +11,8 @@ import SEO from "@/components/SEO";
 import LiquidGlassCard from "@/components/LiquidGlassCard";
 import KeteWeaveVisual from "@/components/KeteWeaveVisual";
 import HeroKeteNetwork from "@/components/HeroKeteNetwork";
+
+const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel"));
 
 /* ─── Design tokens — Pounamu primary, White secondary, Gold accent ─── */
 const C = {
@@ -502,7 +504,14 @@ const Index = () => {
               <LiquidGlassCard key={p.reo} className="h-full" accentColor={p.color} delay={i * 0.08}>
                 <Link to={p.to} className="block h-full group p-7">
                   <div className="flex items-center gap-4 mb-5">
-                    <KeteWeaveVisual size={48} accentColor={p.color} accentLight={p.accentLight} showNodes={false} showGlow={false} />
+                    {/* 3D model for first 3 kete, weave visual for rest */}
+                    {i < 3 ? (
+                      <Suspense fallback={<KeteWeaveVisual size={48} accentColor={p.color} accentLight={p.accentLight} showNodes={false} showGlow={false} />}>
+                        <Kete3DModel accentColor={p.color} accentLight={p.accentLight} size={64} />
+                      </Suspense>
+                    ) : (
+                      <KeteWeaveVisual size={48} accentColor={p.color} accentLight={p.accentLight} showNodes={false} showGlow={false} />
+                    )}
                     <div>
                       <p className="text-[10px] uppercase tracking-[3px]" style={{ fontFamily: FONT.mono, color: p.color }}>
                         {p.en}
@@ -514,7 +523,7 @@ const Index = () => {
                   </div>
                   <Body className="text-sm">{p.desc}</Body>
                   <div
-                    className="flex items-center gap-1 mt-5 text-[11px] transition-all duration-300 group-hover:gap-2"
+                    className="flex items-center gap-1 mt-5 text-[11px] transition-all duration-300 group-hover:gap-2 text-glow-hover"
                     style={{ fontFamily: FONT.body, color: p.color, fontWeight: 500 }}
                   >
                     Explore kete <ArrowRight size={11} />
