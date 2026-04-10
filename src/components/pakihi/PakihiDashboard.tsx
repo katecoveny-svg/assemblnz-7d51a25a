@@ -127,7 +127,7 @@ export default function PakihiDashboard() {
       {activeTab === "documents" && <DocumentsTab />}
 
       <KeteBrainChat keteId="pakihi" keteName="Pakihi" keteNameEn="Business" accentColor={ACCENT} />
-    </div>
+    </KeteDashboardShell>
   );
 }
 
