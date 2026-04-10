@@ -147,6 +147,7 @@ const AboutPage = () => {
 
       <BrandFooter />
     </div>
+    </GlowPageWrapper>
   );
 };
 
