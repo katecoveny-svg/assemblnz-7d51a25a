@@ -40,7 +40,7 @@ const LiquidGlassCard: React.FC<Props> = ({
 
   const inner = (
     <div
-      className={`rounded-2xl relative overflow-hidden group transition-all duration-500 hover:-translate-y-1 ${onClick ? "cursor-pointer" : ""} ${className}`}
+      className={`rounded-2xl relative overflow-hidden group transition-all duration-500 hover:-translate-y-1.5 ${onClick ? "cursor-pointer" : ""} ${className}`}
       style={{
         background: `rgba(255,255,255,${g.bg})`,
         backdropFilter: `blur(${g.blur}px) saturate(1.2)`,
@@ -63,20 +63,27 @@ const LiquidGlassCard: React.FC<Props> = ({
         }}
       />
 
-      {/* Accent glow on hover */}
+      {/* Accent glow on hover — enhanced with stronger bloom */}
       {accentColor && (
         <>
           <div
-            className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+            className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
             style={{
-              background: `radial-gradient(ellipse at 50% 0%, ${accentColor}15 0%, transparent 60%)`,
+              background: `radial-gradient(ellipse at 50% 0%, ${accentColor}22 0%, ${accentColor}08 40%, transparent 65%)`,
             }}
           />
           <div
-            className="absolute top-0 left-0 right-0 h-[2px] rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+            className="absolute top-0 left-0 right-0 h-[2px] rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-400"
             style={{
               background: `linear-gradient(90deg, transparent, ${accentColor}, transparent)`,
-              boxShadow: `0 0 20px ${accentColor}40`,
+              boxShadow: `0 0 24px ${accentColor}50, 0 0 48px ${accentColor}20`,
+            }}
+          />
+          {/* Bottom glow line */}
+          <div
+            className="absolute bottom-0 left-[20%] right-[20%] h-[1px] rounded-b-2xl opacity-0 group-hover:opacity-60 transition-opacity duration-700"
+            style={{
+              background: `linear-gradient(90deg, transparent, ${accentColor}40, transparent)`,
             }}
           />
         </>
