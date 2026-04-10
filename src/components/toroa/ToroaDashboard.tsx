@@ -8,6 +8,8 @@ import {
 } from "lucide-react";
 import toroaLogo from "@/assets/brand/toroa-logo.svg";
 import KeteBrainChat from "@/components/KeteBrainChat";
+import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
+import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 
 const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
@@ -75,7 +77,7 @@ export default function ToroaDashboard() {
   const overBudget = budget.spent > budget.limit;
 
   return (
-    <div className="min-h-screen" style={{ background: "#09090F" }}>
+    <KeteDashboardShell name="Tōroa" subtitle="Whānau Navigator — Family Intelligence" accentColor={KOWHAI} accentLight="#FFE866" variant="warm">
       {/* Top bar */}
       <header className="sticky top-0 z-50 px-4 py-3 flex items-center justify-between" style={{ ...glass(), borderRadius: 0, borderTop: "none", borderLeft: "none", borderRight: "none" }}>
         <div className="flex items-center gap-3">
@@ -221,6 +223,6 @@ export default function ToroaDashboard() {
         {/* ── Chat with Tōroa ── */}
         <KeteBrainChat keteId="toroa" keteName="Tōroa" keteNameEn="Family Navigator" accentColor={KOWHAI} />
       </div>
-    </div>
+    </KeteDashboardShell>
   );
 }

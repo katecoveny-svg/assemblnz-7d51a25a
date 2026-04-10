@@ -11,29 +11,22 @@ import {
   ResponsiveContainer, LineChart, Line, AreaChart, Area
 } from "recharts";
 import KeteOnboardingCard from "@/components/KeteOnboardingCard";
-import HarakekePattern from "@/components/HarakekePattern";
 import WorkflowCards from "@/components/WorkflowCards";
 import KeteBrainChat from "@/components/KeteBrainChat";
 import VoiceFAB from "@/components/VoiceFAB";
 import KeteSmsExplainer from "@/components/sms/KeteSmsExplainer";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
+import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 
 const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
 const TANGAROA = "#1A3A5C";
 
-/* ── Glass card ── */
 const Glass = ({ children, className = "", glow = false }: { children: React.ReactNode; className?: string; glow?: boolean }) => (
-  <div
-    className={`rounded-2xl border backdrop-blur-md ${className}`}
-    style={{
-      background: "linear-gradient(135deg, rgba(15,15,26,0.85), rgba(15,15,26,0.65))",
-      borderColor: glow ? "rgba(212,168,67,0.25)" : "rgba(255,255,255,0.06)",
-      boxShadow: glow ? "0 0 30px rgba(212,168,67,0.08)" : "0 4px 24px rgba(0,0,0,0.3)",
-    }}
-  >
+  <DashboardGlassCard accentColor={KOWHAI} glow={glow} className={className}>
     {children}
-  </div>
+  </DashboardGlassCard>
 );
 
 /* ── Static data ── */
@@ -83,8 +76,13 @@ const StatusBadge = ({ status, color }: { status: string; color: string }) => (
 
 export default function HangaDashboard() {
   return (
-    <div className="p-4 sm:p-6 lg:p-8 space-y-5 max-w-[1400px] mx-auto">
-      <HarakekePattern className="mb-1 rounded" />
+    <KeteDashboardShell
+      name="Waihanga"
+      subtitle="Construction Intelligence — Built for Aotearoa"
+      accentColor={KOWHAI}
+      accentLight="#FFE866"
+      variant="standard"
+    >
       <KeteOnboardingCard packId="waihanga" />
 
       {/* ── Header ── */}
@@ -370,6 +368,6 @@ export default function HangaDashboard() {
       />
 
       <KeteBrainChat keteId="waihanga" keteName="Waihanga" keteNameEn="Construction" accentColor="#3A7D6E" />
-    </div>
+    </KeteDashboardShell>
   );
 }

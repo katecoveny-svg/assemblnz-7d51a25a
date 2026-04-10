@@ -3,18 +3,20 @@ import { motion } from "framer-motion";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area, LineChart, Line } from "recharts";
 import KeteBrainChat from "@/components/KeteBrainChat";
 import GlowIcon from "@/components/GlowIcon";
+import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
+import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 
 const ACCENT = "#5AADA0";
+const ACCENT_LIGHT = "#7ECFC2";
 const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
 const TANGAROA = "#1A3A5C";
 const COLORS = [ACCENT, KOWHAI, POUNAMU, TANGAROA];
 
 const Glass = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <div className={`rounded-2xl border backdrop-blur-md ${className}`}
-    style={{ background: "linear-gradient(135deg, rgba(15,15,26,0.85), rgba(15,15,26,0.65))", borderColor: "rgba(90,173,160,0.15)" }}>
+  <DashboardGlassCard accentColor={ACCENT} className={className}>
     {children}
-  </div>
+  </DashboardGlassCard>
 );
 
 /* ── Data ── */
@@ -99,15 +101,13 @@ export default function PakihiDashboard() {
   ];
 
   return (
-    <div className="min-h-screen p-4 md:p-8 space-y-6" style={{ background: "#09090F" }}>
-      {/* Header */}
-      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-3">
-        <GlowIcon name="Briefcase" size={32} color={ACCENT} />
-        <div>
-          <h1 className="text-2xl font-bold text-white/90" style={{ fontFamily: "'Lato', sans-serif" }}>Pakihi</h1>
-          <p className="text-xs text-white/40">Business & Commerce Intelligence</p>
-        </div>
-      </motion.div>
+    <KeteDashboardShell
+      name="Pakihi"
+      subtitle="Business & Commerce Intelligence"
+      accentColor={ACCENT}
+      accentLight={ACCENT_LIGHT}
+      variant="dense"
+    >
 
       {/* Tab Navigation */}
       <div className="flex gap-1 p-1 rounded-xl" style={{ background: "rgba(255,255,255,0.03)" }}>
@@ -127,7 +127,7 @@ export default function PakihiDashboard() {
       {activeTab === "documents" && <DocumentsTab />}
 
       <KeteBrainChat keteId="pakihi" keteName="Pakihi" keteNameEn="Business" accentColor={ACCENT} />
-    </div>
+    </KeteDashboardShell>
   );
 }
 
