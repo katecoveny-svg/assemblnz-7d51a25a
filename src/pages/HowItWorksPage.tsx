@@ -60,7 +60,7 @@ const KETE = [
   { name: "Manaaki", sub: "Hospitality", color: C.gold, accentLight: C.goldLight, to: "/packs/manaaki",
     desc: "Food Act plans, liquor licensing, guest experience, tourism operators. Every compliance deadline tracked.",
     agents: ["AURA", "HAVEN", "TIDE", "BEACON"] },
-  { name: "Waihanga", sub: "Construction", color: C.teal, accentLight: C.tealLight, to: "/hanga",
+  { name: "Waihanga", sub: "Construction", color: C.teal, accentLight: C.tealLight, to: "/waihanga",
     desc: "Site to sign-off. H&S, consenting, project programmes, quality records. WorkSafe-aligned.",
     agents: ["ĀRAI", "KAUPAPA", "ATA", "RAWA"] },
   { name: "Auaha", sub: "Creative", color: "#F0D078", accentLight: "#FFE866", to: "/packs/auaha",

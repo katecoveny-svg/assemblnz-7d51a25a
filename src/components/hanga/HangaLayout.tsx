@@ -12,19 +12,19 @@ const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
 
 const NAV_ITEMS = [
-  { label: "Dashboard", labelMi: "Papa Matua", to: "/hanga", icon: LayoutDashboard, end: true },
-  { label: "ĀRAI Safety", labelMi: "Haumarutanga", to: "/hanga/arai", icon: ShieldAlert },
-  { label: "KAUPAPA Projects", labelMi: "Kaupapa", to: "/hanga/kaupapa", icon: FolderKanban },
-  { label: "Site Check-in", labelMi: "Tae Mai", to: "/hanga/site-checkin", icon: MapPin },
-  { label: "Photo Docs", labelMi: "Whakaahua", to: "/hanga/photos", icon: Camera },
-  { label: "Tender Writer", labelMi: "Tono", to: "/hanga/tender", icon: FileText },
-  { label: "Document Intel", labelMi: "Tuhinga", to: "/hanga/docs", icon: Layers },
-  { label: "Comms Hub", labelMi: "Kōrero", to: "/hanga/comms", icon: MessageSquare },
-  { label: "Voice Agent", labelMi: "Reo", to: "/hanga/voice", icon: Mic },
-  { label: "ATA BIM", labelMi: "Ata", to: "/hanga/ata", icon: Layers },
-  { label: "RAWA Resources", labelMi: "Rawa", to: "/hanga/rawa", icon: HardHat },
-  { label: "WHAKAAĒ Consent", labelMi: "Whakaaē", to: "/hanga/whakaae", icon: FileText },
-  { label: "PAI Quality", labelMi: "Pai", to: "/hanga/pai", icon: ShieldAlert },
+  { label: "Dashboard", labelMi: "Papa Matua", to: "/waihanga", icon: LayoutDashboard, end: true },
+  { label: "ĀRAI Safety", labelMi: "Haumarutanga", to: "/waihanga/arai", icon: ShieldAlert },
+  { label: "KAUPAPA Projects", labelMi: "Kaupapa", to: "/waihanga/kaupapa", icon: FolderKanban },
+  { label: "Site Check-in", labelMi: "Tae Mai", to: "/waihanga/site-checkin", icon: MapPin },
+  { label: "Photo Docs", labelMi: "Whakaahua", to: "/waihanga/photos", icon: Camera },
+  { label: "Tender Writer", labelMi: "Tono", to: "/waihanga/tender", icon: FileText },
+  { label: "Document Intel", labelMi: "Tuhinga", to: "/waihanga/docs", icon: Layers },
+  { label: "Comms Hub", labelMi: "Kōrero", to: "/waihanga/comms", icon: MessageSquare },
+  { label: "Voice Agent", labelMi: "Reo", to: "/waihanga/voice", icon: Mic },
+  { label: "ATA BIM", labelMi: "Ata", to: "/waihanga/ata", icon: Layers },
+  { label: "RAWA Resources", labelMi: "Rawa", to: "/waihanga/rawa", icon: HardHat },
+  { label: "WHAKAAĒ Consent", labelMi: "Whakaaē", to: "/waihanga/whakaae", icon: FileText },
+  { label: "PAI Quality", labelMi: "Pai", to: "/waihanga/pai", icon: ShieldAlert },
 ];
 
 export default function HangaLayout() {
@@ -46,7 +46,7 @@ export default function HangaLayout() {
           </div>
           {!collapsed && (
             <div>
-              <h2 className="text-sm font-bold text-white tracking-wider">HANGA</h2>
+              <h2 className="text-sm font-bold text-white tracking-wider">WAIHANGA</h2>
               <p className="text-[10px] text-white/40">Construction Intelligence</p>
             </div>
           )}
