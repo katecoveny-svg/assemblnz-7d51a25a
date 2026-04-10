@@ -174,7 +174,7 @@ const PricingTiers = () => (
       <p className="text-sm font-body text-center text-muted-foreground mb-10 max-w-2xl mx-auto">
         Every plan includes Assembl Core: Iho routing engine, SIGNAL security, compliance pipeline, SMS/WhatsApp, and your dashboard. Every kete run ends in a signed evidence pack.
       </p>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
         {TIERS.map((t, i) => (
           <motion.div
             key={i}
