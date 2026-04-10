@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WAIHANGA — Architecture Workflow | Assembl</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  :root {
+    --bg-primary: #0A1628;
+    --bg-secondary: #0F1D32;
+    --bg-card: #132238;
+    --bg-hover: #1A2D4A;
+    --teal: #3A7D6E;
+    --teal-light: #4A9D8A;
+    --teal-glow: rgba(58,125,110,0.25);
+    --gold: #D4A853;
+    --gold-light: #E4C477;
+    --gold-glow: rgba(212,168,83,0.2);
+    --text-primary: #E8EDF5;
+    --text-secondary: #8B9BB4;
+    --text-muted: #5A6B82;
+    --border: #1E3350;
+    --red: #E05555;
+    --orange: #E08A45;
+    --green: #4CAF7D;
+    --blue: #4A8FD4;
+    --sidebar-w: 260px;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',sans-serif; background:var(--bg-primary); color:var(--text-primary); overflow-x:hidden; }
+
+  /* SIDEBAR */
+  .sidebar {
+    position:fixed; left:0; top:0; bottom:0; width:var(--sidebar-w);
+    background:var(--bg-secondary); border-right:1px solid var(--border);
+    display:flex; flex-direction:column; z-index:100;
+  }
+  .sidebar-brand {
+    padding:28px 24px 20px; border-bottom:1px solid var(--border);
+  }
+  .sidebar-brand h1 {
+    font-size:22px; font-weight:800; letter-spacing:1.5px;
+    background:linear-gradient(135deg,var(--teal-light),var(--gold));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .sidebar-brand p { font-size:11px; color:var(--text-muted); margin-top:4px; letter-spacing:2px; text-transform:uppercase; }
+
+  .nav { flex:1; padding:16px 12px; }
+  .nav-item {
+    display:flex; align-items:center; gap:12px; padding:12px 16px;
+    border-radius:10px; cursor:pointer; transition:all .2s;
+    color:var(--text-secondary); font-size:14px; font-weight:500; margin-bottom:4px;
+  }
+  .nav-item:hover { background:var(--bg-hover); color:var(--text-primary); }
+  .nav-item.active {
+    background:linear-gradient(135deg,rgba(58,125,110,0.2),rgba(58,125,110,0.05));
+    color:var(--teal-light); border:1px solid rgba(58,125,110,0.3);
+  }
+  .nav-icon { width:20px; height:20px; display:flex; align-items:center; justify-content:center; font-size:16px; }
+  .nav-badge {
+    margin-left:auto; background:var(--teal); color:white; font-size:10px;
+    padding:2px 8px; border-radius:10px; font-weight:600;
+  }
+
+  .sidebar-footer {
+    padding:16px 20px; border-top:1px solid var(--border);
+    display:flex; align-items:center; gap:12px;
+  }
+  .sidebar-footer .avatar {
+    width:36px; height:36px; border-radius:10px;
+    background:linear-gradient(135deg,var(--teal),var(--gold));
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:14px; color:white;
+  }
+  .sidebar-footer .user-info { flex:1; }
+  .sidebar-footer .user-name { font-size:13px; font-weight:600; }
+  .sidebar-footer .user-role { font-size:11px; color:var(--text-muted); }
+
+  /* MAIN */
+  .main { margin-left:var(--sidebar-w); min-height:100vh; }
+  .topbar {
+    position:sticky; top:0; z-index:50; padding:16px 32px;
+    background:rgba(10,22,40,0.85); backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between;
+  }
+  .topbar h2 { font-size:18px; font-weight:700; }
+  .topbar-actions { display:flex; gap:12px; align-items:center; }
+  .topbar-badge {
+    display:inline-flex; align-items:center; gap:6px; font-size:12px;
+    padding:6px 14px; border-radius:20px; font-weight:600;
+  }
+  .badge-live { background:rgba(76,175,125,0.15); color:var(--green); border:1px solid rgba(76,175,125,0.3); }
+  .badge-demo { background:var(--gold-glow); color:var(--gold); border:1px solid rgba(212,168,83,0.3); }
+
+  .content { padding:28px 32px; }
+  .section { display:none; }
+  .section.active { display:block; }
+
+  /* CARDS */
+  .card {
+    background:var(--bg-card); border:1px solid var(--border);
+    border-radius:14px; padding:24px; margin-bottom:20px;
+    transition:border-color .2s;
+  }
+  .card:hover { border-color:rgba(58,125,110,0.3); }
+  .card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+  .card-title { font-size:16px; font-weight:700; }
+  .card-subtitle { font-size:12px; color:var(--text-muted); margin-top:4px; }
+
+  /* GRID */
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
+  .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+
+  /* STAT CARDS */
+  .stat-card {
+    background:var(--bg-card); border:1px solid var(--border);
+    border-radius:14px; padding:20px 24px;
+  }
+  .stat-label { font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
+  .stat-value { font-size:28px; font-weight:800; }
+  .stat-value.teal { color:var(--teal-light); }
+  .stat-value.gold { color:var(--gold); }
+  .stat-value.green { color:var(--green); }
+  .stat-change { font-size:12px; margin-top:6px; display:flex; align-items:center; gap:4px; }
+  .stat-change.up { color:var(--green); }
+  .stat-change.down { color:var(--red); }
+
+  /* BUTTONS */
+  .btn {
+    display:inline-flex; align-items:center; gap:8px;
+    padding:10px 20px; border-radius:10px; font-size:13px;
+    font-weight:600; cursor:pointer; border:none; transition:all .2s;
+    font-family:inherit;
+  }
+  .btn-primary { background:var(--teal); color:white; }
+  .btn-primary:hover { background:var(--teal-light); box-shadow:0 0 20px var(--teal-glow); }
+  .btn-gold { background:var(--gold); color:var(--bg-primary); }
+  .btn-gold:hover { background:var(--gold-light); box-shadow:0 0 20px var(--gold-glow); }
+  .btn-outline { background:transparent; color:var(--text-secondary); border:1px solid var(--border); }
+  .btn-outline:hover { border-color:var(--teal); color:var(--teal-light); }
+  .btn-sm { padding:6px 14px; font-size:12px; }
+
+  /* FORM */
+  .form-group { margin-bottom:18px; }
+  .form-label { display:block; font-size:12px; font-weight:600; color:var(--text-secondary); margin-bottom:6px; text-transform:uppercase; letter-spacing:.5px; }
+  .form-input, .form-select, .form-textarea {
+    width:100%; padding:10px 14px; background:var(--bg-primary);
+    border:1px solid var(--border); border-radius:8px; color:var(--text-primary);
+    font-size:14px; font-family:inherit; transition:border-color .2s;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    outline:none; border-color:var(--teal);
+  }
+  .form-textarea { resize:vertical; min-height:80px; }
+  .form-select { appearance:none; cursor:pointer; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238B9BB4' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; }
+  .form-select option { background:var(--bg-primary); }
+
+  /* PROGRESS/PHASES */
+  .phase-track {
+    display:flex; gap:4px; margin:24px 0;
+  }
+  .phase-step {
+    flex:1; position:relative; cursor:pointer;
+  }
+  .phase-bar {
+    height:6px; border-radius:3px; background:var(--bg-hover); transition:all .3s;
+    margin-bottom:12px;
+  }
+  .phase-step.completed .phase-bar { background:var(--teal); }
+  .phase-step.current .phase-bar { background:linear-gradient(90deg,var(--teal),var(--gold)); }
+  .phase-step.pending .phase-bar { background:var(--bg-hover); }
+  .phase-label { font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.5px; }
+  .phase-step.completed .phase-label { color:var(--teal-light); }
+  .phase-step.current .phase-label { color:var(--gold); font-weight:600; }
+  .phase-name { font-size:13px; font-weight:600; margin-top:4px; }
+  .phase-step.current .phase-name { color:var(--gold-light); }
+  .phase-date { font-size:11px; color:var(--text-muted); margin-top:2px; }
+
+  /* COMPLIANCE TABLE */
+  .check-table { width:100%; border-collapse:collapse; }
+  .check-table th {
+    text-align:left; font-size:11px; color:var(--text-muted);
+    text-transform:uppercase; letter-spacing:1px; padding:10px 12px;
+    border-bottom:1px solid var(--border);
+  }
+  .check-table td {
+    padding:12px; border-bottom:1px solid rgba(30,51,80,0.5);
+    font-size:13px; vertical-align:middle;
+  }
+  .check-table tr:hover td { background:rgba(58,125,110,0.05); }
+  .status-dot {
+    width:8px; height:8px; border-radius:50%; display:inline-block; margin-right:8px;
+  }
+  .status-dot.pass { background:var(--green); }
+  .status-dot.warn { background:var(--orange); }
+  .status-dot.fail { background:var(--red); }
+  .status-dot.pending { background:var(--text-muted); }
+  .tag {
+    display:inline-block; padding:3px 10px; border-radius:6px;
+    font-size:11px; font-weight:600;
+  }
+  .tag-green { background:rgba(76,175,125,0.15); color:var(--green); }
+  .tag-orange { background:rgba(224,138,69,0.15); color:var(--orange); }
+  .tag-red { background:rgba(224,85,85,0.15); color:var(--red); }
+  .tag-blue { background:rgba(74,143,212,0.15); color:var(--blue); }
+  .tag-teal { background:rgba(58,125,110,0.15); color:var(--teal-light); }
+
+  /* BIM VIEWER */
+  .bim-container {
+    background:var(--bg-primary); border:1px solid var(--border);
+    border-radius:12px; height:480px; position:relative; overflow:hidden;
+  }
+  .bim-canvas { width:100%; height:100%; }
+  .bim-toolbar {
+    position:absolute; top:16px; right:16px; display:flex; flex-direction:column; gap:8px;
+  }
+  .bim-btn {
+    width:40px; height:40px; border-radius:10px; background:rgba(19,34,56,0.9);
+    border:1px solid var(--border); color:var(--text-secondary);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    font-size:16px; transition:all .2s; backdrop-filter:blur(10px);
+  }
+  .bim-btn:hover { border-color:var(--teal); color:var(--teal-light); }
+  .bim-btn.active { background:var(--teal); color:white; border-color:var(--teal); }
+  .bim-info {
+    position:absolute; bottom:16px; left:16px; background:rgba(19,34,56,0.92);
+    border:1px solid var(--border); border-radius:10px; padding:14px 18px;
+    backdrop-filter:blur(10px); max-width:320px;
+  }
+  .bim-info h4 { font-size:13px; font-weight:700; margin-bottom:6px; }
+  .bim-info p { font-size:12px; color:var(--text-secondary); line-height:1.5; }
+  .bim-label {
+    position:absolute; padding:6px 12px; background:rgba(19,34,56,0.9);
+    border:1px solid var(--teal); border-radius:8px; font-size:11px;
+    font-weight:600; color:var(--teal-light); cursor:pointer;
+    transition:all .2s; backdrop-filter:blur(10px);
+  }
+  .bim-label:hover { background:var(--teal); color:white; transform:scale(1.05); }
+
+  /* RISK MATRIX */
+  .risk-matrix {
+    display:grid; grid-template-columns:40px repeat(5,1fr); grid-template-rows:repeat(5,56px) 30px;
+    gap:4px; margin:20px 0;
+  }
+  .risk-cell {
+    border-radius:6px; display:flex; align-items:center; justify-content:center;
+    font-size:11px; font-weight:700; cursor:pointer; transition:all .2s;
+    position:relative;
+  }
+  .risk-cell:hover { transform:scale(1.05); z-index:2; }
+  .risk-cell.r-low { background:rgba(76,175,125,0.2); color:var(--green); }
+  .risk-cell.r-med { background:rgba(212,168,83,0.2); color:var(--gold); }
+  .risk-cell.r-high { background:rgba(224,138,69,0.2); color:var(--orange); }
+  .risk-cell.r-critical { background:rgba(224,85,85,0.2); color:var(--red); }
+  .risk-cell .risk-dot {
+    width:24px; height:24px; border-radius:50%; display:flex; align-items:center;
+    justify-content:center; font-size:10px; font-weight:800; color:white;
+  }
+  .risk-y-label, .risk-x-label {
+    display:flex; align-items:center; justify-content:center;
+    font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.5px;
+  }
+  .risk-y-label { writing-mode:vertical-lr; transform:rotate(180deg); }
+
+  /* EVIDENCE PACK */
+  .evidence-item {
+    display:flex; align-items:center; gap:16px; padding:14px 18px;
+    border:1px solid var(--border); border-radius:10px; margin-bottom:8px;
+    transition:all .2s; cursor:pointer;
+  }
+  .evidence-item:hover { border-color:var(--teal); background:rgba(58,125,110,0.05); }
+  .evidence-icon {
+    width:42px; height:42px; border-radius:10px; display:flex;
+    align-items:center; justify-content:center; font-size:18px;
+  }
+  .evidence-icon.doc { background:rgba(74,143,212,0.15); color:var(--blue); }
+  .evidence-icon.check { background:rgba(76,175,125,0.15); color:var(--green); }
+  .evidence-icon.risk { background:rgba(224,138,69,0.15); color:var(--orange); }
+  .evidence-icon.plan { background:rgba(58,125,110,0.15); color:var(--teal-light); }
+  .evidence-icon.bim { background:rgba(212,168,83,0.15); color:var(--gold); }
+  .evidence-info { flex:1; }
+  .evidence-name { font-size:14px; font-weight:600; }
+  .evidence-meta { font-size:12px; color:var(--text-muted); margin-top:2px; }
+  .evidence-status { font-size:11px; font-weight:600; }
+
+  /* PROGRESS BAR */
+  .progress-bar { height:6px; background:var(--bg-hover); border-radius:3px; overflow:hidden; }
+  .progress-fill { height:100%; border-radius:3px; transition:width .6s ease; }
+  .progress-fill.teal { background:linear-gradient(90deg,var(--teal),var(--teal-light)); }
+  .progress-fill.gold { background:linear-gradient(90deg,var(--gold),var(--gold-light)); }
+
+  /* TIMELINE */
+  .timeline-item {
+    display:flex; gap:16px; padding:12px 0;
+    border-bottom:1px solid rgba(30,51,80,0.4);
+  }
+  .timeline-dot {
+    width:10px; height:10px; border-radius:50%; margin-top:5px; flex-shrink:0;
+  }
+  .timeline-content { flex:1; }
+  .timeline-title { font-size:13px; font-weight:600; }
+  .timeline-desc { font-size:12px; color:var(--text-secondary); margin-top:2px; line-height:1.5; }
+  .timeline-time { font-size:11px; color:var(--text-muted); margin-top:4px; }
+
+  /* TOAST */
+  .toast {
+    position:fixed; bottom:24px; right:24px; padding:14px 24px;
+    background:var(--bg-card); border:1px solid var(--teal);
+    border-radius:12px; font-size:13px; font-weight:600;
+    color:var(--teal-light); z-index:999; opacity:0; transform:translateY(20px);
+    transition:all .3s; display:flex; align-items:center; gap:10px;
+    box-shadow:0 8px 32px rgba(0,0,0,0.4);
+  }
+  .toast.show { opacity:1; transform:translateY(0); }
+
+  /* MODAL */
+  .modal-overlay {
+    position:fixed; inset:0; background:rgba(10,22,40,0.8); z-index:200;
+    display:none; align-items:center; justify-content:center; backdrop-filter:blur(4px);
+  }
+  .modal-overlay.show { display:flex; }
+  .modal {
+    background:var(--bg-card); border:1px solid var(--border);
+    border-radius:16px; padding:32px; max-width:540px; width:90%;
+    max-height:80vh; overflow-y:auto;
+  }
+  .modal h3 { font-size:18px; font-weight:700; margin-bottom:16px; }
+
+  /* PULSE ANIMATION */
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.5;} }
+  .pulse { animation:pulse 2s infinite; }
+
+  /* GLOW */
+  .glow-teal { box-shadow:0 0 30px var(--teal-glow); }
+  .glow-gold { box-shadow:0 0 30px var(--gold-glow); }
+
+  /* BIM 3D via CSS */
+  .building-3d {
+    width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+    perspective:800px;
+  }
+  .building-group {
+    transform-style:preserve-3d; transform:rotateX(-15deg) rotateY(-25deg);
+    transition:transform .5s ease;
+  }
+  .building-group:hover { transform:rotateX(-10deg) rotateY(-35deg); }
+  .floor {
+    width:220px; height:12px; margin-bottom:2px; position:relative;
+    transform-style:preserve-3d; transition:all .3s;
+    cursor:pointer;
+  }
+  .floor:hover { transform:translateZ(15px); }
+  .floor:hover .floor-front { filter:brightness(1.3); }
+  .floor-front {
+    position:absolute; width:100%; height:100%; border-radius:2px;
+    transition:filter .3s;
+  }
+  .floor-side {
+    position:absolute; width:60px; height:100%; right:-30px; top:0;
+    transform:rotateY(90deg) translateZ(110px);
+    border-radius:0 2px 2px 0;
+  }
+  .floor-top {
+    position:absolute; width:100%; height:60px; top:-30px;
+    transform:rotateX(90deg) translateZ(6px);
+  }
+  .floor.ground .floor-front { background:linear-gradient(90deg,#2A5A4A,#3A7D6E); }
+  .floor.ground .floor-side { background:#2A5A4A; }
+  .floor.ground .floor-top { background:#4A9D8A; }
+  .floor.mid .floor-front { background:linear-gradient(90deg,#1E3A5A,#2A5070); }
+  .floor.mid .floor-side { background:#1E3A5A; }
+  .floor.mid .floor-top { background:#3A6A8A; }
+  .floor.top-f .floor-front { background:linear-gradient(90deg,#8A6A30,#D4A853); }
+  .floor.top-f .floor-side { background:#8A6A30; }
+  .floor.top-f .floor-top { background:#E4C477; }
+  .floor.selected { transform:translateZ(25px) scale(1.02); }
+  .floor.selected .floor-front { box-shadow:0 0 20px var(--teal-glow); border:1px solid var(--teal); }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width:6px; }
+  ::-webkit-scrollbar-track { background:var(--bg-primary); }
+  ::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+  ::-webkit-scrollbar-thumb:hover { background:var(--text-muted); }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <h1>WAIHANGA</h1>
+    <p>Construction Kete</p>
+  </div>
+  <nav class="nav">
+    <div class="nav-item active" onclick="showSection('overview')">
+      <span class="nav-icon">&#9634;</span> Overview
+    </div>
+    <div class="nav-item" onclick="showSection('intake')">
+      <span class="nav-icon">&#10010;</span> Project Intake
+    </div>
+    <div class="nav-item" onclick="showSection('phases')">
+      <span class="nav-icon">&#9654;</span> Design Phases
+      <span class="nav-badge">3/5</span>
+    </div>
+    <div class="nav-item" onclick="showSection('compliance')">
+      <span class="nav-icon">&#10003;</span> Compliance
+      <span class="nav-badge">87%</span>
+    </div>
+    <div class="nav-item" onclick="showSection('bim')">
+      <span class="nav-icon">&#9645;</span> BIM Viewer
+    </div>
+    <div class="nav-item" onclick="showSection('risk')">
+      <span class="nav-icon">&#9888;</span> Risk Register
+      <span class="nav-badge" style="background:var(--orange)">4</span>
+    </div>
+    <div class="nav-item" onclick="showSection('evidence')">
+      <span class="nav-icon">&#128196;</span> Evidence Packs
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="avatar">KH</div>
+    <div class="user-info">
+      <div class="user-name">Kaitiaki House</div>
+      <div class="user-role">PRJ-2026-0047</div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div>
+      <h2 id="section-title">Project Overview</h2>
+    </div>
+    <div class="topbar-actions">
+      <span class="topbar-badge badge-live"><span class="pulse">&#9679;</span> ĀRAI Connected</span>
+      <span class="topbar-badge badge-demo">&#9733; Demo Mode</span>
+      <button class="btn btn-primary btn-sm" onclick="showToast('AI compliance scan initiated...')">&#9881; Run AI Scan</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ==================== OVERVIEW ==================== -->
+    <div id="section-overview" class="section active">
+      <div class="grid-4" style="margin-bottom:24px">
+        <div class="stat-card">
+          <div class="stat-label">Project Value</div>
+          <div class="stat-value gold">$42.5M</div>
+          <div class="stat-change up">&#9650; On budget</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Design Phase</div>
+          <div class="stat-value teal">3 / 5</div>
+          <div class="stat-change up">Detailed Design</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Compliance Score</div>
+          <div class="stat-value green">87%</div>
+          <div class="stat-change up">&#9650; +12% this month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Active Risks</div>
+          <div class="stat-value" style="color:var(--orange)">4</div>
+          <div class="stat-change down">&#9660; 2 critical</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Kaitiaki House</div>
+              <div class="card-subtitle">6-Storey Mixed-Use Development &mdash; Ponsonby, Auckland</div>
+            </div>
+            <span class="tag tag-teal">Active</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px;">
+            <div><span style="color:var(--text-muted)">Client:</span> Tahi Development Ltd</div>
+            <div><span style="color:var(--text-muted)">Architect:</span> Warren & Mahoney</div>
+            <div><span style="color:var(--text-muted)">Site:</span> 14-22 Ponsonby Rd, Auckland</div>
+            <div><span style="color:var(--text-muted)">Consent:</span> Auckland Council RC</div>
+            <div><span style="color:var(--text-muted)">GFA:</span> 8,450 m&sup2;</div>
+            <div><span style="color:var(--text-muted)">Budget:</span> $38M &ndash; $45M</div>
+            <div><span style="color:var(--text-muted)">Start:</span> 15 Jan 2026</div>
+            <div><span style="color:var(--text-muted)">Target PC:</span> 30 Nov 2027</div>
+          </div>
+          <div style="margin-top:16px">
+            <div class="form-label" style="margin-bottom:8px">Overall Progress</div>
+            <div class="progress-bar" style="height:8px">
+              <div class="progress-fill teal" style="width:58%"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:4px">
+              <span>58% Complete</span><span>Est. 14 months remaining</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Recent Activity</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot" style="background:var(--teal)"></div>
+            <div class="timeline-content">
+              <div class="timeline-title">Structural engineering review completed</div>
+              <div class="timeline-desc">Holmes Consulting confirmed seismic design meets NZS 1170.5 requirements for IL2.</div>
+              <div class="timeline-time">2 hours ago</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot" style="background:var(--gold)"></div>
+            <div class="timeline-content">
+              <div class="timeline-title">Fire report uploaded to evidence pack</div>
+              <div class="timeline-desc">C/AS7 compliance verified for C1-C6 clauses. Sprinkler system design approved.</div>
+              <div class="timeline-time">Yesterday, 4:15 PM</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot" style="background:var(--orange)"></div>
+            <div class="timeline-content">
+              <div class="timeline-title">ĀRAI flagged geotechnical risk</div>
+              <div class="timeline-desc">Soil testing at borehole BH-04 shows unexpected clay lens at 3.2m. Foundation redesign may be required.</div>
+              <div class="timeline-time">2 days ago</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot" style="background:var(--green)"></div>
+            <div class="timeline-content">
+              <div class="timeline-title">Resource consent pre-application meeting</div>
+              <div class="timeline-desc">Auckland Council planning team confirmed notification pathway. Limited notification likely.</div>
+              <div class="timeline-time">3 days ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Design Phase Progress</div>
+          <button class="btn btn-outline btn-sm" onclick="showSection('phases')">View Details &#8594;</button>
+        </div>
+        <div class="phase-track">
+          <div class="phase-step completed">
+            <div class="phase-bar"></div>
+            <div class="phase-label">Phase 1</div>
+            <div class="phase-name">Concept Design</div>
+            <div class="phase-date">Completed 28 Feb</div>
+          </div>
+          <div class="phase-step completed">
+            <div class="phase-bar"></div>
+            <div class="phase-label">Phase 2</div>
+            <div class="phase-name">Developed Design</div>
+            <div class="phase-date">Completed 15 Mar</div>
+          </div>
+          <div class="phase-step current">
+            <div class="phase-bar"></div>
+            <div class="phase-label">Phase 3 &bull; Current</div>
+            <div class="phase-name">Detailed Design</div>
+            <div class="phase-date">Due 30 May 2026</div>
+          </div>
+          <div class="phase-step pending">
+            <div class="phase-bar"></div>
+            <div class="phase-label">Phase 4</div>
+            <div class="phase-name">Consent Docs</div>
+            <div class="phase-date">Est. Jul 2026</div>
+          </div>
+          <div class="phase-step pending">
+            <div class="phase-bar"></div>
+            <div class="phase-label">Phase 5</div>
+            <div class="phase-name">Construction Docs</div>
+            <div class="phase-date">Est. Oct 2026</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== PROJECT INTAKE ==================== -->
+    <div id="section-intake" class="section">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">New Project Intake</div>
+          </div>
+          <form onsubmit="handleIntake(event)">
+            <div class="form-group">
+              <label class="form-label">Project Name</label>
+              <input class="form-input" placeholder="e.g., Kaitiaki House" value="Kaitiaki House">
+            </div>
+            <div class="grid-2" style="gap:16px">
+              <div class="form-group">
+                <label class="form-label">Project Type</label>
+                <select class="form-select">
+                  <option>Mixed-Use (Commercial + Residential)</option>
+                  <option>Residential</option>
+                  <option>Commercial</option>
+                  <option>Industrial</option>
+                  <option>Infrastructure</option>
+                  <option>Heritage / Renovation</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Building Classification</label>
+                <select class="form-select">
+                  <option>Importance Level 2 (IL2)</option>
+                  <option>Importance Level 1 (IL1)</option>
+                  <option>Importance Level 3 (IL3)</option>
+                  <option>Importance Level 4 (IL4)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Site Address</label>
+              <input class="form-input" placeholder="Full NZ address" value="14-22 Ponsonby Road, Ponsonby, Auckland 1011">
+            </div>
+            <div class="grid-2" style="gap:16px">
+              <div class="form-group">
+                <label class="form-label">Budget Range (NZD)</label>
+                <select class="form-select">
+                  <option>$25M – $50M</option>
+                  <option>Under $500K</option>
+                  <option>$500K – $2M</option>
+                  <option>$2M – $10M</option>
+                  <option>$10M – $25M</option>
+                  <option>$50M+</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Target Completion</label>
+                <input class="form-input" type="date" value="2027-11-30">
+              </div>
+            </div>
+            <div class="grid-2" style="gap:16px">
+              <div class="form-group">
+                <label class="form-label">Territorial Authority</label>
+                <select class="form-select">
+                  <option>Auckland Council</option>
+                  <option>Wellington City Council</option>
+                  <option>Christchurch City Council</option>
+                  <option>Hamilton City Council</option>
+                  <option>Tauranga City Council</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Consent Pathway</label>
+                <select class="form-select">
+                  <option>Resource Consent + Building Consent</option>
+                  <option>Building Consent Only</option>
+                  <option>Permitted Activity</option>
+                  <option>Fast-Track (COVID Recovery)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Client Requirements</label>
+              <textarea class="form-textarea" rows="4">6-storey mixed-use: ground floor retail, levels 1-2 commercial office, levels 3-5 residential apartments (24 units).
+Minimum 5-Star Green Star rating. Accessible design throughout.
+Cultural narrative integration — working with mana whenua (Ngāti Whātua Ōrākei) on design elements.
+Earthquake-resilient design targeting damage-avoidance systems.</textarea>
+            </div>
+            <div style="display:flex;gap:12px">
+              <button type="submit" class="btn btn-primary">&#10003; Create Project</button>
+              <button type="button" class="btn btn-gold" onclick="showToast('AI pre-assessment running...')">&#9733; AI Pre-Assessment</button>
+              <button type="button" class="btn btn-outline">Save as Draft</button>
+            </div>
+          </form>
+        </div>
+
+        <div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">AI Pre-Assessment</div>
+              <span class="tag tag-teal">Powered by Iho</span>
+            </div>
+            <div style="font-size:13px;line-height:1.8;color:var(--text-secondary)">
+              <p style="margin-bottom:12px"><strong style="color:var(--text-primary)">Consent Complexity:</strong> <span class="tag tag-orange">Medium-High</span></p>
+              <p style="margin-bottom:8px">Based on the Ponsonby Road location within the Auckland Unitary Plan Business &ndash; Mixed Use zone, this project will likely require:</p>
+              <div style="padding:12px 16px;background:var(--bg-primary);border-radius:8px;margin:12px 0;">
+                <div style="margin-bottom:6px"><span style="color:var(--gold)">&#9679;</span> <strong>Resource Consent</strong> &mdash; Restricted Discretionary activity (building height exceeds 18m permitted)</div>
+                <div style="margin-bottom:6px"><span style="color:var(--teal-light)">&#9679;</span> <strong>Building Consent</strong> &mdash; Commercial 2 (multi-storey, &gt;$500K value)</div>
+                <div style="margin-bottom:6px"><span style="color:var(--blue)">&#9679;</span> <strong>Engineering Plan Approval</strong> &mdash; Stormwater, wastewater connections</div>
+                <div><span style="color:var(--text-muted)">&#9679;</span> <strong>Heritage Overlay</strong> &mdash; Adjacent to Ponsonby Character Overlay &mdash; urban design assessment required</div>
+              </div>
+              <p style="margin-bottom:12px"><strong style="color:var(--text-primary)">Estimated Consent Timeline:</strong> 12&ndash;16 weeks (limited notification)</p>
+              <p><strong style="color:var(--text-primary)">Mana Whenua Engagement:</strong> <span class="tag tag-green">Recommended</span> Cultural Impact Assessment with Ng&#257;ti Wh&#257;tua &#332;r&#257;kei advisable given site proximity to heritage overlay.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Required Specialists</div>
+            </div>
+            <div style="font-size:13px;">
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+                <span style="color:var(--green)">&#10003;</span> Registered Architect (NZRAB)
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+                <span style="color:var(--green)">&#10003;</span> Chartered Professional Engineer &mdash; Structural (CPEng)
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+                <span style="color:var(--green)">&#10003;</span> Fire Engineer (IFE registered)
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+                <span style="color:var(--gold)">&#9679;</span> Geotechnical Engineer
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+                <span style="color:var(--gold)">&#9679;</span> Acoustic Consultant
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 0">
+                <span style="color:var(--text-muted)">&#9675;</span> Urban Designer
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== DESIGN PHASES ==================== -->
+    <div id="section-phases" class="section">
+      <div class="phase-track" style="margin-bottom:32px">
+        <div class="phase-step completed" onclick="selectPhase(0)">
+          <div class="phase-bar"></div>
+          <div class="phase-label">Phase 1</div>
+          <div class="phase-name">Concept Design</div>
+          <div class="phase-date">Completed 28 Feb 2026</div>
+        </div>
+        <div class="phase-step completed" onclick="selectPhase(1)">
+          <div class="phase-bar"></div>
+          <div class="phase-label">Phase 2</div>
+          <div class="phase-name">Developed Design</div>
+          <div class="phase-date">Completed 15 Mar 2026</div>
+        </div>
+        <div class="phase-step current" onclick="selectPhase(2)">
+          <div class="phase-bar"></div>
+          <div class="phase-label">Phase 3 &bull; Current</div>
+          <div class="phase-name">Detailed Design</div>
+          <div class="phase-date">Due 30 May 2026</div>
+        </div>
+        <div class="phase-step pending" onclick="selectPhase(3)">
+          <div class="phase-bar"></div>
+          <div class="phase-label">Phase 4</div>
+          <div class="phase-name">Consent Documentation</div>
+          <div class="phase-date">Est. Jul 2026</div>
+        </div>
+        <div class="phase-step pending" onclick="selectPhase(4)">
+          <div class="phase-bar"></div>
+          <div class="phase-label">Phase 5</div>
+          <div class="phase-name">Construction Documentation</div>
+          <div class="phase-date">Est. Oct 2026</div>
+        </div>
+      </div>
+
+      <div id="phase-detail" class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title" id="phase-title">Phase 3: Detailed Design</div>
+              <div class="card-subtitle" id="phase-desc">Full technical resolution of all building systems</div>
+            </div>
+            <span class="tag tag-orange" id="phase-status">In Progress</span>
+          </div>
+          <div style="margin-bottom:16px">
+            <div class="form-label" style="margin-bottom:8px">Phase Completion: <span id="phase-pct" style="color:var(--gold)">62%</span></div>
+            <div class="progress-bar" style="height:8px">
+              <div class="progress-fill gold" id="phase-bar" style="width:62%"></div>
+            </div>
+          </div>
+          <div id="phase-tasks">
+            <div style="font-size:13px;">
+              <div style="padding:10px 0;border-bottom:1px solid rgba(30,51,80,0.4);display:flex;align-items:center;gap:10px">
+                <span style="color:var(--green)">&#10003;</span> Structural system design (steel moment frame)
+              </div>
+              <div style="padding:10px 0;border-bottom:1px solid rgba(30,51,80,0.4);display:flex;align-items:center;gap:10px">
+                <span style="color:var(--green)">&#10003;</span> Mechanical services layout (HVAC zoning)
+              </div>
+              <div style="padding:10px 0;border-bottom:1px solid rgba(30,51,80,0.4);display:flex;align-items:center;gap:10px">
+                <span style="color:var(--green)">&#10003;</span> Electrical services single-line diagram
+              </div>
+              <div style="padding:10px 0;border-bottom:1px solid rgba(30,51,80,0.4);display:flex;align-items:center;gap:10px">
+                <span style="color:var(--gold)">&#9679;</span> <strong>Hydraulic services design</strong> &mdash; 70% complete
+              </div>
+              <div style="padding:10px 0;border-bottom:1px solid rgba(30,51,80,0.4);display:flex;align-items:center;gap:10px">
+                <span style="color:var(--gold)">&#9679;</span> <strong>Fire engineering report (C/AS7)</strong> &mdash; Under review
+              </div>
+              <div style="padding:10px 0;border-bottom:1px solid rgba(30,51,80,0.4);display:flex;align-items:center;gap:10px">
+                <span style="color:var(--text-muted)">&#9675;</span> Facade engineering specifications
+              </div>
+              <div style="padding:10px 0;display:flex;align-items:center;gap:10px">
+                <span style="color:var(--text-muted)">&#9675;</span> Acoustic design (STC/IIC ratings)
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Key Deliverables</div>
+            </div>
+            <div style="font-size:13px;line-height:1.8;">
+              <div style="padding:8px 12px;background:var(--bg-primary);border-radius:8px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
+                <span>Architectural drawings set (1:50)</span>
+                <span class="tag tag-green">Uploaded</span>
+              </div>
+              <div style="padding:8px 12px;background:var(--bg-primary);border-radius:8px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
+                <span>Structural calculations (NZS 3101)</span>
+                <span class="tag tag-green">Uploaded</span>
+              </div>
+              <div style="padding:8px 12px;background:var(--bg-primary);border-radius:8px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
+                <span>BIM model (LOD 300)</span>
+                <span class="tag tag-green">Uploaded</span>
+              </div>
+              <div style="padding:8px 12px;background:var(--bg-primary);border-radius:8px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
+                <span>Specifications (NZS 3910 format)</span>
+                <span class="tag tag-orange">In Progress</span>
+              </div>
+              <div style="padding:8px 12px;background:var(--bg-primary);border-radius:8px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
+                <span>Cost estimate (QS report)</span>
+                <span class="tag tag-orange">In Progress</span>
+              </div>
+              <div style="padding:8px 12px;background:var(--bg-primary);border-radius:8px;display:flex;justify-content:space-between;align-items:center">
+                <span>Energy model (H1/AS1 compliance)</span>
+                <span class="tag tag-blue">Pending</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Phase Dependencies</div>
+            </div>
+            <div style="font-size:13px;color:var(--text-secondary);line-height:1.7">
+              <div style="padding:6px 0"><span style="color:var(--red)">&#9888;</span> <strong>Geotechnical report</strong> must be finalised before foundation design sign-off</div>
+              <div style="padding:6px 0"><span style="color:var(--orange)">&#9888;</span> <strong>Fire report</strong> required before consent documentation phase can begin</div>
+              <div style="padding:6px 0"><span style="color:var(--teal-light)">&#8594;</span> BIM coordination clash detection scheduled for 18 Apr</div>
+              <div style="padding:6px 0"><span style="color:var(--teal-light)">&#8594;</span> Peer review (structural) scheduled with BECA for 25 Apr</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== COMPLIANCE ==================== -->
+    <div id="section-compliance" class="section">
+      <div class="grid-3" style="margin-bottom:24px">
+        <div class="stat-card glow-teal">
+          <div class="stat-label">Building Code Clauses</div>
+          <div class="stat-value green">22 / 26</div>
+          <div class="stat-change up">85% Verified</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Resource Consent Items</div>
+          <div class="stat-value gold">8 / 11</div>
+          <div class="stat-change up">73% Complete</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">District Plan Rules</div>
+          <div class="stat-value teal">14 / 15</div>
+          <div class="stat-change up">93% Compliant</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">NZ Building Code Compliance</div>
+            <div class="card-subtitle">Building Act 2004 &mdash; Schedule 1 Performance Requirements</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-primary btn-sm" onclick="showToast('Full compliance report generating...')">&#128196; Export Report</button>
+            <button class="btn btn-outline btn-sm">Filter</button>
+          </div>
+        </div>
+        <table class="check-table">
+          <thead>
+            <tr><th>Clause</th><th>Description</th><th>Acceptable Solution</th><th>Status</th><th>Evidence</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>B1</strong></td><td>Structure</td><td>B1/VM1, NZS 1170, NZS 3101</td>
+              <td><span class="status-dot pass"></span><span class="tag tag-green">Verified</span></td>
+              <td style="color:var(--text-muted)">Holmes structural calc</td>
+            </tr>
+            <tr>
+              <td><strong>B2</strong></td><td>Durability</td><td>B2/AS1</td>
+              <td><span class="status-dot pass"></span><span class="tag tag-green">Verified</span></td>
+              <td style="color:var(--text-muted)">50-year durability schedule</td>
+            </tr>
+            <tr>
+              <td><strong>C1&ndash;C6</strong></td><td>Protection from Fire</td><td>C/AS7 (Risk Group SM/SA/WL)</td>
+              <td><span class="status-dot warn"></span><span class="tag tag-orange">In Review</span></td>
+              <td style="color:var(--text-muted)">Fire eng. report pending</td>
+            </tr>
+            <tr>
+              <td><strong>D1</strong></td><td>Access Routes</td><td>D1/AS1, NZS 4121</td>
+              <td><span class="status-dot pass"></span><span class="tag tag-green">Verified</span></td>
+              <td style="color:var(--text-muted)">Universal access audit</td>
+            </tr>
+            <tr>
+              <td><strong>D2</strong></td><td>Mechanical Installations</td><td>D2/AS1</td>
+              <td><span class="status-dot pass"></span><span class="tag tag-green">Verified</span></td>
+              <td style="color:var(--text-muted)">Lift spec. (Schindler)</td>
+            </tr>
+            <tr>
+              <td><strong>E1</strong></td><td>Surface Water</td><td>E1/AS1</td>
+              <td><span class="status-dot pass"></span><span class="tag tag-green">Verified</span></td>
+              <td style="color:var(--text-muted)">Stormwater management plan</td>
+            </tr>
+            <tr>
+              <td><strong>E2</strong></td><td>External Moisture</td><td>E2/AS1</td>
+              <td><span class="status-dot warn"></span><span class="tag tag-orange">In Review</span></td>
+              <td style="color:var(--text-muted)">Facade weathertightness</td>
+            </tr>
+            <tr>
+              <td><strong>F2</strong></td><td>Hazardous Building Materials</td><td>F2/AS1</td>
+              <td><span class="status-dot pass"></span><span class="tag tag-green">Verified</span></td>
+              <td style="color:var(--text-muted)">Materials safety data</td>
+            </tr>
+            <tr>
+              <td><strong>G1&ndash;G4</strong></td><td>Personal Hygiene</td><td>G1/AS1&ndash;G4/AS1</td>
+              <td><span class="status-dot pass"></span><span class="tag tag-green">Verified</span></td>
+              <td style="color:var(--text-muted)">Sanitary fixtures schedule</td>
+            </tr>
+            <tr>
+              <td><strong>G12</strong></td><td>Water Supplies</td><td>G12/AS1, AS/NZS 3500</td>
+              <td><span class="status-dot pending"></span><span class="tag tag-blue">Pending</span></td>
+              <td style="color:var(--text-muted)">Watercare approval req.</td>
+            </tr>
+            <tr>
+              <td><strong>H1</strong></td><td>Energy Efficiency</td><td>H1/AS1 (Schedule Method)</td>
+              <td><span class="status-dot pending"></span><span class="tag tag-blue">Pending</span></td>
+              <td style="color:var(--text-muted)">Energy model in progress</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Resource Consent Requirements</div>
+            <div class="card-subtitle">Auckland Unitary Plan &mdash; Restricted Discretionary</div>
+          </div>
+          <div style="font-size:13px;">
+            <div style="padding:10px 0;border-bottom:1px solid rgba(30,51,80,0.4);display:flex;justify-content:space-between">
+              <span>Assessment of Environmental Effects (AEE)</span>
+              <span class="tag tag-green">Complete</span>
+            </div>
+            <div style="padding:10px 0;border-bottom:1px solid rgba(30,51,80,0.4);display:flex;justify-content:space-between">
+              <span>Urban Design Assessment</span>
+              <span class="tag tag-green">Complete</span>
+            </div>
+            <div style="padding:10px 0;border-bottom:1px solid rgba(30,51,80,0.4);display:flex;justify-content:space-between">
+              <span>Transport Impact Assessment</span>
+              <span class="tag tag-green">Complete</span>
+            </div>
+            <div style="padding:10px 0;border-bottom:1px solid rgba(30,51,80,0.4);display:flex;justify-content:space-between">
+              <span>Shading / Daylight Analysis</span>
+              <span class="tag tag-green">Complete</span>
+            </div>
+            <div style="padding:10px 0;border-bottom:1px solid rgba(30,51,80,0.4);display:flex;justify-content:space-between">
+              <span>Acoustic Assessment (boundary noise)</span>
+              <span class="tag tag-orange">In Progress</span>
+            </div>
+            <div style="padding:10px 0;border-bottom:1px solid rgba(30,51,80,0.4);display:flex;justify-content:space-between">
+              <span>Stormwater Management Plan</span>
+              <span class="tag tag-green">Complete</span>
+            </div>
+            <div style="padding:10px 0;border-bottom:1px solid rgba(30,51,80,0.4);display:flex;justify-content:space-between">
+              <span>Contaminated Land Assessment (NES)</span>
+              <span class="tag tag-green">Complete</span>
+            </div>
+            <div style="padding:10px 0;border-bottom:1px solid rgba(30,51,80,0.4);display:flex;justify-content:space-between">
+              <span>Cultural Impact Assessment</span>
+              <span class="tag tag-orange">In Progress</span>
+            </div>
+            <div style="padding:10px 0;display:flex;justify-content:space-between">
+              <span>Infrastructure Capacity Assessment</span>
+              <span class="tag tag-blue">Pending</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">District Plan Rules</div>
+            <div class="card-subtitle">Business &ndash; Mixed Use Zone (Auckland UP)</div>
+          </div>
+          <div style="font-size:13px;">
+            <div style="padding:10px 0;border-bottom:1px solid rgba(30,51,80,0.4);display:flex;justify-content:space-between">
+              <span>Height in Relation to Boundary (H12.6.2)</span>
+              <span class="tag tag-green">Compliant</span>
+            </div>
+            <div style="padding:10px 0;border-bottom:1px solid rgba(30,51,80,0.4);display:flex;justify-content:space-between">
+              <span>Maximum Building Height &mdash; 25m</span>
+              <span class="tag tag-orange">Infringes (27.2m)</span>
+            </div>
+            <div style="padding:10px 0;border-bottom:1px solid rgba(30,51,80,0.4);display:flex;justify-content:space-between">
+              <span>Minimum Setback (2m rear yard)</span>
+              <span class="tag tag-green">Compliant</span>
+            </div>
+            <div style="padding:10px 0;border-bottom:1px solid rgba(30,51,80,0.4);display:flex;justify-content:space-between">
+              <span>Maximum Building Coverage (100%)</span>
+              <span class="tag tag-green">Compliant</span>
+            </div>
+            <div style="padding:10px 0;border-bottom:1px solid rgba(30,51,80,0.4);display:flex;justify-content:space-between">
+              <span>Outlook Space (residential units)</span>
+              <span class="tag tag-green">Compliant</span>
+            </div>
+            <div style="padding:10px 0;border-bottom:1px solid rgba(30,51,80,0.4);display:flex;justify-content:space-between">
+              <span>Car Parking (AUP Transport Ch.)</span>
+              <span class="tag tag-green">Compliant</span>
+            </div>
+            <div style="padding:10px 0;border-bottom:1px solid rgba(30,51,80,0.4);display:flex;justify-content:space-between">
+              <span>Landscaping &amp; Screening</span>
+              <span class="tag tag-green">Compliant</span>
+            </div>
+            <div style="padding:10px 0;display:flex;justify-content:space-between">
+              <span>Wind Effects (H12.6.12)</span>
+              <span class="tag tag-green">Compliant</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== BIM VIEWER ==================== -->
+    <div id="section-bim" class="section">
+      <div class="card" style="padding:0;overflow:hidden">
+        <div class="bim-container">
+          <div class="building-3d" id="bimViewer">
+            <div class="building-group" id="buildingGroup">
+              <div class="floor top-f" onclick="selectFloor(this, 'Level 5 — Residential (Penthouse)', '4 premium apartments, roof terrace, communal garden. Green Star: 5-Star energy systems, solar PV array (32kW).')" data-level="5">
+                <div class="floor-front"></div><div class="floor-side"></div><div class="floor-top"></div>
+              </div>
+              <div class="floor mid" onclick="selectFloor(this, 'Level 4 — Residential', '8 × 2-bedroom apartments. NZS 4121 accessible units on this level. STC 55 inter-tenancy walls.')" data-level="4">
+                <div class="floor-front"></div><div class="floor-side"></div><div class="floor-top"></div>
+              </div>
+              <div class="floor mid" onclick="selectFloor(this, 'Level 3 — Residential', '8 × 1-bedroom + 4 × studio apartments. Balcony access, cross-ventilation. H1 compliant thermal envelope.')" data-level="3">
+                <div class="floor-front"></div><div class="floor-side"></div><div class="floor-top"></div>
+              </div>
+              <div class="floor mid" onclick="selectFloor(this, 'Level 2 — Commercial Office', 'Open-plan office (820m²). Raised access floor, VRF HVAC, Cat 6A data. NABERSNZ 4.5-Star target.')" data-level="2">
+                <div class="floor-front"></div><div class="floor-side"></div><div class="floor-top"></div>
+              </div>
+              <div class="floor mid" onclick="selectFloor(this, 'Level 1 — Commercial Office', 'Open-plan office (820m²). Reception, meeting rooms, breakout spaces. Accessible WCs per D1/AS1.')" data-level="1">
+                <div class="floor-front"></div><div class="floor-side"></div><div class="floor-top"></div>
+              </div>
+              <div class="floor ground" onclick="selectFloor(this, 'Ground Floor — Retail / Lobby', 'Retail tenancies (3 × 120m²), main lobby, bike storage (40 spaces), accessible entry per NZS 4121. Loading bay access from rear lane.')" data-level="G">
+                <div class="floor-front"></div><div class="floor-side"></div><div class="floor-top"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BIM Labels -->
+          <div class="bim-label" style="top:60px;left:40px" onclick="showToast('Roof: Solar PV Array — 32kW capacity')">&#9728; Solar PV</div>
+          <div class="bim-label" style="top:130px;right:100px" onclick="showToast('Structural: Steel moment frame — NZS 3404')">&#9881; Structure</div>
+          <div class="bim-label" style="top:250px;left:60px" onclick="showToast('Services: VRF HVAC system — Daikin VRV IV')">&#10052; HVAC</div>
+          <div class="bim-label" style="bottom:120px;right:80px" onclick="showToast('Fire: Type 7 sprinkler system — NZS 4541')">&#128293; Fire</div>
+          <div class="bim-label" style="bottom:60px;left:80px" onclick="showToast('Foundation: Bored piles to bedrock — 600mm dia')">&#9660; Foundation</div>
+
+          <div class="bim-toolbar">
+            <div class="bim-btn active" title="3D View">&#9634;</div>
+            <div class="bim-btn" title="Wireframe" onclick="toggleWireframe()">&#9645;</div>
+            <div class="bim-btn" title="Layers" onclick="showToast('Toggle layers: Structure / Services / Envelope')">&#9776;</div>
+            <div class="bim-btn" title="Clash Detection" onclick="showToast('BIM Clash Detection: 3 clashes found — HVAC/Structure interface Level 2')">&#9888;</div>
+            <div class="bim-btn" title="Measure">&#10230;</div>
+            <div class="bim-btn" title="Export IFC" onclick="showToast('Exporting IFC 4.0 model...')">&#8681;</div>
+          </div>
+
+          <div class="bim-info" id="bimInfo">
+            <h4 id="bimInfoTitle">Kaitiaki House &mdash; BIM LOD 300</h4>
+            <p id="bimInfoDesc">Click on a building level to view details. Model contains 14,200 elements across architectural, structural, and MEP disciplines. Last synced: 2 hours ago.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-3" style="margin-top:20px">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Model Statistics</div>
+          </div>
+          <div style="font-size:13px;line-height:2">
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Total Elements</span><strong>14,207</strong></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Architectural</span><strong>6,340</strong></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Structural</span><strong>3,812</strong></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">MEP/Services</span><strong>4,055</strong></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">LOD Level</span><strong>300</strong></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">File Format</span><strong>IFC 4.0 / RVT</strong></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Clash Detection</div>
+            <span class="tag tag-orange">3 Active</span>
+          </div>
+          <div style="font-size:13px;">
+            <div style="padding:8px 0;border-bottom:1px solid rgba(30,51,80,0.4)">
+              <div style="color:var(--red)">&#9679; HVAC duct vs beam — Level 2</div>
+              <div style="color:var(--text-muted);font-size:11px">Grid C-4, 300mm penetration conflict</div>
+            </div>
+            <div style="padding:8px 0;border-bottom:1px solid rgba(30,51,80,0.4)">
+              <div style="color:var(--orange)">&#9679; Sprinkler head vs ceiling grid — Level 3</div>
+              <div style="color:var(--text-muted);font-size:11px">Corridor zone, 50mm offset required</div>
+            </div>
+            <div style="padding:8px 0">
+              <div style="color:var(--gold)">&#9679; Stormwater pipe vs footing — Ground</div>
+              <div style="color:var(--text-muted);font-size:11px">Grid A-1, routing conflict</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Model Coordination</div>
+          </div>
+          <div style="font-size:13px;line-height:2">
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Last Sync</span><strong style="color:var(--green)">2h ago</strong></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Architect Model</span><strong style="color:var(--green)">Current</strong></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Structural Model</span><strong style="color:var(--green)">Current</strong></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">MEP Model</span><strong style="color:var(--orange)">1 day behind</strong></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Next Coordination</span><strong>18 Apr 2026</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== RISK REGISTER ==================== -->
+    <div id="section-risk" class="section">
+      <div class="grid-2" style="margin-bottom:24px">
+        <div class="stat-card" style="border-left:3px solid var(--red)">
+          <div class="stat-label">Critical Risks</div>
+          <div class="stat-value" style="color:var(--red)">2</div>
+          <div class="stat-change down">Require immediate action</div>
+        </div>
+        <div class="stat-card" style="border-left:3px solid var(--orange)">
+          <div class="stat-label">High Risks</div>
+          <div class="stat-value" style="color:var(--orange)">2</div>
+          <div class="stat-change">Monitoring — mitigation in place</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Risk Matrix — Severity &times; Likelihood</div>
+            <span class="tag tag-teal">ĀRAI Safety Agent</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">
+            <div style="display:flex;align-items:center;gap:6px;font-size:11px"><div style="width:12px;height:12px;border-radius:3px;background:rgba(76,175,125,0.3)"></div><span style="color:var(--text-muted)">Low</span></div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:11px"><div style="width:12px;height:12px;border-radius:3px;background:rgba(212,168,83,0.3)"></div><span style="color:var(--text-muted)">Medium</span></div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:11px"><div style="width:12px;height:12px;border-radius:3px;background:rgba(224,138,69,0.3)"></div><span style="color:var(--text-muted)">High</span></div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:11px"><div style="width:12px;height:12px;border-radius:3px;background:rgba(224,85,85,0.3)"></div><span style="color:var(--text-muted)">Critical</span></div>
+          </div>
+          <div class="risk-matrix">
+            <!-- Y-axis label -->
+            <div class="risk-y-label" style="grid-row:1/6">SEVERITY</div>
+            <!-- Row 5 (Catastrophic) -->
+            <div class="risk-cell r-med">5</div><div class="risk-cell r-high">10</div>
+            <div class="risk-cell r-critical" style="position:relative">15<div class="risk-dot" style="position:absolute;background:var(--red);box-shadow:0 0 10px rgba(224,85,85,0.5)">R1</div></div>
+            <div class="risk-cell r-critical">20</div><div class="risk-cell r-critical">25</div>
+            <!-- Row 4 (Major) -->
+            <div class="risk-cell r-low">4</div><div class="risk-cell r-med">8</div>
+            <div class="risk-cell r-high" style="position:relative">12<div class="risk-dot" style="position:absolute;background:var(--orange);box-shadow:0 0 10px rgba(224,138,69,0.5)">R3</div></div>
+            <div class="risk-cell r-critical" style="position:relative">16<div class="risk-dot" style="position:absolute;background:var(--red);box-shadow:0 0 10px rgba(224,85,85,0.5)">R2</div></div>
+            <div class="risk-cell r-critical">20</div>
+            <!-- Row 3 (Moderate) -->
+            <div class="risk-cell r-low">3</div><div class="risk-cell r-med">6</div>
+            <div class="risk-cell r-med" style="position:relative">9<div class="risk-dot" style="position:absolute;background:var(--gold);box-shadow:0 0 10px rgba(212,168,83,0.5)">R4</div></div>
+            <div class="risk-cell r-high">12</div><div class="risk-cell r-high">15</div>
+            <!-- Row 2 (Minor) -->
+            <div class="risk-cell r-low">2</div><div class="risk-cell r-low">4</div>
+            <div class="risk-cell r-med">6</div><div class="risk-cell r-med">8</div><div class="risk-cell r-high">10</div>
+            <!-- Row 1 (Insignificant) -->
+            <div class="risk-cell r-low">1</div><div class="risk-cell r-low">2</div>
+            <div class="risk-cell r-low">3</div><div class="risk-cell r-med">4</div><div class="risk-cell r-med">5</div>
+            <!-- X-axis labels -->
+            <div></div>
+            <div class="risk-x-label">Rare</div><div class="risk-x-label">Unlikely</div>
+            <div class="risk-x-label">Possible</div><div class="risk-x-label">Likely</div><div class="risk-x-label">Almost Certain</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Active Risk Register</div>
+            <button class="btn btn-outline btn-sm" onclick="showToast('ĀRAI running automated risk re-assessment...')">&#9881; Re-assess</button>
+          </div>
+          <div style="font-size:13px;">
+            <div style="padding:14px;background:rgba(224,85,85,0.08);border:1px solid rgba(224,85,85,0.2);border-radius:10px;margin-bottom:10px">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                <strong style="color:var(--red)">R1 — Geotechnical Uncertainty</strong>
+                <span class="tag tag-red">Critical (15)</span>
+              </div>
+              <div style="color:var(--text-secondary);line-height:1.6">
+                Unexpected clay lens at BH-04 (3.2m depth). May require piled foundations instead of raft, adding $800K–$1.2M and 6-week delay.
+              </div>
+              <div style="margin-top:8px;color:var(--text-muted);font-size:12px">
+                <strong>Mitigation:</strong> Additional boreholes BH-05/06 ordered. Geotech report due 15 Apr. Foundation options analysis by Holmes.
+              </div>
+            </div>
+            <div style="padding:14px;background:rgba(224,85,85,0.08);border:1px solid rgba(224,85,85,0.2);border-radius:10px;margin-bottom:10px">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                <strong style="color:var(--red)">R2 — Consent Timeline Overrun</strong>
+                <span class="tag tag-red">Critical (16)</span>
+              </div>
+              <div style="color:var(--text-secondary);line-height:1.6">
+                Height infringement (27.2m vs 25m permitted) triggers restricted discretionary assessment. Potential for limited notification adds 4–8 weeks.
+              </div>
+              <div style="margin-top:8px;color:var(--text-muted);font-size:12px">
+                <strong>Mitigation:</strong> Pre-application meeting completed. Urban design report supports height. Preparing s95 notification assessment.
+              </div>
+            </div>
+            <div style="padding:14px;background:rgba(224,138,69,0.08);border:1px solid rgba(224,138,69,0.2);border-radius:10px;margin-bottom:10px">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                <strong style="color:var(--orange)">R3 — Construction Material Supply</strong>
+                <span class="tag tag-orange">High (12)</span>
+              </div>
+              <div style="color:var(--text-secondary);line-height:1.6">
+                Structural steel lead times extended to 16 weeks ex-China. Facade system (unitised curtain wall) 20-week lead time.
+              </div>
+              <div style="margin-top:8px;color:var(--text-muted);font-size:12px">
+                <strong>Mitigation:</strong> Early procurement for long-lead items. Alternative NZ-sourced steel options being costed with Pacific Steel.
+              </div>
+            </div>
+            <div style="padding:14px;background:rgba(212,168,83,0.08);border:1px solid rgba(212,168,83,0.2);border-radius:10px">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                <strong style="color:var(--gold)">R4 — Mana Whenua Engagement Delay</strong>
+                <span class="tag tag-orange">Medium (9)</span>
+              </div>
+              <div style="color:var(--text-secondary);line-height:1.6">
+                Cultural Impact Assessment requires engagement with Ng&#257;ti Wh&#257;tua &#332;r&#257;kei. Availability of cultural advisors limited in Q2 2026.
+              </div>
+              <div style="margin-top:8px;color:var(--text-muted);font-size:12px">
+                <strong>Mitigation:</strong> Initial k&#333;rero scheduled 22 Apr. Design team briefed on cultural narrative integration. Tikanga consultation protocol prepared.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== EVIDENCE PACKS ==================== -->
+    <div id="section-evidence" class="section">
+      <div class="grid-3" style="margin-bottom:24px">
+        <div class="stat-card">
+          <div class="stat-label">Total Documents</div>
+          <div class="stat-value teal">47</div>
+          <div class="stat-change up">12 added this month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Pack Completeness</div>
+          <div class="stat-value gold">78%</div>
+          <div class="stat-change up">&#9650; On track for consent</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">AI Verified</div>
+          <div class="stat-value green">34 / 47</div>
+          <div class="stat-change up">72% auto-verified</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Evidence Pack — Building Consent</div>
+            <button class="btn btn-gold btn-sm" onclick="compileEvidence()">&#128230; Compile Pack</button>
+          </div>
+          <div class="evidence-item">
+            <div class="evidence-icon doc">&#128196;</div>
+            <div class="evidence-info">
+              <div class="evidence-name">Architectural Drawing Set</div>
+              <div class="evidence-meta">42 sheets &mdash; 1:50, 1:100, 1:200 &mdash; Rev C</div>
+            </div>
+            <span class="evidence-status" style="color:var(--green)">&#10003; Complete</span>
+          </div>
+          <div class="evidence-item">
+            <div class="evidence-icon check">&#10003;</div>
+            <div class="evidence-info">
+              <div class="evidence-name">Structural Calculations</div>
+              <div class="evidence-meta">Holmes Consulting &mdash; NZS 1170, NZS 3101, NZS 3404</div>
+            </div>
+            <span class="evidence-status" style="color:var(--green)">&#10003; Complete</span>
+          </div>
+          <div class="evidence-item">
+            <div class="evidence-icon risk">&#128293;</div>
+            <div class="evidence-info">
+              <div class="evidence-name">Fire Engineering Report</div>
+              <div class="evidence-meta">C/AS7 compliance &mdash; Risk Groups SM, SA, WL</div>
+            </div>
+            <span class="evidence-status" style="color:var(--orange)">In Review</span>
+          </div>
+          <div class="evidence-item">
+            <div class="evidence-icon plan">&#127759;</div>
+            <div class="evidence-info">
+              <div class="evidence-name">Geotechnical Investigation</div>
+              <div class="evidence-meta">Tonkin + Taylor &mdash; 6 boreholes, CPT testing</div>
+            </div>
+            <span class="evidence-status" style="color:var(--orange)">Addendum Required</span>
+          </div>
+          <div class="evidence-item">
+            <div class="evidence-icon bim">&#9634;</div>
+            <div class="evidence-info">
+              <div class="evidence-name">BIM Model (IFC Export)</div>
+              <div class="evidence-meta">LOD 300 &mdash; Architectural + Structural + MEP</div>
+            </div>
+            <span class="evidence-status" style="color:var(--green)">&#10003; Complete</span>
+          </div>
+          <div class="evidence-item">
+            <div class="evidence-icon doc">&#128196;</div>
+            <div class="evidence-info">
+              <div class="evidence-name">Producer Statements (PS1)</div>
+              <div class="evidence-meta">Design — Structural, Fire, Mechanical</div>
+            </div>
+            <span class="evidence-status" style="color:var(--gold)">2 of 4 received</span>
+          </div>
+          <div class="evidence-item">
+            <div class="evidence-icon check">&#9878;</div>
+            <div class="evidence-info">
+              <div class="evidence-name">Accessibility Audit (NZS 4121)</div>
+              <div class="evidence-meta">Universal access compliance report</div>
+            </div>
+            <span class="evidence-status" style="color:var(--green)">&#10003; Complete</span>
+          </div>
+          <div class="evidence-item">
+            <div class="evidence-icon plan">&#9889;</div>
+            <div class="evidence-info">
+              <div class="evidence-name">Energy Model (H1/AS1)</div>
+              <div class="evidence-meta">Schedule method — R-values, glazing performance</div>
+            </div>
+            <span class="evidence-status" style="color:var(--text-muted)">Pending</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Evidence Pack — Resource Consent</div>
+              <button class="btn btn-primary btn-sm" onclick="compileEvidence()">&#128230; Compile</button>
+            </div>
+            <div class="evidence-item">
+              <div class="evidence-icon doc">&#128196;</div>
+              <div class="evidence-info">
+                <div class="evidence-name">Assessment of Environmental Effects</div>
+                <div class="evidence-meta">RMA s88 &mdash; 48 pages</div>
+              </div>
+              <span class="evidence-status" style="color:var(--green)">&#10003;</span>
+            </div>
+            <div class="evidence-item">
+              <div class="evidence-icon plan">&#127961;</div>
+              <div class="evidence-info">
+                <div class="evidence-name">Urban Design Assessment</div>
+                <div class="evidence-meta">Ponsonby character overlay response</div>
+              </div>
+              <span class="evidence-status" style="color:var(--green)">&#10003;</span>
+            </div>
+            <div class="evidence-item">
+              <div class="evidence-icon check">&#128663;</div>
+              <div class="evidence-info">
+                <div class="evidence-name">Integrated Transport Assessment</div>
+                <div class="evidence-meta">Traffic generation, parking, cycling</div>
+              </div>
+              <span class="evidence-status" style="color:var(--green)">&#10003;</span>
+            </div>
+            <div class="evidence-item">
+              <div class="evidence-icon risk">&#127793;</div>
+              <div class="evidence-info">
+                <div class="evidence-name">Cultural Impact Assessment</div>
+                <div class="evidence-meta">Ng&#257;ti Wh&#257;tua &#332;r&#257;kei engagement</div>
+              </div>
+              <span class="evidence-status" style="color:var(--orange)">In Progress</span>
+            </div>
+            <div class="evidence-item">
+              <div class="evidence-icon plan">&#128167;</div>
+              <div class="evidence-info">
+                <div class="evidence-name">Stormwater Management Plan</div>
+                <div class="evidence-meta">Healthy Waters Auckland requirements</div>
+              </div>
+              <span class="evidence-status" style="color:var(--green)">&#10003;</span>
+            </div>
+          </div>
+
+          <div class="card glow-gold">
+            <div class="card-header">
+              <div class="card-title">&#9733; AI Evidence Pack Generator</div>
+              <span class="tag tag-teal">Powered by Assembl</span>
+            </div>
+            <div style="font-size:13px;color:var(--text-secondary);line-height:1.7;margin-bottom:16px">
+              Automatically compile all project documentation into a structured evidence pack ready for BCA submission. Includes cross-referencing, gap analysis, and Producer Statement tracking.
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+              <button class="btn btn-gold" onclick="compileEvidence()">&#128230; Generate Building Consent Pack</button>
+              <button class="btn btn-primary" onclick="compileEvidence()">&#128230; Generate Resource Consent Pack</button>
+            </div>
+            <div style="font-size:12px;color:var(--text-muted)">
+              Last generated: 8 Apr 2026 &mdash; 3 gaps identified, 2 resolved
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- COMPILE MODAL -->
+<div class="modal-overlay" id="compileModal">
+  <div class="modal">
+    <h3>&#128230; Evidence Pack Compilation</h3>
+    <div id="compileProgress" style="font-size:13px;color:var(--text-secondary);line-height:2">
+      <div style="display:flex;align-items:center;gap:10px;padding:4px 0"><span style="color:var(--green)">&#10003;</span> Scanning project documents...</div>
+      <div style="display:flex;align-items:center;gap:10px;padding:4px 0"><span style="color:var(--green)">&#10003;</span> Verifying Building Code references...</div>
+      <div style="display:flex;align-items:center;gap:10px;padding:4px 0"><span style="color:var(--green)">&#10003;</span> Cross-referencing compliance matrix...</div>
+      <div style="display:flex;align-items:center;gap:10px;padding:4px 0"><span style="color:var(--gold)" class="pulse">&#9679;</span> Generating table of contents...</div>
+      <div style="display:flex;align-items:center;gap:10px;padding:4px 0;color:var(--text-muted)"><span>&#9675;</span> Compiling PDF output...</div>
+      <div style="display:flex;align-items:center;gap:10px;padding:4px 0;color:var(--text-muted)"><span>&#9675;</span> Running gap analysis...</div>
+    </div>
+    <div style="margin-top:20px">
+      <div class="progress-bar" style="height:6px">
+        <div class="progress-fill teal" style="width:55%"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:6px">
+        <span>55% Complete</span><span>Est. 2 min remaining</span>
+      </div>
+    </div>
+    <div style="margin-top:20px;display:flex;gap:10px">
+      <button class="btn btn-outline btn-sm" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // NAVIGATION
+  function showSection(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('section-' + id).classList.add('active');
+
+    const titles = {
+      overview: 'Project Overview',
+      intake: 'Project Intake',
+      phases: 'Design Phase Tracker',
+      compliance: 'Compliance Checklist',
+      bim: 'BIM Integration Panel',
+      risk: 'Risk Register',
+      evidence: 'Evidence Pack Generator'
+    };
+    document.getElementById('section-title').textContent = titles[id] || 'Overview';
+
+    const navItems = document.querySelectorAll('.nav-item');
+    const navMap = ['overview','intake','phases','compliance','bim','risk','evidence'];
+    const idx = navMap.indexOf(id);
+    if (idx >= 0) navItems[idx].classList.add('active');
+  }
+
+  // TOAST
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.innerHTML = '<span style="color:var(--teal-light)">&#10003;</span> ' + msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  // INTAKE FORM
+  function handleIntake(e) {
+    e.preventDefault();
+    showToast('Project "Kaitiaki House" created successfully! Routing to compliance pipeline...');
+  }
+
+  // BIM FLOOR SELECT
+  function selectFloor(el, title, desc) {
+    document.querySelectorAll('.floor').forEach(f => f.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('bimInfoTitle').textContent = title;
+    document.getElementById('bimInfoDesc').textContent = desc;
+  }
+
+  // BIM WIREFRAME TOGGLE
+  let wireframe = false;
+  function toggleWireframe() {
+    wireframe = !wireframe;
+    document.querySelectorAll('.floor-front, .floor-side, .floor-top').forEach(el => {
+      if (wireframe) {
+        el.style.opacity = '0.3';
+        el.style.border = '1px solid var(--teal)';
+      } else {
+        el.style.opacity = '1';
+        el.style.border = 'none';
+      }
+    });
+    showToast(wireframe ? 'Wireframe mode enabled' : 'Solid mode enabled');
+  }
+
+  // COMPILE EVIDENCE
+  function compileEvidence() {
+    document.getElementById('compileModal').classList.add('show');
+    // Simulate progress
+    let progress = 55;
+    const bar = document.querySelector('#compileModal .progress-fill');
+    const interval = setInterval(() => {
+      progress += Math.random() * 8;
+      if (progress >= 100) {
+        progress = 100;
+        clearInterval(interval);
+        setTimeout(() => {
+          closeModal();
+          showToast('Evidence pack compiled successfully! 47 documents, 3 gaps identified.');
+        }, 500);
+      }
+      bar.style.width = progress + '%';
+    }, 400);
+  }
+
+  function closeModal() {
+    document.getElementById('compileModal').classList.remove('show');
+  }
+
+  // PHASE SELECTOR
+  const phaseData = [
+    { title:'Phase 1: Concept Design', desc:'High-level design intent and site analysis', status:'Complete', statusClass:'tag-green', pct:100 },
+    { title:'Phase 2: Developed Design', desc:'Refined design with initial engineering input', status:'Complete', statusClass:'tag-green', pct:100 },
+    { title:'Phase 3: Detailed Design', desc:'Full technical resolution of all building systems', status:'In Progress', statusClass:'tag-orange', pct:62 },
+    { title:'Phase 4: Consent Documentation', desc:'Building consent and resource consent application preparation', status:'Not Started', statusClass:'tag-blue', pct:0 },
+    { title:'Phase 5: Construction Documentation', desc:'Tender documents, specifications, and construction issue drawings', status:'Not Started', statusClass:'tag-blue', pct:0 },
+  ];
+
+  function selectPhase(idx) {
+    const p = phaseData[idx];
+    document.getElementById('phase-title').textContent = p.title;
+    document.getElementById('phase-desc').textContent = p.desc;
+    document.getElementById('phase-status').textContent = p.status;
+    document.getElementById('phase-status').className = 'tag ' + p.statusClass;
+    document.getElementById('phase-pct').textContent = p.pct + '%';
+    document.getElementById('phase-bar').style.width = p.pct + '%';
+  }
+
+  // Initial slight rotation animation for BIM
+  let rotY = -25;
+  let direction = 1;
+  function animateBIM() {
+    rotY += direction * 0.02;
+    if (rotY > -15 || rotY < -35) direction *= -1;
+    const g = document.getElementById('buildingGroup');
+    if (g && !g.matches(':hover')) {
+      g.style.transform = `rotateX(-15deg) rotateY(${rotY}deg)`;
+    }
+    requestAnimationFrame(animateBIM);
+  }
+  animateBIM();
+</script>
+</body>
+</html>

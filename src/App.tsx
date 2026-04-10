@@ -125,6 +125,10 @@ const ArohaCompanySetup = lazy(() => import("./components/aroha/ArohaCompanySetu
 const ArohaRetention = lazy(() => import("./components/aroha/ArohaRetention"));
 const AratakiLandingPage = lazy(() => import("./pages/AratakiLandingPage"));
 const PikauLandingPage = lazy(() => import("./pages/PikauLandingPage"));
+const ToroaTravelPage = lazy(() => import("./pages/ToroaTravelPage"));
+const ToroaChatPage = lazy(() => import("./pages/ToroaChatPage"));
+const WaihangaArchitecturePage = lazy(() => import("./pages/WaihangaArchitecturePage"));
+const TeReoReferencePage = lazy(() => import("./pages/TeReoReferencePage"));
 
 const queryClient = new QueryClient();
 
@@ -191,6 +195,7 @@ const App = () => (
                   <Route path="/admin/pack-analytics" element={<Suspense fallback={null}><AdminPackAnalytics /></Suspense>} />
                   <Route path="/admin/skill-wiring" element={<Suspense fallback={null}><SkillWiringDashboard /></Suspense>} />
                   <Route path="/skill-hub" element={<Suspense fallback={null}><SkillHubPage /></Suspense>} />
+                  <Route path="/te-reo" element={<Suspense fallback={null}><TeReoReferencePage /></Suspense>} />
                   <Route path="/fuel-savings" element={<Suspense fallback={null}><FuelSavingsPage /></Suspense>} />
                   <Route path="/aaaip" element={<Suspense fallback={null}><AaaipDashboard /></Suspense>} />
                   <Route path="/aaaip/researcher" element={<Suspense fallback={null}><AaaipResearcher /></Suspense>} />
@@ -215,6 +220,8 @@ const App = () => (
                   <Route path="/toroa/dashboard" element={<Suspense fallback={null}><ToroaDashboard /></Suspense>} />
                   <Route path="/toroa/app" element={<Suspense fallback={null}><ToroaApp /></Suspense>} />
                   <Route path="/toroa/install" element={<Suspense fallback={null}><ToroaInstallPage /></Suspense>} />
+                  <Route path="/toroa/travel" element={<Suspense fallback={null}><ToroaTravelPage /></Suspense>} />
+                  <Route path="/toroa/chat" element={<Suspense fallback={null}><ToroaChatPage /></Suspense>} />
                   <Route path="/helm" element={<Navigate to="/toroa" replace />} />
                   <Route path="/helm/*" element={<Navigate to="/toroa" replace />} />
                   <Route path="/app/:agentId" element={<Suspense fallback={null}><AgentApp /></Suspense>} />
@@ -246,6 +253,7 @@ const App = () => (
                     <Route path="whakaae" element={<WhakaaeDashboard />} />
                     <Route path="pai" element={<PaiDashboard />} />
                     <Route path="overview" element={<KanohiDashboard />} />
+                    <Route path="architecture" element={<Suspense fallback={null}><WaihangaArchitecturePage /></Suspense>} />
                   </Route>
                   <Route path="/auaha" element={<Suspense fallback={null}><AuahaLayout /></Suspense>}>
                     <Route index element={<AuahaDashboard />} />

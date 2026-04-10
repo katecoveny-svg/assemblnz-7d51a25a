@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Italy Trip Planner — Assembl / Toroa</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
+  :root {
+    --bg-primary: #0d1117;
+    --bg-secondary: #161b22;
+    --bg-card: #1c2128;
+    --bg-card-hover: #222830;
+    --border: #30363d;
+    --border-light: #21262d;
+    --teal: #2dd4a8;
+    --teal-dim: #1a9e7a;
+    --teal-glow: rgba(45, 212, 168, 0.15);
+    --teal-glow-strong: rgba(45, 212, 168, 0.3);
+    --gold: #e8b931;
+    --coral: #f97066;
+    --lavender: #b392f0;
+    --sky: #58a6ff;
+    --text-primary: #e6edf3;
+    --text-secondary: #8b949e;
+    --text-muted: #6e7681;
+    --success: #3fb950;
+    --warning: #d29922;
+    --danger: #f85149;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, #1a2332 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+
+  .header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--teal), var(--teal-dim));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+  }
+
+  .logo-text h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .logo-text span {
+    font-size: 0.75rem;
+    color: var(--teal);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+
+  .header-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--teal);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  /* Navigation Tabs */
+  .tab-nav {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem 2rem 0;
+    display: flex;
+    gap: 0.25rem;
+    overflow-x: auto;
+  }
+
+  .tab-btn {
+    padding: 0.75rem 1.25rem;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .tab-btn:hover { color: var(--text-primary); }
+  .tab-btn.active {
+    color: var(--teal);
+    border-bottom-color: var(--teal);
+  }
+
+  .tab-btn .tab-icon { font-size: 1rem; }
+
+  /* Main Content */
+  .main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem 3rem;
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* Cards */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.2s;
+  }
+
+  .card:hover { border-color: var(--teal-dim); }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .card-badge {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  .badge-teal { background: var(--teal-glow); color: var(--teal); }
+  .badge-gold { background: rgba(232,185,49,0.15); color: var(--gold); }
+  .badge-coral { background: rgba(249,112,102,0.15); color: var(--coral); }
+
+  /* Form Elements */
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .form-group { margin-bottom: 1rem; }
+
+  .form-group label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px var(--teal-glow);
+  }
+
+  .form-group textarea { resize: vertical; min-height: 80px; }
+  .form-group select { cursor: pointer; }
+  option { background: var(--bg-secondary); }
+
+  /* Buttons */
+  .btn {
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--teal), var(--teal-dim));
+    color: #0d1117;
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 16px var(--teal-glow-strong); }
+
+  .btn-secondary {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { border-color: var(--teal); }
+
+  .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.78rem; }
+
+  /* Stats Row */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: center;
+  }
+
+  .stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--teal);
+    font-family: 'Playfair Display', serif;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.25rem;
+  }
+
+  /* Itinerary Day */
+  .day-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+
+  .day-header {
+    padding: 1rem 1.5rem;
+    background: linear-gradient(90deg, var(--teal-glow), transparent);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .day-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .day-header .day-num {
+    background: var(--teal);
+    color: var(--bg-primary);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .day-location {
+    font-size: 0.8rem;
+    color: var(--teal);
+    font-weight: 500;
+  }
+
+  .day-body { padding: 1.25rem 1.5rem; }
+
+  .activity {
+    display: flex;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .activity:last-child { border-bottom: none; }
+
+  .activity-time {
+    font-size: 0.8rem;
+    color: var(--teal);
+    font-weight: 500;
+    min-width: 60px;
+    padding-top: 0.1rem;
+  }
+
+  .activity-content h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.15rem;
+  }
+
+  .activity-content p {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+  }
+
+  .activity-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 10px;
+    margin-top: 0.3rem;
+    font-weight: 500;
+  }
+
+  .tag-food { background: rgba(232,185,49,0.15); color: var(--gold); }
+  .tag-culture { background: rgba(179,146,240,0.15); color: var(--lavender); }
+  .tag-transport { background: rgba(88,166,255,0.15); color: var(--sky); }
+  .tag-accommodation { background: rgba(45,212,168,0.15); color: var(--teal); }
+  .tag-activity { background: rgba(249,112,102,0.15); color: var(--coral); }
+
+  /* Checklist */
+  .checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--border-light);
+    cursor: pointer;
+  }
+
+  .checklist-item:last-child { border-bottom: none; }
+
+  .checklist-item input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .checklist-item input[type="checkbox"]:checked {
+    background: var(--teal);
+    border-color: var(--teal);
+  }
+
+  .checklist-item input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--bg-primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .checklist-item.checked .check-text {
+    text-decoration: line-through;
+    color: var(--text-muted);
+  }
+
+  .check-text { font-size: 0.88rem; }
+  .check-note {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-left: auto;
+  }
+
+  /* Budget Table */
+  .budget-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .budget-table th {
+    text-align: left;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .budget-table td {
+    padding: 0.7rem 0.75rem;
+    font-size: 0.88rem;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .budget-table tr:last-child td { border-bottom: none; }
+
+  .budget-table .amount {
+    font-weight: 600;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .budget-table .category-icon { margin-right: 0.5rem; }
+
+  .budget-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0.75rem;
+    border-top: 2px solid var(--teal);
+    margin-top: 0.5rem;
+    font-weight: 700;
+  }
+
+  .budget-total .total-amount { color: var(--teal); font-size: 1.1rem; }
+
+  /* Progress bar */
+  .progress-bar {
+    width: 100%;
+    height: 6px;
+    background: var(--bg-secondary);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--teal-dim));
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+
+  /* Info boxes */
+  .info-box {
+    background: var(--teal-glow);
+    border: 1px solid rgba(45, 212, 168, 0.25);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+
+  .info-box strong { color: var(--teal); }
+
+  .warning-box {
+    background: rgba(210, 153, 34, 0.1);
+    border: 1px solid rgba(210, 153, 34, 0.25);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+  }
+
+  .warning-box strong { color: var(--gold); }
+
+  /* Packing list columns */
+  .packing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  /* Two-column layout */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .two-col { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .tab-nav { padding: 1rem 1rem 0; }
+    .main { padding: 1rem; }
+    .header { padding: 1rem; }
+  }
+
+  /* Print styles */
+  @media print {
+    body { background: white; color: #1a1a1a; }
+    .header { position: relative; }
+    .tab-nav { display: none; }
+    .tab-content { display: block !important; page-break-inside: avoid; }
+    .card { border: 1px solid #ddd; }
+    .btn { display: none; }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg-primary); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+  /* Hero section */
+  .hero-banner {
+    background: linear-gradient(135deg, #1a2332 0%, var(--bg-card) 50%, #1e2a1e 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-banner::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, var(--teal-glow) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-banner h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    position: relative;
+  }
+
+  .hero-banner p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    position: relative;
+  }
+
+  .hero-banner .hero-emoji {
+    font-size: 3rem;
+    position: absolute;
+    top: 1.5rem;
+    right: 2.5rem;
+  }
+
+  /* Add item input row */
+  .add-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+
+  .add-row input {
+    flex: 1;
+    padding: 0.5rem 0.75rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+  }
+
+  .add-row input:focus {
+    outline: none;
+    border-color: var(--teal);
+  }
+
+  /* Editable budget row */
+  .budget-table input {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    width: 100%;
+    padding: 0;
+  }
+  .budget-table input:focus { outline: none; }
+  .budget-table input.amount {
+    text-align: right;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .edit-hint {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: 0.5rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo-area">
+      <div class="logo-icon">T</div>
+      <div class="logo-text">
+        <h1>Italy Trip Planner</h1>
+        <span>TOROA / ASSEMBL TRAVEL</span>
+      </div>
+    </div>
+    <div class="header-status">
+      <div class="status-dot"></div>
+      Planning Active
+    </div>
+  </div>
+</header>
+
+<!-- Tabs -->
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('overview')">
+    <span class="tab-icon">&#9670;</span> Trip Overview
+  </button>
+  <button class="tab-btn" onclick="switchTab('itinerary')">
+    <span class="tab-icon">&#128197;</span> Itinerary
+  </button>
+  <button class="tab-btn" onclick="switchTab('budget')">
+    <span class="tab-icon">&#128176;</span> Budget
+  </button>
+  <button class="tab-btn" onclick="switchTab('packing')">
+    <span class="tab-icon">&#127890;</span> Packing List
+  </button>
+  <button class="tab-btn" onclick="switchTab('documents')">
+    <span class="tab-icon">&#128203;</span> Documents & Logistics
+  </button>
+</nav>
+
+<!-- Main Content -->
+<main class="main">
+
+  <!-- ============ OVERVIEW TAB ============ -->
+  <div id="tab-overview" class="tab-content active">
+    <div class="hero-banner">
+      <span class="hero-emoji">&#127470;&#127481;</span>
+      <h2>Your Italian Adventure</h2>
+      <p>Fill in your trip details below and build your perfect itinerary. Andiamo!</p>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">&#9992;&#65039; Trip Details</span>
+        <span class="card-badge badge-teal">Step 1</span>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Departure Date</label>
+          <input type="date" id="depart-date">
+        </div>
+        <div class="form-group">
+          <label>Return Date</label>
+          <input type="date" id="return-date">
+        </div>
+        <div class="form-group">
+          <label>Departure City (NZ)</label>
+          <select id="depart-city">
+            <option value="">Select...</option>
+            <option value="Auckland (AKL)">Auckland (AKL)</option>
+            <option value="Wellington (WLG)">Wellington (WLG)</option>
+            <option value="Christchurch (CHC)">Christchurch (CHC)</option>
+            <option value="Queenstown (ZQN)">Queenstown (ZQN)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Travellers</label>
+          <select id="travellers">
+            <option value="1">1 Adult</option>
+            <option value="2" selected>2 Adults</option>
+            <option value="3">3 Adults</option>
+            <option value="4">4 Adults</option>
+            <option value="family-2+1">2 Adults + 1 Child</option>
+            <option value="family-2+2">2 Adults + 2 Children</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">&#127751; Cities & Interests</span>
+        <span class="card-badge badge-gold">Step 2</span>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Cities to Visit (select all that apply)</label>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.25rem;">
+            <label class="city-chip" style="display:flex; align-items:center; gap:0.4rem; padding:0.4rem 0.8rem; background:var(--bg-secondary); border:1px solid var(--border); border-radius:20px; cursor:pointer; font-size:0.85rem; transition:all 0.2s;">
+              <input type="checkbox" value="Rome" class="city-check" style="display:none;" onchange="toggleChip(this)"> Rome
+            </label>
+            <label class="city-chip" style="display:flex; align-items:center; gap:0.4rem; padding:0.4rem 0.8rem; background:var(--bg-secondary); border:1px solid var(--border); border-radius:20px; cursor:pointer; font-size:0.85rem; transition:all 0.2s;">
+              <input type="checkbox" value="Florence" class="city-check" style="display:none;" onchange="toggleChip(this)"> Florence
+            </label>
+            <label class="city-chip" style="display:flex; align-items:center; gap:0.4rem; padding:0.4rem 0.8rem; background:var(--bg-secondary); border:1px solid var(--border); border-radius:20px; cursor:pointer; font-size:0.85rem; transition:all 0.2s;">
+              <input type="checkbox" value="Venice" class="city-check" style="display:none;" onchange="toggleChip(this)"> Venice
+            </label>
+            <label class="city-chip" style="display:flex; align-items:center; gap:0.4rem; padding:0.4rem 0.8rem; background:var(--bg-secondary); border:1px solid var(--border); border-radius:20px; cursor:pointer; font-size:0.85rem; transition:all 0.2s;">
+              <input type="checkbox" value="Milan" class="city-check" style="display:none;" onchange="toggleChip(this)"> Milan
+            </label>
+            <label class="city-chip" style="display:flex; align-items:center; gap:0.4rem; padding:0.4rem 0.8rem; background:var(--bg-secondary); border:1px solid var(--border); border-radius:20px; cursor:pointer; font-size:0.85rem; transition:all 0.2s;">
+              <input type="checkbox" value="Amalfi Coast" class="city-check" style="display:none;" onchange="toggleChip(this)"> Amalfi Coast
+            </label>
+            <label class="city-chip" style="display:flex; align-items:center; gap:0.4rem; padding:0.4rem 0.8rem; background:var(--bg-secondary); border:1px solid var(--border); border-radius:20px; cursor:pointer; font-size:0.85rem; transition:all 0.2s;">
+              <input type="checkbox" value="Cinque Terre" class="city-check" style="display:none;" onchange="toggleChip(this)"> Cinque Terre
+            </label>
+            <label class="city-chip" style="display:flex; align-items:center; gap:0.4rem; padding:0.4rem 0.8rem; background:var(--bg-secondary); border:1px solid var(--border); border-radius:20px; cursor:pointer; font-size:0.85rem; transition:all 0.2s;">
+              <input type="checkbox" value="Naples" class="city-check" style="display:none;" onchange="toggleChip(this)"> Naples
+            </label>
+            <label class="city-chip" style="display:flex; align-items:center; gap:0.4rem; padding:0.4rem 0.8rem; background:var(--bg-secondary); border:1px solid var(--border); border-radius:20px; cursor:pointer; font-size:0.85rem; transition:all 0.2s;">
+              <input type="checkbox" value="Sicily" class="city-check" style="display:none;" onchange="toggleChip(this)"> Sicily
+            </label>
+            <label class="city-chip" style="display:flex; align-items:center; gap:0.4rem; padding:0.4rem 0.8rem; background:var(--bg-secondary); border:1px solid var(--border); border-radius:20px; cursor:pointer; font-size:0.85rem; transition:all 0.2s;">
+              <input type="checkbox" value="Tuscany" class="city-check" style="display:none;" onchange="toggleChip(this)"> Tuscany
+            </label>
+            <label class="city-chip" style="display:flex; align-items:center; gap:0.4rem; padding:0.4rem 0.8rem; background:var(--bg-secondary); border:1px solid var(--border); border-radius:20px; cursor:pointer; font-size:0.85rem; transition:all 0.2s;">
+              <input type="checkbox" value="Lake Como" class="city-check" style="display:none;" onchange="toggleChip(this)"> Lake Como
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Trip Vibe</label>
+          <select id="trip-vibe">
+            <option value="">Select your vibe...</option>
+            <option value="culture">Culture & History</option>
+            <option value="food">Food & Wine</option>
+            <option value="romance">Romance & Relaxation</option>
+            <option value="adventure">Adventure & Outdoors</option>
+            <option value="family">Family Fun</option>
+            <option value="all">A Bit of Everything</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" style="margin-top:0.5rem;">
+        <label>Must-Do Experiences (anything specific you dream of doing?)</label>
+        <textarea id="must-do" placeholder="e.g. Cooking class in Tuscany, gondola ride, see the Colosseum at sunset, visit Pompeii..."></textarea>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">&#128181; Budget & Accommodation Style</span>
+        <span class="card-badge badge-coral">Step 3</span>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Total Trip Budget (NZD)</label>
+          <select id="budget-range">
+            <option value="">Select budget range...</option>
+            <option value="5000-8000">$5,000 - $8,000</option>
+            <option value="8000-12000">$8,000 - $12,000</option>
+            <option value="12000-18000">$12,000 - $18,000</option>
+            <option value="18000-25000">$18,000 - $25,000</option>
+            <option value="25000+">$25,000+ (go big!)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Accommodation Preference</label>
+          <select id="accommodation">
+            <option value="">Select style...</option>
+            <option value="budget">Budget (Hostels, B&Bs)</option>
+            <option value="mid">Mid-Range (3-4 star hotels, Airbnb)</option>
+            <option value="boutique">Boutique Hotels & Agriturismos</option>
+            <option value="luxury">Luxury (5-star, villas)</option>
+            <option value="mix">Mix It Up</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:1.5rem;">
+      <button class="btn btn-primary" onclick="generateItinerary()" style="font-size:1rem; padding:1rem 2.5rem;">
+        Generate My Itinerary &#10132;
+      </button>
+    </div>
+  </div>
+
+  <!-- ============ ITINERARY TAB ============ -->
+  <div id="tab-itinerary" class="tab-content">
+    <div id="itinerary-empty" style="text-align:center; padding:4rem 2rem; color:var(--text-secondary);">
+      <div style="font-size:3rem; margin-bottom:1rem;">&#128197;</div>
+      <h3 style="margin-bottom:0.5rem;">No Itinerary Yet</h3>
+      <p>Fill in your trip details on the Overview tab and hit "Generate My Itinerary"</p>
+    </div>
+    <div id="itinerary-content" style="display:none;">
+      <div class="stats-row" id="trip-stats"></div>
+      <div id="itinerary-days"></div>
+    </div>
+  </div>
+
+  <!-- ============ BUDGET TAB ============ -->
+  <div id="tab-budget" class="tab-content">
+    <div class="hero-banner" style="padding:1.5rem 2rem;">
+      <h2 style="font-size:1.4rem;">Budget Tracker</h2>
+      <p>Estimate and track your Italy trip costs in NZD. Click any amount to edit.</p>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">&#128200; Estimated Costs</span>
+        </div>
+        <table class="budget-table">
+          <thead>
+            <tr><th>Category</th><th style="text-align:right;">NZD</th></tr>
+          </thead>
+          <tbody id="budget-body">
+            <tr><td><span class="category-icon">&#9992;&#65039;</span>Flights (return)</td><td><input class="amount budget-input" value="3,500" data-category="flights" onchange="updateBudgetTotal()"></td></tr>
+            <tr><td><span class="category-icon">&#127976;</span>Accommodation</td><td><input class="amount budget-input" value="2,800" data-category="accommodation" onchange="updateBudgetTotal()"></td></tr>
+            <tr><td><span class="category-icon">&#128646;</span>Transport (trains, buses)</td><td><input class="amount budget-input" value="600" data-category="transport" onchange="updateBudgetTotal()"></td></tr>
+            <tr><td><span class="category-icon">&#127837;</span>Food & Dining</td><td><input class="amount budget-input" value="1,800" data-category="food" onchange="updateBudgetTotal()"></td></tr>
+            <tr><td><span class="category-icon">&#127915;</span>Activities & Entry Fees</td><td><input class="amount budget-input" value="800" data-category="activities" onchange="updateBudgetTotal()"></td></tr>
+            <tr><td><span class="category-icon">&#128722;</span>Shopping & Souvenirs</td><td><input class="amount budget-input" value="500" data-category="shopping" onchange="updateBudgetTotal()"></td></tr>
+            <tr><td><span class="category-icon">&#128179;</span>Travel Insurance</td><td><input class="amount budget-input" value="350" data-category="insurance" onchange="updateBudgetTotal()"></td></tr>
+            <tr><td><span class="category-icon">&#128178;</span>Miscellaneous / Buffer</td><td><input class="amount budget-input" value="500" data-category="misc" onchange="updateBudgetTotal()"></td></tr>
+          </tbody>
+        </table>
+        <div class="budget-total">
+          <span>Estimated Total</span>
+          <span class="total-amount" id="budget-total-value">$10,850</span>
+        </div>
+        <p class="edit-hint">Click any amount to edit. Figures are per-person estimates.</p>
+      </div>
+
+      <div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">&#128161; NZ to Italy Money Tips</span>
+          </div>
+          <div class="info-box">
+            <strong>Currency:</strong> Euro (EUR). As of early 2026, 1 NZD ~ 0.52 EUR. Always check xe.com before you go.<br><br>
+            <strong>Cards:</strong> Wise multi-currency card is the best option from NZ — no foreign exchange fees. Apply 4+ weeks before travel.<br><br>
+            <strong>Cash:</strong> Carry ~200 EUR for small towns and markets. Italy is more cash-friendly than you'd think.<br><br>
+            <strong>Tipping:</strong> Not expected in Italy. "Coperto" (cover charge of 1-3 EUR) is normal at restaurants — that's your tip.
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">&#128184; Budget Split Visualisation</span>
+          </div>
+          <div id="budget-chart"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ PACKING TAB ============ -->
+  <div id="tab-packing" class="tab-content">
+    <div class="hero-banner" style="padding:1.5rem 2rem;">
+      <h2 style="font-size:1.4rem;">Packing List</h2>
+      <p>Tick items off as you pack. Tailored for Italy travel.</p>
+    </div>
+
+    <div class="packing-grid">
+      <div class="card">
+        <div class="card-header"><span class="card-title">&#128090; Clothing</span></div>
+        <div id="packing-clothing">
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Comfortable walking shoes (broken in!)</span></div>
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Light layers (Italy can swing 15-30C)</span></div>
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Scarf/shawl for church visits</span></div>
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Smart casual outfit for nice dinners</span></div>
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Sandals / lighter shoes</span></div>
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Light rain jacket</span></div>
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Swimwear (if visiting coast)</span></div>
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Sunhat & sunglasses</span></div>
+        </div>
+        <div class="add-row">
+          <input type="text" placeholder="Add item..." onkeydown="if(event.key==='Enter')addPackItem(this,'packing-clothing')">
+          <button class="btn btn-sm btn-secondary" onclick="addPackItem(this.previousElementSibling,'packing-clothing')">+</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><span class="card-title">&#128187; Tech & Travel Gear</span></div>
+        <div id="packing-tech">
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">EU power adapter (Type C/F)</span></div>
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Phone + charger + cable</span></div>
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Portable battery pack</span></div>
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Camera + spare memory card</span></div>
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">E-reader / book</span></div>
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Headphones / earbuds</span></div>
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Day pack / crossbody bag</span></div>
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Packing cubes</span></div>
+        </div>
+        <div class="add-row">
+          <input type="text" placeholder="Add item..." onkeydown="if(event.key==='Enter')addPackItem(this,'packing-tech')">
+          <button class="btn btn-sm btn-secondary" onclick="addPackItem(this.previousElementSibling,'packing-tech')">+</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><span class="card-title">&#128138; Health & Toiletries</span></div>
+        <div id="packing-health">
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Prescription medications + copies</span></div>
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Sunscreen SPF 50+</span></div>
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Basic first aid / plasters</span></div>
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Hand sanitiser</span></div>
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Motion sickness tablets (coastal drives)</span></div>
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Toiletries in travel-size bottles</span></div>
+          <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Insect repellent (summer)</span></div>
+        </div>
+        <div class="add-row">
+          <input type="text" placeholder="Add item..." onkeydown="if(event.key==='Enter')addPackItem(this,'packing-health')">
+          <button class="btn btn-sm btn-secondary" onclick="addPackItem(this.previousElementSibling,'packing-health')">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ DOCUMENTS TAB ============ -->
+  <div id="tab-documents" class="tab-content">
+    <div class="hero-banner" style="padding:1.5rem 2rem;">
+      <h2 style="font-size:1.4rem;">Documents & Logistics</h2>
+      <p>Everything a New Zealander needs sorted before flying to Italy.</p>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">&#128274; Pre-Departure Checklist</span>
+          </div>
+          <div id="doc-checklist">
+            <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Passport valid for 3+ months past return</span><span class="check-note">CRITICAL</span></div>
+            <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">ETIAS travel authorisation (required from 2025)</span><span class="check-note">Apply online</span></div>
+            <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Travel insurance purchased</span><span class="check-note">Compare on 1Cover, Southern Cross</span></div>
+            <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Wise card ordered & loaded</span><span class="check-note">4 weeks lead time</span></div>
+            <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Notify bank of travel dates</span></div>
+            <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Book flights</span></div>
+            <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Book accommodation for all cities</span></div>
+            <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Pre-book key attractions (Colosseum, Uffizi, etc.)</span><span class="check-note">Sells out weeks ahead</span></div>
+            <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Download offline maps (Google Maps / Maps.me)</span></div>
+            <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Roaming sorted (Vodafone Travel Pass / local SIM plan)</span></div>
+            <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Photo copies of all documents (email to self)</span></div>
+            <div class="checklist-item" onclick="toggleCheck(this)"><input type="checkbox"><span class="check-text">Italian phrases cheat sheet saved</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">&#127758; NZ Citizen Visa Info</span>
+          </div>
+          <div class="info-box">
+            <strong>Visa-free for 90 days.</strong> NZ passport holders can travel to Italy (Schengen Area) for up to 90 days within any 180-day period without a visa.<br><br>
+            <strong>ETIAS Required.</strong> The European Travel Information and Authorisation System is now required for NZ citizens. Apply online before travel — it's EUR 7, valid for 3 years.<br><br>
+            <strong>Passport:</strong> Must be valid for at least 3 months beyond your planned departure from the Schengen area.
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">&#9992;&#65039; Flight Routes from NZ</span>
+          </div>
+          <div class="info-box">
+            <strong>No direct flights</strong> from NZ to Italy. Common routes:<br><br>
+            &#8226; <strong>Auckland &rarr; Dubai &rarr; Rome/Milan</strong> (Emirates) — ~24-26hrs<br>
+            &#8226; <strong>Auckland &rarr; Singapore &rarr; Rome/Milan</strong> (Singapore Airlines) — ~24-27hrs<br>
+            &#8226; <strong>Auckland &rarr; Doha &rarr; Rome</strong> (Qatar Airways) — ~26-28hrs<br>
+            &#8226; <strong>Auckland &rarr; Hong Kong &rarr; Rome</strong> (Cathay Pacific) — ~25-28hrs<br><br>
+            <strong>Tip:</strong> Book 3-5 months ahead for best prices. Shoulder season (April-May, Sep-Oct) flights are cheaper and Italy is glorious.
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">&#128137; Emergency Contacts</span>
+          </div>
+          <div class="warning-box">
+            <strong>NZ Embassy in Rome:</strong> +39 06 853 7501<br>
+            Via Clitunno 44, 00198 Roma<br><br>
+            <strong>Italy Emergency Number:</strong> 112 (police, fire, ambulance)<br>
+            <strong>NZ SafeTravel:</strong> Register your trip at safetravel.govt.nz
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  // Tab switching
+  function switchTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + tabId).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
+
+  // City chip toggle
+  function toggleChip(checkbox) {
+    const label = checkbox.parentElement;
+    if (checkbox.checked) {
+      label.style.background = 'var(--teal-glow)';
+      label.style.borderColor = 'var(--teal)';
+      label.style.color = 'var(--teal)';
+    } else {
+      label.style.background = 'var(--bg-secondary)';
+      label.style.borderColor = 'var(--border)';
+      label.style.color = 'var(--text-primary)';
+    }
+  }
+
+  // Checklist toggle
+  function toggleCheck(item) {
+    const cb = item.querySelector('input[type="checkbox"]');
+    cb.checked = !cb.checked;
+    item.classList.toggle('checked', cb.checked);
+  }
+
+  // Add packing item
+  function addPackItem(input, containerId) {
+    const text = input.value.trim();
+    if (!text) return;
+    const container = document.getElementById(containerId);
+    const div = document.createElement('div');
+    div.className = 'checklist-item';
+    div.onclick = function() { toggleCheck(this); };
+    div.innerHTML = '<input type="checkbox"><span class="check-text">' + text + '</span>';
+    container.appendChild(div);
+    input.value = '';
+  }
+
+  // Budget calculation
+  function updateBudgetTotal() {
+    let total = 0;
+    document.querySelectorAll('.budget-input').forEach(input => {
+      const val = parseFloat(input.value.replace(/,/g, '')) || 0;
+      total += val;
+    });
+    document.getElementById('budget-total-value').textContent = '$' + total.toLocaleString();
+    renderBudgetChart();
+  }
+
+  // Simple budget bar chart
+  function renderBudgetChart() {
+    const inputs = document.querySelectorAll('.budget-input');
+    let items = [];
+    let max = 0;
+    const labels = ['Flights', 'Accommodation', 'Transport', 'Food', 'Activities', 'Shopping', 'Insurance', 'Buffer'];
+    const colors = ['#58a6ff', '#2dd4a8', '#b392f0', '#e8b931', '#f97066', '#ff7eb3', '#3fb950', '#6e7681'];
+    inputs.forEach((inp, i) => {
+      const val = parseFloat(inp.value.replace(/,/g, '')) || 0;
+      if (val > max) max = val;
+      items.push({ label: labels[i], value: val, color: colors[i] });
+    });
+    let html = '';
+    items.forEach(item => {
+      const pct = max > 0 ? (item.value / max * 100) : 0;
+      html += '<div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.6rem;">' +
+        '<span style="font-size:0.78rem;color:var(--text-secondary);min-width:90px;text-align:right;">' + item.label + '</span>' +
+        '<div style="flex:1;height:18px;background:var(--bg-secondary);border-radius:4px;overflow:hidden;">' +
+        '<div style="width:' + pct + '%;height:100%;background:' + item.color + ';border-radius:4px;transition:width 0.4s;"></div></div>' +
+        '<span style="font-size:0.78rem;font-weight:600;min-width:60px;text-align:right;color:var(--text-primary);">$' + item.value.toLocaleString() + '</span></div>';
+    });
+    document.getElementById('budget-chart').innerHTML = html;
+  }
+
+  // Generate itinerary from form data
+  function generateItinerary() {
+    const cities = [];
+    document.querySelectorAll('.city-check:checked').forEach(c => cities.push(c.value));
+    const departDate = document.getElementById('depart-date').value;
+    const returnDate = document.getElementById('return-date').value;
+    const vibe = document.getElementById('trip-vibe').value;
+
+    if (cities.length === 0) {
+      alert('Please select at least one city to visit!');
+      return;
+    }
+
+    let totalDays = 14;
+    if (departDate && returnDate) {
+      const d1 = new Date(departDate);
+      const d2 = new Date(returnDate);
+      totalDays = Math.max(1, Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24)));
+    }
+
+    // Build stats
+    const statsHtml = `
+      <div class="stat-card"><div class="stat-value">${totalDays}</div><div class="stat-label">Total Days</div></div>
+      <div class="stat-card"><div class="stat-value">${cities.length}</div><div class="stat-label">Cities</div></div>
+      <div class="stat-card"><div class="stat-value">${departDate ? new Date(departDate).toLocaleDateString('en-NZ', {day:'numeric',month:'short'}) : 'TBC'}</div><div class="stat-label">Departs</div></div>
+      <div class="stat-card"><div class="stat-value">${returnDate ? new Date(returnDate).toLocaleDateString('en-NZ', {day:'numeric',month:'short'}) : 'TBC'}</div><div class="stat-label">Returns</div></div>
+    `;
+    document.getElementById('trip-stats').innerHTML = statsHtml;
+
+    // Distribute days across cities
+    const daysPerCity = Math.max(1, Math.floor((totalDays - 2) / cities.length)); // -2 for travel days
+    const cityData = getCityActivities(vibe);
+
+    let daysHtml = '';
+    let dayNum = 1;
+
+    // Day 1: Travel
+    daysHtml += buildDayCard(dayNum, 'Travel Day', 'NZ to Italy', [
+      { time: '', title: 'Depart New Zealand', desc: 'Long-haul flight with one stopover. Rest up — the adventure begins!', tag: 'transport' },
+      { time: '', title: 'In-flight', desc: 'Set your watch to Italian time. Try to sleep on the second leg.', tag: 'transport' }
+    ]);
+    dayNum++;
+
+    // City days
+    cities.forEach((city, ci) => {
+      for (let d = 0; d < daysPerCity && dayNum <= totalDays - 1; d++) {
+        const activities = cityData[city] || cityData['default'];
+        const dayActivities = activities[d % activities.length];
+        daysHtml += buildDayCard(dayNum, d === 0 ? `Arrive in ${city}` : `${city} — Day ${d + 1}`, city, dayActivities);
+        dayNum++;
+      }
+    });
+
+    // Last day: Travel home
+    if (dayNum <= totalDays) {
+      daysHtml += buildDayCard(dayNum, 'Travel Home', 'Italy to NZ', [
+        { time: 'AM', title: 'Last morning in Italy', desc: 'Final espresso, pick up last-minute gifts, head to airport.', tag: 'activity' },
+        { time: 'PM', title: 'Depart for New Zealand', desc: 'Arrivederci, Italia! You\'ll be home tomorrow.', tag: 'transport' }
+      ]);
+    }
+
+    document.getElementById('itinerary-days').innerHTML = daysHtml;
+    document.getElementById('itinerary-empty').style.display = 'none';
+    document.getElementById('itinerary-content').style.display = 'block';
+
+    // Switch to itinerary tab
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-itinerary').classList.add('active');
+    document.querySelectorAll('.tab-btn')[1].classList.add('active');
+  }
+
+  function buildDayCard(num, title, location, activities) {
+    let actHtml = '';
+    activities.forEach(a => {
+      actHtml += `<div class="activity">
+        <span class="activity-time">${a.time}</span>
+        <div class="activity-content">
+          <h4>${a.title}</h4>
+          <p>${a.desc}</p>
+          <span class="activity-tag tag-${a.tag}">${a.tag}</span>
+        </div>
+      </div>`;
+    });
+    return `<div class="day-card">
+      <div class="day-header" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
+        <h3><span class="day-num">${num}</span>${title}</h3>
+        <span class="day-location">${location}</span>
+      </div>
+      <div class="day-body">${actHtml}</div>
+    </div>`;
+  }
+
+  function getCityActivities(vibe) {
+    return {
+      'Rome': [
+        [
+          { time: 'AM', title: 'Colosseum & Roman Forum', desc: 'Pre-book timed entry. Allow 3 hours for the full experience.', tag: 'culture' },
+          { time: 'PM', title: 'Trastevere neighbourhood walk', desc: 'Cobblestone streets, street art, and the best trattorias in Rome.', tag: 'activity' },
+          { time: 'Eve', title: 'Dinner in Trastevere', desc: 'Try cacio e pepe and supplì at a local osteria.', tag: 'food' }
+        ],
+        [
+          { time: 'AM', title: 'Vatican Museums & Sistine Chapel', desc: 'Book first-entry tickets to beat the crowds. The Raphael Rooms are a must.', tag: 'culture' },
+          { time: 'PM', title: 'St Peter\'s Basilica & Piazza', desc: 'Climb the dome for a panoramic view of Rome. Free entry.', tag: 'culture' },
+          { time: 'Eve', title: 'Trevi Fountain & Spanish Steps at dusk', desc: 'Throw a coin, then gelato at Fatamorgana.', tag: 'activity' }
+        ],
+        [
+          { time: 'AM', title: 'Pantheon & Piazza Navona', desc: 'Free entry to the Pantheon. Grab a coffee at Sant\'Eustachio nearby.', tag: 'culture' },
+          { time: 'PM', title: 'Borghese Gallery', desc: 'Bernini\'s sculptures are life-changing. Pre-booking essential.', tag: 'culture' },
+          { time: 'Eve', title: 'Aperitivo hour', desc: 'Negroni sbagliato and free snacks — the Italian way to start an evening.', tag: 'food' }
+        ]
+      ],
+      'Florence': [
+        [
+          { time: 'AM', title: 'Uffizi Gallery', desc: 'Botticelli\'s Birth of Venus, Caravaggio, and more. Book ahead.', tag: 'culture' },
+          { time: 'PM', title: 'Ponte Vecchio & Oltrarno', desc: 'Cross the famous bridge and explore the artisan quarter.', tag: 'activity' },
+          { time: 'Eve', title: 'Florentine steak dinner', desc: 'Bistecca alla fiorentina — shared for two, rare, and unforgettable.', tag: 'food' }
+        ],
+        [
+          { time: 'AM', title: 'Duomo & Brunelleschi\'s Dome', desc: 'Climb 463 steps for the best view in Florence. Book a climb slot.', tag: 'culture' },
+          { time: 'PM', title: 'San Lorenzo Market & Food Tour', desc: 'Leather goods, truffle pasta, lampredotto — Florence street food at its best.', tag: 'food' },
+          { time: 'Eve', title: 'Piazzale Michelangelo sunset', desc: 'Walk or taxi up for the iconic panoramic view. Bring a bottle of Chianti.', tag: 'activity' }
+        ]
+      ],
+      'Venice': [
+        [
+          { time: 'AM', title: 'St Mark\'s Basilica & Doge\'s Palace', desc: 'Golden mosaics and secret passages. Skip-the-line tickets recommended.', tag: 'culture' },
+          { time: 'PM', title: 'Get lost in Venice', desc: 'Seriously — put the map away and wander. Every turn is a painting.', tag: 'activity' },
+          { time: 'Eve', title: 'Cicchetti crawl in Cannaregio', desc: 'Venice\'s answer to tapas. Small bites, big spritz, local bacari bars.', tag: 'food' }
+        ],
+        [
+          { time: 'AM', title: 'Murano & Burano day trip', desc: 'Vaporetto to the glass-blowing island, then the candy-coloured fishing village.', tag: 'activity' },
+          { time: 'PM', title: 'Rialto Market', desc: 'Fresh seafood, produce, and the real working Venice.', tag: 'food' },
+          { time: 'Eve', title: 'Gondola ride at sunset', desc: 'Classic and worth it. Negotiate the price beforehand (~EUR 80).', tag: 'activity' }
+        ]
+      ],
+      'Amalfi Coast': [
+        [
+          { time: 'AM', title: 'Path of the Gods hike', desc: 'Stunning coastal trail from Bomerano to Positano. 2-3 hours, moderate.', tag: 'activity' },
+          { time: 'PM', title: 'Positano beach & town', desc: 'Cascade of colourful houses, boutique shopping, limoncello tasting.', tag: 'activity' },
+          { time: 'Eve', title: 'Seafood dinner overlooking the sea', desc: 'Fresh catch with local white wine. Book a terrace table.', tag: 'food' }
+        ],
+        [
+          { time: 'AM', title: 'Ravello — Villa Rufolo gardens', desc: 'Peaceful hilltop town with jaw-dropping views and incredible gardens.', tag: 'culture' },
+          { time: 'PM', title: 'Amalfi town & cathedral', desc: 'Visit the stunning cathedral and try sfogliatelle from a local bakery.', tag: 'culture' },
+          { time: 'Eve', title: 'Lemon grove tour', desc: 'See where limoncello is made and taste the real deal.', tag: 'food' }
+        ]
+      ],
+      'Milan': [
+        [
+          { time: 'AM', title: 'Duomo di Milano', desc: 'Gothic cathedral with rooftop terraces. The view is worth the climb.', tag: 'culture' },
+          { time: 'PM', title: 'The Last Supper', desc: 'Da Vinci\'s masterpiece. Must book 2+ months ahead. Only 15 min inside.', tag: 'culture' },
+          { time: 'Eve', title: 'Navigli district for aperitivo', desc: 'Canal-side bars, live music, and Milan\'s coolest neighbourhood.', tag: 'food' }
+        ]
+      ],
+      'Cinque Terre': [
+        [
+          { time: 'AM', title: 'Hike between the five villages', desc: 'Trail from Monterosso to Vernazza is the most scenic. Allow 2 hours.', tag: 'activity' },
+          { time: 'PM', title: 'Swim & seafood in Vernazza', desc: 'Dip in the harbour, then fresh pesto trofie at a harbourside trattoria.', tag: 'food' },
+          { time: 'Eve', title: 'Sunset from Manarola', desc: 'The most photographed village. Wine from the terrace at Nessun Dorma.', tag: 'activity' }
+        ]
+      ],
+      'Naples': [
+        [
+          { time: 'AM', title: 'Pompeii day trip', desc: 'Ancient city frozen in time. Hire a guide for the best experience.', tag: 'culture' },
+          { time: 'PM', title: 'Naples historic centre (UNESCO)', desc: 'Raw, chaotic, beautiful. This is the real Italy.', tag: 'activity' },
+          { time: 'Eve', title: 'Original Neapolitan pizza', desc: 'L\'Antica Pizzeria da Michele or Sorbillo. Accept no substitutes.', tag: 'food' }
+        ]
+      ],
+      'Sicily': [
+        [
+          { time: 'AM', title: 'Valley of the Temples, Agrigento', desc: 'Greek ruins older than the Colosseum. Best at sunrise or late afternoon.', tag: 'culture' },
+          { time: 'PM', title: 'Palermo street food tour', desc: 'Arancini, panelle, cannoli — Palermo is Italy\'s street food capital.', tag: 'food' },
+          { time: 'Eve', title: 'Beach sunset', desc: 'Sicily has stunning beaches. San Vito Lo Capo is unforgettable.', tag: 'activity' }
+        ]
+      ],
+      'Tuscany': [
+        [
+          { time: 'AM', title: 'Tuscan cooking class', desc: 'Learn to make fresh pasta and ragù at an agriturismo.', tag: 'food' },
+          { time: 'PM', title: 'Chianti wine tasting', desc: 'Visit 2-3 estates in the rolling hills. Arrange a driver.', tag: 'food' },
+          { time: 'Eve', title: 'Dinner at the farmhouse', desc: 'Eat what you cooked, drink what you tasted. Perfetto.', tag: 'food' }
+        ]
+      ],
+      'Lake Como': [
+        [
+          { time: 'AM', title: 'Villa del Balbianello', desc: 'Stunning lakeside villa (Star Wars was filmed here). Arrive by boat.', tag: 'culture' },
+          { time: 'PM', title: 'Bellagio — Pearl of the Lake', desc: 'Wander the cobblestone lanes, gardens, and gelaterias.', tag: 'activity' },
+          { time: 'Eve', title: 'Lakeside dinner', desc: 'Risotto and lake fish with a view of the Alps. Doesn\'t get better.', tag: 'food' }
+        ]
+      ],
+      'default': [
+        [
+          { time: 'AM', title: 'Explore the local centre', desc: 'Every Italian town has treasures. Start at the main piazza.', tag: 'activity' },
+          { time: 'PM', title: 'Local museum or gallery', desc: 'Ask your hotel for recommendations.', tag: 'culture' },
+          { time: 'Eve', title: 'Dinner at a recommended trattoria', desc: 'Always ask locals — not TripAdvisor — for the best spot.', tag: 'food' }
+        ]
+      ]
+    };
+  }
+
+  // Init
+  updateBudgetTotal();
+</script>
+</body>
+</html>

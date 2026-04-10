@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="mi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Te Reo Māori & Tikanga — Quick Reference | Assembl</title>
+    <style>
+        :root {
+            --bg-primary: #0D1117;
+            --bg-secondary: #161B22;
+            --bg-card: #1C2333;
+            --bg-card-hover: #222D3F;
+            --pounamu: #3A7D6E;
+            --pounamu-light: #4A9D8A;
+            --pounamu-glow: rgba(58, 125, 110, 0.15);
+            --dawn-gold: #D4A843;
+            --dawn-gold-light: #E8C76A;
+            --dawn-gold-glow: rgba(212, 168, 67, 0.12);
+            --text-primary: #E6EDF3;
+            --text-secondary: #8B949E;
+            --text-muted: #6E7681;
+            --border: #30363D;
+            --warning: #D29922;
+            --warning-bg: rgba(210, 153, 34, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, #1A2332 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 2rem 2rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--pounamu), var(--dawn-gold), var(--pounamu));
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .brand-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .brand-mark {
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, var(--pounamu), var(--pounamu-light));
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 1.1rem; color: #fff;
+        }
+
+        .brand-name {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-top: 0.5rem;
+        }
+
+        .header h1 span { color: var(--pounamu-light); }
+
+        .header-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
+        }
+
+        .disclaimer-bar {
+            background: var(--warning-bg);
+            border: 1px solid rgba(210, 153, 34, 0.3);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--dawn-gold-light);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .disclaimer-bar .icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+
+        /* Navigation */
+        .nav {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.85rem 1.25rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover { color: var(--text-primary); background: var(--pounamu-glow); }
+        .nav-btn.active {
+            color: var(--pounamu-light);
+            border-bottom-color: var(--pounamu);
+        }
+
+        /* Main content */
+        .main { max-width: 1200px; margin: 0 auto; padding: 1.5rem 2rem 4rem; }
+
+        .section { display: none; }
+        .section.active { display: block; }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.25rem;
+            transition: all 0.2s;
+        }
+
+        .card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--pounamu);
+            box-shadow: 0 0 20px var(--pounamu-glow);
+        }
+
+        .card-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--pounamu-light);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card .te-reo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .card .english {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .card .context {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .card .pronunciation {
+            color: var(--dawn-gold);
+            font-size: 0.8rem;
+            font-style: italic;
+            margin-top: 0.25rem;
+        }
+
+        /* Section headers */
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Tables */
+        .ref-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .ref-table th {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            background: var(--bg-card);
+            color: var(--pounamu-light);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--pounamu);
+        }
+
+        .ref-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        .ref-table tr:hover td { background: var(--pounamu-glow); }
+
+        .ref-table .te-reo-cell { font-weight: 600; color: var(--text-primary); }
+        .ref-table .gold { color: var(--dawn-gold); }
+
+        /* Pou cards */
+        .pou-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .pou-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border-top: 3px solid var(--pounamu);
+            transition: all 0.2s;
+        }
+
+        .pou-card:nth-child(2) { border-top-color: var(--dawn-gold); }
+        .pou-card:nth-child(3) { border-top-color: #7C6FD4; }
+        .pou-card:nth-child(4) { border-top-color: #D46F6F; }
+
+        .pou-card:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+
+        .pou-card h3 { font-size: 1.15rem; margin-bottom: 0.15rem; }
+        .pou-card .pou-english {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 0.75rem;
+        }
+        .pou-card p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+
+        /* Protocol steps */
+        .protocol-steps {
+            margin-top: 1rem;
+            counter-reset: step;
+        }
+
+        .step {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.25rem 1.25rem 1.25rem 3.5rem;
+            margin-bottom: 0.75rem;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .step:hover { border-color: var(--pounamu); }
+
+        .step::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 1.25rem;
+            top: 1.25rem;
+            width: 1.5rem; height: 1.5rem;
+            background: var(--pounamu);
+            color: #fff;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; font-weight: 700;
+        }
+
+        .step h4 { font-size: 1rem; margin-bottom: 0.15rem; }
+        .step .step-desc { color: var(--text-secondary); font-size: 0.85rem; }
+
+        /* Macron reference */
+        .macron-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .macron-pair {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .macron-pair .wrong {
+            color: #F85149;
+            font-size: 1rem;
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+
+        .macron-pair .right {
+            color: var(--pounamu-light);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-top: 0.15rem;
+        }
+
+        .macron-pair .meaning {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            margin-top: 0.35rem;
+        }
+
+        /* Data sovereignty */
+        .principle-card {
+            background: var(--bg-card);
+            border-left: 3px solid var(--dawn-gold);
+            border-radius: 0 8px 8px 0;
+            padding: 1rem 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .principle-card h4 { color: var(--dawn-gold-light); font-size: 0.95rem; }
+        .principle-card p { color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.25rem; }
+
+        /* Search */
+        .search-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            width: 100%;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-box:focus { border-color: var(--pounamu); }
+        .search-box::placeholder { color: var(--text-muted); }
+
+        /* Mead's Five Tests */
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .test-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .test-card .test-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dawn-gold);
+        }
+
+        .test-card .test-english {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.15rem;
+        }
+
+        .test-card .test-question {
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            margin-top: 0.75rem;
+            font-style: italic;
+        }
+
+        /* Footer */
+        .footer {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        .footer a { color: var(--pounamu-light); text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header { padding: 1.5rem 1rem 1rem; }
+            .main { padding: 1rem; }
+            .card-grid, .pou-grid { grid-template-columns: 1fr; }
+            .header h1 { font-size: 1.35rem; }
+            .nav-btn { padding: 0.75rem 1rem; font-size: 0.8rem; }
+        }
+
+        /* Print styles */
+        @media print {
+            .nav { display: none; }
+            .section { display: block !important; page-break-inside: avoid; }
+            body { background: #fff; color: #000; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-content">
+        <div class="brand-row">
+            <div class="brand-mark">A</div>
+            <div class="brand-name">Assembl</div>
+        </div>
+        <h1>Te Reo Māori & <span>Tikanga</span> — Quick Reference</h1>
+        <p class="header-subtitle">Business te reo, cultural protocols, and pronunciation guide</p>
+        <div class="disclaimer-bar">
+            <span class="icon">&#9888;</span>
+            <span><strong>Support tool only.</strong> This reference does not replace reo speakers, kaumātua, or mātanga tikanga. All te reo content should be verified by a competent reo speaker before professional use. Sources: Te Aka Dictionary, Te Taura Whiri i te Reo Māori.</span>
+        </div>
+    </div>
+</header>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <button class="nav-btn active" data-tab="greetings">Greetings</button>
+        <button class="nav-btn" data-tab="meetings">Meetings</button>
+        <button class="nav-btn" data-tab="tikanga">Tikanga Pou</button>
+        <button class="nav-btn" data-tab="pronunciation">Pronunciation</button>
+        <button class="nav-btn" data-tab="macrons">Macrons</button>
+        <button class="nav-btn" data-tab="whakataukī">Whakataukī</button>
+        <button class="nav-btn" data-tab="marae">Marae Protocol</button>
+        <button class="nav-btn" data-tab="sovereignty">Data Sovereignty</button>
+    </div>
+</nav>
+
+<main class="main">
+
+    <!-- GREETINGS -->
+    <div class="section active" id="greetings">
+        <h2 class="section-title">Greetings & Farewells</h2>
+        <p class="section-desc">Common phrases for everyday and business use. Start here.</p>
+        <input type="text" class="search-box" placeholder="Search greetings..." oninput="filterCards(this, 'greetings')">
+        <div class="card-grid" data-filter="greetings">
+            <div class="card" data-search="kia ora hello thank you">
+                <div class="card-label">Universal Greeting</div>
+                <div class="te-reo">Kia ora</div>
+                <div class="pronunciation">"kee-ah oh-rah"</div>
+                <div class="english">Hello / Thank you / Be well</div>
+                <div class="context">Always appropriate. The most versatile greeting in te reo Māori.</div>
+            </div>
+            <div class="card" data-search="mōrena good morning">
+                <div class="card-label">Morning</div>
+                <div class="te-reo">Mōrena</div>
+                <div class="pronunciation">"maw-reh-nah"</div>
+                <div class="english">Good morning</div>
+                <div class="context">Use before noon. A warm, casual greeting.</div>
+            </div>
+            <div class="card" data-search="tēnā koe formal acknowledge respect">
+                <div class="card-label">Formal — 1 person</div>
+                <div class="te-reo">Tēnā koe</div>
+                <div class="pronunciation">"teh-nah koh-eh"</div>
+                <div class="english">I acknowledge you (singular)</div>
+                <div class="context">Formal/respectful. Ideal for meeting openings, business correspondence.</div>
+            </div>
+            <div class="card" data-search="tēnā kōrua two people formal">
+                <div class="card-label">Formal — 2 people</div>
+                <div class="te-reo">Tēnā kōrua</div>
+                <div class="pronunciation">"teh-nah kaw-roo-ah"</div>
+                <div class="english">I acknowledge you two</div>
+                <div class="context">Formal, addressing exactly two people.</div>
+            </div>
+            <div class="card" data-search="tēnā koutou group formal everyone">
+                <div class="card-label">Formal — Group</div>
+                <div class="te-reo">Tēnā koutou</div>
+                <div class="pronunciation">"teh-nah koh-toh"</div>
+                <div class="english">I acknowledge you all (3+)</div>
+                <div class="context">Formal, addressing a group. Great for meeting and email openings.</div>
+            </div>
+            <div class="card" data-search="kia ora koutou group casual hello everyone">
+                <div class="card-label">Casual — Group</div>
+                <div class="te-reo">Kia ora koutou</div>
+                <div class="pronunciation">"kee-ah oh-rah koh-toh"</div>
+                <div class="english">Hello everyone (3+)</div>
+                <div class="context">Warm, friendly. Perfect for team meetings, all-hands.</div>
+            </div>
+            <div class="card" data-search="nau mai haere mai welcome">
+                <div class="card-label">Welcome</div>
+                <div class="te-reo">Nau mai, haere mai</div>
+                <div class="pronunciation">"now my, ha-eh-reh my"</div>
+                <div class="english">Welcome (come here, come forward)</div>
+                <div class="context">Welcoming someone to a place, event, or meeting.</div>
+            </div>
+            <div class="card" data-search="ka kite anō see you again goodbye casual">
+                <div class="card-label">Casual Farewell</div>
+                <div class="te-reo">Ka kite anō</div>
+                <div class="pronunciation">"kah kee-teh ah-naw"</div>
+                <div class="english">See you again</div>
+                <div class="context">Casual, warm. Good for ending meetings or emails.</div>
+            </div>
+            <div class="card" data-search="mā te wā until next time farewell">
+                <div class="card-label">Warm Farewell</div>
+                <div class="te-reo">Mā te wā</div>
+                <div class="pronunciation">"mah teh wah"</div>
+                <div class="english">Until next time / See you later</div>
+                <div class="context">Casual, warm. A popular sign-off.</div>
+            </div>
+            <div class="card" data-search="haere rā go well farewell formal leaving">
+                <div class="card-label">Formal Farewell — to person leaving</div>
+                <div class="te-reo">Haere rā</div>
+                <div class="pronunciation">"ha-eh-reh rah"</div>
+                <div class="english">Go well</div>
+                <div class="context">Said to the person who is leaving. You are staying.</div>
+            </div>
+            <div class="card" data-search="e noho rā stay well farewell formal staying">
+                <div class="card-label">Formal Farewell — to person staying</div>
+                <div class="te-reo">E noho rā</div>
+                <div class="pronunciation">"eh noh-hoh rah"</div>
+                <div class="english">Stay well</div>
+                <div class="context">Said to the person who is staying. You are leaving.</div>
+            </div>
+            <div class="card" data-search="ngā mihi nui many thanks formal thank you">
+                <div class="card-label">Formal Thanks</div>
+                <div class="te-reo">Ngā mihi nui</div>
+                <div class="pronunciation">"ngah mee-hee noo-ee"</div>
+                <div class="english">Many thanks / Best regards</div>
+                <div class="context">Great email sign-off. More formal than "Kia ora".</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MEETINGS -->
+    <div class="section" id="meetings">
+        <h2 class="section-title">Meeting Phrases</h2>
+        <p class="section-desc">Practical te reo for running and participating in meetings.</p>
+        <div class="ref-table-wrapper" style="overflow-x:auto;">
+            <table class="ref-table">
+                <thead>
+                    <tr>
+                        <th>Te Reo Māori</th>
+                        <th>English</th>
+                        <th>When to use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="te-reo-cell">Ka tīmata tātou</td>
+                        <td>Let's begin (all of us)</td>
+                        <td>Opening a meeting (inclusive)</td>
+                    </tr>
+                    <tr>
+                        <td class="te-reo-cell">He aha ō whakaaro?</td>
+                        <td>What are your thoughts?</td>
+                        <td>Inviting input from someone</td>
+                    </tr>
+                    <tr>
+                        <td class="te-reo-cell">Ka pai</td>
+                        <td>Good / That's good</td>
+                        <td>Agreement, approval</td>
+                    </tr>
+                    <tr>
+                        <td class="te-reo-cell">Kei te pai</td>
+                        <td>It's good / I'm good</td>
+                        <td>Status check response</td>
+                    </tr>
+                    <tr>
+                        <td class="te-reo-cell">Āe</td>
+                        <td>Yes</td>
+                        <td>Agreement</td>
+                    </tr>
+                    <tr>
+                        <td class="te-reo-cell">Kāo</td>
+                        <td>No</td>
+                        <td>Disagreement</td>
+                    </tr>
+                    <tr>
+                        <td class="te-reo-cell">Me whakaaro anō tātou</td>
+                        <td>Let's reconsider / think again</td>
+                        <td>Suggesting further discussion</td>
+                    </tr>
+                    <tr>
+                        <td class="te-reo-cell">Tēnā, ka nui te mihi</td>
+                        <td>Thank you very much</td>
+                        <td>Expressing gratitude formally</td>
+                    </tr>
+                    <tr>
+                        <td class="te-reo-cell">Ka mutu tēnei hui</td>
+                        <td>This meeting is finished</td>
+                        <td>Closing a meeting</td>
+                    </tr>
+                    <tr>
+                        <td class="te-reo-cell">Tēnā koutou katoa</td>
+                        <td>Greetings to you all</td>
+                        <td>Formal opening address</td>
+                    </tr>
+                    <tr>
+                        <td class="te-reo-cell">Ko wai tō ingoa?</td>
+                        <td>What is your name?</td>
+                        <td>Introductions</td>
+                    </tr>
+                    <tr>
+                        <td class="te-reo-cell">Ko [ingoa] tōku ingoa</td>
+                        <td>My name is [name]</td>
+                        <td>Introducing yourself</td>
+                    </tr>
+                    <tr>
+                        <td class="te-reo-cell">Kia kaha</td>
+                        <td>Be strong / Stay strong</td>
+                        <td>Encouragement</td>
+                    </tr>
+                    <tr>
+                        <td class="te-reo-cell">Mauri ora</td>
+                        <td>Life force / Wellbeing to you</td>
+                        <td>Closing encouragement, email sign-off</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="disclaimer-bar" style="margin-top: 1.5rem;">
+            <span class="icon">&#9888;</span>
+            <span><strong>Karakia note:</strong> Opening and closing karakia should be sourced from your organisation's Māori advisor or local kaumātua. Do not use AI-generated karakia.</span>
+        </div>
+    </div>
+
+    <!-- TIKANGA POU -->
+    <div class="section" id="tikanga">
+        <h2 class="section-title">The Four Pou</h2>
+        <p class="section-desc">Assembl's governance pillars — every decision flows through these.</p>
+        <div class="pou-grid">
+            <div class="pou-card">
+                <h3>Rangatiratanga</h3>
+                <div class="pou-english">Self-determination / Leadership</div>
+                <p>Assembl navigates, it does not dictate. All guidance empowers the user to make their own informed decisions. Never remove agency — the user is the decision-maker.</p>
+            </div>
+            <div class="pou-card">
+                <h3>Kaitiakitanga</h3>
+                <div class="pou-english">Guardianship / Stewardship</div>
+                <p>Treat all data, resources, and relationships as taonga to be protected for the long term. Apply an intergenerational lens — does this serve people 25-100 years from now?</p>
+            </div>
+            <div class="pou-card">
+                <h3>Manaakitanga</h3>
+                <div class="pou-english">Care / Hospitality</div>
+                <p>Success is measured by how effectively Assembl uplifts users, partners, and community. Content must be helpful, warm, and respectful — never dismissive.</p>
+            </div>
+            <div class="pou-card">
+                <h3>Whanaungatanga</h3>
+                <div class="pou-english">Relationships / Connection</div>
+                <p>No business exists in isolation. Content should recognise the interconnectedness of businesses, communities, and whānau. Build genuine relationships.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRONUNCIATION -->
+    <div class="section" id="pronunciation">
+        <h2 class="section-title">Pronunciation Guide</h2>
+        <p class="section-desc">Vowels are the backbone of te reo Māori. Get these right and you're most of the way there.</p>
+
+        <h3 style="margin-top:1.5rem; font-size:1rem; color: var(--pounamu-light);">Vowels (Oropuare)</h3>
+        <table class="ref-table">
+            <thead><tr><th>Letter</th><th>Sound</th><th>Like...</th><th>With macron</th></tr></thead>
+            <tbody>
+                <tr><td class="te-reo-cell">a</td><td>ah</td><td>"c<strong>a</strong>r"</td><td class="gold">ā = longer "ah" ("f<strong>a</strong>ther")</td></tr>
+                <tr><td class="te-reo-cell">e</td><td>eh</td><td>"b<strong>e</strong>d"</td><td class="gold">ē = longer "eh"</td></tr>
+                <tr><td class="te-reo-cell">i</td><td>ee</td><td>"s<strong>ee</strong>"</td><td class="gold">ī = longer "ee"</td></tr>
+                <tr><td class="te-reo-cell">o</td><td>or</td><td>"<strong>or</strong>" (shorter)</td><td class="gold">ō = longer "or"</td></tr>
+                <tr><td class="te-reo-cell">u</td><td>oo</td><td>"z<strong>oo</strong>"</td><td class="gold">ū = longer "oo"</td></tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top:2rem; font-size:1rem; color: var(--pounamu-light);">Consonants & Digraphs</h3>
+        <table class="ref-table">
+            <thead><tr><th>Letter(s)</th><th>Sound</th><th>Note</th></tr></thead>
+            <tbody>
+                <tr><td class="te-reo-cell">wh</td><td>"f"</td><td>Most dialects. Some iwi use "w" (e.g. Whanganui).</td></tr>
+                <tr><td class="te-reo-cell">ng</td><td>"ng" as in "si<strong>ng</strong>"</td><td>Not like "fi<strong>ng</strong>er" — the ng is one sound.</td></tr>
+                <tr><td class="te-reo-cell">r</td><td>soft rolled "r"</td><td>Closer to a soft "d". Tongue taps the roof of the mouth.</td></tr>
+                <tr><td class="te-reo-cell">t</td><td>"t"</td><td>Before "i" and "u" it can sound slightly like "ch" in some dialects.</td></tr>
+                <tr><td class="te-reo-cell">h, k, m, n, p, w</td><td>Similar to English</td><td>Generally softer than English equivalents.</td></tr>
+            </tbody>
+        </table>
+
+        <div class="disclaimer-bar" style="margin-top: 1.5rem;">
+            <span class="icon">&#128161;</span>
+            <span><strong>Key rule:</strong> Every syllable in te reo ends in a vowel. There are no consonant clusters. Every letter is pronounced. Stress usually falls on the first syllable (unless there's a long vowel elsewhere).</span>
+        </div>
+    </div>
+
+    <!-- MACRONS -->
+    <div class="section" id="macrons">
+        <h2 class="section-title">Macrons Matter</h2>
+        <p class="section-desc">Macrons (tohutō) change meaning. They are never optional decoration.</p>
+        <div class="macron-grid">
+            <div class="macron-pair">
+                <div class="wrong">Maori</div>
+                <div class="right">Māori</div>
+                <div class="meaning">The people / indigenous NZ</div>
+            </div>
+            <div class="macron-pair">
+                <div class="wrong">whanau</div>
+                <div class="right">whānau</div>
+                <div class="meaning">Family / extended family</div>
+            </div>
+            <div class="macron-pair">
+                <div class="wrong">hapu</div>
+                <div class="right">hapū</div>
+                <div class="meaning">Sub-tribe / pregnant</div>
+            </div>
+            <div class="macron-pair">
+                <div class="wrong">Tamaki Makaurau</div>
+                <div class="right">Tāmaki Makaurau</div>
+                <div class="meaning">Auckland</div>
+            </div>
+            <div class="macron-pair">
+                <div class="wrong">matauranga</div>
+                <div class="right">mātauranga</div>
+                <div class="meaning">Knowledge / wisdom</div>
+            </div>
+            <div class="macron-pair">
+                <div class="wrong">wananga</div>
+                <div class="right">wānanga</div>
+                <div class="meaning">Seminar / learning forum</div>
+            </div>
+            <div class="macron-pair">
+                <div class="wrong">kawanatanga</div>
+                <div class="right">kāwanatanga</div>
+                <div class="meaning">Governance</div>
+            </div>
+            <div class="macron-pair">
+                <div class="wrong">kaumatua</div>
+                <div class="right">kaumātua</div>
+                <div class="meaning">Elder(s)</div>
+            </div>
+            <div class="macron-pair">
+                <div class="wrong">Otautahi</div>
+                <div class="right">Ōtautahi</div>
+                <div class="meaning">Christchurch</div>
+            </div>
+            <div class="macron-pair">
+                <div class="wrong">powhiri</div>
+                <div class="right">pōwhiri</div>
+                <div class="meaning">Formal welcome ceremony</div>
+            </div>
+            <div class="macron-pair">
+                <div class="wrong">whakatauaki</div>
+                <div class="right">whakataukī</div>
+                <div class="meaning">Proverb (general)</div>
+            </div>
+            <div class="macron-pair">
+                <div class="wrong">Poneke</div>
+                <div class="right">Pōneke</div>
+                <div class="meaning">Wellington (informal)</div>
+            </div>
+        </div>
+        <div class="disclaimer-bar" style="margin-top: 1.5rem;">
+            <span class="icon">&#128161;</span>
+            <span><strong>How to type macrons:</strong> On Mac, enable Māori keyboard (System Settings → Keyboard → Input Sources → add "Māori"). Hold the vowel key for the macron option. On Windows, use the Māori keyboard layout or hold Alt and type the character code.</span>
+        </div>
+    </div>
+
+    <!-- WHAKATAUKĪ -->
+    <div class="section" id="whakataukī">
+        <h2 class="section-title">Whakataukī (Proverbs)</h2>
+        <p class="section-desc">Use with genuine understanding, not as decoration. Each carries deep meaning.</p>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-label">Teamwork</div>
+                <div class="te-reo" style="font-size:1.05rem;">Ehara taku toa i te toa takitahi, engari he toa takitini</div>
+                <div class="english" style="margin-top:0.5rem;">My strength is not that of one, but that of many</div>
+                <div class="context">Collaboration, team achievements, acknowledging collective effort.</div>
+            </div>
+            <div class="card">
+                <div class="card-label">Ambition</div>
+                <div class="te-reo" style="font-size:1.05rem;">Whāia te iti kahurangi; ki te tūohu koe, me he maunga teitei</div>
+                <div class="english" style="margin-top:0.5rem;">Seek the treasure you value most; if you bow your head, let it be to a lofty mountain</div>
+                <div class="context">High standards, aspiration, pursuing excellence.</div>
+            </div>
+            <div class="card">
+                <div class="card-label">People first</div>
+                <div class="te-reo" style="font-size:1.05rem;">He aha te mea nui o te ao? He tāngata, he tāngata, he tāngata</div>
+                <div class="english" style="margin-top:0.5rem;">What is the greatest thing in the world? It is people, it is people, it is people</div>
+                <div class="context">People-centred business, leadership values, community focus.</div>
+            </div>
+            <div class="card">
+                <div class="card-label">Partnership</div>
+                <div class="te-reo" style="font-size:1.05rem;">Mā whero, mā pango, ka oti ai te mahi</div>
+                <div class="english" style="margin-top:0.5rem;">With red and black, the work will be complete</div>
+                <div class="context">Diverse skills, partnership, different perspectives completing the picture.</div>
+            </div>
+            <div class="card">
+                <div class="card-label">Shared resources</div>
+                <div class="te-reo" style="font-size:1.05rem;">Nāu te rourou, nāku te rourou, ka ora ai te iwi</div>
+                <div class="english" style="margin-top:0.5rem;">With your food basket and my food basket, the people will thrive</div>
+                <div class="context">Collaboration, shared resources, mutual support.</div>
+            </div>
+            <div class="card">
+                <div class="card-label">Core values</div>
+                <div class="te-reo" style="font-size:1.05rem;">Kia mau ki te aka matua, kei mau ki te aka taepa</div>
+                <div class="english" style="margin-top:0.5rem;">Hold fast to the main vine, not the loose one</div>
+                <div class="context">Staying focused on core values, not getting distracted.</div>
+            </div>
+        </div>
+        <div class="disclaimer-bar" style="margin-top: 1.5rem;">
+            <span class="icon">&#9888;</span>
+            <span>Whakataukī have specific origins and contexts. If using in formal documents, publications, or public presentations, verify appropriate usage with a reo speaker.</span>
+        </div>
+    </div>
+
+    <!-- MARAE PROTOCOL -->
+    <div class="section" id="marae">
+        <h2 class="section-title">Pōwhiri — Marae Welcome Protocol</h2>
+        <p class="section-desc">The formal welcome process. Follow the tangata whenua's lead at all times.</p>
+        <div class="protocol-steps">
+            <div class="step">
+                <h4>Karanga</h4>
+                <div class="step-desc">Women of the host group call to the visitors. Visiting women respond. This is the spiritual call that opens the pathway between the two groups.</div>
+            </div>
+            <div class="step">
+                <h4>Waerea / Karakia</h4>
+                <div class="step-desc">A spiritual clearing or prayer. Sets the spiritual tone and provides safety for the encounter.</div>
+            </div>
+            <div class="step">
+                <h4>Whaikōrero</h4>
+                <div class="step-desc">Formal speeches by elders. Protocols vary by marae — some alternate speakers, others have hosts speak first then visitors.</div>
+            </div>
+            <div class="step">
+                <h4>Waiata</h4>
+                <div class="step-desc">A song sung by the speaker's group immediately after each speech. It supports and strengthens the speaker's words.</div>
+            </div>
+            <div class="step">
+                <h4>Koha</h4>
+                <div class="step-desc">A gift or contribution presented by the visiting group. This acknowledges the manaakitanga of the hosts.</div>
+            </div>
+            <div class="step">
+                <h4>Hongi &amp; Harirū</h4>
+                <div class="step-desc">Pressing of noses (sharing the breath of life) and handshake. This completes the formal process — visitors become manuhiri (guests) and the tapu is lifted.</div>
+            </div>
+            <div class="step">
+                <h4>Kai</h4>
+                <div class="step-desc">Shared food. Eating together moves from tapu (sacred/restricted) to noa (common/free). The pōwhiri is complete once kai is shared.</div>
+            </div>
+        </div>
+        <div class="disclaimer-bar" style="margin-top: 1.5rem;">
+            <span class="icon">&#128161;</span>
+            <span><strong>Key etiquette:</strong> Remove shoes before entering the wharenui. Do not sit on tables. Do not walk in front of speakers. Wait for karakia before eating. Follow your hosts.</span>
+        </div>
+    </div>
+
+    <!-- DATA SOVEREIGNTY -->
+    <div class="section" id="sovereignty">
+        <h2 class="section-title">Māori Data Sovereignty</h2>
+        <p class="section-desc">Non-negotiable principles for handling data about or from Māori.</p>
+
+        <h3 style="margin-top:1rem; font-size:1rem; color: var(--dawn-gold);">Professor Mead's Five Tests</h3>
+        <div class="test-grid">
+            <div class="test-card">
+                <div class="test-name">Tika</div>
+                <div class="test-english">Correct</div>
+                <div class="test-question">Is the te reo accurate? Is the cultural context appropriate?</div>
+            </div>
+            <div class="test-card">
+                <div class="test-name">Pono</div>
+                <div class="test-english">Honest</div>
+                <div class="test-question">Are we transparent about AI limitations?</div>
+            </div>
+            <div class="test-card">
+                <div class="test-name">Aroha</div>
+                <div class="test-english">Care</div>
+                <div class="test-question">Is this done with genuine respect for Māori?</div>
+            </div>
+            <div class="test-card">
+                <div class="test-name">Tikanga</div>
+                <div class="test-english">Protocol</div>
+                <div class="test-question">Does it follow established cultural protocols?</div>
+            </div>
+            <div class="test-card">
+                <div class="test-name">Mana</div>
+                <div class="test-english">Dignity</div>
+                <div class="test-question">Does it enhance or diminish the mana of te reo and Māori?</div>
+            </div>
+        </div>
+
+        <h3 style="margin-top:2rem; font-size:1rem; color: var(--dawn-gold);">Key Principles</h3>
+        <div class="principle-card">
+            <h4>Te Mana Raraunga</h4>
+            <p>Māori have inherent rights over their data, regardless of who collects or stores it. Data about Māori people, language, culture, and resources is Māori data.</p>
+        </div>
+        <div class="principle-card">
+            <h4>Te Hiku Media</h4>
+            <p>Māori data is a taonga — it must be governed by Māori. Language models trained on Māori data must benefit Māori communities. The kaitiakitanga licence governs use.</p>
+        </div>
+        <div class="principle-card">
+            <h4>Taiuru Framework</h4>
+            <p>AI systems must not extract value from indigenous languages without reciprocal benefit. Data is a taonga, not a commodity.</p>
+        </div>
+        <div class="principle-card">
+            <h4>Kaitiakitanga Licence</h4>
+            <p>Data and tools must be used in ways that support Māori wellbeing. Māori must retain control and governance over their language data.</p>
+        </div>
+    </div>
+
+</main>
+
+<footer class="footer">
+    <p><strong>Assembl</strong> — Te Reo Māori & Tikanga Quick Reference v1.0</p>
+    <p style="margin-top:0.35rem;">This is a support tool. It does not replace reo speakers. | Sources: <a href="https://maoridictionary.co.nz" target="_blank">Te Aka Dictionary</a>, <a href="https://tetaurawhiri.govt.nz" target="_blank">Te Taura Whiri i te Reo Māori</a></p>
+    <p style="margin-top:0.35rem; color: var(--pounamu);">Nō rātou te reo. Mā rātou e ārahi. — The language belongs to them. Let them lead.</p>
+</footer>
+
+<script>
+    // Tab navigation
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById(btn.dataset.tab).classList.add('active');
+        });
+    });
+
+    // Search/filter within greetings
+    function filterCards(input, sectionId) {
+        const query = input.value.toLowerCase();
+        const cards = document.querySelectorAll(`[data-filter="${sectionId}"] .card`);
+        cards.forEach(card => {
+            const searchText = (card.getAttribute('data-search') || '') + ' ' + card.textContent.toLowerCase();
+            card.style.display = searchText.includes(query) ? '' : 'none';
+        });
+    }
+</script>
+</body>
+</html>
