@@ -130,6 +130,7 @@ const PikauLandingPage = lazy(() => import("./pages/PikauLandingPage"));
 const ToroaTravelPage = lazy(() => import("./pages/ToroaTravelPage"));
 const ToroaChatPage = lazy(() => import("./pages/ToroaChatPage"));
 const WaihangaArchitecturePage = lazy(() => import("./pages/WaihangaArchitecturePage"));
+const TeReoReferencePage = lazy(() => import("./pages/TeReoReferencePage"));
 const TryPage = lazy(() => import("./pages/TryPage"));
 const CaseStudiesPage = lazy(() => import("./pages/CaseStudiesPage"));
 
