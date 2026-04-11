@@ -13,6 +13,7 @@ import {
   BarChart3, Clock, Star, AlertTriangle, CheckCircle2,
 } from "lucide-react";
 import AgentTestResultsTab from "@/components/admin/AgentTestResultsTab";
+import AdminPipelineTab from "@/components/admin/AdminPipelineTab";
 
 interface Metrics {
   totalUsers: number;
