@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect, forwardRef, useImperativeHandle } from "react";
 import { Mic, MicOff, Phone, PhoneOff, Volume2, Loader2, Zap } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -10,6 +10,10 @@ interface Props {
   agentName: string;
   agentColor: string;
   systemPrompt?: string;
+}
+
+export interface GeminiLiveVoiceHandle {
+  sendTextPrompt: (text: string) => void;
 }
 
 // Use centralized Gemini NZ voice definitions
@@ -24,7 +28,7 @@ const glassCard: React.CSSProperties = {
   border: "1px solid rgba(255,255,255,0.06)",
 };
 
-const GeminiLiveVoice = ({ agentId, agentName, agentColor, systemPrompt }: Props) => {
+const GeminiLiveVoice = forwardRef<GeminiLiveVoiceHandle, Props>(({ agentId, agentName, agentColor, systemPrompt }, ref) => {
   const { user } = useAuth();
   const [isConnected, setIsConnected] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
