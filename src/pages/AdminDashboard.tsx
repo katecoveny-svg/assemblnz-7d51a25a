@@ -754,6 +754,9 @@ const AdminDashboard = () => {
           </div>
         )}
 
+        {/* PIPELINE TAB */}
+        {tab === "pipeline" && <AdminPipelineTab />}
+
         {/* TEST TAB */}
         {tab === "test" && (
           <div>
