@@ -504,14 +504,9 @@ const Index = () => {
               <LiquidGlassCard key={p.reo} className="h-full" accentColor={p.color} delay={i * 0.08}>
                 <Link to={p.to} className="block h-full group p-7">
                   <div className="flex items-center gap-4 mb-5">
-                    {/* 3D model for first 3 kete, weave visual for rest */}
-                    {i < 3 ? (
-                      <Suspense fallback={<KeteWeaveVisual size={48} accentColor={p.color} accentLight={p.accentLight} showNodes={false} showGlow={false} />}>
-                        <Kete3DModel accentColor={p.color} accentLight={p.accentLight} size={64} />
-                      </Suspense>
-                    ) : (
-                      <KeteWeaveVisual size={48} accentColor={p.color} accentLight={p.accentLight} showNodes={false} showGlow={false} />
-                    )}
+                    <Suspense fallback={<KeteWeaveVisual size={48} accentColor={p.color} accentLight={p.accentLight} showNodes={false} showGlow={false} />}>
+                      <Kete3DModel accentColor={p.color} accentLight={p.accentLight} size={64} />
+                    </Suspense>
                     <div>
                       <p className="text-[10px] uppercase tracking-[3px]" style={{ fontFamily: FONT.mono, color: p.color }}>
                         {p.en}
