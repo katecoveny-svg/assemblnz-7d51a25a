@@ -59,7 +59,7 @@ const LEAD_COLORS: Record<string, string> = { new: "#3A6A9C", contacted: "#3A6A9
 const AdminDashboard = () => {
   const { user, isAdmin, loading: authLoading, signOut } = useAuth();
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"overview" | "users" | "agents" | "activity" | "leads" | "documents" | "test" | "test-results">("overview");
+  const [tab, setTab] = useState<"overview" | "users" | "agents" | "activity" | "leads" | "documents" | "test" | "test-results" | "pipeline">("overview");
   const [metrics, setMetrics] = useState<Metrics | null>(null);
   const [users, setUsers] = useState<UserRow[]>([]);
   const [agentStatuses, setAgentStatuses] = useState<AgentStatus[]>([]);
