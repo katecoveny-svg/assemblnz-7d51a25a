@@ -776,10 +776,10 @@ const Index = () => {
       <section ref={pilotRef} id="founding-pilot" className={`${SEC} relative z-10`}>
         <div className={`${INNER} max-w-2xl mx-auto text-center`}>
           <motion.div {...fade}>
-            <Eyebrow>FOUNDING PILOTS</Eyebrow>
-            <SectionHeading>Twenty businesses. One year.<br />The platform shaped around you.</SectionHeading>
+            <Eyebrow>INDUSTRY PILOT</Eyebrow>
+            <SectionHeading>Sign up for your industry pilot.</SectionHeading>
             <Body className="mb-10">
-              We work directly with twenty NZ businesses to wire assembl into the way you already run things. Hands-on onboarding, weekly working sessions, founder access, and pricing locked at the founding rate forever.
+              Twenty spots. Hands-on onboarding, weekly working sessions, direct founder access — and your founding rate locked in forever. Tell us your industry and we'll show you the workflows that fit.
             </Body>
           </motion.div>
           <motion.form
@@ -803,7 +803,7 @@ const Index = () => {
               type="submit"
               className="cta-glass-green w-full py-3.5 rounded-xl text-sm font-medium flex items-center justify-center gap-2"
             >
-              Apply for a founding pilot <Send size={14} />
+              Apply for a pilot spot <Send size={14} />
             </button>
             <p className="text-[11px] text-center" style={{ fontFamily: FONT.mono, color: "rgba(255,255,255,0.2)" }}>
               Limited places. We respond within one business day.
