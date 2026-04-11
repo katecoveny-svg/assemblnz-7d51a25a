@@ -72,6 +72,7 @@ export async function agentChatStream({
   message,
   messages = [],
   packId,
+  systemPrompt,
   onDelta,
   onDone,
   onError,
