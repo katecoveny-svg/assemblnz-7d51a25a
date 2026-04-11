@@ -46,7 +46,7 @@ function ParticleSphere() {
       col[i * 3 + 1] = c.g;
       col[i * 3 + 2] = c.b;
 
-      sz[i] = 2.5 + Math.random() * 4;
+      sz[i] = 3 + Math.random() * 5;
     }
 
     return { positions: pos, colors: col, sizes: sz };
@@ -163,8 +163,8 @@ function OrbitingKeteNodes() {
             <group position={[x, y, z]}>
               {/* Glow */}
               <mesh>
-                <sphereGeometry args={[0.16, 12, 12]} />
-                <meshBasicMaterial color={color} transparent opacity={0.12} />
+                <sphereGeometry args={[0.1, 12, 12]} />
+                <meshBasicMaterial color={color} transparent opacity={0.08} />
               </mesh>
               {/* Core */}
               <mesh>
