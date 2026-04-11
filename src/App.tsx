@@ -112,6 +112,8 @@ const AdminMessagingDashboard = lazy(() => import("./pages/AdminMessagingDashboa
 const ManaakiDashboard = lazy(() => import("./components/manaaki/ManaakiDashboard"));
 // PakihiDashboard, HangarauDashboard, TeKahuiReoDashboard — retired kete, routes removed 2026-04-10
 const ToroaDashboard = lazy(() => import("./components/toroa/ToroaDashboard"));
+const WorkspaceDashboard = lazy(() => import("./pages/WorkspaceDashboard"));
+const WorkspaceConnections = lazy(() => import("./pages/WorkspaceConnections"));
 const SkillWiringDashboard = lazy(() => import("./components/admin/SkillWiringDashboard"));
 const SkillHubPage = lazy(() => import("./pages/SkillHubPage"));
 const AaaipDashboard = lazy(() => import("./pages/AaaipDashboard"));
