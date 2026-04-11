@@ -21,7 +21,7 @@ const PACKS = [
   { label: "Auaha", sublabel: "Creative", to: "/auaha", icon: Palette, color: "#F0D078" },
   { label: "Arataki", sublabel: "Business", to: "/arataki", icon: Briefcase, color: "#5A8FBF" },
   { label: "Pikau", sublabel: "Customs & Freight", to: "/pikau", icon: Package, color: "#7B6FA0" },
-  { label: "Toro", sublabel: "Family", to: "/toroa", icon: Bird, color: "#87CEEB" },
+  { label: "Toroa", sublabel: "Family", to: "/toroa", icon: Bird, color: "#87CEEB" },
 ];
 
 const BrandNav = () => {
