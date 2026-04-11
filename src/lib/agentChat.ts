@@ -17,7 +17,7 @@ interface AgentChatOptions {
  * One-shot (non-streaming) call to agent-router.
  * Collects the full SSE stream and returns the complete response text.
  */
-export async function agentChat({ agentId, message, messages = [], packId }: AgentChatOptions): Promise<string> {
+export async function agentChat({ agentId, message, messages = [], packId, systemPrompt }: AgentChatOptions): Promise<string> {
   const resp = await fetch(AGENT_ROUTER_URL, {
     method: "POST",
     headers: {
@@ -29,6 +29,7 @@ export async function agentChat({ agentId, message, messages = [], packId }: Age
       agentId,
       packId: packId || agentId,
       messages,
+      ...(systemPrompt ? { systemPromptOverride: systemPrompt } : {}),
     }),
   });
 
@@ -91,6 +92,7 @@ export async function agentChatStream({
         agentId,
         packId: packId || agentId,
         messages,
+        ...(systemPrompt ? { systemPromptOverride: systemPrompt } : {}),
       }),
     });
 
