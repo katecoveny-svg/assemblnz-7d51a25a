@@ -192,7 +192,7 @@ const TradiePortal = () => {
   if (error) return (
     <div className="min-h-screen bg-[#09090F] flex items-center justify-center">
       <div className="text-center space-y-3">
-        <Wrench className="mx-auto" size={48} style={{ color: "#FF80AB" }} />
+        <Wrench className="mx-auto" size={48} style={{ color: "#D4A843" }} />
         <p className="text-white/70 font-body">{error}</p>
       </div>
     </div>
@@ -204,12 +204,12 @@ const TradiePortal = () => {
       <header className="border-b border-white/5 px-4 py-4">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "#FF80AB20", border: "1px solid #FF80AB30" }}>
-              <Wrench size={20} style={{ color: "#FF80AB" }} />
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "#D4A84320", border: "1px solid #D4A84330" }}>
+              <Wrench size={20} style={{ color: "#D4A843" }} />
             </div>
             <div>
               <h1 className="font-display font-bold text-lg">{tradie?.name}</h1>
-              <p className="text-xs font-body" style={{ color: "#FF80AB" }}>{tradie?.trade} · HAVEN Portal</p>
+              <p className="text-xs font-body" style={{ color: "#D4A843" }}>{tradie?.trade} · HAVEN Portal</p>
             </div>
           </div>
           {tradie?.rating ? (
@@ -228,8 +228,8 @@ const TradiePortal = () => {
             <button key={tab} onClick={() => setActiveTab(tab)}
               className="px-4 py-3 text-xs font-medium capitalize transition-colors border-b-2"
               style={{
-                borderColor: activeTab === tab ? "#FF80AB" : "transparent",
-                color: activeTab === tab ? "#FF80AB" : "rgba(255,255,255,0.4)",
+                borderColor: activeTab === tab ? "#D4A843" : "transparent",
+                color: activeTab === tab ? "#D4A843" : "rgba(255,255,255,0.4)",
               }}>
               {tab === "jobs" ? "Job Offers" : tab === "availability" ? "Availability" : "My Profile"}
             </button>
@@ -355,12 +355,12 @@ const TradiePortal = () => {
           <div className="space-y-6">
             <div className="rounded-xl p-4 space-y-4" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
               <div className="flex items-center gap-3">
-                <div className="w-14 h-14 rounded-xl flex items-center justify-center text-xl font-bold" style={{ background: "#FF80AB20", color: "#FF80AB" }}>
+                <div className="w-14 h-14 rounded-xl flex items-center justify-center text-xl font-bold" style={{ background: "#D4A84320", color: "#D4A843" }}>
                   {tradie.name.charAt(0)}
                 </div>
                 <div>
                   <h2 className="font-display font-bold">{tradie.name}</h2>
-                  <p className="text-xs" style={{ color: "#FF80AB" }}>{tradie.trade}</p>
+                  <p className="text-xs" style={{ color: "#D4A843" }}>{tradie.trade}</p>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3 text-xs">
@@ -374,20 +374,20 @@ const TradiePortal = () => {
             <div className="space-y-3">
               <label className="text-xs text-white/40 font-mono">Tagline</label>
               <input value={editTagline} onChange={e => setEditTagline(e.target.value)}
-                className="w-full bg-white/[0.02] border border-white/5 rounded-lg px-3 py-2.5 text-sm text-white/80 placeholder:text-white/20 focus:outline-none focus:border-[#FF80AB30]"
+                className="w-full bg-white/[0.02] border border-white/5 rounded-lg px-3 py-2.5 text-sm text-white/80 placeholder:text-white/20 focus:outline-none focus:border-[#D4A84330]"
                 placeholder="e.g. Reliable plumber serving Auckland" />
             </div>
 
             <div className="space-y-3">
               <label className="text-xs text-white/40 font-mono">Bio</label>
               <textarea value={editBio} onChange={e => setEditBio(e.target.value)} rows={5}
-                className="w-full bg-white/[0.02] border border-white/5 rounded-lg px-3 py-2.5 text-sm text-white/80 placeholder:text-white/20 focus:outline-none focus:border-[#FF80AB30] resize-none"
+                className="w-full bg-white/[0.02] border border-white/5 rounded-lg px-3 py-2.5 text-sm text-white/80 placeholder:text-white/20 focus:outline-none focus:border-[#D4A84330] resize-none"
                 placeholder="Tell property managers about your experience, qualifications, and service..." />
             </div>
 
             <button onClick={saveProfile} disabled={saving}
               className="w-full py-3 rounded-lg text-sm font-medium transition-all active:scale-[0.97] disabled:opacity-50"
-              style={{ background: "#FF80AB20", color: "#FF80AB", border: "1px solid #FF80AB30" }}>
+              style={{ background: "#D4A84320", color: "#D4A843", border: "1px solid #D4A84330" }}>
               {saving ? "Saving..." : "Save Profile"}
             </button>
 
@@ -396,7 +396,7 @@ const TradiePortal = () => {
                 <span className="text-xs text-white/40 font-mono">Specialties</span>
                 <div className="flex flex-wrap gap-1.5">
                   {tradie.specialties.map(s => (
-                    <span key={s} className="text-[10px] px-2 py-1 rounded-full" style={{ background: "#FF80AB10", color: "#FF80AB" }}>{s}</span>
+                    <span key={s} className="text-[10px] px-2 py-1 rounded-full" style={{ background: "#D4A84310", color: "#D4A843" }}>{s}</span>
                   ))}
                 </div>
               </div>

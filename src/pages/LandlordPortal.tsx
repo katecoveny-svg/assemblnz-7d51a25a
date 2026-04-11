@@ -44,9 +44,9 @@ const LandlordPortal = () => {
   if (!user) return (
     <div className="min-h-screen bg-[#09090F] flex items-center justify-center text-center space-y-4">
       <div>
-        <Home size={48} className="mx-auto mb-4" style={{ color: "#FF80AB" }} />
+        <Home size={48} className="mx-auto mb-4" style={{ color: "#D4A843" }} />
         <p className="text-white/70 font-body mb-4">Sign in to access your Landlord Portal</p>
-        <Link to="/login" className="px-6 py-2.5 rounded-lg text-sm font-medium" style={{ background: "#FF80AB20", color: "#FF80AB", border: "1px solid #FF80AB30" }}>
+        <Link to="/login" className="px-6 py-2.5 rounded-lg text-sm font-medium" style={{ background: "#D4A84320", color: "#D4A843", border: "1px solid #D4A84330" }}>
           Sign In
         </Link>
       </div>
@@ -65,7 +65,7 @@ const LandlordPortal = () => {
             <Link to="/" className="p-1.5 rounded-lg hover:bg-white/5 transition-colors"><ArrowLeft size={18} /></Link>
             <div>
               <h1 className="font-display font-bold text-lg">Landlord Portal</h1>
-              <p className="text-xs font-body" style={{ color: "#FF80AB" }}>HAVEN by Assembl</p>
+              <p className="text-xs font-body" style={{ color: "#D4A843" }}>HAVEN by Assembl</p>
             </div>
           </div>
         </div>
@@ -83,8 +83,8 @@ const LandlordPortal = () => {
             <button key={tab.id} onClick={() => setActiveTab(tab.id)}
               className="px-4 py-3 text-xs font-medium flex items-center gap-1.5 transition-colors border-b-2 whitespace-nowrap"
               style={{
-                borderColor: activeTab === tab.id ? "#FF80AB" : "transparent",
-                color: activeTab === tab.id ? "#FF80AB" : "rgba(255,255,255,0.4)",
+                borderColor: activeTab === tab.id ? "#D4A843" : "transparent",
+                color: activeTab === tab.id ? "#D4A843" : "rgba(255,255,255,0.4)",
               }}>
               <tab.icon size={12} />
               {tab.label}
@@ -98,7 +98,7 @@ const LandlordPortal = () => {
           <>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {[
-                { label: "Properties", value: properties.length, color: "#FF80AB" },
+                { label: "Properties", value: properties.length, color: "#D4A843" },
                 { label: "Open Jobs", value: openJobs.length, color: "#FFB300" },
                 { label: "Overdue Items", value: overdueCompliance.length, color: "#EF5350" },
                 { label: "Total Spend", value: `$${totalSpend.toLocaleString()}`, color: "#66BB6A" },
@@ -154,7 +154,7 @@ const LandlordPortal = () => {
                 <p className="text-xs text-white/40">{p.suburb}, {p.region}</p>
                 {p.tenant_name && <p className="text-[10px] text-white/30">Tenant: {p.tenant_name}</p>}
                 <div className="flex gap-2 text-[10px]">
-                  <span className="px-2 py-0.5 rounded-full" style={{ background: "#FF80AB10", color: "#FF80AB" }}>
+                  <span className="px-2 py-0.5 rounded-full" style={{ background: "#D4A84310", color: "#D4A843" }}>
                     {jobs.filter(j => j.property_id === p.id && j.status !== "completed").length} open jobs
                   </span>
                 </div>
