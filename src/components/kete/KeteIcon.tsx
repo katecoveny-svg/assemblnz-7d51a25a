@@ -91,14 +91,14 @@ const KeteIcon: React.FC<KeteIconProps> = ({
 
         {/* Horizontal weave strands — 1.5px as specified */}
         {hRows.map((y, i) => {
-          const inset = Math.max(0, i * 2);
+          const [lx, rx] = basketX(y);
           const col = variant === "tricolor" ? tricolors[i % tricolors.length] : accentColor;
           const delay = animated ? `${0.1 + i * 0.08}s` : undefined;
 
           return variant === "organic" ? (
             <path
               key={`h-${y}`}
-              d={`M ${50 - inset} ${y} Q 100 ${y - 2} ${150 + inset} ${y}`}
+              d={`M ${lx} ${y} Q 100 ${y - 2} ${rx} ${y}`}
               stroke={col}
               strokeWidth="1.5"
               fill="none"
@@ -109,8 +109,8 @@ const KeteIcon: React.FC<KeteIconProps> = ({
           ) : (
             <line
               key={`h-${y}`}
-              x1={50 - inset} y1={y}
-              x2={150 + inset} y2={y}
+              x1={lx} y1={y}
+              x2={rx} y2={y}
               stroke={col}
               strokeWidth="1.5"
               opacity={variant === "dense" ? 0.75 : 0.85}
@@ -120,16 +120,20 @@ const KeteIcon: React.FC<KeteIconProps> = ({
           );
         })}
 
-        {/* Vertical weave strands */}
+        {/* Vertical weave strands — clipped to basket */}
         {vCols.map((x, i) => {
           const col = variant === "tricolor" ? tricolors[i % tricolors.length] : accentColor;
           const delay = animated ? `${0.4 + i * 0.1}s` : undefined;
+          // Find the y range where this x is inside the basket
+          const yStart = 82;
+          // Find bottom y where basket edge reaches this x
+          const yEnd = Math.min(185, 80 + ((x >= 100 ? (160 - x) : (x - 40)) / 60) * 110);
 
           return (
             <line
               key={`v-${x}`}
-              x1={x} y1="85"
-              x2={x} y2="175"
+              x1={x} y1={yStart}
+              x2={x} y2={yEnd}
               stroke={col}
               strokeWidth="1.5"
               opacity={variant === "dense" ? 0.75 : 0.85}
