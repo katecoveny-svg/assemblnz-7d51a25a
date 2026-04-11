@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, HardHat, UtensilsCrossed, Palette, Bird, Briefcase, Package, ChevronDown } from "lucide-react";
 import AccountDropdown from "@/components/AccountDropdown";
-import CelestialLogo from "@/components/CelestialLogo";
+import Nav3DKeteLogo from "@/components/Nav3DKeteLogo";
 import KiaOraPopup from "@/components/KiaOraPopup";
 
 interface NavItem { label: string; to: string }
@@ -53,7 +53,7 @@ const BrandNav = () => {
         style={{ background: "#09090F", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
       >
         <Link to="/" className="flex items-center gap-3 group shrink-0">
-          <CelestialLogo size={36} />
+          <Nav3DKeteLogo size={36} />
           <motion.span
             style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "6px", textTransform: "lowercase", fontSize: "13px", color: "rgba(255,255,255,0.85)" }}
             animate={{ textShadow: ["0 0 6px rgba(255,255,255,0.1)", "0 0 16px rgba(255,255,255,0.3)", "0 0 6px rgba(255,255,255,0.1)"] }}
