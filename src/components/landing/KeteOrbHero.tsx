@@ -106,9 +106,9 @@ function MatarikiStars({ mobile }: { mobile: boolean }) {
       posAttr.array[i3 + 2] = basePositions[i3 + 2] * breathe;
 
       // Slow, gentle twinkle (NOT flashing)
-      const twinkle = 0.7 + Math.sin(t * 0.8 + phase * 2) * 0.3;
+      const twinkle = 0.75 + Math.sin(t * 0.4 + phase * 2) * 0.25;
       // Rare gentle sparkle — very occasional, subtle
-      const sparkle = Math.sin(t * 1.5 + phase * 5) > 0.97 ? 1.6 : 1.0;
+      const sparkle = Math.sin(t * 0.8 + phase * 5) > 0.98 ? 1.4 : 1.0;
       sizeAttr.array[i] = baseSizes[i] * twinkle * sparkle;
     }
     posAttr.needsUpdate = true;
