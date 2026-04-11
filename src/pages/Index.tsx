@@ -776,10 +776,10 @@ const Index = () => {
       <section ref={pilotRef} id="founding-pilot" className={`${SEC} relative z-10`}>
         <div className={`${INNER} max-w-2xl mx-auto text-center`}>
           <motion.div {...fade}>
-            <Eyebrow>FOUNDING PILOTS</Eyebrow>
-            <SectionHeading>Twenty businesses. One year.<br />The platform shaped around you.</SectionHeading>
+            <Eyebrow>INDUSTRY PILOT</Eyebrow>
+            <SectionHeading>Sign up for your industry pilot.</SectionHeading>
             <Body className="mb-10">
-              We work directly with twenty NZ businesses to wire assembl into the way you already run things. Hands-on onboarding, weekly working sessions, founder access, and pricing locked at the founding rate forever.
+              Twenty spots. Hands-on onboarding, weekly working sessions, direct founder access — and your founding rate locked in forever. Tell us your industry and we'll show you the workflows that fit.
             </Body>
           </motion.div>
           <motion.form
