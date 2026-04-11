@@ -656,7 +656,7 @@ const AdminDashboard = () => {
                               <span className="text-[9px] px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400">📞 {(sub as any).phone}</span>
                             )}
                             {(sub as any).website && (
-                              <a href={(sub as any).website} target="_blank" rel="noopener noreferrer" className="text-[9px] px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 hover:underline">🌐 {(sub as any).website}</a>
+                              <a href={(sub as any).website} target="_blank" rel="noopener noreferrer" className="text-[9px] px-2 py-0.5 rounded-full bg-pounamu/10 text-pounamu hover:underline">🌐 {(sub as any).website}</a>
                             )}
                           </div>
                         )}

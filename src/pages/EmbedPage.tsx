@@ -96,7 +96,7 @@ const EmbedPage = () => {
 
         {/* ════════════ HOW IT WORKS ════════════ */}
         <section className="mb-16">
-          <h2 className="text-lg sm:text-xl font-display font-light text-foreground text-glow-purple mb-6 text-center">How to embed Assembl on your site</h2>
+          <h2 className="text-lg sm:text-xl font-display font-light text-foreground text-glow-pounamu mb-6 text-center">How to embed Assembl on your site</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
             {[
               {

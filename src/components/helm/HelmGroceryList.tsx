@@ -182,7 +182,7 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
   if (!familyId) {
     return (
       <div className="text-center py-12">
-        <ShoppingCart className="w-10 h-10 text-purple-400/40 mx-auto mb-3" />
+        <ShoppingCart className="w-10 h-10 text-pounamu/40 mx-auto mb-3" />
         <p className="text-sm text-white/40">Set up your family first to use grocery lists</p>
       </div>
     );
@@ -201,7 +201,7 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-            <ShoppingCart className="w-5 h-5 text-purple-400" />
+            <ShoppingCart className="w-5 h-5 text-pounamu" />
             Groceries
           </h2>
           {totalCount > 0 && (
@@ -210,11 +210,11 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
         </div>
         <div className="flex gap-2">
           {lists.length === 0 ? (
-            <button onClick={createList} className="text-xs px-3 py-1.5 rounded-lg font-semibold bg-purple-500 text-white">
+            <button onClick={createList} className="text-xs px-3 py-1.5 rounded-lg font-semibold bg-pounamu text-white">
               New List
             </button>
           ) : (
-            <button onClick={() => setShowAdd(!showAdd)} className="text-xs px-3 py-1.5 rounded-lg font-semibold bg-purple-500 text-white inline-flex items-center gap-1">
+            <button onClick={() => setShowAdd(!showAdd)} className="text-xs px-3 py-1.5 rounded-lg font-semibold bg-pounamu text-white inline-flex items-center gap-1">
               <Plus className="w-3 h-3" /> Add Item
             </button>
           )}
@@ -282,7 +282,7 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
             onChange={(e) => setNewItem(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && addItem()}
             placeholder="Item name (e.g. milk, bread, avocados)"
-            className="w-full text-sm px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+            className="w-full text-sm px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-pounamu/50"
             autoFocus
           />
           <div className="flex gap-2">
@@ -290,19 +290,19 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
               value={newQty}
               onChange={(e) => setNewQty(e.target.value)}
               placeholder="Qty"
-              className="w-20 text-sm px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+              className="w-20 text-sm px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-pounamu/50"
             />
             <select
               value={newCat}
               onChange={(e) => setNewCat(e.target.value)}
-              className="flex-1 text-sm px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+              className="flex-1 text-sm px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-pounamu/50"
             >
               {CATEGORIES.map(c => (
                 <option key={c.value} value={c.value}>{c.emoji} {c.label}</option>
               ))}
             </select>
           </div>
-          <button onClick={addItem} className="w-full text-sm py-2 rounded-lg font-semibold bg-purple-500 text-white">
+          <button onClick={addItem} className="w-full text-sm py-2 rounded-lg font-semibold bg-pounamu text-white">
             Add to List
           </button>
         </div>
@@ -312,7 +312,7 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
       {grouped.length === 0 && !loading && lists.length > 0 && (
         <div className="text-center py-8">
           <p className="text-sm text-white/30">List is empty. Add items above, or text TORO:</p>
-          <p className="text-xs text-purple-400/60 mt-1 font-mono">"Add milk, bread, eggs to groceries"</p>
+          <p className="text-xs text-pounamu/60 mt-1 font-mono">"Add milk, bread, eggs to groceries"</p>
         </div>
       )}
 

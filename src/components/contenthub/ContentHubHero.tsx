@@ -40,7 +40,7 @@ const ContentHubHero = () => {
       >
         <span className="text-emerald-glow">{agentCount}</span> industry kete ·{" "}
         <span className="text-glow-cyan">Shared intelligence</span> ·{" "}
-        <span className="text-glow-purple">Built for NZ</span>
+        <span className="text-glow-pounamu">Built for NZ</span>
       </div>
     </section>
   );
