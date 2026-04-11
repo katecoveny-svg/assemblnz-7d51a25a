@@ -402,7 +402,7 @@ const Index = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, delay: 0.65, ease }}
         >
-          assembl runs the admin, compliance checks, and paperwork so your team can focus on the work that actually grows the business. Every workflow produces a signed evidence pack — ready for your auditor, your lawyer, or your next board meeting.
+          <span style={{ fontFamily: FONT.heading, fontWeight: 300, letterSpacing: '0.08em', textTransform: 'lowercase', color: C.pounamuLight, textShadow: `0 0 18px rgba(58,125,110,0.4)` }}>assembl</span> runs the admin, compliance checks, and paperwork so your team can focus on the work that actually grows the business. Every workflow produces a signed evidence pack — ready for your auditor, your lawyer, or your next board meeting.
         </motion.p>
 
         {/* CTAs */}
