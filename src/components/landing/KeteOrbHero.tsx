@@ -1,39 +1,172 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useMemo, Suspense } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Float } from "@react-three/drei";
+import * as THREE from "three";
 import { motion } from "framer-motion";
 
 /**
- * KeteOrbHero — Large rotating 3D orb with assembl logo,
- * kete constellation nodes orbiting around it.
- * Pure CSS/SVG — no Three.js dependency for performance.
+ * KeteOrbHero — Real Three.js 3D glowing sphere with assembl constellation
+ * and orbiting kete node particles.
  */
 
 const KETE_NODES = [
-  { id: "manaaki", label: "Manaaki", color: "#D4A843", angle: 0 },
-  { id: "waihanga", label: "Waihanga", color: "#3A7D6E", angle: 72 },
-  { id: "auaha", label: "Auaha", color: "#F0D078", angle: 144 },
-  { id: "arataki", label: "Arataki", color: "#E8E8E8", angle: 216 },
-  { id: "pikau", label: "Pikau", color: "#5AADA0", angle: 288 },
+  { color: "#D4A843", angle: 0 },
+  { color: "#3A7D6E", angle: 72 },
+  { color: "#F0D078", angle: 144 },
+  { color: "#E8E8E8", angle: 216 },
+  { color: "#5AADA0", angle: 288 },
 ];
 
-const KeteOrbHero = () => {
-  const [rotation, setRotation] = useState(0);
-  const rafRef = useRef<number>(0);
-  const startRef = useRef<number>(0);
-
-  useEffect(() => {
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced) return;
-
-    const animate = (time: number) => {
-      if (!startRef.current) startRef.current = time;
-      const elapsed = time - startRef.current;
-      setRotation((elapsed / 80) % 360);
-      rafRef.current = requestAnimationFrame(animate);
-    };
-    rafRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(rafRef.current);
+/* Assembl constellation triangle inside the orb */
+function ConstellationMark() {
+  const points = useMemo(() => {
+    const p = [
+      new THREE.Vector3(0, 0.5, 0),
+      new THREE.Vector3(0.45, -0.3, 0),
+      new THREE.Vector3(-0.45, -0.3, 0),
+      new THREE.Vector3(0, 0.5, 0),
+    ];
+    return new THREE.BufferGeometry().setFromPoints(p);
   }, []);
 
+  return (
+    <group>
+      <line geometry={points}>
+        <lineBasicMaterial color="#D4A843" transparent opacity={0.4} />
+      </line>
+      {/* Constellation nodes */}
+      <mesh position={[0, 0.5, 0]}>
+        <sphereGeometry args={[0.04, 8, 8]} />
+        <meshBasicMaterial color="#D4A843" />
+      </mesh>
+      <mesh position={[0.45, -0.3, 0]}>
+        <sphereGeometry args={[0.035, 8, 8]} />
+        <meshBasicMaterial color="#3A7D6E" />
+      </mesh>
+      <mesh position={[-0.45, -0.3, 0]}>
+        <sphereGeometry args={[0.035, 8, 8]} />
+        <meshBasicMaterial color="#5AADA0" />
+      </mesh>
+      {/* Center node */}
+      <mesh position={[0, 0, 0]}>
+        <sphereGeometry args={[0.025, 8, 8]} />
+        <meshBasicMaterial color="#D4A843" transparent opacity={0.6} />
+      </mesh>
+    </group>
+  );
+}
+
+/* Orbiting kete dots */
+function OrbitingNodes() {
+  const groupRef = useRef<THREE.Group>(null);
+
+  useFrame(({ clock }) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y = clock.getElapsedTime() * 0.15;
+      groupRef.current.rotation.x = Math.sin(clock.getElapsedTime() * 0.1) * 0.1;
+    }
+  });
+
+  return (
+    <group ref={groupRef}>
+      {KETE_NODES.map((node, i) => {
+        const rad = (node.angle * Math.PI) / 180;
+        const r = 1.8;
+        const x = Math.cos(rad) * r;
+        const z = Math.sin(rad) * r;
+        const y = Math.sin(rad * 2) * 0.3;
+        return (
+          <group key={i} position={[x, y, z]}>
+            {/* Glow sphere */}
+            <mesh>
+              <sphereGeometry args={[0.12, 8, 8]} />
+              <meshBasicMaterial color={node.color} transparent opacity={0.15} />
+            </mesh>
+            {/* Core dot */}
+            <mesh>
+              <sphereGeometry args={[0.05, 8, 8]} />
+              <meshBasicMaterial color={node.color} />
+            </mesh>
+          </group>
+        );
+      })}
+    </group>
+  );
+}
+
+/* Main glowing sphere */
+function GlowingSphere() {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const glowRef = useRef<THREE.Mesh>(null);
+
+  useFrame(({ clock }) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y = clock.getElapsedTime() * 0.08;
+    }
+    if (glowRef.current) {
+      const s = 1 + Math.sin(clock.getElapsedTime() * 0.8) * 0.03;
+      glowRef.current.scale.set(s, s, s);
+    }
+  });
+
+  return (
+    <group>
+      {/* Outer glow shell */}
+      <mesh ref={glowRef}>
+        <sphereGeometry args={[1.5, 32, 32]} />
+        <meshBasicMaterial
+          color="#3A7D6E"
+          transparent
+          opacity={0.03}
+          side={THREE.BackSide}
+        />
+      </mesh>
+
+      {/* Mid glow */}
+      <mesh>
+        <sphereGeometry args={[1.35, 32, 32]} />
+        <meshBasicMaterial
+          color="#D4A843"
+          transparent
+          opacity={0.04}
+          side={THREE.BackSide}
+        />
+      </mesh>
+
+      {/* Main sphere surface */}
+      <mesh ref={meshRef}>
+        <sphereGeometry args={[1.2, 48, 48]} />
+        <meshStandardMaterial
+          color="#0A0A18"
+          emissive="#1A2A3A"
+          emissiveIntensity={0.3}
+          roughness={0.2}
+          metalness={0.8}
+          transparent
+          opacity={0.85}
+        />
+      </mesh>
+
+      {/* Wireframe overlay */}
+      <mesh>
+        <sphereGeometry args={[1.21, 24, 24]} />
+        <meshBasicMaterial
+          color="#3A7D6E"
+          wireframe
+          transparent
+          opacity={0.08}
+        />
+      </mesh>
+
+      {/* Inner constellation */}
+      <Float speed={1.5} rotationIntensity={0.15} floatIntensity={0.1}>
+        <ConstellationMark />
+      </Float>
+    </group>
+  );
+}
+
+const KeteOrbHero = () => {
   return (
     <motion.div
       className="relative flex flex-col items-center justify-center mb-16"
@@ -42,125 +175,37 @@ const KeteOrbHero = () => {
       viewport={{ once: true }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
     >
-      {/* Outer ambient glow */}
+      {/* Ambient glow behind canvas */}
       <div
-        className="absolute w-[340px] h-[340px] sm:w-[440px] sm:h-[440px] rounded-full pointer-events-none"
+        className="absolute w-[360px] h-[360px] sm:w-[480px] sm:h-[480px] rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(212,168,67,0.12) 0%, rgba(58,125,110,0.06) 40%, transparent 70%)",
+          background:
+            "radial-gradient(circle, rgba(212,168,67,0.12) 0%, rgba(58,125,110,0.06) 40%, transparent 70%)",
           filter: "blur(40px)",
         }}
       />
 
-      {/* Main orb container */}
-      <div className="relative w-[260px] h-[260px] sm:w-[340px] sm:h-[340px]">
-        {/* Rotating ring */}
-        <svg
-          className="absolute inset-0 w-full h-full"
-          viewBox="0 0 340 340"
-          style={{ transform: `rotate(${rotation}deg)` }}
+      {/* 3D Canvas — square aspect ratio = perfect sphere */}
+      <div className="relative w-[300px] h-[300px] sm:w-[400px] sm:h-[400px]">
+        <Suspense
+          fallback={
+            <div className="w-full h-full rounded-full animate-pulse" style={{ background: "rgba(58,125,110,0.08)" }} />
+          }
         >
-          <defs>
-            <linearGradient id="orb-ring-1" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#D4A843" stopOpacity="0.3" />
-              <stop offset="50%" stopColor="#3A7D6E" stopOpacity="0.15" />
-              <stop offset="100%" stopColor="#5AADA0" stopOpacity="0.3" />
-            </linearGradient>
-            <linearGradient id="orb-ring-2" x1="1" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#F0D078" stopOpacity="0.2" />
-              <stop offset="100%" stopColor="#E8E8E8" stopOpacity="0.1" />
-            </linearGradient>
-          </defs>
-          {/* Outer orbit ring */}
-          <circle cx="170" cy="170" r="155" fill="none" stroke="url(#orb-ring-1)" strokeWidth="1" />
-          {/* Inner orbit ring */}
-          <circle cx="170" cy="170" r="120" fill="none" stroke="url(#orb-ring-2)" strokeWidth="0.5" />
-        </svg>
-
-        {/* Orbiting kete nodes */}
-        {KETE_NODES.map((node) => {
-          const totalAngle = node.angle + rotation;
-          const rad = (totalAngle * Math.PI) / 180;
-          const radius = 155;
-          const cx = 170 + Math.cos(rad) * radius * (260 / 340);
-          const cy = 170 + Math.sin(rad) * radius * (260 / 340);
-
-          return (
-            <div
-              key={node.id}
-              className="absolute pointer-events-none"
-              style={{
-                left: `${(cx / 340) * 100}%`,
-                top: `${(cy / 340) * 100}%`,
-                transform: "translate(-50%, -50%)",
-              }}
-            >
-              {/* Glow */}
-              <div
-                className="absolute -inset-3 rounded-full"
-                style={{
-                  background: `radial-gradient(circle, ${node.color}40 0%, transparent 70%)`,
-                  filter: "blur(6px)",
-                }}
-              />
-              {/* Node dot */}
-              <div
-                className="relative w-3 h-3 sm:w-4 sm:h-4 rounded-full"
-                style={{
-                  background: `radial-gradient(circle at 35% 35%, ${node.color}, ${node.color}80)`,
-                  boxShadow: `0 0 12px ${node.color}60, 0 0 24px ${node.color}20`,
-                }}
-              />
-            </div>
-          );
-        })}
-
-        {/* Central orb */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div
-            className="relative w-[140px] h-[140px] sm:w-[180px] sm:h-[180px] rounded-full flex items-center justify-center"
-            style={{
-              background: "radial-gradient(circle at 40% 35%, rgba(30,30,50,0.95) 0%, rgba(9,9,15,0.98) 100%)",
-              boxShadow:
-                "0 0 60px rgba(212,168,67,0.15), 0 0 120px rgba(58,125,110,0.08), inset 0 0 40px rgba(255,255,255,0.03)",
-              border: "1px solid rgba(255,255,255,0.08)",
-            }}
+          <Canvas
+            camera={{ position: [0, 0, 4.5], fov: 45 }}
+            gl={{ antialias: true, alpha: true }}
+            style={{ background: "transparent" }}
           >
-            {/* Glass highlight */}
-            <div
-              className="absolute top-2 left-4 w-[60%] h-[30%] rounded-full"
-              style={{
-                background: "linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 100%)",
-              }}
-            />
+            <ambientLight intensity={0.4} />
+            <pointLight position={[3, 3, 3]} intensity={0.6} color="#D4A843" />
+            <pointLight position={[-3, -1, 3]} intensity={0.3} color="#3A7D6E" />
+            <pointLight position={[0, -3, 2]} intensity={0.2} color="#5AADA0" />
 
-            {/* Assembl logo mark */}
-            <svg viewBox="0 0 80 80" className="w-16 h-16 sm:w-20 sm:h-20" fill="none">
-              <defs>
-                <linearGradient id="assembl-orb" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#D4A843" stopOpacity="0.9" />
-                  <stop offset="100%" stopColor="#3A7D6E" stopOpacity="0.7" />
-                </linearGradient>
-              </defs>
-              {/* Triangle constellation — assembl mark */}
-              <path
-                d="M40 12 L62 56 L18 56 Z"
-                stroke="url(#assembl-orb)"
-                strokeWidth="1.5"
-                fill="none"
-              />
-              {/* Constellation nodes */}
-              <circle cx="40" cy="12" r="3" fill="#D4A843" opacity="0.9" />
-              <circle cx="62" cy="56" r="2.5" fill="#3A7D6E" opacity="0.8" />
-              <circle cx="18" cy="56" r="2.5" fill="#5AADA0" opacity="0.8" />
-              {/* Central node */}
-              <circle cx="40" cy="42" r="2" fill="#D4A843" opacity="0.6" />
-              {/* Connecting lines to center */}
-              <line x1="40" y1="12" x2="40" y2="42" stroke="#D4A843" strokeWidth="0.5" opacity="0.3" />
-              <line x1="62" y1="56" x2="40" y2="42" stroke="#3A7D6E" strokeWidth="0.5" opacity="0.3" />
-              <line x1="18" y1="56" x2="40" y2="42" stroke="#5AADA0" strokeWidth="0.5" opacity="0.3" />
-            </svg>
-          </div>
-        </div>
+            <GlowingSphere />
+            <OrbitingNodes />
+          </Canvas>
+        </Suspense>
       </div>
 
       {/* Text below orb */}
@@ -191,7 +236,9 @@ const KeteOrbHero = () => {
             color: "rgba(255,255,255,0.5)",
           }}
         >
-          Five industry kete that run your compliance, operations, and reporting — then hand you a signed pack your auditor can read and your lawyer can rely on.
+          Five industry kete that run your compliance, operations, and reporting
+          — then hand you a signed pack your auditor can read and your lawyer can
+          rely on.
         </p>
       </div>
     </motion.div>
