@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { UtensilsCrossed, ArrowRight, Check, Shield, Wine, Star, Leaf, Calendar } from "lucide-react";
+import { ArrowRight, Check, Shield, Wine, Star, Leaf, Calendar, UtensilsCrossed } from "lucide-react";
+import LandingKeteHero from "@/components/kete/LandingKeteHero";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Palette, ArrowRight, Check, PenTool, Camera, Mic, BarChart3, Calendar, Globe } from "lucide-react";
+import LandingKeteHero from "@/components/kete/LandingKeteHero";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
