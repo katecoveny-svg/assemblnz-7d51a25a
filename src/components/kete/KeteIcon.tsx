@@ -16,7 +16,7 @@ const KeteIcon: React.FC<KeteIconProps> = ({
   size = "medium",
   animated = true,
 }) => {
-  const sizeMap = { small: "w-20 h-20", medium: "w-40 h-44", large: "w-56 h-64" };
+  const sizeMap = { small: "w-20 h-20", medium: "w-40 h-40", large: "w-56 h-56" };
 
   // Helper: get the x-extent of the basket at a given y
   // Basket path: M 40 80 Q 40 180 100 190 Q 160 180 160 80
