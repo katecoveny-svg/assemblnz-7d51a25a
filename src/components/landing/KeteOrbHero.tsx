@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
  * constellation nodes, and dynamic particle drift.
  */
 
-const PARTICLE_COUNT = 800;
+const PARTICLE_COUNT = 1200;
 const ORBIT_RING_COUNT = 3;
 
 const KETE_COLORS = ["#D4A843", "#3A7D6E", "#F0D078", "#E8E8E8", "#5AADA0"];
@@ -101,7 +101,7 @@ function ParticleSphere() {
       float d = length(gl_PointCoord - vec2(0.5));
       if (d > 0.5) discard;
       float alpha = 1.0 - smoothstep(0.0, 0.5, d);
-      gl_FragColor = vec4(vColor, alpha * 0.35);
+      gl_FragColor = vec4(vColor * 1.2, alpha * 0.5);
     }
   `;
 
