@@ -743,7 +743,7 @@ const SampleEvidencePackPage = () => {
             </div>
           </motion.div>
 
-          {/* ─── File/Forward/Footnote strip ─── */}
+          {/* ─── Export actions strip ─── */}
           <motion.div
             className="rounded-2xl p-6 mb-8 flex flex-wrap items-center justify-between gap-4"
             style={{ background: SURFACE, border: `1px solid ${BORDER}` }}
@@ -753,14 +753,45 @@ const SampleEvidencePackPage = () => {
               className="text-xs"
               style={{ fontFamily: FONT_MONO, color: "rgba(255,255,255,0.35)", letterSpacing: "0.05em" }}
             >
-              Real packs can be:
+              Export this pack:
             </p>
             <div className="flex flex-wrap gap-3">
+              <button
+                onClick={() => {
+                  const doc = generatePackPDF(pack);
+                  doc.save(`assembl-${pack.slug}-evidence-pack-${pack.packId}.pdf`);
+                }}
+                className="flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium transition-all hover:scale-105 cursor-pointer"
+                style={{
+                  fontFamily: FONT_BODY,
+                  color: WHITE,
+                  background: pack.accent,
+                }}
+              >
+                <Download size={12} />
+                Download PDF
+              </button>
+              <button
+                onClick={() => {
+                  const doc = generatePackPDF(pack);
+                  doc.autoPrint();
+                  window.open(doc.output("bloburl"), "_blank");
+                }}
+                className="flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium transition-all hover:opacity-80 cursor-pointer"
+                style={{
+                  fontFamily: FONT_BODY,
+                  color: "rgba(255,255,255,0.7)",
+                  background: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                }}
+              >
+                <Printer size={12} />
+                Print
+              </button>
               {[
                 { icon: FileText, label: "Filed" },
                 { icon: Share2, label: "Forwarded" },
                 { icon: Bookmark, label: "Footnoted" },
-                { icon: Download, label: "Downloaded" },
               ].map(({ icon: Icon, label }) => (
                 <span
                   key={label}
