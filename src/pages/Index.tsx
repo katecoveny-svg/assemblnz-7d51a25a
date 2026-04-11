@@ -259,8 +259,10 @@ const Index = () => {
 
       {/* ═══ 1 — HERO ═══ */}
       <section className="relative flex flex-col items-center text-center px-6 sm:px-8 pt-20 sm:pt-24 pb-12" style={{ zIndex: 1 }}>
-        {/* Signature Assembl hero network */}
-        <HeroKeteNetwork isMobile={isMobile} />
+        {/* 3D Particle Sphere Hero */}
+        <Suspense fallback={null}>
+          <KeteOrbHero hideText />
+        </Suspense>
 
         {/* Featured kete strip */}
         <motion.div

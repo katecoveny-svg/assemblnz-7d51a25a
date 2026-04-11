@@ -101,7 +101,7 @@ function ParticleSphere() {
       float d = length(gl_PointCoord - vec2(0.5));
       if (d > 0.5) discard;
       float alpha = 1.0 - smoothstep(0.1, 0.5, d);
-      gl_FragColor = vec4(vColor * 1.4, alpha);
+      gl_FragColor = vec4(vColor * 0.9, alpha * 0.7);
     }
   `;
 
@@ -136,7 +136,7 @@ function OrbitalRing({ radius, color, speed, tilt }: { radius: number; color: st
   return (
     <mesh ref={ref} rotation={[tilt, 0, 0]}>
       <torusGeometry args={[radius, 0.005, 8, 128]} />
-      <meshBasicMaterial color={color} transparent opacity={0.45} />
+      <meshBasicMaterial color={color} transparent opacity={0.2} />
     </mesh>
   );
 }
@@ -225,7 +225,7 @@ function AmbientDust() {
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
       </bufferGeometry>
-      <pointsMaterial color="#D4A843" size={0.015} transparent opacity={0.3} sizeAttenuation blending={THREE.AdditiveBlending} />
+      <pointsMaterial color="#D4A843" size={0.015} transparent opacity={0.15} sizeAttenuation blending={THREE.AdditiveBlending} />
     </points>
   );
 }
@@ -245,7 +245,7 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
         className="absolute w-[420px] h-[420px] sm:w-[560px] sm:h-[560px] rounded-full pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(58,125,110,0.25) 0%, rgba(212,168,67,0.12) 35%, rgba(90,173,160,0.06) 60%, transparent 80%)",
+            "radial-gradient(circle, rgba(58,125,110,0.12) 0%, rgba(212,168,67,0.06) 35%, rgba(90,173,160,0.03) 60%, transparent 80%)",
           filter: "blur(50px)",
         }}
       />
@@ -253,7 +253,7 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
         className="absolute w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] rounded-full pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(212,168,67,0.2) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(212,168,67,0.08) 0%, transparent 70%)",
           filter: "blur(30px)",
         }}
       />
