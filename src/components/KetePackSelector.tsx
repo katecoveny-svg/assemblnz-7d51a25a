@@ -41,14 +41,14 @@ const KETE_PACKS = [
   },
   {
     name: "Arataki",
-    sub: "Privacy & Business Compliance",
+    sub: "Automotive",
     wananga: "Te Kete Tuauri",
-    wanangaEn: "Governance & compliance",
+    wanangaEn: "Dealership operations",
     icon: Car,
     to: "/arataki",
     color: "#E8E8E8",
-    agents: "Lead kete",
-    desc: "IPP3A-ready privacy packs. The evidence pack your board and the Privacy Commissioner will both recognise.",
+    agents: "11 workflows",
+    desc: "Enquiry → test drive → sale → delivery → service → loyalty. Warranty claims, workshop flow, and loan car handoffs handled.",
   },
   {
     name: "Pikau",
