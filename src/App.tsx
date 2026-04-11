@@ -230,7 +230,9 @@ const App = () => (
                   <Route path="/manaaki" element={<Suspense fallback={null}><ManaakiLandingPage /></Suspense>} />
                   <Route path="/manaaki/dashboard" element={<Suspense fallback={null}><ManaakiDashboard /></Suspense>} />
                   <Route path="/arataki" element={<Suspense fallback={null}><AratakiLandingPage /></Suspense>} />
+                  <Route path="/arataki/dashboard" element={<Suspense fallback={null}><AratakiDashboard /></Suspense>} />
                   <Route path="/pikau" element={<Suspense fallback={null}><PikauLandingPage /></Suspense>} />
+                  <Route path="/pikau/dashboard" element={<Suspense fallback={null}><PikauDashboard /></Suspense>} />
                   {/* Retired kete — redirected 2026-04-10 */}
                   <Route path="/pakihi" element={<Navigate to="/" replace />} />
                   <Route path="/hangarau" element={<Navigate to="/" replace />} />
