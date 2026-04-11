@@ -107,9 +107,9 @@ export default function ManaakiDashboard() {
         user_id: user.id,
         output_type: "evidence_pack",
         title: `Booking Pack — ${booking.guest_name}`,
-        content: packContent,
-        pack_id: "manaaki",
-        agent_code: "aura",
+        content_preview: JSON.stringify(packContent).slice(0, 500),
+        agent_id: "manaaki",
+        agent_name: "AURA",
       });
       return packContent;
     },

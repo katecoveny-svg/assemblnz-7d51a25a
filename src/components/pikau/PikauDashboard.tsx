@@ -69,9 +69,9 @@ export default function PikauDashboard() {
         user_id: user.id,
         output_type: "evidence_pack",
         title: `Customs Pack — ${shipment.id}`,
-        content: pack,
-        pack_id: "pikau",
-        agent_code: "gateway",
+        content_preview: JSON.stringify(pack).slice(0, 500),
+        agent_id: "pikau",
+        agent_name: "GATEWAY",
       });
       // Update local status
       setShipments(prev => prev.map(s => s.id === shipment.id ? { ...s, status: "declared" as const } : s));

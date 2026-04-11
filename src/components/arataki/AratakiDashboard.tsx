@@ -86,9 +86,9 @@ export default function AratakiDashboard() {
         user_id: user.id,
         output_type: "evidence_pack",
         title: `Warranty Pack — ${lead.name}`,
-        content: pack,
-        pack_id: "waka",
-        agent_code: "motor",
+        content_preview: JSON.stringify(pack).slice(0, 500),
+        agent_id: "waka",
+        agent_name: "MOTOR",
       });
       return pack;
     },
