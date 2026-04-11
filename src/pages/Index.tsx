@@ -97,7 +97,7 @@ const stagger = (i: number) => ({
 const TRUST_ITEMS = [
   { icon: Shield, label: "Built for control", desc: "Clear rules, approvals, and review pathways", color: C.pounamu },
   { icon: Globe, label: "NZ-ready", desc: "Designed around local operating conditions", color: C.pounamuLight },
-  { icon: Zaz, label: "Practical outcomes", desc: "Less admin, better consistency, faster turnaround", color: C.gold },
+  { icon: Zap, label: "Practical outcomes", desc: "Less admin, better consistency, faster turnaround", color: C.gold },
   { icon: Layers, label: "Start small", desc: "Begin with one workflow and expand when it proves value", color: C.navy },
 ];
 
