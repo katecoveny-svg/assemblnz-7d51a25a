@@ -12,6 +12,7 @@ import ReactMarkdown from "react-markdown";
 import GlowIcon from "./GlowIcon";
 import VoiceAgentModal from "./VoiceAgentModal";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
+import toroaMark from "@/assets/brand/toroa-mark.svg";
 
 interface KeteBrainChatProps {
   keteId: string;
@@ -235,6 +236,8 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
       >
         {open ? (
           <GlowIcon name="X" size={20} color={open ? "#09090F" : accentColor} glow={false} />
+        ) : keteId === "toroa" ? (
+          <img src={toroaMark} alt="Tōro" className="w-8 h-8 rounded-full" />
         ) : (
           <GlowIcon name="Brain" size={22} color={accentColor} />
         )}
@@ -259,7 +262,11 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
           >
             {/* Header */}
             <div className="p-4 border-b flex items-center gap-3" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-              <BrainAvatar color={accentColor} size={40} />
+              {keteId === "toroa" ? (
+                <img src={toroaMark} alt="Tōro" className="w-10 h-10 rounded-full" />
+              ) : (
+                <BrainAvatar color={accentColor} size={40} />
+              )}
               <div className="flex-1 min-w-0">
                 <p className="text-white text-sm font-light uppercase tracking-[2px]" style={{ fontFamily: "Lato, sans-serif" }}>
                   {keteName}
