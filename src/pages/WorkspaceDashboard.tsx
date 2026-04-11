@@ -27,6 +27,14 @@ interface WorkflowItem {
   time_saved_per_week: string;
 }
 
+interface EvidenceBrief {
+  title: string;
+  date: string;
+  summary: string;
+  simulated: boolean;
+  findings: { title: string; risk_level: string }[];
+}
+
 const KETE_COLORS: Record<string, string> = {
   MANAAKI: "#3A7D6E",
   WAIHANGA: "#1A3A5C",
