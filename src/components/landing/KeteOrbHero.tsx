@@ -15,10 +15,11 @@ const ORBIT_RING_COUNT = 3;
 
 const KETE_COLORS = ["#D4A843", "#3A7D6E", "#F0D078", "#E8E8E8", "#5AADA0"];
 
-/* ── Particle sphere: thousands of points forming a breathing sphere ── */
+/* ── Particle kete: points forming a breathing woven basket ── */
 function ParticleSphere() {
   const pointsRef = useRef<THREE.Points>(null);
   const basePositions = useRef<Float32Array | null>(null);
+  const totalCount = PARTICLE_COUNT + HANDLE_PARTICLES;
 
   const { positions, colors, sizes } = useMemo(() => {
     const pos = new Float32Array(PARTICLE_COUNT * 3);
