@@ -284,6 +284,8 @@ const App = () => (
                   </Route>
                   <Route path="/start" element={<Suspense fallback={null}><StartPage /></Suspense>} />
                   <Route path="/start/pending/:id" element={<Suspense fallback={null}><StartPendingPage /></Suspense>} />
+                  <Route path="/workspace" element={<Suspense fallback={null}><WorkspaceDashboard /></Suspense>} />
+                  <Route path="/workspace/connections" element={<Suspense fallback={null}><WorkspaceConnections /></Suspense>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
