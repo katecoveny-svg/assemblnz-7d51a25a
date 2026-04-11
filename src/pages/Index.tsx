@@ -299,12 +299,7 @@ const Index = () => {
                     className="absolute top-0 left-[14%] right-[14%] h-px"
                     style={{ background: `linear-gradient(90deg, transparent, ${p.color}55, transparent)` }}
                   />
-                  {p.reo === "Toro" ? (
-                    <div className="flex h-full w-full items-center justify-center" style={{ filter: 'drop-shadow(0 0 18px rgba(135,206,235,0.35))' }}>
-                      <ToroBirdIcon size={isMobile ? 44 : 54} color="#87CEEB" />
-                    </div>
-                  ) : (
-                    <KeteIcon
+                  <KeteIcon
                       name={p.reo}
                       accentColor={p.color}
                       accentLight={p.accentLight}
@@ -322,7 +317,6 @@ const Index = () => {
                       size="small"
                       animated
                     />
-                  )}
                 </div>
                 <div className="flex flex-col items-center gap-0.5">
                   <span
