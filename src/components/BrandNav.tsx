@@ -15,7 +15,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Research Lab", to: "/aaaip" },
 ];
 
-const PACKS = [
+const KETE = [
   { label: "Manaaki", sublabel: "Hospitality", to: "/manaaki", icon: UtensilsCrossed, color: "#D4A843" },
   { label: "Waihanga", sublabel: "Construction", to: "/waihanga", icon: HardHat, color: "#3A7D6E" },
   { label: "Auaha", sublabel: "Creative", to: "/auaha", icon: Palette, color: "#F0D078" },
@@ -74,11 +74,11 @@ const BrandNav = () => {
             </button>
           ))}
 
-          {/* Industry Packs dropdown */}
+          {/* Industry Kete dropdown */}
           <div className="relative">
             <button onClick={() => setPacksOpen(!packsOpen)}
               className="px-3 py-2 rounded-lg font-body font-medium text-white/65 hover:text-white transition-colors flex items-center gap-1">
-              Industry Packs
+              Industry Kete
               <ChevronDown size={12} className={`transition-transform ${packsOpen ? "rotate-180" : ""}`} />
             </button>
             <AnimatePresence>
@@ -88,7 +88,7 @@ const BrandNav = () => {
                   <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }}
                     className="absolute top-full right-0 mt-2 z-20 w-[260px] rounded-xl p-2 space-y-0.5"
                     style={{ background: "#13131F", border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 20px 40px rgba(0,0,0,0.4)" }}>
-                    {PACKS.map(pack => (
+                    {KETE.map(pack => (
                       <button key={pack.label} onClick={() => handleNavClick(pack.to)}
                         className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/[0.04] transition-colors group">
                         <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${pack.color}15` }}>
@@ -149,9 +149,9 @@ const BrandNav = () => {
                 ))}
 
                 <div className="pt-2 pb-1">
-                  <span className="px-4 text-[10px] font-semibold tracking-widest" style={{ color: "#5AADA0" }}>INDUSTRY PACKS</span>
+                  <span className="px-4 text-[10px] font-semibold tracking-widest" style={{ color: "#5AADA0" }}>INDUSTRY KETE</span>
                 </div>
-                {PACKS.map(pack => (
+                {KETE.map(pack => (
                   <button key={pack.label} onClick={() => handleNavClick(pack.to)}
                     className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-body transition-all duration-200"
                     style={{ color: "rgba(255,255,255,0.7)" }}>
