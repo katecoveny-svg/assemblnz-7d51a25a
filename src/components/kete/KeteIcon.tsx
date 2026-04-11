@@ -158,7 +158,7 @@ const KeteIcon: React.FC<KeteIconProps> = ({
           className={animated ? (variant === "warm" ? "kete-handle-warm" : "kete-handle") : ""}
         />
 
-        {/* Albatross silhouette for Tōroa */}
+        {/* Albatross silhouette for Toro */}
         {variant === "warm" && (
           <g opacity="0.5" className={animated ? "kete-albatross" : ""}>
             <ellipse cx="100" cy="110" rx="14" ry="9" fill={accentColor} />

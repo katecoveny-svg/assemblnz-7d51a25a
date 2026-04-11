@@ -43,7 +43,7 @@ const AGENT_COLOURS: Record<string, string> = {
 };
 
 const AGENT_LABELS: Record<string, string> = {
-  toroa: "Tōroa",
+  toroa: "Toro",
   aroha: "AROHA",
   aura: "AURA",
   hanga: "Waihanga",

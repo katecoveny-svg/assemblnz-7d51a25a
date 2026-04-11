@@ -77,18 +77,18 @@ export default function ToroaDashboard() {
   const overBudget = budget.spent > budget.limit;
 
   return (
-    <KeteDashboardShell name="Tōroa" subtitle="Whānau Navigator — Family Intelligence" accentColor={KOWHAI} accentLight="#FFE866" variant="warm">
+    <KeteDashboardShell name="Toro" subtitle="Whānau Navigator — Family Intelligence" accentColor={KOWHAI} accentLight="#FFE866" variant="warm">
       {/* Top bar */}
       <header className="sticky top-0 z-50 px-4 py-3 flex items-center justify-between" style={{ ...glass(), borderRadius: 0, borderTop: "none", borderLeft: "none", borderRight: "none" }}>
         <div className="flex items-center gap-3">
-          <img src={toroaLogo} alt="Tōroa" className="w-8 h-8" style={{ filter: `drop-shadow(0 0 8px ${KOWHAI}30)` }} />
+          <img src={toroaLogo} alt="Toro" className="w-8 h-8" style={{ filter: `drop-shadow(0 0 8px ${KOWHAI}30)` }} />
           <div>
-            <h1 className="font-display text-sm" style={{ fontWeight: 300, color: "rgba(255,255,255,0.9)" }}>Tōroa</h1>
+            <h1 className="font-display text-sm" style={{ fontWeight: 300, color: "rgba(255,255,255,0.9)" }}>Toro</h1>
             <p className="font-body text-[9px]" style={{ color: "rgba(255,255,255,0.35)" }}>Whānau Navigator</p>
           </div>
         </div>
         <a href="sms:+64XXXXXXXXX" className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-display" style={{ background: `${KOWHAI}15`, border: `1px solid ${KOWHAI}25`, color: KOWHAI, fontWeight: 300 }}>
-          <MessageSquare size={12} /> Text Tōroa
+          <MessageSquare size={12} /> Text Toro
         </a>
       </header>
 
@@ -220,8 +220,8 @@ export default function ToroaDashboard() {
           </p>
         </motion.div>
 
-        {/* ── Chat with Tōroa ── */}
-        <KeteBrainChat keteId="toroa" keteName="Tōroa" keteNameEn="Family Navigator" accentColor={KOWHAI} />
+        {/* ── Chat with Toro ── */}
+        <KeteBrainChat keteId="toroa" keteName="Toro" keteNameEn="Family Navigator" accentColor={KOWHAI} />
       </div>
     </KeteDashboardShell>
   );

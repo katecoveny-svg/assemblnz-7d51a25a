@@ -389,10 +389,10 @@ export const KETE_DATA: KeteData[] = [
   },
   {
     slug: 'toroa',
-    name: 'Tōroa',
+    name: 'Toro',
     englishName: 'Family Navigator',
     description: 'SMS-first. No app, no login. Just text. School notices, meals, budgets, reminders, learning.',
-    longDescription: 'Tōroa is the SMS-first family navigator — a $29/month consumer product that works entirely via text message. No app download, no login required. Families text Tōroa for school newsletter parsing, meal planning from fridge photos, budget tracking, Auckland Transport bus times, homework reminders, family calendar management, and general NZ family advice. One agent, nine intent categories.',
+    longDescription: 'Toro is the SMS-first family navigator — a $29/month consumer product that works entirely via text message. No app download, no login required. Families text Toro for school newsletter parsing, meal planning from fridge photos, budget tracking, Auckland Transport bus times, homework reminders, family calendar management, and general NZ family advice. One agent, nine intent categories.',
     agentCount: 1,
     accentColor: '#87CEEB',
     accentLight: '#B0E2FF',
@@ -411,7 +411,7 @@ export const KETE_DATA: KeteData[] = [
     ],
     legislationCovered: ['Privacy Act 2020'],
     agents: [
-      { name: 'TŌROA', desc: 'Family SMS navigator', status: 'existing', capabilities: ['School newsletter parsing', 'Meal planning', 'Budget tracking', 'Bus tracking (AT API)', 'Calendar management', 'Homework reminders', 'Grocery lists', 'Family advice'] },
+      { name: 'TORO', desc: 'Family SMS navigator', status: 'existing', capabilities: ['School newsletter parsing', 'Meal planning', 'Budget tracking', 'Bus tracking (AT API)', 'Calendar management', 'Homework reminders', 'Grocery lists', 'Family advice'] },
     ],
   },
 ];

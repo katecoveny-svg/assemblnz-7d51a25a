@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, Clock, Plug, ChevronDown, ChevronUp, Download, Layers, Brain } from "lucide-react";
+import { CheckCircle2, Clock, Plug, ChevronDown, ChevronUp, Download, Layers } from "lucide-react";
 import { KETE_SKILL_DATA, SHARED_FOUNDATION, SHARED_CORE_AGENTS, getGlobalSkillStats, getSkillCoverage, getFoundationSkills } from "@/data/agentSkillConfig";
 import { Button } from "@/components/ui/button";
 
@@ -44,7 +44,7 @@ const SkillWiringDashboard = () => {
         {/* Global Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-8">
           {[
-            { label: 'Total Agents', value: stats.totalAgents, icon: Brain },
+            { label: 'Total Agents', value: stats.totalAgents, icon: Layers },
             { label: 'Total Skills', value: stats.totalSkills, icon: Layers },
             { label: 'Wired', value: stats.wired, icon: CheckCircle2, color: '#22C55E' },
             { label: 'Gaps', value: stats.gap, icon: Clock, color: '#EAB308' },

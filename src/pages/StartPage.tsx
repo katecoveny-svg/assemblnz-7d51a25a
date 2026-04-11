@@ -26,7 +26,7 @@ const KETE_OPTIONS = [
   { value: "AUAHA", label: "AUAHA", description: "Creative & media" },
   { value: "ARATAKI", label: "ARATAKI", description: "Privacy & compliance" },
   { value: "PIKAU", label: "PIKAU", description: "Security & governance" },
-  { value: "TOROA", label: "Tōroa", description: "Family edition" },
+  { value: "TOROA", label: "Toro", description: "Family edition" },
 ] as const;
 
 const PAIN_POINTS = [

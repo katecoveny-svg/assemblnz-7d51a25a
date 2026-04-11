@@ -108,7 +108,7 @@ const LivePacksHero = () => (
               style={{ background: `${accent}12`, border: `1px solid ${accent}22` }}
             >
               {pack.slug === "toroa" ? (
-                <img src={toroaIcon} alt="Tōroa" className="w-7 h-7 object-contain" />
+                <img src={toroaIcon} alt="Toro" className="w-7 h-7 object-contain" />
               ) : (
                 <div className="w-7 h-7" style={{ filter: `drop-shadow(0 0 8px ${accent}45)` }}>
                   {CONSTELLATION_MARKS[pack.slug]}

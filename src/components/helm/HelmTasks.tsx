@@ -96,7 +96,7 @@ export default function HelmTasks({ familyId }: { familyId: string | null }) {
   if (!familyId) {
     return (
       <div className="text-center py-12">
-        <ListTodo className="w-10 h-10 text-purple-400/40 mx-auto mb-3" />
+        <ListTodo className="w-10 h-10 text-pounamu/40 mx-auto mb-3" />
         <p className="text-sm text-white/40">Set up your family first to use tasks</p>
       </div>
     );
@@ -107,12 +107,12 @@ export default function HelmTasks({ familyId }: { familyId: string | null }) {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-            <ListTodo className="w-5 h-5 text-purple-400" />
+            <ListTodo className="w-5 h-5 text-pounamu" />
             Tasks
           </h2>
           {pendingCount > 0 && <p className="text-xs text-white/40 mt-0.5">{pendingCount} pending</p>}
         </div>
-        <button onClick={() => setShowForm(!showForm)} className="text-xs px-3 py-1.5 rounded-lg font-semibold bg-purple-500 text-white inline-flex items-center gap-1">
+        <button onClick={() => setShowForm(!showForm)} className="text-xs px-3 py-1.5 rounded-lg font-semibold bg-pounamu text-white inline-flex items-center gap-1">
           <Plus className="w-3 h-3" /> Add
         </button>
       </div>
@@ -128,7 +128,7 @@ export default function HelmTasks({ familyId }: { familyId: string | null }) {
       <div className="flex gap-1.5">
         {(["pending", "all", "completed"] as const).map(f => (
           <button key={f} onClick={() => setFilter(f)}
-            className={`text-[10px] px-3 py-1.5 rounded-lg font-medium border capitalize ${filter === f ? "bg-purple-500 text-white border-purple-500" : "bg-white/5 border-white/10 text-white/40"}`}>
+            className={`text-[10px] px-3 py-1.5 rounded-lg font-medium border capitalize ${filter === f ? "bg-pounamu text-white border-pounamu" : "bg-white/5 border-white/10 text-white/40"}`}>
             {f}
           </button>
         ))}
@@ -140,24 +140,24 @@ export default function HelmTasks({ familyId }: { familyId: string | null }) {
           <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })}
             onKeyDown={(e) => e.key === "Enter" && addTask()}
             placeholder="Task description" autoFocus
-            className="w-full text-sm px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50" />
+            className="w-full text-sm px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-pounamu/50" />
           <div className="flex gap-2">
             <input value={form.assignedTo} onChange={(e) => setForm({ ...form, assignedTo: e.target.value })}
               placeholder="Assign to"
-              className="flex-1 text-sm px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50" />
+              className="flex-1 text-sm px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-pounamu/50" />
             <input value={form.dueDate} onChange={(e) => setForm({ ...form, dueDate: e.target.value })}
               type="date"
-              className="text-sm px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50" />
+              className="text-sm px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-pounamu/50" />
           </div>
           <div className="flex gap-1.5">
             {(Object.keys(PRIORITIES) as (keyof typeof PRIORITIES)[]).map(p => (
               <button key={p} onClick={() => setForm({ ...form, priority: p })}
-                className={`text-[10px] px-2.5 py-1 rounded-lg border font-medium capitalize ${form.priority === p ? "bg-purple-500 text-white border-purple-500" : "bg-white/5 border-white/10 text-white/40"}`}>
+                className={`text-[10px] px-2.5 py-1 rounded-lg border font-medium capitalize ${form.priority === p ? "bg-pounamu text-white border-pounamu" : "bg-white/5 border-white/10 text-white/40"}`}>
                 {p}
               </button>
             ))}
           </div>
-          <button onClick={addTask} className="w-full text-sm py-2 rounded-lg font-semibold bg-purple-500 text-white">Add Task</button>
+          <button onClick={addTask} className="w-full text-sm py-2 rounded-lg font-semibold bg-pounamu text-white">Add Task</button>
         </div>
       )}
 

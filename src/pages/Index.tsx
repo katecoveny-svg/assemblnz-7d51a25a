@@ -108,7 +108,7 @@ const PACKS: {
   { reo: "Auaha", en: "Creative & Media", desc: "Strategy, content, brand voice, design, campaigns, lead formation, analytics — one coordinated studio.", color: "#D4A843", accentLight: "#E8C76A", to: "/sample/auaha" },
   { reo: "Arataki", en: "Automotive", desc: "Enquiry → test drive → sale → delivery → service → loyalty. No handoff dropped across DMS, CRM, and OEM portals.", color: "#E8E8E8", accentLight: "rgba(255,255,255,0.7)", to: "/sample/arataki" },
   { reo: "Pikau", en: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance.", color: "#7ECFC2", accentLight: "#A8E6DA", to: "/sample/pikau" },
-  { reo: "Toroa", en: "Family Navigator", desc: "SMS-first whānau coordination. School notices, kai plans, appointments, budgets — no app needed.", color: "#87CEEB", accentLight: "#AEE0F7", to: "/sample/toroa" },
+  { reo: "Toro", en: "Family Navigator", desc: "SMS-first whānau coordination. School notices, kai plans, appointments, budgets — no app needed.", color: "#87CEEB", accentLight: "#AEE0F7", to: "/sample/toroa" },
 ];
 
 const PIPELINE_STAGES = [
@@ -749,14 +749,14 @@ const Index = () => {
             </div>
             <Eyebrow>ALSO FROM ASSEMBL</Eyebrow>
             <h3 className="text-2xl uppercase tracking-[4px] mb-4" style={{ fontFamily: FONT.heading, fontWeight: 300, color: C.white }}>
-              Tōroa
+              Toro
             </h3>
             <Body className="mb-8">SMS-first whānau navigator for Aotearoa. No app, no login, just text. $29/month.</Body>
             <Link
               to="/toroa"
               className="btn-ghost inline-flex items-center gap-2 px-8 py-3.5 text-sm rounded-full"
             >
-              Visit Tōroa <ArrowRight size={15} />
+              Visit Toro <ArrowRight size={15} />
             </Link>
           </motion.div>
         </div>

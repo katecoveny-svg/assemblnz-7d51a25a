@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, ChevronDown, Rocket, Layers, Package, Crown, Brain, Eye, FileText, Database, Lock, Globe, Heart, PenTool, Monitor, Phone, MessageCircle, Mic, Mail } from "lucide-react";
+import { Check, ChevronDown, Rocket, Layers, Package, Crown, Eye, FileText, Database, Lock, Globe, Heart, PenTool, Monitor, Phone, MessageCircle, Mic, Mail } from "lucide-react";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
@@ -236,7 +236,7 @@ const PricingTiers = () => (
 
 /* ── Section D: Capability Map ── */
 const SHARED_AGENTS = [
-  { icon: Brain, name: "Iho", desc: "Central routing engine" },
+  { icon: Layers, name: "Iho", desc: "Central routing engine" },
   { icon: Eye, name: "Kahu", desc: "Compliance check" },
   { icon: FileText, name: "Tā", desc: "Audit trail" },
   { icon: Database, name: "Mahara", desc: "Business memory" },
@@ -299,12 +299,12 @@ const CapabilityMap = () => (
         ))}
       </div>
 
-      {/* Tōroa separate */}
+      {/* Toro separate */}
       <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="glass-card glow-card-hover rounded-2xl p-5 max-w-md mx-auto" style={{ borderTop: "2px solid hsl(var(--primary))" }}>
         <div className="flex items-center gap-2 mb-2">
           <span className="text-[9px] font-display tracking-[2px] uppercase px-2 py-0.5 rounded-full" style={{ background: "rgba(212,168,67,0.15)", color: "hsl(var(--primary))", fontWeight: 700 }}>CONSUMER</span>
         </div>
-        <h3 className="text-base font-display text-foreground mb-1" style={{ fontWeight: 300 }}>Tōroa</h3>
+        <h3 className="text-base font-display text-foreground mb-1" style={{ fontWeight: 300 }}>Toro</h3>
         <p className="text-[11px] font-body text-muted-foreground/60 mb-2">Family Navigator · 1 agent</p>
         <p className="text-xs font-body text-muted-foreground">SMS-first family AI. No app. Just text. $29/mo</p>
       </motion.div>
@@ -331,14 +331,14 @@ const CapabilityMap = () => (
   </section>
 );
 
-/* ── Section E: Tōroa ── */
+/* ── Section E: Toro ── */
 const ToroaSection = () => {
   const features = ["Photo → school notice parsed", "Fridge photo → meal plan", "Live bus tracking", "Weather → dress the kids", "Smart reminders", "Homework tracker"];
   return (
     <section className="py-16 sm:py-20">
       <div className="max-w-3xl mx-auto px-5 text-center">
         <p className="text-[11px] font-display tracking-[5px] uppercase mb-3" style={{ fontWeight: 700, color: "hsl(var(--primary))" }}>FOR WHĀNAU</p>
-        <h2 className="text-xl sm:text-3xl font-display text-foreground mb-6" style={{ fontWeight: 300 }}>Tōroa — Your family's intelligent navigator</h2>
+        <h2 className="text-xl sm:text-3xl font-display text-foreground mb-6" style={{ fontWeight: 300 }}>Toro — Your family's intelligent navigator</h2>
         <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="glass-card glow-card-hover rounded-2xl p-8 inline-block text-left" style={{ borderColor: "rgba(212,168,67,0.2)" }}>
           <p className="text-2xl font-mono text-foreground mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500 }}>NZ$29<span className="text-sm text-muted-foreground">/month</span></p>
           <p className="text-xs font-body text-muted-foreground mb-5">No app. No login. Just text.</p>

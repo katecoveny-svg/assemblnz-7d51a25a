@@ -147,7 +147,7 @@ const BusinessScore = () => {
     return [
       { key: "compliance", label: "Compliance", icon: ShieldCheck, weight: 20, score: compScore, color: "#3A6A9C" },
       { key: "financial", label: "Financial Health", icon: DollarSign, weight: 20, score: finScore, color: "#5AADA0" },
-      { key: "team", label: "Team", icon: Users, weight: 15, score: teamScore, color: "#FF80AB" },
+      { key: "team", label: "Team", icon: Users, weight: 15, score: teamScore, color: "#D4A843" },
       { key: "marketing", label: "Marketing", icon: Megaphone, weight: 15, score: mktScore, color: "#3A6A9C" },
       { key: "operations", label: "Operations", icon: Settings, weight: 15, score: opsScore, color: "#FFB800" },
       { key: "growth", label: "Growth", icon: TrendingUp, weight: 15, score: growthScore, color: "#1A3A5C" },

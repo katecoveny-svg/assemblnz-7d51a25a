@@ -70,7 +70,7 @@ export default function ToroaApp() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // Set dynamic PWA manifest for TŌROA
+  // Set dynamic PWA manifest for TORO
   useEffect(() => setDynamicManifest("operations"), []);
 
   // Load family
@@ -108,7 +108,7 @@ export default function ToroaApp() {
       });
       setMessages([...newMessages, { role: "assistant", content }]);
     } catch (err: any) {
-      console.error("TŌROA chat error:", err);
+      console.error("TORO chat error:", err);
       setMessages([...newMessages, { role: "assistant", content: "Something went wrong. Please try again." }]);
     } finally {
       setLoading(false);
@@ -129,7 +129,7 @@ export default function ToroaApp() {
 
   return (
     <div className="h-screen flex flex-col" style={{ background: "#09090F", color: "white" }}>
-      <PWAInstallBanner agentName="TŌROA" agentColor={TOROA_COLOR} />
+      <PWAInstallBanner agentName="TORO" agentColor={TOROA_COLOR} />
       {/* Top Bar */}
       <header className="flex items-center gap-3 px-4 py-3 border-b border-white/5 shrink-0">
         <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-1.5 rounded-lg hover:bg-white/5 transition lg:hidden">
@@ -137,7 +137,7 @@ export default function ToroaApp() {
         </button>
         <AgentAvatar agentId="operations" color={TOROA_COLOR} size={32} showGlow={false} eager />
         <div className="flex-1 min-w-0">
-          <h1 className="text-sm font-bold font-display" style={{ color: TOROA_COLOR }}>TŌROA</h1>
+          <h1 className="text-sm font-bold font-display" style={{ color: TOROA_COLOR }}>TORO</h1>
           <p className="text-[9px] text-white/30 font-mono">Your family's intelligent navigator</p>
         </div>
         {user ? (
@@ -198,7 +198,7 @@ export default function ToroaApp() {
                     <p className="text-[9px] text-white/30 uppercase tracking-wide mb-1">Status</p>
                     <div className="flex items-center gap-1.5">
                       <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                      <span className="text-[10px] text-white/50">TŌROA Online</span>
+                      <span className="text-[10px] text-white/50">TORO Online</span>
                     </div>
                   </div>
                   <Link to="/" className="flex items-center gap-1.5 text-[10px] text-white/25 hover:text-white/40 transition px-1">
@@ -239,7 +239,7 @@ export default function ToroaApp() {
                      </div>
                     <h2 className="text-lg font-display font-bold mb-1" style={{ color: TOROA_COLOR }}>Kia ora!</h2>
                     <p className="text-xs text-white/40 text-center max-w-sm mb-6">
-                      I'm TŌROA, your family's intelligent navigator. I can help with school admin, meal plans, budgets, and more.
+                      I'm TORO, your family's intelligent navigator. I can help with school admin, meal plans, budgets, and more.
                     </p>
                     <HelmQuickActions onSelect={switchToChat} />
                   </div>
@@ -299,7 +299,7 @@ export default function ToroaApp() {
                     value={input}
                     onChange={e => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder="Ask TŌROA anything..."
+                    placeholder="Ask TORO anything..."
                     rows={1}
                     className="flex-1 bg-transparent text-sm text-white/90 placeholder:text-white/25 resize-none focus:outline-none py-1"
                     style={{ maxHeight: "120px" }}
@@ -314,7 +314,7 @@ export default function ToroaApp() {
                   </button>
                 </div>
                 <p className="text-[9px] text-white/15 text-center mt-2">
-                  TŌROA by Assembl — intelligent family admin for NZ
+                  TORO by Assembl — intelligent family admin for NZ
                 </p>
               </div>
             </div>

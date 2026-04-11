@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Shield, MessageSquare, Users, Zap, Globe, Lock, FileText, Scale, Phone, Brain, Database, TrendingUp, ChevronRight } from "lucide-react";
+import { ArrowRight, Shield, MessageSquare, Users, Zap, Globe, Lock, FileText, Scale, Phone, Layers, Database, TrendingUp, ChevronRight } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 
@@ -578,7 +578,7 @@ const InvestPage = () => {
               accent: "#3A6A9C",
             },
             {
-              icon: Brain,
+              icon: Layers,
               title: "NZ-specific agent training",
               desc: "GST, ACC, employment law, council regulations, industry licensing. Agents that understand how NZ actually works.",
               accent: "#5AADA0",

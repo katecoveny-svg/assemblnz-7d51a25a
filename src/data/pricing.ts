@@ -24,7 +24,7 @@
  *
  * DO NOT introduce te reo on the pricing tier names. Te reo stays on the kete
  * names and the trust layer (Kahu / Iho / Mana / Tā / Mahara). The consumer
- * agent's internal branding (Tōroa) is unchanged — only the *pricing tier* is
+ * agent's internal branding (Toro) is unchanged — only the *pricing tier* is
  * called "Family".
  */
 
