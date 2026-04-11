@@ -13,6 +13,8 @@ import KeteWeaveVisual from "@/components/KeteWeaveVisual";
 import HeroKeteNetwork from "@/components/HeroKeteNetwork";
 import KeteIcon from "@/components/kete/KeteIcon";
 
+const KeteOrbHero = lazy(() => import("@/components/landing/KeteOrbHero"));
+
 const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel"));
 import ToroBirdIcon from "@/components/ToroBirdIcon";
 
