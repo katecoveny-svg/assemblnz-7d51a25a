@@ -8,7 +8,7 @@ const GOLD = "#D4A843";
 const GOLD_STYLE = { color: GOLD, filter: "drop-shadow(0 0 6px rgba(212,168,67,0.5))" };
 
 const TE_KAHUI_REO_AGENTS = [
-  { name: "IHO", subtitle: "Brain", desc: "Intelligent router & orchestrator", Icon: Brain },
+  { name: "IHO", subtitle: "Intelligence", desc: "Intelligent router & orchestrator", Icon: Layers },
   { name: "KANOHI", subtitle: "Dashboard", desc: "Front-of-house interface", Icon: LayoutDashboard },
   { name: "MANA", subtitle: "Access", desc: "Access control & authentication", Icon: ShieldCheck },
   { name: "MAHARA", subtitle: "Memory", desc: "Memory & context engine", Icon: Database },

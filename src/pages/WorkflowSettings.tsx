@@ -23,7 +23,7 @@ const PIPELINE_STAGES = [
   { key: "kahu", label: "Kahu", desc: "PII mask", icon: ShieldCheck },
   { key: "iho", label: "Iho", desc: "Route", icon: Route },
   { key: "ta", label: "Tā", desc: "Audit log", icon: BookOpen },
-  { key: "mahara", label: "Mahara", desc: "Memory", icon: Brain },
+  { key: "mahara", label: "Mahara", desc: "Memory", icon: Layers },
   { key: "mana", label: "Mana", desc: "Tikanga · Privacy · Sector Acts", icon: Scale },
 ] as const;
 

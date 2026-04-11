@@ -236,7 +236,7 @@ const PricingTiers = () => (
 
 /* ── Section D: Capability Map ── */
 const SHARED_AGENTS = [
-  { icon: Brain, name: "Iho", desc: "Central routing engine" },
+  { icon: Layers, name: "Iho", desc: "Central routing engine" },
   { icon: Eye, name: "Kahu", desc: "Compliance check" },
   { icon: FileText, name: "Tā", desc: "Audit trail" },
   { icon: Database, name: "Mahara", desc: "Business memory" },

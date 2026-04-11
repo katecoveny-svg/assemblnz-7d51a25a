@@ -578,7 +578,7 @@ const InvestPage = () => {
               accent: "#3A6A9C",
             },
             {
-              icon: Brain,
+              icon: Layers,
               title: "NZ-specific agent training",
               desc: "GST, ACC, employment law, council regulations, industry licensing. Agents that understand how NZ actually works.",
               accent: "#5AADA0",

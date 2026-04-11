@@ -68,7 +68,7 @@ export default function VoiceAgentPage() {
       {/* Agent indicator */}
       <Glass className="p-4 flex items-center gap-3">
         <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "rgba(58,125,110,0.15)" }}>
-          <Brain size={16} style={{ color: POUNAMU }} />
+          <Layers size={16} style={{ color: POUNAMU }} />
         </div>
         <div className="flex-1">
           <div className="text-xs text-white/70">Connected to <span style={{ color: POUNAMU }}>ĀRAI Safety Intelligence</span></div>
@@ -107,7 +107,7 @@ export default function VoiceAgentPage() {
               )}
               {status === "listening" ? <MicOff size={40} style={{ color: sc.color }} /> :
                 status === "speaking" ? <Volume2 size={40} style={{ color: sc.color }} /> :
-                status === "processing" ? <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }}><Brain size={40} style={{ color: sc.color }} /></motion.div> :
+                status === "processing" ? <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }}><Layers size={40} style={{ color: sc.color }} /></motion.div> :
                 <Mic size={40} style={{ color: sc.color }} />}
             </motion.button>
             <div className="mt-4 flex items-center gap-2">

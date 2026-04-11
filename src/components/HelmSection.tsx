@@ -53,7 +53,7 @@ const HelmSection = () => {
             <div className="text-center lg:text-left">
               <div className="flex items-center gap-2 justify-center lg:justify-start mb-3">
                 <Calendar size={18} style={{ color: TOROA_COLOR }} />
-                <Brain size={14} style={{ color: TOROA_COLOR }} />
+                <Layers size={14} style={{ color: TOROA_COLOR }} />
                 <span
                   className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full"
                   style={{

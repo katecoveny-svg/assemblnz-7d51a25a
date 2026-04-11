@@ -1061,7 +1061,7 @@ const ChatPage = () => {
     // SMS tab
     tabs.push({ id: "agent_sms", label: "SMS", icon: <MessageSquare size={13} /> });
     // Settings/Train tab
-    tabs.push({ id: "agent_training", label: "Settings", icon: <Brain size={13} /> });
+    tabs.push({ id: "agent_training", label: "Settings", icon: <Layers size={13} /> });
     return tabs;
   }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isHanga, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isToroa, isSports, isOra, isTahi, isVitae, hasLiveDataTab, auraModeKey]);
 
@@ -1296,7 +1296,7 @@ const ChatPage = () => {
 
         // Read agent metadata from response headers
         const respondingAgent = decodeURIComponent(resp.headers.get("X-Agent-Name") || agent.name);
-        const respondingIcon = resp.headers.get("X-Agent-Icon") || "Brain";
+        const respondingIcon = resp.headers.get("X-Agent-Icon") || "Layers";
 
         // Stream SSE response token by token
         const reader = resp.body!.getReader();
