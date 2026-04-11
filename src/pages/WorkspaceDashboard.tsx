@@ -103,6 +103,21 @@ export default function WorkspaceDashboard() {
             setWorkflows(plan.workflows_week_1 || []);
           } catch { /* ignore */ }
         }
+
+        // Fetch proof-of-life evidence brief
+        const { data: briefMemory } = await supabase
+          .from("business_memory")
+          .select("content")
+          .eq("user_id", user.id)
+          .eq("category", "proof_of_life")
+          .limit(1)
+          .maybeSingle();
+
+        if (briefMemory?.content) {
+          try {
+            setEvidenceBrief(JSON.parse(briefMemory.content));
+          } catch { /* ignore */ }
+        }
       }
       setLoading(false);
     })();
