@@ -56,6 +56,7 @@ export default function WorkspaceDashboard() {
   const navigate = useNavigate();
   const [tenant, setTenant] = useState<Tenant | null>(null);
   const [workflows, setWorkflows] = useState<WorkflowItem[]>([]);
+  const [evidenceBrief, setEvidenceBrief] = useState<EvidenceBrief | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
