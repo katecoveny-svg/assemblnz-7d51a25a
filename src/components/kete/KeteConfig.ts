@@ -54,9 +54,9 @@ export const KETE_CONFIG: KeteDefinition[] = [
     route: "/auaha", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
   },
   {
-    id: "arataki", name: "Arataki", nameEn: "Privacy & Business Compliance",
-    color: "#C65D4E", icon: ShieldCheck, agentCount: 4, group: "business",
-    description: "IPP3A-ready. Every Privacy Act 2020 run ends in a signed evidence pack your Privacy Officer can file, forward, or footnote.",
+    id: "arataki", name: "Arataki", nameEn: "Automotive",
+    color: "#E8E8E8", icon: ShieldCheck, agentCount: 4, group: "business",
+    description: "Workshops, fleet, vehicle compliance, service scheduling.",
     wananga: "Te Kete Tuauri — the basket of guidance and protection",
     route: "/kete/arataki", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
   },
