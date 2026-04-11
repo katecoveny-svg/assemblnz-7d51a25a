@@ -181,7 +181,7 @@ const AdminDashboard = () => {
   const getAgentInfo = (id: string) => agents.find(a => a.id === id);
   const getStatus = (id: string) => agentStatuses.find(a => a.agent_id === id);
 
-  const tabs = ["overview", "users", "agents", "activity", "leads", "documents", "test", "test-results"] as const;
+  const tabs = ["overview", "users", "agents", "activity", "leads", "documents", "pipeline", "test", "test-results"] as const;
 
   return (
     <div className="min-h-screen star-field flex flex-col">
