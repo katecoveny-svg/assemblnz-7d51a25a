@@ -5,9 +5,10 @@ import * as THREE from "three";
 import { motion } from "framer-motion";
 
 /**
- * KeteOrbHero — A clearly woven kete basket wireframe with
- * gentle Matariki twinkling stars on the surface, glowing nodes,
- * and data-connection lines linking them.
+ * KeteOrbHero — A woven kete basket inside a translucent glass orb,
+ * with the six cognitive layers (Perception, Memory, Reasoning, Action,
+ * Explanation, Simulation) orbiting as floating labels — the knowledge
+ * woven into the basket.
  */
 
 const KOWHAI = "#D4A843";
@@ -19,14 +20,14 @@ function useIsMobile() {
   return typeof window !== "undefined" && window.innerWidth < 640;
 }
 
-/* ── Basket profile helper — shared by wireframe + stars ── */
+/* ── Basket profile helper ── */
 function keteRadius(t: number): number {
   if (t < 0.1) return 0.25 + t * 3.5;
   if (t < 0.4) return 0.6 - ((t - 0.1) / 0.3) * 0.1;
   return 0.5 + ((t - 0.4) / 0.6) * 0.5;
 }
 
-/* ── Matariki stars — placed ON the kete basket surface ── */
+/* ── Matariki stars on the kete surface ── */
 function MatarikiStars({ mobile }: { mobile: boolean }) {
   const ref = useRef<THREE.Points>(null);
   const count = mobile ? 250 : 550;
@@ -40,11 +41,10 @@ function MatarikiStars({ mobile }: { mobile: boolean }) {
     const palette = [KOWHAI, POUNAMU, TEAL_LIGHT, GOLD_LIGHT, "#FFFFFF"];
 
     for (let i = 0; i < count; i++) {
-      const t = Math.random(); // 0=bottom 1=top of basket
+      const t = Math.random();
       const angle = Math.random() * Math.PI * 2;
       const y = -0.7 + t * 1.4;
       const r = keteRadius(t);
-      // Weave wobble for organic texture
       const wobble = Math.sin(angle * 6 + t * 8) * 0.02;
       const scatter = (Math.random() - 0.5) * 0.04;
 
@@ -64,10 +64,7 @@ function MatarikiStars({ mobile }: { mobile: boolean }) {
       phases[i] = Math.random() * Math.PI * 2;
     }
 
-    // Handle stars
     const handleCount = mobile ? 20 : 40;
-    const totalNeeded = count; // already allocated
-    // We'll place some stars along handle arch
     for (let i = 0; i < Math.min(handleCount, count); i++) {
       const t = i / handleCount;
       const a = -Math.PI * 0.35 + t * Math.PI * 0.7;
@@ -98,16 +95,12 @@ function MatarikiStars({ mobile }: { mobile: boolean }) {
     for (let i = 0; i < count; i++) {
       const i3 = i * 3;
       const phase = twinklePhases[i];
-
-      // Very gentle breathing
       const breathe = 1 + Math.sin(t * 0.25 + phase) * 0.015;
       posAttr.array[i3] = basePositions[i3] * breathe;
       posAttr.array[i3 + 1] = basePositions[i3 + 1] * breathe;
       posAttr.array[i3 + 2] = basePositions[i3 + 2] * breathe;
 
-      // Slow, gentle twinkle (NOT flashing)
       const twinkle = 0.75 + Math.sin(t * 0.4 + phase * 2) * 0.25;
-      // Rare gentle sparkle — very occasional, subtle
       const sparkle = Math.sin(t * 0.8 + phase * 5) > 0.98 ? 1.4 : 1.0;
       sizeAttr.array[i] = baseSizes[i] * twinkle * sparkle;
     }
@@ -161,7 +154,7 @@ function MatarikiStars({ mobile }: { mobile: boolean }) {
   );
 }
 
-/* ── Kete wireframe basket — stronger, more visible ── */
+/* ── Kete wireframe basket ── */
 function KeteWireframe() {
   const groupRef = useRef<THREE.Group>(null);
 
@@ -175,7 +168,6 @@ function KeteWireframe() {
   const lineData = useMemo(() => {
     const result: { points: [number, number, number][]; color: string; opacity: number; width: number }[] = [];
 
-    // Horizontal weave rings — more rings, stronger
     for (let i = 0; i < 12; i++) {
       const t = i / 11;
       const y = -0.7 + t * 1.4;
@@ -186,15 +178,9 @@ function KeteWireframe() {
         const wobble = Math.sin(angle * 8 + i * 1.5) * 0.018;
         pts.push([Math.cos(angle) * (r + wobble), y, Math.sin(angle) * (r + wobble)]);
       }
-      result.push({
-        points: pts,
-        color: i % 2 === 0 ? KOWHAI : POUNAMU,
-        opacity: 0.35,
-        width: 1.2,
-      });
+      result.push({ points: pts, color: i % 2 === 0 ? KOWHAI : POUNAMU, opacity: 0.35, width: 1.2 });
     }
 
-    // Vertical weave strands — diagonal harakeke pattern
     for (let i = 0; i < 20; i++) {
       const baseAngle = (i / 20) * Math.PI * 2;
       const pts: [number, number, number][] = [];
@@ -202,20 +188,13 @@ function KeteWireframe() {
         const t = j / 36;
         const y = -0.7 + t * 1.4;
         const r = keteRadius(t);
-        // Diagonal weave: angle shifts with height
         const angle = baseAngle + t * 0.4 * (i % 2 === 0 ? 1 : -1);
         const wobble = Math.sin(t * Math.PI * 5 + i) * 0.02;
         pts.push([Math.cos(angle) * (r + wobble), y, Math.sin(angle) * (r + wobble)]);
       }
-      result.push({
-        points: pts,
-        color: i % 3 === 0 ? TEAL_LIGHT : KOWHAI,
-        opacity: 0.25,
-        width: 0.8,
-      });
+      result.push({ points: pts, color: i % 3 === 0 ? TEAL_LIGHT : KOWHAI, opacity: 0.25, width: 0.8 });
     }
 
-    // Handle arch 1
     const h1: [number, number, number][] = [];
     for (let i = 0; i <= 36; i++) {
       const t = i / 36;
@@ -224,7 +203,6 @@ function KeteWireframe() {
     }
     result.push({ points: h1, color: KOWHAI, opacity: 0.5, width: 1.8 });
 
-    // Handle arch 2 (perpendicular)
     const h2: [number, number, number][] = [];
     for (let i = 0; i <= 36; i++) {
       const t = i / 36;
@@ -239,20 +217,56 @@ function KeteWireframe() {
   return (
     <group ref={groupRef}>
       {lineData.map((line, i) => (
-        <Line
-          key={i}
-          points={line.points}
-          color={line.color}
-          lineWidth={line.width}
-          transparent
-          opacity={line.opacity}
-        />
+        <Line key={i} points={line.points} color={line.color} lineWidth={line.width} transparent opacity={line.opacity} />
       ))}
     </group>
   );
 }
 
-/* ── Glowing nodes with data connection lines ── */
+/* ── Glass orb sphere enclosing the kete ── */
+function GlassOrb() {
+  const ref = useRef<THREE.Mesh>(null);
+
+  useFrame(({ clock }) => {
+    if (ref.current) {
+      const mat = ref.current.material as THREE.MeshPhysicalMaterial;
+      mat.opacity = 0.04 + Math.sin(clock.getElapsedTime() * 0.3) * 0.015;
+    }
+  });
+
+  return (
+    <mesh ref={ref}>
+      <sphereGeometry args={[1.35, 64, 64]} />
+      <meshPhysicalMaterial
+        color="#5AADA0"
+        transparent
+        opacity={0.04}
+        roughness={0.1}
+        metalness={0.0}
+        clearcoat={1}
+        clearcoatRoughness={0.1}
+        envMapIntensity={0.5}
+        side={THREE.BackSide}
+      />
+    </mesh>
+  );
+}
+
+/* ── Orb rim ring — glass edge highlight ── */
+function OrbRimRing({ radius, color, tilt, speed }: { radius: number; color: string; tilt: number; speed: number }) {
+  const ref = useRef<THREE.Mesh>(null);
+  useFrame(({ clock }) => {
+    if (ref.current) ref.current.rotation.z = clock.getElapsedTime() * speed;
+  });
+  return (
+    <mesh ref={ref} rotation={[tilt, 0, 0]}>
+      <torusGeometry args={[radius, 0.004, 8, 128]} />
+      <meshBasicMaterial color={color} transparent opacity={0.12} />
+    </mesh>
+  );
+}
+
+/* ── Data nodes on the kete surface ── */
 function DataNodes({ mobile }: { mobile: boolean }) {
   const groupRef = useRef<THREE.Group>(null);
   const nodeCount = mobile ? 9 : 16;
@@ -270,19 +284,14 @@ function DataNodes({ mobile }: { mobile: boolean }) {
       const y = -0.5 + t * 1.1;
       const tn = (y + 0.7) / 1.4;
       const r = keteRadius(tn);
-      result.push({
-        pos: [Math.cos(angle) * r, y, Math.sin(angle) * r],
-        color: palette[i % palette.length],
-      });
+      result.push({ pos: [Math.cos(angle) * r, y, Math.sin(angle) * r], color: palette[i % palette.length] });
     }
     return result;
   }, [nodeCount]);
 
-  // Data connection lines between nearby nodes
   const connections = useMemo(() => {
     const conns: { from: [number, number, number]; to: [number, number, number]; color: string }[] = [];
     for (let i = 0; i < nodes.length; i++) {
-      // Connect to next 2 nodes (wrapping)
       for (let d = 1; d <= 2; d++) {
         const j = (i + d) % nodes.length;
         conns.push({ from: nodes[i].pos, to: nodes[j].pos, color: nodes[i].color });
@@ -293,32 +302,14 @@ function DataNodes({ mobile }: { mobile: boolean }) {
 
   return (
     <group ref={groupRef}>
-      {/* Connection lines */}
       {connections.map((conn, i) => (
-        <Line
-          key={`conn-${i}`}
-          points={[conn.from, conn.to]}
-          color={conn.color}
-          lineWidth={0.5}
-          transparent
-          opacity={0.12}
-        />
+        <Line key={`conn-${i}`} points={[conn.from, conn.to]} color={conn.color} lineWidth={0.5} transparent opacity={0.12} />
       ))}
-
-      {/* Nodes */}
       {nodes.map((n, i) => (
         <Float key={i} speed={1.2 + i * 0.15} floatIntensity={0.04}>
           <group position={n.pos}>
-            {/* Outer glow */}
-            <mesh>
-              <sphereGeometry args={[0.055, 12, 12]} />
-              <meshBasicMaterial color={n.color} transparent opacity={0.08} />
-            </mesh>
-            {/* Core */}
-            <mesh>
-              <sphereGeometry args={[0.025, 12, 12]} />
-              <meshBasicMaterial color={n.color} transparent opacity={0.9} />
-            </mesh>
+            <mesh><sphereGeometry args={[0.055, 12, 12]} /><meshBasicMaterial color={n.color} transparent opacity={0.08} /></mesh>
+            <mesh><sphereGeometry args={[0.025, 12, 12]} /><meshBasicMaterial color={n.color} transparent opacity={0.9} /></mesh>
           </group>
         </Float>
       ))}
@@ -326,7 +317,7 @@ function DataNodes({ mobile }: { mobile: boolean }) {
   );
 }
 
-/* ── Data pulse particles flowing along connections ── */
+/* ── Data pulse particles ── */
 function DataPulse({ mobile }: { mobile: boolean }) {
   const ref = useRef<THREE.Points>(null);
   const count = mobile ? 30 : 60;
@@ -336,15 +327,10 @@ function DataPulse({ mobile }: { mobile: boolean }) {
     const col = new Float32Array(count * 3);
     const c = new THREE.Color();
     const palette = [KOWHAI, POUNAMU, TEAL_LIGHT];
-
     for (let i = 0; i < count; i++) {
-      pos[i * 3] = 0;
-      pos[i * 3 + 1] = 0;
-      pos[i * 3 + 2] = 0;
+      pos[i * 3] = 0; pos[i * 3 + 1] = 0; pos[i * 3 + 2] = 0;
       c.set(palette[i % palette.length]);
-      col[i * 3] = c.r;
-      col[i * 3 + 1] = c.g;
-      col[i * 3 + 2] = c.b;
+      col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b;
     }
     return { positions: pos, colors: col };
   }, [count]);
@@ -353,17 +339,13 @@ function DataPulse({ mobile }: { mobile: boolean }) {
     if (!ref.current) return;
     const t = clock.getElapsedTime();
     const posAttr = ref.current.geometry.attributes.position as THREE.BufferAttribute;
-
     for (let i = 0; i < count; i++) {
-      // Each particle orbits along the kete surface
       const speed = 0.15 + (i % 7) * 0.03;
       const phase = (i / count) * Math.PI * 2;
       const progress = (t * speed + phase) % 1;
-      const basketT = progress;
-      const y = -0.7 + basketT * 1.4;
-      const r = keteRadius(basketT);
+      const y = -0.7 + progress * 1.4;
+      const r = keteRadius(progress);
       const angle = phase + t * 0.2 + i * 0.4;
-
       posAttr.array[i * 3] = Math.cos(angle) * r;
       posAttr.array[i * 3 + 1] = y;
       posAttr.array[i * 3 + 2] = Math.sin(angle) * r;
@@ -378,14 +360,7 @@ function DataPulse({ mobile }: { mobile: boolean }) {
         <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
         <bufferAttribute attach="attributes-color" count={count} array={colors} itemSize={3} />
       </bufferGeometry>
-      <pointsMaterial
-        size={0.035}
-        transparent
-        opacity={0.5}
-        vertexColors
-        sizeAttenuation
-        blending={THREE.AdditiveBlending}
-      />
+      <pointsMaterial size={0.035} transparent opacity={0.5} vertexColors sizeAttenuation blending={THREE.AdditiveBlending} />
     </points>
   );
 }
@@ -415,23 +390,98 @@ function AmbientDust({ count = 40 }: { count?: number }) {
   );
 }
 
-/* ── Orbital rings ── */
-function OrbitalRing({ radius, color, speed, tilt }: { radius: number; color: string; speed: number; tilt: number }) {
-  const ref = useRef<THREE.Mesh>(null);
-  useFrame(({ clock }) => {
-    if (ref.current) ref.current.rotation.z = clock.getElapsedTime() * speed;
-  });
+/* ── Six cognitive layers — floating around the orb as HTML overlays ── */
+const LAYERS = [
+  { name: "Perception", icon: "◎", color: POUNAMU, angle: 0, radius: 46, yOff: -2 },
+  { name: "Memory", icon: "◈", color: TEAL_LIGHT, angle: 60, radius: 48, yOff: -18 },
+  { name: "Reasoning", icon: "◇", color: "#FFFFFF", angle: 120, radius: 46, yOff: 2 },
+  { name: "Action", icon: "▸", color: GOLD_LIGHT, angle: 180, radius: 47, yOff: 12 },
+  { name: "Explanation", icon: "◌", color: KOWHAI, angle: 240, radius: 48, yOff: -8 },
+  { name: "Simulation", icon: "⬡", color: "#1A3A5C", angle: 300, radius: 46, yOff: 18 },
+];
+
+function CognitiveLayerLabels({ size }: { size: number }) {
+  const centerX = size / 2;
+  const centerY = size / 2;
+
   return (
-    <mesh ref={ref} rotation={[tilt, 0, 0]}>
-      <torusGeometry args={[radius, 0.003, 8, 128]} />
-      <meshBasicMaterial color={color} transparent opacity={0.1} />
-    </mesh>
+    <div className="absolute inset-0 pointer-events-none" style={{ width: size, height: size }}>
+      {LAYERS.map((layer, i) => {
+        const rPx = (size * layer.radius) / 100;
+        const angleRad = (layer.angle * Math.PI) / 180;
+        const x = centerX + Math.cos(angleRad) * rPx;
+        const y = centerY + Math.sin(angleRad) * rPx * 0.55 + layer.yOff;
+
+        return (
+          <motion.div
+            key={layer.name}
+            className="absolute flex items-center gap-1.5 pointer-events-auto"
+            style={{
+              left: x,
+              top: y,
+              transform: "translate(-50%, -50%)",
+            }}
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.2 + i * 0.15, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {/* Connecting line to orb edge */}
+            <div
+              className="absolute rounded-full"
+              style={{
+                width: 2,
+                height: rPx * 0.15,
+                background: `linear-gradient(to bottom, ${layer.color}40, transparent)`,
+                left: "50%",
+                top: "100%",
+                transform: `translateX(-50%) rotate(${layer.angle + 90}deg)`,
+                transformOrigin: "top center",
+              }}
+            />
+            {/* Label pill */}
+            <motion.div
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full backdrop-blur-md cursor-default"
+              style={{
+                background: `${layer.color}08`,
+                border: `1px solid ${layer.color}25`,
+                boxShadow: `0 0 20px ${layer.color}10, inset 0 1px 0 rgba(255,255,255,0.05)`,
+              }}
+              animate={{
+                y: [0, -3, 0, 2, 0],
+              }}
+              transition={{
+                duration: 6 + i * 0.8,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: i * 0.5,
+              }}
+            >
+              <span className="text-[10px]" style={{ color: layer.color, opacity: 0.7 }}>
+                {layer.icon}
+              </span>
+              <span
+                className="text-[9px] sm:text-[10px] tracking-[2px] uppercase whitespace-nowrap"
+                style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  color: layer.color,
+                  fontWeight: 500,
+                  textShadow: `0 0 12px ${layer.color}30`,
+                }}
+              >
+                {layer.name}
+              </span>
+            </motion.div>
+          </motion.div>
+        );
+      })}
+    </div>
   );
 }
 
 /* ── Main export ── */
 const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
   const mobile = useIsMobile();
+  const canvasSize = mobile ? 420 : 600;
 
   return (
     <motion.div
@@ -441,6 +491,7 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
       viewport={{ once: true }}
       transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
     >
+      {/* Ambient glow */}
       <div
         className="absolute w-[480px] h-[480px] sm:w-[680px] sm:h-[680px] rounded-full pointer-events-none"
         style={{
@@ -449,7 +500,12 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
         }}
       />
 
-      <div className="relative w-[420px] h-[420px] sm:w-[600px] sm:h-[600px]">
+      {/* Orb container with floating labels */}
+      <div className="relative" style={{ width: canvasSize, height: canvasSize }}>
+        {/* Cognitive layer labels orbiting outside */}
+        <CognitiveLayerLabels size={canvasSize} />
+
+        {/* 3D Canvas */}
         <Suspense
           fallback={
             <div className="w-full h-full rounded-full animate-pulse" style={{ background: "rgba(58,125,110,0.06)" }} />
@@ -465,14 +521,16 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
             <pointLight position={[3, 3, 3]} intensity={0.4} color={KOWHAI} />
             <pointLight position={[-3, -2, 2]} intensity={0.25} color={POUNAMU} />
 
+            <GlassOrb />
             <KeteWireframe />
             <MatarikiStars mobile={mobile} />
             <DataNodes mobile={mobile} />
             <DataPulse mobile={mobile} />
             <AmbientDust count={mobile ? 20 : 40} />
 
-            <OrbitalRing radius={1.4} color={POUNAMU} speed={0.03} tilt={0.25} />
-            <OrbitalRing radius={1.7} color={KOWHAI} speed={-0.02} tilt={-0.4} />
+            <OrbRimRing radius={1.35} color={POUNAMU} speed={0.02} tilt={0.15} />
+            <OrbRimRing radius={1.35} color={KOWHAI} speed={-0.015} tilt={-1.2} />
+            <OrbRimRing radius={1.35} color={TEAL_LIGHT} speed={0.01} tilt={0.8} />
           </Canvas>
         </Suspense>
       </div>
