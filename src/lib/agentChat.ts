@@ -10,6 +10,7 @@ interface AgentChatOptions {
   message: string;
   messages?: { role: string; content: string }[];
   packId?: string;
+  systemPrompt?: string;
 }
 
 /**
