@@ -687,6 +687,51 @@ export type Database = {
         }
         Relationships: []
       }
+      approval_queue: {
+        Row: {
+          action_type: string
+          approved_by: string | null
+          context: Json
+          decided_at: string | null
+          decision_reason: string | null
+          expires_at: string | null
+          id: string
+          kete: string
+          request_id: string
+          requested_at: string | null
+          requested_by: string | null
+          status: string | null
+        }
+        Insert: {
+          action_type: string
+          approved_by?: string | null
+          context?: Json
+          decided_at?: string | null
+          decision_reason?: string | null
+          expires_at?: string | null
+          id?: string
+          kete: string
+          request_id: string
+          requested_at?: string | null
+          requested_by?: string | null
+          status?: string | null
+        }
+        Update: {
+          action_type?: string
+          approved_by?: string | null
+          context?: Json
+          decided_at?: string | null
+          decision_reason?: string | null
+          expires_at?: string | null
+          id?: string
+          kete?: string
+          request_id?: string
+          requested_at?: string | null
+          requested_by?: string | null
+          status?: string | null
+        }
+        Relationships: []
+      }
       audit_log: {
         Row: {
           agent_code: string
@@ -1996,6 +2041,78 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      evidence_packs: {
+        Row: {
+          action_type: string
+          created_at: string | null
+          evidence_json: Json
+          id: string
+          kete: string
+          request_id: string
+          signed_at: string | null
+          signed_by: string | null
+          user_id: string
+          watermark: string
+        }
+        Insert: {
+          action_type: string
+          created_at?: string | null
+          evidence_json?: Json
+          id?: string
+          kete: string
+          request_id: string
+          signed_at?: string | null
+          signed_by?: string | null
+          user_id: string
+          watermark: string
+        }
+        Update: {
+          action_type?: string
+          created_at?: string | null
+          evidence_json?: Json
+          id?: string
+          kete?: string
+          request_id?: string
+          signed_at?: string | null
+          signed_by?: string | null
+          user_id?: string
+          watermark?: string
+        }
+        Relationships: []
+      }
+      explanation_objects: {
+        Row: {
+          action: string
+          confidence: number | null
+          created_at: string | null
+          id: string
+          reasoning: string
+          regulations: string[] | null
+          request_id: string
+          sources: string[] | null
+        }
+        Insert: {
+          action: string
+          confidence?: number | null
+          created_at?: string | null
+          id?: string
+          reasoning: string
+          regulations?: string[] | null
+          request_id: string
+          sources?: string[] | null
+        }
+        Update: {
+          action?: string
+          confidence?: number | null
+          created_at?: string | null
+          id?: string
+          reasoning?: string
+          regulations?: string[] | null
+          request_id?: string
+          sources?: string[] | null
+        }
+        Relationships: []
       }
       exported_outputs: {
         Row: {
@@ -3938,6 +4055,48 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      pipeline_audit_logs: {
+        Row: {
+          action_type: string
+          created_at: string | null
+          details: Json | null
+          hash_current: string | null
+          hash_prev: string | null
+          id: string
+          kete: string
+          request_id: string
+          status: string
+          step: string
+          user_id: string | null
+        }
+        Insert: {
+          action_type: string
+          created_at?: string | null
+          details?: Json | null
+          hash_current?: string | null
+          hash_prev?: string | null
+          id?: string
+          kete: string
+          request_id: string
+          status: string
+          step: string
+          user_id?: string | null
+        }
+        Update: {
+          action_type?: string
+          created_at?: string | null
+          details?: Json | null
+          hash_current?: string | null
+          hash_prev?: string | null
+          id?: string
+          kete?: string
+          request_id?: string
+          status?: string
+          step?: string
+          user_id?: string | null
+        }
+        Relationships: []
       }
       podcast_episodes: {
         Row: {
