@@ -34,7 +34,7 @@ const PricingHero = () => (
         HE KETE MĀTAURANGA
       </p>
         <h1 className="text-3xl sm:text-5xl font-display mb-4 text-foreground" style={{ fontWeight: 300, letterSpacing: "-0.02em" }}>
-        Priced by the packs you need each month. Seats and usage included.
+        Priced by the kete you need each month. Seats and usage included.
       </h1>
       <p className="text-base sm:text-lg font-body max-w-2xl mx-auto mb-4" style={{ color: "rgba(255,255,255,0.65)" }}>
         Pick the kete that matches your industry. Each run produces a signed, sourced evidence pack your team can file, forward, or footnote.
@@ -54,7 +54,7 @@ const PricingHero = () => (
       </div>
       <div className="flex flex-wrap justify-center gap-3">
         <Link to="/contact" className="px-7 py-3 rounded-full text-sm font-body font-medium transition-all" style={{ background: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))" }}>
-          Start with one pack a month
+          Start with one kete a month
         </Link>
         <Link to="/contact" className="px-7 py-3 rounded-full text-sm font-body font-medium border transition-all" style={{ borderColor: "rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.7)" }}>
           Talk to us about bundles
@@ -68,7 +68,7 @@ const PricingHero = () => (
 const OFFERS = [
   { icon: Rocket, badge: "START HERE", badgeColor: "hsl(var(--primary))", title: "Talk to us first", desc: "Every business is different. We map your workflows, pick the right kete, and agree what success looks like before you sign anything.", time: "Up and running in 10 business days", price: "Free workflow mapping", cta: "Get started", to: "/contact" },
   { icon: Layers, badge: "FOUNDATION", badgeColor: "hsl(var(--pounamu))", title: "Core Platform", desc: "Included in every subscription. Your central routing engine (Iho), governance pipeline, security layer, SMS/WhatsApp messaging, and dashboard access.", price: "Included in every plan", note: "This is the foundation. Every kete runs on Core.", includes: ["Iho routing engine", "Security & compliance layer", "Compliance pipeline (Kahu → Iho → Tā → Mahara → Mana)", "SMS & WhatsApp access", "Dashboard & analytics", "NZ data residency on Enterprise"] },
-  { icon: Package, badge: "SPECIALIST AI", badgeColor: "hsl(var(--tangaroa-light))", title: "Industry Kete", desc: "Each kete is a complete operations hub with specialist workflows, governance pipeline, and evidence pack output. Every workflow run ends in a signed pack — structured, sourced, and ready to file.", price: "From NZ$590/month", list: "Manaaki · Waihanga · Auaha · Arataki · Pikau", cta: "See all packs", scrollTo: "packs" },
+  { icon: Package, badge: "SPECIALIST AI", badgeColor: "hsl(var(--tangaroa-light))", title: "Industry Kete", desc: "Each kete is a complete operations hub with specialist workflows, governance pipeline, and evidence pack output. Every workflow run ends in a signed pack — structured, sourced, and ready to file.", price: "From NZ$590/month", list: "Manaaki · Waihanga · Auaha · Arataki · Pikau", cta: "See all kete", scrollTo: "packs" },
   { icon: Crown, badge: "ENTERPRISE", badgeColor: "hsl(var(--primary))", title: "Enterprise", desc: "All 5 kete, unlimited seats, attested NZ data residency, 99.9% uptime SLA, named success manager, signed quarterly compliance review. Replaces a fraction of a full-time compliance manager.", price: "NZ$2,890/month + $2,990 setup", cta: "Talk to us", to: "/contact", includes: ["Named success manager", "Quarterly compliance review (signed)", "Monthly audit report", "NZ data residency (attested)", "99.9% uptime SLA"] },
 ];
 
@@ -198,7 +198,7 @@ const PricingTiers = () => (
             <p className="text-[11px] font-body text-muted-foreground/50 mb-4">NZD ex GST · {t.setup}</p>
             {t.packsPerMonth && (
               <div className="rounded-lg px-3 py-2 mb-4 flex items-center gap-2" style={{ background: `${t.accent}18`, border: `1px solid ${t.accent}30` }}>
-                <span className="text-[10px] font-display tracking-[2px] uppercase" style={{ color: t.accent, fontWeight: 700 }}>PACKS</span>
+                <span className="text-[10px] font-display tracking-[2px] uppercase" style={{ color: t.accent, fontWeight: 700 }}>OUTPUT</span>
                 <span className="text-xs font-mono text-foreground/80" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{t.packsPerMonth}</span>
               </div>
             )}
