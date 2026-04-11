@@ -18,15 +18,30 @@ const KeteIcon: React.FC<KeteIconProps> = ({
 }) => {
   const sizeMap = { small: "w-20 h-20", medium: "w-40 h-44", large: "w-56 h-64" };
 
+  // Helper: get the x-extent of the basket at a given y
+  // Basket path: M 40 80 Q 40 180 100 190 Q 160 180 160 80
+  // Left edge: quadratic from (40,80) ctrl (40,180) to (100,190)
+  // Right edge: quadratic from (100,190) ctrl (160,180) to (160,80)
+  const basketX = (y: number): [number, number] => {
+    if (y <= 80) return [40, 160];
+    if (y >= 190) return [100, 100];
+    // Solve for t: y = (1-t)^2*80 + 2*(1-t)*t*180 + t^2*190
+    // Approximate with linear interpolation for simplicity
+    const t = (y - 80) / (190 - 80);
+    const leftX = (1 - t) * (1 - t) * 40 + 2 * (1 - t) * t * 40 + t * t * 100;
+    const rightX = (1 - t) * (1 - t) * 160 + 2 * (1 - t) * t * 160 + t * t * 100;
+    return [leftX + 4, rightX - 4];
+  };
+
   const hRows =
-    variant === "organic" ? [100, 120, 140, 160] :
+    variant === "organic" ? [95, 115, 135, 155] :
     variant === "dense" ? [90, 105, 120, 135, 150, 165] :
-    [100, 125, 150, 175];
+    [95, 120, 145, 170];
 
   const vCols =
     variant === "dense" ? [65, 80, 95, 110, 125, 140, 155] :
-    variant === "tricolor" ? [70, 100, 130] :
-    [65, 100, 135];
+    variant === "tricolor" ? [75, 100, 125] :
+    [75, 100, 125];
 
   const tricolors = [accentColor, accentLight, "#3A7D6E", accentColor];
 
