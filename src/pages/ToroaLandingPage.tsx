@@ -163,7 +163,7 @@ function SMSConversation({
           }}
         >
           <span style={{ color: SKY, fontWeight: 600, fontSize: "0.7rem", letterSpacing: "0.1em", display: "block", marginBottom: "2px" }}>
-            TŌROA
+            TORO
           </span>
           {agent}
         </div>
@@ -266,7 +266,7 @@ const CAPABILITIES = [
   {
     icon: GraduationCap,
     title: "School Admin",
-    body: "Permission slips, newsletter dates, term events — Tōroa reads them and adds them before you forget.",
+    body: "Permission slips, newsletter dates, term events — Toro reads them and adds them before you forget.",
   },
   {
     icon: HeartPulse,
@@ -281,7 +281,7 @@ const CAPABILITIES = [
   {
     icon: UtensilsCrossed,
     title: "Meal Planning",
-    body: "Tell Tōroa what's in the fridge. It plans the week's meals and writes the shopping list so you don't have to.",
+    body: "Tell Toro what's in the fridge. It plans the week's meals and writes the shopping list so you don't have to.",
   },
   {
     icon: Phone,
@@ -290,7 +290,7 @@ const CAPABILITIES = [
   },
 ];
 
-/* ─── Try Tōroa SMS Demo ─── */
+/* ─── Try Toro SMS Demo ─── */
 function TryToroaSmsDemo() {
   const [phone, setPhone] = useState("");
   const [sending, setSending] = useState(false);
@@ -305,7 +305,7 @@ function TryToroaSmsDemo() {
     setSending(true);
     try {
       const { data, error } = await supabase.functions.invoke("tnz-send", {
-        body: { channel: "sms", to: cleaned.startsWith("0") ? "+64" + cleaned.slice(1) : cleaned, message: "Kia ora! This is Tōroa — your whānau navigator. Text us anytime to get started. 🪶" },
+        body: { channel: "sms", to: cleaned.startsWith("0") ? "+64" + cleaned.slice(1) : cleaned, message: "Kia ora! This is Toro — your whānau navigator. Text us anytime to get started. 🪶" },
       });
       if (error) throw error;
       setSent(true);
@@ -367,7 +367,7 @@ export default function ToroaLandingPage() {
       style={{ background: BG, color: BONE }}
     >
       <SEO
-        title="Tōroa — SMS Family Navigator for Aotearoa | $29/mo"
+        title="Toro — SMS Family Navigator for Aotearoa | $29/mo"
         description="An SMS-first whānau navigator for New Zealand families. School admin, meal planning, appointments, budgets — no app, no login, just text. $29/month covers the whole whānau."
         path="/toroa"
         image="https://www.assembl.co.nz/assembl-og.png"
@@ -415,7 +415,7 @@ export default function ToroaLandingPage() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.8 }}
           >
-            Tōroa
+            Toro
           </motion.p>
 
           {/* Headline */}
@@ -513,7 +513,7 @@ export default function ToroaLandingPage() {
             className="mt-5 text-lg max-w-sm mx-auto opacity-60 leading-relaxed"
             style={{ fontFamily: '"Plus Jakarta Sans", sans-serif' }}
           >
-            Tōroa lives in your messages app. No download, no account — just send a text.
+            Toro lives in your messages app. No download, no account — just send a text.
           </p>
         </motion.div>
 
@@ -650,7 +650,7 @@ export default function ToroaLandingPage() {
               href="https://buy.stripe.com/7sYdRbc9KeoE0KNdx43oA0c"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Subscribe to Tōroa — start free, first month on us"
+              aria-label="Subscribe to Toro — start free, first month on us"
               className="w-full flex items-center justify-center gap-2 py-4 rounded-full text-sm uppercase tracking-[0.2em] font-light transition-all duration-300"
               style={{
                 background: `linear-gradient(135deg, ${SKY}28, ${SKY}14)`,

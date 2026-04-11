@@ -167,7 +167,7 @@ const TeKahuiReoSection = () => (
         ))}
       </div>
 
-      {/* Tōroa showcase */}
+      {/* Toro showcase */}
       <motion.div
         className="rounded-xl overflow-hidden mb-8"
         style={{
@@ -195,7 +195,7 @@ const TeKahuiReoSection = () => (
           </div>
           <div className="sm:w-1/2 p-6 flex flex-col justify-center">
             <div className="flex items-center gap-3 mb-4">
-              <img src={toroaIcon} alt="Tōroa" className="w-12 h-12 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 12px rgba(212,168,67,0.3))" }} />
+              <img src={toroaIcon} alt="Toro" className="w-12 h-12 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 12px rgba(212,168,67,0.3))" }} />
               <div>
                 <span
                   style={{
@@ -206,7 +206,7 @@ const TeKahuiReoSection = () => (
                     letterSpacing: "3px",
                   }}
                 >
-                  TŌROA
+                  TORO
                 </span>
                 <p
                   style={{
@@ -241,7 +241,7 @@ const TeKahuiReoSection = () => (
                 color: "#D4A843",
               }}
             >
-              Try Tōroa <ArrowRight size={14} />
+              Try Toro <ArrowRight size={14} />
             </Link>
           </div>
         </div>

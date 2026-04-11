@@ -26,7 +26,7 @@ export const packs = [
   { id: "hangarau", name: "Hangarau", label: "Technology", color: "#3A6A9C", agentCount: 12 },
   { id: "hauora", name: "Hauora", label: "Health, Wellbeing, Sport & Lifestyle", color: "#A87D4A", agentCount: 8 },
   { id: "te-kahui-reo", name: "Te Kāhui Reo", label: "Māori Business Intelligence", color: "#D4A843", agentCount: 8 },
-  { id: "toroa", name: "Tōroa", label: "Family Navigator", color: "#D4A843", agentCount: 1 },
+  { id: "toroa", name: "Toro", label: "Family Navigator", color: "#D4A843", agentCount: 1 },
 ];
 
 // ═══════════════════════════════════════
@@ -786,12 +786,12 @@ const teKahuiReoAgents: Agent[] = [
 ];
 
 // ═══════════════════════════════════════
-// KETE 9: TŌROA — Family Navigator (1 agent)
+// KETE 9: TORO — Family Navigator (1 agent)
 // ═══════════════════════════════════════
 
 const toroaAgents: Agent[] = [
   {
-    id: "toroa", name: "TŌROA", designation: "TOR-001",
+    id: "toroa", name: "TORO", designation: "TOR-001",
     role: "Family SMS Navigator",
     tagline: "SMS-first AI family navigator — school notices, meals, budgets, reminders, learning, transport",
     color: "#D4A843", sector: "Family", pack: "toroa", primaryModel: "gemini",

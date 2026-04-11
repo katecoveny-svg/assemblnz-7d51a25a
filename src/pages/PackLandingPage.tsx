@@ -68,7 +68,7 @@ const PACK_AGENTS: Record<string, AgentDef[]> = {
     { name: "TIKA", desc: "Te Tiriti, Tikanga & Māori Business Advisor", status: "Deployed" },
   ],
   toroa: [
-    { name: "TŌROA", desc: "SMS-first family AI navigator — school notices, meal planning, bus tracking, reminders, budgets", status: "Deployed" },
+    { name: "TORO", desc: "SMS-first family AI navigator — school notices, meal planning, bus tracking, reminders, budgets", status: "Deployed" },
   ],
 };
 
@@ -161,7 +161,7 @@ const PackLandingPage = () => {
           </motion.div>
         </section>
 
-        {/* Tōroa features */}
+        {/* Toro features */}
         {isToroa && (
           <section className="max-w-5xl mx-auto px-4 sm:px-6 pb-16">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

@@ -20,7 +20,7 @@ function AlbatrossIcon({ className }: { className?: string }) {
 
 /**
  * PackGrid — homepage kete display.
- * Locked to the 5 industry kete + Tōroa whānau kete per PRICING-LOCKED.md.
+ * Locked to the 5 industry kete + Toro whānau kete per PRICING-LOCKED.md.
  * No data lookup — everything hardcoded so retired kete (Pakihi, Waka,
  * Hangarau, Hauora, Te Kāhui Reo) can never leak back in.
  */
@@ -186,7 +186,7 @@ const PackGrid = () => {
           ))}
         </div>
 
-        {/* Whānau kete — Tōroa */}
+        {/* Whānau kete — Toro */}
         <div className="max-w-md mx-auto mb-8">
           <motion.div
             className="flex items-center gap-3 mb-3"

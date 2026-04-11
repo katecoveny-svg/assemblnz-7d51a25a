@@ -473,7 +473,7 @@ const ChatPage = () => {
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [auraModeKey, setAuraModeKey] = useState(0);
 
-  // Voice input/output state (TŌROA)
+  // Voice input/output state (TORO)
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState<number | null>(null);
   const recognitionRef = useRef<any>(null);
@@ -1048,7 +1048,7 @@ const ChatPage = () => {
       toolTabs.push({ id: "odyssey_planner", label: "Trip Planner" });
     }
     if (hasLiveDataTab) toolTabs.push({ id: "live_data", label: "Live Data" });
-    // Te Reo Video Learner for TŌROA, ECHO, and Te Kāhui Reo agents
+    // Te Reo Video Learner for TORO, ECHO, and Te Kāhui Reo agents
     const teReoAgents = ["family", "echo", "tiriti"];
     if (teReoAgents.includes(agentId || "")) toolTabs.push({ id: "te_reo_learn", label: "Mārama" });
     if (!isToroa && !isSports && agentId !== "maritime") toolTabs.push({ id: "internal_comms", label: "Comms" });
@@ -1941,7 +1941,7 @@ const ChatPage = () => {
       )}
 
       {/* Tab Views */}
-      {/* TŌROA Tab Views */}
+      {/* TORO Tab Views */}
       {activeTab === "helm_week" && isToroa ? (
         <HelmThisWeek onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "helm_bus" && isToroa ? (
@@ -2666,7 +2666,7 @@ const ChatPage = () => {
 
               <input
                 ref={inputRef} type="text" value={input} onChange={(e) => setInput(e.target.value)}
-                placeholder={isArc && pendingImage ? "Describe the building..." : isToroa ? (isListening ? "Listening..." : "Ask TŌROA anything...") : isNexus ? "Ask NEXUS or upload..." : `Message ${agent.name}...`}
+                placeholder={isArc && pendingImage ? "Describe the building..." : isToroa ? (isListening ? "Listening..." : "Ask TORO anything...") : isNexus ? "Ask NEXUS or upload..." : `Message ${agent.name}...`}
                 className="flex-1 bg-transparent border-none rounded-xl px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none transition-colors"
                 aria-label={`Message ${agent.name}`}
                 onKeyDown={(e) => { if (e.key === "Escape") inputRef.current?.blur(); }}

@@ -83,7 +83,7 @@ const HelmSection = () => {
                   textShadow: `0 0 20px ${TOROA_COLOR}40, 0 0 60px ${TOROA_COLOR}15`,
                 }}
               >
-                Meet TŌROA
+                Meet TORO
               </h2>
               <p className="font-mono-jb text-[10px] mb-4" style={{ color: `${TOROA_COLOR}30` }}>
                 ASM-013 · Family Command Centre
@@ -95,7 +95,7 @@ const HelmSection = () => {
                 Your family&apos;s intelligent navigator.
               </h3>
               <p className="text-sm font-body leading-relaxed mb-4 max-w-lg" style={{ color: "rgba(255,255,255,0.4)" }}>
-                TŌROA reads school notices, builds weekly schedules, tracks live bus positions,
+                TORO reads school notices, builds weekly schedules, tracks live bus positions,
                 and manages meal plans — all powered by AI that understands NZ school life.
                 One parent said it saved them 4 hours a week.
               </p>
@@ -122,7 +122,7 @@ const HelmSection = () => {
                     boxShadow: `0 0 20px ${TOROA_COLOR}20`,
                   }}
                 >
-                  Try TŌROA <ArrowRight size={14} />
+                  Try TORO <ArrowRight size={14} />
                 </Link>
                 <button
                   onClick={() => setShowVoice(true)}
@@ -134,7 +134,7 @@ const HelmSection = () => {
                     boxShadow: `0 0 20px ${TOROA_COLOR}10`,
                   }}
                 >
-                  <Mic size={14} /> Talk to TŌROA
+                  <Mic size={14} /> Talk to TORO
                 </button>
               </div>
             </div>
@@ -168,7 +168,7 @@ const HelmSection = () => {
 
       <VoiceAgentModal
         open={showVoice}
-        agentName="TŌROA"
+        agentName="TORO"
         agentId="operations"
         agentColor={TOROA_COLOR}
         elevenLabsAgentId={getElevenLabsAgentId("operations")}

@@ -722,7 +722,7 @@ export const agentCapabilities: Record<string, AgentCapability[]> = {
     { bullet: "Capability building", icon: Users, title: "Capability", description: "Build organisational capability", prompt: "Help me build capability in our team." },
   ],
 
-  // ── TŌROA ──
+  // ── TORO ──
   toroa: [
     { bullet: "Family calendar management", icon: Calendar, title: "Weekly Planner", description: "Organise your family's entire week", prompt: "Help me plan our family's week." },
     { bullet: "Budget tracking & goals", icon: DollarSign, title: "Family Budget", description: "Build a household budget", prompt: "Help me create a family budget." },

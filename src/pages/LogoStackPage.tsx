@@ -439,8 +439,8 @@ export default function LogoStackPage() {
           ))}
         </Card>
 
-        {/* ── TŌROA LOGO ── */}
-        <SectionTitle>Tōroa — Family Navigator</SectionTitle>
+        {/* ── TORO LOGO ── */}
+        <SectionTitle>Toro — Family Navigator</SectionTitle>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "16px", marginBottom: "56px" }}>
           <Card>
             <div dangerouslySetInnerHTML={{ __html: TOROA_SVG.replace(/width="400"/, 'width="240"').replace(/height="320"/, 'height="192"') }} />
@@ -486,9 +486,9 @@ export default function LogoStackPage() {
             </div>
           </Card>
 
-          {/* Tōroa banners */}
+          {/* Toro banners */}
           <Card>
-            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "0.15em", color: "rgba(245,211,60,0.7)", textTransform: "uppercase", marginBottom: "16px" }}>Tōroa</p>
+            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "0.15em", color: "rgba(245,211,60,0.7)", textTransform: "uppercase", marginBottom: "16px" }}>Toro</p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", justifyContent: "center", width: "100%" }}>
               {[
                 { w: 1200, h: 630, label: "OG / Facebook (1200×630)" },
