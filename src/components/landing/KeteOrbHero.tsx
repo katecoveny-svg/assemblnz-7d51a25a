@@ -271,7 +271,7 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
             <pointLight position={[-4, -2, 3]} intensity={0.3} color="#3A7D6E" />
             <pointLight position={[0, -4, 2]} intensity={0.2} color="#5AADA0" />
 
-            <ParticleSphere />
+            {/* <ParticleSphere /> */}
             <InnerWireframe />
             <OrbitingKeteNodes />
             <AmbientDust />
