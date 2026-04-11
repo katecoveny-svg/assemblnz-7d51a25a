@@ -198,7 +198,7 @@ const PricingTiers = () => (
             <p className="text-[11px] font-body text-muted-foreground/50 mb-4">NZD ex GST · {t.setup}</p>
             {t.packsPerMonth && (
               <div className="rounded-lg px-3 py-2 mb-4 flex items-center gap-2" style={{ background: `${t.accent}18`, border: `1px solid ${t.accent}30` }}>
-                <span className="text-[10px] font-display tracking-[2px] uppercase" style={{ color: t.accent, fontWeight: 700 }}>PACKS</span>
+                <span className="text-[10px] font-display tracking-[2px] uppercase" style={{ color: t.accent, fontWeight: 700 }}>OUTPUT</span>
                 <span className="text-xs font-mono text-foreground/80" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{t.packsPerMonth}</span>
               </div>
             )}
