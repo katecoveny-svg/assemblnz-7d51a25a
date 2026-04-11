@@ -108,18 +108,22 @@ export default function WaihangaLandingPage() {
             variants={fadeUp} initial="hidden" animate="visible" custom={4}
           >
             <Link
+              to="/waihanga/workflow"
+              className="flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-semibold font-body transition-all duration-300 hover:scale-[1.02]"
+              style={{
+                background: `linear-gradient(135deg, ${POUNAMU}, hsl(42 78% 55%))`,
+                color: "#fff",
+                boxShadow: `0 0 30px ${POUNAMU}40`,
+              }}
+            >
+              Launch Construction Dashboard <ArrowRight size={16} />
+            </Link>
+            <Link
               to="/contact"
               className="flex items-center gap-2 px-8 py-3 rounded-full text-sm font-semibold font-body transition-all duration-300 hover:opacity-90"
               style={{ background: POUNAMU, color: "#fff" }}
             >
-              Book a construction walk-through <ArrowRight size={16} />
-            </Link>
-            <Link
-              to="/waihanga/about"
-              className="px-8 py-3 rounded-full text-sm font-medium font-body transition-colors"
-              style={{ color: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.1)" }}
-            >
-              View a sample evidence pack
+              Book a walk-through <ArrowRight size={16} />
             </Link>
           </motion.div>
         </main>

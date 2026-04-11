@@ -135,6 +135,7 @@ const WaihangaLandingPage = lazy(() => import("./pages/WaihangaLandingPage"));
 const ToroaTravelPage = lazy(() => import("./pages/ToroaTravelPage"));
 const ToroaChatPage = lazy(() => import("./pages/ToroaChatPage"));
 const WaihangaArchitecturePage = lazy(() => import("./pages/WaihangaArchitecturePage"));
+const WaihangaWorkflow = lazy(() => import("./pages/WaihangaWorkflow"));
 const TeReoReferencePage = lazy(() => import("./pages/TeReoReferencePage"));
 const TryPage = lazy(() => import("./pages/TryPage"));
 const CaseStudiesPage = lazy(() => import("./pages/CaseStudiesPage"));
@@ -254,6 +255,7 @@ const App = () => (
                   </Route>
                   <Route path="/hanga" element={<Navigate to="/waihanga" replace />} />
                   <Route path="/hanga/*" element={<Navigate to="/waihanga" replace />} />
+                  <Route path="/waihanga/workflow" element={<Suspense fallback={null}><WaihangaWorkflow /></Suspense>} />
                   <Route path="/waihanga/about" element={<Suspense fallback={null}><WaihangaLandingPage /></Suspense>} />
                   <Route path="/waihanga" element={<Suspense fallback={null}><HangaLayout /></Suspense>}>
                     <Route index element={<HangaDashboard />} />
