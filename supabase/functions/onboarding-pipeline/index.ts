@@ -459,6 +459,18 @@ Write in plain English. No jargon. No buzzwords. Respond in JSON:
 
     console.log("[PROVISION] Pipeline complete! Tenant:", tenant.id);
 
+    // ─── STAGE 7: PROOF OF LIFE — Trigger first workflow ──────────
+    // Fire-and-forget: schedule proof-of-life to run async
+    console.log("[PROOF-OF-LIFE] Triggering first evidence pack…");
+    fetch(`${supabaseUrl}/functions/v1/proof-of-life`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${serviceKey}`,
+      },
+      body: JSON.stringify({ tenant_id: tenant.id }),
+    }).catch((e) => console.error("[PROOF-OF-LIFE] Trigger error:", e));
+
     return new Response(
       JSON.stringify({
         status: "complete",
