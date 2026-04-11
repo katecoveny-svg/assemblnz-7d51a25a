@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mic, MicOff, Volume2, Brain, Radio, ChevronRight } from "lucide-react";
+import { Mic, MicOff, Volume2, Layers, Radio, ChevronRight } from "lucide-react";
 import GeminiLiveVoice from "@/components/GeminiLiveVoice";
 
 const KOWHAI = "#D4A843";

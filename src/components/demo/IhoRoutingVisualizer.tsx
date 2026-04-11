@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Brain, Layers, Shield, Zap, ArrowRight, Search, CheckCircle2, AlertTriangle } from "lucide-react";
+import { Layers, Shield, Zap, ArrowRight, Search, CheckCircle2, AlertTriangle } from "lucide-react";
 import { useIhoRouter } from "@/hooks/useIhoRouter";
 import type { RoutingResult } from "@/data/agentSkillConfig";
 

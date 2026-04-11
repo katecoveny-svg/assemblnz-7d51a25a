@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Camera, Upload, MapPin, Clock, Brain, Grid, List, X, Sparkles } from "lucide-react";
+import { Camera, Upload, MapPin, Clock, Layers, Grid, List, X, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
 import { AaaipGuardBadge, useAaaipGuard } from "@/aaaip";

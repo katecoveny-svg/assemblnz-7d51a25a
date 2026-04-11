@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Calendar, Brain, Mic } from "lucide-react";
+import { ArrowRight, Calendar, Layers, Mic } from "lucide-react";
 import { useCallback, useState } from "react";
 import AgentAvatar from "./AgentAvatar";
 import VoiceAgentModal from "./VoiceAgentModal";

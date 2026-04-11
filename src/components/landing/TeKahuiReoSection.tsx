@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Brain, LayoutDashboard, ShieldCheck, Database, Shield, FileText, Activity, Bell } from "lucide-react";
+import { ArrowRight, Layers, LayoutDashboard, ShieldCheck, Database, Shield, FileText, Activity, Bell } from "lucide-react";
 import toroaIcon from "@/assets/brand/toroa-logo.svg";
 import { teKahuiReoMark } from "@/assets/brand";
 

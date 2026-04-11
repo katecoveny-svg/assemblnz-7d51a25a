@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { Save, Plus, X, Brain, MessageSquare, FileText, HelpCircle, ShieldCheck } from "lucide-react";
+import { Save, Plus, X, Layers, MessageSquare, FileText, HelpCircle, ShieldCheck } from "lucide-react";
 
 const TONES = ["Professional", "Friendly", "Warm", "Bold", "Casual", "Formal"];
 

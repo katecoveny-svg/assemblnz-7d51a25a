@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Shield, MessageSquare, Users, Zap, Globe, Lock, FileText, Scale, Phone, Brain, Database, TrendingUp, ChevronRight } from "lucide-react";
+import { ArrowRight, Shield, MessageSquare, Users, Zap, Globe, Lock, FileText, Scale, Phone, Layers, Database, TrendingUp, ChevronRight } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 

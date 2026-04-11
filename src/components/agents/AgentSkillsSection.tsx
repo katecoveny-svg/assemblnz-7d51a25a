@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { CheckCircle2, Clock, Plug, Layers, Shield, Brain } from "lucide-react";
+import { CheckCircle2, Clock, Plug, Layers, Shield } from "lucide-react";
 import { getAgentFullSkillSet, SHARED_FOUNDATION, type Skill, type MCPConnector } from "@/data/agentSkillConfig";
 
 interface AgentSkillsSectionProps {
