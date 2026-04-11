@@ -112,6 +112,8 @@ const AdminMessagingDashboard = lazy(() => import("./pages/AdminMessagingDashboa
 const ManaakiDashboard = lazy(() => import("./components/manaaki/ManaakiDashboard"));
 // PakihiDashboard, HangarauDashboard, TeKahuiReoDashboard — retired kete, routes removed 2026-04-10
 const ToroaDashboard = lazy(() => import("./components/toroa/ToroaDashboard"));
+const WorkspaceDashboard = lazy(() => import("./pages/WorkspaceDashboard"));
+const WorkspaceConnections = lazy(() => import("./pages/WorkspaceConnections"));
 const SkillWiringDashboard = lazy(() => import("./components/admin/SkillWiringDashboard"));
 const SkillHubPage = lazy(() => import("./pages/SkillHubPage"));
 const AaaipDashboard = lazy(() => import("./pages/AaaipDashboard"));
@@ -282,6 +284,8 @@ const App = () => (
                   </Route>
                   <Route path="/start" element={<Suspense fallback={null}><StartPage /></Suspense>} />
                   <Route path="/start/pending/:id" element={<Suspense fallback={null}><StartPendingPage /></Suspense>} />
+                  <Route path="/workspace" element={<Suspense fallback={null}><WorkspaceDashboard /></Suspense>} />
+                  <Route path="/workspace/connections" element={<Suspense fallback={null}><WorkspaceConnections /></Suspense>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>

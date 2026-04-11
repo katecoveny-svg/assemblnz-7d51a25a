@@ -4786,6 +4786,7 @@ export type Database = {
       }
       tenant_intake: {
         Row: {
+          auth_user_id: string | null
           business_name: string | null
           consent_timestamp: string
           consent_version: string
@@ -4796,11 +4797,13 @@ export type Database = {
           exception_reason: string | null
           id: string
           kete_requested: string
+          magic_link_sent: boolean | null
           pain_points: string[]
           personalised_plan: Json | null
           pipeline_status: string
           plan_html_url: string | null
           priority_workflow: string | null
+          provisioned_at: string | null
           scrape_companies_office: Json | null
           scrape_google: Json | null
           scrape_linkedin: Json | null
@@ -4811,6 +4814,7 @@ export type Database = {
           website_url: string
         }
         Insert: {
+          auth_user_id?: string | null
           business_name?: string | null
           consent_timestamp: string
           consent_version: string
@@ -4821,11 +4825,13 @@ export type Database = {
           exception_reason?: string | null
           id?: string
           kete_requested: string
+          magic_link_sent?: boolean | null
           pain_points: string[]
           personalised_plan?: Json | null
           pipeline_status?: string
           plan_html_url?: string | null
           priority_workflow?: string | null
+          provisioned_at?: string | null
           scrape_companies_office?: Json | null
           scrape_google?: Json | null
           scrape_linkedin?: Json | null
@@ -4836,6 +4842,7 @@ export type Database = {
           website_url: string
         }
         Update: {
+          auth_user_id?: string | null
           business_name?: string | null
           consent_timestamp?: string
           consent_version?: string
@@ -4846,11 +4853,13 @@ export type Database = {
           exception_reason?: string | null
           id?: string
           kete_requested?: string
+          magic_link_sent?: boolean | null
           pain_points?: string[]
           personalised_plan?: Json | null
           pipeline_status?: string
           plan_html_url?: string | null
           priority_workflow?: string | null
+          provisioned_at?: string | null
           scrape_companies_office?: Json | null
           scrape_google?: Json | null
           scrape_linkedin?: Json | null
@@ -4943,39 +4952,101 @@ export type Database = {
           },
         ]
       }
+      tenant_tool_connections: {
+        Row: {
+          connected_at: string | null
+          created_at: string | null
+          id: string
+          metadata: Json | null
+          provider: string
+          provider_label: string
+          scopes: string[] | null
+          status: string
+          tenant_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          connected_at?: string | null
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          provider: string
+          provider_label?: string
+          scopes?: string[] | null
+          status?: string
+          tenant_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          connected_at?: string | null
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          provider?: string
+          provider_label?: string
+          scopes?: string[] | null
+          status?: string
+          tenant_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tenant_tool_connections_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tenants: {
         Row: {
           billing_email: string | null
+          brand_color: string | null
           created_at: string | null
           credit_nzd: number | null
           id: string
           is_active: boolean | null
+          kete_primary: string | null
+          logo_url: string | null
           metadata: Json | null
           name: string
+          onboarding_complete: boolean | null
           plan: string
           updated_at: string | null
+          website_url: string | null
         }
         Insert: {
           billing_email?: string | null
+          brand_color?: string | null
           created_at?: string | null
           credit_nzd?: number | null
           id?: string
           is_active?: boolean | null
+          kete_primary?: string | null
+          logo_url?: string | null
           metadata?: Json | null
           name: string
+          onboarding_complete?: boolean | null
           plan?: string
           updated_at?: string | null
+          website_url?: string | null
         }
         Update: {
           billing_email?: string | null
+          brand_color?: string | null
           created_at?: string | null
           credit_nzd?: number | null
           id?: string
           is_active?: boolean | null
+          kete_primary?: string | null
+          logo_url?: string | null
           metadata?: Json | null
           name?: string
+          onboarding_complete?: boolean | null
           plan?: string
           updated_at?: string | null
+          website_url?: string | null
         }
         Relationships: []
       }
