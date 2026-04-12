@@ -9,6 +9,7 @@ import BrandFooter from "@/components/BrandFooter";
 import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 import LiquidGlassCard from "@/components/LiquidGlassCard";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
+import KeteRaceVideo from "@/components/kete/KeteRaceVideo";
 
 const BG = "#09090F";
 const ACCENT = "#D4A843";
