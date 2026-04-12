@@ -234,16 +234,18 @@ const Index = () => {
           <Eyebrow>INCLUDED</Eyebrow>
           <H2>What you get</H2>
         </motion.div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-3xl mx-auto">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
           {WHAT_YOU_GET.map((item, i) => (
             <motion.div
               key={item.text}
-              className="flex items-center gap-3 rounded-xl px-4 py-3.5"
-              style={{ background: "rgba(255,255,255,0.025)", border: `1px solid ${C.border}` }}
+              className="flex items-center gap-4 rounded-xl px-5 py-5"
+              style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${C.border}` }}
               {...stagger(i)}
             >
-              <KeteMiniIcon glyph={item.glyph} color={C.pounamuLight} size={18} />
-              <span className="text-[12px] font-medium" style={{ color: C.t2 }}>{item.text}</span>
+              <div className="shrink-0 w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: `${C.pounamu}18` }}>
+                <KeteMiniIcon glyph={item.glyph} color={C.pounamuLight} size={28} />
+              </div>
+              <span className="text-[13px] sm:text-[14px] font-medium" style={{ color: C.t1 }}>{item.text}</span>
             </motion.div>
           ))}
         </div>
@@ -255,16 +257,18 @@ const Index = () => {
           <Eyebrow>OUTCOMES</Eyebrow>
           <H2>What this helps improve</H2>
         </motion.div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-3xl mx-auto">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
           {OUTCOMES.map((o, i) => (
             <motion.div
               key={o.text}
-              className="flex items-center gap-3 rounded-xl px-4 py-3.5"
-              style={{ background: "rgba(255,255,255,0.025)", border: `1px solid ${C.border}` }}
+              className="flex items-center gap-4 rounded-xl px-5 py-5"
+              style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${C.border}` }}
               {...stagger(i)}
             >
-              <KeteMiniIcon glyph={o.glyph} color={o.color} size={18} />
-              <span className="text-[12px] font-medium" style={{ color: C.t2 }}>{o.text}</span>
+              <div className="shrink-0 w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: `${o.color}18` }}>
+                <KeteMiniIcon glyph={o.glyph} color={o.color} size={28} />
+              </div>
+              <span className="text-[13px] sm:text-[14px] font-medium" style={{ color: C.t1 }}>{o.text}</span>
             </motion.div>
           ))}
         </div>
