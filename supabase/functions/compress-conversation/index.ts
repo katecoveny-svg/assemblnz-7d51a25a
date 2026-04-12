@@ -258,7 +258,7 @@ function getToolSchema(agentId: string) {
   return base;
 }
 
-// ─── Construction fact flattener ───────────────────────
+// ─── Industry fact flatteners ──────────────────────────
 function flattenConstructionFacts(construction: any): Array<{ key: string; value: string; confidence: number }> {
   const facts: Array<{ key: string; value: string; confidence: number }> = [];
   if (!construction) return facts;
@@ -292,6 +292,42 @@ function flattenConstructionFacts(construction: any): Array<{ key: string; value
       facts.push({ key: "project.retentions.trust_compliant", value: String(construction.retentions.trust_compliant), confidence: 0.9 });
     }
   }
+
+  return facts;
+}
+
+function flattenCreativeFacts(creative: any): Array<{ key: string; value: string; confidence: number }> {
+  const facts: Array<{ key: string; value: string; confidence: number }> = [];
+  if (!creative) return facts;
+
+  const dna = creative.brand_dna;
+  if (dna?.primary_colour) facts.push({ key: "brand.dna.primary_colour", value: dna.primary_colour, confidence: 0.9 });
+  if (dna?.voice_formality !== undefined) facts.push({ key: "brand.dna.voice_formality", value: String(dna.voice_formality), confidence: 0.85 });
+  if (dna?.tone_notes) facts.push({ key: "brand.dna.tone_notes", value: dna.tone_notes, confidence: 0.85 });
+  if (dna?.forbidden_words?.length) facts.push({ key: "brand.forbidden_words", value: dna.forbidden_words.join(", "), confidence: 0.9 });
+  if (dna?.approved_phrases?.length) facts.push({ key: "brand.approved_phrases", value: dna.approved_phrases.join(", "), confidence: 0.9 });
+
+  if (creative.content_performance?.length) {
+    for (const cp of creative.content_performance) {
+      const label = `${cp.platform || "unknown"}.${cp.format || "post"}`;
+      if (cp.what_worked) facts.push({ key: `brand.top_content.${label}`, value: `${cp.what_worked} (${cp.engagement_rate || "?"}% engagement)`, confidence: 0.8 });
+      if (cp.what_failed) facts.push({ key: `brand.failed_content.${label}`, value: cp.what_failed, confidence: 0.8 });
+    }
+  }
+
+  const audience = creative.audience_insights;
+  if (audience?.top_locations?.length) facts.push({ key: "brand.audience.locations", value: audience.top_locations.join(", "), confidence: 0.85 });
+  if (audience?.best_posting_day) facts.push({ key: "brand.audience.best_day", value: audience.best_posting_day, confidence: 0.8 });
+  if (audience?.best_posting_time) facts.push({ key: "brand.audience.best_time", value: audience.best_posting_time, confidence: 0.8 });
+  if (audience?.demographic_skew) facts.push({ key: "brand.audience.demographic", value: audience.demographic_skew, confidence: 0.8 });
+
+  const style = creative.style_preferences;
+  if (style?.preferred_formats?.length) facts.push({ key: "brand.style.preferred_formats", value: style.preferred_formats.join(", "), confidence: 0.85 });
+  if (style?.rejected_styles?.length) facts.push({ key: "brand.style.rejected", value: style.rejected_styles.join(", "), confidence: 0.85 });
+  if (style?.edit_patterns?.length) facts.push({ key: "brand.style.edit_patterns", value: style.edit_patterns.join("; "), confidence: 0.9 });
+
+  if (creative.competitor_notes?.length) facts.push({ key: "brand.competitors", value: creative.competitor_notes.join("; "), confidence: 0.7 });
+  if (creative.seasonal_calendar?.length) facts.push({ key: "brand.seasonal_calendar", value: creative.seasonal_calendar.join(", "), confidence: 0.8 });
 
   return facts;
 }
