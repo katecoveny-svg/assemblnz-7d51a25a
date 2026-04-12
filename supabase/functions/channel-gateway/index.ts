@@ -71,10 +71,14 @@ const AGENT_KEYWORDS: Record<string, string[]> = {
   aura: ["guest", "check-in", "room", "housekeeping", "hotel", "lodge"],
   saffron: ["food safety", "food act", "allergen", "kitchen", "hygiene", "haccp"],
   cellar: ["alcohol", "liquor", "licence", "duty manager", "bar", "wine"],
-  // Hanga
-  arai: ["hazard", "safety", "h&s", "worksafe", "ppe", "incident"],
-  kaupapa: ["payment claim", "variation", "cca", "retention", "subcontract"],
-  whakaae: ["consent", "building consent", "council", "resource consent"],
+  // Waihanga (Construction)
+  apex: ["site", "site ops", "construction", "foreman", "builder"],
+  arai: ["hazard", "safety", "h&s", "worksafe", "ppe", "incident", "scaffold", "hswa", "notifiable"],
+  kaupapa: ["payment claim", "variation", "cca", "retention", "subcontract", "progress claim", "contract"],
+  ata: ["bim", "model", "3d", "clash", "revit", "ifc"],
+  rawa: ["materials", "procurement", "supplier", "stock", "order"],
+  pai: ["quality", "defect", "snag", "inspection result", "non-conformance"],
+  whakaae: ["consent", "building consent", "council", "resource consent", "ccc", "lbp", "producer statement"],
   // Auaha
   prism: ["brand", "logo", "visual identity", "brand guidelines"],
   muse: ["copy", "content", "blog", "headline", "write"],
@@ -459,10 +463,17 @@ Deno.serve(async (req) => {
     if (userId) {
       // Simple fact extraction for key patterns
       const factPatterns = [
-        { pattern: /my (?:company|business) (?:is |name is )(.+?)(?:\.|$)/i, key: "company.name" },
+      { pattern: /my (?:company|business) (?:is |name is )(.+?)(?:\.|$)/i, key: "company.name" },
         { pattern: /(?:we have|there are) (\d+) (?:staff|employees|team)/i, key: "company.team_size" },
         { pattern: /(?:based in|located in|from) ([A-Z][a-z]+(?:\s[A-Z][a-z]+)?)/i, key: "company.location" },
         { pattern: /(?:revenue|turnover) (?:is |of )?\$?([\d,.]+[kmb]?)/i, key: "company.revenue" },
+        // Waihanga construction-specific patterns
+        { pattern: /consent (?:ref|number|#)[\s:]*([A-Z]{2,5}-\d{4}-\d+)/i, key: "project.consent_ref" },
+        { pattern: /lbp (?:number|#|licence)[\s:]*([A-Z]{2}\d{4,6})/i, key: "participants.lbp_number" },
+        { pattern: /(?:at|address|site)[\s:]+(\d+\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\s+(?:St|Rd|Ave|Dr|Pl|Tce|Cr|Way|Lane))/i, key: "project.address" },
+        { pattern: /(?:clause|code)\s+((?:B|C|E|F|G|H)\d(?:\/AS\d)?)/i, key: "code_decision.clause_ref" },
+        { pattern: /(?:inspection|stage)[\s:]+(?:is\s+)?(pre-line|framing|post-line|pre-clad|final)/i, key: "project.inspection_stage" },
+        { pattern: /(?:scaffold|scaffolding)\s+(?:tag|cert).*?(?:expir(?:es|y)|due)[\s:]+(\d{1,2}\s+\w+)/i, key: "safety.scaffold_expiry" },
       ];
 
       for (const { pattern, key } of factPatterns) {
