@@ -11,11 +11,10 @@ const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY")!;
 
-// Cron expression parser — calculates next run from a simple cron string
+// ─── Cron parser ───────────────────────────────────────
 function getNextRun(cron: string, from: Date = new Date()): Date {
-  // For simplicity, support common intervals
   const parts = cron.trim().split(/\s+/);
-  if (parts.length !== 5) return new Date(from.getTime() + 3600_000); // default 1h
+  if (parts.length !== 5) return new Date(from.getTime() + 3600_000);
 
   const [min, hour, dom, mon, dow] = parts;
 
@@ -24,8 +23,18 @@ function getNextRun(cron: string, from: Date = new Date()): Date {
     const interval = parseInt(min.slice(2)) || 15;
     return new Date(from.getTime() + interval * 60_000);
   }
+  // Monthly on specific day: 0 H D * *
+  if (dom !== "*" && mon === "*" && dow === "*") {
+    const next = new Date(from);
+    next.setDate(parseInt(dom));
+    next.setHours(parseInt(hour === "*" ? "6" : hour), parseInt(min === "*" ? "0" : min), 0, 0);
+    if (next <= from) {
+      next.setMonth(next.getMonth() + 1);
+    }
+    return next;
+  }
   // Daily at specific hour: 0 H * * *
-  if (hour !== "*" && dom === "*") {
+  if (hour !== "*" && dom === "*" && dow === "*") {
     const next = new Date(from);
     next.setHours(parseInt(hour), parseInt(min === "*" ? "0" : min), 0, 0);
     if (next <= from) next.setDate(next.getDate() + 1);
@@ -41,11 +50,32 @@ function getNextRun(cron: string, from: Date = new Date()): Date {
     next.setDate(next.getDate() + daysAhead);
     return next;
   }
-  // Fallback: 1 hour
   return new Date(from.getTime() + 3600_000);
 }
 
-// Agent task handlers
+// ─── AI helper ─────────────────────────────────────────
+async function callAI(systemPrompt: string, userPrompt: string, model = "google/gemini-2.5-flash-lite"): Promise<string | null> {
+  const aiResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${LOVABLE_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model,
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt },
+      ],
+    }),
+  });
+
+  if (!aiResp.ok) return null;
+  const data = await aiResp.json();
+  return data.choices?.[0]?.message?.content || null;
+}
+
+// ─── Task handlers ─────────────────────────────────────
 async function executeTask(
   task: any,
   supabase: any
@@ -54,8 +84,8 @@ async function executeTask(
 
   try {
     switch (task_type) {
+      // ─── Existing handlers ─────────────────────────
       case "compliance_check": {
-        // Check upcoming compliance deadlines for this user
         const { data: deadlines } = await supabase
           .from("compliance_deadlines")
           .select("title, due_date, severity, category")
@@ -65,7 +95,6 @@ async function executeTask(
           .limit(10);
 
         if (deadlines?.length) {
-          // Generate proactive alert
           const alertContent = deadlines
             .map((d: any) => `• ${d.title} — due ${d.due_date} (${d.severity})`)
             .join("\n");
@@ -78,56 +107,29 @@ async function executeTask(
             status: "pending",
           });
         }
-
         return { success: true, result: { deadlines_found: deadlines?.length || 0 } };
       }
 
       case "proactive_alert": {
-        // Use AI to generate a proactive insight based on payload context
-        const aiResp = await fetch(
-          "https://ai.gateway.lovable.dev/v1/chat/completions",
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${LOVABLE_API_KEY}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              model: "google/gemini-2.5-flash-lite",
-              messages: [
-                {
-                  role: "system",
-                  content: `You are ${agent_id}, a proactive NZ business assistant. Generate a brief, actionable insight or reminder based on the context. Keep it under 100 words. Be specific and helpful.`,
-                },
-                {
-                  role: "user",
-                  content: JSON.stringify(payload),
-                },
-              ],
-            }),
-          }
+        const insight = await callAI(
+          `You are ${agent_id}, a proactive NZ business assistant. Generate a brief, actionable insight or reminder based on the context. Keep it under 100 words. Be specific and helpful.`,
+          JSON.stringify(payload)
         );
 
-        if (aiResp.ok) {
-          const aiData = await aiResp.json();
-          const insight = aiData.choices?.[0]?.message?.content || "";
-          
-          if (insight) {
-            await supabase.from("action_queue").insert({
-              user_id,
-              agent_id,
-              description: insight,
-              priority: payload?.priority || "low",
-              status: "pending",
-            });
-          }
+        if (insight) {
+          await supabase.from("action_queue").insert({
+            user_id,
+            agent_id,
+            description: insight,
+            priority: payload?.priority || "low",
+            status: "pending",
+          });
           return { success: true, result: { insight_generated: true } };
         }
         return { success: false, error: "AI generation failed" };
       }
 
       case "report": {
-        // Generate scheduled report
         await supabase.from("action_queue").insert({
           user_id,
           agent_id,
@@ -150,7 +152,6 @@ async function executeTask(
       }
 
       case "data_refresh": {
-        // Refresh shared context / business memory
         const { data: context } = await supabase
           .from("shared_context")
           .select("context_key, context_value, updated_at")
@@ -158,7 +159,6 @@ async function executeTask(
           .order("updated_at", { ascending: false })
           .limit(20);
 
-        // Check for stale data (>30 days old)
         const staleItems = (context || []).filter((c: any) => {
           const age = Date.now() - new Date(c.updated_at).getTime();
           return age > 30 * 86400_000;
@@ -176,6 +176,138 @@ async function executeTask(
         return { success: true, result: { stale_items: staleItems.length } };
       }
 
+      // ═══════════════════════════════════════════════════
+      // WAIHANGA (Construction) task handlers
+      // ═══════════════════════════════════════════════════
+
+      case "construction_briefing": {
+        // ĀRAI weekly site safety briefing
+        // Gather site context for all active projects
+        const { data: siteContext } = await supabase
+          .from("shared_context")
+          .select("context_key, context_value")
+          .eq("user_id", user_id)
+          .like("context_key", "project.%")
+          .limit(30);
+
+        const siteData = (siteContext || [])
+          .map((r: any) => `${r.context_key}: ${r.context_value}`)
+          .join("\n");
+
+        const briefing = await callAI(
+          `You are ĀRAI, the H&S safety agent for NZ construction sites. Generate a Monday morning site safety briefing.
+Include:
+- Active hazards and controls
+- Weather advisory if relevant (assume NZ autumn/winter conditions)
+- Scaffold tag expiry reminders
+- Upcoming inspections
+- PPE reminders
+- Any notifiable events under HSWA 2015
+Format for WhatsApp delivery: use emojis (⚠️ 🌧️ ✅ 🔒 🏗️), keep under 1000 chars.
+Current date: ${new Date().toLocaleDateString("en-NZ")}`,
+          `Active project data:\n${siteData || "No active project data — generate generic NZ construction safety brief."}`,
+          "google/gemini-2.5-flash"
+        );
+
+        if (briefing) {
+          await supabase.from("action_queue").insert({
+            user_id,
+            agent_id: "arai",
+            description: briefing,
+            priority: "medium",
+            status: "pending",
+          });
+        }
+
+        return { success: true, result: { briefing_generated: !!briefing } };
+      }
+
+      case "progress_claim": {
+        // KAUPAPA monthly progress claim — CCA 2002
+        const { data: retentions } = await supabase
+          .from("shared_context")
+          .select("context_key, context_value")
+          .eq("user_id", user_id)
+          .or("context_key.like.project.retentions.%,context_key.like.project.consent_ref,context_key.like.project.address")
+          .limit(20);
+
+        const projectData = (retentions || [])
+          .map((r: any) => `${r.context_key}: ${r.context_value}`)
+          .join("\n");
+
+        const claimSummary = await callAI(
+          `You are KAUPAPA, the NZ construction project management agent.
+Generate a progress claim reminder for the 20th of the month under the Construction Contracts Act 2002.
+
+Include:
+- Payment schedule deadline (payment due within 20 working days of claim under s22 CCA)
+- Retention status — remind that retentions must be held on trust since 2023 amendment
+- If scheduled amounts are in context, calculate claim value
+- Flag if any payment schedule responses are overdue
+- Note: if no pay schedule response within 20 working days, claimed amount becomes due (s23 CCA)
+
+Keep under 500 chars. Be direct and actionable.
+Current date: ${new Date().toLocaleDateString("en-NZ")}`,
+          projectData || "No project retention data available — generate generic CCA 2002 progress claim reminder.",
+          "google/gemini-2.5-flash"
+        );
+
+        if (claimSummary) {
+          await supabase.from("action_queue").insert({
+            user_id,
+            agent_id: "kaupapa",
+            description: claimSummary,
+            priority: "high",
+            status: "pending",
+          });
+        }
+
+        return { success: true, result: { claim_generated: !!claimSummary } };
+      }
+
+      case "ccc_alert": {
+        // WHAKAAĒ — Code Compliance Certificate countdown
+        const { data: consentData } = await supabase
+          .from("shared_context")
+          .select("context_key, context_value")
+          .eq("user_id", user_id)
+          .or("context_key.like.project.consent_ref,context_key.like.project.inspection_stage,context_key.like.project.address")
+          .limit(10);
+
+        const consentInfo = (consentData || [])
+          .map((r: any) => `${r.context_key}: ${r.context_value}`)
+          .join("\n");
+
+        const alert = await callAI(
+          `You are WHAKAAĒ, the NZ building consents agent.
+Generate a CCC (Code Compliance Certificate) application deadline alert.
+
+Include the documentation checklist:
+- Producer statements (PS1 design, PS2 manufacturer, PS3 construction review, PS4 construction)
+- All inspection records from council
+- As-built drawings (plumbing, drainage, structural)
+- Energy work certificate (if applicable)
+- Record of work from all LBPs involved
+
+Note: CCC must be applied for within 2 years of code compliance per Building Act 2004 s93.
+Keep under 500 chars. Format as a checklist.`,
+          consentInfo || "No consent data available — generate generic CCC checklist reminder.",
+          "google/gemini-2.5-flash"
+        );
+
+        if (alert) {
+          await supabase.from("action_queue").insert({
+            user_id,
+            agent_id: "whakaae",
+            description: alert,
+            priority: "high",
+            status: "pending",
+          });
+        }
+
+        return { success: true, result: { ccc_alert_generated: !!alert } };
+      }
+
       default:
         return { success: true, result: { task_type, note: "executed with default handler" } };
     }
@@ -183,6 +315,10 @@ async function executeTask(
     return { success: false, error: e instanceof Error ? e.message : "Unknown error" };
   }
 }
+
+// ═══════════════════════════════════════════════════════════
+// MAIN HANDLER
+// ═══════════════════════════════════════════════════════════
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -193,7 +329,6 @@ serve(async (req) => {
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
     const now = new Date().toISOString();
 
-    // Fetch due tasks
     const { data: dueTasks, error: fetchError } = await supabase
       .from("scheduled_tasks")
       .select("*")
@@ -226,13 +361,11 @@ serve(async (req) => {
       const newRunCount = task.run_count + 1;
       const isCompleted = task.max_runs && newRunCount >= task.max_runs;
 
-      // Calculate next run
       let nextRun: string | null = null;
       if (!isCompleted && task.schedule_cron) {
         nextRun = getNextRun(task.schedule_cron).toISOString();
       }
 
-      // Update task
       const updatePayload: any = {
         last_run_at: now,
         run_count: newRunCount,

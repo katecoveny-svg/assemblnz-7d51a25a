@@ -11,11 +11,180 @@ const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY")!;
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
-const TOKEN_ESTIMATE_PER_MSG = 400; // rough average tokens per message
+const TOKEN_ESTIMATE_PER_MSG = 400;
 const COMPRESS_THRESHOLD_MSGS = 20;
 const COMPRESS_THRESHOLD_TOKENS = 80_000;
 const KEEP_RECENT = 6;
 const MIN_COMPRESSIBLE = 8;
+
+// ─── Waihanga (Construction) agent IDs ─────────────────
+const WAIHANGA_AGENTS = new Set([
+  "apex", "arai", "kaupapa", "ata", "rawa", "pai", "whakaae",
+]);
+
+// ─── Industry-specific extraction schemas ──────────────
+const WAIHANGA_EXTRACTION_PROMPT = `You are a conversation compressor for a NZ construction/trades AI platform.
+Compress the conversation into structured JSON, extracting NZ construction-specific data.
+Return ONLY valid JSON:
+{
+  "summary": "2-3 sentence overview of what was discussed",
+  "facts": [{"key": "dot.notation.key", "value": "string value", "confidence": 0.9}],
+  "decisions": ["decision 1"],
+  "pending_actions": ["action 1"],
+  "compliance_notes": ["any compliance-relevant items"],
+  "construction": {
+    "project": { "address": "", "consent_ref": "", "consent_authority": "" },
+    "participants": [{ "lbp_name": "", "lbp_number": "", "lbp_class": "" }],
+    "code_decisions": [{ "clause": "E2", "decision": "cavity system", "reason": "exposure zone HIGH" }],
+    "inspection_stage": "pre-line | framing | post-line | pre-clad | final",
+    "upcoming_inspections": [{ "type": "", "date": "", "items_to_prep": "" }],
+    "retentions": { "amount": "", "held_by": "", "release_date": "", "trust_compliant": true }
+  }
+}
+Extract NZ-specific construction data:
+- Building consent references (e.g., BCA-2025-XXXX)
+- LBP licence numbers and classes (BP, DC, SC, etc.)
+- Building Code clauses (B1, B2, E1, E2, E3, F7, H1, etc.)
+- Inspection stages and results
+- CCA 2002 retention details — trust compliance since 2023 amendment
+- Exposure zones (LOW, MEDIUM, HIGH, VERY HIGH per E2/AS1)
+- Producer statements (PS1, PS2, PS3, PS4)
+Omit any "construction" sub-object fields that are empty/unknown.`;
+
+const DEFAULT_EXTRACTION_PROMPT = `You are a conversation compressor for a NZ business AI platform. Compress the conversation into structured JSON. Extract: decisions made, facts learned, action items, compliance notes. Return ONLY valid JSON:
+{
+  "summary": "2-3 sentence overview of what was discussed",
+  "facts": [{"key": "dot.notation.key", "value": "string value", "confidence": 0.9}],
+  "decisions": ["decision 1", "decision 2"],
+  "pending_actions": ["action 1"],
+  "compliance_notes": ["any compliance-relevant items"]
+}`;
+
+function getExtractionPrompt(agentId: string): string {
+  return WAIHANGA_AGENTS.has(agentId?.toLowerCase()) ? WAIHANGA_EXTRACTION_PROMPT : DEFAULT_EXTRACTION_PROMPT;
+}
+
+// ─── Construction-specific tool schema ─────────────────
+function getToolSchema(agentId: string) {
+  const base: Record<string, any> = {
+    summary: { type: "string" },
+    facts: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          key: { type: "string" },
+          value: { type: "string" },
+          confidence: { type: "number" },
+        },
+        required: ["key", "value", "confidence"],
+      },
+    },
+    decisions: { type: "array", items: { type: "string" } },
+    pending_actions: { type: "array", items: { type: "string" } },
+    compliance_notes: { type: "array", items: { type: "string" } },
+  };
+
+  if (WAIHANGA_AGENTS.has(agentId?.toLowerCase())) {
+    base.construction = {
+      type: "object",
+      properties: {
+        project: {
+          type: "object",
+          properties: {
+            address: { type: "string" },
+            consent_ref: { type: "string" },
+            consent_authority: { type: "string" },
+          },
+        },
+        participants: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              lbp_name: { type: "string" },
+              lbp_number: { type: "string" },
+              lbp_class: { type: "string" },
+            },
+          },
+        },
+        code_decisions: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              clause: { type: "string" },
+              decision: { type: "string" },
+              reason: { type: "string" },
+            },
+            required: ["clause", "decision"],
+          },
+        },
+        inspection_stage: { type: "string" },
+        upcoming_inspections: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              type: { type: "string" },
+              date: { type: "string" },
+              items_to_prep: { type: "string" },
+            },
+          },
+        },
+        retentions: {
+          type: "object",
+          properties: {
+            amount: { type: "string" },
+            held_by: { type: "string" },
+            release_date: { type: "string" },
+            trust_compliant: { type: "boolean" },
+          },
+        },
+      },
+    };
+  }
+
+  return base;
+}
+
+// ─── Construction fact flattener ───────────────────────
+function flattenConstructionFacts(construction: any): Array<{ key: string; value: string; confidence: number }> {
+  const facts: Array<{ key: string; value: string; confidence: number }> = [];
+  if (!construction) return facts;
+
+  const p = construction.project;
+  if (p?.address) facts.push({ key: "project.address", value: p.address, confidence: 0.9 });
+  if (p?.consent_ref) facts.push({ key: "project.consent_ref", value: p.consent_ref, confidence: 0.95 });
+  if (p?.consent_authority) facts.push({ key: "project.consent_authority", value: p.consent_authority, confidence: 0.9 });
+
+  if (construction.participants?.length) {
+    for (const pt of construction.participants) {
+      if (pt.lbp_number) {
+        facts.push({ key: `participants.lbp.${pt.lbp_number}`, value: `${pt.lbp_name || "Unknown"} (${pt.lbp_class || "?"})`, confidence: 0.95 });
+      }
+    }
+  }
+
+  if (construction.code_decisions?.length) {
+    for (const cd of construction.code_decisions) {
+      facts.push({ key: `code_decision.${cd.clause}`, value: `${cd.decision}${cd.reason ? " — " + cd.reason : ""}`, confidence: 0.9 });
+    }
+  }
+
+  if (construction.inspection_stage) {
+    facts.push({ key: "project.inspection_stage", value: construction.inspection_stage, confidence: 0.85 });
+  }
+
+  if (construction.retentions?.amount) {
+    facts.push({ key: "project.retentions.amount", value: construction.retentions.amount, confidence: 0.9 });
+    if (construction.retentions.trust_compliant !== undefined) {
+      facts.push({ key: "project.retentions.trust_compliant", value: String(construction.retentions.trust_compliant), confidence: 0.9 });
+    }
+  }
+
+  return facts;
+}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -44,7 +213,6 @@ serve(async (req) => {
       );
     }
 
-    // Split: keep system prompt (0) + last N messages
     const systemPrompt = messages[0]?.role === "system" ? messages[0] : null;
     const startIdx = systemPrompt ? 1 : 0;
     const keepRecent = messages.slice(-KEEP_RECENT);
@@ -57,11 +225,12 @@ serve(async (req) => {
       );
     }
 
+    const isWaihanga = WAIHANGA_AGENTS.has(agentId?.toLowerCase());
     console.log(
-      `[compress] Compressing ${toCompress.length} messages for agent=${agentId}, user=${userId}`
+      `[compress] Compressing ${toCompress.length} messages for agent=${agentId}, user=${userId}${isWaihanga ? " [WAIHANGA]" : ""}`
     );
 
-    // Call Lovable AI Gateway to compress
+    // Call Lovable AI Gateway with industry-specific extraction
     const aiResp = await fetch(
       "https://ai.gateway.lovable.dev/v1/chat/completions",
       {
@@ -73,26 +242,13 @@ serve(async (req) => {
         body: JSON.stringify({
           model: "google/gemini-2.5-flash",
           messages: [
-            {
-              role: "system",
-              content: `You are a conversation compressor for a NZ business AI platform. Compress the conversation into structured JSON. Extract: decisions made, facts learned, action items, compliance notes. Return ONLY valid JSON:
-{
-  "summary": "2-3 sentence overview of what was discussed",
-  "facts": [{"key": "dot.notation.key", "value": "string value", "confidence": 0.9}],
-  "decisions": ["decision 1", "decision 2"],
-  "pending_actions": ["action 1"],
-  "compliance_notes": ["any compliance-relevant items"]
-}`,
-            },
+            { role: "system", content: getExtractionPrompt(agentId) },
             {
               role: "user",
               content: JSON.stringify(
                 toCompress.map((m: any) => ({
                   role: m.role,
-                  content:
-                    typeof m.content === "string"
-                      ? m.content.slice(0, 2000)
-                      : m.content,
+                  content: typeof m.content === "string" ? m.content.slice(0, 2000) : m.content,
                 }))
               ),
             },
@@ -105,24 +261,7 @@ serve(async (req) => {
                 description: "Return structured compression of conversation",
                 parameters: {
                   type: "object",
-                  properties: {
-                    summary: { type: "string" },
-                    facts: {
-                      type: "array",
-                      items: {
-                        type: "object",
-                        properties: {
-                          key: { type: "string" },
-                          value: { type: "string" },
-                          confidence: { type: "number" },
-                        },
-                        required: ["key", "value", "confidence"],
-                      },
-                    },
-                    decisions: { type: "array", items: { type: "string" } },
-                    pending_actions: { type: "array", items: { type: "string" } },
-                    compliance_notes: { type: "array", items: { type: "string" } },
-                  },
+                  properties: getToolSchema(agentId),
                   required: ["summary", "facts", "decisions", "pending_actions"],
                 },
               },
@@ -139,7 +278,6 @@ serve(async (req) => {
     if (!aiResp.ok) {
       const errText = await aiResp.text();
       console.error("[compress] AI error:", aiResp.status, errText);
-      // Return original messages on AI failure — non-destructive
       return new Response(
         JSON.stringify({ compressed: false, messages, error: "AI compression failed" }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -153,7 +291,6 @@ serve(async (req) => {
     if (toolCall?.function?.arguments) {
       parsed = JSON.parse(toolCall.function.arguments);
     } else {
-      // Fallback: try parsing content directly
       const content = aiData.choices?.[0]?.message?.content || "";
       const jsonMatch = content.match(/\{[\s\S]*\}/);
       if (!jsonMatch) {
@@ -166,7 +303,7 @@ serve(async (req) => {
       parsed = JSON.parse(jsonMatch[0]);
     }
 
-    // Persist to database using service role
+    // Persist to database
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
     // 1. Save conversation summary with lineage
@@ -186,8 +323,13 @@ serve(async (req) => {
     }
 
     // 2. Upsert extracted facts to shared_context
-    if (parsed.facts?.length) {
-      for (const fact of parsed.facts) {
+    const allFacts = [
+      ...(parsed.facts || []),
+      ...flattenConstructionFacts(parsed.construction),
+    ];
+
+    if (allFacts.length) {
+      for (const fact of allFacts) {
         const { error: ctxError } = await supabase
           .from("shared_context")
           .upsert(
@@ -207,7 +349,7 @@ serve(async (req) => {
     }
 
     console.log(
-      `[compress] Done: ${toCompress.length} msgs → summary + ${parsed.facts?.length || 0} facts`
+      `[compress] Done: ${toCompress.length} msgs → summary + ${allFacts.length} facts${isWaihanga ? ` (incl. construction data)` : ""}`
     );
 
     // 3. Rebuild compressed message array
@@ -215,14 +357,14 @@ serve(async (req) => {
       role: "assistant" as const,
       content:
         `[EARLIER IN THIS CONVERSATION]\n${parsed.summary}\n` +
-        (parsed.decisions?.length
-          ? `Decisions: ${parsed.decisions.join("; ")}\n`
+        (parsed.decisions?.length ? `Decisions: ${parsed.decisions.join("; ")}\n` : "") +
+        (parsed.pending_actions?.length ? `Pending: ${parsed.pending_actions.join("; ")}\n` : "") +
+        (parsed.compliance_notes?.length ? `Compliance: ${parsed.compliance_notes.join("; ")}\n` : "") +
+        (isWaihanga && parsed.construction?.inspection_stage
+          ? `Inspection Stage: ${parsed.construction.inspection_stage}\n`
           : "") +
-        (parsed.pending_actions?.length
-          ? `Pending: ${parsed.pending_actions.join("; ")}\n`
-          : "") +
-        (parsed.compliance_notes?.length
-          ? `Compliance: ${parsed.compliance_notes.join("; ")}`
+        (isWaihanga && parsed.construction?.code_decisions?.length
+          ? `Code Decisions: ${parsed.construction.code_decisions.map((c: any) => `${c.clause}: ${c.decision}`).join("; ")}\n`
           : ""),
     };
 
@@ -239,8 +381,9 @@ serve(async (req) => {
         stats: {
           original_count: messages.length,
           compressed_count: compressedMessages.length,
-          facts_extracted: parsed.facts?.length || 0,
+          facts_extracted: allFacts.length,
           decisions: parsed.decisions?.length || 0,
+          construction_data: isWaihanga,
         },
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
