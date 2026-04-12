@@ -91,6 +91,8 @@ export async function agentChatStream({
   messages = [],
   packId,
   systemPrompt,
+  userId,
+  skipMemory,
   onDelta,
   onDone,
   onError,
@@ -100,6 +102,16 @@ export async function agentChatStream({
   onError?: (error: Error) => void;
 }): Promise<void> {
   try {
+    // Memory injection for streaming calls
+    let enrichedPrompt = systemPrompt;
+    if (userId && !skipMemory) {
+      try {
+        const memories = await searchMemory(userId, message, agentId, 3);
+        const block = buildMemoryBlock(memories);
+        if (block) enrichedPrompt = (enrichedPrompt || "") + block;
+      } catch { /* non-blocking */ }
+    }
+
     const resp = await fetch(AGENT_ROUTER_URL, {
       method: "POST",
       headers: {
@@ -111,7 +123,7 @@ export async function agentChatStream({
         agentId,
         packId: packId || agentId,
         messages,
-        ...(systemPrompt ? { systemPromptOverride: systemPrompt } : {}),
+        ...(enrichedPrompt ? { systemPromptOverride: enrichedPrompt } : {}),
       }),
     });
 
