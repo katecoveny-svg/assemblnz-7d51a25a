@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import AgentTestResultsTab from "@/components/admin/AgentTestResultsTab";
 import AdminPipelineTab from "@/components/admin/AdminPipelineTab";
+import AdminVideoGenTab from "@/components/admin/AdminVideoGenTab";
 
 interface Metrics {
   totalUsers: number;
