@@ -296,6 +296,109 @@ function getToolSchema(agentId: string) {
     };
   }
 
+  if (industry === "ahuwhenua") {
+    base.agriculture = {
+      type: "object",
+      properties: {
+        farm: {
+          type: "object",
+          properties: {
+            type: { type: "string", description: "dairy | sheep_beef | horticulture | mixed | deer | forestry" },
+            region: { type: "string" },
+            effective_area_ha: { type: "number" },
+            stock_units: { type: "number" },
+            nait_number: { type: "string" },
+            supplier_number: { type: "string" },
+          },
+        },
+        dairy: {
+          type: "object",
+          properties: {
+            milk_production_kgms: { type: "number" },
+            processor: { type: "string" },
+            season: { type: "string" },
+          },
+        },
+        fep: {
+          type: "object",
+          properties: {
+            status: { type: "string", description: "none | draft | submitted | audited" },
+            audit_date: { type: "string" },
+            regional_council: { type: "string" },
+            risk_grade: { type: "string", description: "A | B | C | D" },
+          },
+        },
+        water_consents: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              consent_number: { type: "string" },
+              expiry_date: { type: "string" },
+              type: { type: "string" },
+            },
+          },
+        },
+        effluent: {
+          type: "object",
+          properties: {
+            system_type: { type: "string" },
+            capacity: { type: "string" },
+            compliant: { type: "boolean" },
+          },
+        },
+        ets: {
+          type: "object",
+          properties: {
+            registered: { type: "boolean" },
+            forestry_ha: { type: "number" },
+            nzu_balance: { type: "number" },
+          },
+        },
+        nait_compliance: {
+          type: "object",
+          properties: {
+            location_registered: { type: "boolean" },
+            movements_current: { type: "boolean" },
+            last_declaration: { type: "string" },
+          },
+        },
+        schedule_prices: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              species: { type: "string" },
+              grade: { type: "string" },
+              price_per_kg: { type: "number" },
+              processor: { type: "string" },
+              date: { type: "string" },
+            },
+          },
+        },
+        seasonal_calendar: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              event: { type: "string" },
+              date_range: { type: "string" },
+              notes: { type: "string" },
+            },
+          },
+        },
+        succession: {
+          type: "object",
+          properties: {
+            structure: { type: "string" },
+            status: { type: "string" },
+            timeline: { type: "string" },
+          },
+        },
+      },
+    };
+  }
+
   return base;
 }
 
@@ -369,6 +472,71 @@ function flattenCreativeFacts(creative: any): Array<{ key: string; value: string
 
   if (creative.competitor_notes?.length) facts.push({ key: "brand.competitors", value: creative.competitor_notes.join("; "), confidence: 0.7 });
   if (creative.seasonal_calendar?.length) facts.push({ key: "brand.seasonal_calendar", value: creative.seasonal_calendar.join(", "), confidence: 0.8 });
+
+  return facts;
+}
+
+function flattenAgricultureFacts(agriculture: any): Array<{ key: string; value: string; confidence: number }> {
+  const facts: Array<{ key: string; value: string; confidence: number }> = [];
+  if (!agriculture) return facts;
+
+  const f = agriculture.farm;
+  if (f?.type) facts.push({ key: "farm.type", value: f.type, confidence: 0.9 });
+  if (f?.region) facts.push({ key: "farm.region", value: f.region, confidence: 0.9 });
+  if (f?.effective_area_ha) facts.push({ key: "farm.effective_area_ha", value: String(f.effective_area_ha), confidence: 0.85 });
+  if (f?.stock_units) facts.push({ key: "farm.stock_units", value: String(f.stock_units), confidence: 0.85 });
+  if (f?.nait_number) facts.push({ key: "farm.nait_number", value: f.nait_number, confidence: 0.95 });
+  if (f?.supplier_number) facts.push({ key: "farm.supplier_number", value: f.supplier_number, confidence: 0.95 });
+
+  const d = agriculture.dairy;
+  if (d?.milk_production_kgms) facts.push({ key: "farm.milk_production_kgms", value: String(d.milk_production_kgms), confidence: 0.85 });
+  if (d?.processor) facts.push({ key: "farm.processor", value: d.processor, confidence: 0.9 });
+
+  const fep = agriculture.fep;
+  if (fep?.status) facts.push({ key: "farm.fep_status", value: fep.status, confidence: 0.9 });
+  if (fep?.audit_date) facts.push({ key: "farm.fep_audit_date", value: fep.audit_date, confidence: 0.9 });
+  if (fep?.regional_council) facts.push({ key: "farm.region_council", value: fep.regional_council, confidence: 0.9 });
+  if (fep?.risk_grade) facts.push({ key: "farm.fep_risk_grade", value: fep.risk_grade, confidence: 0.85 });
+
+  if (agriculture.water_consents?.length) {
+    for (const wc of agriculture.water_consents) {
+      if (wc.consent_number) {
+        facts.push({ key: `farm.water_consent.${wc.consent_number}`, value: `${wc.type || "water take"} — expires ${wc.expiry_date || "unknown"}`, confidence: 0.9 });
+      }
+    }
+  }
+
+  const eff = agriculture.effluent;
+  if (eff?.system_type) facts.push({ key: "farm.effluent_system", value: `${eff.system_type} (${eff.capacity || "?"})`, confidence: 0.85 });
+  if (eff?.compliant !== undefined) facts.push({ key: "farm.effluent_compliant", value: String(eff.compliant), confidence: 0.85 });
+
+  const ets = agriculture.ets;
+  if (ets?.registered !== undefined) facts.push({ key: "farm.ets_registered", value: String(ets.registered), confidence: 0.9 });
+  if (ets?.forestry_ha) facts.push({ key: "farm.ets_forestry_ha", value: String(ets.forestry_ha), confidence: 0.85 });
+  if (ets?.nzu_balance) facts.push({ key: "farm.ets_nzu_balance", value: String(ets.nzu_balance), confidence: 0.8 });
+
+  const nait = agriculture.nait_compliance;
+  if (nait?.location_registered !== undefined) facts.push({ key: "farm.nait_registered", value: String(nait.location_registered), confidence: 0.9 });
+  if (nait?.movements_current !== undefined) facts.push({ key: "farm.nait_movements_current", value: String(nait.movements_current), confidence: 0.85 });
+  if (nait?.last_declaration) facts.push({ key: "farm.nait_last_declaration", value: nait.last_declaration, confidence: 0.85 });
+
+  if (agriculture.schedule_prices?.length) {
+    for (const sp of agriculture.schedule_prices) {
+      if (sp.species) {
+        facts.push({ key: `farm.schedule.${sp.species}.${sp.grade || "all"}`, value: `$${sp.price_per_kg}/kg (${sp.processor || "?"}) ${sp.date || ""}`, confidence: 0.8 });
+      }
+    }
+  }
+
+  if (agriculture.seasonal_calendar?.length) {
+    for (const sc of agriculture.seasonal_calendar) {
+      if (sc.event) facts.push({ key: `farm.calendar.${sc.event.replace(/\s+/g, "_")}`, value: `${sc.date_range || ""} — ${sc.notes || ""}`, confidence: 0.8 });
+    }
+  }
+
+  const succ = agriculture.succession;
+  if (succ?.structure) facts.push({ key: "farm.succession_structure", value: succ.structure, confidence: 0.85 });
+  if (succ?.status) facts.push({ key: "farm.succession_status", value: succ.status, confidence: 0.85 });
 
   return facts;
 }
@@ -514,6 +682,7 @@ serve(async (req) => {
       ...(parsed.facts || []),
       ...flattenConstructionFacts(parsed.construction),
       ...flattenCreativeFacts(parsed.creative),
+      ...flattenAgricultureFacts(parsed.agriculture),
     ];
 
     if (allFacts.length) {
@@ -553,6 +722,14 @@ serve(async (req) => {
         if (top.length) industryContext += `Top Content: ${top.map((c: any) => `${c.platform} ${c.format}: ${c.what_worked}`).join("; ")}\n`;
       }
       if (parsed.creative?.style_preferences?.edit_patterns?.length) industryContext += `Style Patterns: ${parsed.creative.style_preferences.edit_patterns.join("; ")}\n`;
+    }
+    if (industry === "ahuwhenua") {
+      const ag = parsed.agriculture;
+      if (ag?.farm?.type) industryContext += `Farm: ${ag.farm.type} (${ag.farm.region || "NZ"}, ${ag.farm.effective_area_ha || "?"}ha)\n`;
+      if (ag?.fep?.status) industryContext += `FEP: ${ag.fep.status} (${ag.fep.regional_council || ""})\n`;
+      if (ag?.nait_compliance?.movements_current !== undefined) industryContext += `NAIT: movements ${ag.nait_compliance.movements_current ? "current" : "OVERDUE"}\n`;
+      if (ag?.ets?.registered) industryContext += `ETS: registered, ${ag.ets.forestry_ha || 0}ha forestry\n`;
+      if (ag?.dairy?.milk_production_kgms) industryContext += `Production: ${ag.dairy.milk_production_kgms} kgMS (${ag.dairy.processor || ""})\n`;
     }
 
     const compressionMessage = {
