@@ -1,7 +1,6 @@
 // ═══════════════════════════════════════════════════════════════
 // Hook: useSovereigntyData
 // Fetches sovereignty registry, audit log, and governance gates
-// for display in kete dashboard panels.
 // ═══════════════════════════════════════════════════════════════
 
 import { useQuery } from "@tanstack/react-query";
@@ -53,19 +52,23 @@ export interface GovernanceGate {
   created_at: string;
 }
 
+// Use type assertion to work with tables not yet in generated types
+const db = supabase as unknown as {
+  from: (table: string) => ReturnType<typeof supabase.from>;
+};
+
 export function useSovereigntyRegistry(kete?: string) {
   return useQuery({
     queryKey: ["sovereignty-registry", kete],
     queryFn: async () => {
-      let q = supabase
-        .from("maori_data_registry" as string)
+      let q = db.from("maori_data_registry")
         .select("*")
         .order("created_at", { ascending: false })
         .limit(50);
       if (kete) q = q.eq("source_kete", kete);
       const { data, error } = await q;
       if (error) throw error;
-      return (data ?? []) as unknown as RegistryEntry[];
+      return (data ?? []) as RegistryEntry[];
     },
   });
 }
@@ -74,15 +77,14 @@ export function useSovereigntyAudit(kete?: string) {
   return useQuery({
     queryKey: ["sovereignty-audit", kete],
     queryFn: async () => {
-      let q = supabase
-        .from("sovereignty_audit_log" as string)
+      let q = db.from("sovereignty_audit_log")
         .select("*")
         .order("created_at", { ascending: false })
         .limit(100);
       if (kete) q = q.eq("kete", kete);
       const { data, error } = await q;
       if (error) throw error;
-      return (data ?? []) as unknown as AuditEntry[];
+      return (data ?? []) as AuditEntry[];
     },
   });
 }
@@ -91,15 +93,14 @@ export function useGovernanceGates(kete?: string) {
   return useQuery({
     queryKey: ["governance-gates", kete],
     queryFn: async () => {
-      let q = supabase
-        .from("governance_gates" as string)
+      let q = db.from("governance_gates")
         .select("*")
         .order("created_at", { ascending: false })
         .limit(50);
       if (kete) q = q.eq("kete", kete);
       const { data, error } = await q;
       if (error) throw error;
-      return (data ?? []) as unknown as GovernanceGate[];
+      return (data ?? []) as GovernanceGate[];
     },
   });
 }
