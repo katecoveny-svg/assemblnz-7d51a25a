@@ -15,6 +15,7 @@ import {
 import AgentTestResultsTab from "@/components/admin/AgentTestResultsTab";
 import AdminPipelineTab from "@/components/admin/AdminPipelineTab";
 import AdminVideoGenTab from "@/components/admin/AdminVideoGenTab";
+import MemoryPanel from "@/components/memory/MemoryPanel";
 
 interface Metrics {
   totalUsers: number;
@@ -60,7 +61,7 @@ const LEAD_COLORS: Record<string, string> = { new: "#3A6A9C", contacted: "#3A6A9
 const AdminDashboard = () => {
   const { user, isAdmin, loading: authLoading, signOut } = useAuth();
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"overview" | "users" | "agents" | "activity" | "leads" | "documents" | "test" | "test-results" | "pipeline" | "videos">("overview");
+  const [tab, setTab] = useState<"overview" | "users" | "agents" | "activity" | "leads" | "documents" | "test" | "test-results" | "pipeline" | "videos" | "memory">("overview");
   const [metrics, setMetrics] = useState<Metrics | null>(null);
   const [users, setUsers] = useState<UserRow[]>([]);
   const [agentStatuses, setAgentStatuses] = useState<AgentStatus[]>([]);
@@ -182,7 +183,7 @@ const AdminDashboard = () => {
   const getAgentInfo = (id: string) => agents.find(a => a.id === id);
   const getStatus = (id: string) => agentStatuses.find(a => a.agent_id === id);
 
-  const tabs = ["overview", "users", "agents", "activity", "leads", "documents", "pipeline", "videos", "test", "test-results"] as const;
+  const tabs = ["overview", "users", "agents", "activity", "leads", "documents", "pipeline", "videos", "memory", "test", "test-results"] as const;
 
   return (
     <div className="min-h-screen star-field flex flex-col">
@@ -760,6 +761,14 @@ const AdminDashboard = () => {
 
         {/* VIDEOS TAB */}
         {tab === "videos" && <AdminVideoGenTab />}
+        {tab === "memory" && (
+          <div className={glassCard} style={glassStyle}>
+            <TopGlow color="#5AADA0" />
+            <div className="p-6">
+              <MemoryPanel />
+            </div>
+          </div>
+        )}
 
         {/* TEST TAB */}
         {tab === "test" && (
