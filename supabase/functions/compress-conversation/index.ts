@@ -30,6 +30,10 @@ const AHUWHENUA_AGENTS = new Set([
   "terra",
 ]);
 
+const MANAAKI_AGENTS = new Set([
+  "aura", "saffron", "cellar", "nova", "vitals", "haven",
+]);
+
 // ─── Industry-specific extraction schemas ──────────────
 const WAIHANGA_EXTRACTION_PROMPT = `You are a conversation compressor for a NZ construction/trades AI platform.
 Compress the conversation into structured JSON, extracting NZ construction-specific data.
@@ -152,14 +156,16 @@ function getExtractionPrompt(agentId: string): string {
   if (WAIHANGA_AGENTS.has(id)) return WAIHANGA_EXTRACTION_PROMPT;
   if (AUAHA_AGENTS.has(id)) return AUAHA_EXTRACTION_PROMPT;
   if (AHUWHENUA_AGENTS.has(id)) return AHUWHENUA_EXTRACTION_PROMPT;
+  if (MANAAKI_AGENTS.has(id)) return MANAAKI_EXTRACTION_PROMPT;
   return DEFAULT_EXTRACTION_PROMPT;
 }
 
-function getIndustry(agentId: string): "waihanga" | "auaha" | "ahuwhenua" | "default" {
+function getIndustry(agentId: string): "waihanga" | "auaha" | "ahuwhenua" | "manaaki" | "default" {
   const id = agentId?.toLowerCase();
   if (WAIHANGA_AGENTS.has(id)) return "waihanga";
   if (AUAHA_AGENTS.has(id)) return "auaha";
   if (AHUWHENUA_AGENTS.has(id)) return "ahuwhenua";
+  if (MANAAKI_AGENTS.has(id)) return "manaaki";
   return "default";
 }
 
