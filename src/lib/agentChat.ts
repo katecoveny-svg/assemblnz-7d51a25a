@@ -47,7 +47,7 @@ export async function agentChat({ agentId, message, messages = [], packId, syste
       agentId,
       packId: packId || agentId,
       messages,
-      ...(systemPrompt ? { systemPromptOverride: systemPrompt } : {}),
+      ...(enrichedPrompt ? { systemPromptOverride: enrichedPrompt } : {}),
     }),
   });
 
