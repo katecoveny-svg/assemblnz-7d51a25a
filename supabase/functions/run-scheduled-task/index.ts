@@ -308,6 +308,160 @@ Keep under 500 chars. Format as a checklist.`,
         return { success: true, result: { ccc_alert_generated: !!alert } };
       }
 
+      // ═══════════════════════════════════════════════════
+      // AUAHA (Creative & Marketing) task handlers
+      // ═══════════════════════════════════════════════════
+
+      case "content_calendar": {
+        // ECHO — Sunday evening weekly content calendar generation
+        const { data: brandContext } = await supabase
+          .from("shared_context")
+          .select("context_key, context_value")
+          .eq("user_id", user_id)
+          .like("context_key", "brand.%")
+          .limit(30);
+
+        const brandData = (brandContext || [])
+          .map((r: any) => `${r.context_key}: ${r.context_value}`)
+          .join("\n");
+
+        // Get NZ calendar context
+        const now = new Date();
+        const weekStart = new Date(now);
+        weekStart.setDate(now.getDate() + 1); // Monday
+        const weekEnd = new Date(weekStart);
+        weekEnd.setDate(weekStart.getDate() + 6); // Sunday
+
+        const calendar = await callAI(
+          `You are ECHO, the content strategist for an NZ creative platform.
+Generate a weekly content calendar for Mon–Fri based on the brand's performance data and voice.
+
+Include for each day:
+- Platform (LinkedIn, Instagram, Facebook — pick best fit)
+- Format (carousel, reel, static post, story, article)
+- Topic/angle (specific, not generic)
+- Suggested time (NZST)
+
+Consider:
+- NZ public holidays, Matariki, ANZAC Day, school terms
+- Brand's best performing formats and posting times from context
+- Avoid content types that have previously underperformed
+- NZ audience behaviour: Tuesday–Thursday typically strongest for B2B
+
+Keep total under 1000 chars. Use emojis for quick scanning.
+Week of: ${weekStart.toLocaleDateString("en-NZ")} – ${weekEnd.toLocaleDateString("en-NZ")}`,
+          brandData || "No brand data available — generate generic NZ small business content calendar.",
+          "google/gemini-2.5-flash"
+        );
+
+        if (calendar) {
+          await supabase.from("action_queue").insert({
+            user_id,
+            agent_id: "echo",
+            description: calendar,
+            priority: "medium",
+            status: "pending",
+          });
+        }
+
+        return { success: true, result: { calendar_generated: !!calendar } };
+      }
+
+      case "daily_post": {
+        // PRISM — Daily social post generation for one-tap approval
+        const { data: brandDna } = await supabase
+          .from("shared_context")
+          .select("context_key, context_value")
+          .eq("user_id", user_id)
+          .or("context_key.like.brand.dna.%,context_key.like.brand.approved_phrases,context_key.like.brand.forbidden_words,context_key.like.brand.top_content.%,context_key.like.brand.style.%")
+          .limit(20);
+
+        const dnaData = (brandDna || [])
+          .map((r: any) => `${r.context_key}: ${r.context_value}`)
+          .join("\n");
+
+        const dayOfWeek = new Date().toLocaleDateString("en-NZ", { weekday: "long" });
+
+        const post = await callAI(
+          `You are PRISM, the creative studio agent for an NZ marketing platform.
+Generate today's social media post ready for one-tap approval.
+
+Include:
+- Platform recommendation (based on day and brand data)
+- Caption/copy (match the brand's voice exactly — formality level, humour style, forbidden words)
+- 3-5 relevant hashtags (mix of NZ-specific and industry)
+- Suggested posting time (NZST)
+- Brief image/visual description for the creative team
+
+Rules:
+- Match the brand's voice formality level from context
+- Never use words from the forbidden list
+- Prefer formats that have historically performed well
+- Include NZ-specific references where natural (place names, seasonal context)
+- If behind-the-scenes or authenticity formats perform best, lean into those
+
+Format for WhatsApp delivery. Keep under 800 chars.
+Today: ${dayOfWeek}, ${new Date().toLocaleDateString("en-NZ")}`,
+          dnaData || "No brand DNA available — generate a generic NZ business post with professional tone.",
+          "google/gemini-2.5-flash"
+        );
+
+        if (post) {
+          await supabase.from("action_queue").insert({
+            user_id,
+            agent_id: "prism",
+            description: post,
+            priority: "medium",
+            status: "pending",
+          });
+        }
+
+        return { success: true, result: { post_generated: !!post } };
+      }
+
+      case "performance_review": {
+        // ECHO — Monday morning content performance analysis
+        const { data: performanceData } = await supabase
+          .from("shared_context")
+          .select("context_key, context_value, updated_at")
+          .eq("user_id", user_id)
+          .or("context_key.like.brand.top_content.%,context_key.like.brand.failed_content.%,context_key.like.brand.last_engagement_rate,context_key.like.brand.audience.%")
+          .limit(20);
+
+        const perfData = (performanceData || [])
+          .map((r: any) => `${r.context_key}: ${r.context_value} (updated: ${r.updated_at})`)
+          .join("\n");
+
+        const review = await callAI(
+          `You are ECHO, the content strategist for an NZ creative platform.
+Generate a Monday morning content performance review for last week.
+
+Include:
+- What content performed best and WHY (be specific, not generic)
+- What underperformed and what to adjust
+- Audience engagement trends
+- Recommendations for this week's strategy adjustments
+- Any NZ-specific timing insights (e.g., "Friday afternoon posts dropped — likely long weekend")
+
+Be direct and actionable. This is for a busy NZ business owner.
+Keep under 600 chars. Format for WhatsApp.`,
+          perfData || "No performance data available yet — generate a starter performance framework and suggest what metrics to begin tracking.",
+          "google/gemini-2.5-flash"
+        );
+
+        if (review) {
+          await supabase.from("action_queue").insert({
+            user_id,
+            agent_id: "echo",
+            description: review,
+            priority: "low",
+            status: "pending",
+          });
+        }
+
+        return { success: true, result: { review_generated: !!review } };
+      }
+
       default:
         return { success: true, result: { task_type, note: "executed with default handler" } };
     }

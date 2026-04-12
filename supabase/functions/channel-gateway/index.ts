@@ -79,10 +79,12 @@ const AGENT_KEYWORDS: Record<string, string[]> = {
   rawa: ["materials", "procurement", "supplier", "stock", "order"],
   pai: ["quality", "defect", "snag", "inspection result", "non-conformance"],
   whakaae: ["consent", "building consent", "council", "resource consent", "ccc", "lbp", "producer statement"],
-  // Auaha
-  prism: ["brand", "logo", "visual identity", "brand guidelines"],
-  muse: ["copy", "content", "blog", "headline", "write"],
-  flux: ["social media", "instagram", "facebook", "linkedin", "posting"],
+  // Auaha (Creative & Marketing)
+  prism: ["brand", "logo", "visual identity", "brand guidelines", "creative", "design", "image", "graphic"],
+  echo: ["content calendar", "posting schedule", "engagement", "analytics", "performance", "what worked"],
+  spark: ["app", "digital", "website", "tool", "calculator", "integration"],
+  muse: ["copy", "content", "blog", "headline", "write", "caption", "email copy"],
+  flux: ["social media", "instagram", "facebook", "linkedin", "posting", "reel", "carousel", "story"],
   // Arataki
   motu: ["vehicle", "registration", "wof", "cof", "rego", "nzta"],
   tuatahi: ["dealership", "car sales", "trade-in", "stock"],
@@ -474,6 +476,13 @@ Deno.serve(async (req) => {
         { pattern: /(?:clause|code)\s+((?:B|C|E|F|G|H)\d(?:\/AS\d)?)/i, key: "code_decision.clause_ref" },
         { pattern: /(?:inspection|stage)[\s:]+(?:is\s+)?(pre-line|framing|post-line|pre-clad|final)/i, key: "project.inspection_stage" },
         { pattern: /(?:scaffold|scaffolding)\s+(?:tag|cert).*?(?:expir(?:es|y)|due)[\s:]+(\d{1,2}\s+\w+)/i, key: "safety.scaffold_expiry" },
+        // Auaha creative-specific patterns
+        { pattern: /(?:brand|primary)\s+colou?r[\s:]+([#\w]+)/i, key: "brand.dna.primary_colour" },
+        { pattern: /(?:engagement|eng)\s+(?:rate|%)[\s:]+(\d+\.?\d*%?)/i, key: "brand.last_engagement_rate" },
+        { pattern: /(?:best|top)\s+(?:day|posting day)[\s:]+(\w+day)/i, key: "brand.audience.best_day" },
+        { pattern: /(?:don't|dont|never|avoid|stop)\s+(?:use|using|say|saying)\s+["']?(\w[\w\s]{2,20})["']?/i, key: "brand.forbidden_words" },
+        { pattern: /(?:tone|voice)[\s:]+(\d+)\/10/i, key: "brand.dna.voice_formality" },
+        { pattern: /(?:approve|approved|lock|locked|✅)/i, key: "_content_approval" },
       ];
 
       for (const { pattern, key } of factPatterns) {

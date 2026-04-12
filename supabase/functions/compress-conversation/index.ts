@@ -17,9 +17,13 @@ const COMPRESS_THRESHOLD_TOKENS = 80_000;
 const KEEP_RECENT = 6;
 const MIN_COMPRESSIBLE = 8;
 
-// ─── Waihanga (Construction) agent IDs ─────────────────
+// ─── Industry agent sets ───────────────────────────────
 const WAIHANGA_AGENTS = new Set([
   "apex", "arai", "kaupapa", "ata", "rawa", "pai", "whakaae",
+]);
+
+const AUAHA_AGENTS = new Set([
+  "prism", "echo", "spark", "flux", "muse", "toi", "kōrero", "whakaata", "ahua",
 ]);
 
 // ─── Industry-specific extraction schemas ──────────────
@@ -51,6 +55,50 @@ Extract NZ-specific construction data:
 - Producer statements (PS1, PS2, PS3, PS4)
 Omit any "construction" sub-object fields that are empty/unknown.`;
 
+const AUAHA_EXTRACTION_PROMPT = `You are a conversation compressor for a NZ creative & marketing AI platform.
+Compress the conversation into structured JSON, extracting brand and content performance data.
+Return ONLY valid JSON:
+{
+  "summary": "2-3 sentence overview of what was discussed",
+  "facts": [{"key": "dot.notation.key", "value": "string value", "confidence": 0.9}],
+  "decisions": ["decision 1"],
+  "pending_actions": ["action 1"],
+  "compliance_notes": ["any compliance-relevant items"],
+  "creative": {
+    "brand_dna": {
+      "primary_colour": "",
+      "voice_formality": 0,
+      "tone_notes": "",
+      "forbidden_words": [],
+      "approved_phrases": []
+    },
+    "content_performance": [
+      { "platform": "", "format": "", "engagement_rate": 0, "what_worked": "", "what_failed": "" }
+    ],
+    "audience_insights": {
+      "top_locations": [],
+      "best_posting_day": "",
+      "best_posting_time": "",
+      "demographic_skew": ""
+    },
+    "style_preferences": {
+      "preferred_formats": [],
+      "rejected_styles": [],
+      "edit_patterns": []
+    },
+    "competitor_notes": [],
+    "seasonal_calendar": []
+  }
+}
+Extract NZ creative/marketing-specific data:
+- Brand voice preferences (formality level, humour style, words to avoid/prefer)
+- Content performance data (engagement rates, what worked/bombed, platform breakdowns)
+- Audience demographics and behaviour (NZ location skews, posting times)
+- User edit patterns — when they change "innovative" to "practical", log the preference
+- Competitor observations and seasonal NZ events (Matariki, ANZAC Day, school holidays)
+- Platform-specific insights (LinkedIn vs Instagram vs Facebook performance)
+Omit any "creative" sub-object fields that are empty/unknown.`;
+
 const DEFAULT_EXTRACTION_PROMPT = `You are a conversation compressor for a NZ business AI platform. Compress the conversation into structured JSON. Extract: decisions made, facts learned, action items, compliance notes. Return ONLY valid JSON:
 {
   "summary": "2-3 sentence overview of what was discussed",
@@ -61,10 +109,20 @@ const DEFAULT_EXTRACTION_PROMPT = `You are a conversation compressor for a NZ bu
 }`;
 
 function getExtractionPrompt(agentId: string): string {
-  return WAIHANGA_AGENTS.has(agentId?.toLowerCase()) ? WAIHANGA_EXTRACTION_PROMPT : DEFAULT_EXTRACTION_PROMPT;
+  const id = agentId?.toLowerCase();
+  if (WAIHANGA_AGENTS.has(id)) return WAIHANGA_EXTRACTION_PROMPT;
+  if (AUAHA_AGENTS.has(id)) return AUAHA_EXTRACTION_PROMPT;
+  return DEFAULT_EXTRACTION_PROMPT;
 }
 
-// ─── Construction-specific tool schema ─────────────────
+function getIndustry(agentId: string): "waihanga" | "auaha" | "default" {
+  const id = agentId?.toLowerCase();
+  if (WAIHANGA_AGENTS.has(id)) return "waihanga";
+  if (AUAHA_AGENTS.has(id)) return "auaha";
+  return "default";
+}
+
+// ─── Industry-specific tool schemas ────────────────────
 function getToolSchema(agentId: string) {
   const base: Record<string, any> = {
     summary: { type: "string" },
@@ -85,7 +143,9 @@ function getToolSchema(agentId: string) {
     compliance_notes: { type: "array", items: { type: "string" } },
   };
 
-  if (WAIHANGA_AGENTS.has(agentId?.toLowerCase())) {
+  const industry = getIndustry(agentId);
+
+  if (industry === "waihanga") {
     base.construction = {
       type: "object",
       properties: {
@@ -145,10 +205,60 @@ function getToolSchema(agentId: string) {
     };
   }
 
+  if (industry === "auaha") {
+    base.creative = {
+      type: "object",
+      properties: {
+        brand_dna: {
+          type: "object",
+          properties: {
+            primary_colour: { type: "string" },
+            voice_formality: { type: "number", description: "0-10 scale" },
+            tone_notes: { type: "string" },
+            forbidden_words: { type: "array", items: { type: "string" } },
+            approved_phrases: { type: "array", items: { type: "string" } },
+          },
+        },
+        content_performance: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              platform: { type: "string" },
+              format: { type: "string" },
+              engagement_rate: { type: "number" },
+              what_worked: { type: "string" },
+              what_failed: { type: "string" },
+            },
+          },
+        },
+        audience_insights: {
+          type: "object",
+          properties: {
+            top_locations: { type: "array", items: { type: "string" } },
+            best_posting_day: { type: "string" },
+            best_posting_time: { type: "string" },
+            demographic_skew: { type: "string" },
+          },
+        },
+        style_preferences: {
+          type: "object",
+          properties: {
+            preferred_formats: { type: "array", items: { type: "string" } },
+            rejected_styles: { type: "array", items: { type: "string" } },
+            edit_patterns: { type: "array", items: { type: "string", description: "e.g. 'changed innovative→practical'" } },
+          },
+        },
+        competitor_notes: { type: "array", items: { type: "string" } },
+        seasonal_calendar: { type: "array", items: { type: "string" } },
+      },
+    };
+  }
+
   return base;
 }
 
-// ─── Construction fact flattener ───────────────────────
+// ─── Industry fact flatteners ──────────────────────────
 function flattenConstructionFacts(construction: any): Array<{ key: string; value: string; confidence: number }> {
   const facts: Array<{ key: string; value: string; confidence: number }> = [];
   if (!construction) return facts;
@@ -182,6 +292,42 @@ function flattenConstructionFacts(construction: any): Array<{ key: string; value
       facts.push({ key: "project.retentions.trust_compliant", value: String(construction.retentions.trust_compliant), confidence: 0.9 });
     }
   }
+
+  return facts;
+}
+
+function flattenCreativeFacts(creative: any): Array<{ key: string; value: string; confidence: number }> {
+  const facts: Array<{ key: string; value: string; confidence: number }> = [];
+  if (!creative) return facts;
+
+  const dna = creative.brand_dna;
+  if (dna?.primary_colour) facts.push({ key: "brand.dna.primary_colour", value: dna.primary_colour, confidence: 0.9 });
+  if (dna?.voice_formality !== undefined) facts.push({ key: "brand.dna.voice_formality", value: String(dna.voice_formality), confidence: 0.85 });
+  if (dna?.tone_notes) facts.push({ key: "brand.dna.tone_notes", value: dna.tone_notes, confidence: 0.85 });
+  if (dna?.forbidden_words?.length) facts.push({ key: "brand.forbidden_words", value: dna.forbidden_words.join(", "), confidence: 0.9 });
+  if (dna?.approved_phrases?.length) facts.push({ key: "brand.approved_phrases", value: dna.approved_phrases.join(", "), confidence: 0.9 });
+
+  if (creative.content_performance?.length) {
+    for (const cp of creative.content_performance) {
+      const label = `${cp.platform || "unknown"}.${cp.format || "post"}`;
+      if (cp.what_worked) facts.push({ key: `brand.top_content.${label}`, value: `${cp.what_worked} (${cp.engagement_rate || "?"}% engagement)`, confidence: 0.8 });
+      if (cp.what_failed) facts.push({ key: `brand.failed_content.${label}`, value: cp.what_failed, confidence: 0.8 });
+    }
+  }
+
+  const audience = creative.audience_insights;
+  if (audience?.top_locations?.length) facts.push({ key: "brand.audience.locations", value: audience.top_locations.join(", "), confidence: 0.85 });
+  if (audience?.best_posting_day) facts.push({ key: "brand.audience.best_day", value: audience.best_posting_day, confidence: 0.8 });
+  if (audience?.best_posting_time) facts.push({ key: "brand.audience.best_time", value: audience.best_posting_time, confidence: 0.8 });
+  if (audience?.demographic_skew) facts.push({ key: "brand.audience.demographic", value: audience.demographic_skew, confidence: 0.8 });
+
+  const style = creative.style_preferences;
+  if (style?.preferred_formats?.length) facts.push({ key: "brand.style.preferred_formats", value: style.preferred_formats.join(", "), confidence: 0.85 });
+  if (style?.rejected_styles?.length) facts.push({ key: "brand.style.rejected", value: style.rejected_styles.join(", "), confidence: 0.85 });
+  if (style?.edit_patterns?.length) facts.push({ key: "brand.style.edit_patterns", value: style.edit_patterns.join("; "), confidence: 0.9 });
+
+  if (creative.competitor_notes?.length) facts.push({ key: "brand.competitors", value: creative.competitor_notes.join("; "), confidence: 0.7 });
+  if (creative.seasonal_calendar?.length) facts.push({ key: "brand.seasonal_calendar", value: creative.seasonal_calendar.join(", "), confidence: 0.8 });
 
   return facts;
 }
@@ -225,9 +371,9 @@ serve(async (req) => {
       );
     }
 
-    const isWaihanga = WAIHANGA_AGENTS.has(agentId?.toLowerCase());
+    const industry = getIndustry(agentId);
     console.log(
-      `[compress] Compressing ${toCompress.length} messages for agent=${agentId}, user=${userId}${isWaihanga ? " [WAIHANGA]" : ""}`
+      `[compress] Compressing ${toCompress.length} messages for agent=${agentId}, user=${userId} [${industry.toUpperCase()}]`
     );
 
     // Call Lovable AI Gateway with industry-specific extraction
@@ -326,6 +472,7 @@ serve(async (req) => {
     const allFacts = [
       ...(parsed.facts || []),
       ...flattenConstructionFacts(parsed.construction),
+      ...flattenCreativeFacts(parsed.creative),
     ];
 
     if (allFacts.length) {
@@ -349,10 +496,24 @@ serve(async (req) => {
     }
 
     console.log(
-      `[compress] Done: ${toCompress.length} msgs → summary + ${allFacts.length} facts${isWaihanga ? ` (incl. construction data)` : ""}`
+      `[compress] Done: ${toCompress.length} msgs → summary + ${allFacts.length} facts [${industry}]`
     );
 
     // 3. Rebuild compressed message array
+    let industryContext = "";
+    if (industry === "waihanga") {
+      if (parsed.construction?.inspection_stage) industryContext += `Inspection Stage: ${parsed.construction.inspection_stage}\n`;
+      if (parsed.construction?.code_decisions?.length) industryContext += `Code Decisions: ${parsed.construction.code_decisions.map((c: any) => `${c.clause}: ${c.decision}`).join("; ")}\n`;
+    }
+    if (industry === "auaha") {
+      if (parsed.creative?.brand_dna?.tone_notes) industryContext += `Brand Voice: ${parsed.creative.brand_dna.tone_notes}\n`;
+      if (parsed.creative?.content_performance?.length) {
+        const top = parsed.creative.content_performance.filter((c: any) => c.what_worked);
+        if (top.length) industryContext += `Top Content: ${top.map((c: any) => `${c.platform} ${c.format}: ${c.what_worked}`).join("; ")}\n`;
+      }
+      if (parsed.creative?.style_preferences?.edit_patterns?.length) industryContext += `Style Patterns: ${parsed.creative.style_preferences.edit_patterns.join("; ")}\n`;
+    }
+
     const compressionMessage = {
       role: "assistant" as const,
       content:
@@ -360,12 +521,7 @@ serve(async (req) => {
         (parsed.decisions?.length ? `Decisions: ${parsed.decisions.join("; ")}\n` : "") +
         (parsed.pending_actions?.length ? `Pending: ${parsed.pending_actions.join("; ")}\n` : "") +
         (parsed.compliance_notes?.length ? `Compliance: ${parsed.compliance_notes.join("; ")}\n` : "") +
-        (isWaihanga && parsed.construction?.inspection_stage
-          ? `Inspection Stage: ${parsed.construction.inspection_stage}\n`
-          : "") +
-        (isWaihanga && parsed.construction?.code_decisions?.length
-          ? `Code Decisions: ${parsed.construction.code_decisions.map((c: any) => `${c.clause}: ${c.decision}`).join("; ")}\n`
-          : ""),
+        industryContext,
     };
 
     const compressedMessages = [
@@ -383,7 +539,7 @@ serve(async (req) => {
           compressed_count: compressedMessages.length,
           facts_extracted: allFacts.length,
           decisions: parsed.decisions?.length || 0,
-          construction_data: isWaihanga,
+          industry,
         },
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
