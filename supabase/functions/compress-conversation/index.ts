@@ -440,6 +440,108 @@ function getToolSchema(agentId: string) {
     };
   }
 
+  if (industry === "manaaki") {
+    base.hospitality = {
+      type: "object",
+      properties: {
+        venue: {
+          type: "object",
+          properties: {
+            name: { type: "string" },
+            type: { type: "string", description: "cafe | restaurant | bar | hotel | lodge | food_truck" },
+            location: { type: "string" },
+            covers_avg: { type: "number" },
+          },
+        },
+        fcp: {
+          type: "object",
+          properties: {
+            template: { type: "string" },
+            level: { type: "string", description: "SSS_level_1 | SSS_level_2 | SSS_level_3 | custom" },
+            last_verification_date: { type: "string" },
+            last_verification_result: { type: "string", description: "passed | failed | corrective_actions" },
+            next_verification_due: { type: "string" },
+          },
+        },
+        liquor_licence: {
+          type: "object",
+          properties: {
+            type: { type: "string", description: "on_licence | off_licence | club_licence | special" },
+            number: { type: "string" },
+            expiry_date: { type: "string" },
+            conditions: { type: "array", items: { type: "string" } },
+          },
+        },
+        manager_certificate: {
+          type: "object",
+          properties: {
+            holder: { type: "string" },
+            number: { type: "string" },
+            expiry_date: { type: "string" },
+          },
+        },
+        equipment: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              type: { type: "string", description: "chiller | freezer | hot_hold | thermometer" },
+              name: { type: "string" },
+              last_calibration: { type: "string" },
+              temp_issues: { type: "string" },
+            },
+          },
+        },
+        staff_training: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              name: { type: "string" },
+              topic: { type: "string" },
+              date: { type: "string" },
+              next_due: { type: "string" },
+            },
+          },
+        },
+        temperature_records: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              equipment: { type: "string" },
+              temp_c: { type: "number" },
+              timestamp: { type: "string" },
+              within_range: { type: "boolean" },
+              corrective_action: { type: "string" },
+            },
+          },
+        },
+        corrective_actions: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              issue: { type: "string" },
+              action_taken: { type: "string" },
+              date: { type: "string" },
+              resolved: { type: "boolean" },
+            },
+          },
+        },
+        operational_patterns: {
+          type: "object",
+          properties: {
+            peak_days: { type: "array", items: { type: "string" } },
+            avg_food_cost_pct: { type: "number" },
+            common_issues: { type: "array", items: { type: "string" } },
+            seasonal_changes: { type: "array", items: { type: "string" } },
+          },
+        },
+      },
+    };
+  }
+
   return base;
 }
 
