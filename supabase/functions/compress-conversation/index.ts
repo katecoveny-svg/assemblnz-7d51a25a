@@ -103,6 +103,41 @@ Extract NZ creative/marketing-specific data:
 - Platform-specific insights (LinkedIn vs Instagram vs Facebook performance)
 Omit any "creative" sub-object fields that are empty/unknown.`;
 
+const AHUWHENUA_EXTRACTION_PROMPT = `You are a conversation compressor for a NZ agriculture AI platform (agent: TERRA).
+Compress the conversation into structured JSON, extracting NZ farming-specific data.
+Return ONLY valid JSON:
+{
+  "summary": "2-3 sentence overview of what was discussed",
+  "facts": [{"key": "dot.notation.key", "value": "string value", "confidence": 0.9}],
+  "decisions": ["decision 1"],
+  "pending_actions": ["action 1"],
+  "compliance_notes": ["any compliance-relevant items"],
+  "agriculture": {
+    "farm": { "type": "", "region": "", "effective_area_ha": 0, "stock_units": 0, "nait_number": "", "supplier_number": "" },
+    "dairy": { "milk_production_kgms": 0, "processor": "", "season": "" },
+    "fep": { "status": "", "audit_date": "", "regional_council": "", "risk_grade": "" },
+    "water_consents": [{ "consent_number": "", "expiry_date": "", "type": "" }],
+    "effluent": { "system_type": "", "capacity": "", "compliant": true },
+    "ets": { "registered": false, "forestry_ha": 0, "nzu_balance": 0 },
+    "nait_compliance": { "location_registered": true, "movements_current": true, "last_declaration": "" },
+    "schedule_prices": [{ "species": "", "grade": "", "price_per_kg": 0, "processor": "", "date": "" }],
+    "seasonal_calendar": [{ "event": "", "date_range": "", "notes": "" }],
+    "succession": { "structure": "", "status": "", "timeline": "" }
+  }
+}
+Extract NZ agriculture-specific data:
+- NAIT location numbers and compliance status
+- Farm Environment Plan status, audit dates, regional council
+- Water consents with expiry dates
+- Effluent system details and compliance
+- ETS registration, forestry blocks, carbon credits
+- Milk production (kgMS), supplier numbers, processor
+- Meat schedule prices, grades, timing decisions
+- Seasonal calendar (calving, lambing, shearing, mating)
+- Succession planning structures and status
+- Regional council — critical as rules vary by region
+Omit any "agriculture" sub-object fields that are empty/unknown.`;
+
 const DEFAULT_EXTRACTION_PROMPT = `You are a conversation compressor for a NZ business AI platform. Compress the conversation into structured JSON. Extract: decisions made, facts learned, action items, compliance notes. Return ONLY valid JSON:
 {
   "summary": "2-3 sentence overview of what was discussed",
@@ -116,13 +151,15 @@ function getExtractionPrompt(agentId: string): string {
   const id = agentId?.toLowerCase();
   if (WAIHANGA_AGENTS.has(id)) return WAIHANGA_EXTRACTION_PROMPT;
   if (AUAHA_AGENTS.has(id)) return AUAHA_EXTRACTION_PROMPT;
+  if (AHUWHENUA_AGENTS.has(id)) return AHUWHENUA_EXTRACTION_PROMPT;
   return DEFAULT_EXTRACTION_PROMPT;
 }
 
-function getIndustry(agentId: string): "waihanga" | "auaha" | "default" {
+function getIndustry(agentId: string): "waihanga" | "auaha" | "ahuwhenua" | "default" {
   const id = agentId?.toLowerCase();
   if (WAIHANGA_AGENTS.has(id)) return "waihanga";
   if (AUAHA_AGENTS.has(id)) return "auaha";
+  if (AHUWHENUA_AGENTS.has(id)) return "ahuwhenua";
   return "default";
 }
 
