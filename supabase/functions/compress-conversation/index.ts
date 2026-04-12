@@ -684,6 +684,71 @@ function flattenAgricultureFacts(agriculture: any): Array<{ key: string; value: 
   return facts;
 }
 
+function flattenHospitalityFacts(hospitality: any): Array<{ key: string; value: string; confidence: number }> {
+  const facts: Array<{ key: string; value: string; confidence: number }> = [];
+  if (!hospitality) return facts;
+
+  const v = hospitality.venue;
+  if (v?.name) facts.push({ key: "hospitality.venue_name", value: v.name, confidence: 0.95 });
+  if (v?.type) facts.push({ key: "hospitality.venue_type", value: v.type, confidence: 0.9 });
+  if (v?.location) facts.push({ key: "hospitality.location", value: v.location, confidence: 0.9 });
+  if (v?.covers_avg) facts.push({ key: "hospitality.covers_avg", value: String(v.covers_avg), confidence: 0.8 });
+
+  const fcp = hospitality.fcp;
+  if (fcp?.template) facts.push({ key: "hospitality.fcp_type", value: `${fcp.template} ${fcp.level || ""}`.trim(), confidence: 0.9 });
+  if (fcp?.last_verification_date) facts.push({ key: "hospitality.last_verification", value: `${fcp.last_verification_date} (${fcp.last_verification_result || "?"})`, confidence: 0.9 });
+  if (fcp?.next_verification_due) facts.push({ key: "hospitality.verification_due", value: fcp.next_verification_due, confidence: 0.9 });
+
+  const ll = hospitality.liquor_licence;
+  if (ll?.number) facts.push({ key: "hospitality.liquor_licence", value: `${ll.type || "licence"} #${ll.number} (expires ${ll.expiry_date || "?"})`, confidence: 0.95 });
+  if (ll?.conditions?.length) facts.push({ key: "hospitality.licence_conditions", value: ll.conditions.join("; "), confidence: 0.9 });
+
+  const mc = hospitality.manager_certificate;
+  if (mc?.number) facts.push({ key: "hospitality.manager_cert", value: `${mc.holder || "?"} #${mc.number} (expires ${mc.expiry_date || "?"})`, confidence: 0.95 });
+
+  if (hospitality.equipment?.length) {
+    for (const eq of hospitality.equipment) {
+      if (eq.name || eq.type) {
+        const label = eq.name || eq.type;
+        facts.push({ key: `hospitality.equipment.${label.replace(/\s+/g, "_")}`, value: `${eq.type || ""} — calibrated ${eq.last_calibration || "?"}${eq.temp_issues ? " ⚠️ " + eq.temp_issues : ""}`, confidence: 0.85 });
+      }
+    }
+  }
+
+  if (hospitality.staff_training?.length) {
+    for (const st of hospitality.staff_training) {
+      if (st.name) {
+        facts.push({ key: `hospitality.training.${st.name.replace(/\s+/g, "_")}`, value: `${st.topic || "food safety"} on ${st.date || "?"} (next: ${st.next_due || "?"})`, confidence: 0.85 });
+      }
+    }
+  }
+
+  if (hospitality.temperature_records?.length) {
+    const outOfRange = hospitality.temperature_records.filter((t: any) => !t.within_range);
+    if (outOfRange.length) {
+      facts.push({ key: "hospitality.temp_issues_count", value: String(outOfRange.length), confidence: 0.9 });
+      for (const t of outOfRange.slice(0, 3)) {
+        facts.push({ key: `hospitality.temp_issue.${t.equipment || "unknown"}`, value: `${t.temp_c}°C at ${t.timestamp || "?"} — ${t.corrective_action || "no action recorded"}`, confidence: 0.9 });
+      }
+    }
+  }
+
+  if (hospitality.corrective_actions?.length) {
+    const unresolved = hospitality.corrective_actions.filter((ca: any) => !ca.resolved);
+    if (unresolved.length) {
+      facts.push({ key: "hospitality.unresolved_correctives", value: unresolved.map((ca: any) => ca.issue).join("; "), confidence: 0.9 });
+    }
+  }
+
+  const ops = hospitality.operational_patterns;
+  if (ops?.peak_days?.length) facts.push({ key: "hospitality.peak_days", value: ops.peak_days.join(", "), confidence: 0.8 });
+  if (ops?.avg_food_cost_pct) facts.push({ key: "hospitality.avg_food_cost_pct", value: `${ops.avg_food_cost_pct}%`, confidence: 0.8 });
+  if (ops?.common_issues?.length) facts.push({ key: "hospitality.common_issues", value: ops.common_issues.join("; "), confidence: 0.8 });
+  if (ops?.seasonal_changes?.length) facts.push({ key: "hospitality.seasonal_changes", value: ops.seasonal_changes.join("; "), confidence: 0.75 });
+
+  return facts;
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -826,6 +891,7 @@ serve(async (req) => {
       ...flattenConstructionFacts(parsed.construction),
       ...flattenCreativeFacts(parsed.creative),
       ...flattenAgricultureFacts(parsed.agriculture),
+      ...flattenHospitalityFacts(parsed.hospitality),
     ];
 
     if (allFacts.length) {
