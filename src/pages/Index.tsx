@@ -1,6 +1,6 @@
 import React, { useState, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Send, ChevronDown, Check } from "lucide-react";
+import { ArrowRight, ChevronDown, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
@@ -23,26 +23,26 @@ const C = {
   gold: "#D4A843",
   navy: "#1A3A5C",
   white: "#FFFFFF",
-  t1: "rgba(255,255,255,0.88)",
-  t2: "rgba(255,255,255,0.55)",
-  t3: "rgba(255,255,255,0.32)",
-  border: "rgba(255,255,255,0.06)",
+  t1: "rgba(255,255,255,0.92)",
+  t2: "rgba(255,255,255,0.6)",
+  t3: "rgba(255,255,255,0.36)",
+  border: "rgba(255,255,255,0.07)",
 };
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const fade = {
-  initial: { opacity: 0, y: 18 },
+  initial: { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-40px" as const },
   transition: { duration: 0.6, ease },
 };
 
 const stagger = (i: number) => ({
-  initial: { opacity: 0, y: 14 },
+  initial: { opacity: 0, y: 16 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true },
-  transition: { delay: i * 0.06, duration: 0.5, ease },
+  transition: { delay: i * 0.07, duration: 0.5, ease },
 });
 
 /* ─── Data ─── */
@@ -136,9 +136,9 @@ const Index = () => {
       <BrandNav />
 
       {/* ═══ HERO ═══ */}
-      <section className="relative flex flex-col items-center text-center px-5 pt-24 sm:pt-32 pb-12">
+      <section className="relative flex flex-col items-center text-center px-6 pt-28 sm:pt-36 pb-16">
         <motion.p
-          className="text-[10px] font-semibold tracking-[5px] uppercase mb-6"
+          className="text-[11px] font-semibold tracking-[5px] uppercase mb-7"
           style={{ color: C.pounamuLight, fontFamily: "'JetBrains Mono', monospace" }}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.2 }}
         >
@@ -146,13 +146,13 @@ const Index = () => {
         </motion.p>
 
         <motion.h1
-          className="max-w-2xl"
+          className="max-w-3xl"
           style={{
             fontFamily: "'Lato', sans-serif",
             fontWeight: 300,
-            fontSize: isMobile ? "1.75rem" : "2.75rem",
-            lineHeight: 1.15,
-            letterSpacing: "-0.01em",
+            fontSize: isMobile ? "2rem" : "3.25rem",
+            lineHeight: 1.12,
+            letterSpacing: "-0.02em",
           }}
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.3, ease }}
@@ -170,7 +170,7 @@ const Index = () => {
         </motion.h1>
 
         <motion.p
-          className="max-w-lg mt-5 text-[15px] leading-[1.7]"
+          className="max-w-xl mt-6 text-base sm:text-lg leading-[1.7]"
           style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.t2 }}
           initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.45, ease }}
@@ -179,30 +179,28 @@ const Index = () => {
         </motion.p>
 
         <motion.div
-          className="flex flex-col sm:flex-row gap-3 mt-8"
+          className="flex flex-col sm:flex-row gap-3 mt-10"
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6, ease }}
         >
-          <Link to="/pricing" className="cta-glass-green inline-flex items-center justify-center gap-2 px-7 py-3 text-[13px] font-medium">
-            Start with one workflow <ArrowRight size={14} />
+          <Link to="/pricing" className="cta-glass-green inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-medium">
+            Start with one workflow <ArrowRight size={15} />
           </Link>
-          <Link to="/pricing" className="btn-ghost inline-flex items-center justify-center gap-2 px-7 py-3 text-[13px] font-medium">
+          <Link to="/pricing" className="btn-ghost inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-medium">
             See pricing
           </Link>
         </motion.div>
       </section>
 
       {/* ═══ TRUST STRIP ═══ */}
-      <section className="px-5 py-10" style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
-        <div className="max-w-4xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6">
+      <section className="px-6 py-12" style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+        <div className="max-w-5xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-8">
           {TRUST_ITEMS.map((t, i) => (
-            <motion.div key={t.label} className="flex items-start gap-3" {...stagger(i)}>
-              <div className="mt-0.5 shrink-0">
-                <KeteMiniIcon glyph={t.glyph} color={t.color} size={22} />
-              </div>
+            <motion.div key={t.label} className="flex items-start gap-4" {...stagger(i)}>
+              <KeteMiniIcon glyph={t.glyph} color={t.color} size={40} />
               <div>
-                <p className="text-[13px] font-medium" style={{ color: C.t1 }}>{t.label}</p>
-                <p className="text-[11px] mt-0.5" style={{ color: C.t3 }}>{t.desc}</p>
+                <p className="text-[15px] font-medium mb-0.5" style={{ color: C.t1 }}>{t.label}</p>
+                <p className="text-[13px]" style={{ color: C.t3 }}>{t.desc}</p>
               </div>
             </motion.div>
           ))}
@@ -214,15 +212,15 @@ const Index = () => {
         <motion.div {...fade}>
           <Eyebrow>WHAT ASSEMBL DOES</Eyebrow>
           <H2>Structured support for work that slows teams down</H2>
-          <P className="max-w-lg mb-6">
+          <P className="max-w-xl mb-8">
             Guided workflow support for operational tasks that are manual, inconsistent, or hard to manage at scale.
           </P>
         </motion.div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-w-2xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl">
           {WHAT_WE_DO.map((item, i) => (
-            <motion.div key={item} className="flex items-center gap-2.5 py-1.5" {...stagger(i)}>
-              <Check size={13} className="shrink-0" style={{ color: C.pounamu }} />
-              <span className="text-[13px]" style={{ color: C.t2 }}>{item}</span>
+            <motion.div key={item} className="flex items-center gap-3 py-2" {...stagger(i)}>
+              <Check size={16} className="shrink-0" style={{ color: C.pounamu }} />
+              <span className="text-[15px]" style={{ color: C.t2 }}>{item}</span>
             </motion.div>
           ))}
         </div>
@@ -230,22 +228,26 @@ const Index = () => {
 
       {/* ═══ WHAT YOU GET ═══ */}
       <Section border>
-        <motion.div {...fade} className="text-center mb-10">
+        <motion.div {...fade} className="text-center mb-12">
           <Eyebrow>INCLUDED</Eyebrow>
           <H2>What you get</H2>
         </motion.div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl mx-auto">
           {WHAT_YOU_GET.map((item, i) => (
             <motion.div
               key={item.text}
-              className="flex items-center gap-4 rounded-xl px-5 py-5"
-              style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${C.border}` }}
+              className="group flex items-center gap-5 rounded-2xl px-6 py-6 transition-all duration-300 hover:translate-y-[-2px]"
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                border: `1px solid ${C.border}`,
+                boxShadow: `0 2px 16px rgba(58,125,110,0.04)`,
+              }}
               {...stagger(i)}
             >
-              <div className="shrink-0 w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: `${C.pounamu}18` }}>
-                <KeteMiniIcon glyph={item.glyph} color={C.pounamuLight} size={28} />
+              <div className="shrink-0 w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: `${C.pounamu}14` }}>
+                <KeteMiniIcon glyph={item.glyph} color={C.pounamuLight} size={36} />
               </div>
-              <span className="text-[13px] sm:text-[14px] font-medium" style={{ color: C.t1 }}>{item.text}</span>
+              <span className="text-[15px] font-medium" style={{ color: C.t1 }}>{item.text}</span>
             </motion.div>
           ))}
         </div>
@@ -253,22 +255,26 @@ const Index = () => {
 
       {/* ═══ OUTCOMES ═══ */}
       <Section border>
-        <motion.div {...fade} className="text-center mb-10">
+        <motion.div {...fade} className="text-center mb-12">
           <Eyebrow>OUTCOMES</Eyebrow>
           <H2>What this helps improve</H2>
         </motion.div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl mx-auto">
           {OUTCOMES.map((o, i) => (
             <motion.div
               key={o.text}
-              className="flex items-center gap-4 rounded-xl px-5 py-5"
-              style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${C.border}` }}
+              className="group flex items-center gap-5 rounded-2xl px-6 py-6 transition-all duration-300 hover:translate-y-[-2px]"
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                border: `1px solid ${C.border}`,
+                boxShadow: `0 2px 16px ${o.color}08`,
+              }}
               {...stagger(i)}
             >
-              <div className="shrink-0 w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: `${o.color}18` }}>
-                <KeteMiniIcon glyph={o.glyph} color={o.color} size={28} />
+              <div className="shrink-0 w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: `${o.color}14` }}>
+                <KeteMiniIcon glyph={o.glyph} color={o.color} size={36} />
               </div>
-              <span className="text-[13px] sm:text-[14px] font-medium" style={{ color: C.t1 }}>{o.text}</span>
+              <span className="text-[15px] font-medium" style={{ color: C.t1 }}>{o.text}</span>
             </motion.div>
           ))}
         </div>
@@ -276,33 +282,37 @@ const Index = () => {
 
       {/* ═══ INDUSTRY KETE ═══ */}
       <Section border id="industry-packs">
-        <motion.div {...fade} className="text-center mb-10">
+        <motion.div {...fade} className="text-center mb-12">
           <Eyebrow>INDUSTRY KETE</Eyebrow>
           <H2>Sector-specific workflow packs</H2>
-          <P className="max-w-lg mx-auto">
+          <P className="max-w-xl mx-auto">
             Each kete is built around the jobs, pressures, and context of that sector.
           </P>
         </motion.div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
           {PACKS.map((p, i) => (
             <motion.div key={p.reo} {...stagger(i)}>
               <Link
                 to={p.to}
-                className="group block rounded-xl p-5 h-full transition-all duration-300 hover:translate-y-[-2px]"
-                style={{ background: "rgba(255,255,255,0.025)", border: `1px solid ${C.border}` }}
+                className="group block rounded-2xl p-6 h-full transition-all duration-300 hover:translate-y-[-2px]"
+                style={{
+                  background: "rgba(255,255,255,0.03)",
+                  border: `1px solid ${C.border}`,
+                  boxShadow: `0 2px 20px ${p.color}06`,
+                }}
               >
-                <div className="flex items-center gap-3 mb-3">
-                  <Suspense fallback={<KeteWeaveVisual size={36} accentColor={p.color} accentLight={p.accentLight} showNodes={false} showGlow={false} />}>
-                    <Kete3DModel accentColor={p.color} accentLight={p.accentLight} size={44} />
+                <div className="flex items-center gap-4 mb-4">
+                  <Suspense fallback={<KeteWeaveVisual size={44} accentColor={p.color} accentLight={p.accentLight} showNodes={false} showGlow={false} />}>
+                    <Kete3DModel accentColor={p.color} accentLight={p.accentLight} size={56} />
                   </Suspense>
                   <div>
-                    <p className="text-[9px] uppercase tracking-[3px] font-semibold" style={{ color: p.color, fontFamily: "'JetBrains Mono', monospace" }}>{p.en}</p>
-                    <h3 className="text-[17px] font-light" style={{ fontFamily: "'Lato', sans-serif", color: C.white }}>{p.reo}</h3>
+                    <p className="text-[10px] uppercase tracking-[3px] font-semibold mb-0.5" style={{ color: p.color, fontFamily: "'JetBrains Mono', monospace" }}>{p.en}</p>
+                    <h3 className="text-xl font-light" style={{ fontFamily: "'Lato', sans-serif", color: C.white }}>{p.reo}</h3>
                   </div>
                 </div>
-                <p className="text-[12px] leading-relaxed mb-3" style={{ color: C.t3 }}>{p.desc}</p>
-                <span className="inline-flex items-center gap-1 text-[11px] font-medium transition-all group-hover:gap-2" style={{ color: p.color }}>
-                  Explore <ArrowRight size={10} />
+                <p className="text-[14px] leading-relaxed mb-4" style={{ color: C.t3 }}>{p.desc}</p>
+                <span className="inline-flex items-center gap-1.5 text-[13px] font-medium transition-all group-hover:gap-3" style={{ color: p.color }}>
+                  Explore <ArrowRight size={12} />
                 </span>
               </Link>
             </motion.div>
@@ -312,21 +322,21 @@ const Index = () => {
 
       {/* ═══ ROLLOUT ═══ */}
       <Section border>
-        <motion.div {...fade} className="text-center mb-10">
+        <motion.div {...fade} className="text-center mb-12">
           <Eyebrow>HOW IT WORKS</Eyebrow>
           <H2>Start small. Prove value. Expand.</H2>
         </motion.div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 max-w-4xl mx-auto">
           {ROLLOUT.map((step, i) => (
             <motion.div
               key={step.n}
-              className="rounded-xl p-5"
-              style={{ background: "rgba(255,255,255,0.025)", border: `1px solid ${C.border}` }}
+              className="rounded-2xl p-7"
+              style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${C.border}` }}
               {...stagger(i)}
             >
-              <span className="text-[11px] font-semibold tracking-[2px]" style={{ color: C.pounamuLight, fontFamily: "'JetBrains Mono', monospace" }}>{step.n}</span>
-              <h3 className="text-[14px] font-medium mt-2 mb-1.5" style={{ color: C.t1 }}>{step.title}</h3>
-              <p className="text-[12px] leading-relaxed" style={{ color: C.t3 }}>{step.desc}</p>
+              <span className="text-[12px] font-bold tracking-[3px]" style={{ color: C.pounamuLight, fontFamily: "'JetBrains Mono', monospace" }}>{step.n}</span>
+              <h3 className="text-[17px] font-medium mt-3 mb-2" style={{ color: C.t1 }}>{step.title}</h3>
+              <p className="text-[14px] leading-relaxed" style={{ color: C.t3 }}>{step.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -334,21 +344,21 @@ const Index = () => {
 
       {/* ═══ PRICING ═══ */}
       <Section border>
-        <div className="max-w-lg mx-auto text-center">
+        <div className="max-w-xl mx-auto text-center">
           <motion.div {...fade}>
             <Eyebrow>PRICING</Eyebrow>
             <H2>Clear pricing, built around workflows</H2>
-            <P className="mb-6">
+            <P className="mb-8">
               Start with one workflow. Plans scale with coverage, team size, and support needs.
             </P>
-            <div className="rounded-xl p-6 mb-6" style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${C.border}` }}>
-              <p className="text-3xl font-light" style={{ fontFamily: "'Lato', sans-serif" }}>
+            <div className="rounded-2xl p-8 mb-8" style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${C.border}` }}>
+              <p className="text-4xl font-light" style={{ fontFamily: "'Lato', sans-serif" }}>
                 From $590
-                <span className="text-sm ml-1" style={{ color: C.t3 }}>NZD/mo ex GST</span>
+                <span className="text-base ml-2" style={{ color: C.t3 }}>NZD/mo ex GST</span>
               </p>
             </div>
-            <Link to="/pricing" className="cta-glass-green inline-flex items-center justify-center gap-2 px-7 py-3 text-[13px] font-medium">
-              See pricing <ArrowRight size={14} />
+            <Link to="/pricing" className="cta-glass-green inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-medium">
+              See pricing <ArrowRight size={15} />
             </Link>
           </motion.div>
         </div>
@@ -357,21 +367,21 @@ const Index = () => {
       {/* ═══ FAQ ═══ */}
       <Section border>
         <div className="max-w-2xl mx-auto">
-          <motion.div {...fade} className="text-center mb-8">
+          <motion.div {...fade} className="text-center mb-10">
             <Eyebrow>FAQ</Eyebrow>
             <H2>Common questions</H2>
           </motion.div>
-          <div className="space-y-2">
+          <div className="space-y-3">
             {FAQS.map((faq, i) => (
               <motion.div key={i} {...stagger(i)}>
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full text-left rounded-xl px-5 py-4 flex items-center justify-between gap-3 transition-colors"
-                  style={{ background: openFaq === i ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.02)", border: `1px solid ${C.border}` }}
+                  className="w-full text-left rounded-xl px-6 py-5 flex items-center justify-between gap-4 transition-colors"
+                  style={{ background: openFaq === i ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.025)", border: `1px solid ${C.border}` }}
                 >
-                  <span className="text-[13px] font-medium" style={{ color: C.t1 }}>{faq.q}</span>
+                  <span className="text-[15px] font-medium" style={{ color: C.t1 }}>{faq.q}</span>
                   <ChevronDown
-                    size={14}
+                    size={16}
                     className="shrink-0 transition-transform duration-200"
                     style={{ color: C.t3, transform: openFaq === i ? "rotate(180deg)" : "rotate(0deg)" }}
                   />
@@ -382,7 +392,7 @@ const Index = () => {
                   transition={{ duration: 0.25, ease }}
                   className="overflow-hidden"
                 >
-                  <p className="px-5 pt-1 pb-4 text-[12px] leading-relaxed" style={{ color: C.t3 }}>{faq.a}</p>
+                  <p className="px-6 pt-2 pb-5 text-[14px] leading-relaxed" style={{ color: C.t3 }}>{faq.a}</p>
                 </motion.div>
               </motion.div>
             ))}
@@ -391,18 +401,18 @@ const Index = () => {
       </Section>
 
       {/* ═══ FINAL CTA ═══ */}
-      <section className="px-5 py-20 text-center">
-        <div className="max-w-lg mx-auto">
+      <section className="px-6 py-24 text-center">
+        <div className="max-w-xl mx-auto">
           <motion.div {...fade}>
             <H2>Bring more structure to how work gets done</H2>
-            <P className="mb-8">
+            <P className="mb-10">
               Start with one workflow and see where governed support makes the biggest difference.
             </P>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link to="/pricing" className="cta-glass-green inline-flex items-center justify-center gap-2 px-7 py-3 text-[13px] font-medium">
-                See pricing <ArrowRight size={14} />
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/pricing" className="cta-glass-green inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-medium">
+                See pricing <ArrowRight size={15} />
               </Link>
-              <Link to="/contact" className="btn-ghost inline-flex items-center justify-center gap-2 px-7 py-3 text-[13px] font-medium">
+              <Link to="/contact" className="btn-ghost inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-medium">
                 Talk to us
               </Link>
             </div>
@@ -430,22 +440,18 @@ const Index = () => {
 
 export default Index;
 
-/* ─── Shared layout primitives ─── */
+/* ─── Layout primitives ─── */
 function Section({ children, border, id }: { children: React.ReactNode; border?: boolean; id?: string }) {
   return (
-    <section
-      id={id}
-      className="px-5 py-16 sm:py-20"
-      style={border ? { borderTop: `1px solid ${C.border}` } : undefined}
-    >
-      <div className="max-w-4xl mx-auto">{children}</div>
+    <section id={id} className="px-6 py-20 sm:py-24" style={border ? { borderTop: `1px solid ${C.border}` } : undefined}>
+      <div className="max-w-5xl mx-auto">{children}</div>
     </section>
   );
 }
 
 function Eyebrow({ children }: { children: string }) {
   return (
-    <p className="text-[10px] font-bold tracking-[4px] uppercase mb-3" style={{ color: C.pounamuLight, fontFamily: "'JetBrains Mono', monospace" }}>
+    <p className="text-[11px] font-bold tracking-[4px] uppercase mb-4" style={{ color: C.pounamuLight, fontFamily: "'JetBrains Mono', monospace" }}>
       {children}
     </p>
   );
@@ -453,7 +459,7 @@ function Eyebrow({ children }: { children: string }) {
 
 function H2({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="text-xl sm:text-2xl lg:text-[28px] font-light tracking-tight mb-3" style={{ fontFamily: "'Lato', sans-serif", lineHeight: 1.2 }}>
+    <h2 className="text-2xl sm:text-3xl lg:text-[36px] font-light tracking-tight mb-4" style={{ fontFamily: "'Lato', sans-serif", lineHeight: 1.15 }}>
       {children}
     </h2>
   );
@@ -461,7 +467,7 @@ function H2({ children }: { children: React.ReactNode }) {
 
 function P({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <p className={`text-[13px] sm:text-[14px] leading-relaxed ${className}`} style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.t2 }}>
+    <p className={`text-[15px] sm:text-base leading-relaxed ${className}`} style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.t2 }}>
       {children}
     </p>
   );
