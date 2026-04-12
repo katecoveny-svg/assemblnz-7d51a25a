@@ -1819,29 +1819,49 @@ export type Database = {
       conversation_summaries: {
         Row: {
           agent_id: string
+          compression_level: number | null
           created_at: string
+          fts: unknown
           id: string
           key_facts_extracted: Json
+          original_message_count: number | null
+          parent_summary_id: string | null
           summary: string
           user_id: string
         }
         Insert: {
           agent_id: string
+          compression_level?: number | null
           created_at?: string
+          fts?: unknown
           id?: string
           key_facts_extracted?: Json
+          original_message_count?: number | null
+          parent_summary_id?: string | null
           summary: string
           user_id: string
         }
         Update: {
           agent_id?: string
+          compression_level?: number | null
           created_at?: string
+          fts?: unknown
           id?: string
           key_facts_extracted?: Json
+          original_message_count?: number | null
+          parent_summary_id?: string | null
           summary?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "conversation_summaries_parent_summary_id_fkey"
+            columns: ["parent_summary_id"]
+            isOneToOne: false
+            referencedRelation: "conversation_summaries"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       conversations: {
         Row: {
@@ -7656,6 +7676,21 @@ export type Database = {
           message: Json
           msg_id: number
           read_ct: number
+        }[]
+      }
+      search_memory: {
+        Args: {
+          p_agent_id?: string
+          p_limit?: number
+          p_query: string
+          p_user_id: string
+        }
+        Returns: {
+          agent_id: string
+          created_at: string
+          key_facts: Json
+          rank: number
+          summary: string
         }[]
       }
     }
