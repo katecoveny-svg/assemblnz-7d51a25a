@@ -673,6 +673,9 @@ export default function ToroaLandingPage() {
         </motion.div>
       </Section>
 
+      {/* ── Race Video ── */}
+      <KeteRaceVideo slug="toroa" keteName="Toroa" accentColor={TEAL} />
+
       {/* ── SMS DEMO ── */}
       <TryToroaSmsDemo />
 
