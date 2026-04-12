@@ -940,8 +940,18 @@ serve(async (req) => {
       if (ag?.ets?.registered) industryContext += `ETS: registered, ${ag.ets.forestry_ha || 0}ha forestry\n`;
       if (ag?.dairy?.milk_production_kgms) industryContext += `Production: ${ag.dairy.milk_production_kgms} kgMS (${ag.dairy.processor || ""})\n`;
     }
+    if (industry === "manaaki") {
+      const h = parsed.hospitality;
+      if (h?.venue?.name) industryContext += `Venue: ${h.venue.name} (${h.venue.type || "hospitality"}, ${h.venue.location || "NZ"})\n`;
+      if (h?.fcp?.template) industryContext += `FCP: ${h.fcp.template} ${h.fcp.level || ""} — last verified ${h.fcp.last_verification_date || "?"} (${h.fcp.last_verification_result || "?"})\n`;
+      if (h?.liquor_licence?.number) industryContext += `Liquor Licence: ${h.liquor_licence.type || "on_licence"} #${h.liquor_licence.number} expires ${h.liquor_licence.expiry_date || "?"}\n`;
+      if (h?.manager_certificate?.number) industryContext += `Manager Cert: ${h.manager_certificate.holder || "?"} #${h.manager_certificate.number} expires ${h.manager_certificate.expiry_date || "?"}\n`;
+      const tempIssues = h?.temperature_records?.filter((t: any) => !t.within_range) || [];
+      if (tempIssues.length) industryContext += `⚠️ ${tempIssues.length} temperature exceedance(s) recorded\n`;
+      if (h?.operational_patterns?.avg_food_cost_pct) industryContext += `Food Cost: ${h.operational_patterns.avg_food_cost_pct}%\n`;
+    }
 
-    const compressionMessage = {
+
       role: "assistant" as const,
       content:
         `[EARLIER IN THIS CONVERSATION]\n${parsed.summary}\n` +
