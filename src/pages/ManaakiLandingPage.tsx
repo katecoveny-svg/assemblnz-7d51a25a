@@ -240,6 +240,9 @@ export default function ManaakiLandingPage() {
           </motion.div>
         </section>
 
+        {/* ── Race Video ── */}
+        <KeteRaceVideo slug="manaaki" keteName="Manaaki" accentColor={ACCENT} />
+
         {/* ── CTA ── */}
         <section className="text-center px-6 pb-24">
           <motion.div

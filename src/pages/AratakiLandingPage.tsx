@@ -247,6 +247,9 @@ export default function AratakiLandingPage() {
           </motion.div>
         </section>
 
+        {/* ── Race Video ── */}
+        <KeteRaceVideo slug="arataki" keteName="Arataki" accentColor={ACCENT} />
+
         {/* ── CTA ── */}
         <section className="text-center px-6 pb-24">
           <motion.div

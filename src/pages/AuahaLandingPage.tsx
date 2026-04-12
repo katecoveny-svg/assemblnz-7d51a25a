@@ -241,6 +241,9 @@ export default function AuahaLandingPage() {
           </motion.div>
         </section>
 
+        {/* ── Race Video ── */}
+        <KeteRaceVideo slug="auaha" keteName="Auaha" accentColor={ACCENT} />
+
         {/* ── CTA ── */}
         <section className="text-center px-6 pb-24">
           <motion.div

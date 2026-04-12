@@ -239,6 +239,9 @@ export default function WaihangaLandingPage() {
           </motion.div>
         </section>
 
+        {/* ── Race Video ── */}
+        <KeteRaceVideo slug="waihanga" keteName="Waihanga" accentColor={ACCENT} />
+
         {/* ── CTA ── */}
         <section className="text-center px-6 pb-24">
           <motion.div
