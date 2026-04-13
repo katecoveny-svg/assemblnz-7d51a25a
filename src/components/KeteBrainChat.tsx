@@ -335,6 +335,14 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
                 <p className="text-white/40 text-[10px]">{keteNameEn} Intelligence • NZ Voice</p>
               </div>
               <button
+                onClick={() => setShowMemory(true)}
+                className="w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110"
+                style={{ background: hexRgba(accentColor, 0.1), border: `1px solid ${hexRgba(accentColor, 0.2)}` }}
+                title="What I remember"
+              >
+                <GlowIcon name="Brain" size={14} color={accentColor} glow={false} />
+              </button>
+              <button
                 onClick={() => setShowVoice(true)}
                 className="w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110"
                 style={{ background: hexRgba(accentColor, 0.15), border: `1px solid ${hexRgba(accentColor, 0.3)}` }}
