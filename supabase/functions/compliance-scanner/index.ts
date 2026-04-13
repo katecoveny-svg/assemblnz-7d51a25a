@@ -23,26 +23,35 @@ interface Source {
 }
 
 const SOURCES: Source[] = [
+  // === Government Primary Sources ===
   { name: "NZ Legislation", url: "https://legislation.govt.nz/subscribe/recent", type: "legislation", agents: ["ALL"] },
   { name: "MBIE Employment", url: "https://www.mbie.govt.nz/business-and-employment/", type: "employment", agents: ["AROHA", "LEDGER"] },
-  { name: "IRD Updates", url: "https://www.ird.govt.nz/updates/news-folder/2026/", type: "tax", agents: ["LEDGER"] },
+  { name: "IRD Updates", url: "https://www.ird.govt.nz/updates", type: "tax", agents: ["LEDGER"] },
   { name: "WorkSafe NZ", url: "https://www.worksafe.govt.nz/about-us/news-and-media/", type: "health_safety", agents: ["ARAI", "APEX", "AURA"] },
   { name: "Tenancy Services", url: "https://www.tenancy.govt.nz/about-tenancy-services/news/", type: "property", agents: ["HAVEN"] },
   { name: "MPI Food Safety", url: "https://www.mpi.govt.nz/food-safety/food-safety-for-businesses/", type: "food_safety", agents: ["AURA"] },
   { name: "Waka Kotahi NZTA", url: "https://www.nzta.govt.nz/about-us/news/", type: "automotive", agents: ["FORGE"] },
-  { name: "Privacy Commissioner", url: "https://www.privacy.org.nz/news/statements-media-releases/", type: "privacy", agents: ["ALL"] },
+  { name: "Privacy Commissioner", url: "https://privacy.org.nz/publications/statements-media-releases/", type: "privacy", agents: ["ALL"] },
   { name: "Commerce Commission", url: "https://comcom.govt.nz/news-and-media/", type: "commerce", agents: ["ANCHOR", "FLUX", "FORGE"] },
-  { name: "Companies Office", url: "https://www.companiesoffice.govt.nz/news-and-notices/?publication=news", type: "companies", agents: ["ANCHOR", "LEDGER", "KINDLE"] },
-  { name: "RBNZ", url: "https://www.rbnz.govt.nz/hub/news", type: "finance", agents: ["VAULT", "LEDGER"] },
+  { name: "Companies Office", url: "https://www.companiesoffice.govt.nz/news-and-updates/", type: "companies", agents: ["ANCHOR", "LEDGER", "KINDLE"] },
+  { name: "RBNZ", url: "https://www.rbnz.govt.nz/hub/news/", type: "finance", agents: ["VAULT", "LEDGER"] },
   { name: "FMA", url: "https://www.fma.govt.nz/news/", type: "financial_markets", agents: ["VAULT", "SHIELD"] },
-  { name: "Hospitality NZ", url: "https://hospitality.org.nz/about-us/news-and-media", type: "hospitality", agents: ["AURA"] },
-  { name: "MTA", url: "https://www.mta.org.nz/news/", type: "automotive_industry", agents: ["FORGE"] },
-  { name: "Federated Farmers", url: "https://www.fedfarm.org.nz/Web/Web/Media-Release.aspx", type: "agriculture", agents: ["TERRA"] },
-  { name: "Master Builders", url: "https://www.masterbuilder.org.nz/News", type: "construction_industry", agents: ["APEX"] },
   { name: "Ministry of Education", url: "https://www.education.govt.nz/news/", type: "education", agents: ["GROVE", "TORO"] },
   { name: "Auckland Transport", url: "https://at.govt.nz/bus-train-ferry/service-announcements/", type: "transport", agents: ["TORO"] },
   { name: "DOC", url: "https://www.doc.govt.nz/news/", type: "conservation", agents: ["VOYAGE", "ATLAS", "AWA"] },
   { name: "MetService Warnings", url: "https://www.metservice.com/warnings/", type: "weather", agents: ["TORO", "VOYAGE", "APEX"] },
+  // === Industry Bodies ===
+  { name: "Hospitality NZ", url: "https://www.hospitality.org.nz/s/news", type: "hospitality", agents: ["AURA"] },
+  { name: "MTA", url: "https://www.mta.org.nz/news/", type: "automotive_industry", agents: ["FORGE"] },
+  { name: "Federated Farmers", url: "https://www.fedfarm.org.nz/FFPublic/media-releases", type: "agriculture", agents: ["TERRA"] },
+  { name: "Master Builders", url: "https://www.masterbuilder.org.nz/News", type: "construction_industry", agents: ["APEX"] },
+  // === NZ Open Data Sources ===
+  { name: "NZ Legislation Search", url: "https://legislation.govt.nz/act/public/2020/0031/latest/LMS23223.html", type: "legislation_privacy", agents: ["ALL"] },
+  { name: "Data.govt.nz", url: "https://data.govt.nz/toolkit/policies/", type: "open_data", agents: ["ALL"] },
+  { name: "Stats NZ", url: "https://www.stats.govt.nz/news/", type: "statistics", agents: ["LEDGER", "ANCHOR", "TERRA"] },
+  { name: "NZLII", url: "https://www.nzlii.org/cgi-bin/sinosrch.cgi?method=auto&query=new+zealand+2026", type: "case_law", agents: ["SHIELD", "ANCHOR", "HAVEN"] },
+  { name: "ERA Decisions", url: "https://www.era.govt.nz/elawsearch/", type: "employment_law", agents: ["AROHA", "SHIELD"] },
+  { name: "LINZ", url: "https://www.linz.govt.nz/news", type: "land_info", agents: ["HAVEN", "APEX", "TERRA"] },
 ];
 
 const ALL_AGENTS = [
