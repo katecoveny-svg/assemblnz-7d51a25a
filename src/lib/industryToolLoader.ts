@@ -201,7 +201,7 @@ export async function getUserActivePacks(
       .eq("is_enabled", true);
 
     if (access?.length) {
-      return [...new Set(access.map((a: any) => a.pack_id))];
+      return [...new Set(access.map((a: any) => a.pack_id))] as string[];
     }
   }
 
