@@ -7,12 +7,15 @@
 // while reusing the chrome.
 // ═══════════════════════════════════════════════════════════════
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useAuthSafe } from "@/hooks/useAuth";
 import {
   Activity,
   AlertTriangle,
   Anchor,
+  ArrowLeft,
   Bird,
   Briefcase,
   Car,
@@ -256,6 +259,9 @@ const DOMAIN_META: Record<DomainKey, DomainMeta> = {
 };
 
 export default function AaaipDashboard() {
+  const auth = useAuthSafe();
+  const isAdmin = auth?.isAdmin ?? false;
+  const authLoading = auth?.loading ?? true;
   const [domain, setDomain] = useState<DomainKey>("clinic");
   const clinic = useAaaipRuntime();
   const robot = useRobotRuntime();
@@ -338,6 +344,8 @@ export default function AaaipDashboard() {
     }
   };
 
+  if (!authLoading && !isAdmin) return <Navigate to="/" replace />;
+
   return (
     <div className="relative min-h-screen bg-background text-foreground">
       <SEO
@@ -349,6 +357,12 @@ export default function AaaipDashboard() {
         <ParticleField />
       </div>
       <div className="relative z-10">
+      {/* Back to home bar */}
+      <div className="border-b border-border/20 px-6 py-2" style={{ background: "rgba(9,9,15,0.8)" }}>
+        <Link to="/" className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors">
+          <ArrowLeft size={14} /> Back to assembl
+        </Link>
+      </div>
       <header
         className="border-b border-border/40 backdrop-blur-xl"
         style={{
