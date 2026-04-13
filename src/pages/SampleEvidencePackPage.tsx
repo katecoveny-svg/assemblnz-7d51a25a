@@ -5,7 +5,7 @@ import {
   Clock, Shield, User, ChevronRight, Printer
 } from "lucide-react";
 import jsPDF from "jspdf";
-import { drawAssemblPDFHeader, drawAssemblPDFFooter } from "@/lib/pdfBranding";
+import { drawAssemblPDFHeader, drawAssemblPDFFooter, renderCrossAgentSection, drawSignOffBlock } from "@/lib/pdfBranding";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
