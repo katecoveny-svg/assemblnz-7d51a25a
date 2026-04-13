@@ -674,7 +674,8 @@ Trust & compliance:
       aiRequestBody.tools = agentTools;
     }
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    // ═══ PRIMARY: Lovable AI Gateway ═══
+    let response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${LOVABLE_API_KEY}`,
@@ -683,21 +684,70 @@ Trust & compliance:
       body: JSON.stringify(aiRequestBody),
     });
 
+    // ═══ FALLBACK: OpenRouter (if Lovable AI fails) ═══
     if (!response.ok) {
       const status = response.status;
+      // Surface rate-limit and credit errors directly — don't fallback for these
       if (status === 429) {
-        return new Response(JSON.stringify({ error: "Rate limited, please try again shortly." }), {
-          status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
+        console.warn("Lovable AI rate-limited, attempting OpenRouter fallback...");
       }
       if (status === 402) {
-        return new Response(JSON.stringify({ error: "AI credits exhausted. Please top up." }), {
-          status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
+        console.warn("Lovable AI credits exhausted, attempting OpenRouter fallback...");
       }
-      const errText = await response.text();
-      console.error("AI gateway error:", status, errText);
-      throw new Error(`AI error: ${status}`);
+
+      const OPENROUTER_API_KEY = Deno.env.get("OPENROUTER_API_KEY");
+      if (OPENROUTER_API_KEY) {
+        console.log(`Primary AI failed (${status}), falling back to OpenRouter...`);
+
+        // Map Lovable model names to OpenRouter equivalents
+        const OPENROUTER_MODEL_MAP: Record<string, string> = {
+          "google/gemini-2.5-flash": "google/gemini-2.5-flash",
+          "google/gemini-2.5-pro": "google/gemini-2.5-pro",
+          "google/gemini-3.1-pro-preview": "google/gemini-2.5-pro",
+          "google/gemini-3-flash-preview": "google/gemini-2.5-flash",
+          "google/gemini-2.5-flash-lite": "google/gemini-2.5-flash",
+          "openai/gpt-5": "openai/gpt-4o",
+          "openai/gpt-5-mini": "openai/gpt-4o-mini",
+        };
+        const fallbackModel = OPENROUTER_MODEL_MAP[model] || "google/gemini-2.5-flash";
+
+        const fallbackBody = { ...aiRequestBody, model: fallbackModel };
+        // Remove tools if not supported by fallback model
+        if (fallbackBody.tools) delete fallbackBody.tools;
+
+        response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+            "Content-Type": "application/json",
+            "HTTP-Referer": "https://assembl.co.nz",
+            "X-Title": "assembl",
+          },
+          body: JSON.stringify(fallbackBody),
+        });
+
+        if (!response.ok) {
+          const errText = await response.text();
+          console.error("OpenRouter fallback also failed:", response.status, errText);
+          throw new Error(`AI error: both primary and fallback failed`);
+        }
+        console.log("OpenRouter fallback succeeded");
+      } else {
+        // No fallback available — surface original error
+        if (status === 429) {
+          return new Response(JSON.stringify({ error: "Rate limited, please try again shortly." }), {
+            status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+        if (status === 402) {
+          return new Response(JSON.stringify({ error: "AI credits exhausted. Please top up." }), {
+            status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+        const errText = await response.text();
+        console.error("AI gateway error:", status, errText);
+        throw new Error(`AI error: ${status}`);
+      }
     }
 
     // ═══ MEMORY PERSISTENCE — extract facts from user message ═══
