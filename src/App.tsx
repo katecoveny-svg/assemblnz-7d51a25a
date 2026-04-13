@@ -150,6 +150,8 @@ const AdminTestReports = lazy(() => import("./pages/AdminTestReports"));
 const AdminKnowledgeBase = lazy(() => import("./pages/AdminKnowledgeBase"));
 const AdminFlintDashboard = lazy(() => import("./pages/AdminFlintDashboard"));
 const ProposalTemplatePage = lazy(() => import("./pages/ProposalTemplatePage"));
+const TikangaGovernancePage = lazy(() => import("./pages/TikangaGovernancePage"));
+const RoiCalculatorPage = lazy(() => import("./pages/RoiCalculatorPage"));
 
 const queryClient = new QueryClient();
 
@@ -192,6 +194,8 @@ const App = () => (
                   <Route path="/admin/knowledge" element={<Suspense fallback={null}><AdminKnowledgeBase /></Suspense>} />
                   <Route path="/admin/flint" element={<Suspense fallback={null}><AdminFlintDashboard /></Suspense>} />
                   <Route path="/proposal" element={<Suspense fallback={null}><ProposalTemplatePage /></Suspense>} />
+                  <Route path="/tikanga" element={<Suspense fallback={null}><TikangaGovernancePage /></Suspense>} />
+                  <Route path="/roi" element={<Suspense fallback={null}><RoiCalculatorPage /></Suspense>} />
                   <Route path="/privacy" element={<Suspense fallback={null}><PrivacyPolicy /></Suspense>} />
                   <Route path="/terms" element={<Suspense fallback={null}><TermsOfUse /></Suspense>} />
                   <Route path="/cookies" element={<Suspense fallback={null}><CookiePolicy /></Suspense>} />
