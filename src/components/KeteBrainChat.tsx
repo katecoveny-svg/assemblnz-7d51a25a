@@ -11,7 +11,11 @@ import { useAuth } from "@/hooks/useAuth";
 import ReactMarkdown from "react-markdown";
 import GlowIcon from "./GlowIcon";
 import VoiceAgentModal from "./VoiceAgentModal";
+import MemoryPanel from "./MemoryPanel";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
+import { enforceAssemblProtocol } from "@/lib/compliancePipeline";
+import { useAgentContext } from "@/hooks/useAgentContext";
+import { compressAndLearn } from "@/lib/contextCompression";
 import toroaMark from "@/assets/brand/toroa-mark.svg";
 
 interface KeteBrainChatProps {
