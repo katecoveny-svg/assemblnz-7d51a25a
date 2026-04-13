@@ -20,7 +20,7 @@ const STATUS_CONFIG: Record<VoiceStatus, { label: string; color: string; labelMi
   ready: { label: "Ready", color: POUNAMU, labelMi: "Kua rite" },
   listening: { label: "Listening...", color: "#E44D4D", labelMi: "E whakarongo ana..." },
   processing: { label: "Processing...", color: KOWHAI, labelMi: "E mahi ana..." },
-  speaking: { label: "Speaking...", color: "#3B82F6", labelMi: "E kōrero ana..." },
+  speaking: { label: "Speaking...", color: "#1A3A5C", labelMi: "E kōrero ana..." },
 };
 
 interface TranscriptEntry { role: "user" | "agent"; text: string; time: string }
