@@ -120,11 +120,11 @@ export default function AdminPipelineTab() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
             {[
-              { label: "Audit Logs", value: summary.totalAuditLogs, icon: ShieldCheck, color: "#3A6A9C" },
-              { label: "Pending Approvals", value: summary.approvals.pending, icon: Clock, color: "#FFB800" },
+              { label: "Audit Logs", value: summary.totalAuditLogs, icon: ShieldCheck, color: "#3A7D6E" },
+              { label: "Pending Approvals", value: summary.approvals.pending, icon: Clock, color: "#D4A843" },
               { label: "Approved", value: summary.approvals.approved, icon: CheckCircle2, color: "#5AADA0" },
-              { label: "Evidence Packs", value: summary.evidencePacks.total, icon: FileText, color: "#E040FB" },
-              { label: "Signed Off", value: summary.evidencePacks.signed, icon: Scale, color: "#4FC3F7" },
+              { label: "Evidence Packs", value: summary.evidencePacks.total, icon: FileText, color: "#7ECFC2" },
+              { label: "Signed Off", value: summary.evidencePacks.signed, icon: Scale, color: "#1A3A5C" },
             ].map(m => (
               <div key={m.label} className={glassCard + " p-4"} style={{ ...glassStyle, boxShadow: `0 0 20px ${m.color}08` }}>
                 <TopGlow color={m.color} />
@@ -142,9 +142,9 @@ export default function AdminPipelineTab() {
             <div className="flex items-center justify-center gap-2 flex-wrap">
               {[
                 { label: "Kahu", sub: "Compliance", icon: ShieldCheck, color: "#C85A54" },
-                { label: "Iho", sub: "Router", icon: Route, color: "#3A6A9C" },
-                { label: "Tā", sub: "Execution", icon: Zap, color: "#FFB800" },
-                { label: "Mahara", sub: "Memory", icon: Brain, color: "#E040FB" },
+                { label: "Iho", sub: "Router", icon: Route, color: "#3A7D6E" },
+                { label: "Tā", sub: "Execution", icon: Zap, color: "#D4A843" },
+                { label: "Mahara", sub: "Memory", icon: Brain, color: "#7ECFC2" },
                 { label: "Mana", sub: "Assurance", icon: Scale, color: "#5AADA0" },
               ].map((stage, i) => (
                 <div key={stage.label} className="flex items-center gap-2">
