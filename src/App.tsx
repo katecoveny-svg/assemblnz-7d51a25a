@@ -150,6 +150,8 @@ const AdminTestReports = lazy(() => import("./pages/AdminTestReports"));
 const AdminKnowledgeBase = lazy(() => import("./pages/AdminKnowledgeBase"));
 const AdminFlintDashboard = lazy(() => import("./pages/AdminFlintDashboard"));
 const ProposalTemplatePage = lazy(() => import("./pages/ProposalTemplatePage"));
+const TikangaGovernancePage = lazy(() => import("./pages/TikangaGovernancePage"));
+const RoiCalculatorPage = lazy(() => import("./pages/RoiCalculatorPage"));
 
 const queryClient = new QueryClient();
 

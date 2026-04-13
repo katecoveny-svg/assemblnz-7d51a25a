@@ -471,6 +471,77 @@ const Index = () => {
         </div>
       </Section>
 
+      {/* ═══ CITATION SHOWCASE ═══ */}
+      <Section border>
+        <motion.div {...fade} className="text-center mb-12">
+          <Eyebrow>NZ LEGISLATIVE GROUNDING</Eyebrow>
+          <H2>Every citation checked against current NZ law</H2>
+          <P className="max-w-xl mx-auto">
+            When an assembl workflow references legislation, it cites the specific Act, section, and year — then verifies it's current. No overseas tool can do this.
+          </P>
+        </motion.div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto mb-8">
+          {CITATION_EXAMPLES.map((cite, i) => (
+            <motion.div
+              key={cite.law}
+              className="rounded-xl px-6 py-5"
+              style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${C.border}` }}
+              {...stagger(i)}
+            >
+              <p className="text-[14px] font-medium mb-1" style={{ color: C.pounamuGlow, fontFamily: "'JetBrains Mono', monospace" }}>{cite.law}</p>
+              <p className="text-[13px] mb-2" style={{ color: C.t2 }}>{cite.context}</p>
+              <span className="text-[10px] px-2 py-0.5 rounded-full" style={{ background: `${C.pounamu}15`, color: C.pounamuLight }}>
+                {cite.agent} kete
+              </span>
+            </motion.div>
+          ))}
+        </div>
+        <div className="text-center">
+          <Link to="/tikanga" className="inline-flex items-center gap-2 text-[14px] font-medium" style={{ color: C.pounamuLight }}>
+            Learn about our governance pipeline <ArrowRight size={14} />
+          </Link>
+        </div>
+      </Section>
+
+      {/* ═══ CASE STUDIES ═══ */}
+      <Section border>
+        <motion.div {...fade} className="text-center mb-12">
+          <Eyebrow>NZ BUSINESSES</Eyebrow>
+          <H2>Real scenarios, real NZD savings</H2>
+          <P className="max-w-xl mx-auto">
+            620,000 NZ SMEs. 73% want specialist tools. Here's what governed workflows look like in practice.
+          </P>
+        </motion.div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
+          {CASE_STUDIES.map((cs, i) => (
+            <motion.div
+              key={cs.title}
+              className="rounded-2xl p-7 flex flex-col"
+              style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${C.border}`, boxShadow: `0 2px 20px ${cs.color}08` }}
+              {...stagger(i)}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-[10px] font-semibold uppercase tracking-[2px] px-2 py-0.5 rounded-full" style={{ background: `${cs.color}15`, color: cs.color, fontFamily: "'JetBrains Mono', monospace" }}>
+                  {cs.industry}
+                </span>
+                <span className="text-[11px]" style={{ color: C.t3 }}>{cs.team}</span>
+              </div>
+              <h3 className="text-[17px] font-medium mb-3" style={{ color: C.t1 }}>{cs.title}</h3>
+              <p className="text-[14px] leading-relaxed mb-4 flex-1" style={{ color: C.t3 }}>{cs.detail}</p>
+              <div className="pt-4 mt-auto" style={{ borderTop: `1px solid ${C.border}` }}>
+                <p className="text-2xl font-light" style={{ fontFamily: "'Lato', sans-serif", color: cs.color }}>{cs.stat}</p>
+                <p className="text-[12px] mt-1" style={{ color: C.t3 }}>{cs.result}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+        <div className="text-center mt-8">
+          <Link to="/roi" className="inline-flex items-center gap-2 text-[14px] font-medium" style={{ color: C.gold }}>
+            Calculate your ROI <ArrowRight size={14} />
+          </Link>
+        </div>
+      </Section>
+
       {/* ═══ FAQ ═══ */}
       <Section border>
         <div className="max-w-2xl mx-auto">
