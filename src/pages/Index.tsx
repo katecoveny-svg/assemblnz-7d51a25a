@@ -22,7 +22,9 @@ const C = {
   pounamuLight: "#5AADA0",
   pounamuGlow: "#7ECFC2",
   gold: "#D4A843",
+  goldLight: "#F0D078",
   navy: "#1A3A5C",
+  bone: "#F5F0E8",
   white: "#FFFFFF",
   t1: "rgba(255,255,255,0.92)",
   t2: "rgba(255,255,255,0.6)",
@@ -174,7 +176,34 @@ const Index = () => {
       <BrandNav />
 
       {/* ═══ HERO ═══ */}
-      <section className="relative flex flex-col items-center text-center px-6 pt-20 sm:pt-24 pb-16">
+      <section className="relative flex flex-col items-center text-center px-6 pt-20 sm:pt-24 pb-16 overflow-hidden">
+        {/* Ambient background glows */}
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: `radial-gradient(ellipse 80% 50% at 50% 20%, ${C.pounamu}10 0%, transparent 70%), radial-gradient(ellipse 60% 40% at 30% 60%, ${C.gold}06 0%, transparent 60%), radial-gradient(ellipse 50% 30% at 75% 35%, ${C.pounamuGlow}05 0%, transparent 50%)`,
+        }} />
+
+        {/* Floating particles */}
+        {[...Array(8)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full pointer-events-none"
+            style={{
+              width: 2 + i * 1.2,
+              height: 2 + i * 1.2,
+              background: i % 3 === 0 ? C.gold : i % 3 === 1 ? C.pounamu : C.pounamuGlow,
+              left: `${10 + i * 11}%`,
+              top: `${15 + (i % 4) * 20}%`,
+              opacity: 0.12,
+            }}
+            animate={{
+              y: [0, -18 - i * 4, 0],
+              opacity: [0.08, 0.25, 0.08],
+              scale: [1, 1.4, 1],
+            }}
+            transition={{ duration: 5 + i * 0.8, repeat: Infinity, ease: "easeInOut", delay: i * 0.6 }}
+          />
+        ))}
+
         <Suspense fallback={null}>
           <KeteOrbHero hideText />
         </Suspense>
@@ -198,13 +227,21 @@ const Index = () => {
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.3, ease }}
         >
-          Governed workflow tools
+          <span style={{
+            background: `linear-gradient(135deg, ${C.bone} 0%, ${C.pounamuGlow} 50%, ${C.bone} 100%)`,
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundSize: "200% auto",
+          }}>
+            Governed workflow tools
+          </span>
           <br />
           for{" "}
           <span style={{
-            background: `linear-gradient(135deg, ${C.pounamu}, ${C.pounamuGlow})`,
+            background: `linear-gradient(135deg, ${C.bone} 0%, ${C.gold} 60%, ${C.bone} 100%)`,
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
+            backgroundSize: "200% auto",
           }}>
             NZ businesses
           </span>
@@ -224,11 +261,26 @@ const Index = () => {
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6, ease }}
         >
-          <Link to="/pricing" className="cta-glass-gold inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-medium">
-            Start with one workflow <ArrowRight size={15} />
+          <Link
+            to="/pricing"
+            className="group relative inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-medium rounded-full overflow-hidden"
+          >
+            <div className="absolute inset-0 rounded-full" style={{
+              background: `linear-gradient(135deg, ${C.gold} 0%, ${C.goldLight} 50%, ${C.gold} 100%)`,
+              backgroundSize: "200% auto",
+            }} />
+            <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
+              boxShadow: `0 0 30px ${C.gold}50, 0 0 60px ${C.gold}25`,
+            }} />
+            <span className="relative z-10" style={{ color: "#09090F" }}>Start with one workflow</span>
+            <ArrowRight size={15} className="relative z-10 group-hover:translate-x-1 transition-transform" style={{ color: "#09090F" }} />
           </Link>
-          <Link to="/pricing" className="btn-ghost inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-medium">
-            See pricing
+          <Link to="/pricing" className="group inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-medium rounded-full transition-all duration-300" style={{
+            border: "1px solid rgba(255,255,255,0.08)",
+            color: "rgba(255,255,255,0.5)",
+            background: "rgba(255,255,255,0.02)",
+          }}>
+            <span className="group-hover:text-white/80 transition-colors">See pricing</span>
           </Link>
         </motion.div>
       </section>
@@ -241,35 +293,41 @@ const Index = () => {
               FLAGSHIP OUTPUT
             </p>
             <h2 className="text-2xl sm:text-3xl lg:text-[36px] font-light tracking-tight mb-4" style={{ fontFamily: "'Lato', sans-serif", lineHeight: 1.15 }}>
-              Every workflow ends with a signed evidence pack
+              Every workflow ends with a signed{" "}
+              <span style={{
+                background: `linear-gradient(135deg, ${C.gold}, ${C.goldLight})`,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}>evidence pack</span>
             </h2>
             <p className="text-[15px] leading-relaxed mb-6" style={{ color: C.t2 }}>
               Structured, branded documents ready for legal sign-off, insurance claims, council submissions, and audit defence. Not a chatbot response — a filable, forwardable artefact with compliance status codes and agent attribution.
             </p>
             <div className="flex flex-wrap gap-2 mb-6">
               {["Compliance status codes", "Agent attribution", "Sign-off block", "PDF export", "Tamper-evident audit trail"].map((tag) => (
-                <span key={tag} className="text-[11px] px-3 py-1.5 rounded-full" style={{ background: `${C.gold}12`, color: `${C.gold}cc`, border: `1px solid ${C.gold}20` }}>
+                <span key={tag} className="text-[11px] px-3 py-1.5 rounded-full transition-all duration-300 hover:scale-105" style={{ background: `${C.gold}12`, color: `${C.gold}cc`, border: `1px solid ${C.gold}20` }}>
                   {tag}
                 </span>
               ))}
             </div>
-            <Link to="/sample/manaaki" className="inline-flex items-center gap-2 text-[14px] font-medium" style={{ color: C.gold }}>
-              View sample evidence pack <ArrowRight size={14} />
+            <Link to="/sample/manaaki" className="inline-flex items-center gap-2 text-[14px] font-medium group" style={{ color: C.gold }}>
+              View sample evidence pack <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>
           <motion.div
-            className="rounded-2xl relative overflow-hidden"
+            className="relative rounded-2xl overflow-hidden"
             style={{
-              background: "rgba(255,255,255,0.025)",
+              background: `linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)`,
               border: `1px solid rgba(255,255,255,0.06)`,
-              backdropFilter: "blur(14px)",
-              boxShadow: `0 8px 48px ${C.pounamu}0a, 0 0 0 1px rgba(255,255,255,0.03) inset`,
+              backdropFilter: "blur(20px)",
+              boxShadow: `0 16px 48px rgba(0,0,0,0.4), 0 0 80px ${C.pounamu}06, inset 0 1px 0 rgba(255,255,255,0.04)`,
             }}
             initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
             transition={{ duration: 0.6, ease }}
+            whileHover={{ scale: 1.01, boxShadow: `0 20px 56px rgba(0,0,0,0.5), 0 0 100px ${C.pounamu}10, inset 0 1px 0 rgba(255,255,255,0.06)` }}
           >
             {/* Top accent line */}
-            <div className="h-[1px] w-full" style={{ background: `linear-gradient(90deg, transparent, ${C.pounamu}60, transparent)` }} />
+            <div className="h-[2px] w-full" style={{ background: `linear-gradient(90deg, transparent, ${C.pounamu}60, ${C.gold}40, transparent)` }} />
 
             <div className="p-8 space-y-5">
               {/* Header */}
@@ -281,7 +339,7 @@ const Index = () => {
                 </div>
                 <span
                   className="ml-auto text-[10px] px-2.5 py-1 rounded-full font-semibold tracking-[2px] uppercase"
-                  style={{ background: `${C.pounamu}18`, color: C.pounamuGlow, border: `1px solid ${C.pounamu}30` }}
+                  style={{ background: `${C.pounamu}18`, color: C.pounamuGlow, border: `1px solid ${C.pounamu}30`, boxShadow: `0 0 12px ${C.pounamu}15` }}
                 >
                   PASS
                 </span>
@@ -294,14 +352,21 @@ const Index = () => {
                   { label: "Temperature log compliance", ref: "TMP-047" },
                   { label: "Staff certification check", ref: "CERT-12" },
                   { label: "Privacy Act 2020, s.22 — satisfied", ref: "PA-s22" },
-                ].map((item) => (
-                  <div key={item.label} className="flex items-center gap-3">
-                    <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0" style={{ background: `${C.pounamu}20` }}>
-                      <Check size={10} style={{ color: C.pounamuGlow }} />
+                ].map((item, idx) => (
+                  <motion.div
+                    key={item.label}
+                    className="flex items-center gap-3 p-2 rounded-lg transition-colors duration-300 hover:bg-white/[0.02]"
+                    initial={{ opacity: 0, x: -8 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3 + idx * 0.06 }}
+                  >
+                    <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ background: `${C.pounamu}20`, boxShadow: `0 0 8px ${C.pounamu}15` }}>
+                      <Check size={11} style={{ color: C.pounamuGlow }} />
                     </div>
                     <span className="text-[13px] flex-1" style={{ color: C.t2, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{item.label}</span>
                     <span className="text-[10px] tracking-wider" style={{ color: C.t3, fontFamily: "'JetBrains Mono', monospace" }}>{item.ref}</span>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 
@@ -329,11 +394,16 @@ const Index = () => {
       </section>
 
       {/* ═══ TRUST STRIP ═══ */}
-      <section className="px-6 py-12" style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
-        <div className="max-w-5xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-8">
+      <section className="relative px-6 py-14" style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: `radial-gradient(ellipse 60% 80% at 50% 50%, ${C.pounamu}06 0%, transparent 60%)`,
+        }} />
+        <div className="max-w-5xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
           {TRUST_ITEMS.map((t, i) => (
-            <motion.div key={t.label} className="flex items-start gap-4" {...stagger(i)}>
-              <KeteMiniIcon glyph={t.glyph} color={t.color} size={40} />
+            <motion.div key={t.label} className="flex items-start gap-4 group" {...stagger(i)}>
+              <div className="shrink-0 transition-transform duration-300 group-hover:scale-110">
+                <KeteMiniIcon glyph={t.glyph} color={t.color} size={40} />
+              </div>
               <div>
                 <p className="text-[15px] font-medium mb-0.5" style={{ color: C.t1 }}>{t.label}</p>
                 <p className="text-[13px]" style={{ color: C.t3 }}>{t.desc}</p>
@@ -354,8 +424,10 @@ const Index = () => {
         </motion.div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl">
           {WHAT_WE_DO.map((item, i) => (
-            <motion.div key={item} className="flex items-center gap-3 py-2" {...stagger(i)}>
-              <Check size={16} className="shrink-0" style={{ color: C.pounamu }} />
+            <motion.div key={item} className="flex items-center gap-3 py-3 px-4 rounded-lg transition-all duration-300 hover:bg-white/[0.03]" {...stagger(i)}>
+              <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ background: `${C.pounamu}15`, boxShadow: `0 0 8px ${C.pounamu}10` }}>
+                <Check size={12} className="shrink-0" style={{ color: C.pounamuGlow }} />
+              </div>
               <span className="text-[15px]" style={{ color: C.t2 }}>{item}</span>
             </motion.div>
           ))}
@@ -372,15 +444,20 @@ const Index = () => {
           {WHAT_YOU_GET.map((item, i) => (
             <motion.div
               key={item.text}
-              className="group flex items-center gap-5 rounded-2xl px-6 py-6 transition-all duration-300 hover:translate-y-[-2px]"
+              className="group relative flex items-center gap-5 rounded-2xl px-6 py-6 transition-all duration-400 hover:translate-y-[-3px] overflow-hidden"
               style={{
-                background: "rgba(255,255,255,0.03)",
+                background: "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",
                 border: `1px solid ${C.border}`,
-                boxShadow: `0 2px 16px rgba(58,125,110,0.04)`,
+                boxShadow: `0 4px 20px rgba(58,125,110,0.04)`,
               }}
               {...stagger(i)}
+              whileHover={{ boxShadow: `0 8px 32px rgba(58,125,110,0.08), 0 0 40px rgba(58,125,110,0.04)` }}
             >
-              <div className="shrink-0 w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: `${C.pounamu}14` }}>
+              {/* Top accent on hover */}
+              <div className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
+                background: `linear-gradient(90deg, transparent, ${C.pounamuLight}40, transparent)`,
+              }} />
+              <div className="shrink-0 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:shadow-lg" style={{ background: `${C.pounamu}14` }}>
                 <KeteMiniIcon glyph={item.glyph} color={C.pounamuLight} size={36} />
               </div>
               <span className="text-[15px] font-medium" style={{ color: C.t1 }}>{item.text}</span>
@@ -399,14 +476,18 @@ const Index = () => {
           {OUTCOMES.map((o, i) => (
             <motion.div
               key={o.text}
-              className="group flex items-center gap-5 rounded-2xl px-6 py-6 transition-all duration-300 hover:translate-y-[-2px]"
+              className="group relative flex items-center gap-5 rounded-2xl px-6 py-6 transition-all duration-400 hover:translate-y-[-3px] overflow-hidden"
               style={{
-                background: "rgba(255,255,255,0.03)",
+                background: "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",
                 border: `1px solid ${C.border}`,
-                boxShadow: `0 2px 16px ${o.color}08`,
+                boxShadow: `0 4px 20px ${o.color}06`,
               }}
               {...stagger(i)}
+              whileHover={{ boxShadow: `0 8px 32px ${o.color}10, 0 0 40px ${o.color}06` }}
             >
+              <div className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
+                background: `linear-gradient(90deg, transparent, ${o.color}40, transparent)`,
+              }} />
               <div className="shrink-0 w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: `${o.color}14` }}>
                 <KeteMiniIcon glyph={o.glyph} color={o.color} size={36} />
               </div>
@@ -430,14 +511,22 @@ const Index = () => {
             <motion.div key={p.reo} {...stagger(i)}>
               <Link
                 to={p.to}
-                className="group block rounded-2xl p-6 h-full transition-all duration-300 hover:translate-y-[-2px]"
+                className="group block relative rounded-2xl p-6 h-full transition-all duration-400 hover:translate-y-[-3px] overflow-hidden"
                 style={{
-                  background: "rgba(255,255,255,0.03)",
+                  background: "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",
                   border: `1px solid ${C.border}`,
-                  boxShadow: `0 2px 20px ${p.color}06`,
+                  boxShadow: `0 4px 24px ${p.color}06`,
                 }}
               >
-                <div className="flex items-center gap-4 mb-4">
+                {/* Hover accent */}
+                <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
+                  background: `linear-gradient(90deg, transparent, ${p.color}60, transparent)`,
+                }} />
+                {/* Hover glow */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{
+                  background: `radial-gradient(ellipse at 50% 0%, ${p.color}08 0%, transparent 70%)`,
+                }} />
+                <div className="flex items-center gap-4 mb-4 relative z-10">
                   <Suspense fallback={<KeteWeaveVisual size={44} accentColor={p.color} accentLight={p.accentLight} showNodes={false} showGlow={false} />}>
                     <Kete3DModel accentColor={p.color} accentLight={p.accentLight} size={56} />
                   </Suspense>
@@ -446,8 +535,8 @@ const Index = () => {
                     <h3 className="text-xl font-light" style={{ fontFamily: "'Lato', sans-serif", color: C.white }}>{p.reo}</h3>
                   </div>
                 </div>
-                <p className="text-[14px] leading-relaxed mb-4" style={{ color: C.t3 }}>{p.desc}</p>
-                <span className="inline-flex items-center gap-1.5 text-[13px] font-medium transition-all group-hover:gap-3" style={{ color: p.color }}>
+                <p className="text-[14px] leading-relaxed mb-4 relative z-10" style={{ color: C.t3 }}>{p.desc}</p>
+                <span className="inline-flex items-center gap-1.5 text-[13px] font-medium transition-all group-hover:gap-3 relative z-10" style={{ color: p.color }}>
                   Explore <ArrowRight size={12} />
                 </span>
               </Link>
@@ -466,10 +555,18 @@ const Index = () => {
           {ROLLOUT.map((step, i) => (
             <motion.div
               key={step.n}
-              className="rounded-2xl p-7"
-              style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${C.border}` }}
+              className="group relative rounded-2xl p-7 overflow-hidden transition-all duration-400 hover:translate-y-[-2px]"
+              style={{
+                background: "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",
+                border: `1px solid ${C.border}`,
+                boxShadow: `0 4px 20px rgba(0,0,0,0.2)`,
+              }}
               {...stagger(i)}
+              whileHover={{ boxShadow: `0 8px 32px rgba(0,0,0,0.3), 0 0 40px ${C.pounamuLight}06` }}
             >
+              <div className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
+                background: `linear-gradient(90deg, transparent, ${C.pounamuLight}40, transparent)`,
+              }} />
               <span className="text-[12px] font-bold tracking-[3px]" style={{ color: C.pounamuLight, fontFamily: "'JetBrains Mono', monospace" }}>{step.n}</span>
               <h3 className="text-[17px] font-medium mt-3 mb-2" style={{ color: C.t1 }}>{step.title}</h3>
               <p className="text-[14px] leading-relaxed" style={{ color: C.t3 }}>{step.desc}</p>
@@ -487,14 +584,35 @@ const Index = () => {
             <P className="mb-8">
               Start with one workflow. Plans scale with coverage, team size, and support needs.
             </P>
-            <div className="rounded-2xl p-8 mb-8" style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${C.border}` }}>
+            <div className="relative rounded-2xl p-8 mb-8 overflow-hidden" style={{
+              background: "linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)",
+              border: `1px solid ${C.border}`,
+              boxShadow: `0 8px 32px rgba(0,0,0,0.3), 0 0 60px ${C.gold}05`,
+            }}>
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{
+                background: `linear-gradient(90deg, transparent, ${C.gold}50, transparent)`,
+              }} />
               <p className="text-4xl font-light" style={{ fontFamily: "'Lato', sans-serif" }}>
-                From $590
+                <span style={{
+                  background: `linear-gradient(135deg, ${C.bone}, ${C.gold})`,
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}>From $590</span>
                 <span className="text-base ml-2" style={{ color: C.t3 }}>NZD/mo ex GST</span>
               </p>
             </div>
-            <Link to="/pricing" className="cta-glass-gold inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-medium">
-              See pricing <ArrowRight size={15} />
+            <Link
+              to="/pricing"
+              className="group relative inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-medium rounded-full overflow-hidden"
+            >
+              <div className="absolute inset-0 rounded-full" style={{
+                background: `linear-gradient(135deg, ${C.gold} 0%, ${C.goldLight} 50%, ${C.gold} 100%)`,
+              }} />
+              <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
+                boxShadow: `0 0 30px ${C.gold}50, 0 0 60px ${C.gold}25`,
+              }} />
+              <span className="relative z-10" style={{ color: "#09090F" }}>See pricing</span>
+              <ArrowRight size={15} className="relative z-10 group-hover:translate-x-1 transition-transform" style={{ color: "#09090F" }} />
             </Link>
           </motion.div>
         </div>
@@ -513,10 +631,18 @@ const Index = () => {
           {CITATION_EXAMPLES.map((cite, i) => (
             <motion.div
               key={cite.law}
-              className="rounded-xl px-6 py-5"
-              style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${C.border}` }}
+              className="group relative rounded-xl px-6 py-5 overflow-hidden transition-all duration-400 hover:translate-y-[-2px]"
+              style={{
+                background: "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",
+                border: `1px solid ${C.border}`,
+                boxShadow: `0 4px 20px rgba(0,0,0,0.2)`,
+              }}
               {...stagger(i)}
+              whileHover={{ boxShadow: `0 8px 32px rgba(0,0,0,0.3), 0 0 30px ${C.pounamu}06` }}
             >
+              <div className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
+                background: `linear-gradient(90deg, transparent, ${C.pounamuGlow}40, transparent)`,
+              }} />
               <p className="text-[14px] font-medium mb-1" style={{ color: C.pounamuGlow, fontFamily: "'JetBrains Mono', monospace" }}>{cite.law}</p>
               <p className="text-[13px] mb-2" style={{ color: C.t2 }}>{cite.context}</p>
               <span className="text-[10px] px-2 py-0.5 rounded-full" style={{ background: `${C.pounamu}15`, color: C.pounamuLight }}>
@@ -526,8 +652,8 @@ const Index = () => {
           ))}
         </div>
         <div className="text-center">
-          <Link to="/tikanga" className="inline-flex items-center gap-2 text-[14px] font-medium" style={{ color: C.pounamuLight }}>
-            Learn about our governance pipeline <ArrowRight size={14} />
+          <Link to="/tikanga" className="inline-flex items-center gap-2 text-[14px] font-medium group" style={{ color: C.pounamuLight }}>
+            Learn about our governance pipeline <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
       </Section>
@@ -545,28 +671,41 @@ const Index = () => {
           {CASE_STUDIES.map((cs, i) => (
             <motion.div
               key={cs.title}
-              className="rounded-2xl p-7 flex flex-col"
-              style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${C.border}`, boxShadow: `0 2px 20px ${cs.color}08` }}
+              className="group relative rounded-2xl p-7 flex flex-col overflow-hidden transition-all duration-400 hover:translate-y-[-3px]"
+              style={{
+                background: "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",
+                border: `1px solid ${C.border}`,
+                boxShadow: `0 4px 24px ${cs.color}06`,
+              }}
               {...stagger(i)}
+              whileHover={{ boxShadow: `0 12px 40px ${cs.color}10, 0 0 50px ${cs.color}06` }}
             >
-              <div className="flex items-center gap-3 mb-4">
+              <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
+                background: `linear-gradient(90deg, transparent, ${cs.color}50, transparent)`,
+              }} />
+              <div className="flex items-center gap-3 mb-4 relative z-10">
                 <span className="text-[10px] font-semibold uppercase tracking-[2px] px-2 py-0.5 rounded-full" style={{ background: `${cs.color}15`, color: cs.color, fontFamily: "'JetBrains Mono', monospace" }}>
                   {cs.industry}
                 </span>
                 <span className="text-[11px]" style={{ color: C.t3 }}>{cs.team}</span>
               </div>
-              <h3 className="text-[17px] font-medium mb-3" style={{ color: C.t1 }}>{cs.title}</h3>
-              <p className="text-[14px] leading-relaxed mb-4 flex-1" style={{ color: C.t3 }}>{cs.detail}</p>
-              <div className="pt-4 mt-auto" style={{ borderTop: `1px solid ${C.border}` }}>
-                <p className="text-2xl font-light" style={{ fontFamily: "'Lato', sans-serif", color: cs.color }}>{cs.stat}</p>
+              <h3 className="text-[17px] font-medium mb-3 relative z-10" style={{ color: C.t1 }}>{cs.title}</h3>
+              <p className="text-[14px] leading-relaxed mb-4 flex-1 relative z-10" style={{ color: C.t3 }}>{cs.detail}</p>
+              <div className="pt-4 mt-auto relative z-10" style={{ borderTop: `1px solid ${C.border}` }}>
+                <p className="text-2xl font-light" style={{
+                  fontFamily: "'Lato', sans-serif",
+                  background: `linear-gradient(135deg, ${cs.color}, ${C.bone})`,
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}>{cs.stat}</p>
                 <p className="text-[12px] mt-1" style={{ color: C.t3 }}>{cs.result}</p>
               </div>
             </motion.div>
           ))}
         </div>
         <div className="text-center mt-8">
-          <Link to="/roi" className="inline-flex items-center gap-2 text-[14px] font-medium" style={{ color: C.gold }}>
-            Calculate your ROI <ArrowRight size={14} />
+          <Link to="/roi" className="inline-flex items-center gap-2 text-[14px] font-medium group" style={{ color: C.gold }}>
+            Calculate your ROI <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
       </Section>
@@ -583,8 +722,14 @@ const Index = () => {
               <motion.div key={i} {...stagger(i)}>
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full text-left rounded-xl px-6 py-5 flex items-center justify-between gap-4 transition-colors"
-                  style={{ background: openFaq === i ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.025)", border: `1px solid ${C.border}` }}
+                  className="w-full text-left rounded-xl px-6 py-5 flex items-center justify-between gap-4 transition-all duration-300"
+                  style={{
+                    background: openFaq === i
+                      ? "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)"
+                      : "linear-gradient(135deg, rgba(255,255,255,0.025) 0%, rgba(255,255,255,0.01) 100%)",
+                    border: `1px solid ${openFaq === i ? C.pounamu + "30" : C.border}`,
+                    boxShadow: openFaq === i ? `0 4px 24px rgba(0,0,0,0.3), 0 0 30px ${C.pounamu}05` : "none",
+                  }}
                 >
                   <span className="text-[15px] font-medium" style={{ color: C.t1 }}>{faq.q}</span>
                   <ChevronDown
@@ -608,19 +753,36 @@ const Index = () => {
       </Section>
 
       {/* ═══ FINAL CTA ═══ */}
-      <section className="px-6 py-24 text-center">
-        <div className="max-w-xl mx-auto">
+      <section className="relative px-6 py-24 text-center overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: `radial-gradient(ellipse 60% 50% at 50% 50%, ${C.pounamu}08 0%, transparent 60%), radial-gradient(ellipse 40% 40% at 60% 40%, ${C.gold}05 0%, transparent 50%)`,
+        }} />
+        <div className="max-w-xl mx-auto relative z-10">
           <motion.div {...fade}>
             <H2>Bring more structure to how work gets done</H2>
             <P className="mb-10">
               Start with one workflow and see where governed support makes the biggest difference.
             </P>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/pricing" className="cta-glass-gold inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-medium">
-                See pricing <ArrowRight size={15} />
+              <Link
+                to="/pricing"
+                className="group relative inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-medium rounded-full overflow-hidden"
+              >
+                <div className="absolute inset-0 rounded-full" style={{
+                  background: `linear-gradient(135deg, ${C.gold} 0%, ${C.goldLight} 50%, ${C.gold} 100%)`,
+                }} />
+                <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
+                  boxShadow: `0 0 30px ${C.gold}50, 0 0 60px ${C.gold}25`,
+                }} />
+                <span className="relative z-10" style={{ color: "#09090F" }}>See pricing</span>
+                <ArrowRight size={15} className="relative z-10 group-hover:translate-x-1 transition-transform" style={{ color: "#09090F" }} />
               </Link>
-              <Link to="/contact" className="btn-ghost inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-medium">
-                Talk to us
+              <Link to="/contact" className="group inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-medium rounded-full transition-all duration-300" style={{
+                border: "1px solid rgba(255,255,255,0.08)",
+                color: "rgba(255,255,255,0.5)",
+                background: "rgba(255,255,255,0.02)",
+              }}>
+                <span className="group-hover:text-white/80 transition-colors">Talk to us</span>
               </Link>
             </div>
           </motion.div>
