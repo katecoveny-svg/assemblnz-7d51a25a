@@ -337,7 +337,32 @@ html {
     transform: translateY(-2px) scale(1.02);
   }
 
-  /* Ghost button — pounamu glow */
+  /* ── Primary CTA — Kōwhai gold glow ── */
+  .cta-glass-gold {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #F0D078 0%, #D4A843 50%, #B08A30 100%);
+    color: #0A0A14;
+    border: none;
+    border-radius: 9999px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    box-shadow: 0 0 20px rgba(212,168,67,0.4), 0 0 60px rgba(212,168,67,0.15), 0 4px 16px rgba(0,0,0,0.4);
+    animation: cta-gold-pulse 3s ease-in-out infinite;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes cta-gold-pulse {
+    0%,100% { box-shadow: 0 0 20px rgba(212,168,67,0.4), 0 0 60px rgba(212,168,67,0.15), 0 4px 16px rgba(0,0,0,0.4); }
+    50%     { box-shadow: 0 0 32px rgba(240,208,120,0.6), 0 0 90px rgba(212,168,67,0.3), 0 4px 16px rgba(0,0,0,0.4); }
+  }
+  .cta-glass-gold:hover {
+    box-shadow: 0 0 40px rgba(240,208,120,0.7), 0 0 100px rgba(212,168,67,0.4);
+    transform: translateY(-2px) scale(1.02);
+  }
+
+
   .btn-ghost {
     background: transparent;
     color: rgba(255,255,255,0.8);
