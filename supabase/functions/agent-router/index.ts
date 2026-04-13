@@ -361,6 +361,29 @@ MANA (Approve):
 
     expertBlock += truthProtocol + assembleProtocol;
 
+    // ═══ KNOWLEDGE BASE GROUNDING — Anti-Hallucination Layer 2 ═══
+    let knowledgeBlock = "";
+    {
+      const { data: kbEntries } = await supabase
+        .from("agent_knowledge_base")
+        .select("topic, content, confidence, last_verified")
+        .eq("agent_id", selectedAgent)
+        .eq("is_active", true)
+        .gte("confidence", 0.7)
+        .order("confidence", { ascending: false })
+        .limit(15);
+
+      if (kbEntries?.length) {
+        const ninetyDaysAgo = new Date(Date.now() - 90 * 86400_000).toISOString();
+        const facts = kbEntries.map((k: any) => {
+          const stale = k.last_verified < ninetyDaysAgo ? " ⚠️ STALE — verify before citing" : "";
+          return `- [${k.topic}] ${k.content} (confidence: ${k.confidence}${stale})`;
+        }).join("\n");
+        knowledgeBlock = `\n\n--- VERIFIED KNOWLEDGE BASE ---\nUse these verified facts when answering. Cite them with 🟢 HIGH confidence:\n${facts}\nIf a fact is marked STALE, downgrade to 🟡 MEDIUM and suggest the user verify.`;
+      }
+    }
+    expertBlock += knowledgeBlock;
+
     // Load recent compliance updates for proactive intelligence
     let complianceAlertBlock = "";
     if (resolvedUserId) {
