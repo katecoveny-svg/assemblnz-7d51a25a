@@ -278,7 +278,7 @@ const InvestPage = () => {
               {
                 icon: Globe,
                 title: "Built for Aotearoa",
-                desc: "NZ phone numbers via TNZ. UEMA-compliant opt-in/opt-out. Te reo support planned. Privacy Act audit trail.",
+                desc: "Dedicated NZ phone numbers with UEMA-compliant opt-in/opt-out. Te reo support planned. Privacy Act audit trail.",
               },
             ].map((f, i) => (
               <motion.div
@@ -479,7 +479,7 @@ const InvestPage = () => {
               title: "Foundation & First Customers",
               color: "#5AADA0",
               items: [
-                "TNZ integration & dedicated +64 numbers",
+                "NZ telco integration & dedicated +64 numbers",
                 "Single-agent MVP live",
                 "First 10 paying customers",
                 "UEMA compliance & PIA complete",
@@ -568,7 +568,7 @@ const InvestPage = () => {
             {
               icon: Phone,
               title: "NZ telco relationships",
-              desc: "TNZ integration, dedicated +64 numbers, short code provisioning. Not something a foreign entrant can replicate quickly.",
+              desc: "NZ telco integration, dedicated +64 numbers, short code provisioning. Not something a foreign entrant can replicate quickly.",
               accent: "#5AADA0",
             },
             {
