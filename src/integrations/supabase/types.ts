@@ -2678,6 +2678,60 @@ export type Database = {
           },
         ]
       }
+      flint_proposals: {
+        Row: {
+          audit_id: string | null
+          created_at: string
+          current_content: string | null
+          guard_details: Json | null
+          id: string
+          instructions: string | null
+          page_id: string
+          proposed_content: string
+          region: string
+          review_notes: string | null
+          reviewed_by: string | null
+          seo_target: string | null
+          status: string
+          updated_at: string
+          verdict: string
+        }
+        Insert: {
+          audit_id?: string | null
+          created_at?: string
+          current_content?: string | null
+          guard_details?: Json | null
+          id?: string
+          instructions?: string | null
+          page_id: string
+          proposed_content: string
+          region: string
+          review_notes?: string | null
+          reviewed_by?: string | null
+          seo_target?: string | null
+          status?: string
+          updated_at?: string
+          verdict?: string
+        }
+        Update: {
+          audit_id?: string | null
+          created_at?: string
+          current_content?: string | null
+          guard_details?: Json | null
+          id?: string
+          instructions?: string | null
+          page_id?: string
+          proposed_content?: string
+          region?: string
+          review_notes?: string | null
+          reviewed_by?: string | null
+          seo_target?: string | null
+          status?: string
+          updated_at?: string
+          verdict?: string
+        }
+        Relationships: []
+      }
       follow_ups: {
         Row: {
           agent_name: string
