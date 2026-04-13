@@ -9,6 +9,7 @@ import { useAuahaDashboardMetrics, useRecentContentItems, useAuahaCampaigns } fr
 import SovereigntyPanel from "@/components/sovereignty/SovereigntyPanel";
 import SovereigntySimulator from "@/components/sovereignty/SovereigntySimulator";
 import KeteDocUpload from "@/components/shared/KeteDocUpload";
+import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
 import { formatDistanceToNow } from "date-fns";
 
 const ACCENT = "#F0D078";
@@ -341,6 +342,31 @@ export default function AuahaDashboard() {
         <SovereigntyPanel kete="auaha" accentColor="#F0D078" />
         <SovereigntySimulator kete="auaha" accentColor="#F0D078" />
       </div>
+
+      <KeteEvidencePackPanel
+        keteSlug="auaha"
+        keteName="Auaha — Creative & Media"
+        accentColor="#F0D078"
+        agentId="prism"
+        agentName="PRISM"
+        packTemplates={[
+          { label: "Brand Compliance Pack", description: "Brand guideline adherence evidence", packType: "brand-compliance-pack", complianceChecks: [
+            { check: "Brand voice consistency verified", status: "pass" },
+            { check: "Colour palette compliance", status: "pass" },
+            { check: "ASA advertising standards", status: "pass" },
+          ]},
+          { label: "Content Audit Pack", description: "FTA 1986 · advertising claims audit", packType: "content-audit-pack", complianceChecks: [
+            { check: "FTA 1986 — no misleading claims", status: "pass" },
+            { check: "Cultural sensitivity (Kahu) reviewed", status: "pass" },
+            { check: "Tā audit trail complete", status: "pass" },
+          ]},
+          { label: "Campaign Evidence Pack", description: "Full campaign compliance trail", packType: "campaign-evidence-pack", complianceChecks: [
+            { check: "Privacy Act 2020 — consent for data use", status: "pass" },
+            { check: "GDPR/Spam Act compliance", status: "pass" },
+            { check: "Performance metrics documented", status: "pass" },
+          ]},
+        ]}
+      />
 
       <KeteDocUpload keteSlug="auaha" keteColor="#F0D078" keteName="Auaha — Creative & Media"
         docContext="Expect brand guidelines, creative briefs, media plans, campaign reports, analytics exports, and content calendars. Extract brand voice, colour palettes, and performance metrics." />
