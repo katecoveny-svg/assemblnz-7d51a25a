@@ -343,7 +343,7 @@ export default function AdminPipelineTab() {
                 <div key={exp.id} className="px-5 py-3 hover:bg-white/[0.02]">
                   <div className="flex items-center gap-3">
                     <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full"
-                      style={{ background: "rgba(79,195,247,0.15)", color: "#4FC3F7" }}>
+                      style={{ background: "rgba(58,125,110,0.15)", color: "#5AADA0" }}>
                       {exp.domain}
                     </span>
                     <span className="text-xs text-foreground">{exp.pilot_label || exp.domain}</span>

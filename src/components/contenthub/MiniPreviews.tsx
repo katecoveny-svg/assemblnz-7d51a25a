@@ -64,7 +64,7 @@ export const HavenCompliancePreview = () => {
 export const FluxPipelinePreview = () => {
   const stages = [
     { name: "New", count: 23, value: "$184K", color: "#3A6A9C" },
-    { name: "Qualified", count: 15, value: "$267K", color: "#4FC3F7" },
+    { name: "Qualified", count: 15, value: "$267K", color: "#7ECFC2" },
     { name: "Proposal", count: 8, value: "$412K", color: "#3A6A9C" },
     { name: "Won", count: 6, value: "$287K", color: "#5AADA0" },
   ];
@@ -240,7 +240,7 @@ export const EchoContentPreview = () => {
 /* ── PRISM: Campaign Overview ── */
 export const PrismCampaignPreview = () => {
   const channels = [
-    { name: "Email", items: 3, color: "#4FC3F7" },
+    { name: "Email", items: 3, color: "#7ECFC2" },
     { name: "LinkedIn", items: 2, color: "#0A66C2" },
     { name: "Instagram", items: 4, color: "#3A7D6E" },
     { name: "Reel", items: 1, color: "#3A6A9C" },
@@ -313,7 +313,7 @@ export const LedgerPayePreview = () => {
           <span className="font-mono-jb text-[9px]" style={{ color: "rgba(255,255,255,0.3)" }}>
             {b.rate}
           </span>
-          <span className="font-mono-jb text-[9px]" style={{ color: "#4FC3F7" }}>
+          <span className="font-mono-jb text-[9px]" style={{ color: "#7ECFC2" }}>
             {b.tax}
           </span>
         </div>
@@ -414,7 +414,7 @@ export const ApexHazardPreview = () => {
     { name: "Electrical", risk: 15, level: "High", color: "#3A6A9C" },
     { name: "Dust", risk: 9, level: "Med", color: "#3A6A9C" },
     { name: "Manual", risk: 6, level: "Med", color: "#3A6A9C" },
-    { name: "Noise", risk: 6, level: "Med", color: "#4FC3F7" },
+    { name: "Noise", risk: 6, level: "Med", color: "#7ECFC2" },
   ];
   return (
     <div className="space-y-1">
@@ -477,7 +477,7 @@ export const HelmWeeklyPreview = () => {
   const days = [
     { day: "Mon", items: ["Swimming gear", "Library book"], color: "#3A6A9C" },
     { day: "Tue", items: ["Mufti day $2", "Cricket 3:30"], color: "#5AADA0" },
-    { day: "Wed", items: ["Lunch order", "ICAS Maths"], color: "#4FC3F7" },
+    { day: "Wed", items: ["Lunch order", "ICAS Maths"], color: "#7ECFC2" },
     { day: "Thu", items: ["School photos", "USB for Tech"], color: "#3A7D6E" },
     { day: "Fri", items: ["Assembly 2pm", "Early finish"], color: "#3A6A9C" },
   ];
