@@ -315,6 +315,31 @@ export default function PikauDashboard() {
         <SovereigntySimulator kete="pikau" accentColor={ACCENT} />
       </div>
 
+      <KeteEvidencePackPanel
+        keteSlug="pikau"
+        keteName="Pikau — Freight & Customs"
+        accentColor={ACCENT}
+        agentId="gateway"
+        agentName="GATEWAY"
+        packTemplates={[
+          { label: "Customs Declaration Pack", description: "CEA 2018 · declaration evidence", packType: "customs-declaration-pack", complianceChecks: [
+            { check: "CEA 2018 — declaration validated", status: "pass" },
+            { check: "HS code classification verified", status: "pass" },
+            { check: "Duty/GST calculation documented", status: "pass" },
+          ]},
+          { label: "Biosecurity Clearance Pack", description: "MPI biosecurity compliance", packType: "biosecurity-clearance-pack", complianceChecks: [
+            { check: "Biosecurity Act 1993 — clearance", status: "pass" },
+            { check: "MPI import health standards", status: "pass" },
+            { check: "Treatment certificates verified", status: "pass" },
+          ]},
+          { label: "Trade Compliance Pack", description: "Full import/export compliance trail", packType: "trade-compliance-pack", complianceChecks: [
+            { check: "Sanctions screening complete", status: "pass" },
+            { check: "Country of origin documented", status: "pass" },
+            { check: "Incoterms verified", status: "pass" },
+          ]},
+        ]}
+      />
+
       <KeteDocUpload keteSlug="pikau" keteColor={ACCENT} keteName="Pikau — Freight & Customs"
         docContext="Expect customs declarations, commercial invoices, bills of lading, packing lists, certificates of origin, biosecurity certificates, and HS code schedules. Flag NZ Customs compliance issues." />
 

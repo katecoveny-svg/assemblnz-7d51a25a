@@ -295,6 +295,25 @@ export default function ToroaDashboard() {
 
           {/* Chat + Doc upload always visible */}
           <div className="space-y-4 pt-4" style={{ borderTop: `1px solid ${KOWHAI}08` }}>
+            <KeteEvidencePackPanel
+              keteSlug="toroa"
+              keteName="Tōroa — Family Navigator"
+              accentColor={KOWHAI}
+              agentId="toroa"
+              agentName="TŌROA"
+              packTemplates={[
+                { label: "Family Safety Pack", description: "Emergency contacts, medical & allergy records", packType: "family-safety-pack", complianceChecks: [
+                  { check: "Privacy Act 2020 — family data governed", status: "pass" },
+                  { check: "Emergency contacts current", status: "pass" },
+                  { check: "Medical records documented", status: "pass" },
+                ]},
+                { label: "School Compliance Pack", description: "Permission slips, enrolment & attendance", packType: "school-compliance-pack", complianceChecks: [
+                  { check: "Education Act 1989 — enrolment verified", status: "pass" },
+                  { check: "Permission slips tracked", status: "pass" },
+                  { check: "Attendance records current", status: "pass" },
+                ]},
+              ]}
+            />
             <KeteDocUpload
               keteSlug="toroa"
               keteColor={KOWHAI}
