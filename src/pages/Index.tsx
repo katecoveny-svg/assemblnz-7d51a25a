@@ -766,7 +766,7 @@ const Index = () => {
       </Section>
 
       {/* ═══ FINAL CTA ═══ */}
-      <section className="relative px-6 py-24 text-center overflow-hidden">
+      <section className="relative px-6 py-16 text-center overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" style={{
           background: `radial-gradient(ellipse 60% 50% at 50% 50%, ${C.pounamu}08 0%, transparent 60%), radial-gradient(ellipse 40% 40% at 60% 40%, ${C.gold}05 0%, transparent 50%)`,
         }} />
@@ -825,7 +825,7 @@ export default Index;
 /* ─── Layout primitives ─── */
 function Section({ children, border, id }: { children: React.ReactNode; border?: boolean; id?: string }) {
   return (
-    <section id={id} className="px-6 py-20 sm:py-24" style={border ? { borderTop: `1px solid ${C.border}` } : undefined}>
+    <section id={id} className="px-6 py-12 sm:py-16" style={border ? { borderTop: `1px solid ${C.border}` } : undefined}>
       <div className="max-w-5xl mx-auto">{children}</div>
     </section>
   );
