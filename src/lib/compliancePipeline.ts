@@ -7,7 +7,6 @@
 // ── TĀ: NZ English spelling corrections ──
 const NZ_SPELLING: Record<string, string> = {
   analyze: "analyse",
-  analyze: "analyse",
   organize: "organise",
   customize: "customise",
   color: "colour",
