@@ -176,7 +176,7 @@ const Index = () => {
       <BrandNav />
 
       {/* ═══ HERO ═══ */}
-      <section className="relative flex flex-col items-center text-center px-6 pt-20 sm:pt-24 pb-16 overflow-hidden">
+      <section className="relative flex flex-col items-center text-center px-6 pt-12 sm:pt-16 pb-8 overflow-hidden">
         {/* PHOTON-style dramatic ambient glows */}
         <div className="absolute inset-0 pointer-events-none" style={{
           background: `radial-gradient(ellipse 90% 55% at 50% 20%, ${C.pounamu}14 0%, transparent 65%), radial-gradient(ellipse 65% 45% at 30% 60%, ${C.gold}0A 0%, transparent 55%), radial-gradient(ellipse 55% 35% at 75% 35%, ${C.pounamuGlow}08 0%, transparent 50%)`,
@@ -211,7 +211,13 @@ const Index = () => {
           />
         ))}
 
-        <Suspense fallback={null}>
+        <Suspense fallback={
+          <div className="relative flex items-center justify-center" style={{ width: 600, height: 600 }}>
+            <div className="absolute rounded-full animate-pulse" style={{ width: 280, height: 280, background: `radial-gradient(circle, ${C.pounamu}15 0%, transparent 70%)` }} />
+            <div className="absolute rounded-full" style={{ width: 200, height: 200, border: `1px solid ${C.pounamu}20`, boxShadow: `0 0 40px ${C.pounamu}10` }} />
+            <p className="text-[10px] tracking-[4px] uppercase animate-pulse" style={{ color: C.pounamuLight, fontFamily: "'JetBrains Mono', monospace", opacity: 0.5 }}>Loading</p>
+          </div>
+        }>
           <KeteOrbHero hideText />
         </Suspense>
         <motion.p
@@ -293,7 +299,7 @@ const Index = () => {
       </section>
 
       {/* ═══ EVIDENCE PACK HERO ═══ */}
-      <section className="px-6 py-20 sm:py-24" style={{ borderTop: `1px solid ${C.border}` }}>
+      <section className="px-6 py-12 sm:py-16" style={{ borderTop: `1px solid ${C.border}` }}>
         <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <motion.div {...fade}>
             <p className="text-[11px] font-bold tracking-[4px] uppercase mb-4" style={{ color: C.gold, fontFamily: "'JetBrains Mono', monospace" }}>
@@ -760,7 +766,7 @@ const Index = () => {
       </Section>
 
       {/* ═══ FINAL CTA ═══ */}
-      <section className="relative px-6 py-24 text-center overflow-hidden">
+      <section className="relative px-6 py-16 text-center overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" style={{
           background: `radial-gradient(ellipse 60% 50% at 50% 50%, ${C.pounamu}08 0%, transparent 60%), radial-gradient(ellipse 40% 40% at 60% 40%, ${C.gold}05 0%, transparent 50%)`,
         }} />
@@ -819,7 +825,7 @@ export default Index;
 /* ─── Layout primitives ─── */
 function Section({ children, border, id }: { children: React.ReactNode; border?: boolean; id?: string }) {
   return (
-    <section id={id} className="px-6 py-20 sm:py-24" style={border ? { borderTop: `1px solid ${C.border}` } : undefined}>
+    <section id={id} className="px-6 py-12 sm:py-16" style={border ? { borderTop: `1px solid ${C.border}` } : undefined}>
       <div className="max-w-5xl mx-auto">{children}</div>
     </section>
   );
