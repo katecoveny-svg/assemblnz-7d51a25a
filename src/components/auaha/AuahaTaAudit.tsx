@@ -96,7 +96,7 @@ export default function AuahaTaAudit() {
                     {new Date(log.created_at).toLocaleString("en-NZ", { timeZone: "Pacific/Auckland", hour12: false })}
                   </span>
                   {log.compliance_passed !== null && (
-                    <span className={`text-[9px] px-2 py-0.5 rounded-full ${log.compliance_passed ? "bg-emerald-500/10 text-emerald-400" : "bg-red-500/10 text-red-400"}`}>
+                    <span className={`text-[9px] px-2 py-0.5 rounded-full ${log.compliance_passed ? "bg-[#3A7D6E]/10 text-[#5AADA0]" : "bg-[#C85A54]/10 text-[#C85A54]"}`}>
                       {log.compliance_passed ? "PASS" : "FAIL"}
                     </span>
                   )}

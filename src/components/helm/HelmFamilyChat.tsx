@@ -23,8 +23,8 @@ const MSG_ICONS: Record<string, React.ReactNode> = {
 };
 
 const MSG_COLORS: Record<string, string> = {
-  grocery_update: "bg-emerald-500/10 border-emerald-500/20",
-  appointment_update: "bg-blue-500/10 border-blue-500/20",
+  grocery_update: "bg-[#3A7D6E]/10 border-emerald-500/20",
+  appointment_update: "bg-[#1A3A5C]/10 border-blue-500/20",
   reminder: "bg-amber-500/10 border-amber-500/20",
   system: "bg-pounamu/10 border-pounamu/20",
 };
@@ -111,7 +111,7 @@ export default function HelmFamilyChat({ familyId, familyMembers }: { familyId: 
   // Generate initials and color for avatar
   const getAvatar = (name: string) => {
     const initials = name.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2);
-    const colors = ["bg-cyan-500", "bg-pounamu", "bg-pink-500", "bg-blue-500", "bg-emerald-500", "bg-amber-500"];
+    const colors = ["bg-cyan-500", "bg-pounamu", "bg-pink-500", "bg-[#1A3A5C]", "bg-[#3A7D6E]", "bg-amber-500"];
     const idx = name.split("").reduce((s, c) => s + c.charCodeAt(0), 0) % colors.length;
     return { initials, color: colors[idx] };
   };

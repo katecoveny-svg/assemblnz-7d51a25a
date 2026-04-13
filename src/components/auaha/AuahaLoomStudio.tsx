@@ -134,11 +134,11 @@ export default function AuahaLoomStudio() {
                   <div className="flex items-center gap-2">
                     <button onClick={() => copyEmbed(loom.embedUrl, loom.id)}
                       className="p-2 rounded-lg hover:bg-white/5 transition-colors" title="Copy embed code">
-                      {copied === loom.id ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4 text-white/40" />}
+                      {copied === loom.id ? <Check className="w-4 h-4 text-[#5AADA0]" /> : <Copy className="w-4 h-4 text-white/40" />}
                     </button>
                     <button onClick={() => removeLoom(loom.id)}
                       className="p-2 rounded-lg hover:bg-white/5 transition-colors" title="Remove">
-                      <Trash2 className="w-4 h-4 text-white/30 hover:text-red-400" />
+                      <Trash2 className="w-4 h-4 text-white/30 hover:text-[#C85A54]" />
                     </button>
                   </div>
                 </div>

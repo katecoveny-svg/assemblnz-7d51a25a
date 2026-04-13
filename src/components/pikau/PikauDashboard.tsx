@@ -245,7 +245,7 @@ export default function PikauDashboard() {
             <div><span className="text-white/40">Value:</span> <span className="text-white/70">${Number(selectedShipment.value_nzd || 0).toLocaleString()} NZD</span></div>
             <div><span className="text-white/40">Incoterm:</span> <span className="text-white/70">{selectedShipment.incoterm || "—"}</span></div>
             <div><span className="text-white/40">Status:</span> <span style={{ color: STATUS_COLORS[selectedShipment.status] }}>{selectedShipment.status}</span></div>
-            <div><span className="text-white/40">DG:</span> <span className={selectedShipment.dangerous_goods ? "text-red-400" : "text-emerald-400"}>{selectedShipment.dangerous_goods ? "Yes — requires review" : "No"}</span></div>
+            <div><span className="text-white/40">DG:</span> <span className={selectedShipment.dangerous_goods ? "text-[#C85A54]" : "text-[#5AADA0]"}>{selectedShipment.dangerous_goods ? "Yes — requires review" : "No"}</span></div>
             {selectedShipment.carrier && <div><span className="text-white/40">Carrier:</span> <span className="text-white/70">{selectedShipment.carrier}</span></div>}
             {selectedShipment.tracking_code && <div><span className="text-white/40">Tracking:</span> <span className="text-white/70 font-mono">{selectedShipment.tracking_code}</span></div>}
           </div>
@@ -271,7 +271,7 @@ export default function PikauDashboard() {
           {shipments.map(s => (
             <button key={s.id} onClick={() => setSelectedId(s.id)} className="w-full flex items-center justify-between p-3 rounded-xl text-left transition-colors hover:bg-white/5" style={{ background: selectedId === s.id ? "rgba(126,207,194,0.08)" : "rgba(255,255,255,0.03)", border: `1px solid ${selectedId === s.id ? ACCENT + "30" : "rgba(255,255,255,0.06)"}` }}>
               <div className="flex items-center gap-3">
-                {s.dangerous_goods && <AlertTriangle size={14} className="text-red-400" />}
+                {s.dangerous_goods && <AlertTriangle size={14} className="text-[#C85A54]" />}
                 <div>
                   <p className="text-sm text-white/80 font-medium">{s.description}</p>
                   <p className="text-[10px] text-white/40">{s.origin} → {s.destination} {s.hs_code ? `· HS ${s.hs_code}` : ""} {s.incoterm ? `· ${s.incoterm}` : ""}</p>
@@ -301,7 +301,7 @@ export default function PikauDashboard() {
             <div key={c.label} className="p-3 rounded-lg" style={{ background: `${POUNAMU}08` }}>
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs text-white/70 font-medium">{c.label}</span>
-                <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400">Active</span>
+                <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-[#3A7D6E]/20 text-[#5AADA0]">Active</span>
               </div>
               <p className="text-[10px] text-white/35">{c.desc}</p>
             </div>

@@ -283,7 +283,7 @@ export default function AuahaBrandIdentity() {
         </div>
         {brandDna && (
           <div className="flex items-center gap-3">
-            <span className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full" style={{ background: "rgba(52,211,153,0.1)", color: "#34d399" }}>
+            <span className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full" style={{ background: "rgba(90,173,160,0.1)", color: "#34d399" }}>
               <Check className="w-3 h-3" /> DNA Extracted
             </span>
             <button onClick={rescan} className="text-white/30 hover:text-white/60 transition-colors" title="Re-scan">

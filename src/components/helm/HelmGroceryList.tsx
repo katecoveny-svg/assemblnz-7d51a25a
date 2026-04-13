@@ -225,7 +225,7 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
       {totalCount > 0 && (
         <div className="bg-white/5 rounded-xl p-3">
           <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-            <div className="h-full bg-emerald-500 rounded-full transition-all duration-500" style={{ width: `${(checkedCount / totalCount) * 100}%` }} />
+            <div className="h-full bg-[#3A7D6E] rounded-full transition-all duration-500" style={{ width: `${(checkedCount / totalCount) * 100}%` }} />
           </div>
           <div className="text-[10px] text-white/30 mt-1.5 text-right">{Math.round((checkedCount / totalCount) * 100)}% complete</div>
         </div>
@@ -236,7 +236,7 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
         <div className="bg-white/5 rounded-xl border border-white/5 p-4 space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Truck className="w-4 h-4 text-emerald-400" />
+              <Truck className="w-4 h-4 text-[#5AADA0]" />
               <span className="text-sm font-medium text-white/80">Order Online</span>
             </div>
             <span className="text-[10px] text-white/30">{items.filter(i => !i.checked).length} items to buy</span>
@@ -335,7 +335,7 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
                   <button
                     onClick={() => toggleItem(item.id, item.checked)}
                     className={`shrink-0 w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${
-                      item.checked ? "bg-emerald-500 border-emerald-500 text-white" : "border-white/20 hover:border-white/40"
+                      item.checked ? "bg-[#3A7D6E] border-emerald-500 text-white" : "border-white/20 hover:border-white/40"
                     }`}
                   >
                     {item.checked && <Check className="w-3 h-3" />}
@@ -349,13 +349,13 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
                   {!item.checked && (
                     <button
                       onClick={() => openStoreForItem(item.name)}
-                      className="text-white/20 hover:text-emerald-400 transition-colors"
+                      className="text-white/20 hover:text-[#5AADA0] transition-colors"
                       title={`Find at ${NZ_STORES.find(s => s.id === selectedStore)?.name}`}
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
                     </button>
                   )}
-                  <button onClick={() => deleteItem(item.id)} className="text-white/20 hover:text-red-400 transition-colors">
+                  <button onClick={() => deleteItem(item.id)} className="text-white/20 hover:text-[#C85A54] transition-colors">
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 </div>

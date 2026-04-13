@@ -40,7 +40,7 @@ function StatusBadge({ status }: { status: string }) {
     ? "bg-primary/10 text-primary"
     : status === "review" || status === "progress" || status === "infringes"
     ? "bg-[hsl(30,80%,55%)]/10 text-[hsl(30,80%,55%)]"
-    : "bg-blue-500/10 text-blue-400";
+    : "bg-[#1A3A5C]/10 text-blue-400";
   const label = status === "verified" ? "Verified" : status === "complete" ? "Complete" : status === "compliant" ? "Compliant" : status === "review" ? "In Review" : status === "progress" ? "In Progress" : status === "infringes" ? "Infringes" : "Pending";
   return <span className={`text-[10px] px-2 py-0.5 rounded ${cls}`}>{label}</span>;
 }

@@ -195,7 +195,7 @@ export default function ArohaRetention() {
           {riskResult && (
             <div className="space-y-2 p-3 rounded-xl border border-border bg-card">
               <div className="flex items-center gap-2">
-                <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${riskResult.riskLevel === "High" ? "bg-red-500/20 text-red-400" : riskResult.riskLevel === "Moderate" ? "bg-yellow-500/20 text-yellow-400" : "bg-green-500/20 text-green-400"}`}>{riskResult.riskLevel} Risk</span>
+                <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${riskResult.riskLevel === "High" ? "bg-[#C85A54]/20 text-[#C85A54]" : riskResult.riskLevel === "Moderate" ? "bg-yellow-500/20 text-yellow-400" : "bg-[#5AADA0]/20 text-[#5AADA0]"}`}>{riskResult.riskLevel} Risk</span>
                 <span className="text-[10px] text-muted-foreground">vs NZ benchmark: {riskResult.benchmark}%</span>
               </div>
               <div className="grid grid-cols-3 gap-2">

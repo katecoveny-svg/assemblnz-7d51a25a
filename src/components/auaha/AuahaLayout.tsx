@@ -98,7 +98,7 @@ export default function AuahaLayout() {
         <div className="mx-4 h-px" style={{ background: `linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)` }} />
         <div className="p-4">
           <div className="flex items-center gap-2 text-[10px] text-white/25 tracking-wide">
-            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 animate-pulse" />
+            <div className="w-1.5 h-1.5 rounded-full bg-[#5AADA0]/80 animate-pulse" />
             <span>9 agents active</span>
           </div>
         </div>

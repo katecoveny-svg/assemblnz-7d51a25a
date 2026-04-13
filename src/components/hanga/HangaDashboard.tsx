@@ -34,7 +34,7 @@ const Glass = ({ children, className = "", glow = false }: { children: React.Rea
 const agents = [
   { name: "KAUPAPA", role: "PROGRAMME & CLAIMS", desc: "Critical path tracking & Form 1 claims.", status: "ANALYSING", color: KOWHAI, to: "/waihanga/kaupapa" },
   { name: "ĀRAI", role: "SAFETY & RISK", desc: "Site-specific H&S risk register.", status: "MONITORING", color: POUNAMU, to: "/waihanga/arai" },
-  { name: "KAHU", role: "COMPLIANCE", desc: "CCA 2002 & Retention trust audit.", status: "IDLE", color: "#6B7280", to: "/waihanga/docs" },
+  { name: "KAHU", role: "COMPLIANCE", desc: "CCA 2002 & Retention trust audit.", status: "IDLE", color: "#7ECFC2", to: "/waihanga/docs" },
 ];
 
 const programmeData = [

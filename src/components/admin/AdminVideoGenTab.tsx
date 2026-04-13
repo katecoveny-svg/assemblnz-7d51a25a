@@ -113,7 +113,7 @@ export default function AdminVideoGenTab() {
               }}
             >
               {isDone && (
-                <CheckCircle2 size={14} className="absolute top-2 right-2 text-green-400" />
+                <CheckCircle2 size={14} className="absolute top-2 right-2 text-[#5AADA0]" />
               )}
               {isActive && (
                 <Loader2 size={14} className="absolute top-2 right-2 animate-spin" style={{ color: k.accent }} />
@@ -152,7 +152,7 @@ export default function AdminVideoGenTab() {
               {jobList.length} video{jobList.length !== 1 ? "s" : ""} queued
             </span>
             {completed.length > 0 && (
-              <span className="text-[10px] text-green-400 font-medium">
+              <span className="text-[10px] text-[#5AADA0] font-medium">
                 {completed.length}/{jobList.length} complete
               </span>
             )}
@@ -173,13 +173,13 @@ export default function AdminVideoGenTab() {
                   }}
                 >
                   {isDone ? (
-                    <CheckCircle2 size={12} className="text-green-400 shrink-0" />
+                    <CheckCircle2 size={12} className="text-[#5AADA0] shrink-0" />
                   ) : isActive ? (
                     <Loader2 size={12} className="animate-spin shrink-0" style={{ color: kete.accent }} />
                   ) : (
                     <Video size={12} className="text-muted-foreground shrink-0" />
                   )}
-                  <span className={isDone ? "text-green-400" : isActive ? "text-foreground" : "text-muted-foreground"}>
+                  <span className={isDone ? "text-[#5AADA0]" : isActive ? "text-foreground" : "text-muted-foreground"}>
                     {job.label}
                   </span>
                   <span className="text-[9px] text-muted-foreground ml-auto">
@@ -235,19 +235,19 @@ export default function AdminVideoGenTab() {
           Run these in the sandbox to generate the actual MP4 files:
         </p>
         <div className="space-y-2 font-mono text-[10px]">
-          <div className="p-2 rounded-lg bg-black/30 text-green-400">
+          <div className="p-2 rounded-lg bg-black/30 text-[#5AADA0]">
             <code># Render all 16 videos (8 kete × 2 formats)</code><br />
             <code>cd remotion && node scripts/render-race.mjs all</code>
           </div>
-          <div className="p-2 rounded-lg bg-black/30 text-green-400">
+          <div className="p-2 rounded-lg bg-black/30 text-[#5AADA0]">
             <code># Render single kete (both formats)</code><br />
             <code>cd remotion && node scripts/render-race.mjs all pikau</code>
           </div>
-          <div className="p-2 rounded-lg bg-black/30 text-green-400">
+          <div className="p-2 rounded-lg bg-black/30 text-[#5AADA0]">
             <code># Render only 1:1 square videos</code><br />
             <code>cd remotion && node scripts/render-race.mjs grid</code>
           </div>
-          <div className="p-2 rounded-lg bg-black/30 text-green-400">
+          <div className="p-2 rounded-lg bg-black/30 text-[#5AADA0]">
             <code># Render only 9:16 story videos</code><br />
             <code>cd remotion && node scripts/render-race.mjs story</code>
           </div>

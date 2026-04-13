@@ -4,9 +4,9 @@ import { useAuth } from "@/hooks/useAuth";
 import { Plus, Calendar, Clock, MapPin, User, Bell, Trash2, Check, ChevronLeft, ChevronRight } from "lucide-react";
 
 const CATEGORIES = [
-  { value: "medical", label: "Medical", emoji: "🏥", color: "text-red-400" },
+  { value: "medical", label: "Medical", emoji: "🏥", color: "text-[#C85A54]" },
   { value: "school", label: "School", emoji: "🏫", color: "text-yellow-400" },
-  { value: "sport", label: "Sport", emoji: "⚽", color: "text-green-400" },
+  { value: "sport", label: "Sport", emoji: "⚽", color: "text-[#5AADA0]" },
   { value: "social", label: "Social", emoji: "🎉", color: "text-pink-400" },
   { value: "home", label: "Home", emoji: "🏠", color: "text-blue-400" },
   { value: "work", label: "Work", emoji: "💼", color: "text-pounamu" },
@@ -262,7 +262,7 @@ export default function HelmAppointments({ familyId }: { familyId: string | null
                       )}
                     </div>
                   </div>
-                  <button onClick={() => cancelAppt(appt.id)} className="text-white/20 hover:text-red-400 transition-colors shrink-0">
+                  <button onClick={() => cancelAppt(appt.id)} className="text-white/20 hover:text-[#C85A54] transition-colors shrink-0">
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
