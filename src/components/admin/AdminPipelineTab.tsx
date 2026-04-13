@@ -27,15 +27,15 @@ interface PipelineSummary {
 type SubTab = "overview" | "audit-logs" | "approvals" | "evidence" | "exports";
 
 const STATUS_COLORS: Record<string, string> = {
-  pending: "#FFB800",
+  pending: "#D4A843",
   approved: "#5AADA0",
   rejected: "#C85A54",
   expired: "#888",
-  started: "#4FC3F7",
+  started: "#7ECFC2",
   completed: "#5AADA0",
   forbidden: "#C85A54",
   allowed: "#5AADA0",
-  approval_required: "#FFB800",
+  approval_required: "#D4A843",
 };
 
 export default function AdminPipelineTab() {
@@ -89,10 +89,10 @@ export default function AdminPipelineTab() {
 
   const subTabs: { id: SubTab; label: string; icon: any; color: string }[] = [
     { id: "overview", label: "Overview", icon: Scale, color: "#5AADA0" },
-    { id: "audit-logs", label: "Audit Trail", icon: ShieldCheck, color: "#3A6A9C" },
-    { id: "approvals", label: "Approvals", icon: Clock, color: "#FFB800" },
-    { id: "evidence", label: "Evidence Packs", icon: FileText, color: "#E040FB" },
-    { id: "exports", label: "Exports", icon: Download, color: "#4FC3F7" },
+    { id: "audit-logs", label: "Audit Trail", icon: ShieldCheck, color: "#3A7D6E" },
+    { id: "approvals", label: "Approvals", icon: Clock, color: "#D4A843" },
+    { id: "evidence", label: "Evidence Packs", icon: FileText, color: "#7ECFC2" },
+    { id: "exports", label: "Exports", icon: Download, color: "#1A3A5C" },
   ];
 
   const filteredApprovals = approvalFilter === "all" ? approvals : approvals.filter(a => a.status === approvalFilter);
@@ -120,11 +120,11 @@ export default function AdminPipelineTab() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
             {[
-              { label: "Audit Logs", value: summary.totalAuditLogs, icon: ShieldCheck, color: "#3A6A9C" },
-              { label: "Pending Approvals", value: summary.approvals.pending, icon: Clock, color: "#FFB800" },
+              { label: "Audit Logs", value: summary.totalAuditLogs, icon: ShieldCheck, color: "#3A7D6E" },
+              { label: "Pending Approvals", value: summary.approvals.pending, icon: Clock, color: "#D4A843" },
               { label: "Approved", value: summary.approvals.approved, icon: CheckCircle2, color: "#5AADA0" },
-              { label: "Evidence Packs", value: summary.evidencePacks.total, icon: FileText, color: "#E040FB" },
-              { label: "Signed Off", value: summary.evidencePacks.signed, icon: Scale, color: "#4FC3F7" },
+              { label: "Evidence Packs", value: summary.evidencePacks.total, icon: FileText, color: "#7ECFC2" },
+              { label: "Signed Off", value: summary.evidencePacks.signed, icon: Scale, color: "#1A3A5C" },
             ].map(m => (
               <div key={m.label} className={glassCard + " p-4"} style={{ ...glassStyle, boxShadow: `0 0 20px ${m.color}08` }}>
                 <TopGlow color={m.color} />
@@ -142,9 +142,9 @@ export default function AdminPipelineTab() {
             <div className="flex items-center justify-center gap-2 flex-wrap">
               {[
                 { label: "Kahu", sub: "Compliance", icon: ShieldCheck, color: "#C85A54" },
-                { label: "Iho", sub: "Router", icon: Route, color: "#3A6A9C" },
-                { label: "Tā", sub: "Execution", icon: Zap, color: "#FFB800" },
-                { label: "Mahara", sub: "Memory", icon: Brain, color: "#E040FB" },
+                { label: "Iho", sub: "Router", icon: Route, color: "#3A7D6E" },
+                { label: "Tā", sub: "Execution", icon: Zap, color: "#D4A843" },
+                { label: "Mahara", sub: "Memory", icon: Brain, color: "#7ECFC2" },
                 { label: "Mana", sub: "Assurance", icon: Scale, color: "#5AADA0" },
               ].map((stage, i) => (
                 <div key={stage.label} className="flex items-center gap-2">
@@ -343,7 +343,7 @@ export default function AdminPipelineTab() {
                 <div key={exp.id} className="px-5 py-3 hover:bg-white/[0.02]">
                   <div className="flex items-center gap-3">
                     <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full"
-                      style={{ background: "rgba(79,195,247,0.15)", color: "#4FC3F7" }}>
+                      style={{ background: "rgba(58,125,110,0.15)", color: "#5AADA0" }}>
                       {exp.domain}
                     </span>
                     <span className="text-xs text-foreground">{exp.pilot_label || exp.domain}</span>
