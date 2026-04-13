@@ -303,6 +303,10 @@ const App = () => (
                   <Route path="/auaha/about" element={<Suspense fallback={null}><AuahaLandingPage /></Suspense>} />
                   <Route path="/auaha" element={<Suspense fallback={null}><AuahaLayout /></Suspense>}>
                     <Route index element={<AuahaDashboard />} />
+                    <Route path="generate" element={<AuahaGenerate />} />
+                    <Route path="gallery" element={<AuahaGallery />} />
+                    <Route path="audit" element={<AuahaTaAudit />} />
+                    <Route path="prompts" element={<AuahaPromptLibrary />} />
                     <Route path="whaikorero" element={<AuahaWhaikorero />} />
                     <Route path="campaign" element={<AuahaCampaignBuilder />} />
                     <Route path="copy" element={<AuahaCopyStudio />} />
