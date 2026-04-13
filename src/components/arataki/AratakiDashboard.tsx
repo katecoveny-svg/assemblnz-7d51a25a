@@ -234,6 +234,31 @@ export default function AratakiDashboard() {
         <SovereigntySimulator kete="arataki" accentColor={ACCENT} />
       </div>
 
+      <KeteEvidencePackPanel
+        keteSlug="arataki"
+        keteName="Arataki — Automotive"
+        accentColor={POUNAMU}
+        agentId="waka"
+        agentName="MOTOR"
+        packTemplates={[
+          { label: "Vehicle Sale Pack", description: "MVSA 2003 · CIN & disclosure evidence", packType: "vehicle-sale-pack", complianceChecks: [
+            { check: "MVSA 2003 — CIN timing enforced", status: "pass" },
+            { check: "FTA 1986 — claims scanned", status: "pass" },
+            { check: "Privacy Act 2020 · IPP 3A", status: "pass" },
+          ]},
+          { label: "Finance Disclosure Pack", description: "CCCFA 2003 compliance evidence", packType: "finance-disclosure-pack", complianceChecks: [
+            { check: "CCCFA 2003 — language guardrails", status: "pass" },
+            { check: "Initial disclosure statement draft", status: "pass" },
+            { check: "Lender terms cross-referenced", status: "pass" },
+          ]},
+          { label: "Warranty Narrative Pack", description: "CGA & warranty compliance", packType: "warranty-narrative-pack", complianceChecks: [
+            { check: "CGA 1993 — warranty obligations", status: "pass" },
+            { check: "Warranty terms documented", status: "pass" },
+            { check: "Service history verified", status: "pass" },
+          ]},
+        ]}
+      />
+
       <KeteDocUpload keteSlug="waka" keteColor={ACCENT} keteName="Arataki — Automotive"
         docContext="Expect job cards, warranty claims, vehicle inspection reports, sale agreements, CGA compliance documents, and MVSA 2003 records. Flag consumer guarantee and privacy compliance." />
 

@@ -278,6 +278,31 @@ export default function ManaakiDashboard() {
         <SovereigntySimulator kete="manaaki" accentColor={ACCENT} />
       </div>
 
+      <KeteEvidencePackPanel
+        keteSlug="manaaki"
+        keteName="Manaaki — Hospitality"
+        accentColor={ACCENT}
+        agentId="aura"
+        agentName="AURA"
+        packTemplates={[
+          { label: "Food Control Plan Pack", description: "Food Act 2014 compliance evidence", packType: "fcp-evidence-pack", complianceChecks: [
+            { check: "Food Act 2014 — FCP diary complete", status: "pass" },
+            { check: "Temperature logs verified", status: "pass" },
+            { check: "Staff training records current", status: "pass" },
+          ]},
+          { label: "Guest Privacy Pack", description: "Privacy Act 2020 · IPP compliance", packType: "guest-privacy-pack", complianceChecks: [
+            { check: "Privacy Act 2020 — data minimisation", status: "pass" },
+            { check: "IPP 3A — collection notice", status: "pass" },
+            { check: "Guest consent documented", status: "pass" },
+          ]},
+          { label: "Alcohol Licensing Pack", description: "SSAA 2012 licence compliance", packType: "alcohol-licence-pack", complianceChecks: [
+            { check: "SSAA 2012 — licence current", status: "pass" },
+            { check: "Manager certificate valid", status: "pass" },
+            { check: "Host responsibility documented", status: "pass" },
+          ]},
+        ]}
+      />
+
       <KeteDocUpload keteSlug="manaaki" keteColor={ACCENT} keteName="Manaaki — Hospitality"
         docContext="Expect food safety plans, alcohol licence documents, health & safety reports, guest contracts, event agreements, and supplier invoices. Flag Food Act 2014 and Sale and Supply of Alcohol Act 2012 compliance." />
 
