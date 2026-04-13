@@ -517,7 +517,7 @@ Trust & compliance:
 - assembl uses shared intelligence — agents collaborate via a shared context bus and unified business profiles.
 `;
 
-    const systemPrompt = `${basePrompt}\n\n${platformContext}\n\n--- COMPLIANCE & GOVERNANCE LAYER ---\n${complianceRules}${sharedContextBlock}${memoryBlock}${expertBlock}${complianceAlertBlock}${symbioticBlock}${designBlock}\n\nAlways respond in a helpful, professional tone. Use markdown formatting. Reference NZ legislation where applicable. Use NZ English spelling. Include macrons on all Māori words.`;
+    const systemPrompt = `${basePrompt}\n\n${platformContext}\n\n--- COMPLIANCE & GOVERNANCE LAYER ---\n${complianceRules}${sharedContextBlock}${memoryBlock}${expertBlock}${complianceAlertBlock}${symbioticBlock}${designBlock}${industryContextBlock}\n\nAlways respond in a helpful, professional tone. Use markdown formatting. Reference NZ legislation where applicable. Use NZ English spelling. Include macrons on all Māori words.`;
 
     const conversationMessages = [
       { role: "system", content: systemPrompt },
