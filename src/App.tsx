@@ -145,6 +145,7 @@ const TeReoReferencePage = lazy(() => import("./pages/TeReoReferencePage"));
 const CaseStudiesPage = lazy(() => import("./pages/CaseStudiesPage"));
 const StartPage = lazy(() => import("./pages/StartPage"));
 const StartPendingPage = lazy(() => import("./pages/StartPendingPage"));
+const AdminComplianceDashboard = lazy(() => import("./pages/AdminComplianceDashboard"));
 
 const queryClient = new QueryClient();
 
@@ -182,6 +183,7 @@ const App = () => (
                   <Route path="/admin/dashboard" element={<Suspense fallback={null}><AdminDashboard /></Suspense>} />
                   <Route path="/admin/health" element={<Suspense fallback={null}><AdminHealthDashboard /></Suspense>} />
                   <Route path="/admin/leads" element={<Suspense fallback={null}><AdminLeadsDashboard /></Suspense>} />
+                  <Route path="/admin/compliance" element={<Suspense fallback={null}><AdminComplianceDashboard /></Suspense>} />
                   <Route path="/privacy" element={<Suspense fallback={null}><PrivacyPolicy /></Suspense>} />
                   <Route path="/terms" element={<Suspense fallback={null}><TermsOfUse /></Suspense>} />
                   <Route path="/cookies" element={<Suspense fallback={null}><CookiePolicy /></Suspense>} />

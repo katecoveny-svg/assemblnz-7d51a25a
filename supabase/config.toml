@@ -89,3 +89,7 @@ project_id = "ssaxxdkxzrvkdjsanhei"
     verify_jwt = false
   [functions.aaaip-audit-export]
     verify_jwt = false
+  [functions.compliance-scanner]
+    verify_jwt = false
+  [functions.compress-context]
+    verify_jwt = false
