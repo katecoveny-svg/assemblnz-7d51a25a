@@ -95,7 +95,7 @@ function GlassCard({ children, className = "", accent = false }: { children: Rea
 
 function KahuBadge({ result }: { result: KahuResult }) {
   const config = {
-    pass: { icon: ShieldCheck, color: "#34D399", label: "KAHU: PASS", bg: "rgba(52,211,153,0.1)" },
+    pass: { icon: ShieldCheck, color: "#34D399", label: "KAHU: PASS", bg: "rgba(90,173,160,0.1)" },
     flag_cultural: { icon: ShieldAlert, color: "#FBBF24", label: "KAHU: CULTURAL FLAG", bg: "rgba(251,191,36,0.1)" },
     flag_brand: { icon: AlertTriangle, color: "#F59E0B", label: "KAHU: BRAND FLAG", bg: "rgba(245,158,11,0.1)" },
     block: { icon: ShieldX, color: "#EF4444", label: "KAHU: BLOCKED", bg: "rgba(239,68,68,0.1)" },
@@ -360,7 +360,7 @@ export default function AuahaGenerate() {
                     )}
                     {job.status === "flagged" && (
                       <button onClick={e => { e.stopPropagation(); approveJob(job.id); }}
-                        className="flex items-center gap-1 px-2 py-1 rounded text-[10px] font-medium bg-amber-500/20 text-amber-400 hover:bg-amber-500/30">
+                        className="flex items-center gap-1 px-2 py-1 rounded text-[10px] font-medium bg-amber-500/20 text-[#D4A843] hover:bg-amber-500/30">
                         <CheckCircle2 className="w-3 h-3" /> Approve
                       </button>
                     )}

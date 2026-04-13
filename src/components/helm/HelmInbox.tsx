@@ -61,8 +61,8 @@ export default function HelmInbox({ onSendToChat }: { onSendToChat?: (msg: strin
 
   const statusIcon = (status: string) => {
     switch (status) {
-      case "parsed": return <CheckCircle size={12} className="text-green-400" />;
-      case "pending": return <Clock size={12} className="text-amber-400" />;
+      case "parsed": return <CheckCircle size={12} className="text-[#5AADA0]" />;
+      case "pending": return <Clock size={12} className="text-[#D4A843]" />;
       default: return <AlertCircle size={12} className="text-white/30" />;
     }
   };

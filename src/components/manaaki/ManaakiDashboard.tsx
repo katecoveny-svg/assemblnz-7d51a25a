@@ -263,7 +263,7 @@ export default function ManaakiDashboard() {
             <div key={c.label} className="p-3 rounded-lg" style={{ background: `${POUNAMU}08` }}>
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs text-white/70 font-medium">{c.label}</span>
-                <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400">{c.status}</span>
+                <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-[#3A7D6E]/20 text-[#5AADA0]">{c.status}</span>
               </div>
               <p className="text-[10px] text-white/35">{c.desc}</p>
             </div>

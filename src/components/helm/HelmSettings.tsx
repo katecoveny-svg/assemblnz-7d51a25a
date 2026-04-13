@@ -210,7 +210,7 @@ export default function HelmSettings() {
                 <p className="text-[10px] text-white/30">{child.year_level ? `Year ${child.year_level}` : ""} {child.school ? `· ${child.school}` : ""}</p>
                 {child.bus_route_id && <p className="text-[9px] text-white/20 font-mono">Bus: {child.bus_route_id}</p>}
               </div>
-              <button onClick={() => removeChild(child.id)} className="p-1 rounded hover:bg-red-500/20 transition"><X size={12} className="text-red-400/50" /></button>
+              <button onClick={() => removeChild(child.id)} className="p-1 rounded hover:bg-[#C85A54]/20 transition"><X size={12} className="text-[#C85A54]/50" /></button>
             </div>
           ))}
           {children.length === 0 && <p className="text-xs text-white/25 py-4 text-center">No children added yet</p>}

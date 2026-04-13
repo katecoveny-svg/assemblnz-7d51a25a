@@ -320,16 +320,16 @@ export default function HelmSmsSettings({ familyId }: Props) {
                     <p className="text-[10px] text-white/30 font-mono">{c.phone_number}</p>
                     <div className="flex gap-2 mt-0.5">
                       {c.verified && (
-                        <span className="text-[8px] px-1.5 py-0.5 rounded-full bg-green-500/10 text-green-400/60">
+                        <span className="text-[8px] px-1.5 py-0.5 rounded-full bg-[#5AADA0]/10 text-[#5AADA0]/60">
                           Verified
                         </span>
                       )}
                       {c.opted_in ? (
-                        <span className="text-[8px] px-1.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400/60">
+                        <span className="text-[8px] px-1.5 py-0.5 rounded-full bg-[#1A3A5C]/10 text-blue-400/60">
                           Active
                         </span>
                       ) : (
-                        <span className="text-[8px] px-1.5 py-0.5 rounded-full bg-red-500/10 text-red-400/60">
+                        <span className="text-[8px] px-1.5 py-0.5 rounded-full bg-[#C85A54]/10 text-[#C85A54]/60">
                           Opted out
                         </span>
                       )}
@@ -337,9 +337,9 @@ export default function HelmSmsSettings({ familyId }: Props) {
                   </div>
                   <button
                     onClick={() => removePhone(c.id)}
-                    className="p-1 rounded hover:bg-red-500/20 transition"
+                    className="p-1 rounded hover:bg-[#C85A54]/20 transition"
                   >
-                    <X size={12} className="text-red-400/50" />
+                    <X size={12} className="text-[#C85A54]/50" />
                   </button>
                 </div>
               ))}

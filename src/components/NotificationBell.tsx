@@ -68,9 +68,9 @@ export default function NotificationBell() {
   };
 
   const priorityDot = (p: string) => {
-    if (p === "urgent") return "bg-red-500";
+    if (p === "urgent") return "bg-[#C85A54]";
     if (p === "high") return "bg-orange-500";
-    return "bg-emerald-500";
+    return "bg-[#3A7D6E]";
   };
 
   if (!user) return null;

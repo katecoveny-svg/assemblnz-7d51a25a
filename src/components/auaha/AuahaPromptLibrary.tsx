@@ -139,7 +139,7 @@ export default function AuahaPromptLibrary() {
                   <button onClick={() => copyPrompt(p.prompt)} className="p-1.5 rounded-lg hover:bg-white/10 text-white/40">
                     <Copy className="w-3.5 h-3.5" />
                   </button>
-                  <button onClick={() => deletePrompt(p.id)} className="p-1.5 rounded-lg hover:bg-red-500/10 text-white/40 hover:text-red-400">
+                  <button onClick={() => deletePrompt(p.id)} className="p-1.5 rounded-lg hover:bg-[#C85A54]/10 text-white/40 hover:text-[#C85A54]">
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 </div>

@@ -204,7 +204,7 @@ export default function AuahaCopyStudio() {
                     onClick={saveToLibrary}
                     disabled={isSaving || saved}
                     className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full transition-all"
-                    style={saved ? { background: "rgba(52,211,153,0.15)", color: "#34d399" } : { background: `${ACCENT}15`, color: ACCENT }}
+                    style={saved ? { background: "rgba(90,173,160,0.15)", color: "#34d399" } : { background: `${ACCENT}15`, color: ACCENT }}
                   >
                     {saved ? <Check className="w-3 h-3" /> : <Save className="w-3 h-3" />}
                     {saved ? "Saved" : isSaving ? "Saving..." : "Save"}

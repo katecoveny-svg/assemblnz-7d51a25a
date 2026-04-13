@@ -243,7 +243,7 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
               {/* Clear all */}
               <button
                 onClick={clearAllMemory}
-                className="w-full py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all hover:bg-red-500/10"
+                className="w-full py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all hover:bg-[#C85A54]/10"
                 style={{ border: "1px solid rgba(239,68,68,0.15)", color: "#fca5a5" }}
               >
                 <Trash2 size={12} /> Clear All Memory

@@ -93,10 +93,10 @@ export default function AuahaDashboard() {
   const totalAssets = metrics?.assetCount || 0;
 
   const METRICS = [
-    { label: "Content Items", value: String(totalContent), change: totalContent > 0 ? "live" : "—", up: totalContent > 0, icon: FileText, gradient: "from-emerald-500/20 to-teal-500/10" },
-    { label: "Campaigns", value: String(totalCampaigns), change: totalCampaigns > 0 ? "active" : "—", up: totalCampaigns > 0, icon: Megaphone, gradient: "from-amber-500/20 to-orange-500/10" },
-    { label: "Creative Assets", value: String(totalAssets), change: totalAssets > 0 ? "generated" : "—", up: totalAssets > 0, icon: Image, gradient: "from-rose-500/20 to-pink-500/10" },
-    { label: "Pipeline Items", value: String(Object.values(pipelineCounts).reduce((a, b) => a + b, 0)), change: "across stages", up: true, icon: Activity, gradient: "from-blue-500/20 to-indigo-500/10" },
+    { label: "Content Items", value: String(totalContent), change: totalContent > 0 ? "live" : "—", up: totalContent > 0, icon: FileText, gradient: "from-[#3A7D6E]/20 to-[#5AADA0]/10" },
+    { label: "Campaigns", value: String(totalCampaigns), change: totalCampaigns > 0 ? "active" : "—", up: totalCampaigns > 0, icon: Megaphone, gradient: "from-[#D4A843]/20 to-[#C85A54]/10" },
+    { label: "Creative Assets", value: String(totalAssets), change: totalAssets > 0 ? "generated" : "—", up: totalAssets > 0, icon: Image, gradient: "from-[#C85A54]/20 to-[#C85A54]/10" },
+    { label: "Pipeline Items", value: String(Object.values(pipelineCounts).reduce((a, b) => a + b, 0)), change: "across stages", up: true, icon: Activity, gradient: "from-[#1A3A5C]/20 to-[#1A3A5C]/10" },
   ];
 
   return (
@@ -127,9 +127,9 @@ export default function AuahaDashboard() {
             </p>
           </div>
           <div className="hidden lg:flex flex-col items-end gap-2">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full" style={{ background: "rgba(52,211,153,0.1)", border: "1px solid rgba(52,211,153,0.2)" }}>
-              <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-emerald-400/80 text-xs font-medium">All systems live</span>
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full" style={{ background: "rgba(90,173,160,0.1)", border: "1px solid rgba(90,173,160,0.2)" }}>
+              <div className="w-2 h-2 rounded-full bg-[#5AADA0] animate-pulse" />
+              <span className="text-[#5AADA0]/80 text-xs font-medium">All systems live</span>
             </div>
             <span className="text-white/25 text-[10px] font-mono">{totalContent} items • {totalCampaigns} campaigns</span>
           </div>
@@ -147,7 +147,7 @@ export default function AuahaDashboard() {
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${ACCENT}12` }}>
                     <m.icon className="w-4 h-4 text-white/50" />
                   </div>
-                  <span className={`text-xs flex items-center gap-1 px-2 py-0.5 rounded-full ${m.up ? 'text-emerald-400 bg-emerald-400/10' : 'text-white/40 bg-white/5'}`}>
+                  <span className={`text-xs flex items-center gap-1 px-2 py-0.5 rounded-full ${m.up ? 'text-[#5AADA0] bg-[#5AADA0]/10' : 'text-white/40 bg-white/5'}`}>
                     {m.up ? <TrendingUp className="w-3 h-3" /> : null}
                     {m.change}
                   </span>
@@ -327,7 +327,7 @@ export default function AuahaDashboard() {
                   <a.icon className="w-5 h-5 transition-colors" style={{ color: a.status === 'active' ? ACCENT : `${ACCENT}66` }} />
                 </div>
                 <div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-[#0F0F1A] ${
-                  a.status === 'active' ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.4)]' : a.status === 'monitoring' ? 'bg-amber-400 shadow-[0_0_6px_rgba(251,191,36,0.3)]' : 'bg-white/20'
+                  a.status === 'active' ? 'bg-[#5AADA0] shadow-[0_0_6px_rgba(90,173,160,0.4)]' : a.status === 'monitoring' ? 'bg-[#D4A843] shadow-[0_0_6px_rgba(251,191,36,0.3)]' : 'bg-white/20'
                 }`} />
               </div>
               <span className="text-white/80 text-[10px] font-semibold tracking-widest">{a.name}</span>
