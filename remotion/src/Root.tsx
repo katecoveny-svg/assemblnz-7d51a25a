@@ -1,4 +1,5 @@
 import { Composition } from "remotion";
+import { MainVideo } from "./MainVideo";
 import { TurfStory } from "./videos/TurfStory";
 import { TurfGrid } from "./videos/TurfGrid";
 import { AuraStory } from "./videos/AuraStory";
