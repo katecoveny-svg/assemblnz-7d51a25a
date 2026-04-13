@@ -106,6 +106,10 @@ const AuahaAnalytics = lazy(() => import("./components/auaha/AuahaAnalytics"));
 const AuahaBrandIdentity = lazy(() => import("./components/auaha/AuahaBrandIdentity"));
 const AuahaWebBuilder = lazy(() => import("./components/auaha/AuahaWebBuilder"));
 const AuahaWhaikorero = lazy(() => import("./components/auaha/AuahaWhaikorero"));
+const AuahaGenerate = lazy(() => import("./components/auaha/AuahaGenerate"));
+const AuahaGallery = lazy(() => import("./components/auaha/AuahaGallery"));
+const AuahaTaAudit = lazy(() => import("./components/auaha/AuahaTaAudit"));
+const AuahaPromptLibrary = lazy(() => import("./components/auaha/AuahaPromptLibrary"));
 const AdminPacksPage = lazy(() => import("./pages/AdminPacksPage"));
 const AdminPackAnalytics = lazy(() => import("./pages/AdminPackAnalytics"));
 const AdminMessagingDashboard = lazy(() => import("./pages/AdminMessagingDashboard"));
@@ -299,6 +303,10 @@ const App = () => (
                   <Route path="/auaha/about" element={<Suspense fallback={null}><AuahaLandingPage /></Suspense>} />
                   <Route path="/auaha" element={<Suspense fallback={null}><AuahaLayout /></Suspense>}>
                     <Route index element={<AuahaDashboard />} />
+                    <Route path="generate" element={<AuahaGenerate />} />
+                    <Route path="gallery" element={<AuahaGallery />} />
+                    <Route path="audit" element={<AuahaTaAudit />} />
+                    <Route path="prompts" element={<AuahaPromptLibrary />} />
                     <Route path="whaikorero" element={<AuahaWhaikorero />} />
                     <Route path="campaign" element={<AuahaCampaignBuilder />} />
                     <Route path="copy" element={<AuahaCopyStudio />} />
