@@ -233,6 +233,72 @@ const Index = () => {
         </motion.div>
       </section>
 
+      {/* ═══ EVIDENCE PACK HERO ═══ */}
+      <section className="px-6 py-20 sm:py-24" style={{ borderTop: `1px solid ${C.border}` }}>
+        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+          <motion.div {...fade}>
+            <p className="text-[11px] font-bold tracking-[4px] uppercase mb-4" style={{ color: C.gold, fontFamily: "'JetBrains Mono', monospace" }}>
+              FLAGSHIP OUTPUT
+            </p>
+            <h2 className="text-2xl sm:text-3xl lg:text-[36px] font-light tracking-tight mb-4" style={{ fontFamily: "'Lato', sans-serif", lineHeight: 1.15 }}>
+              Every workflow ends with a signed evidence pack
+            </h2>
+            <p className="text-[15px] leading-relaxed mb-6" style={{ color: C.t2 }}>
+              Structured, branded documents ready for legal sign-off, insurance claims, council submissions, and audit defence. Not a chatbot response — a filable, forwardable artefact with compliance status codes and agent attribution.
+            </p>
+            <div className="flex flex-wrap gap-2 mb-6">
+              {["Compliance status codes", "Agent attribution", "Sign-off block", "PDF export", "Tamper-evident audit trail"].map((tag) => (
+                <span key={tag} className="text-[11px] px-3 py-1.5 rounded-full" style={{ background: `${C.gold}12`, color: `${C.gold}cc`, border: `1px solid ${C.gold}20` }}>
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <Link to="/sample/manaaki" className="inline-flex items-center gap-2 text-[14px] font-medium" style={{ color: C.gold }}>
+              View sample evidence pack <ArrowRight size={14} />
+            </Link>
+          </motion.div>
+          <motion.div
+            className="rounded-2xl p-8 relative overflow-hidden"
+            style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${C.border}`, boxShadow: `0 4px 40px ${C.gold}08` }}
+            initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
+            transition={{ duration: 0.6, ease }}
+          >
+            <div className="space-y-4">
+              <div className="flex items-center gap-3 pb-4" style={{ borderBottom: `1px solid ${C.border}` }}>
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: `${C.pounamu}20` }}>
+                  <span className="text-lg">📋</span>
+                </div>
+                <div>
+                  <p className="text-[14px] font-medium" style={{ color: C.t1 }}>Compliance Evidence Pack</p>
+                  <p className="text-[11px]" style={{ color: C.t3 }}>Generated 13 Apr 2026 · Manaaki Kete</p>
+                </div>
+                <span className="ml-auto text-[10px] px-2 py-1 rounded-full font-semibold" style={{ background: `${C.pounamu}20`, color: C.pounamuGlow }}>
+                  PASS
+                </span>
+              </div>
+              <div className="space-y-2">
+                {["Food Control Plan verification ✓", "Temperature log compliance ✓", "Staff certification check ✓", "Privacy Act 2020, s.22 — satisfied ✓"].map((line) => (
+                  <p key={line} className="text-[13px] font-mono" style={{ color: C.t2, fontFamily: "'JetBrains Mono', monospace" }}>{line}</p>
+                ))}
+              </div>
+              <div className="pt-4 mt-2" style={{ borderTop: `1px solid ${C.border}` }}>
+                <p className="text-[11px]" style={{ color: C.t3 }}>Pack Sign-Off</p>
+                <div className="flex gap-8 mt-2">
+                  <div>
+                    <p className="text-[10px]" style={{ color: C.t3 }}>Reviewer</p>
+                    <div className="w-24 mt-1" style={{ borderBottom: `1px solid ${C.t3}` }}>&nbsp;</div>
+                  </div>
+                  <div>
+                    <p className="text-[10px]" style={{ color: C.t3 }}>Date</p>
+                    <div className="w-20 mt-1" style={{ borderBottom: `1px solid ${C.t3}` }}>&nbsp;</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* ═══ TRUST STRIP ═══ */}
       <section className="px-6 py-12" style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
         <div className="max-w-5xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-8">
