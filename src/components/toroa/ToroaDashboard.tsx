@@ -8,6 +8,7 @@ import {
 import toroaLogo from "@/assets/brand/toroa-logo.svg";
 import KeteBrainChat from "@/components/KeteBrainChat";
 import KeteDocUpload from "@/components/shared/KeteDocUpload";
+import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
 
 // Modules
 import FamilyOverview from "./modules/FamilyOverview";

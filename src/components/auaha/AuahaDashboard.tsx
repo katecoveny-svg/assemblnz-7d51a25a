@@ -9,6 +9,7 @@ import { useAuahaDashboardMetrics, useRecentContentItems, useAuahaCampaigns } fr
 import SovereigntyPanel from "@/components/sovereignty/SovereigntyPanel";
 import SovereigntySimulator from "@/components/sovereignty/SovereigntySimulator";
 import KeteDocUpload from "@/components/shared/KeteDocUpload";
+import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
 import { formatDistanceToNow } from "date-fns";
 
 const ACCENT = "#F0D078";

@@ -13,6 +13,7 @@ import SovereigntyPanel from "@/components/sovereignty/SovereigntyPanel";
 import SovereigntySimulator from "@/components/sovereignty/SovereigntySimulator";
 import SovereigntyBadge from "@/components/sovereignty/SovereigntyBadge";
 import KeteDocUpload from "@/components/shared/KeteDocUpload";
+import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
 
 const ACCENT = "#D4A843";
 const ACCENT_LIGHT = "#E8C76A";
