@@ -16,6 +16,7 @@ import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import KeteMiniIcon, { type KeteGlyph } from "@/components/kete/KeteMiniIcon";
 
 const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel"));
+const KeteOrbHero = lazy(() => import("@/components/landing/KeteOrbHero"));
 
 /* ─── Tokens ─── */
 const C = {
@@ -154,6 +155,15 @@ const Index = () => {
           background: `radial-gradient(ellipse 80% 50% at 50% 20%, ${C.pounamu}10 0%, transparent 65%)`,
           opacity: atmosphere.particleBrightness,
         }} />
+
+        {/* 3D Kete Orb */}
+        <Suspense fallback={
+          <div className="w-[280px] h-[280px] sm:w-[400px] sm:h-[400px] rounded-full animate-pulse mb-4" style={{ background: `radial-gradient(circle, ${C.pounamu}18, transparent)` }} />
+        }>
+          <div className="mb-4">
+            <KeteOrbHero hideText />
+          </div>
+        </Suspense>
 
         <motion.p
           className="text-[11px] font-semibold tracking-[5px] uppercase mb-6"
