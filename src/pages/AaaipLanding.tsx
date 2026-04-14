@@ -80,36 +80,15 @@ const StatBlock = ({ value, label, color = C.pounamuGlow }: { value: string; lab
 /* ═══════════════════════════════════════════════════════════════ */
 export default function AaaipLanding() {
   return (
+    <GlowPageWrapper accentColor={C.pounamu}>
     <div className="min-h-screen" style={{ background: C.bg }}>
       <SEO
         title="AAAIP Industry Partner — Assembl"
         description="Assembl: a production multi-agent platform built in Aotearoa, offering real-world agentic AI evidence for the AAAIP national research platform."
       />
-
-      {/* ─── Ambient glow ─── */}
-      <div className="pointer-events-none fixed inset-0 z-0">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] rounded-full opacity-[0.07]" style={{ background: `radial-gradient(ellipse, ${C.pounamu}, transparent 70%)` }} />
-        <div className="absolute bottom-0 right-0 w-[600px] h-[400px] rounded-full opacity-[0.05]" style={{ background: `radial-gradient(ellipse, ${C.gold}, transparent 70%)` }} />
-      </div>
+      <BrandNav />
 
       <div className="relative z-10">
-
-        {/* ─── Nav ─── */}
-        <nav className="border-b backdrop-blur-xl" style={{ background: `${C.bg}bb`, borderColor: C.border }}>
-          <div className="max-w-6xl mx-auto px-6 sm:px-10 flex items-center justify-between h-14">
-            <Link to="/" className="text-sm font-bold tracking-wider" style={{ color: C.t1 }}>assembl</Link>
-            <div className="flex items-center gap-4">
-              <Link to="/aaaip/pitch-prep" className="text-xs font-medium hover:opacity-80 transition-opacity" style={{ color: C.t3 }}>Pitch Prep</Link>
-              <Link
-                to="/aaaip"
-                className="inline-flex items-center gap-2 text-xs font-semibold rounded-full px-4 py-2 transition-all hover:brightness-110"
-                style={{ background: C.pounamu, color: C.white }}
-              >
-                <Play size={12} /> Launch Demo
-              </Link>
-            </div>
-          </div>
-        </nav>
 
         {/* ═══ HERO ═══ */}
         <Section className="pt-20 sm:pt-28 pb-16">
