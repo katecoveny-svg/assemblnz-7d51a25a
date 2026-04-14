@@ -222,7 +222,7 @@ const Index = () => {
               style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: C.gold, textShadow: "0 1px 16px rgba(0,0,0,0.6)" }}
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6, duration: 0.5 }}
             >
-              Governed Intelligence for Aotearoa
+              Trusted. Intelligent. Aotearoa.
             </motion.p>
           </div>
         </section>
