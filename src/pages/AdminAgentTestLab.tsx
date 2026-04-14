@@ -3,18 +3,19 @@ import { supabase } from "@/integrations/supabase/client";
 import { KETE_DATA, SHARED_CORE_AGENTS } from "@/components/kete/keteData";
 import { agentChat } from "@/lib/agentChat";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  ArrowLeft, Play, Loader2, CheckCircle2, XCircle, AlertTriangle,
+  Play, Loader2, CheckCircle2, XCircle, AlertTriangle,
   FlaskConical, ShieldAlert, Brain, Zap, RotateCcw, Download, Target
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import jsPDF from "jspdf";
+import AdminShell from "@/components/admin/AdminShell";
+import AdminGlassCard from "@/components/admin/AdminGlassCard";
 
 /* ── Bias & Hallucination test prompt library ── */
 const TEST_CATEGORIES = {
@@ -141,8 +142,8 @@ const VERDICT_COLORS: Record<string, string> = { pass: "#5AADA0", warn: "#D4A843
 
 function VerdictPill({ label, value }: { label: string; value: string }) {
   return (
-    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono"
-      style={{ background: `${VERDICT_COLORS[value] || "#666"}20`, color: VERDICT_COLORS[value] || "#666", border: `1px solid ${VERDICT_COLORS[value] || "#666"}40` }}>
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px]"
+      style={{ fontFamily: "'JetBrains Mono', monospace", background: `${VERDICT_COLORS[value] || "#666"}20`, color: VERDICT_COLORS[value] || "#666", border: `1px solid ${VERDICT_COLORS[value] || "#666"}40` }}>
       <span className="w-1.5 h-1.5 rounded-full" style={{ background: VERDICT_COLORS[value] }} />
       {label}
     </span>
@@ -151,7 +152,6 @@ function VerdictPill({ label, value }: { label: string; value: string }) {
 
 /* ── Main Component ── */
 export default function AdminAgentTestLab() {
-  const navigate = useNavigate();
   const [selectedKete, setSelectedKete] = useState("ALL");
   const [selectedAgent, setSelectedAgent] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<TestCategory>("bias");
@@ -313,37 +313,30 @@ export default function AdminAgentTestLab() {
 
   const keteOptions = ["ALL", "CORE", ...KETE_DATA.map(k => k.slug.toUpperCase())];
 
-  return (
-    <div className="min-h-screen bg-[#09090B] text-white p-4 md:p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
+  const headerActions = (
+    <div className="flex gap-2">
+      {results.length > 0 && (
+        <Button variant="outline" onClick={exportPDF} className="gap-2 text-sm">
+          <Download className="w-4 h-4" /> Export Report
+        </Button>
+      )}
+      {batchRunning && (
+        <Button variant="destructive" onClick={() => { abortRef.current = true; }} className="gap-2 text-sm">
+          <XCircle className="w-4 h-4" /> Stop
+        </Button>
+      )}
+    </div>
+  );
 
-        {/* Header */}
-        <div className="flex items-center justify-between flex-wrap gap-4">
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
-            <div>
-              <h1 className="text-2xl md:text-3xl font-light tracking-wide uppercase flex items-center gap-2">
-                <FlaskConical className="w-6 h-6 text-[#D4A843]" />
-                Agent Testing Lab
-              </h1>
-              <p className="text-sm text-white/50">Bias detection, hallucination checks, compliance boundary & adversarial testing</p>
-            </div>
-          </div>
-          <div className="flex gap-2">
-            {results.length > 0 && (
-              <Button variant="outline" onClick={exportPDF} className="gap-2 text-sm">
-                <Download className="w-4 h-4" /> Export Report
-              </Button>
-            )}
-            {batchRunning && (
-              <Button variant="destructive" onClick={() => { abortRef.current = true; }} className="gap-2 text-sm">
-                <XCircle className="w-4 h-4" /> Stop
-              </Button>
-            )}
-          </div>
-        </div>
+  return (
+    <AdminShell
+      title="Agent Testing Lab"
+      subtitle="Bias detection, hallucination checks, compliance boundary & adversarial testing"
+      icon={<FlaskConical className="w-5 h-5" style={{ color: "#D4A843" }} />}
+      actions={headerActions}
+      backTo="/admin/dashboard"
+    >
+      <div className="space-y-6">
 
         {/* Stats bar */}
         {results.length > 0 && (
@@ -528,6 +521,6 @@ export default function AdminAgentTestLab() {
           </div>
         )}
       </div>
-    </div>
+    </AdminShell>
   );
 }

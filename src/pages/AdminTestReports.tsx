@@ -4,9 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { FileText, Download, Filter, BarChart3, CheckCircle2, AlertTriangle, XCircle, ArrowLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { FileText, Download, Filter, BarChart3, CheckCircle2, AlertTriangle, XCircle } from "lucide-react";
 import jsPDF from "jspdf";
+import AdminShell from "@/components/admin/AdminShell";
+import AdminGlassCard from "@/components/admin/AdminGlassCard";
 
 interface TestResult {
   id: string;
@@ -44,7 +45,6 @@ const verdictBadge = (v: string | null) => {
 };
 
 export default function AdminTestReports() {
-  const navigate = useNavigate();
   const [testResults, setTestResults] = useState<TestResult[]>([]);
   const [scanLogs, setScanLogs] = useState<ScanLog[]>([]);
   const [keteFilter, setKeteFilter] = useState<string>("all");
@@ -196,24 +196,19 @@ export default function AdminTestReports() {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090B] text-white p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
-            <div>
-              <h1 className="text-2xl font-light tracking-wide uppercase">Test Reports</h1>
-              <p className="text-sm text-white/50">Agent test results & R&D evidence export</p>
-            </div>
-          </div>
-          <Button onClick={generatePDF} className="bg-[#D4A843] hover:bg-[#D4A843]/80 text-black font-medium gap-2">
-            <Download className="w-4 h-4" />
-            Export R&D Report (PDF)
-          </Button>
-        </div>
+    <AdminShell
+      title="Test Reports"
+      subtitle="Agent test results & R&D evidence export"
+      icon={<FileText className="w-5 h-5 text-primary" />}
+      backTo="/admin/dashboard"
+      actions={
+        <Button onClick={generatePDF} className="bg-[hsl(var(--kowhai))] hover:bg-[hsl(var(--kowhai))]/80 text-black font-medium gap-2">
+          <Download className="w-4 h-4" />
+          Export R&D Report (PDF)
+        </Button>
+      }
+    >
+      <div className="space-y-6">
 
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -355,6 +350,6 @@ export default function AdminTestReports() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </AdminShell>
   );
 }

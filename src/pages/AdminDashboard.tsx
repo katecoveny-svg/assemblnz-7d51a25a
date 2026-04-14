@@ -186,21 +186,40 @@ const AdminDashboard = () => {
   const tabs = ["overview", "users", "agents", "activity", "leads", "documents", "pipeline", "videos", "memory", "test", "test-results"] as const;
 
   return (
-    <div className="min-h-screen star-field flex flex-col">
+    <div className="min-h-screen bg-background text-foreground flex flex-col relative">
+      {/* Whāriki weave background */}
+      <div className="fixed inset-0 pointer-events-none -z-10" style={{
+        backgroundImage: `
+          linear-gradient(45deg, rgba(58,125,110,0.04) 1px, transparent 1px),
+          linear-gradient(-45deg, rgba(58,125,110,0.04) 1px, transparent 1px),
+          linear-gradient(45deg, rgba(212,168,83,0.02) 1px, transparent 1px),
+          linear-gradient(-45deg, rgba(212,168,83,0.02) 1px, transparent 1px)`,
+        backgroundSize: "24px 24px, 24px 24px, 48px 48px, 48px 48px",
+      }} />
+      {/* Ambient glow */}
+      <div className="fixed inset-0 pointer-events-none -z-10" style={{
+        background: "radial-gradient(ellipse 600px 400px at 20% 10%, rgba(58,125,110,0.06), transparent), radial-gradient(ellipse 500px 300px at 80% 90%, rgba(212,168,83,0.04), transparent)",
+      }} />
+
       {/* Header */}
-      <header className="flex items-center gap-3 px-6 py-4 border-b border-border">
+      <header className="flex items-center gap-3 px-6 py-4 border-b border-border/40 sticky top-0 z-50"
+        style={{ background: "rgba(14,20,34,0.85)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
         <Link to="/" className="flex items-center gap-3">
           <img src={assemblMark} alt="Assembl" className="w-7 h-7 object-contain drop-shadow-[0_0_12px_rgba(212,168,67,0.25)]" />
-          <span className="font-display font-light tracking-[3px] uppercase text-foreground text-sm">ASSEMBL</span>
+          <span style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}
+            className="tracking-[3px] uppercase text-foreground text-sm">ASSEMBL</span>
         </Link>
-        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold" style={{ background: 'hsl(0 84% 60% / 0.15)', color: 'hsl(0 84% 60%)' }}>
-          <Shield size={10} /> ADMIN
+        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wider"
+          style={{ background: "rgba(200,90,84,0.12)", color: "#C85A54" }}>
+          <Shield size={9} /> ADMIN
         </div>
         <div className="flex-1" />
         <button onClick={loadData} className="p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground" title="Refresh">
           <RefreshCw size={16} className={loadingData ? "animate-spin" : ""} />
         </button>
-        <button onClick={() => { signOut(); navigate("/"); }} className="text-xs text-destructive/70 hover:text-destructive transition-colors">Sign out</button>
+        <button onClick={() => { signOut(); navigate("/"); }}
+          className="text-xs text-destructive/70 hover:text-destructive transition-colors"
+          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Sign out</button>
       </header>
 
       {/* Tabs */}
