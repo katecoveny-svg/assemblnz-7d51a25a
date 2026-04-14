@@ -279,6 +279,7 @@ export default function AuahaLandingPage() {
               <span className="relative z-10">Open Auaha Studio</span>
               <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1 transition-transform" />
             </Link>
+            <TextUsButton keteName="Auaha" accentColor={ACCENT} showWhatsApp={false} />
           </motion.div>
         </section>
 

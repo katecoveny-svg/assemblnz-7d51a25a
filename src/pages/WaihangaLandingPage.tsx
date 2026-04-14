@@ -320,6 +320,7 @@ export default function WaihangaLandingPage() {
               <span className="relative z-10">Open Waihanga Dashboard</span>
               <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1 transition-transform" />
             </Link>
+            <TextUsButton keteName="Waihanga" accentColor={POUNAMU} showWhatsApp={false} />
           </motion.div>
         </section>
 
