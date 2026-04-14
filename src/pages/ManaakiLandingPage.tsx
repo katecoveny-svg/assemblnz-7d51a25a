@@ -517,6 +517,7 @@ export default function ManaakiLandingPage() {
           defaultAgentId="aura" packId="manaaki"
           starterPrompts={["What does Manaaki cover for hospitality?", "How does food safety compliance work?", "Tell me about alcohol licensing support", "What evidence packs do I get?"]}
         />
+        <WhatsAppBubble keteName="Manaaki" />
       </div>
     </GlowPageWrapper>
   );

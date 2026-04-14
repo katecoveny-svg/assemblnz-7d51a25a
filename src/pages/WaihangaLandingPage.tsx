@@ -331,6 +331,7 @@ export default function WaihangaLandingPage() {
           defaultAgentId="kaupapa" packId="hanga"
           starterPrompts={["What does Waihanga cover for builders?", "How does CCA payment claim compliance work?", "Tell me about Building Code checklists", "What evidence packs do I get for site safety?"]}
         />
+        <WhatsAppBubble keteName="Waihanga" />
       </div>
     </GlowPageWrapper>
   );

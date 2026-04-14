@@ -290,6 +290,7 @@ export default function AuahaLandingPage() {
           defaultAgentId="prism" packId="auaha"
           starterPrompts={["What does Auaha help with?", "How does the 9-agent creative studio work?", "Tell me about content calendar workflows", "What compliance checks run on my content?"]}
         />
+        <WhatsAppBubble keteName="Auaha" />
       </div>
     </GlowPageWrapper>
   );

@@ -296,6 +296,7 @@ export default function PikauLandingPage() {
           defaultAgentId="gateway" packId="pikau"
           starterPrompts={["What does Pikau cover for freight teams?", "How does customs declaration support work?", "Tell me about HS code validation", "What evidence packs do I get for shipments?"]}
         />
+        <WhatsAppBubble keteName="Pikau" />
       </div>
     </GlowPageWrapper>
   );
