@@ -10,6 +10,7 @@ import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import KeteRaceVideo from "@/components/kete/KeteRaceVideo";
 import TextUsButton from "@/components/kete/TextUsButton";
+import WhatsAppBubble from "@/components/kete/WhatsAppBubble";
 
 const BG = "#09090F";
 const ACCENT = "#7ECFC2";
