@@ -3,6 +3,9 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Calendar, MapPin, User, Target, MessageSquare, CheckCircle2, XCircle, HelpCircle, Lightbulb, Shield, Zap, Users, FlaskConical, Brain, Award, BookOpen, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import SEO from "@/components/SEO";
+import BrandNav from "@/components/BrandNav";
+import BrandFooter from "@/components/BrandFooter";
+import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 
 const C = {
   bg: "#060610",
@@ -110,18 +113,10 @@ const DontItem = ({ text }: { text: string }) => (
 
 export default function AaaipPitchPrep() {
   return (
+    <GlowPageWrapper accentColor={C.pounamu}>
     <div className="min-h-screen" style={{ background: C.bg }}>
       <SEO title="AAAIP Pitch Prep — Assembl" description="Pitch preparation for Professor Gill Dobbie meeting, 16 April 2026." />
-
-      {/* ─── Top bar ─── */}
-      <div className="sticky top-0 z-50 backdrop-blur-xl border-b" style={{ background: `${C.bg}cc`, borderColor: C.border }}>
-        <div className="max-w-4xl mx-auto px-5 sm:px-8 flex items-center justify-between h-14">
-          <Link to="/aaaip" className="flex items-center gap-2 text-sm font-medium hover:opacity-80 transition-opacity" style={{ color: C.pounamuLight }}>
-            <ArrowLeft size={16} /> Back to AAAIP Dashboard
-          </Link>
-          <Badge color={C.gold}>CONFIDENTIAL</Badge>
-        </div>
-      </div>
+      <BrandNav />
 
       {/* ─── Hero ─── */}
       <Section className="pt-16 pb-6">
@@ -380,6 +375,8 @@ export default function AaaipPitchPrep() {
           </Card>
         </div>
       </Section>
+      <BrandFooter />
     </div>
+    </GlowPageWrapper>
   );
 }
