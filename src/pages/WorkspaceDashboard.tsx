@@ -5,8 +5,9 @@ import { useAuth } from "@/hooks/useAuth";
 import { motion } from "framer-motion";
 import {
   LayoutDashboard, Play, Settings, Plug, FileText, Brain,
-  ArrowRight, CheckCircle, Clock, Loader2
+  ArrowRight, CheckCircle, Clock, Loader2, CreditCard, Crown
 } from "lucide-react";
+import { toast } from "sonner";
 import SEO from "@/components/SEO";
 
 interface Tenant {
@@ -51,8 +52,16 @@ const KETE_LABELS: Record<string, string> = {
   PIKAU: "Technology",
 };
 
+const ROLE_LABELS: Record<string, string> = {
+  free: "Free",
+  essentials: "Operator",
+  business: "Leader",
+  enterprise: "Enterprise",
+  admin: "Admin",
+};
+
 export default function WorkspaceDashboard() {
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, role, isPaid, subscriptionEnd, checkSubscription } = useAuth();
   const navigate = useNavigate();
   const [tenant, setTenant] = useState<Tenant | null>(null);
   const [workflows, setWorkflows] = useState<WorkflowItem[]>([]);
