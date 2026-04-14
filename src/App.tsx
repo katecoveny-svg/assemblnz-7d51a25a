@@ -333,6 +333,7 @@ const App = () => (
               </div>
               <EchoChatWidget />
               <MobileTabBar />
+              </PersonalizationProvider>
             </AuthProvider>
           </BrowserRouter>
         </TeReoProvider>
