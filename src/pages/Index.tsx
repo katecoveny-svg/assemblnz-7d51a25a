@@ -144,6 +144,7 @@ const Index = () => {
         description="Assembl helps teams handle quoting, compliance, planning, reporting, and admin more consistently — with built-in rules, oversight, and support designed for NZ operating conditions."
       />
       <BrandNav />
+      <ContextBar />
 
       {/* ═══ HERO ═══ */}
       <section className="relative flex flex-col items-center text-center px-6 pt-16 sm:pt-24 pb-14 overflow-hidden">
