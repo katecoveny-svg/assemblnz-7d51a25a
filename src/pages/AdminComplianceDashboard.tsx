@@ -138,7 +138,7 @@ export default function AdminComplianceDashboard() {
           </div>
         </AdminGlassCard>
 
-        <AdminGlassCard accent="#ef4444"={pendingCount > 0}>
+        <AdminGlassCard accent="#ef4444">
           <div className="p-4">
             <div className="flex items-center gap-2 mb-2">
               <AlertTriangle size={14} style={{ color: pendingCount > 0 ? "#ef4444" : `${BONE}50` }} />
@@ -160,7 +160,7 @@ export default function AdminComplianceDashboard() {
           </div>
         </AdminGlassCard>
 
-        <AdminGlassCard accent={KOWHAI}={staleCount > 0}>
+        <AdminGlassCard accent={KOWHAI}>
           <div className="p-4">
             <div className="flex items-center gap-2 mb-2">
               <Activity size={14} style={{ color: staleCount > 0 ? KOWHAI : `${BONE}50` }} />
