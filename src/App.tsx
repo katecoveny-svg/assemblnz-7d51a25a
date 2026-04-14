@@ -9,6 +9,7 @@ import MobileTabBar from "@/components/MobileTabBar";
 import EchoChatWidget from "@/components/EchoChatWidget";
 import { HighContrastProvider } from "@/components/chat/HighContrastProvider";
 import { TeReoProvider } from "@/components/chat/TeReoProvider";
+import { PersonalizationProvider } from "@/contexts/PersonalizationContext";
 import AgentGrid from "./pages/AgentGrid";
 import ChatPage from "./pages/ChatPage";
 import AuthPage from "./pages/AuthPage";
