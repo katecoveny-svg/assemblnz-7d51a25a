@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { FileText, Download, Filter, BarChart3, CheckCircle2, AlertTriangle, XCircle, ArrowLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { FileText, Download, Filter, BarChart3, CheckCircle2, AlertTriangle, XCircle } from "lucide-react";
 import jsPDF from "jspdf";
+import AdminShell from "@/components/admin/AdminShell";
+import AdminGlassCard from "@/components/admin/AdminGlassCard";
 
 interface TestResult {
   id: string;
@@ -44,7 +44,6 @@ const verdictBadge = (v: string | null) => {
 };
 
 export default function AdminTestReports() {
-  const navigate = useNavigate();
   const [testResults, setTestResults] = useState<TestResult[]>([]);
   const [scanLogs, setScanLogs] = useState<ScanLog[]>([]);
   const [keteFilter, setKeteFilter] = useState<string>("all");
