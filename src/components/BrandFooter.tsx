@@ -20,7 +20,9 @@ const FOOTER_LINKS = {
     { to: "/pikau", label: "Pikau — Freight" },
     { to: "/toro", label: "Tōro — Family" },
   ],
-  Legal: [
+  "Trust & Compliance": [
+    { to: "/tikanga", label: "Governance Pipeline" },
+    { to: "/data-sovereignty", label: "Data Sovereignty" },
     { to: "/privacy", label: "Privacy Policy" },
     { to: "/terms", label: "Terms of Service" },
     { to: "/data-privacy", label: "Data Privacy" },
