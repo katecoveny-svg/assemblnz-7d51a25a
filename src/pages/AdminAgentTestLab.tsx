@@ -572,6 +572,37 @@ export default function AdminAgentTestLab() {
             </div>
           </div>
         )}
+        {/* Legal & Compliance Documents */}
+        <AdminGlassCard accent="#3A7D6E">
+          <div className="space-y-3">
+            <h3 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}
+              className="text-xs tracking-[2px] uppercase text-muted-foreground">
+              Supporting Legal & Compliance Documentation
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+              {[
+                { label: "Privacy Policy", to: "/privacy", icon: "🔒" },
+                { label: "Terms of Service", to: "/terms", icon: "📄" },
+                { label: "Data Sovereignty", to: "/data-sovereignty", icon: "🛡️" },
+                { label: "Data Privacy & Legal", to: "/data-privacy", icon: "⚖️" },
+                { label: "Security", to: "/security", icon: "🔐" },
+                { label: "Governance Pipeline", to: "/about", icon: "🏛️" },
+              ].map(doc => (
+                <a key={doc.label} href={doc.to} target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-2 p-2.5 rounded-xl text-[11px] text-foreground/70 hover:text-foreground transition-colors"
+                  style={{ background: "rgba(58,125,110,0.06)", border: "1px solid rgba(58,125,110,0.1)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  <span>{doc.icon}</span>
+                  <span>{doc.label}</span>
+                </a>
+              ))}
+            </div>
+            <p className="text-[10px] text-muted-foreground pt-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              These documents form the legal and compliance foundation for the Assembl platform.
+              All agent testing results are logged with tamper-evident audit trails aligned to the NZ Privacy Act 2020 and Te Mana Raraunga principles.
+            </p>
+          </div>
+        </AdminGlassCard>
+
       </div>
     </AdminShell>
   );
