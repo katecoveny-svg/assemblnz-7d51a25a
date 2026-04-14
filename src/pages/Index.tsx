@@ -6,6 +6,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { usePersonalization } from "@/contexts/PersonalizationContext";
+import { useReturnVisitor } from "@/hooks/useReturnVisitor";
+import ContextBar from "@/components/personalized/ContextBar";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
