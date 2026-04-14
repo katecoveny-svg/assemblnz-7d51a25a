@@ -830,8 +830,10 @@ export default function AaaipDashboard() {
           </TabsContent>
         </Tabs>
       </main>
+      <BrandFooter />
       </div>
     </div>
+    </GlowPageWrapper>
   );
 }
 
