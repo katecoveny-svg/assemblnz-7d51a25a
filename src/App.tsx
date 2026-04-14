@@ -170,6 +170,7 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <AuthProvider>
+              <PersonalizationProvider>
               <div className="pb-14 sm:pb-0">
                 <Routes>
                   <Route path="/" element={<Index />} />
