@@ -9,15 +9,11 @@ const GlassPanel = ({
   className = "",
   tilt = false,
   goldRim = false,
-  as: Tag = "div",
-  ...props
 }: {
   children: React.ReactNode;
   className?: string;
   tilt?: boolean;
   goldRim?: boolean;
-  as?: keyof JSX.IntrinsicElements;
-  [key: string]: any;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -35,12 +31,11 @@ const GlassPanel = ({
   };
 
   return (
-    <Tag
-      ref={ref as any}
+    <div
+      ref={ref}
       className={`glass-panel relative rounded-2xl overflow-hidden transition-all duration-300 ${className}`}
       onMouseMove={tilt ? handleMouse : undefined}
       onMouseLeave={tilt ? handleLeave : undefined}
-      {...props}
     >
       {goldRim && (
         <div
@@ -52,15 +47,14 @@ const GlassPanel = ({
         />
       )}
       {children}
-      {/* Noise grain overlay */}
       <div
-        className="absolute inset-0 rounded-inherit pointer-events-none"
+        className="absolute inset-0 rounded-2xl pointer-events-none"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
           opacity: 0.03,
         }}
       />
-    </Tag>
+    </div>
   );
 };
 
