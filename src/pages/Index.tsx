@@ -1,10 +1,11 @@
-import React, { useState, lazy, Suspense } from "react";
-import { motion } from "framer-motion";
+import React, { useState, lazy, Suspense, useMemo } from "react";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { ArrowRight, ChevronDown, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { usePersonalization } from "@/contexts/PersonalizationContext";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
@@ -113,6 +114,24 @@ const CASE_STUDIES = [
 const Index = () => {
   const isMobile = useIsMobile();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const { profile, atmosphere, isPersonalized } = usePersonalization();
+  const hero = profile.preferences.heroVariant;
+
+  // Reorder PACKS based on personalization
+  const orderedPacks = useMemo(() => {
+    if (!isPersonalized) return PACKS;
+    const keteOrder = profile.preferences.keteOrder;
+    const SLUG_MAP: Record<string, string> = {
+      manaaki: 'Manaaki', waihanga: 'Waihanga', auaha: 'Auaha',
+      arataki: 'Arataki', pikau: 'Pikau', toro: 'Toro',
+    };
+    const sorted = [...PACKS].sort((a, b) => {
+      const aIdx = keteOrder.indexOf(Object.entries(SLUG_MAP).find(([_, v]) => v === a.reo)?.[0] as any ?? '');
+      const bIdx = keteOrder.indexOf(Object.entries(SLUG_MAP).find(([_, v]) => v === b.reo)?.[0] as any ?? '');
+      return (aIdx === -1 ? 99 : aIdx) - (bIdx === -1 ? 99 : bIdx);
+    });
+    return sorted;
+  }, [isPersonalized, profile.preferences.keteOrder]);
 
   return (
     <div className="min-h-screen" style={{ background: C.bg, color: C.white }}>
