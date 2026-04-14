@@ -15,8 +15,8 @@ import {
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
-import { ArrowLeft, Plus, Pencil, Trash2, Search, RefreshCw, Database, ExternalLink } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Plus, Pencil, Trash2, Search, RefreshCw, Database, ExternalLink } from "lucide-react";
+import AdminShell from "@/components/admin/AdminShell";
 
 const ALL_AGENTS = [
   "AROHA","LEDGER","APEX","AURA","HAVEN","FORGE","ANCHOR",
@@ -50,7 +50,6 @@ const defaultEntry = {
 };
 
 export default function AdminKnowledgeBase() {
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
   const [agentFilter, setAgentFilter] = useState("all");
@@ -127,26 +126,18 @@ export default function AdminKnowledgeBase() {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090B] text-white p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" onClick={() => navigate("/admin/compliance")}>
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-            <Database className="h-6 w-6 text-[#D4A843]" />
-            <h1 className="text-2xl font-light uppercase tracking-wider">Agent Knowledge Base</h1>
-          </div>
-          <div className="flex items-center gap-2">
-            <Badge variant="outline" className="border-[#3A7D6E]/50 text-[#3A7D6E]">
-              {entries.length} entries
-            </Badge>
-            <Button onClick={openNew} className="bg-[#D4A843] text-black hover:bg-[#D4A843]/80">
-              <Plus className="h-4 w-4 mr-2" /> Add Entry
-            </Button>
-          </div>
-        </div>
+    <AdminShell
+      title="Knowledge Base"
+      subtitle={`${entries.length} entries across all agents`}
+      icon={<Database size={18} style={{ color: "#D4A843" }} />}
+      backTo="/admin/compliance"
+      actions={
+        <Button onClick={openNew} className="bg-[#D4A843] text-black hover:bg-[#D4A843]/80">
+          <Plus className="h-4 w-4 mr-2" /> Add Entry
+        </Button>
+      }
+    >
+      <div className="space-y-6">
 
         {/* Filters */}
         <div className="flex flex-wrap gap-3">
@@ -357,6 +348,6 @@ export default function AdminKnowledgeBase() {
           </DialogContent>
         </Dialog>
       </div>
-    </div>
+    </AdminShell>
   );
 }
