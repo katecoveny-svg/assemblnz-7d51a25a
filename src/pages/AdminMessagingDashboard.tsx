@@ -460,9 +460,9 @@ export default function AdminMessagingDashboard() {
             <MessageLogsTable />
           </TabsContent>
         </Tabs>
-      </div>
-    </div>
+    </AdminShell>
   );
+}
 }
 
 function MessageLogsTable() {
