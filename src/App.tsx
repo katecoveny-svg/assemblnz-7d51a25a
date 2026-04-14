@@ -142,7 +142,7 @@ const App = () => (
               <div className="pb-14 sm:pb-0">
                 <Routes>
                   <Route path="/" element={<Index />} />
-                  <Route path="/app" element={<AgentGrid />} />
+                  <Route path="/app" element={<Navigate to="/kete" replace />} />
                   <Route path="/chat/:agentId" element={<ChatPageKeyed />} />
                   <Route path="/login" element={<AuthPage mode="login" />} />
                   <Route path="/signup" element={<AuthPage mode="signup" />} />
