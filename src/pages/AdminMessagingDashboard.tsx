@@ -8,7 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Switch } from "@/components/ui/switch";
 import { MessageSquare, Phone, Send, Clock, Users, BarChart3, Smartphone, Settings2, Activity, ArrowUpDown, Filter } from "lucide-react";
-import BrandNav from "@/components/BrandNav";
+import AdminShell from "@/components/admin/AdminShell";
+import AdminGlassCard from "@/components/admin/AdminGlassCard";
 import { motion } from "framer-motion";
 
 const GOLD = "#D4A843";
@@ -195,23 +196,17 @@ export default function AdminMessagingDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#09090F] text-white">
-      <BrandNav />
-      <div className="max-w-7xl mx-auto px-4 pt-24 pb-12">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-2xl font-light uppercase tracking-[6px] text-[#D4A843]">
-              Messaging Hub
-            </h1>
-            <p className="text-xs text-white/40 mt-1">SMS & WhatsApp across all kete • TNZ Group Gateway</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Badge className="bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 text-[10px]">
-              <Activity className="w-3 h-3 mr-1" /> LIVE
-            </Badge>
-          </div>
-        </div>
+    <AdminShell
+      title="Messaging Hub"
+      subtitle="SMS & WhatsApp across all kete • TNZ Group Gateway"
+      icon={<MessageSquare size={18} style={{ color: GOLD }} />}
+      backTo="/admin/dashboard"
+      actions={
+        <Badge className="bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 text-[10px]">
+          <Activity className="w-3 h-3 mr-1" /> LIVE
+        </Badge>
+      }
+    >
 
         {/* Stats Row */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-8">
