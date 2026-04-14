@@ -3,9 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { agents } from "@/data/agents";
-import { assemblMark } from "@/assets/brand";
 import AgentAvatar from "@/components/AgentAvatar";
-import BrandFooter from "@/components/BrandFooter";
+import AdminShell from "@/components/admin/AdminShell";
 import {
   Users, MessageSquare, DollarSign, TrendingUp, Shield,
   Trash2, RefreshCw, ChevronDown, ExternalLink, Mail, Eye, EyeOff,
