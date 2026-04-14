@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, HardHat, UtensilsCrossed, Palette, Bird, Car, Package, ChevronDown, Calculator, Shield, TrendingUp, Code, Brain } from "lucide-react";
 import AccountDropdown from "@/components/AccountDropdown";
 import Nav3DKeteLogo from "@/components/Nav3DKeteLogo";
 import KiaOraPopup from "@/components/KiaOraPopup";
+import { usePersonalization } from "@/contexts/PersonalizationContext";
 
 interface NavItem { label: string; to: string }
 
@@ -39,6 +40,23 @@ const BrandNav = () => {
   const [packsOpen, setPacksOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const [kiaOraOpen, setKiaOraOpen] = useState(false);
+  const { profile, isPersonalized } = usePersonalization();
+
+  // Smart kete reordering based on detected industry
+  const KETE_SLUG_MAP: Record<string, string> = {
+    manaaki: 'Manaaki', waihanga: 'Waihanga', auaha: 'Auaha',
+    arataki: 'Arataki', pikau: 'Pikau', toro: 'Tōroa',
+  };
+
+  const orderedKete = useMemo(() => {
+    if (!isPersonalized || !profile.detectedIndustry) return KETE;
+    const detectedLabel = KETE_SLUG_MAP[profile.detectedIndustry];
+    if (!detectedLabel) return KETE;
+    const detected = KETE.find(k => k.label === detectedLabel);
+    if (!detected) return KETE;
+    const rest = KETE.filter(k => k.label !== detectedLabel);
+    return [detected, ...rest];
+  }, [isPersonalized, profile.detectedIndustry]);
 
   const handleNavClick = (to: string) => {
     setMobileOpen(false);
@@ -56,24 +74,37 @@ const BrandNav = () => {
     }
   };
 
+  const detectedLabel = isPersonalized && profile.detectedIndustry ? KETE_SLUG_MAP[profile.detectedIndustry] : null;
+
   const DropdownPanel = ({ items, onClose }: { items: typeof KETE; onClose: () => void }) => (
     <>
       <div className="fixed inset-0 z-10" onClick={onClose} />
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }}
         className="absolute top-full right-0 mt-2 z-20 w-[260px] rounded-xl p-2 space-y-0.5"
         style={{ background: "#13131F", border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 20px 40px rgba(0,0,0,0.4)" }}>
-        {items.map(item => (
-          <button key={item.label} onClick={() => handleNavClick(item.to)}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/[0.04] transition-colors group">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${item.color}15` }}>
-              <item.icon size={16} style={{ color: item.color }} />
-            </div>
-            <div className="text-left">
-              <div className="text-xs font-semibold text-white/80 group-hover:text-white">{item.label}</div>
-              <div className="text-[10px] text-white/35">{item.sublabel}</div>
-            </div>
-          </button>
-        ))}
+        {items.map(item => {
+          const isDetected = item.label === detectedLabel;
+          return (
+            <button key={item.label} onClick={() => handleNavClick(item.to)}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/[0.04] transition-colors group relative"
+              style={isDetected ? { borderLeft: `2px solid ${item.color}`, background: `${item.color}08` } : {}}>
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${item.color}15` }}>
+                <item.icon size={16} style={{ color: item.color }} />
+              </div>
+              <div className="text-left">
+                <div className="text-xs font-semibold text-white/80 group-hover:text-white flex items-center gap-2">
+                  {item.label}
+                  {isDetected && (
+                    <span className="text-[8px] font-normal tracking-[1px] uppercase" style={{ color: 'rgba(245,240,232,0.4)' }}>
+                      Recommended for you
+                    </span>
+                  )}
+                </div>
+                <div className="text-[10px] text-white/35">{item.sublabel}</div>
+              </div>
+            </button>
+          );
+        })}
       </motion.div>
     </>
   );
@@ -114,7 +145,7 @@ const BrandNav = () => {
               <ChevronDown size={12} className={`transition-transform ${packsOpen ? "rotate-180" : ""}`} />
             </button>
             <AnimatePresence>
-              {packsOpen && <DropdownPanel items={KETE} onClose={() => setPacksOpen(false)} />}
+              {packsOpen && <DropdownPanel items={orderedKete} onClose={() => setPacksOpen(false)} />}
             </AnimatePresence>
           </div>
 

@@ -6,6 +6,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { usePersonalization } from "@/contexts/PersonalizationContext";
+import { useReturnVisitor } from "@/hooks/useReturnVisitor";
+import ContextBar from "@/components/personalized/ContextBar";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
@@ -116,6 +118,8 @@ const Index = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const { profile, atmosphere, isPersonalized } = usePersonalization();
   const hero = profile.preferences.heroVariant;
+  const engagementDepth = profile.signals.engagementDepth;
+  useReturnVisitor();
 
   // Reorder PACKS based on personalization
   const orderedPacks = useMemo(() => {
@@ -140,6 +144,7 @@ const Index = () => {
         description="Assembl helps teams handle quoting, compliance, planning, reporting, and admin more consistently — with built-in rules, oversight, and support designed for NZ operating conditions."
       />
       <BrandNav />
+      <ContextBar />
 
       {/* ═══ HERO ═══ */}
       <section className="relative flex flex-col items-center text-center px-6 pt-16 sm:pt-24 pb-14 overflow-hidden">
@@ -520,6 +525,28 @@ const Index = () => {
         </div>
       </Section>
 
+      {/* ═══ PROGRESSIVE: Integrations for engaged visitors ═══ */}
+      {engagementDepth === 'engaged' && (
+        <Section border>
+          <motion.div {...fade} className="text-center mb-10">
+            <Eyebrow>INTEGRATIONS</Eyebrow>
+            <H2>Works with your existing tools</H2>
+            <P className="max-w-xl mx-auto">
+              Connect to Xero, MYOB, your DMS, or CRM — governed workflows slot into existing operations.
+            </P>
+          </motion.div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto">
+            {['Xero', 'MYOB', 'Google Workspace', 'Microsoft 365', 'Slack', 'WhatsApp', 'SMS', 'Custom API'].map((tool, i) => (
+              <motion.div key={tool} {...stagger(i)}
+                className="flex items-center justify-center p-4 rounded-xl text-[13px] font-medium"
+                style={{ background: 'rgba(255,255,255,0.025)', border: `1px solid ${C.border}`, color: C.t2 }}>
+                {tool}
+              </motion.div>
+            ))}
+          </div>
+        </Section>
+      )}
+
       {/* ═══ FINAL CTA ═══ */}
       <section className="relative px-6 py-16 text-center overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" style={{
@@ -527,14 +554,24 @@ const Index = () => {
         }} />
         <div className="max-w-xl mx-auto relative z-10">
           <motion.div {...fade}>
-            <H2>Bring more structure to how work gets done</H2>
+            <H2>
+              {engagementDepth === 'new' && 'Bring more structure to how work gets done'}
+              {engagementDepth === 'returning' && 'Ready to see it working for your team?'}
+              {engagementDepth === 'engaged' && 'Book a walkthrough with our team'}
+            </H2>
             <P className="mb-10">
-              Start with one workflow and see where governed support makes the biggest difference.
+              {engagementDepth === 'new' && 'Start with one workflow and see where governed support makes the biggest difference.'}
+              {engagementDepth === 'returning' && 'Pick a workflow, configure the rules, and roll out to your team in 10 business days.'}
+              {engagementDepth === 'engaged' && 'You\'ve explored enough to know what matters. Let us show you how it works with your specific operations.'}
             </P>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/contact" className="group relative inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-medium rounded-full overflow-hidden">
+              <Link to={engagementDepth === 'engaged' ? '/contact' : '/contact'} className="group relative inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-medium rounded-full overflow-hidden">
                 <div className="absolute inset-0 rounded-full" style={{ background: `linear-gradient(135deg, ${C.gold} 0%, ${C.goldLight} 50%, ${C.gold} 100%)` }} />
-                <span className="relative z-10" style={{ color: "#09090F" }}>Talk to us</span>
+                <span className="relative z-10" style={{ color: "#09090F" }}>
+                  {engagementDepth === 'new' && 'Talk to us'}
+                  {engagementDepth === 'returning' && 'See it in action'}
+                  {engagementDepth === 'engaged' && 'Book a walkthrough'}
+                </span>
                 <ArrowRight size={15} className="relative z-10 group-hover:translate-x-1 transition-transform" style={{ color: "#09090F" }} />
               </Link>
               <Link to="/pricing" className="group inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-medium rounded-full transition-all duration-300" style={{
