@@ -40,8 +40,6 @@ const SkillWiringDashboard = () => {
         </Button>
       }
     >
-          </Button>
-        </div>
 
         {/* Global Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-8">
@@ -208,8 +206,7 @@ const SkillWiringDashboard = () => {
             );
           })}
         </div>
-      </div>
-    </div>
+    </AdminShell>
   );
 };
 
