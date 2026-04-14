@@ -7,12 +7,12 @@ import KeteMiniIcon, { type KeteGlyph } from '@/components/kete/KeteMiniIcon';
 import type { KeteType } from '@/lib/personalization/types';
 
 const KETE_INFO: Record<KeteType, { name: string; glyph: KeteGlyph; color: string; path: string; samplePath: string }> = {
-  manaaki: { name: 'MANAAKI', glyph: 'fork-knife', color: '#D4A843', path: '/manaaki', samplePath: '/sample/manaaki' },
-  waihanga: { name: 'WAIHANGA', glyph: 'hard-hat', color: '#3A7D6E', path: '/waihanga/about', samplePath: '/sample/manaaki' },
-  auaha: { name: 'AUAHA', glyph: 'palette', color: '#F0D078', path: '/auaha/about', samplePath: '/sample/manaaki' },
-  arataki: { name: 'ARATAKI', glyph: 'car', color: '#E8E8E8', path: '/arataki', samplePath: '/sample/manaaki' },
-  pikau: { name: 'PIKAU', glyph: 'container', color: '#7ECFC2', path: '/pikau', samplePath: '/sample/manaaki' },
-  toro: { name: 'TŌROA', glyph: 'bird', color: '#D4A843', path: '/toroa', samplePath: '/sample/manaaki' },
+  manaaki: { name: 'MANAAKI', glyph: 'check', color: '#D4A843', path: '/manaaki', samplePath: '/sample/manaaki' },
+  waihanga: { name: 'WAIHANGA', glyph: 'shield', color: '#3A7D6E', path: '/waihanga/about', samplePath: '/sample/manaaki' },
+  auaha: { name: 'AUAHA', glyph: 'bolt', color: '#F0D078', path: '/auaha/about', samplePath: '/sample/manaaki' },
+  arataki: { name: 'ARATAKI', glyph: 'gear', color: '#E8E8E8', path: '/arataki', samplePath: '/sample/manaaki' },
+  pikau: { name: 'PIKAU', glyph: 'globe', color: '#7ECFC2', path: '/pikau', samplePath: '/sample/manaaki' },
+  toro: { name: 'TŌROA', glyph: 'people', color: '#D4A843', path: '/toroa', samplePath: '/sample/manaaki' },
 };
 
 export default function ContextBar() {
