@@ -150,16 +150,20 @@ const Index = () => {
           {/* Deep luminous background — not flat */}
           <div className="absolute inset-0 pointer-events-none" style={{
             background: `
-              radial-gradient(ellipse 60% 50% at 50% 45%, rgba(58,125,110,0.12) 0%, transparent 60%),
-              radial-gradient(ellipse 40% 40% at 30% 30%, rgba(58,125,110,0.08) 0%, transparent 50%),
-              radial-gradient(ellipse 35% 45% at 70% 60%, rgba(212,168,83,0.05) 0%, transparent 50%),
+              radial-gradient(ellipse 60% 50% at 50% 55%, rgba(79,228,167,0.18) 0%, transparent 60%),
+              radial-gradient(ellipse 40% 40% at 30% 30%, rgba(0,220,200,0.10) 0%, transparent 50%),
+              radial-gradient(ellipse 35% 45% at 70% 60%, rgba(212,168,83,0.07) 0%, transparent 50%),
               radial-gradient(ellipse 80% 80% at 50% 50%, rgba(10,30,50,0.9) 0%, rgba(6,14,28,1) 100%)
             `,
+          }} />
+          {/* Breathing glow pulse */}
+          <div className="absolute inset-0 pointer-events-none animate-[glowPulse_4s_ease-in-out_infinite]" style={{
+            background: "radial-gradient(ellipse 55% 45% at 50% 55%, rgba(79,228,167,0.10) 0%, transparent 60%)",
           }} />
           <KeteParticleCanvas />
           {/* Soft pounamu bloom behind kete shape */}
           <div className="absolute inset-0 pointer-events-none" style={{
-            background: "radial-gradient(ellipse 45% 40% at 50% 50%, rgba(79,228,167,0.06) 0%, transparent 60%)",
+            background: "radial-gradient(ellipse 45% 40% at 50% 55%, rgba(79,228,167,0.08) 0%, transparent 60%)",
           }} />
           {/* Vignette edges */}
           <div className="absolute inset-0 pointer-events-none" style={{
