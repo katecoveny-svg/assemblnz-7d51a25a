@@ -367,37 +367,59 @@ const Index = () => {
             Each kete is built around the jobs, pressures, and context of that sector.
           </P>
         </motion.div>
+        <LayoutGroup>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
-          {PACKS.map((p, i) => (
-            <motion.div key={p.reo} {...stagger(i)}>
-              <Link
-                to={p.to}
-                className="group block relative rounded-2xl p-6 h-full transition-all duration-300 hover:translate-y-[-3px] overflow-hidden"
-                style={{
-                  background: "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",
-                  border: `1px solid ${C.border}`,
-                }}
+          {orderedPacks.map((p, i) => {
+            const isDetected = isPersonalized && i === 0;
+            return (
+              <motion.div
+                key={p.reo}
+                layout
+                layoutId={`kete-card-${p.reo}`}
+                {...stagger(i)}
+                className={isDetected ? 'sm:col-span-2 lg:col-span-1' : ''}
               >
-                <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
-                  background: `linear-gradient(90deg, transparent, ${p.color}60, transparent)`,
-                }} />
-                <div className="flex items-center gap-4 mb-4 relative z-10">
-                  <Suspense fallback={<KeteWeaveVisual size={44} accentColor={p.color} accentLight={p.accentLight} showNodes={false} showGlow={false} />}>
-                    <Kete3DModel accentColor={p.color} accentLight={p.accentLight} size={56} />
-                  </Suspense>
-                  <div>
-                    <p className="text-[10px] uppercase tracking-[3px] font-semibold mb-0.5" style={{ color: p.color, fontFamily: "'JetBrains Mono', monospace" }}>{p.en}</p>
-                    <h3 className="text-xl font-light" style={{ fontFamily: "'Lato', sans-serif", color: C.white }}>{p.reo}</h3>
+                <Link
+                  to={p.to}
+                  className="group block relative rounded-2xl p-6 h-full transition-all duration-300 hover:translate-y-[-3px] overflow-hidden"
+                  style={{
+                    background: isDetected
+                      ? `linear-gradient(135deg, ${p.color}08 0%, rgba(255,255,255,0.01) 100%)`
+                      : "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",
+                    border: isDetected
+                      ? `1px solid ${p.color}30`
+                      : `1px solid ${C.border}`,
+                    boxShadow: isDetected ? `0 0 40px ${p.color}08` : undefined,
+                  }}
+                >
+                  {isDetected && (
+                    <div className="absolute top-3 right-3 text-[9px] px-2 py-0.5 rounded-full tracking-[2px] uppercase"
+                      style={{ background: `${p.color}15`, color: `${p.color}aa`, border: `1px solid ${p.color}25`, fontFamily: "'JetBrains Mono', monospace" }}>
+                      Recommended
+                    </div>
+                  )}
+                  <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
+                    background: `linear-gradient(90deg, transparent, ${p.color}60, transparent)`,
+                  }} />
+                  <div className="flex items-center gap-4 mb-4 relative z-10">
+                    <Suspense fallback={<KeteWeaveVisual size={44} accentColor={p.color} accentLight={p.accentLight} showNodes={false} showGlow={false} />}>
+                      <Kete3DModel accentColor={p.color} accentLight={p.accentLight} size={56} />
+                    </Suspense>
+                    <div>
+                      <p className="text-[10px] uppercase tracking-[3px] font-semibold mb-0.5" style={{ color: p.color, fontFamily: "'JetBrains Mono', monospace" }}>{p.en}</p>
+                      <h3 className="text-xl font-light" style={{ fontFamily: "'Lato', sans-serif", color: C.white }}>{p.reo}</h3>
+                    </div>
                   </div>
-                </div>
-                <p className="text-[14px] leading-relaxed mb-4 relative z-10" style={{ color: C.t3 }}>{p.desc}</p>
-                <span className="inline-flex items-center gap-1.5 text-[13px] font-medium transition-all group-hover:gap-3 relative z-10" style={{ color: p.color }}>
-                  Explore <ArrowRight size={12} />
-                </span>
-              </Link>
-            </motion.div>
-          ))}
+                  <p className="text-[14px] leading-relaxed mb-4 relative z-10" style={{ color: C.t3 }}>{p.desc}</p>
+                  <span className="inline-flex items-center gap-1.5 text-[13px] font-medium transition-all group-hover:gap-3 relative z-10" style={{ color: p.color }}>
+                    Explore <ArrowRight size={12} />
+                  </span>
+                </Link>
+              </motion.div>
+            );
+          })}
         </div>
+        </LayoutGroup>
       </Section>
 
       {/* ═══ HOW IT WORKS ═══ */}
