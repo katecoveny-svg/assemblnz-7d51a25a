@@ -520,6 +520,6 @@ export default function AdminAgentTestLab() {
           </div>
         )}
       </div>
-    </div>
+    </AdminShell>
   );
 }
