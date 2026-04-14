@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Globe, Sparkles, CheckCircle, XCircle, Clock, RefreshCw, Search, FileText, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import AdminShell from "@/components/admin/AdminShell";
 
 const ACCENT = "#3A7D6E";
 
@@ -112,14 +113,12 @@ export default function AdminFlintDashboard() {
   };
 
   return (
-    <div className="min-h-screen p-6 lg:p-8 max-w-[1400px] mx-auto space-y-6" style={{ background: "#09090B" }}>
-      <div>
-        <p className="text-white/40 text-xs uppercase tracking-[3px] mb-1">Admin &gt; Flint AI</p>
-        <h1 className="text-white text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: "Lato, sans-serif" }}>
-          Flint Landing Page & SEO Manager
-        </h1>
-        <p className="text-white/50 text-sm mt-1">Generate copy, audit SEO, and manage proposals across all 6 marketing pages</p>
-      </div>
+    <AdminShell
+      title="Flint AI"
+      subtitle="Generate copy, audit SEO, and manage proposals across all marketing pages"
+      icon={<Sparkles size={18} style={{ color: "#3A7D6E" }} />}
+      backTo="/admin/dashboard"
+    >
 
       <Tabs defaultValue="generate" className="space-y-4">
         <TabsList className="bg-white/5 border border-white/10">
@@ -350,6 +349,6 @@ export default function AdminFlintDashboard() {
           </GlassCard>
         </TabsContent>
       </Tabs>
-    </div>
+    </AdminShell>
   );
 }

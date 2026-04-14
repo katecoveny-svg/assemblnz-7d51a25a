@@ -5,7 +5,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
+import AdminShell from "@/components/admin/AdminShell";
+import AdminGlassCard from "@/components/admin/AdminGlassCard";
 import { Shield, RefreshCw, CheckCircle, XCircle, Clock, AlertTriangle, Activity, Brain } from "lucide-react";
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
 
@@ -95,15 +96,12 @@ export default function AdminComplianceDashboard() {
   const lastScan = scanLogs[0];
 
   return (
-    <div className="min-h-screen p-6 space-y-6" style={{ background: "#09090B" }}>
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Shield size={24} style={{ color: KOWHAI }} />
-          <h1 className="text-lg font-light uppercase tracking-[3px]" style={{ color: `${BONE}DD`, fontFamily: "Lato, sans-serif" }}>
-            Compliance Scanner
-          </h1>
-        </div>
+    <AdminShell
+      title="Compliance Scanner"
+      subtitle="Regulatory monitoring & knowledge base health"
+      icon={<Shield size={18} style={{ color: KOWHAI }} />}
+      backTo="/admin/dashboard"
+      actions={
         <button
           onClick={runScanNow}
           disabled={scanning}
@@ -113,7 +111,9 @@ export default function AdminComplianceDashboard() {
           <RefreshCw size={14} className={scanning ? "animate-spin" : ""} />
           {scanning ? "Scanning..." : "Run Scan Now"}
         </button>
-      </div>
+      }
+    >
+      <div className="space-y-6">
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -386,6 +386,7 @@ export default function AdminComplianceDashboard() {
           </div>
         </DashboardGlassCard>
       )}
-    </div>
+      </div>
+    </AdminShell>
   );
 }
