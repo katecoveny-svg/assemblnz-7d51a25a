@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense, useMemo } from "react";
+import React, { lazy, Suspense, useMemo } from "react";
 import { motion, LayoutGroup } from "framer-motion";
 import { ArrowRight, ChevronDown, Check } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -13,7 +13,7 @@ import KeteWeaveVisual from "@/components/KeteWeaveVisual";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import KeteMiniIcon, { type KeteGlyph } from "@/components/kete/KeteMiniIcon";
 import WharikiFoundation from "@/components/whariki/WharikiFoundation";
-import heroWovenNetwork from "@/assets/hero-woven-network.png";
+import { KETE } from "@/data/pricing";
 import GlassPanel from "@/components/whariki/GlassPanel";
 import MaungaBorder from "@/components/whariki/MaungaBorder";
 import WovenDivider from "@/components/whariki/WovenDivider";
@@ -51,13 +51,22 @@ const stagger = (i: number) => ({
   transition: { delay: i * 0.07, duration: 0.4, ease },
 });
 
-/* ─── Data ─── */
+/* ─── Data (sourced from pricing.ts) ─── */
+const KETE_COLORS: Record<string, { color: string; accentLight: string; to: string }> = {
+  manaaki: { color: C.pounamu, accentLight: C.pounamuLight, to: "/manaaki" },
+  waihanga: { color: C.navy, accentLight: "#2A5A8C", to: "/waihanga/about" },
+  auaha: { color: C.gold, accentLight: C.goldLight, to: "/auaha/about" },
+  arataki: { color: "#C8C8C8", accentLight: "#A8A8A8", to: "/arataki" },
+  pikau: { color: C.pounamuGlow, accentLight: "#A8E6DA", to: "/pikau" },
+};
+
 const PACKS = [
-  { reo: "Manaaki", en: "Hospitality", desc: "Food safety, liquor licensing, staff scheduling — handled before you ask.", color: C.pounamu, accentLight: C.pounamuLight, to: "/manaaki" },
-  { reo: "Waihanga", en: "Construction", desc: "Payment claims, site safety, consent tracking — built for NZ construction.", color: C.navy, accentLight: "#2A5A8C", to: "/waihanga/about" },
-  { reo: "Auaha", en: "Creative & Media", desc: "Campaign workflows, brand compliance, lead generation — your creative engine.", color: C.gold, accentLight: C.goldLight, to: "/auaha/about" },
-  { reo: "Arataki", en: "Automotive", desc: "Vehicle compliance, workshop scheduling, fleet management — on autopilot.", color: "#C8C8C8", accentLight: "#A8A8A8", to: "/arataki" },
-  { reo: "Pikau", en: "Freight & Customs", desc: "Customs declarations, freight tracking, border compliance — cleared and logged.", color: C.pounamuGlow, accentLight: "#A8E6DA", to: "/pikau" },
+  ...KETE.map((k) => ({
+    reo: k.name,
+    en: k.eng,
+    desc: k.desc,
+    ...KETE_COLORS[k.key],
+  })),
   { reo: "Toro", en: "Family", desc: "School runs, meal planning, family admin — one less thing to worry about.", color: C.bone, accentLight: "#E8DDD0", to: "/toroa" },
 ];
 
