@@ -219,15 +219,22 @@ html {
 
   /* ── Glass Panel — whāriki design system ── */
   .glass-panel {
-    background: rgba(10, 22, 40, 0.7);
+    background: linear-gradient(
+      145deg,
+      rgba(18, 32, 55, 0.8) 0%,
+      rgba(10, 22, 40, 0.65) 50%,
+      rgba(14, 28, 48, 0.75) 100%
+    );
     backdrop-filter: blur(24px) saturate(1.4);
     -webkit-backdrop-filter: blur(24px) saturate(1.4);
-    border: 1px solid rgba(58, 125, 110, 0.15);
+    border: 1px solid rgba(58, 125, 110, 0.18);
     border-radius: 16px;
     box-shadow:
-      0 0 1px rgba(58, 125, 110, 0.2),
+      0 0 1px rgba(58, 125, 110, 0.25),
+      0 4px 20px rgba(58, 125, 110, 0.06),
       0 8px 32px rgba(0, 0, 0, 0.3),
-      inset 0 1px 0 rgba(212, 168, 83, 0.15);
+      inset 0 1px 0 rgba(255, 255, 255, 0.07),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.2);
     transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
     position: relative;
   }
@@ -249,12 +256,14 @@ html {
   }
 
   .glass-panel:hover {
-    border-color: rgba(58, 125, 110, 0.3);
+    border-color: rgba(58, 125, 110, 0.35);
     box-shadow:
-      0 0 1px rgba(58, 125, 110, 0.3),
-      0 -2px 12px rgba(212, 168, 83, 0.15),
+      0 0 2px rgba(58, 125, 110, 0.35),
+      0 0 30px rgba(58, 125, 110, 0.08),
+      0 -2px 16px rgba(212, 168, 83, 0.12),
       0 12px 40px rgba(0, 0, 0, 0.4),
-      inset 0 1px 0 rgba(212, 168, 83, 0.25);
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.15);
     transform: translateY(-4px);
   }
 
