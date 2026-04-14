@@ -117,7 +117,7 @@ export default function AdminComplianceDashboard() {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <DashboardGlassCard>
+        <AdminGlassCard>
           <div className="p-4">
             <div className="flex items-center gap-2 mb-2">
               <Clock size={14} style={{ color: `${BONE}50` }} />
@@ -136,9 +136,9 @@ export default function AdminComplianceDashboard() {
               <p className="text-xs" style={{ color: `${BONE}30` }}>No scans yet</p>
             )}
           </div>
-        </DashboardGlassCard>
+        </AdminGlassCard>
 
-        <DashboardGlassCard accentColor="#ef4444" glow={pendingCount > 0}>
+        <AdminGlassCard accentColor="#ef4444" glow={pendingCount > 0}>
           <div className="p-4">
             <div className="flex items-center gap-2 mb-2">
               <AlertTriangle size={14} style={{ color: pendingCount > 0 ? "#ef4444" : `${BONE}50` }} />
@@ -147,9 +147,9 @@ export default function AdminComplianceDashboard() {
             <p className="text-2xl font-light" style={{ color: pendingCount > 0 ? "#ef4444" : `${BONE}CC` }}>{pendingCount}</p>
             <p className="text-[11px]" style={{ color: `${BONE}40` }}>HIGH impact changes awaiting approval</p>
           </div>
-        </DashboardGlassCard>
+        </AdminGlassCard>
 
-        <DashboardGlassCard accentColor={POUNAMU}>
+        <AdminGlassCard accentColor={POUNAMU}>
           <div className="p-4">
             <div className="flex items-center gap-2 mb-2">
               <Brain size={14} style={{ color: POUNAMU }} />
@@ -158,9 +158,9 @@ export default function AdminComplianceDashboard() {
             <p className="text-2xl font-light" style={{ color: `${BONE}CC` }}>{totalKb}</p>
             <p className="text-[11px]" style={{ color: `${BONE}40` }}>entries across all agents</p>
           </div>
-        </DashboardGlassCard>
+        </AdminGlassCard>
 
-        <DashboardGlassCard accentColor={KOWHAI} glow={staleCount > 0}>
+        <AdminGlassCard accentColor={KOWHAI} glow={staleCount > 0}>
           <div className="p-4">
             <div className="flex items-center gap-2 mb-2">
               <Activity size={14} style={{ color: staleCount > 0 ? KOWHAI : `${BONE}50` }} />
@@ -169,7 +169,7 @@ export default function AdminComplianceDashboard() {
             <p className="text-2xl font-light" style={{ color: staleCount > 0 ? KOWHAI : `${BONE}CC` }}>{staleCount}</p>
             <p className="text-[11px]" style={{ color: `${BONE}40` }}>not verified in 90+ days</p>
           </div>
-        </DashboardGlassCard>
+        </AdminGlassCard>
       </div>
 
       {/* Tabs */}
@@ -192,7 +192,7 @@ export default function AdminComplianceDashboard() {
 
       {/* Updates Tab */}
       {tab === "updates" && (
-        <DashboardGlassCard>
+        <AdminGlassCard>
           <div className="p-4">
             {/* Filters */}
             <div className="flex gap-2 mb-4 flex-wrap">
@@ -295,12 +295,12 @@ export default function AdminComplianceDashboard() {
               </Table>
             </div>
           </div>
-        </DashboardGlassCard>
+        </AdminGlassCard>
       )}
 
       {/* Scan Log Tab */}
       {tab === "scans" && (
-        <DashboardGlassCard>
+        <AdminGlassCard>
           <div className="p-4 overflow-x-auto">
             <Table>
               <TableHeader>
@@ -343,12 +343,12 @@ export default function AdminComplianceDashboard() {
               </TableBody>
             </Table>
           </div>
-        </DashboardGlassCard>
+        </AdminGlassCard>
       )}
 
       {/* Stale Knowledge Tab */}
       {tab === "stale" && (
-        <DashboardGlassCard>
+        <AdminGlassCard>
           <div className="p-4 overflow-x-auto">
             <Table>
               <TableHeader>
@@ -384,7 +384,7 @@ export default function AdminComplianceDashboard() {
               </TableBody>
             </Table>
           </div>
-        </DashboardGlassCard>
+        </AdminGlassCard>
       )}
       </div>
     </AdminShell>
