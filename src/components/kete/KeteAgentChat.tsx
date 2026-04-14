@@ -452,6 +452,16 @@ export default function KeteAgentChat({
           </motion.div>
         )}
       </AnimatePresence>
+
+      <VoiceAgentModal
+        open={showVoice}
+        onClose={() => setShowVoice(false)}
+        agentId={defaultAgentId}
+        agentName={keteName}
+        agentColor={accentColor}
+        elevenLabsAgentId={elevenLabsAgentId}
+        onHandoffToChat={handleVoiceHandoff}
+      />
     </>
   );
 }
