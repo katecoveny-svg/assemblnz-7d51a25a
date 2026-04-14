@@ -1,24 +1,24 @@
 
 
-# Make Hero Text Stand Out Over New Video
+# Fix Auaha Broken Links
 
-## What changes
-1. **Replace the hero video** with the newly uploaded `Māori_weaving_expanding_202604141815-2.mp4`
-2. **Add a dark gradient overlay** between the video and text to ensure legibility — a semi-transparent scrim that darkens the center/bottom where text sits
-3. **Add text shadow / backdrop** to the heading and subtitle so they pop against any busy video frame:
-   - `text-shadow` with a soft dark glow on the h1
-   - Slight frosted backdrop panel behind the text block (subtle, not a solid box — a soft radial dark wash)
-4. **Reduce video opacity** slightly (from `opacity-80` to `opacity-60`) so the text layer dominates
+## Problem
+The Auaha sidebar has 17 nav links but there are route mismatches causing blank pages or 404s:
 
-## Technical detail
+1. **Duplicate Image Studios** — Nav links to `/auaha/image-studio` (PixelImageStudio) but there's also `/auaha/images` (AuahaImageStudio). Two competing components for the same purpose.
+2. **Route path `images` vs nav path `image-studio`** — The old `AuahaImageStudio` at `/auaha/images` is orphaned (no nav link points to it). The nav's "Image Studio" link at `/auaha/image-studio` works correctly.
 
-### Files
-- **`public/hero-woven-video.mp4`** — replace with new upload
-- **`src/pages/Index.tsx`** lines 166-176, 178-226:
-  - Video: change opacity class to `opacity-60`
-  - Add a new overlay div after the vignette: centered dark radial gradient scrim (`rgba(6,14,28,0.6)` center fading to transparent) positioned behind `z-10` text
-  - h1: add `textShadow: "0 2px 30px rgba(0,0,0,0.8), 0 0 60px rgba(6,14,28,0.9)"`
-  - Subtitle: add `textShadow: "0 1px 20px rgba(0,0,0,0.7)"`
-  - Tagline ("Governed Intelligence"): add similar soft shadow
-  - CTA buttons: add `backdrop-filter: blur(8px)` for glass effect against the video
+## What I'll do
+
+### 1. Remove the orphaned `/auaha/images` route
+- Delete the route for `images` → `AuahaImageStudio` from App.tsx
+- Remove the lazy import for `AuahaImageStudio`
+- Delete `src/components/auaha/AuahaImageStudio.tsx` (superseded by `src/pages/auaha/ImageStudio.tsx` which has proper brand-locking)
+
+### 2. Verify all 17 nav links match routes
+Cross-check every entry in `AUAHA_NAV` against the route definitions in App.tsx to confirm they all resolve. Based on my audit, the remaining 16 routes all match correctly.
+
+### Files modified
+- `src/App.tsx` — remove orphaned `images` route + lazy import
+- `src/components/auaha/AuahaImageStudio.tsx` — delete
 
