@@ -58,6 +58,7 @@ import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
+import KeteIcon from "@/components/kete/KeteIcon";
 import ParticleField from "@/components/ParticleField";
 import AgentTestToggle from "@/components/aaaip/AgentTestToggle";
 import { Badge } from "@/components/ui/badge";
