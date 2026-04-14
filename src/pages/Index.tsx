@@ -252,10 +252,11 @@ const Index = () => {
             </motion.div>
             {/* Convergence visual — cinematic hero style */}
             <motion.div {...fade} className="relative flex justify-center items-center rounded-2xl overflow-hidden" style={{ minHeight: 280 }}>
-              {/* Background video with hero treatment */}
-              <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none">
-                <source src="/hero-woven-video.mp4" type="video/mp4" />
-              </video>
+              {/* Static woven background */}
+              <div className="absolute inset-0 pointer-events-none opacity-50" style={{
+                backgroundImage: `linear-gradient(45deg, ${C.pounamu}12 1px, transparent 1px), linear-gradient(-45deg, ${C.gold}08 1px, transparent 1px), linear-gradient(135deg, ${C.pounamu}06 1px, transparent 1px)`,
+                backgroundSize: "18px 18px, 24px 24px, 12px 12px",
+              }} />
               {/* Dark scrim */}
               <div className="absolute inset-0 pointer-events-none" style={{
                 background: "radial-gradient(ellipse 80% 70% at 50% 50%, rgba(6,14,28,0.65) 0%, rgba(6,14,28,0.85) 100%)",
@@ -276,7 +277,7 @@ const Index = () => {
                         background: `${p.color}10`,
                         textShadow: `0 0 12px ${p.color}60`,
                       }}>
-                      {p.reo}
+                      {p.reo} <span style={{ opacity: 0.55, fontSize: "8px" }}>/ {p.en}</span>
                     </span>
                   ))}
                 </div>
