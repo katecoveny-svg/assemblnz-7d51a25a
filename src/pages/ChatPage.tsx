@@ -56,13 +56,7 @@ import ForgeEvents from "@/components/forge/ForgeEvents";
 import ForgeBrandHub from "@/components/forge/ForgeBrandHub";
 import ForgeTeam from "@/components/forge/ForgeTeam";
 import ForgeAudit from "@/components/forge/ForgeAudit";
-import ArohaContracts from "@/components/aroha/ArohaContracts";
-import ArohaOnboarding from "@/components/aroha/ArohaOnboarding";
-import ArohaPayroll from "@/components/aroha/ArohaPayroll";
-import ArohaRecruitment from "@/components/aroha/ArohaRecruitment";
-import ArohaPeopleCulture from "@/components/aroha/ArohaPeopleCulture";
-import ArohaCompanySetup from "@/components/aroha/ArohaCompanySetup";
-import ArohaRetention from "@/components/aroha/ArohaRetention";
+// Aroha imports removed — HR module retired
 import AuraPropertySetup from "@/components/aura/AuraPropertySetup";
 import AuraReservations from "@/components/aura/AuraReservations";
 import AuraGuestExperience from "@/components/aura/AuraGuestExperience";
@@ -2073,20 +2067,6 @@ const ChatPage = () => {
         <AuraTrade onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
       ) : activeTab === "aura_pos" && isAura ? (
         <AuraPOS onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
-      ) : activeTab === "aroha_contracts" && isAroha ? (
-        <ArohaContracts />
-      ) : activeTab === "aroha_onboarding" && isAroha ? (
-        <ArohaOnboarding />
-      ) : activeTab === "aroha_payroll" && isAroha ? (
-        <ArohaPayroll />
-      ) : activeTab === "aroha_recruitment" && isAroha ? (
-        <ArohaRecruitment />
-      ) : activeTab === "aroha_people" && isAroha ? (
-        <ArohaPeopleCulture />
-      ) : activeTab === "aroha_company" && isAroha ? (
-        <ArohaCompanySetup />
-      ) : activeTab === "aroha_retention" && isAroha ? (
-        <ArohaRetention />
       ) : activeTab === "forge_showroom" && isForge ? (
         <ForgeShowroom />
       ) : activeTab === "forge_sales" && isForge ? (
