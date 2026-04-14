@@ -180,7 +180,10 @@ export default function WorkspaceDashboard() {
               )}
               <div>
                 <h1 className="text-sm font-semibold text-white">{tenant.name}</h1>
-                <p className="text-[10px] text-white/40">{keteLabel} · {tenant.plan} plan</p>
+                <p className="text-[10px] text-white/40">
+                  {keteLabel} · {ROLE_LABELS[role || "free"] || tenant.plan} plan
+                  {isPaid && <Crown size={10} className="inline ml-1" style={{ color: accent }} />}
+                </p>
               </div>
             </div>
             <div className="flex gap-2">
