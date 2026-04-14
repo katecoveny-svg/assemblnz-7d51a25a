@@ -229,10 +229,24 @@ export default function KeteAgentChat({
   starterPrompts = [],
 }: KeteAgentChatProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [showVoice, setShowVoice] = useState(false);
   const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const elevenLabsAgentId = getElevenLabsAgentId(defaultAgentId);
+
+  const handleVoiceHandoff = useCallback((voiceTranscript: { role: "user" | "agent"; text: string }[]) => {
+    if (voiceTranscript.length === 0) return;
+    const chatMsgs: ChatMsg[] = voiceTranscript.map((t) => ({
+      role: t.role === "agent" ? "assistant" as const : "user" as const,
+      content: t.text,
+    }));
+    setMessages((prev) => [...prev, ...chatMsgs]);
+    setShowVoice(false);
+    setIsOpen(true);
+  }, []);
 
   useEffect(() => {
     if (scrollRef.current) {
