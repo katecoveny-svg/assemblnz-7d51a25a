@@ -56,13 +56,7 @@ import ForgeEvents from "@/components/forge/ForgeEvents";
 import ForgeBrandHub from "@/components/forge/ForgeBrandHub";
 import ForgeTeam from "@/components/forge/ForgeTeam";
 import ForgeAudit from "@/components/forge/ForgeAudit";
-import ArohaContracts from "@/components/aroha/ArohaContracts";
-import ArohaOnboarding from "@/components/aroha/ArohaOnboarding";
-import ArohaPayroll from "@/components/aroha/ArohaPayroll";
-import ArohaRecruitment from "@/components/aroha/ArohaRecruitment";
-import ArohaPeopleCulture from "@/components/aroha/ArohaPeopleCulture";
-import ArohaCompanySetup from "@/components/aroha/ArohaCompanySetup";
-import ArohaRetention from "@/components/aroha/ArohaRetention";
+// Aroha imports removed — HR module retired
 import AuraPropertySetup from "@/components/aura/AuraPropertySetup";
 import AuraReservations from "@/components/aura/AuraReservations";
 import AuraGuestExperience from "@/components/aura/AuraGuestExperience";
