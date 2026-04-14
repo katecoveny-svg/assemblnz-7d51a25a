@@ -802,9 +802,8 @@ const AdminDashboard = () => {
         {tab === "test-results" && (
           <AgentTestResultsTab />
         )}
-      </main>
-      <BrandFooter />
-    </div>
+      </div>
+    </AdminShell>
   );
 };
 
