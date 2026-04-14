@@ -9,6 +9,7 @@ import BrandFooter from "@/components/BrandFooter";
 import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import KeteRaceVideo from "@/components/kete/KeteRaceVideo";
+import TextUsButton from "@/components/kete/TextUsButton";
 
 const BG = "#09090F";
 const ACCENT = "#7ECFC2";
@@ -284,6 +285,7 @@ export default function PikauLandingPage() {
               <span className="relative z-10">Open Pikau Dashboard</span>
               <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1 transition-transform" />
             </Link>
+            <TextUsButton keteName="Pikau" accentColor={ACCENT} showWhatsApp={false} />
           </motion.div>
         </section>
 

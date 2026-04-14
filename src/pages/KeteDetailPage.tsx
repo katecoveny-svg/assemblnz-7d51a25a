@@ -3,6 +3,7 @@ import { KETE_DATA } from "@/components/kete/keteData";
 import KeteIcon from "@/components/kete/KeteIcon";
 import SEO from "@/components/SEO";
 import GlowIcon from "@/components/GlowIcon";
+import TextUsButton from "@/components/kete/TextUsButton";
 
 const KeteDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -88,11 +89,12 @@ const KeteDetailPage = () => {
           )}
 
           {/* CTA */}
-          <div className="mt-16 text-center">
+          <div className="mt-16 flex flex-col items-center gap-4">
             <button onClick={() => navigate("/contact")} className="px-6 py-3 rounded-xl text-sm font-medium transition-all hover:opacity-80"
               style={{ background: `${kete.accentColor}20`, color: kete.accentColor, border: `1px solid ${kete.accentColor}30`, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
               Get started
             </button>
+            <TextUsButton keteName={kete.name} accentColor={kete.accentColor} />
           </div>
         </div>
       </div>
