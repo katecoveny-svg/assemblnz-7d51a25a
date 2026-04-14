@@ -134,7 +134,7 @@ const Index = () => {
   }, [isPersonalized, profile.preferences.keteOrder]);
 
   return (
-    <div className="min-h-screen relative" style={{ background: C.bg, color: C.bone }}>
+    <div className="min-h-screen relative" style={{ background: `linear-gradient(180deg, #0A1628 0%, #0D1E35 30%, #0A1628 60%, #0E1A2E 100%)`, color: C.bone }}>
       <SEO
         title="assembl — Governed workflow tools for NZ businesses"
         description="Specialist operational workflows that reduce admin, surface risk earlier, and keep people in control. Built for NZ."
@@ -150,7 +150,11 @@ const Index = () => {
           <KeteParticleCanvas />
           {/* Radial vignette */}
           <div className="absolute inset-0 pointer-events-none" style={{
-            background: "radial-gradient(ellipse 80% 60% at 50% 50%, transparent 30%, rgba(10,22,40,0.7) 100%)",
+            background: "radial-gradient(ellipse 80% 60% at 50% 50%, transparent 30%, rgba(10,22,40,0.6) 100%)",
+          }} />
+          {/* Warm ambient glow behind hero text */}
+          <div className="absolute inset-0 pointer-events-none" style={{
+            background: "radial-gradient(ellipse 40% 35% at 50% 45%, rgba(212,168,83,0.06) 0%, transparent 70%)",
           }} />
           <div className="absolute inset-0 pointer-events-none" style={{ background: atmosphere.bgOverlay, opacity: 0.4 }} />
 
