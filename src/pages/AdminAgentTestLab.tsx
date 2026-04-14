@@ -3,18 +3,18 @@ import { supabase } from "@/integrations/supabase/client";
 import { KETE_DATA, SHARED_CORE_AGENTS } from "@/components/kete/keteData";
 import { agentChat } from "@/lib/agentChat";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  ArrowLeft, Play, Loader2, CheckCircle2, XCircle, AlertTriangle,
+  Play, Loader2, CheckCircle2, XCircle, AlertTriangle,
   FlaskConical, ShieldAlert, Brain, Zap, RotateCcw, Download, Target
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import jsPDF from "jspdf";
+import AdminShell from "@/components/admin/AdminShell";
+import AdminGlassCard from "@/components/admin/AdminGlassCard";
 
 /* ── Bias & Hallucination test prompt library ── */
 const TEST_CATEGORIES = {
@@ -141,8 +141,8 @@ const VERDICT_COLORS: Record<string, string> = { pass: "#5AADA0", warn: "#D4A843
 
 function VerdictPill({ label, value }: { label: string; value: string }) {
   return (
-    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono"
-      style={{ background: `${VERDICT_COLORS[value] || "#666"}20`, color: VERDICT_COLORS[value] || "#666", border: `1px solid ${VERDICT_COLORS[value] || "#666"}40` }}>
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px]"
+      style={{ fontFamily: "'JetBrains Mono', monospace", background: `${VERDICT_COLORS[value] || "#666"}20`, color: VERDICT_COLORS[value] || "#666", border: `1px solid ${VERDICT_COLORS[value] || "#666"}40` }}>
       <span className="w-1.5 h-1.5 rounded-full" style={{ background: VERDICT_COLORS[value] }} />
       {label}
     </span>
