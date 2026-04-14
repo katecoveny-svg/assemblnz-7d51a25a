@@ -372,14 +372,9 @@ export default function AaaipLanding() {
           </motion.div>
         </Section>
 
-        {/* ─── Footer ─── */}
-        <footer className="border-t py-8" style={{ borderColor: C.border }}>
-          <div className="max-w-6xl mx-auto px-6 sm:px-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs" style={{ color: C.t3 }}>
-            <p>© 2026 Assembl · Auckland, New Zealand</p>
-            <p>Confidential — prepared for AAAIP research partnership discussion</p>
-          </div>
-        </footer>
+        <BrandFooter />
       </div>
     </div>
+    </GlowPageWrapper>
   );
 }
