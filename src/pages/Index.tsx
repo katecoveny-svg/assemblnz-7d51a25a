@@ -15,7 +15,7 @@ import KeteMiniIcon, { type KeteGlyph } from "@/components/kete/KeteMiniIcon";
 import WharikiFoundation from "@/components/whariki/WharikiFoundation";
 import KeteParticleCanvas from "@/components/whariki/KeteParticleCanvas";
 import GlassPanel from "@/components/whariki/GlassPanel";
-import TanikoBorder from "@/components/whariki/TanikoBorder";
+import MaungaBorder from "@/components/whariki/MaungaBorder";
 import WovenDivider from "@/components/whariki/WovenDivider";
 
 const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel"));
@@ -267,7 +267,7 @@ const Index = () => {
                     <Link to={p.to} className="group block h-full">
                       <div className="glass-panel h-full rounded-2xl overflow-hidden transition-all duration-300 group-hover:translate-y-[-4px]"
                         style={isDetected ? { boxShadow: `0 0 40px ${C.gold}12, inset 0 1px 0 rgba(212,168,83,0.25)` } : undefined}>
-                        <TanikoBorder variant="top" />
+                        <MaungaBorder variant="top" accentColor={p.color} />
                         <div className="p-6 relative z-[1]">
                           {isDetected && (
                             <span className="text-[9px] px-2 py-0.5 rounded-full tracking-[2px] uppercase inline-block mb-3"
@@ -352,24 +352,24 @@ const Index = () => {
             {EVIDENCE_PACKS.map((pack, i) => (
               <motion.div key={pack.kete} {...stagger(i)}>
                 <GlassPanel className="p-0 h-full" tilt>
-                  <TanikoBorder variant="top" />
-                  <div className="p-6">
-                    <p className="text-[10px] tracking-[3px] uppercase mb-1" style={{ color: C.gold, fontFamily: "'JetBrains Mono', monospace" }}>Evidence Pack</p>
-                    <h3 className="text-[15px] mb-0.5" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: C.t1 }}>{pack.title}</h3>
-                    <p className="text-[11px] tracking-[1px] uppercase mb-4" style={{ color: C.pounamu, fontFamily: "'JetBrains Mono', monospace" }}>{pack.kete} · {pack.date}</p>
-                    <div className="space-y-2">
-                      {pack.checks.map((c) => (
-                        <div key={c.ref} className="flex items-center gap-2 p-2 rounded-lg" style={{ background: "rgba(58,125,110,0.06)" }}>
-                          <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0" style={{ background: `${C.pounamu}20` }}>
-                            <Check size={10} style={{ color: C.pounamuLight }} />
-                          </div>
-                          <span className="text-[12px] flex-1" style={{ color: C.t2 }}>{c.label}</span>
-                          <span className="text-[9px] tracking-wider" style={{ color: C.t3, fontFamily: "'JetBrains Mono', monospace" }}>{c.ref}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <TanikoBorder variant="bottom" />
+                   <MaungaBorder variant="top" />
+                   <div className="p-6">
+                     <p className="text-[10px] tracking-[3px] uppercase mb-1" style={{ color: C.gold, fontFamily: "'JetBrains Mono', monospace" }}>Evidence Pack</p>
+                     <h3 className="text-[15px] mb-0.5" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: C.t1 }}>{pack.title}</h3>
+                     <p className="text-[11px] tracking-[1px] uppercase mb-4" style={{ color: C.pounamu, fontFamily: "'JetBrains Mono', monospace" }}>{pack.kete} · {pack.date}</p>
+                     <div className="space-y-2">
+                       {pack.checks.map((c) => (
+                         <div key={c.ref} className="flex items-center gap-2 p-2 rounded-lg" style={{ background: "rgba(58,125,110,0.06)" }}>
+                           <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0" style={{ background: `${C.pounamu}20` }}>
+                             <Check size={10} style={{ color: C.pounamuLight }} />
+                           </div>
+                           <span className="text-[12px] flex-1" style={{ color: C.t2 }}>{c.label}</span>
+                           <span className="text-[9px] tracking-wider" style={{ color: C.t3, fontFamily: "'JetBrains Mono', monospace" }}>{c.ref}</span>
+                         </div>
+                       ))}
+                     </div>
+                   </div>
+                   <MaungaBorder variant="bottom" />
                 </GlassPanel>
               </motion.div>
             ))}
