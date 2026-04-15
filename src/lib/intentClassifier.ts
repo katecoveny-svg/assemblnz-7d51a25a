@@ -60,14 +60,14 @@ const AGENT_REGISTRY: AgentEntry[] = [
 
   // HANGA
   { id: 'ata', name: 'ATA', keteId: 'hanga', keywords: ['bim', '3d model', 'plan', 'building', 'ifc', 'revit'], specialisation: 'BIM & 3D Modelling', performanceScore: 92 },
-  { id: 'arai', name: 'ĀRAI', keteId: 'hanga', keywords: ['safety', 'h&s', 'worksafe', 'hazard', 'risk', 'ppe', 'audit'], specialisation: 'Health & Safety', performanceScore: 97 },
-  { id: 'kaupapa', name: 'KAUPAPA', keteId: 'hanga', keywords: ['project', 'plan', 'schedule', 'gantt', 'milestone', 'deadline'], specialisation: 'Project Management', performanceScore: 90 },
-  { id: 'rawa', name: 'RAWA', keteId: 'hanga', keywords: ['materials', 'procurement', 'order', 'supply', 'stock', 'inventory'], specialisation: 'Materials & Procurement', performanceScore: 85 },
-  { id: 'whakaae', name: 'WHAKAAĒ', keteId: 'hanga', keywords: ['consent', 'resource consent', 'building consent', 'council', 'rma'], specialisation: 'Consents & Compliance', performanceScore: 88 },
-  { id: 'pai', name: 'PAI', keteId: 'hanga', keywords: ['quality', 'inspection', 'defect', 'snag', 'check', 'standard'], specialisation: 'Quality Assurance', performanceScore: 86 },
-  { id: 'arc', name: 'ARC', keteId: 'hanga', keywords: ['architecture', 'design', 'draft', 'elevation', 'floor plan'], specialisation: 'Architectural Design', performanceScore: 84 },
-  { id: 'terra', name: 'TERRA', keteId: 'hanga', keywords: ['survey', 'gis', 'land', 'topography', 'map', 'site'], specialisation: 'Surveying & GIS', performanceScore: 82 },
-  { id: 'pinnacle', name: 'PINNACLE', keteId: 'hanga', keywords: ['tender', 'bid', 'proposal', 'rfp', 'pricing', 'estimate'], specialisation: 'Tender Writing', performanceScore: 91 },
+  { id: 'arai', name: 'ĀRAI', keteId: 'waihanga', keywords: ['safety', 'h&s', 'worksafe', 'hazard', 'risk', 'ppe', 'audit'], specialisation: 'Health & Safety', performanceScore: 97 },
+  { id: 'kaupapa', name: 'KAUPAPA', keteId: 'waihanga', keywords: ['project', 'plan', 'schedule', 'gantt', 'milestone', 'deadline'], specialisation: 'Project Management', performanceScore: 90 },
+  { id: 'rawa', name: 'RAWA', keteId: 'waihanga', keywords: ['materials', 'procurement', 'order', 'supply', 'stock', 'inventory'], specialisation: 'Materials & Procurement', performanceScore: 85 },
+  { id: 'whakaae', name: 'WHAKAAĒ', keteId: 'waihanga', keywords: ['consent', 'resource consent', 'building consent', 'council', 'rma'], specialisation: 'Consents & Compliance', performanceScore: 88 },
+  { id: 'pai', name: 'PAI', keteId: 'waihanga', keywords: ['quality', 'inspection', 'defect', 'snag', 'check', 'standard'], specialisation: 'Quality Assurance', performanceScore: 86 },
+  { id: 'arc', name: 'ARC', keteId: 'waihanga', keywords: ['architecture', 'design', 'draft', 'elevation', 'floor plan'], specialisation: 'Architectural Design', performanceScore: 84 },
+  { id: 'terra', name: 'TERRA', keteId: 'waihanga', keywords: ['survey', 'gis', 'land', 'topography', 'map', 'site'], specialisation: 'Surveying & GIS', performanceScore: 82 },
+  { id: 'pinnacle', name: 'PINNACLE', keteId: 'waihanga', keywords: ['tender', 'bid', 'proposal', 'rfp', 'pricing', 'estimate'], specialisation: 'Tender Writing', performanceScore: 91 },
 
   // MANAAKI
   { id: 'aura', name: 'AURA', keteId: 'manaaki', keywords: ['hotel', 'lodge', 'accommodation', 'guest', 'hospitality', 'room', 'booking'], specialisation: 'Property Operations', performanceScore: 93 },
