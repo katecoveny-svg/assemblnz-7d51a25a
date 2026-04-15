@@ -133,8 +133,13 @@ export async function agentChatStream({
       m.role === "user" ? { ...m, content: scrubPII(m.content).scrubbed } : m
     );
 
-    // Memory injection for streaming calls
+    // Brand DNA injection for streaming calls
     let enrichedPrompt = systemPrompt;
+    if (_globalBrandPrompt) {
+      enrichedPrompt = (enrichedPrompt || "") + _globalBrandPrompt;
+    }
+
+    // Memory injection for streaming calls
     if (userId && !skipMemory) {
       try {
         const memories = await searchMemory(userId, scrubbedMessage, agentId, 3);

@@ -3,9 +3,10 @@
  * Shares brand identity across all AUAHA NZ modules so that
  * Video, Copy, Podcast, and App Forge auto-adapt to the scanned brand.
  */
-import { createContext, useContext, useState, useCallback, ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { agentChat } from "@/lib/agentChat";
+import { setGlobalBrandPrompt } from "@/lib/agentChat";
 import { toast } from "sonner";
 
 export interface BrandDna {
