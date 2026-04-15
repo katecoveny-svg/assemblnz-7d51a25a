@@ -11,6 +11,7 @@ import { HighContrastProvider } from "@/components/chat/HighContrastProvider";
 import { TeReoProvider } from "@/components/chat/TeReoProvider";
 import { PersonalizationProvider } from "@/contexts/PersonalizationContext";
 import { BrandDnaProvider } from "@/contexts/BrandDnaContext";
+import { BusinessProvider } from "@/contexts/BusinessContext";
 
 import ChatPage from "./pages/ChatPage";
 import AuthPage from "./pages/AuthPage";
