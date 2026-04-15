@@ -5,6 +5,8 @@ import ReactMarkdown from "react-markdown";
 import HelmChecklist from "@/components/helm/HelmChecklist";
 import { drawAssemblPDFHeader, drawAssemblPDFFooter, renderMarkdownToPDF, AGENT_KETE_MAP } from "@/lib/pdfBranding";
 import { supabase } from "@/integrations/supabase/client";
+import TikangaCheckButton from "@/components/TikangaCheckButton";
+import NZExportPresets from "@/components/NZExportPresets";
 
 interface Props {
   title: string;
