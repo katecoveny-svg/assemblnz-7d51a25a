@@ -103,14 +103,16 @@ export default function SymbioticTriggerButtons({ sourceKete, context, agentColo
 
       // Log the symbiotic trigger
       if (user) {
-        await supabase.from("agent_triggers").insert({
-          user_id: user.id,
-          trigger_agent: sourceKete,
-          trigger_event: trigger.id,
-          target_agent: trigger.toAgentId,
-          target_action: trigger.label,
-          payload: { context: context.substring(0, 500), response: response.substring(0, 500) },
-        }).catch(() => {});
+        try {
+          await supabase.from("agent_triggers").insert({
+            user_id: user.id,
+            trigger_agent: sourceKete,
+            trigger_event: trigger.id,
+            target_agent: trigger.toAgentId,
+            target_action: trigger.label,
+            payload: { context: context.substring(0, 500), response: response.substring(0, 500) },
+          });
+        } catch { /* silent */ }
       }
 
       toast.success(`${trigger.label} complete — ${trigger.toKete} responded`);
