@@ -15,6 +15,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import SectorSwitcher from "@/components/SectorSwitcher";
 import SEO from "@/components/SEO";
+import BusinessPulse from "@/components/BusinessPulse";
+import AotearoaVerifiedBadge from "@/components/AotearoaVerifiedBadge";
 
 const GOLD = "#D4A843";
 
@@ -274,6 +276,14 @@ export default function CommandDashboard() {
                 </div>
               </div>
             </motion.div>
+
+            {/* Aotearoa Verified Badge */}
+            <AotearoaVerifiedBadge />
+          </div>
+
+          {/* Business Pulse */}
+          <div className="mt-8">
+            <BusinessPulse />
           </div>
         </div>
       </div>
