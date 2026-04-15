@@ -131,7 +131,6 @@ export default function HITLSignOff({ outputId, outputType, agentName, content, 
 
   return (
     <div>
-      {/* Compliance RAG Gate — must pass before sign-off for regulated docs */}
       {needsCompliance && (
         <ComplianceRAGGate
           content={content}
@@ -142,65 +141,62 @@ export default function HITLSignOff({ outputId, outputType, agentName, content, 
         />
       )}
 
-    <AnimatePresence mode="wait">
-      {!confirming ? (
-        <motion.button
-          key="trigger"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={() => !complianceBlocking && setConfirming(true)}
-          disabled={complianceBlocking}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl mt-3 text-sm font-medium transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed"
-          style={{
-            ...GLASS,
-            color: "#D4A843",
-          }}
-        >
-          <ShieldCheck className="w-4 h-4" />
-          Verify & Sign-Off
-        </motion.button>
-      ) : (
-        <motion.div
-          key="confirm"
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0 }}
-          className="rounded-xl p-4 mt-3 space-y-3"
-          style={{ ...GLASS, borderColor: "rgba(212,168,67,0.3)" }}
-        >
-          <div className="flex items-start gap-2">
-            <AlertTriangle className="w-4 h-4 text-[#D4A843] mt-0.5 shrink-0" />
-            <p className="text-xs text-white/70">
-              By signing off, you certify this AI-generated output has been reviewed and is accurate.
-              Your name and timestamp will be recorded for compliance auditing.
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <User className="w-4 h-4 text-white/40" />
-            <span className="text-sm text-white/60">
-              Signing as: <span className="text-white font-medium">{profile?.full_name || user?.email}</span>
-            </span>
-          </div>
-          <div className="flex gap-2">
-            <button
-              onClick={handleSignOff}
-              disabled={loading}
-              className="flex-1 py-2 rounded-lg text-sm font-semibold bg-[#00A86B] text-white hover:bg-[#00A86B]/90 disabled:opacity-50 transition-all"
-            >
-              {loading ? "Signing…" : "Confirm Sign-Off"}
-            </button>
-            <button
-              onClick={() => setConfirming(false)}
-              className="px-4 py-2 rounded-lg text-sm text-white/50 hover:text-white/80 transition-colors"
-              style={GLASS}
-            >
-              Cancel
-            </button>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+      <AnimatePresence mode="wait">
+        {!confirming ? (
+          <motion.button
+            key="trigger"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => !complianceBlocking && setConfirming(true)}
+            disabled={complianceBlocking}
+            className="mt-3 flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
+            style={{ ...GLASS, color: "#D4A843" }}
+          >
+            <ShieldCheck className="h-4 w-4" />
+            Verify & Sign-Off
+          </motion.button>
+        ) : (
+          <motion.div
+            key="confirm"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className="mt-3 space-y-3 rounded-xl p-4"
+            style={{ ...GLASS, borderColor: "rgba(212,168,67,0.3)" }}
+          >
+            <div className="flex items-start gap-2">
+              <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[#D4A843]" />
+              <p className="text-xs text-white/70">
+                By signing off, you certify this AI-generated output has been reviewed and is accurate.
+                Your name and timestamp will be recorded for compliance auditing.
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <User className="h-4 w-4 text-white/40" />
+              <span className="text-sm text-white/60">
+                Signing as: <span className="font-medium text-white">{profile?.full_name || user?.email}</span>
+              </span>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={handleSignOff}
+                disabled={loading}
+                className="flex-1 rounded-lg bg-[#00A86B] py-2 text-sm font-semibold text-white transition-all hover:bg-[#00A86B]/90 disabled:opacity-50"
+              >
+                {loading ? "Signing…" : "Confirm Sign-Off"}
+              </button>
+              <button
+                onClick={() => setConfirming(false)}
+                className="rounded-lg px-4 py-2 text-sm text-white/50 transition-colors hover:text-white/80"
+                style={GLASS}
+              >
+                Cancel
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

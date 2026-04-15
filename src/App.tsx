@@ -152,204 +152,188 @@ const App = () => (
           <BrowserRouter>
             <AuthProvider>
               <BrandDnaProvider>
-              <PersonalizationProvider>
-              <BusinessProvider>
-              <div className="pb-14 sm:pb-0">
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/app" element={<Navigate to="/kete" replace />} />
-                  <Route path="/chat/:agentId" element={<ChatPageKeyed />} />
-                  <Route path="/login" element={<AuthPage mode="login" />} />
-                  <Route path="/signup" element={<AuthPage mode="signup" />} />
-                  <Route path="/mariner" element={<Navigate to="/toro" replace />} />
-                  <Route path="/embed/:agentId" element={<Suspense fallback={null}><EmbedChatWidget /></Suspense>} />
-                  <Route path="/embed" element={<Suspense fallback={null}><EmbedPage /></Suspense>} />
-                  <Route path="/command" element={<Suspense fallback={null}><CommandDashboard /></Suspense>} />
-                  <Route path="/dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
-                  <Route path="/pricing" element={<Suspense fallback={null}><PricingPage /></Suspense>} />
-                  <Route path="/contact" element={<Suspense fallback={null}><ContactPage /></Suspense>} />
-                  <Route path="/how-it-works" element={<Suspense fallback={null}><HowItWorksPage /></Suspense>} />
-                  <Route path="/content-hub" element={<Navigate to="/how-it-works" replace />} />
-                  <Route path="/agents" element={<Navigate to="/how-it-works" replace />} />
-                  <Route path="/tools" element={<Navigate to="/how-it-works" replace />} />
-                  <Route path="/founding-pilots" element={<Navigate to="/contact" replace />} />
+                <PersonalizationProvider>
+                  <BusinessProvider>
+                    <div className="pb-14 sm:pb-0">
+                      <Routes>
+                        <Route path="/" element={<Index />} />
+                        <Route path="/app" element={<Navigate to="/kete" replace />} />
+                        <Route path="/chat/:agentId" element={<ChatPageKeyed />} />
+                        <Route path="/login" element={<AuthPage mode="login" />} />
+                        <Route path="/signup" element={<AuthPage mode="signup" />} />
+                        <Route path="/mariner" element={<Navigate to="/toro" replace />} />
+                        <Route path="/embed/:agentId" element={<Suspense fallback={null}><EmbedChatWidget /></Suspense>} />
+                        <Route path="/embed" element={<Suspense fallback={null}><EmbedPage /></Suspense>} />
+                        <Route path="/command" element={<Suspense fallback={null}><CommandDashboard /></Suspense>} />
+                        <Route path="/dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
+                        <Route path="/pricing" element={<Suspense fallback={null}><PricingPage /></Suspense>} />
+                        <Route path="/contact" element={<Suspense fallback={null}><ContactPage /></Suspense>} />
+                        <Route path="/how-it-works" element={<Suspense fallback={null}><HowItWorksPage /></Suspense>} />
+                        <Route path="/content-hub" element={<Navigate to="/how-it-works" replace />} />
+                        <Route path="/agents" element={<Navigate to="/how-it-works" replace />} />
+                        <Route path="/tools" element={<Navigate to="/how-it-works" replace />} />
+                        <Route path="/founding-pilots" element={<Navigate to="/contact" replace />} />
 
-                  {/* Admin */}
-                  <Route path="/admin" element={<Suspense fallback={null}><AdminLogin /></Suspense>} />
-                  <Route path="/admin/forgot-password" element={<Suspense fallback={null}><AdminForgotPassword /></Suspense>} />
-                  <Route path="/admin/reset-password" element={<Suspense fallback={null}><AdminResetPassword /></Suspense>} />
-                  <Route path="/admin/dashboard" element={<Suspense fallback={null}><AdminDashboard /></Suspense>} />
-                  <Route path="/admin/health" element={<Suspense fallback={null}><AdminHealthDashboard /></Suspense>} />
-                  <Route path="/admin/leads" element={<Suspense fallback={null}><AdminLeadsDashboard /></Suspense>} />
-                  <Route path="/admin/compliance" element={<Suspense fallback={null}><AdminComplianceDashboard /></Suspense>} />
-                  <Route path="/admin/test-reports" element={<Suspense fallback={null}><AdminTestReports /></Suspense>} />
-                  <Route path="/admin/knowledge" element={<Suspense fallback={null}><AdminKnowledgeBase /></Suspense>} />
-                  <Route path="/admin/flint" element={<Suspense fallback={null}><AdminFlintDashboard /></Suspense>} />
-                  <Route path="/admin/test-lab" element={<Suspense fallback={null}><AdminAgentTestLab /></Suspense>} />
-                  <Route path="/admin/analytics" element={<Suspense fallback={null}><AdminAnalyticsDashboard /></Suspense>} />
-                  <Route path="/admin/messages" element={<Suspense fallback={null}><AdminMessagesPage /></Suspense>} />
-                  <Route path="/admin/sms" element={<Suspense fallback={null}><AdminSmsPage /></Suspense>} />
-                  <Route path="/admin/messaging" element={<Suspense fallback={null}><AdminMessagingDashboard /></Suspense>} />
-                  <Route path="/admin/packs" element={<Suspense fallback={null}><AdminPacksPage /></Suspense>} />
-                  <Route path="/admin/pack-analytics" element={<Suspense fallback={null}><AdminPackAnalytics /></Suspense>} />
-                  <Route path="/admin/skill-wiring" element={<Suspense fallback={null}><SkillWiringDashboard /></Suspense>} />
+                        <Route path="/admin" element={<Suspense fallback={null}><AdminLogin /></Suspense>} />
+                        <Route path="/admin/forgot-password" element={<Suspense fallback={null}><AdminForgotPassword /></Suspense>} />
+                        <Route path="/admin/reset-password" element={<Suspense fallback={null}><AdminResetPassword /></Suspense>} />
+                        <Route path="/admin/dashboard" element={<Suspense fallback={null}><AdminDashboard /></Suspense>} />
+                        <Route path="/admin/health" element={<Suspense fallback={null}><AdminHealthDashboard /></Suspense>} />
+                        <Route path="/admin/leads" element={<Suspense fallback={null}><AdminLeadsDashboard /></Suspense>} />
+                        <Route path="/admin/compliance" element={<Suspense fallback={null}><AdminComplianceDashboard /></Suspense>} />
+                        <Route path="/admin/test-reports" element={<Suspense fallback={null}><AdminTestReports /></Suspense>} />
+                        <Route path="/admin/knowledge" element={<Suspense fallback={null}><AdminKnowledgeBase /></Suspense>} />
+                        <Route path="/admin/flint" element={<Suspense fallback={null}><AdminFlintDashboard /></Suspense>} />
+                        <Route path="/admin/test-lab" element={<Suspense fallback={null}><AdminAgentTestLab /></Suspense>} />
+                        <Route path="/admin/analytics" element={<Suspense fallback={null}><AdminAnalyticsDashboard /></Suspense>} />
+                        <Route path="/admin/messages" element={<Suspense fallback={null}><AdminMessagesPage /></Suspense>} />
+                        <Route path="/admin/sms" element={<Suspense fallback={null}><AdminSmsPage /></Suspense>} />
+                        <Route path="/admin/messaging" element={<Suspense fallback={null}><AdminMessagingDashboard /></Suspense>} />
+                        <Route path="/admin/packs" element={<Suspense fallback={null}><AdminPacksPage /></Suspense>} />
+                        <Route path="/admin/pack-analytics" element={<Suspense fallback={null}><AdminPackAnalytics /></Suspense>} />
+                        <Route path="/admin/skill-wiring" element={<Suspense fallback={null}><SkillWiringDashboard /></Suspense>} />
 
-                  {/* Sales & marketing */}
-                  <Route path="/roi" element={<Suspense fallback={null}><RoiCalculatorPage /></Suspense>} />
-                  <Route path="/about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
-                  <Route path="/case-studies" element={<Suspense fallback={null}><CaseStudiesPage /></Suspense>} />
-                  <Route path="/data-sovereignty" element={<Suspense fallback={null}><DataSovereigntyPage /></Suspense>} />
-                  
-                  <Route path="/developers" element={<Suspense fallback={null}><DevelopersPage /></Suspense>} />
+                        <Route path="/roi" element={<Suspense fallback={null}><RoiCalculatorPage /></Suspense>} />
+                        <Route path="/about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
+                        <Route path="/case-studies" element={<Suspense fallback={null}><CaseStudiesPage /></Suspense>} />
+                        <Route path="/data-sovereignty" element={<Suspense fallback={null}><DataSovereigntyPage /></Suspense>} />
+                        <Route path="/developers" element={<Suspense fallback={null}><DevelopersPage /></Suspense>} />
 
-                  {/* Legal */}
-                  <Route path="/privacy" element={<Suspense fallback={null}><PrivacyPolicy /></Suspense>} />
-                  <Route path="/terms" element={<Suspense fallback={null}><TermsOfUse /></Suspense>} />
-                  <Route path="/cookies" element={<Suspense fallback={null}><CookiePolicy /></Suspense>} />
-                  <Route path="/disclaimer" element={<Suspense fallback={null}><Disclaimer /></Suspense>} />
-                  <Route path="/security" element={<Suspense fallback={null}><SecurityPage /></Suspense>} />
-                  <Route path="/data-privacy" element={<Suspense fallback={null}><DataPrivacyLegal /></Suspense>} />
-                  <Route path="/privacy-vault" element={<Suspense fallback={null}><PrivacyVault /></Suspense>} />
+                        <Route path="/privacy" element={<Suspense fallback={null}><PrivacyPolicy /></Suspense>} />
+                        <Route path="/terms" element={<Suspense fallback={null}><TermsOfUse /></Suspense>} />
+                        <Route path="/cookies" element={<Suspense fallback={null}><CookiePolicy /></Suspense>} />
+                        <Route path="/disclaimer" element={<Suspense fallback={null}><Disclaimer /></Suspense>} />
+                        <Route path="/security" element={<Suspense fallback={null}><SecurityPage /></Suspense>} />
+                        <Route path="/data-privacy" element={<Suspense fallback={null}><DataPrivacyLegal /></Suspense>} />
+                        <Route path="/privacy-vault" element={<Suspense fallback={null}><PrivacyVault /></Suspense>} />
 
-                  {/* Functional */}
-                  <Route path="/my-apps" element={<Suspense fallback={null}><MyAppsPage /></Suspense>} />
-                  <Route path="/apps/:appName" element={<Suspense fallback={null}><SparkAppViewer /></Suspense>} />
-                  <Route path="/settings/workflows" element={<Suspense fallback={null}><WorkflowSettings /></Suspense>} />
-                  <Route path="/settings/integrations" element={<Suspense fallback={null}><IntegrationHub /></Suspense>} />
-                  <Route path="/welcome" element={<Navigate to="/onboarding" replace />} />
-                  <Route path="/onboarding" element={<Suspense fallback={null}><OnboardingPage /></Suspense>} />
-                  <Route path="/try" element={<Navigate to="/contact" replace />} />
-                  <Route path="/packs/:packSlug" element={<Navigate to="/kete" replace />} />
-                  <Route path="/sample/:kete" element={<Suspense fallback={null}><SampleEvidencePackPage /></Suspense>} />
-                  <Route path="/app/:agentId" element={<Suspense fallback={null}><AgentApp /></Suspense>} />
-                  <Route path="/care/:seniorId" element={<Suspense fallback={null}><CareDashboard /></Suspense>} />
-                  <Route path="/start" element={<Suspense fallback={null}><StartPage /></Suspense>} />
-                  <Route path="/start/pending/:id" element={<Suspense fallback={null}><StartPendingPage /></Suspense>} />
-                  <Route path="/workspace" element={<Suspense fallback={null}><WorkspaceDashboard /></Suspense>} />
-                  <Route path="/workspace/connections" element={<Suspense fallback={null}><WorkspaceConnections /></Suspense>} />
+                        <Route path="/my-apps" element={<Suspense fallback={null}><MyAppsPage /></Suspense>} />
+                        <Route path="/apps/:appName" element={<Suspense fallback={null}><SparkAppViewer /></Suspense>} />
+                        <Route path="/settings/workflows" element={<Suspense fallback={null}><WorkflowSettings /></Suspense>} />
+                        <Route path="/settings/integrations" element={<Suspense fallback={null}><IntegrationHub /></Suspense>} />
+                        <Route path="/welcome" element={<Navigate to="/onboarding" replace />} />
+                        <Route path="/onboarding" element={<Suspense fallback={null}><OnboardingPage /></Suspense>} />
+                        <Route path="/try" element={<Navigate to="/contact" replace />} />
+                        <Route path="/packs/:packSlug" element={<Navigate to="/kete" replace />} />
+                        <Route path="/sample/:kete" element={<Suspense fallback={null}><SampleEvidencePackPage /></Suspense>} />
+                        <Route path="/app/:agentId" element={<Suspense fallback={null}><AgentApp /></Suspense>} />
+                        <Route path="/care/:seniorId" element={<Suspense fallback={null}><CareDashboard /></Suspense>} />
+                        <Route path="/start" element={<Suspense fallback={null}><StartPage /></Suspense>} />
+                        <Route path="/start/pending/:id" element={<Suspense fallback={null}><StartPendingPage /></Suspense>} />
+                        <Route path="/workspace" element={<Suspense fallback={null}><WorkspaceDashboard /></Suspense>} />
+                        <Route path="/workspace/connections" element={<Suspense fallback={null}><WorkspaceConnections /></Suspense>} />
 
-                  {/* Kete browser */}
-                  <Route path="/kete" element={<Suspense fallback={null}><KeteCollectionPage /></Suspense>} />
-                  <Route path="/kete/:slug" element={<Suspense fallback={null}><KeteDetailPageNew /></Suspense>} />
+                        <Route path="/kete" element={<Suspense fallback={null}><KeteCollectionPage /></Suspense>} />
+                        <Route path="/kete/:slug" element={<Suspense fallback={null}><KeteDetailPageNew /></Suspense>} />
 
-                  {/* AAAIP */}
-                  <Route path="/aaaip" element={<Suspense fallback={null}><AaaipDashboard /></Suspense>} />
-                  <Route path="/aaaip/researcher" element={<Suspense fallback={null}><AaaipResearcher /></Suspense>} />
-                  <Route path="/aaaip/pitch-prep" element={<Suspense fallback={null}><AaaipPitchPrep /></Suspense>} />
-                  <Route path="/aaaip/landing" element={<Suspense fallback={null}><AaaipLanding /></Suspense>} />
+                        <Route path="/aaaip" element={<Suspense fallback={null}><AaaipDashboard /></Suspense>} />
+                        <Route path="/aaaip/researcher" element={<Suspense fallback={null}><AaaipResearcher /></Suspense>} />
+                        <Route path="/aaaip/pitch-prep" element={<Suspense fallback={null}><AaaipPitchPrep /></Suspense>} />
+                        <Route path="/aaaip/landing" element={<Suspense fallback={null}><AaaipLanding /></Suspense>} />
 
-                  {/* Demos */}
-                  <Route path="/demos" element={<Suspense fallback={null}><DemosHub /></Suspense>} />
-                  <Route path="/demos/pipeline" element={<Suspense fallback={null}><PipelineDemo /></Suspense>} />
-                  <Route path="/demos/evidence-pack" element={<Suspense fallback={null}><EvidencePackDemo /></Suspense>} />
-                  <Route path="/demos/confidence-scoring" element={<Suspense fallback={null}><ConfidenceScoringDemo /></Suspense>} />
-                  <Route path="/demos/kaitiaki-gate" element={<Suspense fallback={null}><KaitiakiGateDemo /></Suspense>} />
+                        <Route path="/demos" element={<Suspense fallback={null}><DemosHub /></Suspense>} />
+                        <Route path="/demos/pipeline" element={<Suspense fallback={null}><PipelineDemo /></Suspense>} />
+                        <Route path="/demos/evidence-pack" element={<Suspense fallback={null}><EvidencePackDemo /></Suspense>} />
+                        <Route path="/demos/confidence-scoring" element={<Suspense fallback={null}><ConfidenceScoringDemo /></Suspense>} />
+                        <Route path="/demos/kaitiaki-gate" element={<Suspense fallback={null}><KaitiakiGateDemo /></Suspense>} />
 
+                        <Route path="/manaaki" element={<Suspense fallback={null}><ManaakiLandingPage /></Suspense>} />
+                        <Route path="/manaaki/dashboard" element={<Suspense fallback={null}><ManaakiDashboard /></Suspense>} />
 
-                  {/* Manaaki (Hospitality) */}
-                  <Route path="/manaaki" element={<Suspense fallback={null}><ManaakiLandingPage /></Suspense>} />
-                  <Route path="/manaaki/dashboard" element={<Suspense fallback={null}><ManaakiDashboard /></Suspense>} />
+                        <Route path="/arataki" element={<Suspense fallback={null}><AratakiLandingPage /></Suspense>} />
+                        <Route path="/arataki/dashboard" element={<Suspense fallback={null}><AratakiDashboard /></Suspense>} />
 
-                  {/* Arataki (Automotive) */}
-                  <Route path="/arataki" element={<Suspense fallback={null}><AratakiLandingPage /></Suspense>} />
-                  <Route path="/arataki/dashboard" element={<Suspense fallback={null}><AratakiDashboard /></Suspense>} />
+                        <Route path="/pikau" element={<Suspense fallback={null}><PikauLandingPage /></Suspense>} />
+                        <Route path="/pikau/dashboard" element={<Suspense fallback={null}><PikauDashboard /></Suspense>} />
 
-                  {/* Pikau (Freight & Customs) */}
-                  <Route path="/pikau" element={<Suspense fallback={null}><PikauLandingPage /></Suspense>} />
-                  <Route path="/pikau/dashboard" element={<Suspense fallback={null}><PikauDashboard /></Suspense>} />
+                        <Route path="/toro" element={<Suspense fallback={null}><ToroaLandingPage /></Suspense>} />
+                        <Route path="/toro/dashboard" element={<Suspense fallback={null}><ToroaDashboard /></Suspense>} />
+                        <Route path="/toro/app" element={<Suspense fallback={null}><ToroaApp /></Suspense>} />
+                        <Route path="/toro/install" element={<Suspense fallback={null}><ToroaInstallPage /></Suspense>} />
+                        <Route path="/toro/travel" element={<Suspense fallback={null}><ToroaTravelPage /></Suspense>} />
+                        <Route path="/toro/chat" element={<Suspense fallback={null}><ToroaChatPage /></Suspense>} />
 
-                  {/* Tōro (Family) */}
-                  <Route path="/toro" element={<Suspense fallback={null}><ToroaLandingPage /></Suspense>} />
-                  <Route path="/toro/dashboard" element={<Suspense fallback={null}><ToroaDashboard /></Suspense>} />
-                  <Route path="/toro/app" element={<Suspense fallback={null}><ToroaApp /></Suspense>} />
-                  <Route path="/toro/install" element={<Suspense fallback={null}><ToroaInstallPage /></Suspense>} />
-                  <Route path="/toro/travel" element={<Suspense fallback={null}><ToroaTravelPage /></Suspense>} />
-                  <Route path="/toro/chat" element={<Suspense fallback={null}><ToroaChatPage /></Suspense>} />
+                        <Route path="/waihanga/workflow" element={<Suspense fallback={null}><WaihangaWorkflow /></Suspense>} />
+                        <Route path="/waihanga/about" element={<Suspense fallback={null}><WaihangaLandingPage /></Suspense>} />
+                        <Route path="/waihanga" element={<Suspense fallback={null}><HangaLayout /></Suspense>}>
+                          <Route index element={<HangaDashboard />} />
+                          <Route path="arai" element={<AraiSafetyPage />} />
+                          <Route path="kaupapa" element={<KaupapaDashboard />} />
+                          <Route path="site-checkin" element={<SiteCheckinPage />} />
+                          <Route path="photos" element={<PhotoDocsPage />} />
+                          <Route path="tender" element={<TenderWriterPage />} />
+                          <Route path="docs" element={<DocIntelPage />} />
+                          <Route path="comms" element={<CommsHubPage />} />
+                          <Route path="voice" element={<VoiceAgentPage />} />
+                          <Route path="ata" element={<AtaBimDashboard />} />
+                          <Route path="rawa" element={<RawaDashboard />} />
+                          <Route path="whakaae" element={<WhakaaeDashboard />} />
+                          <Route path="pai" element={<PaiDashboard />} />
+                          <Route path="overview" element={<KanohiDashboard />} />
+                          <Route path="architecture" element={<Suspense fallback={null}><WaihangaArchitecturePage /></Suspense>} />
+                        </Route>
 
-                  {/* Waihanga (Construction) */}
-                  <Route path="/waihanga/workflow" element={<Suspense fallback={null}><WaihangaWorkflow /></Suspense>} />
-                  <Route path="/waihanga/about" element={<Suspense fallback={null}><WaihangaLandingPage /></Suspense>} />
-                  <Route path="/waihanga" element={<Suspense fallback={null}><HangaLayout /></Suspense>}>
-                    <Route index element={<HangaDashboard />} />
-                    <Route path="arai" element={<AraiSafetyPage />} />
-                    <Route path="kaupapa" element={<KaupapaDashboard />} />
-                    <Route path="site-checkin" element={<SiteCheckinPage />} />
-                    <Route path="photos" element={<PhotoDocsPage />} />
-                    <Route path="tender" element={<TenderWriterPage />} />
-                    <Route path="docs" element={<DocIntelPage />} />
-                    <Route path="comms" element={<CommsHubPage />} />
-                    <Route path="voice" element={<VoiceAgentPage />} />
-                    <Route path="ata" element={<AtaBimDashboard />} />
-                    <Route path="rawa" element={<RawaDashboard />} />
-                    <Route path="whakaae" element={<WhakaaeDashboard />} />
-                    <Route path="pai" element={<PaiDashboard />} />
-                    <Route path="overview" element={<KanohiDashboard />} />
-                    <Route path="architecture" element={<Suspense fallback={null}><WaihangaArchitecturePage /></Suspense>} />
-                  </Route>
+                        <Route path="/auaha/about" element={<Suspense fallback={null}><AuahaLandingPage /></Suspense>} />
+                        <Route path="/auaha" element={<Suspense fallback={null}><AuahaLayout /></Suspense>}>
+                          <Route index element={<AuahaDashboard />} />
+                          <Route path="generate" element={<AuahaGenerate />} />
+                          <Route path="gallery" element={<AuahaGallery />} />
+                          <Route path="audit" element={<AuahaTaAudit />} />
+                          <Route path="prompts" element={<AuahaPromptLibrary />} />
+                          <Route path="whaikorero" element={<AuahaWhaikorero />} />
+                          <Route path="campaign" element={<AuahaCampaignBuilder />} />
+                          <Route path="copy" element={<AuahaCopyStudio />} />
+                          <Route path="image-studio" element={<PixelImageStudio />} />
+                          <Route path="images" element={<Navigate to="/auaha/image-studio" replace />} />
+                          <Route path="video" element={<AuahaVideoStudio />} />
+                          <Route path="loom" element={<AuahaLoomStudio />} />
+                          <Route path="podcast" element={<AuahaPodcastStudio />} />
+                          <Route path="ads" element={<AuahaAdManager />} />
+                          <Route path="calendar" element={<AuahaCalendar />} />
+                          <Route path="analytics" element={<AuahaAnalytics />} />
+                          <Route path="brand" element={<AuahaBrandIdentity />} />
+                          <Route path="web" element={<AuahaWebBuilder />} />
+                          <Route path="speech-image" element={<AuahaSpeechToImage />} />
+                          <Route path="app-spark" element={<AppSparkForge />} />
+                          <Route path="brand-scan" element={<AuahaBrandScanner />} />
+                        </Route>
 
-                  {/* Auaha (Creative) */}
-                  <Route path="/auaha/about" element={<Suspense fallback={null}><AuahaLandingPage /></Suspense>} />
-                  <Route path="/auaha" element={<Suspense fallback={null}><AuahaLayout /></Suspense>}>
-                    <Route index element={<AuahaDashboard />} />
-                    <Route path="generate" element={<AuahaGenerate />} />
-                    <Route path="gallery" element={<AuahaGallery />} />
-                    <Route path="audit" element={<AuahaTaAudit />} />
-                    <Route path="prompts" element={<AuahaPromptLibrary />} />
-                    <Route path="whaikorero" element={<AuahaWhaikorero />} />
-                    <Route path="campaign" element={<AuahaCampaignBuilder />} />
-                    <Route path="copy" element={<AuahaCopyStudio />} />
-                    <Route path="image-studio" element={<PixelImageStudio />} />
-                    <Route path="video" element={<AuahaVideoStudio />} />
-                    <Route path="loom" element={<AuahaLoomStudio />} />
-                    <Route path="podcast" element={<AuahaPodcastStudio />} />
-                    <Route path="ads" element={<AuahaAdManager />} />
-                    <Route path="calendar" element={<AuahaCalendar />} />
-                    <Route path="analytics" element={<AuahaAnalytics />} />
-                    <Route path="brand" element={<AuahaBrandIdentity />} />
-                    <Route path="web" element={<AuahaWebBuilder />} />
-                    <Route path="speech-image" element={<AuahaSpeechToImage />} />
-                    <Route path="app-spark" element={<AppSparkForge />} />
-                    <Route path="brand-scan" element={<AuahaBrandScanner />} />
-                  </Route>
-
-                  {/* ── Retired routes → redirects ── */}
-                  <Route path="/hanga" element={<Navigate to="/waihanga" replace />} />
-                  <Route path="/hanga/*" element={<Navigate to="/waihanga" replace />} />
-                  <Route path="/helm" element={<Navigate to="/toro" replace />} />
-                  <Route path="/helm/*" element={<Navigate to="/toro" replace />} />
-                  <Route path="/toroa" element={<Navigate to="/toro" replace />} />
-                  <Route path="/toroa/*" element={<Navigate to="/toro" replace />} />
-                  <Route path="/pakihi" element={<Navigate to="/" replace />} />
-                  <Route path="/hangarau" element={<Navigate to="/" replace />} />
-                  <Route path="/te-kahui-reo" element={<Navigate to="/" replace />} />
-                  <Route path="/aura" element={<Navigate to="/manaaki" replace />} />
-                  <Route path="/nexus" element={<Navigate to="/" replace />} />
-                  <Route path="/aroha" element={<Navigate to="/" replace />} />
-                  <Route path="/aroha/*" element={<Navigate to="/" replace />} />
-                  <Route path="/tradie-portal" element={<Navigate to="/waihanga" replace />} />
-                  <Route path="/landlord" element={<Navigate to="/" replace />} />
-                  <Route path="/agents/echo" element={<Navigate to="/how-it-works" replace />} />
-                  <Route path="/agents/:agentId" element={<Navigate to="/how-it-works" replace />} />
-                  <Route path="/fuel-savings" element={<Navigate to="/arataki" replace />} />
-                  <Route path="/claims-register" element={<Navigate to="/" replace />} />
-                  <Route path="/turf" element={<Navigate to="/" replace />} />
-                  <Route path="/turf-5-april-2026" element={<Navigate to="/" replace />} />
-                  <Route path="/tikanga" element={<Navigate to="/about" replace />} />
-                  <Route path="/skill-hub" element={<Navigate to="/" replace />} />
-                  <Route path="/proposal" element={<Navigate to="/contact" replace />} />
-                  <Route path="/brand-guidelines" element={<Navigate to="/about" replace />} />
-                  <Route path="/brand-assets" element={<Navigate to="/about" replace />} />
-                  <Route path="/logo-stack" element={<Navigate to="/about" replace />} />
-                  <Route path="/brand-story" element={<Navigate to="/about" replace />} />
-                  <Route path="/te-reo" element={<Navigate to="/about" replace />} />
-
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </div>
-              <EchoChatWidget />
-              <MobileTabBar />
-              </BusinessProvider>
-              </PersonalizationProvider>
+                        <Route path="/hanga" element={<Navigate to="/waihanga" replace />} />
+                        <Route path="/hanga/*" element={<Navigate to="/waihanga" replace />} />
+                        <Route path="/helm" element={<Navigate to="/toro" replace />} />
+                        <Route path="/helm/*" element={<Navigate to="/toro" replace />} />
+                        <Route path="/toroa" element={<Navigate to="/toro" replace />} />
+                        <Route path="/toroa/*" element={<Navigate to="/toro" replace />} />
+                        <Route path="/pakihi" element={<Navigate to="/" replace />} />
+                        <Route path="/hangarau" element={<Navigate to="/" replace />} />
+                        <Route path="/te-kahui-reo" element={<Navigate to="/" replace />} />
+                        <Route path="/aura" element={<Navigate to="/manaaki" replace />} />
+                        <Route path="/nexus" element={<Navigate to="/" replace />} />
+                        <Route path="/aroha" element={<Navigate to="/" replace />} />
+                        <Route path="/aroha/*" element={<Navigate to="/" replace />} />
+                        <Route path="/tradie-portal" element={<Navigate to="/waihanga" replace />} />
+                        <Route path="/landlord" element={<Navigate to="/" replace />} />
+                        <Route path="/agents/echo" element={<Navigate to="/how-it-works" replace />} />
+                        <Route path="/agents/:agentId" element={<Navigate to="/how-it-works" replace />} />
+                        <Route path="/fuel-savings" element={<Navigate to="/arataki" replace />} />
+                        <Route path="/claims-register" element={<Navigate to="/" replace />} />
+                        <Route path="/turf" element={<Navigate to="/" replace />} />
+                        <Route path="/turf-5-april-2026" element={<Navigate to="/" replace />} />
+                        <Route path="/tikanga" element={<Navigate to="/about" replace />} />
+                        <Route path="/skill-hub" element={<Navigate to="/" replace />} />
+                        <Route path="/proposal" element={<Navigate to="/contact" replace />} />
+                        <Route path="/brand-guidelines" element={<Navigate to="/about" replace />} />
+                        <Route path="/brand-assets" element={<Navigate to="/about" replace />} />
+                        <Route path="/logo-stack" element={<Navigate to="/about" replace />} />
+                        <Route path="/brand-story" element={<Navigate to="/about" replace />} />
+                        <Route path="/te-reo" element={<Navigate to="/about" replace />} />
+                        <Route path="*" element={<NotFound />} />
+                      </Routes>
+                    </div>
+                    <EchoChatWidget />
+                    <MobileTabBar />
+                  </BusinessProvider>
+                </PersonalizationProvider>
               </BrandDnaProvider>
             </AuthProvider>
           </BrowserRouter>

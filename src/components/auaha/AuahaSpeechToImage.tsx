@@ -93,9 +93,8 @@ export default function AuahaSpeechToImage() {
       const { data, error } = await supabase.functions.invoke("stitch-generate", {
         body: {
           prompt: enhancedPrompt,
-          provider: "fal",
-          model: "fal-flux-pro",
-          aspect_ratio: "landscape_16_9",
+          aspectRatio: "16:9",
+          style: "photographic",
         },
       });
 
