@@ -149,8 +149,9 @@ export default function HITLSignOff({ outputId, outputType, agentName, content, 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          onClick={() => setConfirming(true)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl mt-3 text-sm font-medium transition-all hover:scale-[1.02] active:scale-[0.98]"
+          onClick={() => !complianceBlocking && setConfirming(true)}
+          disabled={complianceBlocking}
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl mt-3 text-sm font-medium transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed"
           style={{
             ...GLASS,
             color: "#D4A843",
@@ -200,5 +201,6 @@ export default function HITLSignOff({ outputId, outputType, agentName, content, 
         </motion.div>
       )}
     </AnimatePresence>
+    </div>
   );
 }
