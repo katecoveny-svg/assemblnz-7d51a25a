@@ -284,6 +284,7 @@ const App = () => (
                           <Route path="campaign" element={<AuahaCampaignBuilder />} />
                           <Route path="copy" element={<AuahaCopyStudio />} />
                           <Route path="image-studio" element={<PixelImageStudio />} />
+                          <Route path="images" element={<Navigate to="/auaha/image-studio" replace />} />
                           <Route path="video" element={<AuahaVideoStudio />} />
                           <Route path="loom" element={<AuahaLoomStudio />} />
                           <Route path="podcast" element={<AuahaPodcastStudio />} />

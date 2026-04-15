@@ -5,7 +5,6 @@
  */
 import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { agentChat } from "@/lib/agentChat";
 import { setGlobalBrandPrompt } from "@/lib/agentChat";
 import { toast } from "sonner";
 
@@ -52,56 +51,52 @@ export function BrandDnaProvider({ children }: { children: ReactNode }) {
   const scanUrl = useCallback(async (url: string) => {
     setIsScanning(true);
     try {
-      const result = await agentChat({
-        agentId: "prism",
-        packId: "auaha",
-        message: `Scan this website and extract brand DNA: ${url}
+      const { data: sessionData } = await supabase.auth.getSession();
+      const accessToken = sessionData.session?.access_token;
 
-Return a JSON object with these exact fields:
-{
-  "businessName": "...",
-  "industry": "...",
-  "tagline": "...",
-  "voiceTone": "professional/casual/bold/playful",
-  "colors": { "primary": "#hex", "secondary": "#hex", "accent": "#hex" },
-  "keywords": ["keyword1", "keyword2", ...],
-  "targetAudience": "...",
-  "suggestions": {
-    "videoIdeas": ["idea1", "idea2", "idea3"],
-    "podcastTopics": ["topic1", "topic2", "topic3"],
-    "copyAngles": ["angle1", "angle2", "angle3"],
-    "appIdeas": ["app1", "app2"]
-  }
-}
+      if (!accessToken) {
+        throw new Error("Please sign in to run a brand scan");
+      }
 
-Be specific to the brand. NZ context. No generic ideas.`,
-        systemPrompt: "You are PRISM, Assembl's brand intelligence agent. Extract brand DNA with surgical precision. Return ONLY valid JSON, no markdown fences.",
+      const { data, error } = await supabase.functions.invoke("scan-website", {
+        headers: { Authorization: `Bearer ${accessToken}` },
+        body: { url },
       });
 
-      // Parse JSON from response
-      const jsonMatch = result.match(/\{[\s\S]*\}/);
-      if (!jsonMatch) throw new Error("Could not parse brand data");
-      
-      const parsed = JSON.parse(jsonMatch[0]);
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      if (!data?.brandDna) throw new Error("Could not parse brand data");
+
+      const scanned = data.brandDna;
+      const traits = scanned.voice_tone?.personality_traits || [];
       const brandData: BrandDna = {
-        businessName: parsed.businessName || "Unknown",
-        industry: parsed.industry || "General",
-        tagline: parsed.tagline || "",
-        voiceTone: parsed.voiceTone || "professional",
-        colors: parsed.colors || { primary: "#00A86B", secondary: "#0A0A0A", accent: "#00CED1" },
-        keywords: parsed.keywords || [],
-        targetAudience: parsed.targetAudience || "",
+        businessName: scanned.business_name || "Unknown",
+        industry: scanned.industry || "General",
+        tagline: scanned.tagline || scanned.brand_summary || "",
+        voiceTone: scanned.voice_tone?.tone_category || traits.join(", ") || "professional",
+        colors: {
+          primary: scanned.visual_identity?.primary_color || "#00A86B",
+          secondary: scanned.visual_identity?.secondary_color || "#0A0A0A",
+          accent: scanned.visual_identity?.accent_color || "#00CED1",
+        },
+        keywords: scanned.usps || scanned.key_products || [],
+        targetAudience: scanned.target_audience || "",
+        logoUrl: scanned.logo_url || undefined,
         scanUrl: url,
-        suggestions: parsed.suggestions || { videoIdeas: [], podcastTopics: [], copyAngles: [], appIdeas: [] },
+        suggestions: {
+          videoIdeas: (scanned.key_products || []).slice(0, 3).map((item: string) => `${scanned.business_name || "Brand"} feature spotlight: ${item}`),
+          podcastTopics: (scanned.usps || []).slice(0, 3).map((item: string) => `${scanned.business_name || "Brand"} on ${item}`),
+          copyAngles: (scanned.usps || []).slice(0, 3).map((item: string) => `Lead with ${item}`),
+          appIdeas: (scanned.key_products || []).slice(0, 2).map((item: string) => `${item} customer workflow`),
+        },
       };
 
       setBrand(brandData);
 
-      // Persist to brand_identities table
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
+      const { data: userData } = await supabase.auth.getUser();
+      if (userData.user) {
         await supabase.from("brand_identities").upsert({
-          user_id: user.id,
+          user_id: userData.user.id,
           brand_name: brandData.businessName,
           voice_tone: brandData.voiceTone,
           keywords: brandData.keywords,
@@ -109,10 +104,14 @@ Be specific to the brand. NZ context. No generic ideas.`,
           mission: brandData.tagline,
           scanned_url: url,
           colors: brandData.colors as any,
-          scan_data: brandData as any,
+          logo_url: brandData.logoUrl || null,
+          scan_data: scanned as any,
         }, { onConflict: "user_id" });
       }
 
+      if (data?.scanWarning) {
+        toast.warning(data.scanWarning);
+      }
       toast.success(`Brand DNA extracted for ${brandData.businessName}`);
     } catch (e: any) {
       toast.error(e.message || "Brand scan failed");
