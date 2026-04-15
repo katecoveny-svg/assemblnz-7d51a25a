@@ -82,6 +82,9 @@ export default function AratakiLandingPage() {
           </motion.div>
         </main>
 
+        {/* ── Real Use Case ── */}
+        <KeteUseCaseSection data={ARATAKI_USE_CASE} />
+
         {/* Sections */}
         <section className="max-w-5xl mx-auto px-6 pb-24">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
