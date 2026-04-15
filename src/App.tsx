@@ -348,8 +348,8 @@ const App = () => (
               </div>
               <EchoChatWidget />
               <MobileTabBar />
-              </PersonalizationProvider>
               </BusinessProvider>
+              </PersonalizationProvider>
               </BrandDnaProvider>
             </AuthProvider>
           </BrowserRouter>
