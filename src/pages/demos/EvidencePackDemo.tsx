@@ -24,10 +24,12 @@ const EvidencePackDemo = () => {
 
   return (
     <div className="min-h-screen" style={{ background: "linear-gradient(180deg, #0A1628 0%, #0D1E35 50%, #0A1628 100%)", color: "#F5F0E8" }}>
-      <SEO title="Evidence Pack Demo | assembl" description="See what a customer keeps — a structured, watermarked evidence pack with legislative citations and confidence scores." path="/demos/evidence-pack" />
+      <SEO title="Evidence Pack Demo | assembl" description="See what a customer keeps — a structured, watermarked evidence pack with legislative citations and confidence scores." path="/demos/evidence-pack" image="/og/demos-evidence-pack.png" />
       <BrandNav />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-28 pb-20">
+        <DemoBreadcrumb title="Evidence pack" />
+        <DemoProvesCard slug="evidence-pack" />
         <div className="rounded-xl px-4 py-2 text-center mb-10" style={{ background: "rgba(240,208,120,0.08)", border: "1px solid rgba(240,208,120,0.2)" }}>
           <p className="text-[11px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#F0D078" }}>
             Demo mode — no real data leaves this page
@@ -146,6 +148,7 @@ const EvidencePackDemo = () => {
         )}
       </div>
 
+      <DemoBottomNav />
       <BrandFooter />
     </div>
   );
