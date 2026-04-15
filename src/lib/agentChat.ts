@@ -51,10 +51,10 @@ export async function agentChat({ agentId, message, messages = [], packId, syste
       Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
     },
     body: JSON.stringify({
-      message,
+      message: scrubbedMessage,
       agentId,
       packId: packId || agentId,
-      messages,
+      messages: scrubbedMessages,
       ...(enrichedPrompt ? { systemPromptOverride: enrichedPrompt } : {}),
     }),
   });
