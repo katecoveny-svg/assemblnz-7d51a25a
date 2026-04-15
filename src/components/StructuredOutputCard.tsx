@@ -52,6 +52,7 @@ function detectOutputType(content: string): string | null {
 const StructuredOutputCard = ({ title, content, agentName, agentColor, hasChecklist }: Props) => {
   const [copied, setCopied] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
+  const outputType = detectOutputType(content) || "AI Output";
 
   const handleCopy = () => {
     navigator.clipboard.writeText(content);
