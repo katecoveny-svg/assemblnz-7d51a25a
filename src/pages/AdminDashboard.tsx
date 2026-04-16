@@ -520,6 +520,14 @@ const AdminDashboard = () => {
             </div>
           )}
 
+          {/* ═══ BRAND ASSETS ═══ */}
+          {section === "brand-assets" && (
+            <div className="space-y-6">
+              <SectionTitle title="Brand Assets" subtitle="Download and share brand video, logos & socials" icon={Sparkles} color={GOLD} />
+              <AdminBrandAssetsTab />
+            </div>
+          )}
+
           {/* ═══ USERS ═══ */}
           {section === "users" && (
             <div className="space-y-6">
