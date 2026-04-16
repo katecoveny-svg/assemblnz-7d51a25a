@@ -413,6 +413,7 @@ export default function HangaDashboard() {
 
       <KeteDocUpload
         keteSlug="waihanga"
+        keteName="Waihanga"
         keteColor={C.kowhai}
       />
     </KeteDashboardShell>
