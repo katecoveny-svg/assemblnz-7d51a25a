@@ -363,7 +363,7 @@ const Index = () => {
               </motion.p>
             </motion.div>
 
-            {/* Right: Liquid Koru */}
+            {/* Right: Animated Koru Hero */}
             <motion.div
               style={{ y: blobParallax }}
               className="relative flex items-center justify-center"
@@ -371,14 +371,87 @@ const Index = () => {
               animate={{ opacity: heroTyped ? 1 : 0, scale: heroTyped ? 1 : 0.85 }}
               transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
             >
+              {/* Pulsing glow rings behind */}
+              <motion.div className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                animate={{ scale: [1, 1.08, 1], opacity: [0.3, 0.6, 0.3] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <div className="w-[70%] h-[70%] rounded-full" style={{
+                  background: "radial-gradient(circle, rgba(74,165,168,0.2) 0%, rgba(232,169,72,0.1) 40%, transparent 70%)",
+                  filter: "blur(40px)",
+                }} />
+              </motion.div>
+              <motion.div className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                animate={{ scale: [1.05, 1.15, 1.05], opacity: [0.15, 0.35, 0.15] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+              >
+                <div className="w-[85%] h-[85%] rounded-full" style={{
+                  background: "radial-gradient(circle, rgba(184,165,208,0.15) 0%, rgba(74,165,168,0.08) 50%, transparent 70%)",
+                  filter: "blur(60px)",
+                }} />
+              </motion.div>
+
+              {/* Main image with float + slow rotation */}
               <motion.img
                 src={koruHeroImg}
                 alt="Assembl Koru data network — glass spheres connected in a spiral"
-                className="w-full max-w-[560px] mx-auto drop-shadow-2xl"
-                style={{ filter: "drop-shadow(0 20px 60px rgba(74,165,168,0.25))" }}
-                animate={{ y: [0, -12, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                className="relative z-10 w-full max-w-[560px] mx-auto"
+                style={{ filter: "drop-shadow(0 20px 60px rgba(74,165,168,0.3)) drop-shadow(0 8px 24px rgba(232,169,72,0.15))" }}
+                animate={{ y: [0, -14, 0], rotate: [0, 1.5, 0, -1.5, 0] }}
+                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
               />
+
+              {/* Sparkle particles */}
+              <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden">
+                {Array.from({ length: 28 }).map((_, i) => {
+                  const angle = (i / 28) * Math.PI * 2;
+                  const r = 25 + (i * 17) % 35;
+                  const cx = 50 + Math.cos(angle) * r;
+                  const cy = 50 + Math.sin(angle) * r;
+                  const colors = ["#4AA5A8", "#E8A948", "#B8A5D0", "#7BA88C", "#E8A090", "#FFFFFF"];
+                  const color = colors[i % colors.length];
+                  const size = i % 5 === 0 ? 4 : 2;
+                  return (
+                    <motion.div
+                      key={i}
+                      className="absolute rounded-full"
+                      style={{
+                        left: `${cx}%`, top: `${cy}%`,
+                        width: size, height: size,
+                        background: color,
+                        boxShadow: `0 0 ${size * 3}px ${color}`,
+                      }}
+                      animate={{
+                        opacity: [0, 1, 0],
+                        scale: [0.5, 1.8, 0.5],
+                        y: [0, (i % 2 === 0 ? -15 : 15)],
+                      }}
+                      transition={{
+                        duration: 2.5 + (i % 4),
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: i * 0.18,
+                      }}
+                    />
+                  );
+                })}
+              </div>
+
+              {/* Shimmer sweep across the image */}
+              <motion.div
+                className="absolute inset-0 z-20 pointer-events-none overflow-hidden rounded-lg"
+                style={{ mixBlendMode: "overlay" }}
+              >
+                <motion.div
+                  className="absolute w-[30%] h-full"
+                  style={{
+                    background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent)",
+                    top: 0,
+                  }}
+                  animate={{ left: ["-30%", "130%"] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", repeatDelay: 3 }}
+                />
+              </motion.div>
             </motion.div>
           </div>
         </section>
