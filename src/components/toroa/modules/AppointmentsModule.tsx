@@ -29,7 +29,7 @@ const categoryColors: Record<string, string> = {
 };
 
 const glass = {
-  background: "rgba(15,15,26,0.55)",
+  background: "rgba(255,255,255,0.65)",
   border: `1px solid ${KOWHAI}15`,
   backdropFilter: "blur(14px)",
 };
@@ -41,7 +41,7 @@ export default function AppointmentsModule({ appointments }: Props) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="font-display text-xs uppercase tracking-[0.2em] flex items-center gap-2" style={{ color: `${BONE}90` }}>
+        <h2 className="font-display text-xs uppercase tracking-[0.2em] flex items-center gap-2" style={{ color: "#1A1D29"}90` }}>
           <Clock size={14} style={{ color: KOWHAI }} /> Appointments
         </h2>
         {overdue.length > 0 && (
@@ -74,18 +74,18 @@ export default function AppointmentsModule({ appointments }: Props) {
                 <div className="flex items-start justify-between">
                   <div>
                     <p className="font-body text-xs" style={{ color: apt.is_overdue ? "#fca5a5" : `${BONE}CC` }}>{apt.title}</p>
-                    {apt.member_name && <p className="font-body text-[10px]" style={{ color: `${BONE}50` }}>{apt.member_name}</p>}
+                    {apt.member_name && <p className="font-body text-[10px]" style={{ color: "#1A1D29"}50` }}>{apt.member_name}</p>}
                     {apt.location && (
-                      <p className="font-body text-[10px] flex items-center gap-1 mt-0.5" style={{ color: `${BONE}40` }}>
+                      <p className="font-body text-[10px] flex items-center gap-1 mt-0.5" style={{ color: "#1A1D29"}40` }}>
                         <MapPin size={8} /> {apt.location}
                       </p>
                     )}
                   </div>
                   <div className="text-right">
-                    <p className="font-mono text-[10px]" style={{ color: `${BONE}60` }}>
+                    <p className="font-mono text-[10px]" style={{ color: "#1A1D29"}60` }}>
                       {d.toLocaleDateString("en-NZ", { day: "numeric", month: "short" })}
                     </p>
-                    <p className="font-mono text-[9px]" style={{ color: `${BONE}35` }}>
+                    <p className="font-mono text-[9px]" style={{ color: "#1A1D29"}35` }}>
                       {d.toLocaleTimeString("en-NZ", { hour: "2-digit", minute: "2-digit" })}
                     </p>
                   </div>

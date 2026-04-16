@@ -23,7 +23,7 @@ function GlassCard({ children, className = "" }: { children: React.ReactNode; cl
   return (
     <div
       className={`rounded-xl border backdrop-blur-xl ${className}`}
-      style={{ background: "rgba(15,15,26,0.7)", borderColor: "rgba(255,255,255,0.1)" }}
+      style={{ background: "rgba(255,255,255,0.65)", borderColor: "rgba(255,255,255,0.1)" }}
     >
       {children}
     </div>
@@ -137,7 +137,7 @@ export default function ImageStudio() {
   return (
     <div className="p-6 lg:p-8 max-w-[1400px] mx-auto space-y-6">
       <div>
-        <p className="text-white/40 text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Image Studio</p>
+        <p className="text-[#9CA3AF] text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Image Studio</p>
         <h1
           className="text-foreground text-2xl font-light uppercase tracking-[4px]"
           style={{ fontFamily: "Lato, sans-serif" }}
@@ -154,7 +154,7 @@ export default function ImageStudio() {
         <div className="space-y-5">
           {/* Reference image upload */}
           <GlassCard className="p-5 space-y-3">
-            <h3 className="text-white/70 text-xs uppercase tracking-[2px]">
+            <h3 className="text-[#3D4250] text-xs uppercase tracking-[2px]">
               Reference Image{" "}
               <span className="text-gray-400 normal-case tracking-normal">
                 (optional — for face / identity matching)
@@ -173,7 +173,7 @@ export default function ImageStudio() {
                     onClick={clearReference}
                     className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-white/80 border border-gray-300 flex items-center justify-center"
                   >
-                    <X className="w-3 h-3 text-white/70" />
+                    <X className="w-3 h-3 text-[#3D4250]" />
                   </button>
                 </div>
                 <div className="flex-1 space-y-2">
@@ -213,7 +213,7 @@ export default function ImageStudio() {
                 }`}
               >
                 <Upload className="w-6 h-6 text-gray-400 mx-auto mb-2" />
-                <p className="text-white/40 text-xs">
+                <p className="text-[#9CA3AF] text-xs">
                   Drag &amp; drop or <span className="underline">browse</span>
                 </p>
                 <p className="text-white/20 text-[10px] mt-1">JPG, PNG, WebP · max 10MB</p>
@@ -235,7 +235,7 @@ export default function ImageStudio() {
 
           {/* Prompt */}
           <GlassCard className="p-5 space-y-3">
-            <h3 className="text-white/70 text-xs uppercase tracking-[2px]">Prompt</h3>
+            <h3 className="text-[#3D4250] text-xs uppercase tracking-[2px]">Prompt</h3>
             <textarea
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
@@ -283,7 +283,7 @@ export default function ImageStudio() {
 
         {/* Right — results gallery */}
         <GlassCard className="p-5">
-          <span className="text-white/60 text-xs uppercase tracking-[2px] block mb-4">Generated Images</span>
+          <span className="text-[#6B7280] text-xs uppercase tracking-[2px] block mb-4">Generated Images</span>
           {results.length > 0 ? (
             <div className="space-y-4">
               {results.map((url, i) => (
