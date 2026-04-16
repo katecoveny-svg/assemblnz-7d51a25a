@@ -116,7 +116,7 @@ export default function CaseStudiesPage() {
                   <h3 className="text-base mb-2" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400 }}>
                     {c.packTitle}
                   </h3>
-                  <p className="text-xs mb-1" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  <p className="text-xs mb-1" style={{ color: "#6B7280", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                     {c.business} · {c.meeting}
                   </p>
                   <blockquote className="text-sm italic mt-4 pt-4" style={{ color: "#9CA3AF", borderTop: "1px solid rgba(255,255,255,0.06)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>

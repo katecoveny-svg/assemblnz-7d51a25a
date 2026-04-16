@@ -54,7 +54,7 @@ export default function SparkAppViewer() {
       <div className="min-h-screen flex items-center justify-center" style={{ background: "#09090F" }}>
         <div className="text-center space-y-2">
           <p className="text-lg font-display font-bold" style={{ color: "#E4E4EC" }}>App not found</p>
-          <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>This app may have been removed or paused.</p>
+          <p className="text-xs" style={{ color: "#6B7280" }}>This app may have been removed or paused.</p>
         </div>
       </div>
     );
@@ -83,7 +83,7 @@ export default function SparkAppViewer() {
   if (!htmlContent) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: "#09090F" }}>
-        <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>Loading...</p>
+        <p className="text-xs" style={{ color: "#9CA3AF" }}>Loading...</p>
       </div>
     );
   }

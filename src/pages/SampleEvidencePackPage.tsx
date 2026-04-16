@@ -687,10 +687,10 @@ const SampleEvidencePackPage = () => {
               ].map(({ label, value, icon: Icon }) => (
                 <div key={label} className="flex flex-col gap-1">
                   <div className="flex items-center gap-1.5">
-                    <Icon size={11} style={{ color: "rgba(255,255,255,0.3)" }} />
+                    <Icon size={11} style={{ color: "#9CA3AF" }} />
                     <span
                       className="text-[9px] tracking-[2px] uppercase"
-                      style={{ fontFamily: FONT_MONO, color: "rgba(255,255,255,0.3)" }}
+                      style={{ fontFamily: FONT_MONO, color: "#9CA3AF" }}
                     >
                       {label}
                     </span>
@@ -782,7 +782,7 @@ const SampleEvidencePackPage = () => {
                   fontFamily: FONT_BODY,
                   color: "#4AA5A8",
                   background: "rgba(255,255,255,0.06)",
-                  border: "1px solid rgba(255,255,255,0.12)",
+                  border: "1px solid rgba(74,165,168,0.15)",
                 }}
               >
                 <Printer size={12} />
@@ -799,7 +799,7 @@ const SampleEvidencePackPage = () => {
                   style={{
                     fontFamily: FONT_BODY,
                     color: "#6B7280",
-                    background: "rgba(255,255,255,0.04)",
+                    background: "rgba(255,255,255,0.65)",
                     border: "1px solid rgba(74,165,168,0.15)",
                   }}
                 >
@@ -852,7 +852,7 @@ const SampleEvidencePackPage = () => {
                 style={{
                   fontFamily: FONT_BODY,
                   color: "#6B7280",
-                  border: "1px solid rgba(255,255,255,0.12)",
+                  border: "1px solid rgba(74,165,168,0.15)",
                 }}
               >
                 See all kete <ChevronRight size={14} />
@@ -864,7 +864,7 @@ const SampleEvidencePackPage = () => {
           <motion.div className="mt-10" {...fade(1.1)}>
             <p
               className="text-[9px] tracking-[3px] uppercase text-center mb-4"
-              style={{ fontFamily: FONT_MONO, color: "rgba(255,255,255,0.25)" }}
+              style={{ fontFamily: FONT_MONO, color: "#9CA3AF" }}
             >
               Explore other kete
             </p>

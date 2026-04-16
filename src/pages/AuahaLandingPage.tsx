@@ -14,7 +14,7 @@ import TextUsButton from "@/components/kete/TextUsButton";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
 import { AUAHA_USE_CASE } from "@/data/useCases";
 
-const BG = "#09090F";
+const BG = "#FAFBFC";
 const ACCENT = "#F0D078";
 const POUNAMU = "#3A7D6E";
 const POUNAMU_LIGHT = "#7ECFC2";
@@ -220,7 +220,7 @@ export default function AuahaLandingPage() {
                   { label: "Audience", value: "Local families, 25–45" },
                   { label: "Channels", value: "Instagram, Facebook, EDM" },
                 ].map((f, idx) => (
-                  <motion.div key={f.label} className="p-3 rounded-lg text-xs" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.04)" }}
+                  <motion.div key={f.label} className="p-3 rounded-lg text-xs" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}
                     initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }}>
                     <span className="text-white/25 text-[10px]">{f.label}</span>
                     <p className="text-assembl-text/70 font-mono mt-1">{f.value}</p>
@@ -230,11 +230,11 @@ export default function AuahaLandingPage() {
             )}
             {activeDemo === 1 && (
               <motion.div className="space-y-3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} key="ad-1">
-                <div className="p-4 rounded-lg" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.04)" }}>
+                <div className="p-4 rounded-lg" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}>
                   <p className="text-[10px] text-white/30 mb-1">Instagram caption — drafted by MUSE</p>
                   <p className="text-xs text-white/60 italic">"Sunday mornings at Kōwhai. Fresh baking, strong flat whites, and the sun hitting the deck just right. Come find your spot 🌿☕"</p>
                 </div>
-                <div className="p-4 rounded-lg" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.04)" }}>
+                <div className="p-4 rounded-lg" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}>
                   <p className="text-[10px] text-white/30 mb-1">EDM subject line — drafted by PRISM</p>
                   <p className="text-xs text-white/60 italic">"This week at Kōwhai: New winter menu + live music Friday"</p>
                 </div>
@@ -248,7 +248,7 @@ export default function AuahaLandingPage() {
                   { check: "Privacy Act — no PII in content", st: "pass" },
                   { check: "Human approval — awaiting sign-off", st: "pending" },
                 ].map((c, idx) => (
-                  <motion.div key={c.check} className="flex items-center justify-between text-xs p-3 rounded-lg" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.04)" }}
+                  <motion.div key={c.check} className="flex items-center justify-between text-xs p-3 rounded-lg" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}
                     initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.08 }}>
                     <span className="text-gray-500">{c.check}</span>
                     <span className={`text-[10px] uppercase font-semibold ${c.st === "pass" ? "text-emerald-400" : "text-amber-400"}`}>{c.st}</span>

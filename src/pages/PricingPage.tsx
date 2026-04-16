@@ -79,7 +79,7 @@ const PricingPage = () => (
         }}>
           Pick the kete that matches your industry. Every plan includes the full governance pipeline, SMS & WhatsApp, and your dashboard.
         </p>
-        <p className="text-[12px]" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.3)" }}>
+        <p className="text-[12px]" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#9CA3AF" }}>
           All prices NZD · Exclude GST (add 15%)
         </p>
       </div>
@@ -127,7 +127,7 @@ const PricingPage = () => (
                   <span className="text-[32px]" style={{
                     fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, color: C.white,
                   }}>${data.price.toLocaleString()}</span>
-                  <span className="text-[14px] ml-1" style={{ color: "rgba(255,255,255,0.4)" }}>/mo</span>
+                  <span className="text-[14px] ml-1" style={{ color: "#6B7280" }}>/mo</span>
                 </div>
 
                 {/* Setup */}
@@ -136,14 +136,14 @@ const PricingPage = () => (
                     + ${data.setup.toLocaleString()} setup
                   </p>
                 )}
-                <p className="text-[11px] mb-6" style={{ color: "rgba(255,255,255,0.25)" }}>
+                <p className="text-[11px] mb-6" style={{ color: "#9CA3AF" }}>
                   {data.setupNote || "Setup splittable across 3 invoices"}
                 </p>
 
                 {/* Descriptor */}
                 <p className="text-[13px] leading-[1.8] mb-6 pb-6" style={{
                   fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280",
-                  borderBottom: "1px solid rgba(255,255,255,0.06)",
+                  borderBottom: "1px solid rgba(74,165,168,0.1)",
                 }}>
                   {data.descriptor}
                 </p>
@@ -196,7 +196,7 @@ const PricingPage = () => (
       </div>
 
       {/* Annual discount note */}
-      <p className="text-center mt-8 text-[13px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.4)" }}>
+      <p className="text-center mt-8 text-[13px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
         Annual prepay saves 12% on any business tier. <Link to="/contact" className="underline" style={{ color: C.gold }}>Talk to us</Link>.
       </p>
     </section>
@@ -223,7 +223,7 @@ const PricingPage = () => (
           </h3>
           <div className="mb-4">
             <span className="text-[28px]" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, color: C.white }}>$29</span>
-            <span className="text-[14px] ml-1" style={{ color: "rgba(255,255,255,0.4)" }}>/mo</span>
+            <span className="text-[14px] ml-1" style={{ color: "#6B7280" }}>/mo</span>
           </div>
           <p className="text-[13px] leading-[1.8] mb-5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
             SMS-first AI for NZ whānau. No app, no login — just text. School runs, meal planning, family admin.
@@ -254,7 +254,7 @@ const PricingPage = () => (
           </h3>
           <div className="mb-4">
             <span className="text-[22px]" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, color: C.white }}>From $5,000</span>
-            <span className="text-[14px] ml-1" style={{ color: "rgba(255,255,255,0.4)" }}>/mo</span>
+            <span className="text-[14px] ml-1" style={{ color: "#6B7280" }}>/mo</span>
           </div>
           <p className="text-[13px] leading-[1.8] mb-5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
             Bespoke engagements where Assembl takes on the result. Base fee + 10–20% of measured savings.
@@ -296,7 +296,7 @@ const PricingPage = () => (
           border: "1px solid rgba(74,165,168,0.15)",
         }}>
           {/* Header */}
-          <div className="grid grid-cols-5 gap-0 px-6 py-4" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+          <div className="grid grid-cols-5 gap-0 px-6 py-4" style={{ borderBottom: "1px solid rgba(74,165,168,0.1)" }}>
             <div className="col-span-1" />
             {["Operator", "Leader", "Enterprise", "Outcome"].map((name) => (
               <div key={name} className="text-center">
@@ -325,7 +325,7 @@ const PricingPage = () => (
                     {val === true ? (
                       <Check size={14} className="mx-auto" style={{ color: C.pounamuGlow }} />
                     ) : val === false ? (
-                      <X size={14} className="mx-auto" style={{ color: "rgba(255,255,255,0.15)" }} />
+                      <X size={14} className="mx-auto" style={{ color: "#D1D5DB" }} />
                     ) : (
                       <span className="text-[11px]" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#6B7280" }}>
                         {val}
@@ -367,7 +367,7 @@ const PricingPage = () => (
                 <p className="text-[14px] mb-0.5" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: "rgba(255,255,255,0.8)" }}>
                   {addon.name}
                 </p>
-                <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.3)" }}>
+                <p className="text-[11px]" style={{ color: "#9CA3AF" }}>
                   Available: {addon.available}
                 </p>
               </div>
@@ -396,7 +396,7 @@ const PricingPage = () => (
             fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "4px",
             textTransform: "uppercase", color: "rgba(255,255,255,0.9)",
           }}>Five locked industries</h2>
-          <p className="text-[14px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.4)" }}>
+          <p className="text-[14px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
             Pick 1, 2, or all 5 depending on your plan
           </p>
         </motion.div>
@@ -449,12 +449,12 @@ const PricingPage = () => (
             Get started <ArrowRight size={13} className="group-hover:translate-x-1.5 transition-transform" />
           </Link>
           <Link to="/demos" className="inline-flex items-center justify-center gap-2 px-12 py-4 text-[11px] tracking-[2px] uppercase font-medium rounded-full transition-all duration-300"
-            style={{ border: "1px solid rgba(255,255,255,0.12)", color: "#9CA3AF", fontFamily: "'Lato', sans-serif" }}>
+            style={{ border: "1px solid rgba(74,165,168,0.15)", color: "#9CA3AF", fontFamily: "'Lato', sans-serif" }}>
             See the demos
           </Link>
         </div>
-        <p className="mt-8 text-[12px]" style={{ color: "rgba(255,255,255,0.25)" }}>
-          Or email <a href="mailto:assembl@assembl.co.nz" className="underline" style={{ color: "rgba(255,255,255,0.4)" }}>assembl@assembl.co.nz</a>
+        <p className="mt-8 text-[12px]" style={{ color: "#9CA3AF" }}>
+          Or email <a href="mailto:assembl@assembl.co.nz" className="underline" style={{ color: "#6B7280" }}>assembl@assembl.co.nz</a>
         </p>
       </div>
     </section>

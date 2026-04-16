@@ -166,7 +166,7 @@ export default function ToroaLandingPage() {
               </Link>
               <a href="sms:+64223194572?body=Hi%20Toro"
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm uppercase tracking-[0.15em] font-light transition-all"
-                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)", color: BONE }}>
+                style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)", color: BONE }}>
                 Text us now <Phone size={14} />
               </a>
             </motion.div>

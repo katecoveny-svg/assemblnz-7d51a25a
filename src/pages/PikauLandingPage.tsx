@@ -14,7 +14,7 @@ import TextUsButton from "@/components/kete/TextUsButton";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
 import { PIKAU_USE_CASE } from "@/data/useCases";
 
-const BG = "#09090F";
+const BG = "#FAFBFC";
 const ACCENT = "#7ECFC2";
 const POUNAMU = "#3A7D6E";
 const POUNAMU_LIGHT = "#7ECFC2";
@@ -226,7 +226,7 @@ export default function PikauLandingPage() {
                   { label: "Value", value: "$12,400 NZD" },
                   { label: "DG", value: "No" },
                 ].map((f, idx) => (
-                  <motion.div key={f.label} className="p-3 rounded-lg text-xs" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.04)" }}
+                  <motion.div key={f.label} className="p-3 rounded-lg text-xs" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}
                     initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }}>
                     <span className="text-white/25 text-[10px]">{f.label}</span>
                     <p className="text-assembl-text/70 font-mono mt-1">{f.value}</p>
@@ -255,7 +255,7 @@ export default function PikauLandingPage() {
                   { check: "DG classification — N/A", st: "pass" },
                   { check: "Privacy Act 2020 — governed", st: "pass" },
                 ].map((c, idx) => (
-                  <motion.div key={c.check} className="flex items-center justify-between text-xs p-3 rounded-lg" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.04)" }}
+                  <motion.div key={c.check} className="flex items-center justify-between text-xs p-3 rounded-lg" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}
                     initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.08 }}>
                     <span className="text-gray-500">{c.check}</span>
                     <span className="text-emerald-400 text-[10px] uppercase font-semibold">{c.st}</span>

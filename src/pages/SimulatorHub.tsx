@@ -8,7 +8,7 @@ import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import HeroParticlesLight from "@/components/HeroParticlesLight";
 
-const BG = "#09090F";
+const BG = "#FAFBFC";
 const GOLD = "#D4A843";
 const POUNAMU = "#3A7D6E";
 

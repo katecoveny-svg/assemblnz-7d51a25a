@@ -11,7 +11,7 @@ import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
 import { ARATAKI_USE_CASE } from "@/data/useCases";
 
-const BG = "#09090F";
+const BG = "#FAFBFC";
 const POUNAMU = "#3A7D6E";
 const GOLD = "#D4A843";
 
@@ -117,7 +117,7 @@ export default function AratakiLandingPage() {
           </h2>
           <div className="grid md:grid-cols-2 gap-3">
             {COMPLIANCE.map(c => (
-              <div key={c} className="flex items-start gap-3 p-4 rounded-xl" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.04)" }}>
+              <div key={c} className="flex items-start gap-3 p-4 rounded-xl" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}>
                 <Shield size={14} className="text-emerald-400 mt-0.5 shrink-0" />
                 <span className="text-sm text-white/60">{c}</span>
               </div>

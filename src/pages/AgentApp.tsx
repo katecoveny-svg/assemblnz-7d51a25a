@@ -177,7 +177,7 @@ export default function AgentApp() {
                 {capabilities.slice(0, 4).map((cap, i) => (
                   <button key={i} onClick={() => { setActiveTab("chat"); sendMessage(cap.prompt); setSidebarOpen(false); }}
                     className="w-full text-left rounded-lg px-3 py-2 transition hover:bg-white/5"
-                    style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.04)" }}>
+                    style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}>
                     <p className="text-[10px] font-medium text-white/60">{cap.title}</p>
                     <p className="text-[8px] text-white/25 mt-0.5">{cap.description}</p>
                   </button>
@@ -186,7 +186,7 @@ export default function AgentApp() {
             )}
 
             <div className="mt-auto px-4 py-4 space-y-3">
-              <div className="rounded-lg p-3" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.04)" }}>
+              <div className="rounded-lg p-3" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}>
                 <div className="flex items-center gap-1.5">
                   <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
                   <span className="text-[10px] text-gray-500">{agent.name} Online</span>
@@ -288,7 +288,7 @@ export default function AgentApp() {
                     <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center">
                       <AgentAvatar agentId={agent.id} color={color} size={28} showGlow={false} />
                     </div>
-                    <div className="rounded-2xl px-4 py-3" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(74,165,168,0.15)" }}>
+                    <div className="rounded-2xl px-4 py-3" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}>
                       <div className="flex gap-1.5">
                         {[0, 0.2, 0.4].map(delay => (
                           <motion.div key={delay} className="w-2 h-2 rounded-full" style={{ background: color }}
@@ -304,7 +304,7 @@ export default function AgentApp() {
               {/* Input */}
               <div className="shrink-0 px-4 pb-4 pt-2 border-t border-white/5">
                 <div className="flex items-end gap-2 rounded-2xl px-4 py-2"
-                  style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(74,165,168,0.15)" }}>
+                  style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}>
                   <textarea
                     value={input}
                     onChange={e => setInput(e.target.value)}

@@ -13,7 +13,7 @@ import AdminGlassCard from "@/components/admin/AdminGlassCard";
 import { motion } from "framer-motion";
 
 const GOLD = "#D4A843";
-const BG = "#09090F";
+const BG = "#FAFBFC";
 const CARD_BG = "#0F0F1A";
 
 interface Conversation {

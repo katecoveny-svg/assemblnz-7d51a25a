@@ -65,7 +65,7 @@ const CareDashboard = () => {
 
   if (loading) return (
     <div className="min-h-screen flex items-center justify-center" style={{ background: "#09090F" }}>
-      <div className="animate-pulse text-sm" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Loading care dashboard…</div>
+      <div className="animate-pulse text-sm" style={{ color: "#6B7280", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Loading care dashboard…</div>
     </div>
   );
 
@@ -118,7 +118,7 @@ const CareDashboard = () => {
         <Card>
           <div className="flex items-center justify-between mb-3">
             <span className="text-[10px] uppercase font-bold" style={{ color: KOWHAI, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>Last check-in</span>
-            {latestCheckIn && <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "'JetBrains Mono', monospace" }}>
+            {latestCheckIn && <span className="text-[10px]" style={{ color: "#6B7280", fontFamily: "'JetBrains Mono', monospace" }}>
               {new Date(latestCheckIn.completed_at || latestCheckIn.scheduled_at).toLocaleString("en-NZ", { dateStyle: "medium", timeStyle: "short" })}
             </span>}
           </div>
@@ -133,7 +133,7 @@ const CareDashboard = () => {
               </div>
             </div>
           ) : (
-            <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>No check-ins yet. Start a check-in with ORA.</p>
+            <p className="text-xs" style={{ color: "#6B7280" }}>No check-ins yet. Start a check-in with ORA.</p>
           )}
           <div className="flex gap-2 mt-4">
             <Link to="/chat/healthcompanion" className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold" style={{ background: POUNAMU, color: "#fff" }}>
@@ -151,7 +151,7 @@ const CareDashboard = () => {
             <div className="flex items-center justify-between mb-3">
               <span className="text-[10px] uppercase font-bold" style={{ color: KOWHAI, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>Mood timeline</span>
               <div className="flex items-center gap-1">
-                {moodTrend === "improving" ? <TrendingUp size={12} style={{ color: POUNAMU }} /> : moodTrend === "declining" ? <TrendingDown size={12} style={{ color: KOKKOWAI }} /> : <Minus size={12} style={{ color: "rgba(255,255,255,0.4)" }} />}
+                {moodTrend === "improving" ? <TrendingUp size={12} style={{ color: POUNAMU }} /> : moodTrend === "declining" ? <TrendingDown size={12} style={{ color: KOKKOWAI }} /> : <Minus size={12} style={{ color: "#6B7280" }} />}
                 <span className="text-[10px] capitalize" style={{ color: moodTrend === "improving" ? POUNAMU : moodTrend === "declining" ? KOKKOWAI : "rgba(255,255,255,0.4)" }}>{moodTrend}</span>
               </div>
             </div>
@@ -195,7 +195,7 @@ const CareDashboard = () => {
         <Card>
           <span className="text-[10px] uppercase font-bold block mb-3" style={{ color: POUNAMU, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>Medications</span>
           {medications.length === 0 ? (
-            <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>No medications tracked yet</p>
+            <p className="text-xs" style={{ color: "#6B7280" }}>No medications tracked yet</p>
           ) : (
             <div className="space-y-2">
               {medications.map(m => (
@@ -204,7 +204,7 @@ const CareDashboard = () => {
                     <Pill size={13} style={{ color: POUNAMU }} />
                     <div>
                       <p className="text-xs font-medium" style={{ color: "#fff" }}>{m.medication_name}</p>
-                      <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.4)" }}>{m.dosage} · {m.frequency} {m.purpose ? `— ${m.purpose}` : ""}</p>
+                      <p className="text-[10px]" style={{ color: "#6B7280" }}>{m.dosage} · {m.frequency} {m.purpose ? `— ${m.purpose}` : ""}</p>
                     </div>
                   </div>
                 </div>
@@ -235,7 +235,7 @@ const CareDashboard = () => {
                         <div key={s} className="h-1 flex-1 rounded-full" style={{ background: i <= currentIdx ? "#1A3A5C" : "rgba(255,255,255,0.06)" }} />
                       ))}
                     </div>
-                    {j.facility && <p className="text-[10px] mt-2" style={{ color: "rgba(255,255,255,0.4)" }}>{j.facility} · {j.region}</p>}
+                    {j.facility && <p className="text-[10px] mt-2" style={{ color: "#6B7280" }}>{j.facility} · {j.region}</p>}
                   </div>
                 );
               })}
@@ -247,13 +247,13 @@ const CareDashboard = () => {
         <Card>
           <div className="flex items-center justify-between mb-3">
             <span className="text-[10px] uppercase font-bold" style={{ color: KOWHAI, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>Home safety</span>
-            {safetyAssessments[0] && <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.3)", fontFamily: "'JetBrains Mono', monospace" }}>
+            {safetyAssessments[0] && <span className="text-[10px]" style={{ color: "#9CA3AF", fontFamily: "'JetBrains Mono', monospace" }}>
               Score: {safetyAssessments[0].risk_score}/10
             </span>}
           </div>
           {safetyAssessments.length === 0 ? (
             <div>
-              <p className="text-xs mb-3" style={{ color: "rgba(255,255,255,0.4)" }}>No safety assessment completed yet</p>
+              <p className="text-xs mb-3" style={{ color: "#6B7280" }}>No safety assessment completed yet</p>
               <Link to="/chat/property" className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium w-fit" style={{ background: "transparent", border: `1px solid rgba(212,168,67,0.3)`, color: KOWHAI }}>
                 <Home size={12} /> Request assessment
               </Link>
