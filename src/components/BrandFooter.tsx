@@ -9,6 +9,7 @@ const FOOTER_LINKS = {
     { to: "/#industry-packs", label: "Your industry" },
     { to: "/pricing", label: "Pricing" },
     { to: "/how-it-works", label: "How it works" },
+    { to: "/migration", label: "Migration" },
     { to: "/contact", label: "Contact" },
   ],
   Demos: [
