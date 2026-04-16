@@ -130,6 +130,29 @@ const CompliancePipeline = () => {
             </div>
           ))}
         </div>
+
+        {/* Stage descriptions grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-16">
+          {stages.map((stage, i) => (
+            <motion.div
+              key={`desc-${stage.name}`}
+              className="text-center px-2"
+              initial={{ opacity: 0, y: 12 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.6 + i * 0.08, duration: 0.4 }}
+            >
+              <p className="text-[10px] tracking-[2px] uppercase mb-2" style={{ color: stage.color, fontFamily: "'JetBrains Mono', monospace" }}>
+                Stage {i + 1} · {stage.name}
+              </p>
+              <p className="text-[14px] mb-1.5" style={{ color: "#1A1D29", fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 600, lineHeight: 1.35 }}>
+                "{stage.question}"
+              </p>
+              <p className="text-[11px]" style={{ color: "#6B7280", fontFamily: "'Plus Jakarta Sans', sans-serif", lineHeight: 1.5 }}>
+                {stage.subtitle}
+              </p>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

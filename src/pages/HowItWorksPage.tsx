@@ -78,11 +78,11 @@ const KETE = [
 ];
 
 const PIPELINE = [
-  { name: "Kahu", desc: "PII detection & data classification", color: C.teal },
-  { name: "Iho", desc: "Intent classification & routing", color: C.gold },
-  { name: "Tā", desc: "Full audit trail — every action logged", color: "#4A7AB5" },
-  { name: "Mahara", desc: "Business memory & context injection", color: C.teal },
-  { name: "Mana", desc: "Final gate — tikanga & compliance check", color: C.gold },
+  { name: "Kahu", question: "What's allowed here?", desc: "Policy detection", color: C.teal },
+  { name: "Iho", question: "Which specialist handles this?", desc: "Routing", color: C.gold },
+  { name: "Tā", question: "Does the work, properly", desc: "Execution + NZ English / te reo correctness", color: "#4A7AB5" },
+  { name: "Mahara", question: "Checks against what we've learned", desc: "Memory + cross-verification", color: C.teal },
+  { name: "Mana", question: "Proves it was done right", desc: "Assurance, disclaimers, human-in-the-loop", color: C.gold },
 ];
 
 const SEC = "relative px-6 sm:px-8 py-24 sm:py-32";
@@ -121,7 +121,7 @@ const HowItWorksPage = () => (
   <div className="min-h-screen flex flex-col relative" style={{ background: C.bg, color: C.text }}>
     <SEO
       title="How Assembl Works — Specialist operational workflows for NZ business"
-      description="Five industry kete — Manaaki, Waihanga, Auaha, Arataki, Pikau. Five-stage compliance pipeline. Built around NZ law."
+      description="44 specialist agents across five industry kete, governed by a single compliance pipeline that checks every output against current NZ law. Onboarding industry pilots now."
       path="/how-it-works"
     />
     <BrandNav />
@@ -219,8 +219,8 @@ const HowItWorksPage = () => (
           <h2 className="text-2xl sm:text-4xl mb-4" style={{ fontFamily: FONT.heading, fontWeight: 300, letterSpacing: "1px" }}>
             Every action logged. Every output auditable.
           </h2>
-          <p className="text-sm max-w-xl mx-auto" style={{ fontFamily: FONT.body, color: C.textSec }}>
-            Five compliance stages run before anything ships. Not after. Your lawyers can actually read the audit trail.
+          <p className="text-sm max-w-2xl mx-auto" style={{ fontFamily: FONT.body, color: C.textSec }}>
+            Every output passes through all five stages. Draft-only posture — no agent publishes, sends, or executes without a named human operator's approval.
           </p>
         </motion.div>
 
@@ -240,7 +240,10 @@ const HowItWorksPage = () => (
                   <h3 className="text-sm" style={{ fontFamily: FONT.heading, fontWeight: 400 }}>
                     {stage.name}
                   </h3>
-                  <p className="text-[11px] leading-relaxed" style={{ fontFamily: FONT.body, color: C.textSec }}>
+                  <p className="text-[12px] leading-snug" style={{ fontFamily: FONT.body, color: "#1A1D29", fontWeight: 600 }}>
+                    "{stage.question}"
+                  </p>
+                  <p className="text-[10px] tracking-wider uppercase" style={{ fontFamily: FONT.mono, color: C.textSec }}>
                     {stage.desc}
                   </p>
                 </div>
@@ -262,7 +265,7 @@ const HowItWorksPage = () => (
             Five industry kete, woven in Aotearoa.
           </h2>
           <p className="text-sm max-w-xl mx-auto" style={{ fontFamily: FONT.body, color: C.textSec }}>
-            Each kete carries the legislation, workflows and terminology its industry actually uses. They share one intelligence layer underneath — tikanga-governed, NZ-hosted.
+            Each kete carries the legislation, workflows and terminology its industry actually uses. They share one intelligence layer underneath — aligning with tikanga Māori governance principles, NZ-hosted.
           </p>
         </motion.div>
 
