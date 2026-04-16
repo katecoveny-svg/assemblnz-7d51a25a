@@ -53,7 +53,7 @@ const TeKahuiReoSection = () => (
             className="uppercase"
             style={{
               fontFamily: "'Lato', sans-serif",
-              fontWeight: 900,
+              fontWeight: 500,
               fontSize: "13px",
               letterSpacing: "6px",
               color: "#D4A843",
@@ -131,7 +131,7 @@ const TeKahuiReoSection = () => (
                 <p
                   style={{
                     fontFamily: "'Lato', sans-serif",
-                    fontWeight: 700,
+                    fontWeight: 400,
                     fontSize: "13px",
                     color: "#FFFFFF",
                     letterSpacing: "2px",
@@ -200,7 +200,7 @@ const TeKahuiReoSection = () => (
                 <span
                   style={{
                     fontFamily: "'Lato', sans-serif",
-                    fontWeight: 700,
+                    fontWeight: 400,
                     fontSize: "15px",
                     color: "#D4A843",
                     letterSpacing: "3px",

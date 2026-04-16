@@ -599,7 +599,7 @@ function SectionEyebrow({ children }: { children: string }) {
 function SectionH2({ children }: { children: React.ReactNode }) {
   return (
     <h2 className="text-lg sm:text-[36px] lg:text-[42px] mb-4 sm:mb-6"
-      style={{ fontFamily: "'Lato', sans-serif", fontWeight: 600, letterSpacing: "-0.02em", lineHeight: 1.15, color: "#3D4250", textShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
+      style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.15, color: "#3D4250", textShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
       {children}
     </h2>
   );

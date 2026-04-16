@@ -16,7 +16,7 @@ const EmbedDemoSection = () => (
           className="uppercase mb-3"
           style={{
             fontFamily: "'Lato', sans-serif",
-            fontWeight: 700,
+            fontWeight: 400,
             fontSize: "11px",
             letterSpacing: "4px",
             color: "#D4A843",
@@ -72,7 +72,7 @@ const EmbedDemoSection = () => (
             <Bot size={14} style={{ color: "#D4A843" }} />
           </div>
           <div>
-            <p style={{ fontFamily: "'Lato', sans-serif", fontWeight: 700, fontSize: "12px", color: "#FFFFFF", letterSpacing: "2px" }}>
+            <p style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, fontSize: "12px", color: "#FFFFFF", letterSpacing: "2px" }}>
               AURA
             </p>
             <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "10px", color: "rgba(255,255,255,0.35)" }}>

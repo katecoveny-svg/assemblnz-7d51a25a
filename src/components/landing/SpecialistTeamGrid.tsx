@@ -109,7 +109,7 @@ const SpecialistTeamGrid = () => (
           className="uppercase mb-3"
           style={{
             fontFamily: "'Lato', sans-serif",
-            fontWeight: 700,
+            fontWeight: 400,
             fontSize: "11px",
             letterSpacing: "4px",
             color: "#D4A843",
@@ -162,7 +162,7 @@ const SpecialistTeamGrid = () => (
               className="uppercase mb-1"
               style={{
                 fontFamily: "'Lato', sans-serif",
-                fontWeight: 700,
+                fontWeight: 400,
                 fontSize: "10px",
                 letterSpacing: "3px",
                 color: a.packColor,
@@ -174,7 +174,7 @@ const SpecialistTeamGrid = () => (
               className="mb-1"
               style={{
                 fontFamily: "'Lato', sans-serif",
-                fontWeight: 700,
+                fontWeight: 400,
                 fontSize: "14px",
                 color: "#FFFFFF",
               }}

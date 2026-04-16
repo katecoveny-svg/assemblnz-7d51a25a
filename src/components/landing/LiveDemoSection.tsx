@@ -196,7 +196,7 @@ const LiveDemoSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease }}
         >
-          <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: "#D4A843" }}>
+          <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 400, color: "#D4A843" }}>
             WHAKAMĀTAU · TRY IT
           </p>
           <TanikoDivider color="#D4A843" width={200} />

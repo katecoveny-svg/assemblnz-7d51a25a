@@ -29,7 +29,7 @@ const SocialProofSection = () => (
           className="uppercase mb-3"
           style={{
             fontFamily: "'Lato', sans-serif",
-            fontWeight: 700,
+            fontWeight: 400,
             fontSize: "11px",
             letterSpacing: "4px",
             color: "#D4A843",

@@ -158,7 +158,7 @@ const VideoShowcase = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease }}
         >
-          <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: "#89CFF0" }}>
+          <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 400, color: "#89CFF0" }}>
             MĀTAKITAKI · WATCH
           </p>
           <TanikoDivider color="#89CFF0" width={160} />
