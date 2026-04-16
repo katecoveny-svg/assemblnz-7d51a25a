@@ -8,7 +8,7 @@ import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import HeroParticlesLight from "@/components/HeroParticlesLight";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
-import KeteRaceVideo from "@/components/kete/KeteRaceVideo";
+
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -293,8 +293,6 @@ export default function ToroaLandingPage() {
           </motion.div>
         </section>
 
-        {/* ── Race Video ── */}
-        <KeteRaceVideo slug="toro" keteName="Tōro" accentColor={ACCENT} />
 
         {/* ── SMS Demo ── */}
         <TryToroSmsDemo />

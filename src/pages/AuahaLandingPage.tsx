@@ -9,7 +9,7 @@ import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import HeroParticlesLight from "@/components/HeroParticlesLight";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
-import KeteRaceVideo from "@/components/kete/KeteRaceVideo";
+
 import TextUsButton from "@/components/kete/TextUsButton";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
 import { AUAHA_USE_CASE } from "@/data/useCases";
@@ -268,7 +268,7 @@ export default function AuahaLandingPage() {
           </motion.div>
         </section>
 
-        <KeteRaceVideo slug="auaha" keteName="Auaha" accentColor={ACCENT} />
+        
 
         <section className="relative text-center px-6 pb-24">
           <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(ellipse 50% 60% at 50% 50%, ${ACCENT}06 0%, transparent 60%)` }} />

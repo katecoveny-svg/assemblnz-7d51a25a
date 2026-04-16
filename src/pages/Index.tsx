@@ -1,5 +1,5 @@
-import React, { lazy, Suspense, useMemo, useState, useCallback } from "react";
-import { motion, LayoutGroup, useScroll, useTransform } from "framer-motion";
+import React, { useMemo, useState } from "react";
+import { motion, LayoutGroup } from "framer-motion";
 import { ArrowRight, Check, Send, Bot, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -12,19 +12,15 @@ import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
 import KeteWeaveVisual from "@/components/KeteWeaveVisual";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
-import WharikiFoundation from "@/components/whariki/WharikiFoundation";
 import NoiseOverlay from "@/components/NoiseOverlay";
 import CursorFollower from "@/components/CursorFollower";
-
+import GlassKoruHero from "@/components/hero/GlassKoruHero";
+import CompliancePipeline from "@/components/landing/CompliancePipeline";
 import ScrollDepthLayers from "@/components/hero/ScrollDepthLayers";
-import TypewriterText from "@/components/TypewriterText";
-import { AnimatedUnderline, DotDivider } from "@/components/MicroDetails";
+import { DotDivider } from "@/components/MicroDetails";
 import { KeteHoverEffect } from "@/components/KeteHoverEffects";
 import { ALL_USE_CASES } from "@/data/useCases";
 import { KETE } from "@/data/pricing";
-
-const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel").catch(() => ({ default: () => null })));
-const KoruDataNetwork = lazy(() => import("@/components/hero/KoruDataNetwork").catch(() => ({ default: () => null })));
 
 /* ─── Light Palette Tokens ─── */
 const C = {
@@ -90,13 +86,8 @@ const LAYERS_DATA = [
   { name: "Simulation", desc: "Tests workflows against realistic scenarios before they touch production.", icon: "Activity", color: "#E8A948" },
 ];
 
-const TRUST_NODES = [
-  { name: "Kahu", desc: "Policy layer — what's allowed" },
-  { name: "Iho", desc: "Routing — picks the right specialist" },
-  { name: "Tā", desc: "Execution — does the work" },
-  { name: "Mahara", desc: "Memory — learns and remembers" },
-  { name: "Mana", desc: "Assurance — proves it was done right" },
-];
+
+
 
 const START_HERE = [
   { title: "Ask A Live Agent", desc: "Open a working agent and ask real business questions.", to: "/chat/echo", accent: C.teal, icon: "MessageSquare" },
@@ -210,11 +201,8 @@ const Index = () => {
   const isMobile = useIsMobile();
   const { profile, isPersonalized } = usePersonalization();
   useReturnVisitor();
-  const [heroTyped, setHeroTyped] = useState(false);
 
-  const { scrollYProgress } = useScroll();
-  const heroParallax = useTransform(scrollYProgress, [0, 0.3], [0, -60]);
-  const blobParallax = useTransform(scrollYProgress, [0, 0.3], [0, -35]);
+
 
   const orderedPacks = useMemo(() => {
     if (!isPersonalized) return PACKS;
@@ -236,7 +224,7 @@ const Index = () => {
         title="assembl — Governed workflow tools for NZ businesses"
         description="Specialist operational workflows that reduce admin, surface risk earlier, and keep people in control. Built for NZ."
       />
-      <WharikiFoundation />
+      {/* WharikiFoundation removed — light glass background */}
       
       <NoiseOverlay />
       <CursorFollower />
@@ -247,134 +235,7 @@ const Index = () => {
         <ContextBar />
 
         {/* ═══ HERO ═══ */}
-        <section className="relative min-h-[100vh] flex flex-col items-center justify-center px-4 sm:px-6 overflow-hidden">
-          {/* Full-bleed 3D Koru behind everything */}
-          <div className="absolute inset-0 z-0">
-            <Suspense fallback={
-              <div className="w-full h-full flex items-center justify-center">
-                <div className="w-[400px] h-[400px] rounded-full" style={{
-                  background: "radial-gradient(ellipse, rgba(74,165,168,0.12) 0%, rgba(232,169,72,0.06) 50%, transparent 70%)",
-                  filter: "blur(40px)",
-                }} />
-              </div>
-            }>
-              <KoruDataNetwork isMobile={isMobile} />
-            </Suspense>
-          </div>
-
-          {/* Text overlay centred on the koru */}
-          <div className="relative z-10 max-w-[860px] mx-auto w-full px-4 text-center">
-            <motion.div
-              style={{ y: heroParallax }}
-              className="mx-auto max-w-[760px] rounded-[32px] px-5 py-6 sm:px-8 sm:py-10"
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease }}
-            >
-              <div
-                className="absolute inset-0 -z-10 rounded-[32px]"
-                style={{
-                  background: "linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(250,251,252,0.35) 100%)",
-                  backdropFilter: "blur(12px)",
-                  border: "1px solid rgba(255,255,255,0.5)",
-                  boxShadow: "0 18px 60px rgba(15,23,42,0.06), inset 0 1px 0 rgba(255,255,255,0.6)",
-                }}
-              />
-
-              {/* Status badge */}
-              <motion.div className="inline-flex items-center gap-2.5 px-5 py-3 rounded-full mb-7"
-                style={{
-                  background: "rgba(255,255,255,0.92)",
-                  backdropFilter: "blur(14px)",
-                  border: "1px solid rgba(255,255,255,0.95)",
-                  boxShadow: "0 8px 24px rgba(74,165,168,0.12)",
-                }}
-                initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease }}
-              >
-                <div className="w-2 h-2 rounded-full" style={{ background: C.teal }} />
-                <span className="text-[10px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#334155", fontWeight: 600 }}>
-                  Now onboarding NZ businesses
-                </span>
-              </motion.div>
-
-              {/* H1 */}
-              <h1 style={{
-                fontFamily: "'Lato', sans-serif",
-                fontWeight: 700,
-                fontSize: isMobile ? "2rem" : "4.5rem",
-                lineHeight: 1.04,
-                letterSpacing: "-0.03em",
-                color: "#0F172A",
-                textShadow: "0 2px 0 rgba(255,255,255,0.55)",
-              }}>
-                <TypewriterText
-                  text="The operating system for NZ business"
-                  speed={30}
-                  onComplete={() => setHeroTyped(true)}
-                />
-              </h1>
-
-              <div className="mt-5 mb-5 mx-auto" style={{ width: 80 }}>
-                <AnimatedUnderline width={80} />
-              </div>
-
-              <motion.p
-                className="max-w-[560px] mx-auto text-[15px] sm:text-[18px] leading-[1.75]"
-                style={{
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  fontWeight: 600,
-                  color: "#1F2937",
-                }}
-                initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2, ease }}
-              >
-                Specialist workflows that reduce admin, surface risk earlier, and keep your people in control.
-              </motion.p>
-
-              <motion.p className="text-[12px] sm:text-[13px] tracking-[1px] mt-4 mb-9 mx-auto max-w-[420px]"
-                style={{ fontFamily: "'Lato', sans-serif", fontWeight: 600, color: "#475569" }}
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
-                Governed intelligence for Aotearoa
-                <span className="block mt-1"><AnimatedUnderline width={220} /></span>
-              </motion.p>
-
-              {/* CTA buttons */}
-              <motion.div className="flex flex-col sm:flex-row gap-4 justify-center"
-                initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.35, ease }}
-              >
-                <Link to="/how-it-works" className="group relative inline-flex items-center justify-center gap-3 px-10 py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03] overflow-hidden"
-                  style={{
-                    background: `linear-gradient(145deg, #55BFC1, ${C.teal})`,
-                    color: "#FFFFFF",
-                    boxShadow: `0 6px 24px rgba(74,165,168,0.35), 0 2px 8px rgba(74,165,168,0.2), inset 0 1px 0 rgba(255,255,255,0.3)`,
-                    fontFamily: "'Lato', sans-serif",
-                    textShadow: "0 1px 2px rgba(0,0,0,0.15)",
-                  }}>
-                  Start here <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform" />
-                </Link>
-                <Link to="/demos" className="group inline-flex items-center justify-center gap-3 px-10 py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03]"
-                  style={{
-                    background: "rgba(255,255,255,0.92)",
-                    backdropFilter: "blur(12px)",
-                    border: `1px solid rgba(74,165,168,0.25)`,
-                    color: C.teal,
-                    fontFamily: "'Lato', sans-serif",
-                    boxShadow: `4px 4px 10px rgba(166,166,180,0.32), -4px -4px 10px rgba(255,255,255,0.95), inset 0 1px 0 rgba(255,255,255,0.9)`,
-                  }}>
-                  Run live demo <ArrowRight size={14} className="opacity-60 group-hover:opacity-90 transition-opacity" />
-                </Link>
-              </motion.div>
-
-              <motion.p className="mt-10 text-[10px] tracking-[4px] uppercase"
-                style={{ fontFamily: "'JetBrains Mono', monospace", color: "#64748B", fontWeight: 600 }}
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7, duration: 0.5 }}
-              >
-                Trusted · Intelligent · Aotearoa
-              </motion.p>
-            </motion.div>
-          </div>
-        </section>
+        <GlassKoruHero />
 
         {/* ═══ LIVE DEMO ═══ */}
         <Sect>
@@ -484,9 +345,7 @@ const Index = () => {
                           </span>
                         )}
                         <div className="flex items-center gap-4 mb-5">
-                          <Suspense fallback={<KeteWeaveVisual size={40} accentColor={p.color} accentLight={p.accentLight} showNodes={false} showGlow={false} />}>
-                            <Kete3DModel accentColor={p.color} accentLight={p.accentLight} size={48} />
-                          </Suspense>
+                          <KeteWeaveVisual size={48} accentColor={p.color} accentLight={p.accentLight} showNodes={false} showGlow={false} />
                           <div>
                             <h3 className="text-[18px] font-medium" style={{ color: C.text }}>{p.reo}</h3>
                             <p className="text-[12px] mt-0.5 font-medium" style={{ color: C.textTertiary }}>{p.en}</p>
@@ -642,11 +501,40 @@ const Index = () => {
           <motion.div {...fade} className="text-center mb-16">
             <SectionEyebrow>Trust</SectionEyebrow>
             <SectionH2>Governed from the ground up</SectionH2>
-            <SectionP>Five stages of oversight from policy to proof.</SectionP>
+            <SectionP>Every decision checked, every action logged, every output something you can file.</SectionP>
           </motion.div>
-          <TrustPipeline />
+          <div className="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {LAYERS_DATA.map((layer, i) => {
+              return (
+                <motion.div key={layer.name} {...stagger(i)}>
+                  <GlowCard className="h-full">
+                    <div className="flex items-start gap-4">
+                      <div className="shrink-0 w-11 h-11 rounded-2xl flex items-center justify-center" style={{
+                        background: `${layer.color}12`,
+                        boxShadow: `3px 3px 8px rgba(166,166,180,0.3), -3px -3px 8px rgba(255,255,255,0.85)`,
+                      }}>
+                        <GlowIcon name={layer.icon} size={18} color={layer.color} glow />
+                      </div>
+                      <div>
+                        <p className="text-[14px] mb-1 font-semibold" style={{ color: C.text }}>
+                          <span className="inline-flex items-center gap-1.5 mr-2">
+                            <span className="w-1.5 h-1.5 rounded-full" style={{ background: layer.color }} />
+                            <span className="text-[10px] font-normal" style={{ color: C.textTertiary, fontFamily: "'JetBrains Mono', monospace", fontVariantNumeric: "tabular-nums" }}>{String(i + 1).padStart(2, "0")}</span>
+                          </span>
+                          {layer.name}
+                        </p>
+                        <p className="text-[13px] leading-[1.7]" style={{ color: C.textSecondary }}>{layer.desc}</p>
+                      </div>
+                    </div>
+                  </GlowCard>
+                </motion.div>
+              );
+            })}
+          </div>
         </Sect>
 
+        {/* ═══ COMPLIANCE PIPELINE ═══ */}
+        <CompliancePipeline />
         {/* ═══ FINAL CTA ═══ */}
         <section className="relative px-6 py-32 text-center">
           <div className="max-w-xl mx-auto relative z-10">
@@ -684,55 +572,8 @@ const Index = () => {
 
 export default Index;
 
-/* ─── Trust Pipeline with scroll-drawn line ─── */
-function TrustPipeline() {
-  const ref = React.useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end center"],
-  });
-  const lineWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
-  return (
-    <div ref={ref} className="relative max-w-4xl mx-auto">
-      {/* Connecting gradient line */}
-      <div className="hidden sm:block absolute top-7 left-[55px] right-[55px] h-px" style={{ background: "rgba(74,165,168,0.1)" }}>
-        <motion.div className="h-full" style={{
-          width: lineWidth,
-          background: `linear-gradient(90deg, ${C.teal}, ${C.ochre})`,
-        }} />
-      </div>
 
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-4">
-        {TRUST_NODES.map((node, i) => (
-          <React.Fragment key={node.name}>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.12, duration: 0.5, type: "spring", stiffness: 300, damping: 25 }}
-              className="flex flex-col items-center text-center min-w-[110px]"
-            >
-              <div className="w-14 h-14 rounded-full flex items-center justify-center mb-3" style={{
-                background: "linear-gradient(145deg, rgba(255,255,255,0.8), rgba(238,238,242,0.6))",
-                backdropFilter: "blur(20px)",
-                border: "1px solid rgba(255,255,255,0.9)",
-                boxShadow: "4px 4px 12px rgba(166,166,180,0.35), -4px -4px 12px rgba(255,255,255,0.9), 0 0 20px rgba(74,165,168,0.1)",
-              }}>
-                <div className="w-4 h-4 rounded-full" style={{ background: C.teal, boxShadow: `0 0 10px ${C.teal}50` }} />
-              </div>
-              <span className="text-[10px] tracking-[3px] uppercase font-medium" style={{ color: C.teal, fontFamily: "'JetBrains Mono', monospace" }}>{node.name}</span>
-              <span className="text-[11px] mt-2 max-w-[130px] leading-[1.6]" style={{ color: C.textSecondary }}>{node.desc}</span>
-            </motion.div>
-            {i < TRUST_NODES.length - 1 && (
-              <div className="hidden sm:block w-10" />
-            )}
-          </React.Fragment>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 /* ─── Layout Primitives ─── */
 function Sect({ children, id }: { children: React.ReactNode; id?: string }) {

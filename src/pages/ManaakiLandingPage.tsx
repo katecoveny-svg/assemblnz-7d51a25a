@@ -9,7 +9,7 @@ import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import HeroParticlesLight from "@/components/HeroParticlesLight";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
-import KeteRaceVideo from "@/components/kete/KeteRaceVideo";
+
 import TextUsButton from "@/components/kete/TextUsButton";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
 import { MANAAKI_USE_CASE } from "@/data/useCases";
@@ -470,8 +470,6 @@ export default function ManaakiLandingPage() {
           </motion.div>
         </section>
 
-        {/* ── Race Video ── */}
-        <KeteRaceVideo slug="manaaki" keteName="Manaaki" accentColor={ACCENT} />
 
         {/* ── CTA ── */}
         <section className="relative text-center px-6 pb-28">
