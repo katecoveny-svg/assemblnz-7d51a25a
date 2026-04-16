@@ -5,7 +5,7 @@ import {
   LayoutDashboard, Users, Bot, FlaskConical, FileCheck2,
   Sparkles, Megaphone, PenTool, FolderOpen, FileText,
   Activity, Heart, Mail, MessageSquare, Shield, BookOpen,
-  Gauge, ChevronRight, LogOut, Image,
+  Gauge, ChevronRight, LogOut, Image, Film,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -50,6 +50,7 @@ const SECTIONS: { title: string; items: NavItem[] }[] = [
     items: [
       { to: "/admin/dashboard#outputs", label: "Output Library", icon: FolderOpen },
       { to: "/admin/dashboard#evidence", label: "Evidence Packs", icon: FileText },
+      { to: "/admin/dashboard#brand-assets", label: "Brand Assets", icon: Film },
     ],
   },
   {

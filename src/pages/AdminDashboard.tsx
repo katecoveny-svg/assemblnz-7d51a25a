@@ -10,6 +10,7 @@ import AdminOutputLibrary from "@/components/admin/AdminOutputLibrary";
 import AgentTestResultsTab from "@/components/admin/AgentTestResultsTab";
 import AdminPipelineTab from "@/components/admin/AdminPipelineTab";
 import AdminVideoGenTab from "@/components/admin/AdminVideoGenTab";
+import AdminBrandAssetsTab from "@/components/admin/AdminBrandAssetsTab";
 import MemoryPanel from "@/components/memory/MemoryPanel";
 import {
   Users, MessageSquare, DollarSign, TrendingUp, Shield,
@@ -516,6 +517,14 @@ const AdminDashboard = () => {
             <div className="space-y-6">
               <SectionTitle title="Evidence Packs" subtitle="Audit-grade compliance evidence" icon={FileText} color={POUNAMU} />
               <AgentTestResultsTab />
+            </div>
+          )}
+
+          {/* ═══ BRAND ASSETS ═══ */}
+          {section === "brand-assets" && (
+            <div className="space-y-6">
+              <SectionTitle title="Brand Assets" subtitle="Download and share brand video, logos & socials" icon={Sparkles} color={GOLD} />
+              <AdminBrandAssetsTab />
             </div>
           )}
 
