@@ -54,9 +54,8 @@ const LIVE_PACKS = [
   { slug: "manaaki", name: "Manaaki", english: "Hospitality", desc: "Food safety, liquor licensing, guest experience, tourism operations." },
   { slug: "waihanga", name: "Waihanga", english: "Construction", desc: "Site safety, consenting, project management, quality and sign-off." },
   { slug: "auaha", name: "Auaha", english: "Creative", desc: "Brief to publish — copy, image, video, podcast, ads, analytics." },
-  { slug: "arataki", name: "Arataki", english: "Automotive", desc: "Workshops, fleet, vehicle compliance, service scheduling." },
+  { slug: "arataki", name: "Arataki", english: "Automotive", desc: "Service, sales, parts, loan fleet — four dealership verticals, one governed agent." },
   { slug: "pikau", name: "Pikau", english: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance." },
-  { slug: "toroa", name: "Family", english: "Whānau (consumer)", desc: "SMS-first. No app, no login. Just text. School, meals, budgets, transport." },
 ];
 
 const LivePacksHero = () => (

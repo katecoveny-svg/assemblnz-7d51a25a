@@ -18,7 +18,7 @@ const KETE_ICONS: Record<string, LucideIcon> = {
   hangarau: Cpu,
   hauora: HeartPulse,
   "te-kahui-reo": Globe,
-  toroa: Heart,
+  
 };
 
 const ease = [0.16, 1, 0.3, 1] as const;
