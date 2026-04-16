@@ -144,7 +144,7 @@ const BrandNav = () => {
             <button key={item.label} onClick={() => handleNavClick(item.to)}
               className="px-3 py-2 rounded-xl font-body font-medium transition-colors"
               style={{ color: "#6B7280" }}
-              onMouseEnter={e => (e.currentTarget.style.color = "#1A1D29")}
+              onMouseEnter={e => (e.currentTarget.style.color = "#3D4250")}
               onMouseLeave={e => (e.currentTarget.style.color = "#6B7280")}
             >
               {item.label}

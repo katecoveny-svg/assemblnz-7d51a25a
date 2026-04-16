@@ -87,7 +87,7 @@ const ContactPage = () => {
             </p>
             <h1 className="text-2xl sm:text-4xl font-display text-center mb-3 text-foreground" style={{ fontWeight: 300 }}>
               Let's talk about your{" "}
-              <span style={{ background: `linear-gradient(135deg, #1A1D29, ${POUNAMU_LIGHT})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>business</span>
+              <span style={{ background: `linear-gradient(135deg, #3D4250, ${POUNAMU_LIGHT})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>business</span>
             </h1>
             <p className="text-sm font-body text-center text-muted-foreground mb-10 max-w-md mx-auto">
               We'll show you how Assembl can automate the work that wastes your time. No phone call required.

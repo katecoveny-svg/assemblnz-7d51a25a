@@ -113,7 +113,7 @@ export default function ManaakiLandingPage() {
             variants={fadeUp} initial="hidden" animate="visible" custom={1}
           >
             <span style={{
-              background: `linear-gradient(135deg, #1A1D29 0%, ${POUNAMU_LIGHT} 50%, ${BONE} 100%)`,
+              background: `linear-gradient(135deg, #3D4250 0%, ${POUNAMU_LIGHT} 50%, ${BONE} 100%)`,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundSize: "200% auto",
@@ -122,7 +122,7 @@ export default function ManaakiLandingPage() {
             </span>
             <br />
             <span style={{
-              background: `linear-gradient(135deg, #1A1D29 0%, ${ACCENT} 60%, ${BONE} 100%)`,
+              background: `linear-gradient(135deg, #3D4250 0%, ${ACCENT} 60%, ${BONE} 100%)`,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundSize: "200% auto",

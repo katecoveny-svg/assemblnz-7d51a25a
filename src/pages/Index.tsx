@@ -31,7 +31,7 @@ const C = {
   ochre: "#E8A948",
   ochreLight: "#F0C670",
   lavender: "#E8E6F0",
-  text: "#1A1D29",
+  text: "#3D4250",
   textSecondary: "#6B7280",
   textTertiary: "#9CA3AF",
 };

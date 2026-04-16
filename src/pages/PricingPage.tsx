@@ -17,7 +17,7 @@ const C = {
   pounamuLight: "#6CBFC1",
   gold: "#E8A948",
   goldLight: "#F0C670",
-  white: "#1A1D29",
+  white: "#3D4250",
   textSecondary: "#6B7280",
 };
 
