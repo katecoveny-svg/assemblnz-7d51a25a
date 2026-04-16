@@ -2,13 +2,13 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { FileText, Search, Layers, AlertTriangle, Shield, CheckCircle2, Lightbulb } from "lucide-react";
 
-const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
 
 const Glass = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
   <div className={`rounded-2xl border backdrop-blur-md ${className}`} style={{
-    background: "linear-gradient(135deg, rgba(15,15,26,0.85), rgba(15,15,26,0.65))",
-    borderColor: "rgba(255,255,255,0.06)", boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
+    background: "rgba(255,255,255,0.7)",
+    borderColor: "rgba(0,0,0,0.06)",
+    boxShadow: "0 4px 24px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)",
   }}>{children}</div>
 );
 
@@ -39,7 +39,7 @@ export default function DocIntelPage() {
           "Programme: 18-month construction period with 12-month defects liability",
           "Payment terms: 20 working days per Construction Contracts Act 2002",
         ]},
-        { title: "Recommendations", icon: Lightbulb, color: KOWHAI, items: [
+        { title: "Recommendations", icon: Lightbulb, color: POUNAMU, items: [
           "Request amendment to NZS 3604 references to current version",
           "Negotiate force majeure inclusion for weather events",
           "Review retention terms — propose 12-month maximum",
@@ -53,24 +53,26 @@ export default function DocIntelPage() {
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-5xl mx-auto">
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-xl font-bold text-white flex items-center gap-2"><FileText size={22} style={{ color: KOWHAI }} /> Document Intelligence — Tuhinga</h1>
-        <p className="text-xs text-white/40">AI-powered document analysis for construction contracts</p>
+        <h1 className="text-xl font-bold text-foreground flex items-center gap-2">
+          <FileText size={22} style={{ color: POUNAMU }} /> Document Intelligence — Tuhinga
+        </h1>
+        <p className="text-xs text-muted-foreground">AI-powered document analysis for construction contracts</p>
       </motion.div>
 
       <Glass className="p-6 space-y-4">
         <div>
-          <label className="text-[11px] text-white/40 mb-1 block">Document Content</label>
+          <label className="text-[11px] text-muted-foreground mb-1 block">Document Content</label>
           <textarea value={document} onChange={e => setDocument(e.target.value)} rows={8} placeholder="Paste contract, specification, or document content here..."
-            className="w-full px-4 py-3 rounded-xl text-sm text-white bg-white/[0.04] border border-white/[0.06] focus:outline-none focus:border-white/20 resize-none" />
+            className="w-full px-4 py-3 rounded-xl text-sm text-foreground bg-black/[0.03] border border-black/[0.08] focus:outline-none focus:border-black/20 resize-none placeholder:text-muted-foreground/60" />
         </div>
         <div>
-          <label className="text-[11px] text-white/40 mb-1 block">Question (optional)</label>
+          <label className="text-[11px] text-muted-foreground mb-1 block">Question (optional)</label>
           <input value={question} onChange={e => setQuestion(e.target.value)} placeholder="e.g. What are the key compliance risks?"
-            className="w-full px-4 py-2.5 rounded-xl text-sm text-white bg-white/[0.04] border border-white/[0.06] focus:outline-none" />
+            className="w-full px-4 py-2.5 rounded-xl text-sm text-foreground bg-black/[0.03] border border-black/[0.08] focus:outline-none placeholder:text-muted-foreground/60" />
         </div>
         <motion.button onClick={analyze} disabled={analyzing || !document} whileHover={{ scale: 1.02 }}
-          className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium disabled:opacity-50"
-          style={{ background: KOWHAI, color: "#09090F" }}>
+          className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium text-white disabled:opacity-50"
+          style={{ background: POUNAMU }}>
           {analyzing ? <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }}><Layers size={16} /></motion.div> : <Search size={16} />}
           {analyzing ? "Analyzing..." : "Analyze Document"}
         </motion.button>
@@ -85,12 +87,12 @@ export default function DocIntelPage() {
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${f.color}15` }}>
                     <f.icon size={16} style={{ color: f.color }} />
                   </div>
-                  <h3 className="text-sm font-semibold text-white">{f.title}</h3>
+                  <h3 className="text-sm font-semibold text-foreground">{f.title}</h3>
                 </div>
                 <ul className="space-y-2">
                   {f.items.map((item, j) => (
-                    <li key={j} className="text-xs text-white/50 leading-relaxed flex gap-2">
-                      <span className="text-white/20 mt-0.5">•</span>
+                    <li key={j} className="text-xs text-muted-foreground leading-relaxed flex gap-2">
+                      <span className="text-muted-foreground/40 mt-0.5">•</span>
                       <span>{item}</span>
                     </li>
                   ))}
