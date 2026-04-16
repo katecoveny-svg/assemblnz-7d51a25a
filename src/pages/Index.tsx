@@ -1,8 +1,9 @@
 import React, { lazy, Suspense, useMemo, useState, useCallback } from "react";
 import { motion, LayoutGroup, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Check, Shield, Layers, Brain, Eye as EyeIcon, Zap, TestTube, MessageSquare, FileText, Megaphone, Send, Bot, User, Play, Sparkles } from "lucide-react";
+import { ArrowRight, Check, Send, Bot, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
+import GlowIcon from "@/components/GlowIcon";
 import { usePersonalization } from "@/contexts/PersonalizationContext";
 import { useReturnVisitor } from "@/hooks/useReturnVisitor";
 import ContextBar from "@/components/personalized/ContextBar";
