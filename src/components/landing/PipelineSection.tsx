@@ -1,17 +1,15 @@
 import { motion } from "framer-motion";
-import { Shield, Layers, Search, Lock, GitBranch, FileText, Database } from "lucide-react";
+import { Shield, Layers, Search, Database, FileText } from "lucide-react";
 
 const GOLD = "#D4A843";
 const GOLD_GLOW = "0 0 12px rgba(212,168,67,0.4)";
 
 const PIPELINE_STEPS = [
-  { step: "01", label: "KANOHI", subtitle: "Dashboard", desc: "Bilingual interface — parses intent, language detection, and surfaces the right tools.", icon: Search },
-  { step: "02", label: "MANA", subtitle: "Access Control", desc: "Role-based permissions, tenant isolation, and usage limits — verified before every request.", icon: Shield },
-  { step: "03", label: "IHO", subtitle: "Intelligence & Router", desc: "Central intelligence — classifies intent across the five industry kete and selects the right specialist workflow.", icon: Layers },
-  { step: "04", label: "KAHU", subtitle: "Compliance", desc: "PII masking, data classification, and Privacy Act 2020 enforcement on every query.", icon: Lock },
-  { step: "05", label: "MODEL ROUTER", subtitle: "AI Selection", desc: "Picks the optimal model per task — Gemini for speed, Claude for complex reasoning.", icon: GitBranch },
-  { step: "06", label: "TĀ", subtitle: "Audit Trail", desc: "Every token, cost, and compliance decision logged — full transparency for your business.", icon: FileText },
-  { step: "07", label: "MAHARA", subtitle: "Memory", desc: "Persistent business context — your agents remember preferences, history, and decisions.", icon: Database },
+  { step: "01", label: "KAHU", question: "What's allowed here?", subtitle: "Policy detection", icon: Shield },
+  { step: "02", label: "IHO", question: "Which specialist handles this?", subtitle: "Routing", icon: Layers },
+  { step: "03", label: "TĀ", question: "Does the work, properly", subtitle: "Execution + NZ English / te reo correctness", icon: Search },
+  { step: "04", label: "MAHARA", question: "Checks against what we've learned", subtitle: "Memory + cross-verification", icon: Database },
+  { step: "05", label: "MANA", question: "Proves it was done right", subtitle: "Assurance, disclaimers, human-in-the-loop", icon: FileText },
 ];
 
 const PipelineSection = () => (
@@ -27,12 +25,11 @@ const PipelineSection = () => (
         <h2 className="text-2xl sm:text-4xl font-display font-light tracking-wide text-foreground mt-2 mb-3">
           The <span className="text-primary">Compliance Pipeline</span>
         </h2>
-        <p className="text-sm font-body text-muted-foreground max-w-lg mx-auto">
-          Every query passes through a tikanga-governed compliance pipeline before it reaches you.
+        <p className="text-sm font-body text-muted-foreground max-w-xl mx-auto">
+          Every output passes through all five stages. Draft-only posture — no agent publishes, sends, or executes without a named human operator's approval.
         </p>
       </motion.div>
 
-      {/* Card grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {PIPELINE_STEPS.map((step, i) => (
           <motion.div
@@ -44,7 +41,6 @@ const PipelineSection = () => (
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: i * 0.06 }}
           >
-            {/* Top accent line */}
             <span
               className="absolute top-0 left-[15%] right-[15%] h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
               style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }}
@@ -59,10 +55,10 @@ const PipelineSection = () => (
                   boxShadow: GOLD_GLOW,
                 }}
               >
-                <step.icon size={32} style={{ color: GOLD, filter: `drop-shadow(0 0 6px rgba(212,168,67,0.5))` }} />
+                <step.icon size={20} style={{ color: GOLD, filter: `drop-shadow(0 0 6px rgba(212,168,67,0.5))` }} />
               </div>
               <div>
-                <span className="font-mono text-[9px] tracking-widest text-muted-foreground block">{step.step}</span>
+                <span className="font-mono text-[9px] tracking-widest text-muted-foreground block">Stage {step.step}</span>
                 <h3
                   className="text-sm font-display font-light tracking-[0.15em] uppercase"
                   style={{ color: GOLD }}
@@ -72,26 +68,15 @@ const PipelineSection = () => (
               </div>
             </div>
 
-            <p className="text-[11px] font-mono text-muted-foreground/80 uppercase tracking-wider mb-2">
-              {step.subtitle}
+            <p className="text-[13px] font-body font-semibold mb-2" style={{ color: "#1A1D29" }}>
+              "{step.question}"
             </p>
-            <p className="text-xs font-body text-foreground/70 leading-relaxed">
-              {step.desc}
+            <p className="text-[11px] font-mono text-muted-foreground/80 uppercase tracking-wider">
+              {step.subtitle}
             </p>
           </motion.div>
         ))}
       </div>
-
-      {/* Flow summary */}
-      <motion.p
-        className="text-center mt-8 text-[11px] font-mono text-muted-foreground/60 tracking-wider"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.5 }}
-      >
-        USER → KANOHI → MANA → IHO → KAHU → MODEL → TĀ → MAHARA → RESPONSE
-      </motion.p>
     </div>
   </section>
 );

@@ -40,11 +40,11 @@ const STEPS = [
   },
   {
     id: 4,
-    te_reo: "Tikanga",
+    te_reo: "Mana",
     title: "Compliance and governance check",
     subtitle: "Every answer passes through our trust pipeline",
-    description: "Before you see the answer, it passes through Kahu (compliance check), Tā (audit logging), and Mana (access control). Your data stays sovereign in Aotearoa.",
-    example: "Privacy Act 2020 ✓ · Tikanga reviewed ✓ · Audit logged ✓",
+    description: "Before you see the answer, it passes through Kahu (policy detection), Tā (execution), Mahara (cross-verification), and Mana (assurance + human-in-the-loop). Your data stays sovereign in Aotearoa.",
+    example: "Privacy Act 2020 ✓ · Aligning with tikanga governance ✓ · Audit logged ✓",
     icon: Shield,
     color: "#E8B4B8",
     visual: "compliance",
@@ -155,7 +155,7 @@ const ComplianceVisual = ({ active }: { active: boolean }) => (
   <div className="flex items-center justify-center gap-4">
     {[
       { label: "Privacy Act 2020", color: "#3A7D6E" },
-      { label: "Tikanga reviewed", color: "#E8B4B8" },
+      { label: "Aligning with tikanga", color: "#E8B4B8" },
       { label: "Audit logged", color: "#D4A843" },
     ].map((badge, i) => (
       <motion.div
