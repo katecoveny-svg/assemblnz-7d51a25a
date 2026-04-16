@@ -12,12 +12,13 @@ import HeroParticlesLight from "@/components/HeroParticlesLight";
 const C = {
   bg: "#FAFBFC",
   surface: "#FFFFFF",
-  pounamu: "#3A7D6E",
+  pounamu: "#4AA5A8",
   pounamuGlow: "#5AADA0",
-  pounamuLight: "#7ECFC2",
-  gold: "#D4A853",
-  goldLight: "#F0D078",
-  white: "#FFFFFF",
+  pounamuLight: "#6CBFC1",
+  gold: "#E8A948",
+  goldLight: "#F0C670",
+  white: "#1A1D29",
+  textSecondary: "#6B7280",
 };
 
 const ease = [0.22, 1, 0.36, 1] as const;
