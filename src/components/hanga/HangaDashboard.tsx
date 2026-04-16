@@ -413,10 +413,7 @@ export default function HangaDashboard() {
 
       <KeteDocUpload
         keteSlug="waihanga"
-        keteName="Waihanga"
-        accentColor={C.kowhai}
-        agentId="apex"
-        agentName="APEX"
+        keteColor={C.kowhai}
       />
     </KeteDashboardShell>
   );
