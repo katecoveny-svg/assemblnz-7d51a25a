@@ -4,7 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { lazy, Suspense } from "react";
-import WaterCausticBackground from "@/components/hero/WaterCausticBackground";
+import WaterGlassBackground from "@/components/hero/WaterGlassBackground";
 import { AuthProvider } from "@/hooks/useAuth";
 import MobileTabBar from "@/components/MobileTabBar";
 import EchoChatWidget from "@/components/EchoChatWidget";
@@ -160,7 +160,7 @@ const App = () => (
               <BrandDnaProvider>
                 <PersonalizationProvider>
                   <BusinessProvider>
-                    <WaterCausticBackground />
+                    <WaterGlassBackground />
                     <div className="pb-14 sm:pb-0 relative z-10">
                       <Routes>
                         <Route path="/" element={<Index />} />
