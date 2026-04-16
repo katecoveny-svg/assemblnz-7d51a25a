@@ -483,9 +483,7 @@ const Index = () => {
                           </span>
                         )}
                         <div className="flex items-center gap-4 mb-5">
-                          <Suspense fallback={<KeteWeaveVisual size={40} accentColor={p.color} accentLight={p.accentLight} showNodes={false} showGlow={false} />}>
-                            <Kete3DModel accentColor={p.color} accentLight={p.accentLight} size={48} />
-                          </Suspense>
+                          <KeteWeaveVisual size={48} accentColor={p.color} accentLight={p.accentLight} showNodes={false} showGlow={false} />
                           <div>
                             <h3 className="text-[18px] font-medium" style={{ color: C.text }}>{p.reo}</h3>
                             <p className="text-[12px] mt-0.5 font-medium" style={{ color: C.textTertiary }}>{p.en}</p>
