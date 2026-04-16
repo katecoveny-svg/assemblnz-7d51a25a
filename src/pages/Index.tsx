@@ -753,7 +753,7 @@ function TrustPipeline() {
 /* ─── Layout Primitives ─── */
 function Sect({ children, id }: { children: React.ReactNode; id?: string }) {
   return (
-    <section id={id} className="px-6 py-32 relative">
+    <section id={id} className="px-4 sm:px-6 py-16 sm:py-32 relative">
       <div className="max-w-[1200px] mx-auto relative z-10">{children}</div>
       <div className="absolute bottom-0 left-0 right-0 flex justify-center py-2">
         <DotDivider />
@@ -773,8 +773,8 @@ function SectionEyebrow({ children }: { children: string }) {
 
 function SectionH2({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="text-2xl sm:text-[36px] lg:text-[42px] mb-6"
-      style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.1, color: "#1A1D29", textShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+    <h2 className="text-xl sm:text-[36px] lg:text-[42px] mb-4 sm:mb-6"
+      style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.15, color: "#1A1D29", textShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
       {children}
     </h2>
   );
