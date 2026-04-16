@@ -183,7 +183,7 @@ const InvestPage = () => {
   const stat4 = useCountUp(2.6, 1600, "M", "$");
 
   return (
-    <div className="min-h-screen" style={{ background: "#09090F", color: "#fff" }}>
+    <div className="min-h-screen" style={{ background: "#09090F", color: "#1A1D29" }}>
       <BrandNav />
       <SectionNav />
 

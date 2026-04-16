@@ -94,7 +94,7 @@ const PricingPage = () => (
             <motion.div key={tier.key} {...fade} transition={{ ...fade.transition, delay: i * 0.1 }}
               className="relative rounded-2xl overflow-hidden flex flex-col"
               style={{
-                background: "linear-gradient(145deg, rgba(18,30,52,0.95) 0%, rgba(10,18,34,0.85) 100%)",
+                background: "rgba(255,255,255,0.65)",
                 border: tier.highlight ? `2px solid ${C.gold}50` : "1px solid rgba(255,255,255,0.10)",
                 boxShadow: tier.highlight
                   ? `0 0 60px rgba(212,168,83,0.10), 0 20px 60px rgba(0,0,0,0.4)`
@@ -211,7 +211,7 @@ const PricingPage = () => (
       <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Family */}
         <motion.div {...fade} className="rounded-2xl p-8" style={{
-          background: "linear-gradient(145deg, rgba(18,30,52,0.9) 0%, rgba(10,18,34,0.8) 100%)",
+          background: "rgba(255,255,255,0.6)",
           border: "1px solid rgba(74,165,168,0.15)",
         }}>
           <span className="text-[9px] tracking-[3px] uppercase px-3 py-1 rounded-full mb-5 inline-block" style={{
@@ -242,7 +242,7 @@ const PricingPage = () => (
 
         {/* Outcome */}
         <motion.div {...fade} className="rounded-2xl p-8" style={{
-          background: "linear-gradient(145deg, rgba(18,30,52,0.9) 0%, rgba(10,18,34,0.8) 100%)",
+          background: "rgba(255,255,255,0.6)",
           border: "1px solid rgba(74,165,168,0.15)",
         }}>
           <span className="text-[9px] tracking-[3px] uppercase px-3 py-1 rounded-full mb-5 inline-block" style={{
@@ -292,7 +292,7 @@ const PricingPage = () => (
         </motion.div>
 
         <div className="rounded-2xl overflow-hidden" style={{
-          background: "linear-gradient(145deg, rgba(18,30,52,0.9) 0%, rgba(10,18,34,0.85) 100%)",
+          background: "rgba(255,255,255,0.6)",
           border: "1px solid rgba(74,165,168,0.15)",
         }}>
           {/* Header */}

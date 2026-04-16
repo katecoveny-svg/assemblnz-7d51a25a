@@ -191,7 +191,7 @@ export default function ManaakiLandingPage() {
             <Link
               to="/manaaki/dashboard"
               className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold font-body transition-all duration-500 overflow-hidden"
-              style={{ color: "#fff" }}
+              style={{ color: "#1A1D29" }}
             >
               {/* Button gradient background */}
               <div className="absolute inset-0 rounded-full" style={{
@@ -501,7 +501,7 @@ export default function ManaakiLandingPage() {
             <Link
               to="/manaaki/dashboard"
               className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold font-body overflow-hidden"
-              style={{ color: "#fff" }}
+              style={{ color: "#1A1D29" }}
             >
               <div className="absolute inset-0 rounded-full" style={{
                 background: `linear-gradient(135deg, ${POUNAMU} 0%, #2D6A5E 100%)`,

@@ -109,7 +109,7 @@ function InlinePipelineDemo() {
 
   return (
     <div className="rounded-2xl overflow-hidden" style={{
-      background: "linear-gradient(145deg, rgba(18,30,52,0.95) 0%, rgba(10,18,34,0.9) 100%)",
+      background: "linear-gradient(145deg, rgba(18,30,52,0.95) 0%, rgba(255,255,255,0.6) 100%)",
       border: "1px solid rgba(255,255,255,0.10)",
       boxShadow: "0 0 60px rgba(90,173,160,0.06), 0 20px 60px rgba(0,0,0,0.4)",
     }}>
@@ -225,7 +225,7 @@ const DemosHub = () => {
           <p className="text-[10px] tracking-[5px] uppercase mb-4" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.gold, fontWeight: 700 }}>
             — Live demos —
           </p>
-          <h1 className="text-2xl sm:text-[40px] mb-4" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "6px", textTransform: "uppercase", color: "#fff" }}>
+          <h1 className="text-2xl sm:text-[40px] mb-4" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "6px", textTransform: "uppercase", color: "#1A1D29" }}>
             See it work
           </h1>
           <p className="text-[15px] max-w-lg mx-auto" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(245,240,232,0.6)" }}>
@@ -261,7 +261,7 @@ const DemosHub = () => {
               <Link to={d.path} className="group block h-full">
                 <div className="h-full rounded-2xl p-6 transition-all duration-400 group-hover:translate-y-[-6px]"
                   style={{
-                    background: "linear-gradient(145deg, rgba(18,30,52,0.9) 0%, rgba(10,18,34,0.85) 100%)",
+                    background: "rgba(255,255,255,0.6)",
                     border: "1px solid rgba(255,255,255,0.08)",
                     boxShadow: "0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)",
                   }}>

@@ -59,7 +59,7 @@ const fadeUp = {
 export default function CaseStudiesPage() {
   return (
     <LightPageShell>
-      <div className="min-h-screen" style={{ background: "#09090F", color: "#fff" }}>
+      <div className="min-h-screen" style={{ background: "#09090F", color: "#1A1D29" }}>
         <SEO
           title="Case Studies — The packs our customers took to their boards | Assembl"
           description="Real evidence packs from real NZ businesses. See what assembl produces for hospitality, construction, privacy, and creative teams."

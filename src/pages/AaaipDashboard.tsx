@@ -352,7 +352,7 @@ export default function AaaipDashboard() {
 
   return (
     <LightPageShell>
-    <div className="relative min-h-screen" style={{ background: "#0A0A14", color: "#fff" }}>
+    <div className="relative min-h-screen" style={{ background: "#0A0A14", color: "#1A1D29" }}>
       <SEO
         title="AAAIP Live Demo · Assembl"
         description="Simulation-tested, policy-governed autonomous agents across every Assembl industry Kete — Waihanga, Pikau, Manaaki, Auaha, Toro — plus clinical, robotics, drug-screening and community-moderation pilots."
