@@ -15,7 +15,7 @@ import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import WharikiFoundation from "@/components/whariki/WharikiFoundation";
 import NoiseOverlay from "@/components/NoiseOverlay";
 import CursorFollower from "@/components/CursorFollower";
-import WaterCausticBackground from "@/components/hero/WaterCausticBackground";
+
 import ScrollDepthLayers from "@/components/hero/ScrollDepthLayers";
 import TypewriterText from "@/components/TypewriterText";
 import { AnimatedUnderline, DotDivider } from "@/components/MicroDetails";
@@ -100,7 +100,7 @@ const TRUST_NODES = [
 
 const START_HERE = [
   { title: "Ask A Live Agent", desc: "Open a working agent and ask real business questions.", to: "/chat/echo", accent: C.teal, icon: "MessageSquare" },
-  { title: "Review A Document", desc: "Paste a contract or brief and get risks flagged instantly.", to: "/waihanga/docs", accent: C.ochre, icon: "FileText" },
+  { title: "Review A Document", desc: "Paste a contract or brief and get risks flagged instantly.", to: "/waihanga", accent: C.ochre, icon: "FileText" },
   { title: "Make An Ad", desc: "Generate campaigns and visuals that look finished.", to: "/auaha/ads", accent: "#9B8EC4", icon: "Megaphone" },
   { title: "Run The Demo", desc: "Show a client what Assembl does in 60 seconds.", to: "/demos", accent: C.tealLight, icon: "Rocket" },
 ];
@@ -237,7 +237,7 @@ const Index = () => {
         description="Specialist operational workflows that reduce admin, surface risk earlier, and keep people in control. Built for NZ."
       />
       <WharikiFoundation />
-      <WaterCausticBackground />
+      
       <NoiseOverlay />
       <CursorFollower />
 
