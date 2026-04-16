@@ -24,7 +24,7 @@ import { ALL_USE_CASES } from "@/data/useCases";
 import { KETE } from "@/data/pricing";
 
 const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel"));
-const KoruDataNetwork = lazy(() => import("@/components/hero/KoruDataNetwork"));
+const LiquidKoru = lazy(() => import("@/components/hero/LiquidKoru"));
 
 /* ─── Light Palette Tokens ─── */
 const C = {
@@ -362,33 +362,23 @@ const Index = () => {
               </motion.p>
             </motion.div>
 
-            {/* Right: 3D Koru Data Network */}
+            {/* Right: Liquid Koru */}
             <motion.div
               style={{ y: blobParallax }}
-              className="hidden lg:block relative"
+              className="relative"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: heroTyped ? 1 : 0, scale: heroTyped ? 1 : 0.8 }}
               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             >
               <Suspense fallback={
-                <div className="w-[480px] h-[480px] rounded-full mx-auto" style={{
+                <div className="w-full h-[300px] sm:h-[480px] rounded-full mx-auto" style={{
                   background: "radial-gradient(ellipse, rgba(74,165,168,0.12) 0%, rgba(232,169,72,0.06) 50%, transparent 70%)",
                   filter: "blur(40px)",
                 }} />
               }>
-                <KoruDataNetwork isMobile={false} />
+                <LiquidKoru className={isMobile ? "min-h-[280px]" : "min-h-[480px]"} />
               </Suspense>
             </motion.div>
-
-            {/* Mobile: SVG koru fallback */}
-            {isMobile && heroTyped && (
-              <motion.div className="mx-auto mt-4 max-w-[260px]"
-                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-                <Suspense fallback={null}>
-                  <KoruDataNetwork isMobile={true} />
-                </Suspense>
-              </motion.div>
-            )}
           </div>
         </section>
 
