@@ -101,7 +101,7 @@ function ColourSwatch({ color, label, delay = 0 }: { color: string; label: strin
 /* ── Scanning animation ── */
 function ScanAnimation() {
   return (
-    <div className="relative w-full h-48 rounded-xl overflow-hidden" style={{ background: "rgba(15,15,26,0.9)" }}>
+    <div className="relative w-full h-48 rounded-xl overflow-hidden" style={{ background: "linear-gradient(135deg, #FFFFFF, #FAFBFC)" }}>
       {/* Scan line */}
       <motion.div
         className="absolute left-0 right-0 h-0.5"
@@ -675,7 +675,7 @@ export default function AuahaBrandIdentity() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="rounded-xl border border-dashed p-12 text-center"
-          style={{ borderColor: "rgba(74,165,168,0.14)", background: "rgba(15,15,26,0.3)" }}
+          style={{ borderColor: "rgba(74,165,168,0.14)", background: "rgba(74,165,168,0.04)" }}
         >
           <Fingerprint className="w-12 h-12 mx-auto mb-4" style={{ color: `${ACCENT}44` }} />
           <h3 className="text-[#4A5160] text-sm mb-1">No Brand DNA Yet</h3>
