@@ -1,4 +1,13 @@
 import { useState, useRef, useCallback } from "react";
+
+function arrayBufferToBase64(bytes: Uint8Array): string {
+  let binary = "";
+  const len = bytes.byteLength;
+  for (let i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+}
 import { motion, AnimatePresence } from "framer-motion";
 import { Upload, FileText, Loader2, CheckCircle2, X, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
