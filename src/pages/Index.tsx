@@ -583,55 +583,8 @@ const Index = () => {
 
 export default Index;
 
-/* ─── Trust Pipeline with scroll-drawn line ─── */
-function TrustPipeline() {
-  const ref = React.useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end center"],
-  });
-  const lineWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
-  return (
-    <div ref={ref} className="relative max-w-4xl mx-auto">
-      {/* Connecting gradient line */}
-      <div className="hidden sm:block absolute top-7 left-[55px] right-[55px] h-px" style={{ background: "rgba(74,165,168,0.1)" }}>
-        <motion.div className="h-full" style={{
-          width: lineWidth,
-          background: `linear-gradient(90deg, ${C.teal}, ${C.ochre})`,
-        }} />
-      </div>
 
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-4">
-        {TRUST_NODES.map((node, i) => (
-          <React.Fragment key={node.name}>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.12, duration: 0.5, type: "spring", stiffness: 300, damping: 25 }}
-              className="flex flex-col items-center text-center min-w-[110px]"
-            >
-              <div className="w-14 h-14 rounded-full flex items-center justify-center mb-3" style={{
-                background: "linear-gradient(145deg, rgba(255,255,255,0.8), rgba(238,238,242,0.6))",
-                backdropFilter: "blur(20px)",
-                border: "1px solid rgba(255,255,255,0.9)",
-                boxShadow: "4px 4px 12px rgba(166,166,180,0.35), -4px -4px 12px rgba(255,255,255,0.9), 0 0 20px rgba(74,165,168,0.1)",
-              }}>
-                <div className="w-4 h-4 rounded-full" style={{ background: C.teal, boxShadow: `0 0 10px ${C.teal}50` }} />
-              </div>
-              <span className="text-[10px] tracking-[3px] uppercase font-medium" style={{ color: C.teal, fontFamily: "'JetBrains Mono', monospace" }}>{node.name}</span>
-              <span className="text-[11px] mt-2 max-w-[130px] leading-[1.6]" style={{ color: C.textSecondary }}>{node.desc}</span>
-            </motion.div>
-            {i < TRUST_NODES.length - 1 && (
-              <div className="hidden sm:block w-10" />
-            )}
-          </React.Fragment>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 /* ─── Layout Primitives ─── */
 function Sect({ children, id }: { children: React.ReactNode; id?: string }) {
