@@ -28,11 +28,11 @@ const KETE = [
 ];
 
 const MORE_LINKS = [
-  { label: "ROI Calculator", sublabel: "Sales tool", to: "/roi", icon: Calculator, color: "#4AA5A8" },
-  { label: "Scenario Simulator", sublabel: "Try a live demo", to: "/simulator", icon: Brain, color: "#E8A948" },
-  { label: "Data Sovereignty", sublabel: "Enterprise trust", to: "/data-sovereignty", icon: Shield, color: "#4AA5A8" },
-  { label: "Developers", sublabel: "API & docs", to: "/developers", icon: Code, color: "#6CBFC1" },
-  { label: "AAAIP", sublabel: "R&D showcase", to: "/aaaip", icon: Brain, color: "#E8A948" },
+  { label: "ROI Calculator", sublabel: "Sales tool", to: "/roi", glowIcon: "BarChart3", color: "#4AA5A8" },
+  { label: "Scenario Simulator", sublabel: "Try a live demo", to: "/simulator", glowIcon: "Brain", color: "#E8A948" },
+  { label: "Data Sovereignty", sublabel: "Enterprise trust", to: "/data-sovereignty", glowIcon: "Shield", color: "#4AA5A8" },
+  { label: "Developers", sublabel: "API & docs", to: "/developers", glowIcon: "Cpu", color: "#6CBFC1" },
+  { label: "AAAIP", sublabel: "R&D showcase", to: "/aaaip", glowIcon: "Sparkles", color: "#E8A948" },
 ];
 
 const BrandNav = () => {
@@ -226,7 +226,7 @@ const BrandNav = () => {
                   <button key={pack.label} onClick={() => handleNavClick(pack.to)}
                     className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-body transition-all duration-200"
                     style={{ color: "#1A1D29" }}>
-                    <pack.icon size={16} style={{ color: pack.color }} />
+                    <GlowIcon name={pack.glowIcon} size={16} color={pack.color} glow />
                     <span>{pack.label}</span>
                     <span className="text-[10px] ml-auto" style={{ color: "#6B7280" }}>{pack.sublabel}</span>
                   </button>
