@@ -238,7 +238,7 @@ const DemosHub = () => {
           style={{ background: "rgba(212,168,83,0.06)", border: "1px solid rgba(212,168,83,0.12)" }}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 0.4 }}>
           <Shield size={14} className="shrink-0 mt-0.5" style={{ color: C.goldLight }} />
-          <p className="text-[11px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(245,240,232,0.5)" }}>
+          <p className="text-[11px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#9CA3AF" }}>
             These demos run with synthetic data. Nothing leaves this page.
           </p>
         </motion.div>
