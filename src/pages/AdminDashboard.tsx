@@ -402,7 +402,7 @@ const AdminDashboard = () => {
                         {activity.slice(0, 30).map((item) => {
                           const agent = getAgentInfo(item.agent_id);
                           return (
-                            <div key={item.id} className="flex items-center gap-3 py-2 px-2 rounded-xl hover:bg-white/[0.02] transition-colors">
+                            <div key={item.id} className="flex items-center gap-3 py-2 px-2 rounded-xl hover:bg-gray-100/50 transition-colors">
                               <span className="text-[9px] font-mono text-[#D1D5DB] shrink-0 w-14">
                                 {new Date(item.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                               </span>
@@ -438,7 +438,7 @@ const AdminDashboard = () => {
                     {activity.map((item) => {
                       const agent = getAgentInfo(item.agent_id);
                       return (
-                        <div key={item.id} className="flex items-center gap-3 py-2.5 px-3 rounded-xl hover:bg-white/[0.02] transition-colors">
+                        <div key={item.id} className="flex items-center gap-3 py-2.5 px-3 rounded-xl hover:bg-gray-100/50 transition-colors">
                           <span className="text-[10px] font-mono text-[#D1D5DB] shrink-0 w-16">
                             {new Date(item.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                           </span>
@@ -524,7 +524,7 @@ const AdminDashboard = () => {
             <div className="space-y-6">
               <SectionTitle title="Users & Roles" subtitle="Manage user accounts and access levels" icon={Users} color="#3A6A9C" />
               <GlassCard className="overflow-hidden">
-                <div className="px-6 py-4 border-b" style={{ borderColor: "rgba(255,255,255,0.04)" }}>
+                <div className="px-6 py-4 border-b" style={{ borderColor: "rgba(74,165,168,0.1)" }}>
                   <p className="text-sm font-bold text-[#3D4250]">Registered Users ({users.length})</p>
                 </div>
                 <div className="overflow-x-auto">
@@ -541,7 +541,7 @@ const AdminDashboard = () => {
                     </thead>
                     <tbody>
                       {users.map((u) => (
-                        <tr key={u.id} className="hover:bg-white/[0.02]" style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
+                        <tr key={u.id} className="hover:bg-gray-100/50" style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
                           <td className="px-5 py-3 text-[#3D4250] font-medium">{u.name || "—"}</td>
                           <td className="px-5 py-3 text-gray-500">{u.email}</td>
                           <td className="px-5 py-3">
@@ -612,12 +612,12 @@ const AdminDashboard = () => {
                     <p className="text-sm text-gray-400">No leads yet.</p>
                   </div>
                 ) : (
-                  <div className="divide-y" style={{ borderColor: "rgba(255,255,255,0.03)" }}>
+                  <div className="divide-y" style={{ borderColor: "rgba(74,165,168,0.08)" }}>
                     {submissions.sort((a, b) => (b.lead_score || 0) - (a.lead_score || 0)).map((sub) => {
                       const score = sub.lead_score || 0;
                       const scoreColor = score >= 70 ? TEAL : score >= 40 ? "#FFB800" : "#C85A54";
                       return (
-                        <div key={sub.id} className="px-6 py-4 hover:bg-white/[0.02]">
+                        <div key={sub.id} className="px-6 py-4 hover:bg-gray-100/50">
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-3">
                               <span className="text-xs font-bold text-[#3D4250]">{sub.name}</span>
