@@ -24,7 +24,7 @@ import { ALL_USE_CASES } from "@/data/useCases";
 import { KETE } from "@/data/pricing";
 
 const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel"));
-const KoruDataNetwork = lazy(() => import("@/components/hero/KoruDataNetwork"));
+const LiquidKoru = lazy(() => import("@/components/hero/LiquidKoru"));
 
 /* ─── Light Palette Tokens ─── */
 const C = {
@@ -291,12 +291,12 @@ const Index = () => {
               {/* H1 with typewriter */}
               <h1 style={{
                 fontFamily: "'Lato', sans-serif",
-                fontWeight: 400,
-                fontSize: isMobile ? "2rem" : "4.2rem",
+                fontWeight: 600,
+                fontSize: isMobile ? "1.75rem" : "4.2rem",
                 lineHeight: 1.1,
                 letterSpacing: "-0.02em",
-                color: C.text,
-                textShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                color: "#1A1D29",
+                textShadow: "0 2px 12px rgba(0,0,0,0.12)",
               }}>
                 <TypewriterText
                   text="The operating system for NZ business"
@@ -311,8 +311,8 @@ const Index = () => {
               </div>
 
               <motion.p
-                className="max-w-[480px] text-[15px] sm:text-[17px] leading-[1.7] lg:mx-0 mx-auto"
-                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 400, color: C.textSecondary }}
+                className="max-w-[480px] text-[14px] sm:text-[17px] leading-[1.7] lg:mx-0 mx-auto"
+                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 500, color: "#374151" }}
                 initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2, ease }}
               >
@@ -362,33 +362,23 @@ const Index = () => {
               </motion.p>
             </motion.div>
 
-            {/* Right: 3D Koru Data Network */}
+            {/* Right: Liquid Koru */}
             <motion.div
               style={{ y: blobParallax }}
-              className="hidden lg:block relative"
+              className="relative"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: heroTyped ? 1 : 0, scale: heroTyped ? 1 : 0.8 }}
               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             >
               <Suspense fallback={
-                <div className="w-[480px] h-[480px] rounded-full mx-auto" style={{
+                <div className="w-full h-[300px] sm:h-[480px] rounded-full mx-auto" style={{
                   background: "radial-gradient(ellipse, rgba(74,165,168,0.12) 0%, rgba(232,169,72,0.06) 50%, transparent 70%)",
                   filter: "blur(40px)",
                 }} />
               }>
-                <KoruDataNetwork isMobile={false} />
+                <LiquidKoru className={isMobile ? "min-h-[280px]" : "min-h-[480px]"} />
               </Suspense>
             </motion.div>
-
-            {/* Mobile: SVG koru fallback */}
-            {isMobile && heroTyped && (
-              <motion.div className="mx-auto mt-4 max-w-[260px]"
-                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-                <Suspense fallback={null}>
-                  <KoruDataNetwork isMobile={true} />
-                </Suspense>
-              </motion.div>
-            )}
           </div>
         </section>
 
@@ -773,8 +763,8 @@ function SectionEyebrow({ children }: { children: string }) {
 
 function SectionH2({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="text-xl sm:text-[36px] lg:text-[42px] mb-4 sm:mb-6"
-      style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.15, color: "#1A1D29", textShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+    <h2 className="text-lg sm:text-[36px] lg:text-[42px] mb-4 sm:mb-6"
+      style={{ fontFamily: "'Lato', sans-serif", fontWeight: 600, letterSpacing: "-0.02em", lineHeight: 1.15, color: "#1A1D29", textShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
       {children}
     </h2>
   );
@@ -782,8 +772,8 @@ function SectionH2({ children }: { children: React.ReactNode }) {
 
 function SectionP({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <p className={`text-[16px] sm:text-[17px] leading-[1.7] max-w-xl mx-auto ${className}`}
-      style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 400, color: "#6B7280" }}>
+    <p className={`text-[14px] sm:text-[17px] leading-[1.7] max-w-xl mx-auto ${className}`}
+      style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 500, color: "#4B5563" }}>
       {children}
     </p>
   );
