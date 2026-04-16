@@ -77,7 +77,7 @@ const PACKS = [
     reo: k.name, en: k.eng, desc: k.desc,
     ...KETE_COLORS[k.key],
   })),
-  { reo: "Toro", en: "Family", desc: "School runs, meal planning, family admin — one less thing to worry about.", color: C.ochre, accentLight: C.ochreLight, to: "/toroa" },
+  { reo: "Toro", en: "Family", desc: "School runs, meal planning, family admin — one less thing to worry about.", color: C.ochre, accentLight: C.ochreLight, to: "/toro" },
 ];
 
 const LAYERS_DATA = [
