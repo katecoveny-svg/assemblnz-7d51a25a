@@ -76,7 +76,6 @@ function GlassSphere({
   );
 }
 
-/* ─── Thread between two nodes ─── */
 function Thread({
   start,
   end,
@@ -86,9 +85,9 @@ function Thread({
   end: [number, number, number];
   index: number;
 }) {
-  const ref = useRef<THREE.Line>(null);
+  const lineRef = useRef<THREE.Line>(null);
 
-  const geometry = useMemo(() => {
+  const lineObj = useMemo(() => {
     const curve = new THREE.CatmullRomCurve3([
       new THREE.Vector3(...start),
       new THREE.Vector3(
@@ -100,21 +99,22 @@ function Thread({
     ]);
     const pts = curve.getPoints(20);
     const geo = new THREE.BufferGeometry().setFromPoints(pts);
-    return geo;
+    const mat = new THREE.LineBasicMaterial({
+      color: "#7DD4D6",
+      transparent: true,
+      opacity: 0.3,
+    });
+    return new THREE.Line(geo, mat);
   }, [start, end, index]);
 
   useFrame(({ clock }) => {
-    if (ref.current) {
-      const mat = ref.current.material as THREE.LineBasicMaterial;
-      mat.opacity = 0.25 + 0.15 * Math.sin(clock.elapsedTime * 1.5 + index * 0.4);
+    if (lineObj) {
+      (lineObj.material as THREE.LineBasicMaterial).opacity =
+        0.25 + 0.15 * Math.sin(clock.elapsedTime * 1.5 + index * 0.4);
     }
   });
 
-  return (
-    <line ref={ref as any} geometry={geometry}>
-      <lineBasicMaterial color="#7DD4D6" transparent opacity={0.3} linewidth={1} />
-    </line>
-  );
+  return <primitive ref={lineRef} object={lineObj} />;
 }
 
 /* ─── Data pulse traveling along a thread ─── */
