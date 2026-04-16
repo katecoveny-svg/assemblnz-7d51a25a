@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from "react";
-import { motion, LayoutGroup, useScroll, useTransform } from "framer-motion";
+import React, { useMemo } from "react";
+import { motion, LayoutGroup, useScroll } from "framer-motion";
 import { ArrowRight, Check, Send, Bot, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
