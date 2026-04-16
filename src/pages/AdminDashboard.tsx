@@ -10,6 +10,7 @@ import AdminOutputLibrary from "@/components/admin/AdminOutputLibrary";
 import AgentTestResultsTab from "@/components/admin/AgentTestResultsTab";
 import AdminPipelineTab from "@/components/admin/AdminPipelineTab";
 import AdminVideoGenTab from "@/components/admin/AdminVideoGenTab";
+import AdminBrandAssetsTab from "@/components/admin/AdminBrandAssetsTab";
 import MemoryPanel from "@/components/memory/MemoryPanel";
 import {
   Users, MessageSquare, DollarSign, TrendingUp, Shield,
