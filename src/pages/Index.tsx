@@ -16,6 +16,7 @@ import NoiseOverlay from "@/components/NoiseOverlay";
 import CursorFollower from "@/components/CursorFollower";
 import GlassKoruHero from "@/components/hero/GlassKoruHero";
 import CompliancePipeline from "@/components/landing/CompliancePipeline";
+import MigrationFeatureSection from "@/components/MigrationFeatureSection";
 import ScrollDepthLayers from "@/components/hero/ScrollDepthLayers";
 import { DotDivider } from "@/components/MicroDetails";
 import { KeteHoverEffect } from "@/components/KeteHoverEffects";
@@ -446,6 +447,9 @@ const Index = () => {
             })}
           </div>
         </Sect>
+
+        {/* ═══ SEAMLESS MIGRATION ═══ */}
+        <MigrationFeatureSection />
 
         {/* ═══ EVIDENCE PACKS ═══ */}
         <Sect>

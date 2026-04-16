@@ -98,6 +98,44 @@ const KeteDetailPage = () => {
             </section>
           )}
 
+          {/* Migration Support */}
+          {(() => {
+            const MIGRATION_COPY: Record<string, { subheading: string; body: string; examples: string[] }> = {
+              manaaki: { subheading: "Moving from your current POS, booking, or rostering system?", body: "Assembl migrates your menu data, staff rosters, supplier records, compliance logs, and booking history from platforms like Lightspeed, Kounta, Deputy, or ResDiary. Your food control plan records come across too — no gaps in your audit trail.", examples: ["Lightspeed POS", "Kounta", "Deputy rosters", "ResDiary bookings", "Xero integration data"] },
+              waihanga: { subheading: "Bringing your site data across from existing project management tools?", body: "Assembl pulls in your project schedules, subcontractor records, safety documentation, consent tracking, and payment claim history from tools like Procore, Buildertrend, or even spreadsheet-based systems. Your H&S records transfer with full traceability.", examples: ["Procore", "Buildertrend", "Aconex", "Excel project trackers", "PDF safety docs"] },
+              auaha: { subheading: "Migrating from your current content and project management stack?", body: "Assembl imports your content calendars, brand assets, client briefs, project histories, and approval workflows from tools like Monday.com, Asana, Trello, or Google Drive. Your creative IP stays organised and searchable.", examples: ["Monday.com", "Asana", "Trello", "Google Drive", "Dropbox asset libraries"] },
+              arataki: { subheading: "Switching from your current dealership management system?", body: "Assembl migrates your vehicle inventory, customer records, service histories, finance disclosures, and warranty data from legacy DMS platforms like Pentana, Titan, or ERA. Compliance documentation transfers intact.", examples: ["Pentana DMS", "Titan DMS", "ERA", "Custom dealer databases", "Excel stock sheets"] },
+              pikau: { subheading: "Moving from your current freight and customs management platform?", body: "Assembl imports your shipping records, customs declarations, client profiles, carrier rate tables, and compliance documentation from platforms like CargoWise, WiseTech, or bespoke systems. Your NZCS filing history comes across clean.", examples: ["CargoWise One", "WiseTech", "Customs broker databases", "Rate spreadsheets", "EDI records"] },
+            };
+            const mc = MIGRATION_COPY[kete.slug];
+            if (!mc) return null;
+            return (
+              <section className="mt-16 rounded-2xl p-6 sm:p-8" style={{ background: `${kete.accentColor}08`, border: `1px solid ${kete.accentColor}12` }}>
+                <h2 className="text-lg tracking-[3px] uppercase mb-2" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#3D4250B3" }}>
+                  Nuku Mai · Migration Support
+                </h2>
+                <p className="text-[15px] font-medium mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: kete.accentColor }}>
+                  {mc.subheading}
+                </p>
+                <p className="text-[14px] leading-[1.7] mb-5 max-w-2xl" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+                  {mc.body}
+                </p>
+                <div className="flex flex-wrap gap-2 mb-5">
+                  {mc.examples.map(ex => (
+                    <span key={ex} className="text-[11px] px-3 py-1.5 rounded-full tracking-wider uppercase"
+                      style={{ fontFamily: "'JetBrains Mono', monospace", color: kete.accentColor, background: `${kete.accentColor}10` }}>
+                      {ex}
+                    </span>
+                  ))}
+                </div>
+                <a href="/migration" className="inline-flex items-center gap-1.5 text-[13px] font-medium transition-opacity hover:opacity-70"
+                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: kete.accentColor }}>
+                  Learn more about migration <span>→</span>
+                </a>
+              </section>
+            );
+          })()}
+
           {/* CTA */}
           <div className="mt-16 flex flex-col items-center gap-4">
             <button onClick={() => navigate("/contact")} className="px-6 py-3 rounded-xl text-sm font-medium transition-all hover:opacity-80"
