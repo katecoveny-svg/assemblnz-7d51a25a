@@ -17,6 +17,7 @@ import { enforceAssemblProtocol } from "@/lib/compliancePipeline";
 import { useAgentContext } from "@/hooks/useAgentContext";
 import { compressAndLearn } from "@/lib/contextCompression";
 import toroaMark from "@/assets/brand/toroa-mark.svg";
+import AgentMessagingPanel from "./shared/AgentMessagingPanel";
 
 interface KeteBrainChatProps {
   keteId: string;
