@@ -65,11 +65,6 @@ const SAMPLE_QUESTIONS: Record<string, string[]> = {
     "Draft a Te Tiriti compliance framework for a Crown entity",
     "Help us design a whānau-centred governance model",
   ],
-  toroa: [
-    "What's for dinner? Here's a photo of my fridge",
-    "Parse this school newsletter and add events to my calendar",
-    "Track the bus to Ponsonby Intermediate",
-  ],
 };
 
 const KeteExplorer = () => {
