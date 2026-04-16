@@ -1,7 +1,8 @@
 import { useState, useMemo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, HardHat, UtensilsCrossed, Palette, Bird, Car, Package, ChevronDown, Calculator, Shield, Code, Brain } from "lucide-react";
+import { Menu, X, ChevronDown, Calculator, Shield, Code, Brain } from "lucide-react";
+import GlowIcon from "@/components/GlowIcon";
 import AccountDropdown from "@/components/AccountDropdown";
 import Nav3DKeteLogo from "@/components/Nav3DKeteLogo";
 import KiaOraPopup from "@/components/KiaOraPopup";
@@ -18,12 +19,12 @@ const NAV_ITEMS: NavItem[] = [
 ];
 
 const KETE = [
-  { label: "Manaaki", sublabel: "Hospitality", to: "/manaaki", icon: UtensilsCrossed, color: "#4AA5A8" },
-  { label: "Waihanga", sublabel: "Construction", to: "/waihanga/about", icon: HardHat, color: "#E8A948" },
-  { label: "Auaha", sublabel: "Creative", to: "/auaha/about", icon: Palette, color: "#9B8EC4" },
-  { label: "Arataki", sublabel: "Automotive", to: "/arataki", icon: Car, color: "#4AA5A8" },
-  { label: "Pikau", sublabel: "Customs & Freight", to: "/pikau", icon: Package, color: "#6CBFC1" },
-  { label: "Toro", sublabel: "Family", to: "/toro", icon: Bird, color: "#E8A948" },
+  { label: "Manaaki", sublabel: "Hospitality", to: "/manaaki", glowIcon: "UtensilsCrossed", color: "#4AA5A8" },
+  { label: "Waihanga", sublabel: "Construction", to: "/waihanga/about", glowIcon: "HardHat", color: "#E8A948" },
+  { label: "Auaha", sublabel: "Creative", to: "/auaha/about", glowIcon: "Palette", color: "#9B8EC4" },
+  { label: "Arataki", sublabel: "Automotive", to: "/arataki", glowIcon: "Cpu", color: "#4AA5A8" },
+  { label: "Pikau", sublabel: "Customs & Freight", to: "/pikau", glowIcon: "Globe", color: "#6CBFC1" },
+  { label: "Toro", sublabel: "Family", to: "/toro", glowIcon: "Bird", color: "#E8A948" },
 ];
 
 const MORE_LINKS = [
@@ -80,12 +81,12 @@ const BrandNav = () => {
     <>
       <div className="fixed inset-0 z-10" onClick={onClose} />
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }}
-        className="absolute top-full right-0 mt-2 z-20 w-[260px] rounded-2xl p-2 space-y-0.5"
+        className="absolute top-full right-0 mt-2 z-20 w-[280px] rounded-2xl p-2 space-y-0.5"
         style={{
-          background: "rgba(255,255,255,0.85)",
+          background: "linear-gradient(145deg, rgba(255,255,255,0.9), rgba(238,238,242,0.7))",
           backdropFilter: "blur(24px) saturate(150%)",
           border: "1px solid rgba(255,255,255,0.95)",
-          boxShadow: "0 14px 48px -10px rgba(74,165,168,0.15), 0 6px 16px rgba(0,0,0,0.06)",
+          boxShadow: "6px 6px 20px rgba(166,166,180,0.3), -6px -6px 20px rgba(255,255,255,0.85), 0 14px 48px -10px rgba(74,165,168,0.15)",
         }}>
         {items.map(item => {
           const isDetected = item.label === detectedLabel;
@@ -93,8 +94,11 @@ const BrandNav = () => {
             <button key={item.label} onClick={() => handleNavClick(item.to)}
               className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-black/[0.03] transition-colors group relative"
               style={isDetected ? { borderLeft: `2px solid ${item.color}`, background: `${item.color}08` } : {}}>
-              <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${item.color}10` }}>
-                <item.icon size={16} style={{ color: item.color }} />
+              <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{
+                background: `${item.color}12`,
+                boxShadow: `2px 2px 6px rgba(166,166,180,0.25), -2px -2px 6px rgba(255,255,255,0.8)`,
+              }}>
+                <GlowIcon name={item.glowIcon} size={16} color={item.color} glow />
               </div>
               <div className="text-left">
                 <div className="text-xs font-medium text-foreground/80 group-hover:text-foreground flex items-center gap-2">
