@@ -160,7 +160,7 @@ export default function AuahaVideoStudio() {
 
       // Fal.ai async: start polling
       if (data?.requestId) {
-        pollForVideo(data.requestId, "Quick Video");
+        pollForVideo(data.requestId, "Quick Video", quickPrompt);
         return;
       }
 
