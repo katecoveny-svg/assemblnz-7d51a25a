@@ -356,7 +356,7 @@ const Index = () => {
               </motion.p>
             </motion.div>
 
-            {/* Right: 3D Glass Blob */}
+            {/* Right: 3D Koru Data Network */}
             <motion.div
               style={{ y: blobParallax }}
               className="hidden lg:block relative"
@@ -364,32 +364,25 @@ const Index = () => {
               animate={{ opacity: heroTyped ? 1 : 0, scale: heroTyped ? 1 : 0.8 }}
               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div className="w-[480px] h-[480px] relative mx-auto">
-                <Suspense fallback={
-                  <div className="w-full h-full rounded-full" style={{
-                    background: "radial-gradient(ellipse, rgba(74,165,168,0.12) 0%, rgba(232,169,72,0.06) 50%, transparent 70%)",
-                    filter: "blur(40px)",
-                  }} />
-                }>
-                  <HeroGlassBlob className="w-full h-full" />
-                </Suspense>
-              </div>
+              <Suspense fallback={
+                <div className="w-[480px] h-[480px] rounded-full mx-auto" style={{
+                  background: "radial-gradient(ellipse, rgba(74,165,168,0.12) 0%, rgba(232,169,72,0.06) 50%, transparent 70%)",
+                  filter: "blur(40px)",
+                }} />
+              }>
+                <KoruDataNetwork isMobile={false} />
+              </Suspense>
             </motion.div>
 
-            {/* Mobile: soft glass SVG fallback */}
+            {/* Mobile: SVG koru fallback */}
             {isMobile && heroTyped && (
-              <motion.div className="mx-auto w-48 h-48 mt-8"
+              <motion.div className="mx-auto mt-8"
                 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-                <div className="w-full h-full rounded-full" style={{
-                  background: "radial-gradient(ellipse, rgba(74,165,168,0.15) 0%, rgba(232,169,72,0.08) 50%, transparent 70%)",
-                  filter: "blur(20px)",
-                  animation: "pulse 4s ease-in-out infinite",
-                }} />
+                <Suspense fallback={null}>
+                  <KoruDataNetwork isMobile={true} />
+                </Suspense>
               </motion.div>
             )}
-          </div>
-        </section>
-
         {/* ═══ LIVE DEMO ═══ */}
         <Sect>
           <motion.div {...fade} className="text-center mb-14">
