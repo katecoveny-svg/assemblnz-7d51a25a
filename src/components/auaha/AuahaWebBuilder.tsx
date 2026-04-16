@@ -270,7 +270,7 @@ export default function AuahaWebBuilder() {
                     minHeight: 380,
                   }}>
                   {/* Browser chrome */}
-                  <div className="flex items-center gap-2 px-4 py-2.5 border-b" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
+                  <div className="flex items-center gap-2 px-4 py-2.5 border-b" style={{ borderColor: "rgba(74,165,168,0.10)" }}>
                     <div className="flex gap-1.5">
                       <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
                       <div className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />

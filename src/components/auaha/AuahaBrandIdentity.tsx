@@ -297,7 +297,7 @@ export default function AuahaBrandIdentity() {
       <motion.div
         layout
         className="rounded-xl border backdrop-blur-xl p-6"
-        style={{ background: "rgba(15,15,26,0.7)", borderColor: isScanning ? `${ACCENT}44` : "rgba(255,255,255,0.1)" }}
+        style={{ background: "rgba(255,255,255,0.92)", borderColor: isScanning ? `${ACCENT}44` : "rgba(255,255,255,0.1)" }}
       >
         <div className="flex items-center gap-2 mb-4">
           <Globe className="w-4 h-4" style={{ color: ACCENT }} />
@@ -338,7 +338,7 @@ export default function AuahaBrandIdentity() {
               {brandDna.brand_score != null && (
                 <motion.div
                   className="rounded-xl border backdrop-blur-xl p-6 flex flex-col items-center justify-center"
-                  style={{ background: "rgba(15,15,26,0.7)", borderColor: "rgba(255,255,255,0.1)" }}
+                  style={{ background: "rgba(255,255,255,0.92)", borderColor: "rgba(74,165,168,0.14)" }}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 }}
@@ -353,7 +353,7 @@ export default function AuahaBrandIdentity() {
               {/* Identity Card */}
               <motion.div
                 className="rounded-xl border backdrop-blur-xl p-6"
-                style={{ background: "rgba(15,15,26,0.7)", borderColor: "rgba(255,255,255,0.1)" }}
+                style={{ background: "rgba(255,255,255,0.92)", borderColor: "rgba(74,165,168,0.14)" }}
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
@@ -404,7 +404,7 @@ export default function AuahaBrandIdentity() {
             {vi && (
               <motion.div
                 className="rounded-xl border backdrop-blur-xl p-6"
-                style={{ background: "rgba(15,15,26,0.7)", borderColor: "rgba(255,255,255,0.1)" }}
+                style={{ background: "rgba(255,255,255,0.92)", borderColor: "rgba(74,165,168,0.14)" }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
@@ -498,7 +498,7 @@ export default function AuahaBrandIdentity() {
             {vt && (
               <motion.div
                 className="rounded-xl border backdrop-blur-xl p-6"
-                style={{ background: "rgba(15,15,26,0.7)", borderColor: "rgba(255,255,255,0.1)" }}
+                style={{ background: "rgba(255,255,255,0.92)", borderColor: "rgba(74,165,168,0.14)" }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
@@ -577,7 +577,7 @@ export default function AuahaBrandIdentity() {
             {((brandDna.key_products && brandDna.key_products.length > 0) || (brandDna.usps && brandDna.usps.length > 0)) && (
               <motion.div
                 className="rounded-xl border backdrop-blur-xl p-6"
-                style={{ background: "rgba(15,15,26,0.7)", borderColor: "rgba(255,255,255,0.1)" }}
+                style={{ background: "rgba(255,255,255,0.92)", borderColor: "rgba(74,165,168,0.14)" }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
@@ -640,7 +640,7 @@ export default function AuahaBrandIdentity() {
             {brandDna.key_messaging && brandDna.key_messaging.length > 0 && (
               <motion.div
                 className="rounded-xl border backdrop-blur-xl p-6"
-                style={{ background: "rgba(15,15,26,0.7)", borderColor: "rgba(255,255,255,0.1)" }}
+                style={{ background: "rgba(255,255,255,0.92)", borderColor: "rgba(74,165,168,0.14)" }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7 }}
@@ -675,7 +675,7 @@ export default function AuahaBrandIdentity() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="rounded-xl border border-dashed p-12 text-center"
-          style={{ borderColor: "rgba(255,255,255,0.1)", background: "rgba(15,15,26,0.3)" }}
+          style={{ borderColor: "rgba(74,165,168,0.14)", background: "rgba(15,15,26,0.3)" }}
         >
           <Fingerprint className="w-12 h-12 mx-auto mb-4" style={{ color: `${ACCENT}44` }} />
           <h3 className="text-[#4A5160] text-sm mb-1">No Brand DNA Yet</h3>

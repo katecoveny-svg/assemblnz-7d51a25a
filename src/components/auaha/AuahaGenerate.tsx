@@ -87,7 +87,7 @@ interface Job {
 function GlassCard({ children, className = "", accent = false }: { children: React.ReactNode; className?: string; accent?: boolean }) {
   return (
     <div className={`rounded-xl border backdrop-blur-xl ${className}`}
-      style={{ background: "rgba(15,15,26,0.7)", borderColor: accent ? `${ACCENT}33` : "rgba(255,255,255,0.1)" }}>
+      style={{ background: "rgba(255,255,255,0.92)", borderColor: accent ? `${ACCENT}33` : "rgba(255,255,255,0.1)" }}>
       {children}
     </div>
   );
