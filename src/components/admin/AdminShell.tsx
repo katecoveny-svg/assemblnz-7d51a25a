@@ -21,7 +21,7 @@ const AdminShell: React.FC<AdminShellProps> = ({ title, subtitle, icon, actions,
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen relative" style={{ background: "#EEEEF2", color: "#3D4250" }}>
+    <div className="min-h-screen relative" style={{ background: "#FAFBFC", color: "#3D4250" }}>
       {/* Whāriki weave background */}
       <div className="fixed inset-0 pointer-events-none -z-10" style={{
         backgroundImage: `
@@ -66,7 +66,7 @@ const AdminShell: React.FC<AdminShellProps> = ({ title, subtitle, icon, actions,
 
       {/* Header — neumorphic raised */}
       <header className="sticky top-0 z-50 px-4 sm:px-6 py-3" style={{
-        background: "#EEEEF2",
+        background: "#FAFBFC",
         boxShadow: "0 4px 16px rgba(166,166,180,0.25), 0 1px 0 rgba(255,255,255,0.7)",
       }}>
         <div className="max-w-7xl mx-auto flex items-center gap-3">

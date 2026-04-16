@@ -52,7 +52,7 @@ const LiquidGlassCard: React.FC<Props> = ({
       onMouseMove={handleMouseMove}
       className={`rounded-2xl relative overflow-hidden group transition-all duration-400 hover:-translate-y-1 ${onClick ? "cursor-pointer" : ""} ${className}`}
       style={{
-        background: "#EEEEF2",
+        background: "#FAFBFC",
         boxShadow: `
           8px 8px 20px rgba(166,166,180,${n.shadowDark}),
           -8px -8px 20px rgba(255,255,255,${n.shadowLight}),

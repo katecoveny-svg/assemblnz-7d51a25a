@@ -14,7 +14,7 @@ const LightPageShell: React.FC<{
 }> = ({ children, className = "" }) => (
   <div
     className={`min-h-screen relative overflow-hidden ${className}`}
-    style={{ background: "#EEEEF2", color: "#3D4250" }}
+    style={{ background: "#FAFBFC", color: "#3D4250" }}
   >
     <WharikiFoundation />
     <WaterCausticBackground />
