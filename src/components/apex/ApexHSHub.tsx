@@ -156,7 +156,7 @@ const ApexHSHub = ({ isPaid, userRole }: Props) => {
                   {generatedContent[key] && (
                     <div className="px-3 pb-3 border-t" style={{ borderColor: `${APEX_COLOR}10` }}>
                       <div className="flex justify-end mt-1"><CopyBtn text={generatedContent[key]} id={key} /></div>
-                      <div className="prose prose-invert prose-xs max-w-none"><ReactMarkdown>{generatedContent[key]}</ReactMarkdown></div>
+                       <div className="prose prose-xs max-w-none [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_strong]:text-[#2D3140]"><ReactMarkdown>{generatedContent[key]}</ReactMarkdown></div>
                     </div>
                   )}
                 </div>
