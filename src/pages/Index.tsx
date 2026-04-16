@@ -793,7 +793,7 @@ function SectionP({ children, className = "" }: { children: React.ReactNode; cla
 function GlowCard({ children, className = "", accentColor }: { children: React.ReactNode; className?: string; accentColor?: string }) {
   const ac = accentColor || "#4AA5A8";
   return (
-    <div className={`relative rounded-3xl overflow-hidden p-10 ${className}`}
+    <div className={`relative rounded-3xl overflow-hidden p-6 sm:p-10 ${className}`}
       style={{
         background: "linear-gradient(145deg, rgba(255,255,255,0.8), rgba(238,238,242,0.65))",
         backdropFilter: "blur(24px) saturate(160%)",
