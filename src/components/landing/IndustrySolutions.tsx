@@ -160,7 +160,7 @@ const IndustrySolutions = () => {
                       />
                     </div>
                     <div>
-                      <p className="text-sm font-display font-bold" style={{ color: '#1A1D29' }}>{ind.industry}</p>
+                      <p className="text-sm font-display font-bold" style={{ color: '#3D4250' }}>{ind.industry}</p>
                       <p className="text-[10px] font-mono-jb uppercase tracking-[2px]" style={{
                         color: ind.color,
                         textShadow: `0 0 8px rgba(${rgb},0.3)`,
@@ -187,7 +187,7 @@ const IndustrySolutions = () => {
                     to={`/chat/${ind.agentId}`}
                     className="inline-flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-display font-bold transition-all duration-300 hover:-translate-y-[2px] active:translate-y-[1px] group-hover:gap-3"
                     style={{
-                      color: '#1A1D29',
+                      color: '#3D4250',
                       background: 'linear-gradient(145deg, #F5F5F8, #E4E4E8)',
                       boxShadow: `
                         4px 4px 10px rgba(166,166,180,0.5),
@@ -212,7 +212,7 @@ const IndustrySolutions = () => {
             onClick={() => setExpanded(!expanded)}
             className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-2xl text-sm font-display font-bold transition-all duration-300 hover:-translate-y-[2px] hover:scale-[1.02] active:translate-y-[1px]"
             style={{
-              color: '#1A1D29',
+              color: '#3D4250',
               background: 'linear-gradient(145deg, #F5F5F8, #E4E4E8)',
               boxShadow: `
                 6px 6px 16px rgba(166,166,180,0.45),

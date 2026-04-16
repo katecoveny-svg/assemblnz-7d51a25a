@@ -81,15 +81,15 @@ const WorkflowSettings = () => {
     <LightPageShell>
       <BrandNav />
       <div className="relative z-10 max-w-4xl mx-auto px-4 pt-24 pb-20">
-        <Link to="/dashboard" className="inline-flex items-center gap-1 text-xs text-[#1A1D29]/50 hover:text-[#1A1D29]/80 mb-6">
+        <Link to="/dashboard" className="inline-flex items-center gap-1 text-xs text-[#3D4250]/50 hover:text-[#3D4250]/80 mb-6">
           <ArrowLeft size={14} /> Back to Dashboard
         </Link>
 
         <div className="flex items-center gap-3 mb-2">
           <Zap size={24} className="text-[#4AA5A8]" />
-          <h1 className="font-display font-light text-2xl text-[#1A1D29]">Symbiotic Workflows</h1>
+          <h1 className="font-display font-light text-2xl text-[#3D4250]">Symbiotic Workflows</h1>
         </div>
-        <p className="text-sm text-[#1A1D29]/50 mb-8">When one agent acts, others follow automatically. Configure your agent chain reactions.</p>
+        <p className="text-sm text-[#3D4250]/50 mb-8">When one agent acts, others follow automatically. Configure your agent chain reactions.</p>
 
         <div className="space-y-3">
           {workflows.map((w) => {
@@ -107,10 +107,10 @@ const WorkflowSettings = () => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="font-display font-bold text-sm text-[#1A1D29]">{w.name}</span>
+                      <span className="font-display font-bold text-sm text-[#3D4250]">{w.name}</span>
                       {w.is_system && <span className="text-[8px] px-1.5 py-0.5 rounded bg-[#4AA5A8]/10 text-[#4AA5A8] font-medium">SYSTEM</span>}
                     </div>
-                    <p className="text-[11px] text-[#1A1D29]/50 mt-0.5 truncate">{w.description}</p>
+                    <p className="text-[11px] text-[#3D4250]/50 mt-0.5 truncate">{w.description}</p>
                   </div>
                   <div className="flex items-center gap-3 shrink-0">
                     <button
@@ -120,10 +120,10 @@ const WorkflowSettings = () => {
                       {w.is_active ? (
                         <ToggleRight size={24} className="text-[#4AA5A8]" />
                       ) : (
-                        <ToggleLeft size={24} className="text-[#1A1D29]/25" />
+                        <ToggleLeft size={24} className="text-[#3D4250]/25" />
                       )}
                     </button>
-                    <ChevronRight size={16} className={`text-[#1A1D29]/30 transition-transform ${isExpanded ? "rotate-90" : ""}`} />
+                    <ChevronRight size={16} className={`text-[#3D4250]/30 transition-transform ${isExpanded ? "rotate-90" : ""}`} />
                   </div>
                 </button>
 
@@ -132,7 +132,7 @@ const WorkflowSettings = () => {
                     <div className="pt-3 space-y-4">
                       {/* Pipeline trace */}
                       <div>
-                        <p className="text-[9px] font-bold text-[#1A1D29]/40 uppercase tracking-wider mb-2">Pipeline</p>
+                        <p className="text-[9px] font-bold text-[#3D4250]/40 uppercase tracking-wider mb-2">Pipeline</p>
                         <div className="flex items-center gap-1 flex-wrap">
                           {PIPELINE_STAGES.map((stage, i) => {
                             const StageIcon = stage.icon;
@@ -141,11 +141,11 @@ const WorkflowSettings = () => {
                                 <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-[#4AA5A8]/[0.05] border border-[#4AA5A8]/[0.1]">
                                   <StageIcon size={12} className="text-[#4AA5A8]" />
                                   <div>
-                                    <span className="text-[10px] font-bold text-[#1A1D29] block leading-tight">{stage.label}</span>
-                                    <span className="text-[8px] text-[#1A1D29]/40 leading-tight">{stage.desc}</span>
+                                    <span className="text-[10px] font-bold text-[#3D4250] block leading-tight">{stage.label}</span>
+                                    <span className="text-[8px] text-[#3D4250]/40 leading-tight">{stage.desc}</span>
                                   </div>
                                 </div>
-                                {i < PIPELINE_STAGES.length - 1 && <span className="text-[10px] text-[#1A1D29]/25">→</span>}
+                                {i < PIPELINE_STAGES.length - 1 && <span className="text-[10px] text-[#3D4250]/25">→</span>}
                               </div>
                             );
                           })}
@@ -155,7 +155,7 @@ const WorkflowSettings = () => {
                       {/* Relevant Acts */}
                       {w.relevant_acts && w.relevant_acts.length > 0 && (
                         <div>
-                          <p className="text-[9px] font-bold text-[#1A1D29]/40 uppercase tracking-wider mb-1.5">Legislation checked at Mana gate</p>
+                          <p className="text-[9px] font-bold text-[#3D4250]/40 uppercase tracking-wider mb-1.5">Legislation checked at Mana gate</p>
                           <div className="flex flex-wrap gap-1.5">
                             {w.relevant_acts.map((act) => (
                               <span key={act} className="text-[9px] px-2 py-0.5 rounded-full bg-[#4AA5A8]/[0.06] border border-[#4AA5A8]/[0.12] text-[#3A7D6E] font-medium">
@@ -175,8 +175,8 @@ const WorkflowSettings = () => {
                         <div className="grid grid-cols-3 gap-2">
                           {MANA_GATE_CHECKS.map((check) => (
                             <div key={check.label} className="text-center">
-                              <span className="text-[10px] font-bold text-[#1A1D29] block">{check.label}</span>
-                              <span className="text-[8px] text-[#1A1D29]/40">{check.desc}</span>
+                              <span className="text-[10px] font-bold text-[#3D4250] block">{check.label}</span>
+                              <span className="text-[8px] text-[#3D4250]/40">{check.desc}</span>
                             </div>
                           ))}
                         </div>
@@ -184,7 +184,7 @@ const WorkflowSettings = () => {
 
                       {/* Evidence pack output */}
                       <div>
-                        <p className="text-[9px] font-bold text-[#1A1D29]/40 uppercase tracking-wider mb-1.5">Output → Evidence pack</p>
+                        <p className="text-[9px] font-bold text-[#3D4250]/40 uppercase tracking-wider mb-1.5">Output → Evidence pack</p>
                         <div className="flex flex-wrap gap-1.5">
                           {[
                             { icon: PenTool, label: "Signed" },
@@ -203,7 +203,7 @@ const WorkflowSettings = () => {
 
                       {/* Trigger + Steps */}
                       <div>
-                        <p className="text-[9px] font-bold text-[#1A1D29]/40 uppercase tracking-wider mb-2">
+                        <p className="text-[9px] font-bold text-[#3D4250]/40 uppercase tracking-wider mb-2">
                           Trigger: {w.trigger_agent} → {w.trigger_event.replace(/_/g, " ")}
                         </p>
                         {w.steps.map((step: any, i: number) => (
@@ -212,8 +212,8 @@ const WorkflowSettings = () => {
                               <span className="text-[9px] font-bold text-[#4AA5A8]">{i + 1}</span>
                             </div>
                             <div>
-                              <span className="font-bold text-[#1A1D29]">{step.target}</span>
-                              <span className="text-[#1A1D29]/50 ml-1">{step.action}</span>
+                              <span className="font-bold text-[#3D4250]">{step.target}</span>
+                              <span className="text-[#3D4250]/50 ml-1">{step.action}</span>
                             </div>
                           </div>
                         ))}

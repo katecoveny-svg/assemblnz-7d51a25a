@@ -46,7 +46,7 @@ export default function KeteUseCaseSection({ data }: { data: UseCaseData }) {
             — Real use case —
           </p>
           <h2 className="text-2xl sm:text-[34px] mb-4"
-            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase", lineHeight: 1.15, color: "#1A1D29" }}>
+            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase", lineHeight: 1.15, color: "#3D4250" }}>
             A day in the life
           </h2>
           <p className="text-sm max-w-lg mx-auto" style={{ color: "#6B7280" }}>
@@ -70,7 +70,7 @@ export default function KeteUseCaseSection({ data }: { data: UseCaseData }) {
                 {persona.name[0]}
               </div>
               <div>
-                <p className="text-[13px] font-medium" style={{ color: "#1A1D29" }}>{persona.name}</p>
+                <p className="text-[13px] font-medium" style={{ color: "#3D4250" }}>{persona.name}</p>
                 <p className="text-[11px]" style={{ color: "#6B7280" }}>{persona.role}</p>
               </div>
               <span className="ml-auto text-[9px] tracking-[2px] uppercase px-3 py-1 rounded-full"
@@ -95,7 +95,7 @@ export default function KeteUseCaseSection({ data }: { data: UseCaseData }) {
             <p className="text-[10px] tracking-[3px] uppercase mb-5" style={{ color: accentColor, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}>
               What assembl does
             </p>
-            <p className="text-[14px] leading-[1.9]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#1A1D29" }}>
+            <p className="text-[14px] leading-[1.9]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250" }}>
               {assembl}
             </p>
           </motion.div>
@@ -122,7 +122,7 @@ export default function KeteUseCaseSection({ data }: { data: UseCaseData }) {
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${accentColor}12` }}>
                     <Icon size={14} style={{ color: accentColor }} />
                   </div>
-                  <span className="text-[12px] font-semibold tracking-[1px] uppercase" style={{ color: "#1A1D29", fontFamily: "'Lato', sans-serif" }}>
+                  <span className="text-[12px] font-semibold tracking-[1px] uppercase" style={{ color: "#3D4250", fontFamily: "'Lato', sans-serif" }}>
                     {b.label}
                   </span>
                 </div>

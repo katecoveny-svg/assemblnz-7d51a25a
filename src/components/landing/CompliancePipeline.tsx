@@ -28,7 +28,7 @@ const CompliancePipeline = () => {
 
         <motion.h2
           className="text-center text-lg sm:text-[36px] lg:text-[42px] mb-16"
-          style={{ fontFamily: "'Lato', sans-serif", fontWeight: 600, letterSpacing: "-0.02em", lineHeight: 1.15, color: "#1A1D29" }}
+          style={{ fontFamily: "'Lato', sans-serif", fontWeight: 600, letterSpacing: "-0.02em", lineHeight: 1.15, color: "#3D4250" }}
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.1 }}

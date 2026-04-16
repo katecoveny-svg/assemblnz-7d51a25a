@@ -225,7 +225,7 @@ const DemosHub = () => {
           <p className="text-[10px] tracking-[5px] uppercase mb-4" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.gold, fontWeight: 700 }}>
             — Live demos —
           </p>
-          <h1 className="text-2xl sm:text-[40px] mb-4" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "6px", textTransform: "uppercase", color: "#1A1D29" }}>
+          <h1 className="text-2xl sm:text-[40px] mb-4" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "6px", textTransform: "uppercase", color: "#3D4250" }}>
             See it work
           </h1>
           <p className="text-[15px] max-w-lg mx-auto" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>

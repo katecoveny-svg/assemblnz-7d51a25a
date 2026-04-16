@@ -124,7 +124,7 @@ export default function AaaipResearcher() {
 
   return (
     <LightPageShell>
-    <div className="min-h-screen" style={{ background: "#0A0A14", color: "#1A1D29" }}>
+    <div className="min-h-screen" style={{ background: "#0A0A14", color: "#3D4250" }}>
       <SEO
         title="AAAIP Researcher Console · Assembl"
         description="Read-only researcher view over every audit-log export submitted by the AAAIP demo dashboard."

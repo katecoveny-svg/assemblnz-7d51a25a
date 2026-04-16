@@ -97,7 +97,7 @@ const CareDashboard = () => {
         </Link>
         <div className="flex items-center justify-between">
           <div>
-            <h1 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, textTransform: "uppercase", letterSpacing: "4px", fontSize: "24px", color: "#1A1D29" }}>
+            <h1 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, textTransform: "uppercase", letterSpacing: "4px", fontSize: "24px", color: "#3D4250" }}>
               {senior.preferred_name || senior.first_name} {senior.last_name}
             </h1>
             <p className="text-xs mt-1" style={{ color: "#6B7280" }}>
@@ -126,7 +126,7 @@ const CareDashboard = () => {
             <div className="flex items-center gap-4">
               <span className="text-3xl">{moodEmoji(latestCheckIn.mood_score || 5)}</span>
               <div>
-                <p className="text-sm" style={{ color: "#1A1D29" }}>Mood: {latestCheckIn.mood_score || "—"}/10</p>
+                <p className="text-sm" style={{ color: "#3D4250" }}>Mood: {latestCheckIn.mood_score || "—"}/10</p>
                 <p className="text-xs mt-0.5" style={{ color: "#6B7280" }}>
                   {latestCheckIn.mood_notes || "No notes from this check-in"}
                 </p>
@@ -136,7 +136,7 @@ const CareDashboard = () => {
             <p className="text-xs" style={{ color: "#6B7280" }}>No check-ins yet. Start a check-in with ORA.</p>
           )}
           <div className="flex gap-2 mt-4">
-            <Link to="/chat/healthcompanion" className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold" style={{ background: POUNAMU, color: "#1A1D29" }}>
+            <Link to="/chat/healthcompanion" className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold" style={{ background: POUNAMU, color: "#3D4250" }}>
               <Phone size={12} /> Call ORA now
             </Link>
             <button className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium" style={{ background: "transparent", border: `1px solid rgba(212,168,67,0.3)`, color: KOWHAI }}>
@@ -177,7 +177,7 @@ const CareDashboard = () => {
                 <div key={a.id} className="flex items-start gap-3 p-3 rounded-xl" style={{ background: "rgba(165,42,42,0.08)", border: "1px solid rgba(165,42,42,0.15)" }}>
                   <AlertTriangle size={14} style={{ color: a.priority === "critical" ? KOKKOWAI : a.priority === "high" ? "#FF6D00" : KOWHAI, marginTop: 2 }} />
                   <div className="flex-1">
-                    <p className="text-xs font-medium" style={{ color: "#1A1D29" }}>{a.title}</p>
+                    <p className="text-xs font-medium" style={{ color: "#3D4250" }}>{a.title}</p>
                     <p className="text-[11px] mt-0.5" style={{ color: "#6B7280" }}>{a.description}</p>
                     {a.recommended_action && <p className="text-[10px] mt-1 italic" style={{ color: POUNAMU }}>{a.recommended_action}</p>}
                   </div>
@@ -203,7 +203,7 @@ const CareDashboard = () => {
                   <div className="flex items-center gap-2">
                     <Pill size={13} style={{ color: POUNAMU }} />
                     <div>
-                      <p className="text-xs font-medium" style={{ color: "#1A1D29" }}>{m.medication_name}</p>
+                      <p className="text-xs font-medium" style={{ color: "#3D4250" }}>{m.medication_name}</p>
                       <p className="text-[10px]" style={{ color: "#6B7280" }}>{m.dosage} · {m.frequency} {m.purpose ? `— ${m.purpose}` : ""}</p>
                     </div>
                   </div>
@@ -224,7 +224,7 @@ const CareDashboard = () => {
                 return (
                   <div key={j.id} className="p-3 rounded-xl" style={{ background: "rgba(26,58,92,0.08)", border: "1px solid rgba(26,58,92,0.15)" }}>
                     <div className="flex items-center justify-between mb-2">
-                      <p className="text-xs font-medium" style={{ color: "#1A1D29" }}>{j.speciality || j.referral_type}</p>
+                      <p className="text-xs font-medium" style={{ color: "#3D4250" }}>{j.speciality || j.referral_type}</p>
                       <span className="text-[9px] uppercase px-2 py-0.5 rounded-full" style={{ background: "rgba(26,58,92,0.2)", color: "#5A9ACC", fontFamily: "'JetBrains Mono', monospace" }}>
                         {j.status.replace(/_/g, " ")}
                       </span>

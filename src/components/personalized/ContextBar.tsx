@@ -162,7 +162,7 @@ export default function ContextBar() {
               to={info.samplePath}
               className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-[11px] font-semibold transition-all duration-200 hover:-translate-y-[2px] active:translate-y-[1px]"
               style={{
-                color: '#1A1D29',
+                color: '#3D4250',
                 background: 'linear-gradient(145deg, #F5F5F8, #E4E4E8)',
                 boxShadow: `
                   4px 4px 10px rgba(166,166,180,0.5),

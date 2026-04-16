@@ -52,7 +52,7 @@ const TIERS = [
 ];
 
 const PricingPage = () => (
-  <div className="min-h-screen" style={{ background: C.bg, color: "#1A1D29" }}>
+  <div className="min-h-screen" style={{ background: C.bg, color: "#3D4250" }}>
     <SEO
       title="Assembl Pricing — NZ workflow tools from $1,490/mo"
       description="Pick the kete that matches your industry. Operator $1,490/mo · Leader $1,990/mo · Enterprise $2,990/mo. NZD ex GST."

@@ -188,7 +188,7 @@ export default function SimulatorHub() {
 
               {!running && stepIndex >= pack.steps.length - 1 && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-8 text-center">
-                  <Link to={`/${pack.id}`} className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium" style={{ background: POUNAMU, color: "#1A1D29" }}>
+                  <Link to={`/${pack.id}`} className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium" style={{ background: POUNAMU, color: "#3D4250" }}>
                     See what your evidence pack looks like <ChevronRight size={14} />
                   </Link>
                   <button onClick={() => runScenario(pack.id)} className="block mx-auto mt-3 text-xs text-white/40 hover:text-white/60 transition-colors">

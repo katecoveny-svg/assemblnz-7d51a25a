@@ -30,24 +30,24 @@ export default function FuelOracle() {
       <SEO title="FuelOracle — Live NZ Fuel Pricing | Arataki | assembl" description="Live NZ fuel pricing across Z, BP, Mobil, Gull, Waitomo. Route cost optimisation for fleets." />
       <BrandNav />
       <main className="max-w-5xl mx-auto px-6 pt-16 pb-32">
-        <Link to="/arataki" className="text-xs text-[#1A1D29]/40 hover:text-[#1A1D29]/60 mb-6 inline-block">← Back to Arataki</Link>
-        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-3xl md:text-4xl font-light mb-3 text-[#1A1D29]" style={{ fontFamily: "'Lato', sans-serif" }}>
+        <Link to="/arataki" className="text-xs text-[#3D4250]/40 hover:text-[#3D4250]/60 mb-6 inline-block">← Back to Arataki</Link>
+        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-3xl md:text-4xl font-light mb-3 text-[#3D4250]" style={{ fontFamily: "'Lato', sans-serif" }}>
           <Fuel className="inline mr-3 text-[#4AA5A8]" size={28} />FuelOracle
         </motion.h1>
-        <p className="text-[#1A1D29]/50 mb-10 max-w-xl">Live NZ fuel pricing across Z, BP, Mobil, Gull, Waitomo — automatically selects cheapest stops on your route.</p>
+        <p className="text-[#3D4250]/50 mb-10 max-w-xl">Live NZ fuel pricing across Z, BP, Mobil, Gull, Waitomo — automatically selects cheapest stops on your route.</p>
 
         <div className="rounded-2xl overflow-hidden" style={glassCard}>
-          <div className="grid grid-cols-5 text-xs font-semibold text-[#1A1D29]/40 uppercase tracking-wider px-6 py-3 border-b border-[#4AA5A8]/[0.08]">
+          <div className="grid grid-cols-5 text-xs font-semibold text-[#3D4250]/40 uppercase tracking-wider px-6 py-3 border-b border-[#4AA5A8]/[0.08]">
             <span>Station</span><span>Brand</span><span>Diesel</span><span>91</span><span>Updated</span>
           </div>
           {FUEL_DATA.map((f, i) => (
             <motion.div key={f.station} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.1 }}
               className={`grid grid-cols-5 px-6 py-4 text-sm ${f === cheapest ? "bg-[#4AA5A8]/[0.04]" : ""} border-b border-[#4AA5A8]/[0.05]`}>
-              <span className="text-[#1A1D29]/80 flex items-center gap-2"><MapPin size={12} className="text-[#1A1D29]/25" />{f.station}</span>
-              <span className="text-[#1A1D29]/50">{f.brand}</span>
-              <span className={f === cheapest ? "text-[#3A7D6E] font-semibold" : "text-[#1A1D29]/70"}>${f.diesel.toFixed(3)}</span>
-              <span className="text-[#1A1D29]/50">${f.petrol91.toFixed(3)}</span>
-              <span className="text-[#1A1D29]/30">{f.updated}</span>
+              <span className="text-[#3D4250]/80 flex items-center gap-2"><MapPin size={12} className="text-[#3D4250]/25" />{f.station}</span>
+              <span className="text-[#3D4250]/50">{f.brand}</span>
+              <span className={f === cheapest ? "text-[#3A7D6E] font-semibold" : "text-[#3D4250]/70"}>${f.diesel.toFixed(3)}</span>
+              <span className="text-[#3D4250]/50">${f.petrol91.toFixed(3)}</span>
+              <span className="text-[#3D4250]/30">{f.updated}</span>
             </motion.div>
           ))}
         </div>

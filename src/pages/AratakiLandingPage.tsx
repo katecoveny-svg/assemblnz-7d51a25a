@@ -74,7 +74,7 @@ export default function AratakiLandingPage() {
           </motion.p>
 
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="flex gap-4">
-            <Link to="/simulator" className="px-6 py-3 rounded-full text-sm font-medium" style={{ background: POUNAMU, color: "#1A1D29" }}>
+            <Link to="/simulator" className="px-6 py-3 rounded-full text-sm font-medium" style={{ background: POUNAMU, color: "#3D4250" }}>
               See Arataki in action <ArrowRight className="inline ml-1" size={14} />
             </Link>
             <Link to="/contact" className="px-6 py-3 rounded-full text-sm font-medium" style={{ border: "1px solid rgba(74,165,168,0.2)", color: "#4AA5A8" }}>
@@ -112,7 +112,7 @@ export default function AratakiLandingPage() {
 
         {/* Compliance */}
         <section className="max-w-4xl mx-auto px-6 pb-24">
-          <h2 className="text-2xl font-light text-center mb-8" style={{ fontFamily: "'Lato', sans-serif", color: "#1A1D29" }}>
+          <h2 className="text-2xl font-light text-center mb-8" style={{ fontFamily: "'Lato', sans-serif", color: "#3D4250" }}>
             NZ compliance, built in
           </h2>
           <div className="grid md:grid-cols-2 gap-3">
@@ -130,7 +130,7 @@ export default function AratakiLandingPage() {
           <div className="rounded-2xl p-10" style={{ background: `${POUNAMU}08`, border: `1px solid ${POUNAMU}20` }}>
             <h3 className="text-xl font-light text-white/80 mb-3" style={{ fontFamily: "'Lato', sans-serif" }}>Try a scenario</h3>
             <p className="text-sm text-gray-500 mb-6">Run a realistic 6-vehicle courier fleet scenario and see every step — fuel, routes, compliance, evidence pack.</p>
-            <Link to="/simulator" className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium" style={{ background: POUNAMU, color: "#1A1D29" }}>
+            <Link to="/simulator" className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium" style={{ background: POUNAMU, color: "#3D4250" }}>
               Run Arataki scenario <ArrowRight size={14} />
             </Link>
           </div>
