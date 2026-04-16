@@ -28,7 +28,7 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
   const rgb = hexToRgb(accentColor);
 
   return (
-    <div className="min-h-screen relative" style={{ background: "#EEEEF2" }}>
+    <div className="min-h-screen relative" style={{ background: "#FAFBFC" }}>
       {/* Neumorphic base texture — subtle noise */}
       <div
         className="fixed inset-0 pointer-events-none"
@@ -94,7 +94,7 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
           transition={{ duration: 0.5 }}
           className="flex flex-wrap items-center gap-4 rounded-2xl p-5"
           style={{
-            background: "#EEEEF2",
+            background: "#FAFBFC",
             boxShadow: `
               8px 8px 20px rgba(166,166,180,0.35),
               -8px -8px 20px rgba(255,255,255,0.85),

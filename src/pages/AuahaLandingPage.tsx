@@ -85,7 +85,7 @@ export default function AuahaLandingPage() {
 
           <motion.h1 className="text-4xl sm:text-6xl font-display font-light tracking-[0.02em] mb-4 max-w-3xl leading-[1.1]"
             variants={fadeUp} initial="hidden" animate="visible" custom={1}>
-            <span style={{ background: `linear-gradient(135deg, #1A1D29 0%, ${ACCENT} 50%, ${BONE} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundSize: "200% auto" }}>
+            <span style={{ background: `linear-gradient(135deg, #3D4250 0%, ${ACCENT} 50%, ${BONE} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundSize: "200% auto" }}>
               One coordinated studio.
             </span>
           </motion.h1>
@@ -123,7 +123,7 @@ export default function AuahaLandingPage() {
           </motion.div>
 
           <motion.div className="flex flex-col sm:flex-row items-center gap-4" variants={fadeUp} initial="hidden" animate="visible" custom={4}>
-            <Link to="/auaha" className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold font-body overflow-hidden" style={{ color: "#1A1D29" }}>
+            <Link to="/auaha" className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold font-body overflow-hidden" style={{ color: "#3D4250" }}>
               <div className="absolute inset-0 rounded-full" style={{ background: `linear-gradient(135deg, ${POUNAMU} 0%, #2D6A5E 100%)` }} />
               <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: `0 0 30px ${POUNAMU}40` }} />
               <span className="relative z-10">Open Auaha Studio</span>
@@ -231,11 +231,11 @@ export default function AuahaLandingPage() {
             {activeDemo === 1 && (
               <motion.div className="space-y-3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} key="ad-1">
                 <div className="p-4 rounded-lg" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}>
-                  <p className="text-[10px] text-white/30 mb-1">Instagram caption — drafted by MUSE</p>
+                  <p className="text-[10px] text-gray-400 mb-1">Instagram caption — drafted by MUSE</p>
                   <p className="text-xs text-white/60 italic">"Sunday mornings at Kōwhai. Fresh baking, strong flat whites, and the sun hitting the deck just right. Come find your spot 🌿☕"</p>
                 </div>
                 <div className="p-4 rounded-lg" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}>
-                  <p className="text-[10px] text-white/30 mb-1">EDM subject line — drafted by PRISM</p>
+                  <p className="text-[10px] text-gray-400 mb-1">EDM subject line — drafted by PRISM</p>
                   <p className="text-xs text-white/60 italic">"This week at Kōwhai: New winter menu + live music Friday"</p>
                 </div>
               </motion.div>
@@ -279,7 +279,7 @@ export default function AuahaLandingPage() {
           }} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${ACCENT}40, transparent)` }} />
             <p className="text-sm text-white/60">Ready to coordinate your creative pipeline?</p>
-            <Link to="/auaha" className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold transition-all overflow-hidden" style={{ color: "#1A1D29" }}>
+            <Link to="/auaha" className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold transition-all overflow-hidden" style={{ color: "#3D4250" }}>
               <div className="absolute inset-0 rounded-full" style={{ background: POUNAMU }} />
               <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: `0 0 30px ${POUNAMU}40` }} />
               <span className="relative z-10">Open Auaha Studio</span>

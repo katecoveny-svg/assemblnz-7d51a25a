@@ -114,7 +114,7 @@ const KeteExplorer = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease }}
         >
-          <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: "#E8B4B8" }}>
+          <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 400, color: "#E8B4B8" }}>
             NGĀ KETE · THE COLLECTION
           </p>
           <TanikoDivider color="#E8B4B8" width={200} />

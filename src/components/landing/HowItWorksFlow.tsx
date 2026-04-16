@@ -233,7 +233,7 @@ const HowItWorksFlow = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease }}
         >
-          <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: "#3A7D6E" }}>
+          <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 400, color: "#3A7D6E" }}>
             TE ARA · THE PATHWAY
           </p>
           <h2 className="text-2xl sm:text-4xl mb-3 text-foreground" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}>

@@ -131,7 +131,7 @@ const BrandNav = () => {
         <Link to="/" className="flex items-center gap-3 group shrink-0">
           <Nav3DKeteLogo size={36} />
           <span
-            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "6px", textTransform: "lowercase", fontSize: "13px", color: "#1A1D29" }}
+            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "6px", textTransform: "lowercase", fontSize: "13px", color: "#3D4250" }}
           >
             assembl
           </span>
@@ -144,7 +144,7 @@ const BrandNav = () => {
             <button key={item.label} onClick={() => handleNavClick(item.to)}
               className="px-3 py-2 rounded-xl font-body font-medium transition-colors"
               style={{ color: "#6B7280" }}
-              onMouseEnter={e => (e.currentTarget.style.color = "#1A1D29")}
+              onMouseEnter={e => (e.currentTarget.style.color = "#3D4250")}
               onMouseLeave={e => (e.currentTarget.style.color = "#6B7280")}
             >
               {item.label}
@@ -190,7 +190,7 @@ const BrandNav = () => {
         </nav>
 
         <div className="flex lg:hidden items-center gap-2">
-          <button onClick={() => setMobileOpen(true)} className="p-2 rounded-xl" style={{ color: "#1A1D29" }} aria-label="Open menu">
+          <button onClick={() => setMobileOpen(true)} className="p-2 rounded-xl" style={{ color: "#3D4250" }} aria-label="Open menu">
             <Menu size={22} />
           </button>
         </div>
@@ -219,7 +219,7 @@ const BrandNav = () => {
                 {NAV_ITEMS.map((item) => (
                   <button key={item.label} onClick={() => handleNavClick(item.to)}
                     className="w-full text-left px-4 py-3 rounded-xl text-sm font-body transition-all duration-200"
-                    style={{ color: "#1A1D29" }}>
+                    style={{ color: "#3D4250" }}>
                     {item.label}
                   </button>
                 ))}
@@ -230,7 +230,7 @@ const BrandNav = () => {
                 {KETE.map(pack => (
                   <button key={pack.label} onClick={() => handleNavClick(pack.to)}
                     className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-body transition-all duration-200"
-                    style={{ color: "#1A1D29" }}>
+                    style={{ color: "#3D4250" }}>
                     <GlowIcon name={pack.glowIcon} size={16} color={pack.color} glow />
                     <span>{pack.label}</span>
                     <span className="text-[10px] ml-auto" style={{ color: "#6B7280" }}>{pack.sublabel}</span>
@@ -243,7 +243,7 @@ const BrandNav = () => {
                 {MORE_LINKS.map(link => (
                   <button key={link.label} onClick={() => handleNavClick(link.to)}
                     className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-body transition-all duration-200"
-                    style={{ color: "#1A1D29" }}>
+                    style={{ color: "#3D4250" }}>
                     <GlowIcon name={link.glowIcon} size={16} color={link.color} glow />
                     <span>{link.label}</span>
                   </button>

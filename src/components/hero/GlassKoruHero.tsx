@@ -297,7 +297,7 @@ const GlassKoruHero = () => {
           <h1
             style={{
               fontFamily: "'Lato', sans-serif",
-              fontWeight: 700,
+              fontWeight: 400,
               fontSize: isMobile ? "2.2rem" : "3.6rem",
               lineHeight: 1.08,
               letterSpacing: "-0.03em",

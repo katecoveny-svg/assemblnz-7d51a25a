@@ -59,7 +59,7 @@ const fadeUp = {
 export default function CaseStudiesPage() {
   return (
     <LightPageShell>
-      <div className="min-h-screen" style={{ background: "#09090F", color: "#1A1D29" }}>
+      <div className="min-h-screen" style={{ background: "#FAFBFC", color: "#3D4250" }}>
         <SEO
           title="Case Studies — The packs our customers took to their boards | Assembl"
           description="Real evidence packs from real NZ businesses. See what assembl produces for hospitality, construction, privacy, and creative teams."
@@ -85,7 +85,7 @@ export default function CaseStudiesPage() {
             </p>
             <h1 className="text-3xl sm:text-5xl mb-4" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "-0.5px" }}>
               The packs our customers took to their{" "}
-              <span style={{ background: `linear-gradient(135deg, #1A1D29, ${POUNAMU_LIGHT}, ${BONE})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundSize: "200% auto" }}>
+              <span style={{ background: `linear-gradient(135deg, #3D4250, ${POUNAMU_LIGHT}, ${BONE})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundSize: "200% auto" }}>
                 boards.
               </span>
             </h1>

@@ -89,7 +89,7 @@ const BrandFooter = () => {
         {/* Wordmark */}
         <div className="text-center mb-16">
           <h2 className="text-xl sm:text-2xl tracking-[8px] uppercase mb-4"
-            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#1A1D29" }}>
+            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#3D4250" }}>
             ASSEMBL
           </h2>
           <p className="text-lg"
@@ -103,7 +103,7 @@ const BrandFooter = () => {
           {Object.entries(FOOTER_LINKS).map(([category, links]) => (
             <div key={category}>
               <h4 className="text-[11px] mb-4 uppercase tracking-[2px]"
-                style={{ fontFamily: "'Lato', sans-serif", fontWeight: 500, color: "#1A1D29" }}>
+                style={{ fontFamily: "'Lato', sans-serif", fontWeight: 500, color: "#3D4250" }}>
                 {category}
               </h4>
               <ul className="space-y-2.5">
@@ -118,7 +118,7 @@ const BrandFooter = () => {
         {/* Newsletter */}
         <div className="max-w-md mx-auto mb-16">
           <h4 className="text-[11px] mb-4 uppercase tracking-[2px] text-center"
-            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 500, color: "#1A1D29" }}>
+            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 500, color: "#3D4250" }}>
             Stay Updated
           </h4>
           <form onSubmit={handleNewsletter} className="flex gap-2">
@@ -130,7 +130,7 @@ const BrandFooter = () => {
                 background: "rgba(255,255,255,0.65)",
                 backdropFilter: "blur(20px)",
                 border: "1px solid rgba(74,165,168,0.15)",
-                color: "#1A1D29",
+                color: "#3D4250",
               }} />
             <button type="submit" className="px-5 py-3 rounded-full transition-all duration-300 hover:scale-105"
               style={{ background: "#4AA5A8", color: "#FFFFFF" }}>

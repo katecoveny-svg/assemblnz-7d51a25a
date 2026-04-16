@@ -125,7 +125,7 @@ const AlertInput = ({ onAnalyse }: { onAnalyse?: (text: string) => void }) => {
         <button
           type="submit"
           className="inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-medium transition hover:opacity-90"
-          style={{ background: BRAND.teal, color: "#1A1D29" }}
+          style={{ background: BRAND.teal, color: "#3D4250" }}
         >
           <Send size={12} /> Analyse
         </button>
@@ -149,7 +149,7 @@ const IncidentCard = ({ incident, onClick }: { incident: Incident; onClick: () =
   >
     <div className="mb-3 flex items-start justify-between">
       <div className="flex items-center gap-2">
-        <span className="font-mono text-[10px] text-white/30">{incident.id}</span>
+        <span className="font-mono text-[10px] text-gray-400">{incident.id}</span>
         <SeverityBadge severity={incident.severity} />
         {incident.status === "escalated" && (
           <span className="rounded-full px-2 py-0.5 text-[10px] font-medium" style={{ background: "rgba(239,68,68,0.12)", color: "#EF4444" }}>
@@ -157,13 +157,13 @@ const IncidentCard = ({ incident, onClick }: { incident: Incident; onClick: () =
           </span>
         )}
       </div>
-      <div className="flex items-center gap-1 text-[10px] text-white/30">
+      <div className="flex items-center gap-1 text-[10px] text-gray-400">
         <Clock size={10} />
         {new Date(incident.timestamp).toLocaleTimeString()}
       </div>
     </div>
 
-    <h3 className="mb-2 text-sm font-semibold text-white/90 group-hover:text-white transition">{incident.title}</h3>
+    <h3 className="mb-2 text-sm font-semibold text-white/90 group-hover:text-foreground transition">{incident.title}</h3>
     <p className="mb-4 text-[11px] leading-relaxed text-white/40 line-clamp-2">{incident.summary}</p>
 
     <div className="mb-3 flex items-center gap-4">
@@ -171,7 +171,7 @@ const IncidentCard = ({ incident, onClick }: { incident: Incident; onClick: () =
         <Shield size={12} style={{ color: BRAND.teal }} />
         <span className="text-[10px] font-medium" style={{ color: BRAND.teal }}>{incident.confidence}% confidence</span>
       </div>
-      <span className="rounded px-2 py-0.5 text-[10px] text-white/50" style={{ background: "rgba(255,255,255,0.05)" }}>
+      <span className="rounded px-2 py-0.5 text-[10px] text-gray-500" style={{ background: "rgba(255,255,255,0.05)" }}>
         {incident.category}
       </span>
     </div>
@@ -185,8 +185,8 @@ const IncidentCard = ({ incident, onClick }: { incident: Incident; onClick: () =
     </div>
 
     <div className="flex items-center justify-between border-t pt-3" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-      <p className="text-[10px] text-white/30">{incident.immediateActions.length} actions recommended</p>
-      <ArrowRight size={14} className="text-white/20 group-hover:text-white/50 transition group-hover:translate-x-1" />
+      <p className="text-[10px] text-gray-400">{incident.immediateActions.length} actions recommended</p>
+      <ArrowRight size={14} className="text-white/20 group-hover:text-gray-500 transition group-hover:translate-x-1" />
     </div>
   </motion.div>
 );
@@ -202,9 +202,9 @@ const IncidentDetail = ({ incident, onBack }: { incident: Incident; onBack: () =
       </button>
 
       <div className="flex flex-wrap items-center gap-3">
-        <span className="font-mono text-[10px] text-white/30">{incident.id}</span>
+        <span className="font-mono text-[10px] text-gray-400">{incident.id}</span>
         <SeverityBadge severity={incident.severity} />
-        <span className="rounded px-2 py-0.5 text-[10px] text-white/50" style={{ background: "rgba(255,255,255,0.05)" }}>
+        <span className="rounded px-2 py-0.5 text-[10px] text-gray-500" style={{ background: "rgba(255,255,255,0.05)" }}>
           {incident.category}
         </span>
         <div className="flex items-center gap-1 text-[10px]" style={{ color: BRAND.teal }}>
@@ -213,7 +213,7 @@ const IncidentDetail = ({ incident, onBack }: { incident: Incident; onBack: () =
       </div>
 
       <h1 className="text-lg font-bold text-white/95">{incident.title}</h1>
-      <p className="text-sm text-white/50 leading-relaxed">{incident.summary}</p>
+      <p className="text-sm text-gray-500 leading-relaxed">{incident.summary}</p>
 
       {/* Action Buttons */}
       <div className="flex flex-wrap gap-3">
@@ -241,7 +241,7 @@ const IncidentDetail = ({ incident, onBack }: { incident: Incident; onBack: () =
           <Brain size={14} style={{ color: BRAND.gold }} />
           <h2 className="text-xs font-semibold text-white/80">AI Reasoning</h2>
         </div>
-        <p className="text-xs leading-relaxed text-white/50">{incident.aiReasoning}</p>
+        <p className="text-xs leading-relaxed text-gray-500">{incident.aiReasoning}</p>
       </div>
 
       {/* Expanded Analysis */}
@@ -274,7 +274,7 @@ const IncidentDetail = ({ incident, onBack }: { incident: Incident; onBack: () =
         <h2 className="mb-3 text-xs font-semibold text-white/80">Immediate Actions</h2>
         <ul className="space-y-2">
           {incident.immediateActions.map((a, i) => (
-            <li key={i} className="flex items-start gap-2 text-xs text-white/50">
+            <li key={i} className="flex items-start gap-2 text-xs text-gray-500">
               <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: BRAND.gold }} />
               {a}
             </li>
@@ -298,7 +298,7 @@ const IncidentDetail = ({ incident, onBack }: { incident: Incident; onBack: () =
           <div className="absolute left-[7px] top-2 bottom-2 w-px" style={{ background: "rgba(255,255,255,0.08)" }} />
           {incident.timeline.map((evt, i) => (
             <motion.div key={i} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }} className="relative">
-              <div className="absolute -left-6 top-1.5 h-3 w-3 rounded-full border-2" style={{ borderColor: BRAND.teal, background: "#09090F" }} />
+              <div className="absolute -left-6 top-1.5 h-3 w-3 rounded-full border-2" style={{ borderColor: BRAND.teal, background: "#FAFBFC" }} />
               <div>
                 <div className="flex items-center gap-2">
                   <span className="font-mono text-[10px]" style={{ color: BRAND.teal }}>{evt.time}</span>
@@ -384,7 +384,7 @@ export default function SignalDashboard({ onSendToChat }: Props) {
       {/* Incidents Feed */}
       <div className="flex items-center justify-between">
         <h2 className="text-xs font-semibold text-white/80">Active Incidents</h2>
-        <span className="text-[10px] text-white/30">{mockIncidents.length} total</span>
+        <span className="text-[10px] text-gray-400">{mockIncidents.length} total</span>
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         {mockIncidents.map((incident) => (

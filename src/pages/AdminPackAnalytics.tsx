@@ -242,7 +242,7 @@ const AdminPackAnalytics = () => {
           <button
             onClick={exportCSV}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase transition-all hover:scale-105"
-            style={{ fontFamily: "'Lato', sans-serif", background: "#D4A843", color: "#09090F", letterSpacing: "0.08em" }}
+            style={{ fontFamily: "'Lato', sans-serif", background: "#D4A843", color: "#3D4250", letterSpacing: "0.08em" }}
           >
             <Download size={12} /> CSV Export
           </button>
@@ -299,7 +299,7 @@ const AdminPackAnalytics = () => {
                     <BarChart data={packViews}>
                       <XAxis dataKey="slug" tick={{ fill: "rgba(255,255,255,0.4)", fontSize: 10 }} axisLine={false} tickLine={false} />
                       <YAxis tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} tickLine={false} />
-                      <Tooltip contentStyle={{ background: "#0F0F1A", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, fontSize: 11 }} />
+                      <Tooltip contentStyle={{ background: "#FAFBFC", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, fontSize: 11 }} />
                       <Bar dataKey="views" fill="#D4A843" radius={[4, 4, 0, 0]} />
                       <Bar dataKey="trials" fill="#3A7D6E" radius={[4, 4, 0, 0]} />
                     </BarChart>
@@ -375,7 +375,7 @@ const AdminPackAnalytics = () => {
                     <LineChart data={dailyViews}>
                       <XAxis dataKey="date" tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} tickLine={false} />
                       <YAxis tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} tickLine={false} />
-                      <Tooltip contentStyle={{ background: "#0F0F1A", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, fontSize: 11 }} />
+                      <Tooltip contentStyle={{ background: "#FAFBFC", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, fontSize: 11 }} />
                       <Line type="monotone" dataKey="count" stroke="#D4A843" strokeWidth={2} dot={false} />
                     </LineChart>
                   </ResponsiveContainer>

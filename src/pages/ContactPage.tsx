@@ -87,7 +87,7 @@ const ContactPage = () => {
             </p>
             <h1 className="text-2xl sm:text-4xl font-display text-center mb-3 text-foreground" style={{ fontWeight: 300 }}>
               Let's talk about your{" "}
-              <span style={{ background: `linear-gradient(135deg, #1A1D29, ${POUNAMU_LIGHT})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>business</span>
+              <span style={{ background: `linear-gradient(135deg, #3D4250, ${POUNAMU_LIGHT})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>business</span>
             </h1>
             <p className="text-sm font-body text-center text-muted-foreground mb-10 max-w-md mx-auto">
               We'll show you how Assembl can automate the work that wastes your time. No phone call required.
@@ -178,8 +178,8 @@ const ContactPage = () => {
                 <button type="submit" disabled={sending} className="group relative w-full py-4 rounded-xl text-sm font-body font-medium flex items-center justify-center gap-2 overflow-hidden transition-all">
                   <div className="absolute inset-0 rounded-xl" style={{ background: `linear-gradient(135deg, ${POUNAMU}, #2D6A5E)` }} />
                   <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: `0 0 30px ${POUNAMU}40` }} />
-                  <Send size={16} className="relative z-10 text-white" />
-                  <span className="relative z-10 text-white">{sending ? "Sending…" : "Get started"}</span>
+                  <Send size={16} className="relative z-10 text-foreground" />
+                  <span className="relative z-10 text-foreground">{sending ? "Sending…" : "Get started"}</span>
                 </button>
 
                 <p className="text-[11px] font-body text-muted-foreground/40 text-center">

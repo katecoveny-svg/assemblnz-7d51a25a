@@ -1854,8 +1854,8 @@ const ChatPage = () => {
 
       {/* First-time onboarding tooltip */}
       {showOnboardingTooltip && agent && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onClick={dismissOnboarding}>
-          <div className="w-full max-w-sm rounded-2xl p-5 space-y-4 animate-scale-in" style={{ background: "#0D0D14", border: `1px solid ${accentColor}30`, boxShadow: `0 0 40px ${accentColor}15` }} onClick={e => e.stopPropagation()}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/40 backdrop-blur-sm p-4" onClick={dismissOnboarding}>
+          <div className="w-full max-w-sm rounded-2xl p-5 space-y-4 animate-scale-in" style={{ background: "#FAFBFC", border: `1px solid ${accentColor}30`, boxShadow: `0 0 40px ${accentColor}15` }} onClick={e => e.stopPropagation()}>
             <div className="flex items-center gap-2">
               {[0,1,2].map(i => (
                 <div key={i} className="h-1 flex-1 rounded-full transition-all" style={{ background: i <= onboardingStep ? accentColor : "rgba(255,255,255,0.06)" }} />
@@ -2107,7 +2107,7 @@ const ChatPage = () => {
         <div className="flex-1 overflow-y-auto p-4"><OdysseyTravelPlanner /></div>
       ) : activeTab.startsWith("turf_") && isSports ? (
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
-          <h2 className="text-sm font-bold" style={{ color: "#E4E4EC" }}>
+          <h2 className="text-sm font-bold" style={{ color: "#3D4250" }}>
             {activeTab === "turf_events" ? "Event Manager" : activeTab === "turf_membership" ? "Membership" : activeTab === "turf_facilities" ? "Facilities" : activeTab === "turf_sponsorship" ? "Sponsorship" : activeTab === "turf_performance" ? "Performance" : "Compliance"}
           </h2>
           <p className="text-xs" style={{ color: "#6B7280" }}>
@@ -2405,7 +2405,7 @@ const ChatPage = () => {
                                          document.body.removeChild(a);
                                          URL.revokeObjectURL(blobUrl);
                                        } catch { /* fallback */ window.open(url, "_blank"); }
-                                     }} className="p-1.5 rounded-md bg-black/60 hover:bg-black/80 text-white transition-colors" title="Download PNG">
+                                     }} className="p-1.5 rounded-md bg-black/60 hover:bg-white/80 text-foreground transition-colors" title="Download PNG">
                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                                      </button>
                                    </div>
@@ -2705,16 +2705,16 @@ const ChatPage = () => {
       {/* PRISM Image Generation Modal */}
       {prismImageModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={() => setPrismImageModalOpen(false)}>
-          <div className="w-full max-w-md rounded-2xl p-6 space-y-4" style={{ background: "#0D0D14", border: "1px solid rgba(74,165,168,0.15)" }} onClick={e => e.stopPropagation()}>
+          <div className="w-full max-w-md rounded-2xl p-6 space-y-4" style={{ background: "#FAFBFC", border: "1px solid rgba(74,165,168,0.15)" }} onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold" style={{ color: "#E4E4EC" }}>Generate Image</h3>
+              <h3 className="text-sm font-bold" style={{ color: "#3D4250" }}>Generate Image</h3>
               <button onClick={() => setPrismImageModalOpen(false)}><X size={16} style={{ color: "#6B7280" }} /></button>
             </div>
             <div>
               <label className="text-[10px] uppercase tracking-wider mb-1 block" style={{ color: "#6B7280" }}>Prompt *</label>
               <textarea value={prismImagePrompt} onChange={e => setPrismImagePrompt(e.target.value)} rows={3}
                 className="w-full px-3 py-2 rounded-lg text-xs bg-transparent border outline-none resize-none"
-                style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} placeholder="Describe the image you want to create..." />
+                style={{ borderColor: "rgba(255,255,255,0.06)", color: "#3D4250" }} placeholder="Describe the image you want to create..." />
             </div>
             <div>
               <label className="text-[10px] uppercase tracking-wider mb-1.5 block" style={{ color: "#6B7280" }}>Aspect Ratio</label>

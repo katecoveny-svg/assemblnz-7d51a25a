@@ -31,7 +31,7 @@ const C = {
   ochre: "#E8A948",
   ochreLight: "#F0C670",
   lavender: "#E8E6F0",
-  text: "#1A1D29",
+  text: "#3D4250",
   textSecondary: "#6B7280",
   textTertiary: "#9CA3AF",
 };
@@ -599,7 +599,7 @@ function SectionEyebrow({ children }: { children: string }) {
 function SectionH2({ children }: { children: React.ReactNode }) {
   return (
     <h2 className="text-lg sm:text-[36px] lg:text-[42px] mb-4 sm:mb-6"
-      style={{ fontFamily: "'Lato', sans-serif", fontWeight: 600, letterSpacing: "-0.02em", lineHeight: 1.15, color: "#1A1D29", textShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
+      style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.15, color: "#3D4250", textShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
       {children}
     </h2>
   );

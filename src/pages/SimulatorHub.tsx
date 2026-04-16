@@ -172,7 +172,7 @@ export default function SimulatorHub() {
                 {pack.steps.map((step, i) => (
                   <motion.div key={i} initial={{ opacity: 0, x: -12 }} animate={{ opacity: i <= stepIndex ? 1 : 0.3, x: 0 }} transition={{ delay: i * 0.1 }}
                     className="flex items-start gap-4 p-4 rounded-xl transition-all" style={{ background: i <= stepIndex ? "rgba(255,255,255,0.03)" : "transparent" }}>
-                    <div className="mt-0.5">{i <= stepIndex ? statusIcon(step.status) : <div className="w-3.5 h-3.5 rounded-full border border-white/10" />}</div>
+                    <div className="mt-0.5">{i <= stepIndex ? statusIcon(step.status) : <div className="w-3.5 h-3.5 rounded-full border border-gray-200" />}</div>
                     <div className="flex-1">
                       <div className="text-sm font-medium text-white/80">{step.label}</div>
                       {i <= stepIndex && <p className="text-xs text-gray-500 mt-1">{step.detail}</p>}
@@ -188,7 +188,7 @@ export default function SimulatorHub() {
 
               {!running && stepIndex >= pack.steps.length - 1 && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-8 text-center">
-                  <Link to={`/${pack.id}`} className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium" style={{ background: POUNAMU, color: "#1A1D29" }}>
+                  <Link to={`/${pack.id}`} className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium" style={{ background: POUNAMU, color: "#3D4250" }}>
                     See what your evidence pack looks like <ChevronRight size={14} />
                   </Link>
                   <button onClick={() => runScenario(pack.id)} className="block mx-auto mt-3 text-xs text-white/40 hover:text-white/60 transition-colors">

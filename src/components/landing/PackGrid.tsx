@@ -179,7 +179,7 @@ const PackGrid = () => {
                 className="text-[10px] tracking-[3px] uppercase"
                 style={{
                   fontFamily: "'JetBrains Mono', monospace",
-                  fontWeight: 700,
+                  fontWeight: 400,
                   color: "#D4A843",
                 }}
               >

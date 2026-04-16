@@ -72,7 +72,7 @@ export default function HelmReview() {
   const confidenceBg = (c: number) => c >= 0.7 ? "bg-[#5AADA0]/10" : c >= 0.4 ? "bg-amber-500/10" : "bg-[#C85A54]/10";
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ background: "#09090F" }}>
+    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ background: "#FAFBFC" }}>
       <div className="flex items-center justify-between">
         <h2 className="text-sm font-semibold text-white/90">Review Queue</h2>
         {items.filter(i => i.confidence >= 0.7).length > 0 && (
@@ -108,7 +108,7 @@ export default function HelmReview() {
                     </span>
                   </div>
                   <p className="text-xs font-medium text-white/80 mt-1">{item.parsed_data?.title || "Untitled"}</p>
-                  {item.parsed_data?.date && <p className="text-[10px] text-white/30 mt-0.5">{new Date(item.parsed_data.date).toLocaleDateString("en-NZ")}</p>}
+                  {item.parsed_data?.date && <p className="text-[10px] text-gray-400 mt-0.5">{new Date(item.parsed_data.date).toLocaleDateString("en-NZ")}</p>}
                   {item.parsed_data?.location && <p className="text-[10px] text-white/25">{item.parsed_data.location}</p>}
                   {item.parsed_data?.description && <p className="text-[10px] text-white/20 mt-1 line-clamp-2">{item.parsed_data.description}</p>}
                 </div>

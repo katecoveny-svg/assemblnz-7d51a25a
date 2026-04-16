@@ -21,7 +21,7 @@ const AdminShell: React.FC<AdminShellProps> = ({ title, subtitle, icon, actions,
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen relative" style={{ background: "#EEEEF2", color: "#1A1D29" }}>
+    <div className="min-h-screen relative" style={{ background: "#FAFBFC", color: "#3D4250" }}>
       {/* Whāriki weave background */}
       <div className="fixed inset-0 pointer-events-none -z-10" style={{
         backgroundImage: `
@@ -66,12 +66,12 @@ const AdminShell: React.FC<AdminShellProps> = ({ title, subtitle, icon, actions,
 
       {/* Header — neumorphic raised */}
       <header className="sticky top-0 z-50 px-4 sm:px-6 py-3" style={{
-        background: "#EEEEF2",
+        background: "#FAFBFC",
         boxShadow: "0 4px 16px rgba(166,166,180,0.25), 0 1px 0 rgba(255,255,255,0.7)",
       }}>
         <div className="max-w-7xl mx-auto flex items-center gap-3">
           {backTo && (
-            <Button variant="ghost" size="icon" onClick={() => navigate(backTo)} className="shrink-0 text-[#1A1D29]/60 hover:text-[#1A1D29]">
+            <Button variant="ghost" size="icon" onClick={() => navigate(backTo)} className="shrink-0 text-[#3D4250]/60 hover:text-[#3D4250]">
               <ArrowLeft className="w-4 h-4" />
             </Button>
           )}
@@ -79,7 +79,7 @@ const AdminShell: React.FC<AdminShellProps> = ({ title, subtitle, icon, actions,
           <Link to="/admin/dashboard" className="flex items-center gap-2 shrink-0">
             <img src={assemblMark} alt="Assembl" className="w-6 h-6 object-contain" />
             <span style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}
-              className="text-xs tracking-[3px] uppercase text-[#1A1D29] hidden sm:inline">
+              className="text-xs tracking-[3px] uppercase text-[#3D4250] hidden sm:inline">
               ASSEMBL
             </span>
           </Link>
@@ -94,12 +94,12 @@ const AdminShell: React.FC<AdminShellProps> = ({ title, subtitle, icon, actions,
               {icon}
               <div className="min-w-0">
                 <h1 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}
-                  className="text-base sm:text-lg tracking-[2px] uppercase text-[#1A1D29] truncate">
+                  className="text-base sm:text-lg tracking-[2px] uppercase text-[#3D4250] truncate">
                   {title}
                 </h1>
                 {subtitle && (
                   <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-                    className="text-[11px] text-[#1A1D29]/50 truncate">
+                    className="text-[11px] text-[#3D4250]/50 truncate">
                     {subtitle}
                   </p>
                 )}

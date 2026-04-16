@@ -113,7 +113,7 @@ export default function ManaakiLandingPage() {
             variants={fadeUp} initial="hidden" animate="visible" custom={1}
           >
             <span style={{
-              background: `linear-gradient(135deg, #1A1D29 0%, ${POUNAMU_LIGHT} 50%, ${BONE} 100%)`,
+              background: `linear-gradient(135deg, #3D4250 0%, ${POUNAMU_LIGHT} 50%, ${BONE} 100%)`,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundSize: "200% auto",
@@ -122,7 +122,7 @@ export default function ManaakiLandingPage() {
             </span>
             <br />
             <span style={{
-              background: `linear-gradient(135deg, #1A1D29 0%, ${ACCENT} 60%, ${BONE} 100%)`,
+              background: `linear-gradient(135deg, #3D4250 0%, ${ACCENT} 60%, ${BONE} 100%)`,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundSize: "200% auto",
@@ -191,7 +191,7 @@ export default function ManaakiLandingPage() {
             <Link
               to="/manaaki/dashboard"
               className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold font-body transition-all duration-500 overflow-hidden"
-              style={{ color: "#1A1D29" }}
+              style={{ color: "#3D4250" }}
             >
               {/* Button gradient background */}
               <div className="absolute inset-0 rounded-full" style={{
@@ -499,7 +499,7 @@ export default function ManaakiLandingPage() {
             <Link
               to="/manaaki/dashboard"
               className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold font-body overflow-hidden"
-              style={{ color: "#1A1D29" }}
+              style={{ color: "#3D4250" }}
             >
               <div className="absolute inset-0 rounded-full" style={{
                 background: `linear-gradient(135deg, ${POUNAMU} 0%, #2D6A5E 100%)`,

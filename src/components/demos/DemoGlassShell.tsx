@@ -6,7 +6,7 @@ import React from "react";
 const DemoGlassShell = ({ children }: { children: React.ReactNode }) => (
   <div className="min-h-screen relative" style={{ 
     background: "#FAFBFC", 
-    color: "#1A1D29" 
+    color: "#3D4250" 
   }}>
     {/* Atmospheric glow pools */}
     <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>

@@ -23,7 +23,7 @@ import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
 
 const C = {
   bg: "#FAFBFC",
-  text: "#1A1D29",
+  text: "#3D4250",
   textSecondary: "#6B7280",
   textTertiary: "#9CA3AF",
   pounamu: "#3A7D6E",

@@ -42,7 +42,7 @@ const AboutPage = () => {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="relative z-10">
           <h1 className="text-3xl sm:text-5xl font-display text-foreground mb-4" style={{ fontWeight: 300 }}>
             Operational intelligence for the businesses that{" "}
-            <span style={{ background: `linear-gradient(135deg, #1A1D29, ${POUNAMU_LIGHT}, ${BONE})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundSize: "200% auto" }}>
+            <span style={{ background: `linear-gradient(135deg, #3D4250, ${POUNAMU_LIGHT}, ${BONE})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundSize: "200% auto" }}>
               build Aotearoa.
             </span>
           </h1>
@@ -53,7 +53,7 @@ const AboutPage = () => {
             <Link to="/contact" className="group relative px-8 py-3.5 rounded-full text-sm font-body font-medium overflow-hidden">
               <div className="absolute inset-0 rounded-full" style={{ background: `linear-gradient(135deg, ${POUNAMU}, #2D6A5E)` }} />
               <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: `0 0 30px ${POUNAMU}40` }} />
-              <span className="relative z-10 text-white">Meet the team</span>
+              <span className="relative z-10 text-foreground">Meet the team</span>
             </Link>
             <Link to="/about#founder" className="group px-8 py-3.5 rounded-full text-sm font-body font-medium transition-all duration-300" style={{ border: "1px solid rgba(74,165,168,0.15)", color: "#6B7280", background: "rgba(255,255,255,0.5)" }}>
               <span className="group-hover:text-white/80 transition-colors">Read the founder note</span>
@@ -70,7 +70,7 @@ const AboutPage = () => {
               <span className="text-[10px] font-mono-jb text-muted-foreground uppercase tracking-widest">Our Vision</span>
               <h2 className="text-2xl sm:text-3xl font-display text-foreground mt-2 mb-4" style={{ fontWeight: 300 }}>
                 Built for{" "}
-                <span style={{ background: `linear-gradient(135deg, #1A1D29, ${POUNAMU_LIGHT})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Aotearoa</span>
+                <span style={{ background: `linear-gradient(135deg, #3D4250, ${POUNAMU_LIGHT})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Aotearoa</span>
               </h2>
               <p className="text-sm font-body text-muted-foreground leading-relaxed mb-4">
                 Most business tools are trained on US data, US laws, and US business practices. They don't know what PAYE is. They've never heard of the Building Act. They can't calculate KiwiSaver contributions.
@@ -108,7 +108,7 @@ const AboutPage = () => {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
           <h2 className="text-2xl sm:text-3xl font-display text-center text-foreground mb-10" style={{ fontWeight: 300 }}>
             The{" "}
-            <span style={{ background: `linear-gradient(135deg, #1A1D29, ${GOLD})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>market</span>
+            <span style={{ background: `linear-gradient(135deg, #3D4250, ${GOLD})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>market</span>
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {MARKET_STATS.map((s) => (
@@ -117,7 +117,7 @@ const AboutPage = () => {
                 border: "1px solid rgba(74,165,168,0.15)",
               }} whileHover={{ boxShadow: `0 8px 32px rgba(0,0,0,0.3), 0 0 30px ${GOLD}06` }}>
                 <div className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}40, transparent)` }} />
-                <p className="text-2xl sm:text-3xl font-display mb-1" style={{ fontWeight: 300, background: `linear-gradient(135deg, #1A1D29, ${GOLD})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>{s.value}</p>
+                <p className="text-2xl sm:text-3xl font-display mb-1" style={{ fontWeight: 300, background: `linear-gradient(135deg, #3D4250, ${GOLD})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>{s.value}</p>
                 <p className="text-[10px] font-body text-muted-foreground">{s.label}</p>
               </motion.div>
             ))}
@@ -175,7 +175,7 @@ const AboutPage = () => {
                 </p>
                 <h2 className="text-2xl sm:text-3xl font-display text-foreground mb-4" style={{ fontWeight: 300 }}>
                   Built by{" "}
-                  <span style={{ background: `linear-gradient(135deg, #1A1D29, ${GOLD})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Kate</span>
+                  <span style={{ background: `linear-gradient(135deg, #3D4250, ${GOLD})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Kate</span>
                 </h2>
                 <blockquote className="text-sm font-body text-muted-foreground leading-relaxed mb-6 relative">
                   <span className="absolute -left-3 top-0 text-2xl" style={{ color: `${GOLD}30`, fontFamily: "Georgia, serif" }}>"</span>

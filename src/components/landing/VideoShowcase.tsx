@@ -24,7 +24,7 @@ const MockVideoContent = ({ playing }: { playing: boolean }) => {
   ];
 
   return (
-    <div className="relative w-full h-full flex items-center justify-center overflow-hidden" style={{ background: "#0A0A14" }}>
+    <div className="relative w-full h-full flex items-center justify-center overflow-hidden" style={{ background: "#FAFBFC" }}>
       {/* Animated gradient background */}
       <motion.div
         className="absolute inset-0"
@@ -92,7 +92,7 @@ const MockVideoContent = ({ playing }: { playing: boolean }) => {
           </motion.p>
           <motion.h3
             className="text-xl sm:text-3xl mb-2"
-            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#1A1D29" }}
+            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#3D4250" }}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.5 }}
@@ -158,7 +158,7 @@ const VideoShowcase = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease }}
         >
-          <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: "#89CFF0" }}>
+          <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 400, color: "#89CFF0" }}>
             MĀTAKITAKI · WATCH
           </p>
           <TanikoDivider color="#89CFF0" width={160} />
@@ -231,7 +231,7 @@ const VideoShowcase = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <button onClick={(e) => { e.stopPropagation(); setPlaying(false); }} className="text-white/50 hover:text-white transition-colors">
+              <button onClick={(e) => { e.stopPropagation(); setPlaying(false); }} className="text-gray-500 hover:text-foreground transition-colors">
                 <Pause size={14} />
               </button>
               {/* Progress bar */}
@@ -244,8 +244,8 @@ const VideoShowcase = () => {
                   transition={{ duration: 15, ease: "linear", repeat: Infinity }}
                 />
               </div>
-              <Volume2 size={12} className="text-white/30" />
-              <Maximize2 size={12} className="text-white/30" />
+              <Volume2 size={12} className="text-gray-400" />
+              <Maximize2 size={12} className="text-gray-400" />
             </motion.div>
           )}
         </motion.div>

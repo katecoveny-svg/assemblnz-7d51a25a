@@ -39,7 +39,7 @@ const DashboardGlassCard: React.FC<DashboardGlassCardProps> = ({
       onMouseMove={handleMouseMove}
       className={`relative rounded-2xl transition-all duration-300 group/card ${onClick ? "cursor-pointer hover:-translate-y-1" : "hover:-translate-y-0.5"} ${className}`}
       style={{
-        background: "#EEEEF2",
+        background: "#FAFBFC",
         boxShadow: glow
           ? `6px 6px 16px rgba(166,166,180,0.4),
              -6px -6px 16px rgba(255,255,255,0.9),
