@@ -2,19 +2,26 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 const stages = [
-  { name: "Kahu", subtitle: "Compliance Gate", color: "#4AA5A8" },
-  { name: "Iho", subtitle: "Intelligence Core", color: "#3D8F92" },
-  { name: "Tā", subtitle: "Action Layer", color: "#E8A948" },
-  { name: "Mahara", subtitle: "Memory & Audit", color: "#B8A5D0" },
-  { name: "Mana", subtitle: "Governance Output", color: "#7BA88C" },
+  { name: "KAHU", color: "#4AA5A8", glow: "rgba(74,165,168,0.3)" },
+  { name: "IHO", color: "#E8A948", glow: "rgba(232,169,72,0.3)" },
+  { name: "TĀ", color: "#B8A5D0", glow: "rgba(184,165,208,0.35)" },
+  { name: "MAHARA", color: "#7BA88C", glow: "rgba(123,168,140,0.25)" },
+  { name: "MANA", color: "#4AA5A8", glow: "rgba(74,165,168,0.25)" },
+];
+
+const lineColors = [
+  "linear-gradient(90deg, #4AA5A8, #E8A948)",
+  "linear-gradient(90deg, #E8A948, #B8A5D0)",
+  "linear-gradient(90deg, #B8A5D0, #7BA88C)",
+  "linear-gradient(90deg, #7BA88C, #4AA5A8)",
 ];
 
 const CompliancePipeline = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section ref={ref} className="px-4 sm:px-6 py-16 sm:py-28">
+    <section ref={ref} className="px-4 sm:px-6 py-20 sm:py-32">
       <div className="max-w-5xl mx-auto">
         <motion.p
           className="text-center text-[10px] font-medium tracking-[5px] uppercase mb-5"
@@ -27,8 +34,8 @@ const CompliancePipeline = () => {
         </motion.p>
 
         <motion.h2
-          className="text-center text-lg sm:text-[36px] lg:text-[42px] mb-16"
-          style={{ fontFamily: "'Lato', sans-serif", fontWeight: 600, letterSpacing: "-0.02em", lineHeight: 1.15, color: "#3D4250" }}
+          className="text-center text-lg sm:text-[36px] lg:text-[42px] mb-20"
+          style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: "-0.02em", lineHeight: 1.15, color: "#3D4250" }}
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.1 }}
@@ -36,45 +43,81 @@ const CompliancePipeline = () => {
           Every output passes through all five stages. No shortcuts.
         </motion.h2>
 
-        <div className="relative flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-4">
-          {/* Connecting line */}
-          <div className="hidden sm:block absolute top-7 left-[55px] right-[55px] h-px" style={{ background: "rgba(74,165,168,0.1)" }}>
-            <motion.div
-              className="h-full"
-              style={{ background: "linear-gradient(90deg, #4AA5A8, #E8A948)" }}
-              initial={{ width: "0%" }}
-              animate={isInView ? { width: "100%" } : {}}
-              transition={{ duration: 1.5, ease: "easeOut", delay: 0.3 }}
-            />
-          </div>
-
+        {/* Pipeline row */}
+        <div className="relative flex items-center justify-center gap-0 mx-auto" style={{ maxWidth: 900 }}>
           {stages.map((stage, i) => (
-            <motion.div
-              key={stage.name}
-              className="flex flex-col items-center text-center min-w-[120px] relative z-10"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ delay: 0.2 + i * 0.15, duration: 0.5, type: "spring", stiffness: 300, damping: 25 }}
-            >
-              {/* Glass node */}
-              <div className="w-14 h-14 rounded-full flex items-center justify-center mb-3"
-                style={{
-                  background: "linear-gradient(145deg, rgba(255,255,255,0.85), rgba(238,238,242,0.65))",
-                  backdropFilter: "blur(20px)",
-                  border: "1px solid rgba(255,255,255,0.95)",
-                  boxShadow: `4px 4px 12px rgba(166,166,180,0.35), -4px -4px 12px rgba(255,255,255,0.9), 0 0 20px ${stage.color}20`,
-                }}>
-                <div className="w-4 h-4 rounded-full" style={{ background: stage.color, boxShadow: `0 0 10px ${stage.color}50` }} />
-              </div>
-              <span className="text-[10px] tracking-[3px] uppercase font-medium"
-                style={{ color: stage.color, fontFamily: "'JetBrains Mono', monospace" }}>
-                {stage.name}
-              </span>
-              <span className="text-[11px] mt-2 max-w-[130px] leading-[1.6]"
-                style={{ color: "#6B7280", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                {stage.subtitle}
-              </span>
-            </motion.div>
+            <div key={stage.name} className="flex items-center" style={{ flex: i < stages.length - 1 ? 1 : undefined }}>
+              {/* Glass sphere */}
+              <motion.div
+                className="relative z-10 flex items-center justify-center shrink-0"
+                style={{ width: i === 2 ? 120 : 100, height: i === 2 ? 120 : 100 }}
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ delay: 0.3 + i * 0.18, duration: 0.6, type: "spring", stiffness: 300, damping: 25 }}
+              >
+                {/* Outer glow */}
+                <div
+                  className="absolute inset-0 rounded-full"
+                  style={{
+                    background: `radial-gradient(circle, ${stage.glow} 0%, transparent 70%)`,
+                    transform: "scale(1.4)",
+                  }}
+                />
+                {/* Glass sphere body */}
+                <div
+                  className="absolute inset-0 rounded-full"
+                  style={{
+                    background: `radial-gradient(ellipse at 35% 25%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.7) 30%, ${stage.color}15 60%, ${stage.color}25 100%)`,
+                    border: `1.5px solid ${stage.color}40`,
+                    boxShadow: `
+                      inset 0 -8px 20px ${stage.color}15,
+                      inset 0 4px 12px rgba(255,255,255,0.9),
+                      0 8px 32px ${stage.glow},
+                      0 2px 8px rgba(0,0,0,0.04)
+                    `,
+                  }}
+                />
+                {/* Specular highlight */}
+                <div
+                  className="absolute rounded-full"
+                  style={{
+                    top: "12%",
+                    left: "20%",
+                    width: "45%",
+                    height: "30%",
+                    background: "radial-gradient(ellipse, rgba(255,255,255,0.8) 0%, transparent 100%)",
+                  }}
+                />
+                {/* Label */}
+                <span
+                  className="relative z-10"
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontWeight: 400,
+                    fontSize: stage.name.length > 4 ? 13 : 16,
+                    letterSpacing: "0.08em",
+                    color: "#3D4250",
+                    textShadow: "0 1px 2px rgba(255,255,255,0.6)",
+                  }}
+                >
+                  {stage.name}
+                </span>
+              </motion.div>
+
+              {/* Connecting line */}
+              {i < stages.length - 1 && (
+                <div className="relative flex-1 h-[2px] mx-[-2px]" style={{ minWidth: 40 }}>
+                  <div className="absolute inset-0" style={{ background: "rgba(200,200,210,0.15)" }} />
+                  <motion.div
+                    className="absolute inset-y-0 left-0"
+                    style={{ background: lineColors[i] }}
+                    initial={{ width: "0%" }}
+                    animate={isInView ? { width: "100%" } : {}}
+                    transition={{ duration: 0.5, delay: 0.5 + i * 0.2, ease: "easeOut" }}
+                  />
+                </div>
+              )}
+            </div>
           ))}
         </div>
       </div>
