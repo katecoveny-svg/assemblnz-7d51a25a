@@ -21,21 +21,44 @@ import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 import KeteDocUpload from "@/components/shared/KeteDocUpload";
 import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
 
-const KOWHAI = "#D4A843";
-const POUNAMU = "#3A7D6E";
-const TANGAROA = "#1A3A5C";
+const C = {
+  bg: "#FAFBFC",
+  text: "#1A1D29",
+  textSecondary: "#6B7280",
+  textTertiary: "#9CA3AF",
+  pounamu: "#3A7D6E",
+  kowhai: "#D4A843",
+  tangaroa: "#1A3A5C",
+  pounamuLight: "#7ECFC2",
+  lavender: "#E8E6F0",
+};
+
+const glass = {
+  background: "rgba(255,255,255,0.65)",
+  backdropFilter: "blur(20px) saturate(140%)",
+  border: "1px solid rgba(255,255,255,0.9)",
+  boxShadow: "0 10px 40px -10px rgba(58,125,110,0.12), 0 4px 12px rgba(0,0,0,0.03)",
+  borderRadius: "24px",
+};
+
+const tooltipStyle = { background: "#FFFFFF", border: "1px solid rgba(58,125,110,0.12)", borderRadius: 12, color: C.text, fontSize: 11 };
 
 const Glass = ({ children, className = "", glow = false }: { children: React.ReactNode; className?: string; glow?: boolean }) => (
-  <DashboardGlassCard accentColor={KOWHAI} glow={glow} className={className}>
+  <div className={`rounded-3xl overflow-hidden ${className}`} style={{
+    ...glass,
+    boxShadow: glow
+      ? `0 10px 40px -10px ${C.pounamu}20, 0 4px 12px rgba(0,0,0,0.04)`
+      : glass.boxShadow,
+  }}>
     {children}
-  </DashboardGlassCard>
+  </div>
 );
 
 /* ── Static data ── */
 const agents = [
-  { name: "KAUPAPA", role: "PROGRAMME & CLAIMS", desc: "Critical path tracking & Form 1 claims.", status: "ANALYSING", color: KOWHAI, to: "/waihanga/kaupapa" },
-  { name: "ĀRAI", role: "SAFETY & RISK", desc: "Site-specific H&S risk register.", status: "MONITORING", color: POUNAMU, to: "/waihanga/arai" },
-  { name: "KAHU", role: "COMPLIANCE", desc: "CCA 2002 & Retention trust audit.", status: "IDLE", color: "#7ECFC2", to: "/waihanga/docs" },
+  { name: "KAUPAPA", role: "PROGRAMME & CLAIMS", desc: "Critical path tracking & Form 1 claims.", status: "ANALYSING", color: C.kowhai, to: "/waihanga/kaupapa" },
+  { name: "ĀRAI", role: "SAFETY & RISK", desc: "Site-specific H&S risk register.", status: "MONITORING", color: C.pounamu, to: "/waihanga/arai" },
+  { name: "KAHU", role: "COMPLIANCE", desc: "CCA 2002 & Retention trust audit.", status: "IDLE", color: C.pounamuLight, to: "/waihanga/docs" },
 ];
 
 const programmeData = [
@@ -64,14 +87,14 @@ const riskHeatmapData = [
 ];
 
 const kpis = [
-  { label: "Active Workers", labelMi: "Kaimahi", value: "47", icon: Users, color: POUNAMU, trend: "+3 today" },
+  { label: "Active Workers", labelMi: "Kaimahi", value: "47", icon: Users, color: C.pounamu, trend: "+3 today" },
   { label: "Open Hazards", labelMi: "Mōrearea", value: "5", icon: AlertTriangle, color: "#E44D4D", trend: "2 critical" },
-  { label: "Budget Health", labelMi: "Pūtea", value: "$4.2M", sub: "of $6.3M", icon: DollarSign, color: KOWHAI, progress: 67 },
-  { label: "Days to Payment", labelMi: "Rā ki te Utu", value: "12", icon: Calendar, color: TANGAROA, trend: "PC-012" },
+  { label: "Budget Health", labelMi: "Pūtea", value: "$4.2M", sub: "of $6.3M", icon: DollarSign, color: C.kowhai, progress: 67 },
+  { label: "Days to Payment", labelMi: "Rā ki te Utu", value: "12", icon: Calendar, color: C.tangaroa, trend: "PC-012" },
 ];
 
 const StatusBadge = ({ status, color }: { status: string; color: string }) => (
-  <span className="text-[9px] font-bold tracking-wider px-2 py-0.5 rounded-full" style={{ background: `${color}20`, color }}>
+  <span className="text-[9px] font-bold tracking-wider px-2 py-0.5 rounded-full" style={{ background: `${color}12`, color }}>
     {status}
   </span>
 );
@@ -81,7 +104,7 @@ export default function HangaDashboard() {
     <KeteDashboardShell
       name="Waihanga"
       subtitle="Construction Intelligence — Built for Aotearoa"
-      accentColor={KOWHAI}
+      accentColor={C.kowhai}
       accentLight="#FFE866"
       variant="standard"
     >
@@ -90,41 +113,41 @@ export default function HangaDashboard() {
       {/* ── Header ── */}
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl sm:text-3xl font-display font-light text-white tracking-[0.15em] uppercase">WAIHANGA</h1>
-          <span className="text-[9px] font-bold tracking-[0.2em] px-3 py-1 rounded-full" style={{ background: `${KOWHAI}18`, color: KOWHAI, border: `1px solid ${KOWHAI}30` }}>
+          <h1 className="text-2xl sm:text-3xl font-light tracking-[0.08em] uppercase" style={{ fontFamily: "'Lato', sans-serif", color: C.text }}>WAIHANGA</h1>
+          <span className="text-[9px] font-bold tracking-[0.2em] px-3 py-1 rounded-full" style={{ background: `${C.kowhai}12`, color: C.kowhai, border: `1px solid ${C.kowhai}20` }}>
             CONSTRUCTION INTELLIGENCE
           </span>
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg" style={{ background: "rgba(58,125,110,0.12)", border: "1px solid rgba(58,125,110,0.2)" }}>
-            <HardHat size={14} style={{ color: POUNAMU }} />
-            <span className="text-[11px] text-white/60 font-medium">Christchurch Metro Sports</span>
-            <ChevronRight size={12} className="text-white/30" />
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-2xl" style={{ background: `${C.pounamu}08`, border: `1px solid ${C.pounamu}12` }}>
+            <HardHat size={14} style={{ color: C.pounamu }} />
+            <span className="text-[11px] font-medium" style={{ color: C.textSecondary }}>Christchurch Metro Sports</span>
+            <ChevronRight size={12} style={{ color: C.textTertiary }} />
           </div>
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-bold" style={{ background: `linear-gradient(135deg, ${KOWHAI}, ${POUNAMU})`, color: "#1A1D29" }}>
+          <div className="w-8 h-8 rounded-xl flex items-center justify-center text-[11px] font-bold" style={{ background: `linear-gradient(135deg, ${C.kowhai}, ${C.pounamu})`, color: "#FFFFFF" }}>
             KH
           </div>
         </div>
       </motion.div>
-      <p className="text-[11px] text-white/30 -mt-3">BUILT FOR AOTEAROA · CCA 2002 COMPLIANT · 3 APRIL 2026</p>
+      <p className="text-[11px] -mt-3" style={{ color: C.textTertiary }}>BUILT FOR AOTEAROA · CCA 2002 COMPLIANT · 3 APRIL 2026</p>
 
       {/* ── KPI Cards ── */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {kpis.map((kpi, i) => (
           <motion.div key={kpi.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}>
-            <Glass className="p-4">
-              <div className="flex items-start justify-between mb-2">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${kpi.color}12` }}>
-                  <kpi.icon size={16} style={{ color: kpi.color }} />
+            <Glass className="p-5">
+              <div className="flex items-start justify-between mb-3">
+                <div className="w-10 h-10 rounded-2xl flex items-center justify-center" style={{ background: `${kpi.color}10` }}>
+                  <kpi.icon size={18} style={{ color: kpi.color }} />
                 </div>
-                {kpi.trend && <span className="text-[9px] px-1.5 py-0.5 rounded-full" style={{ background: `${kpi.color}12`, color: kpi.color }}>{kpi.trend}</span>}
+                {kpi.trend && <span className="text-[9px] px-2 py-0.5 rounded-full" style={{ background: `${kpi.color}10`, color: kpi.color }}>{kpi.trend}</span>}
               </div>
-              <div className="text-2xl font-bold text-white">{kpi.value}</div>
-              {kpi.sub && <span className="text-[10px] text-white/25">{kpi.sub}</span>}
-              <div className="text-[10px] text-white/35 mt-0.5">{kpi.label}</div>
+              <div className="text-2xl font-bold" style={{ color: C.text }}>{kpi.value}</div>
+              {kpi.sub && <span className="text-[10px]" style={{ color: C.textTertiary }}>{kpi.sub}</span>}
+              <div className="text-[10px] mt-0.5" style={{ color: C.textSecondary }}>{kpi.label}</div>
               {kpi.progress !== undefined && (
-                <div className="mt-2 h-1 rounded-full bg-white/5">
-                  <div className="h-full rounded-full" style={{ width: `${kpi.progress}%`, background: `linear-gradient(90deg, ${POUNAMU}, ${KOWHAI})` }} />
+                <div className="mt-2 h-1.5 rounded-full" style={{ background: `${C.lavender}60` }}>
+                  <div className="h-full rounded-full" style={{ width: `${kpi.progress}%`, background: `linear-gradient(90deg, ${C.pounamu}, ${C.kowhai})` }} />
                 </div>
               )}
             </Glass>
@@ -135,36 +158,34 @@ export default function HangaDashboard() {
       {/* ── Main grid: Agents + Charts ── */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {/* Symbiotic Workforce */}
-        <Glass className="lg:col-span-3 p-4" glow>
-          <h3 className="text-[11px] font-bold text-white/50 tracking-wider mb-3">SYMBIOTIC WORKFORCE</h3>
+        <Glass className="lg:col-span-3 p-5" glow>
+          <h3 className="text-[11px] font-bold tracking-wider mb-4" style={{ color: C.textSecondary }}>SYMBIOTIC WORKFORCE</h3>
           <div className="space-y-3">
             {agents.map(a => (
               <Link key={a.name} to={a.to} className="block group">
-                <div className="flex items-start gap-3 p-3 rounded-xl transition-all hover:bg-white/[0.03]" style={{ border: "1px solid rgba(255,255,255,0.04)" }}>
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${a.color}12` }}>
+                <div className="flex items-start gap-3 p-3 rounded-2xl transition-all hover:bg-white/50" style={{ border: `1px solid ${C.lavender}60` }}>
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${a.color}10` }}>
                     <Brain size={14} style={{ color: a.color }} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
-                      <span className="text-xs font-bold text-white">{a.name}</span>
+                      <span className="text-xs font-bold" style={{ color: C.text }}>{a.name}</span>
                       <StatusBadge status={a.status} color={a.color} />
                     </div>
-                    <p className="text-[10px] font-semibold text-white/40 uppercase tracking-wider">{a.role}</p>
-                    <p className="text-[10px] text-white/30 mt-0.5">{a.desc}</p>
+                    <p className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: C.textTertiary }}>{a.role}</p>
+                    <p className="text-[10px] mt-0.5" style={{ color: C.textSecondary }}>{a.desc}</p>
                   </div>
                 </div>
               </Link>
             ))}
           </div>
 
-          {/* CTA: Tender Analysis */}
-          <Link to="/waihanga/tender" className="mt-4 flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs text-black transition-all hover:brightness-110" style={{ background: KOWHAI }}>
+          <Link to="/waihanga/tender" className="mt-4 flex items-center gap-2 px-4 py-2.5 rounded-2xl font-bold text-xs transition-all hover:brightness-110" style={{ background: C.kowhai, color: "#FFFFFF" }}>
             NEW TENDER ANALYSIS <ArrowUpRight size={14} />
           </Link>
-          <p className="text-[9px] text-white/25 mt-1.5 px-1">PRIORITY 1 HOOK · SAVE ~14 HOURS</p>
+          <p className="text-[9px] mt-1.5 px-1" style={{ color: C.textTertiary }}>PRIORITY 1 HOOK · SAVE ~14 HOURS</p>
 
-          {/* CTA: Payment Claim */}
-          <Link to="/waihanga/kaupapa" className="mt-3 flex items-center gap-2 text-white/50 hover:text-white/80 text-[11px] font-medium transition-colors">
+          <Link to="/waihanga/kaupapa" className="mt-3 flex items-center gap-2 text-[11px] font-medium transition-colors" style={{ color: C.textSecondary }}>
             <FileText size={13} /> DRAFT PAYMENT CLAIM (FORM 1)
           </Link>
         </Glass>
@@ -172,97 +193,97 @@ export default function HangaDashboard() {
         {/* Charts column */}
         <div className="lg:col-span-9 grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Programme Health */}
-          <Glass className="p-4 md:col-span-1">
-            <h3 className="text-xs font-bold text-white mb-0.5">PROGRAMME HEALTH</h3>
-            <p className="text-[10px] text-white/30 mb-3">CRITICAL PATH DELAY (-2 DAYS)</p>
+          <Glass className="p-5 md:col-span-1">
+            <h3 className="text-xs font-bold mb-0.5" style={{ color: C.text }}>PROGRAMME HEALTH</h3>
+            <p className="text-[10px] mb-3" style={{ color: C.textTertiary }}>CRITICAL PATH DELAY (-2 DAYS)</p>
             <div className="h-36">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={programmeData}>
                   <defs>
                     <linearGradient id="progGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor={KOWHAI} stopOpacity={0.3} />
-                      <stop offset="100%" stopColor={KOWHAI} stopOpacity={0} />
+                      <stop offset="0%" stopColor={C.kowhai} stopOpacity={0.2} />
+                      <stop offset="100%" stopColor={C.kowhai} stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-                  <XAxis dataKey="day" tick={{ fill: "rgba(255,255,255,0.25)", fontSize: 10 }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fill: "rgba(255,255,255,0.25)", fontSize: 10 }} axisLine={false} tickLine={false} domain={[60, 100]} />
-                  <Tooltip contentStyle={{ background: "#0F0F1A", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, color: "#1A1D29", fontSize: 11 }} />
-                  <Area type="monotone" dataKey="actual" stroke={KOWHAI} fill="url(#progGrad)" strokeWidth={2} />
-                  <Line type="monotone" dataKey="planned" stroke="rgba(255,255,255,0.15)" strokeWidth={1} strokeDasharray="4 4" dot={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.04)" />
+                  <XAxis dataKey="day" tick={{ fill: C.textTertiary, fontSize: 10 }} axisLine={false} tickLine={false} />
+                  <YAxis tick={{ fill: C.textTertiary, fontSize: 10 }} axisLine={false} tickLine={false} domain={[60, 100]} />
+                  <Tooltip contentStyle={tooltipStyle} />
+                  <Area type="monotone" dataKey="actual" stroke={C.kowhai} fill="url(#progGrad)" strokeWidth={2} />
+                  <Line type="monotone" dataKey="planned" stroke={C.textTertiary} strokeWidth={1} strokeDasharray="4 4" dot={false} />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
           </Glass>
 
           {/* Site Safety Docs */}
-          <Glass className="p-4 md:col-span-1">
-            <h3 className="text-xs font-bold text-white mb-0.5">SITE SAFETY DOCS</h3>
-            <p className="text-[10px] text-white/30 mb-3">WEEKLY TOOLBOX PROGRESS</p>
+          <Glass className="p-5 md:col-span-1">
+            <h3 className="text-xs font-bold mb-0.5" style={{ color: C.text }}>SITE SAFETY DOCS</h3>
+            <p className="text-[10px] mb-3" style={{ color: C.textTertiary }}>WEEKLY TOOLBOX PROGRESS</p>
             <div className="h-36">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={safetyDocsData} barGap={2}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-                  <XAxis dataKey="name" tick={{ fill: "rgba(255,255,255,0.25)", fontSize: 10 }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fill: "rgba(255,255,255,0.25)", fontSize: 10 }} axisLine={false} tickLine={false} />
-                  <Tooltip contentStyle={{ background: "#0F0F1A", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, color: "#1A1D29", fontSize: 11 }} />
-                  <Bar dataKey="complete" fill={POUNAMU} radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="pending" fill="rgba(255,255,255,0.08)" radius={[4, 4, 0, 0]} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.04)" />
+                  <XAxis dataKey="name" tick={{ fill: C.textTertiary, fontSize: 10 }} axisLine={false} tickLine={false} />
+                  <YAxis tick={{ fill: C.textTertiary, fontSize: 10 }} axisLine={false} tickLine={false} />
+                  <Tooltip contentStyle={tooltipStyle} />
+                  <Bar dataKey="complete" fill={C.pounamu} radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="pending" fill={`${C.lavender}`} radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
           </Glass>
 
           {/* Retention Trust */}
-          <Glass className="p-4 md:col-span-1" glow>
-            <h3 className="text-xs font-bold text-white mb-0.5">RETENTION TRUST</h3>
-            <p className="text-[10px] text-white/30 mb-4">COMPLIANT VIA KAHU</p>
+          <Glass className="p-5 md:col-span-1" glow>
+            <h3 className="text-xs font-bold mb-0.5" style={{ color: C.text }}>RETENTION TRUST</h3>
+            <p className="text-[10px] mb-4" style={{ color: C.textTertiary }}>COMPLIANT VIA KAHU</p>
             <div className="space-y-4">
               <div className="flex items-baseline gap-4">
                 <div>
-                  <div className="text-xl font-bold text-white">$124,500</div>
-                  <div className="text-[10px] text-white/30">HELD</div>
+                  <div className="text-xl font-bold" style={{ color: C.text }}>$124,500</div>
+                  <div className="text-[10px]" style={{ color: C.textTertiary }}>HELD</div>
                 </div>
                 <div>
-                  <div className="text-xl font-bold" style={{ color: POUNAMU }}>82%</div>
-                  <div className="text-[10px] text-white/30">VERIFIED</div>
+                  <div className="text-xl font-bold" style={{ color: C.pounamu }}>82%</div>
+                  <div className="text-[10px]" style={{ color: C.textTertiary }}>VERIFIED</div>
                 </div>
               </div>
-              <div className="h-1.5 rounded-full bg-white/5">
-                <div className="h-full rounded-full" style={{ width: "82%", background: `linear-gradient(90deg, ${POUNAMU}, ${KOWHAI})` }} />
+              <div className="h-1.5 rounded-full" style={{ background: `${C.lavender}60` }}>
+                <div className="h-full rounded-full" style={{ width: "82%", background: `linear-gradient(90deg, ${C.pounamu}, ${C.kowhai})` }} />
               </div>
-              <Link to="/waihanga/docs" className="flex items-center gap-1.5 text-[10px] font-bold tracking-wider transition-colors hover:brightness-125" style={{ color: KOWHAI }}>
+              <Link to="/waihanga/docs" className="flex items-center gap-1.5 text-[10px] font-bold tracking-wider transition-colors hover:brightness-125" style={{ color: C.kowhai }}>
                 AUDIT RETENTION LEDGER <ExternalLink size={10} />
               </Link>
             </div>
           </Glass>
 
-          {/* Project Risk Heatmap - full width */}
-          <Glass className="p-4 md:col-span-3">
+          {/* Project Risk Heatmap */}
+          <Glass className="p-5 md:col-span-3">
             <div className="flex items-center justify-between mb-3">
               <div>
-                <h3 className="text-xs font-bold text-white">PROJECT RISK HEATMAP</h3>
-                <p className="text-[10px] text-white/30">CROSS-AGENT SYMBIOTIC MONITORING</p>
+                <h3 className="text-xs font-bold" style={{ color: C.text }}>PROJECT RISK HEATMAP</h3>
+                <p className="text-[10px]" style={{ color: C.textTertiary }}>CROSS-AGENT SYMBIOTIC MONITORING</p>
               </div>
               <div className="flex gap-2">
-                <button className="text-[9px] px-3 py-1 rounded-full text-white/50" style={{ border: "1px solid rgba(255,255,255,0.08)" }}>ALL LEVELS</button>
-                <button className="text-[9px] px-3 py-1 rounded-full font-bold" style={{ background: `${KOWHAI}18`, color: KOWHAI, border: `1px solid ${KOWHAI}30` }}>LIVE UPDATES</button>
+                <button className="text-[9px] px-3 py-1 rounded-full" style={{ color: C.textSecondary, border: `1px solid ${C.lavender}` }}>ALL LEVELS</button>
+                <button className="text-[9px] px-3 py-1 rounded-full font-bold" style={{ background: `${C.kowhai}12`, color: C.kowhai, border: `1px solid ${C.kowhai}20` }}>LIVE UPDATES</button>
               </div>
             </div>
             <div className="h-40">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={riskHeatmapData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-                  <XAxis dataKey="day" tick={{ fill: "rgba(255,255,255,0.25)", fontSize: 10 }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fill: "rgba(255,255,255,0.25)", fontSize: 10 }} axisLine={false} tickLine={false} domain={[0, 100]} />
-                  <Tooltip contentStyle={{ background: "#0F0F1A", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, color: "#1A1D29", fontSize: 11 }} />
-                  <Line type="monotone" dataKey="score" stroke={KOWHAI} strokeWidth={2.5} dot={{ r: 3, fill: KOWHAI }} activeDot={{ r: 5, fill: KOWHAI, stroke: "#0F0F1A", strokeWidth: 2 }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.04)" />
+                  <XAxis dataKey="day" tick={{ fill: C.textTertiary, fontSize: 10 }} axisLine={false} tickLine={false} />
+                  <YAxis tick={{ fill: C.textTertiary, fontSize: 10 }} axisLine={false} tickLine={false} domain={[0, 100]} />
+                  <Tooltip contentStyle={tooltipStyle} />
+                  <Line type="monotone" dataKey="score" stroke={C.kowhai} strokeWidth={2.5} dot={{ r: 3, fill: C.kowhai }} activeDot={{ r: 5, fill: C.kowhai, stroke: "#FFFFFF", strokeWidth: 2 }} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
             <div className="flex items-center justify-end gap-2 mt-2">
-              <span className="text-[10px] text-white/30">Sat</span>
-              <span className="text-xs font-bold" style={{ color: POUNAMU }}>SCORE: 98</span>
+              <span className="text-[10px]" style={{ color: C.textTertiary }}>Sat</span>
+              <span className="text-xs font-bold" style={{ color: C.pounamu }}>SCORE: 98</span>
             </div>
           </Glass>
         </div>
@@ -270,40 +291,40 @@ export default function HangaDashboard() {
 
       {/* ── Workflows Tab ── */}
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="bg-transparent border border-white/[0.06] p-1">
-          <TabsTrigger value="overview" className="text-xs data-[state=active]:bg-white/[0.06]">Overview</TabsTrigger>
-          <TabsTrigger value="workflows" className="text-xs data-[state=active]:bg-white/[0.06]">Workflows</TabsTrigger>
+        <TabsList className="bg-transparent p-1" style={{ border: `1px solid ${C.lavender}` }}>
+          <TabsTrigger value="overview" className="text-xs data-[state=active]:bg-white/60">Overview</TabsTrigger>
+          <TabsTrigger value="workflows" className="text-xs data-[state=active]:bg-white/60">Workflows</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
             {/* Quick Actions */}
-            <Glass className="p-4">
-              <h3 className="text-[11px] font-bold text-white/50 tracking-wider mb-3">QUICK ACTIONS</h3>
+            <Glass className="p-5">
+              <h3 className="text-[11px] font-bold tracking-wider mb-4" style={{ color: C.textSecondary }}>QUICK ACTIONS</h3>
               <div className="space-y-2">
                 {[
                   { label: "Report Hazard", labelMi: "Pūrongo Mōrearea", icon: AlertTriangle, color: "#E44D4D", to: "/waihanga/arai" },
-                  { label: "Payment Claim", labelMi: "Tono Utu", icon: DollarSign, color: KOWHAI, to: "/waihanga/kaupapa" },
-                  { label: "Site Muster", labelMi: "Tae Mai", icon: MapPin, color: POUNAMU, to: "/waihanga/site-checkin" },
-                  { label: "Generate Report", labelMi: "Pūrongo", icon: FileText, color: TANGAROA, to: "/waihanga/docs" },
+                  { label: "Payment Claim", labelMi: "Tono Utu", icon: DollarSign, color: C.kowhai, to: "/waihanga/kaupapa" },
+                  { label: "Site Muster", labelMi: "Tae Mai", icon: MapPin, color: C.pounamu, to: "/waihanga/site-checkin" },
+                  { label: "Generate Report", labelMi: "Pūrongo", icon: FileText, color: C.tangaroa, to: "/waihanga/docs" },
                 ].map(a => (
-                  <Link key={a.label} to={a.to} className="flex items-center gap-3 p-3 rounded-xl transition-all hover:bg-white/[0.03]" style={{ border: "1px solid rgba(255,255,255,0.04)" }}>
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${a.color}12` }}>
+                  <Link key={a.label} to={a.to} className="flex items-center gap-3 p-3 rounded-2xl transition-all hover:bg-white/50" style={{ border: `1px solid ${C.lavender}60` }}>
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: `${a.color}10` }}>
                       <a.icon size={14} style={{ color: a.color }} />
                     </div>
                     <div>
-                      <span className="text-xs text-white/70 font-medium">{a.label}</span>
-                      <p className="text-[9px] text-white/25">{a.labelMi}</p>
+                      <span className="text-xs font-medium" style={{ color: C.text }}>{a.label}</span>
+                      <p className="text-[9px]" style={{ color: C.textTertiary }}>{a.labelMi}</p>
                     </div>
-                    <ChevronRight size={14} className="ml-auto text-white/15" />
+                    <ChevronRight size={14} className="ml-auto" style={{ color: C.textTertiary }} />
                   </Link>
                 ))}
               </div>
             </Glass>
 
             {/* Today's Priorities */}
-            <Glass className="p-4">
-              <h3 className="text-[11px] font-bold text-white/50 tracking-wider mb-3">TODAY'S PRIORITIES</h3>
+            <Glass className="p-5">
+              <h3 className="text-[11px] font-bold tracking-wider mb-4" style={{ color: C.textSecondary }}>TODAY'S PRIORITIES</h3>
               <div className="space-y-2">
                 {[
                   { text: "Review 2 critical hazards flagged by ĀRAI", agent: "ĀRAI", urgent: true },
@@ -311,11 +332,11 @@ export default function HangaDashboard() {
                   { text: "Scaffold inspection Level 4 overdue", agent: "PAI", urgent: true },
                   { text: "Building consent amendment status update", agent: "WHAKAAĒ", urgent: false },
                 ].map((p, i) => (
-                  <div key={i} className="flex items-start gap-2 p-2.5 rounded-lg" style={{ background: p.urgent ? "rgba(228,77,77,0.06)" : "rgba(255,255,255,0.02)", border: `1px solid ${p.urgent ? "rgba(228,77,77,0.12)" : "rgba(255,255,255,0.04)"}` }}>
-                    <div className={`w-1.5 h-1.5 rounded-full mt-1.5 shrink-0 ${p.urgent ? "animate-pulse" : ""}`} style={{ background: p.urgent ? "#E44D4D" : "rgba(255,255,255,0.15)" }} />
+                  <div key={i} className="flex items-start gap-2 p-2.5 rounded-xl" style={{ background: p.urgent ? "rgba(228,77,77,0.04)" : `${C.lavender}30`, border: `1px solid ${p.urgent ? "rgba(228,77,77,0.1)" : C.lavender + "60"}` }}>
+                    <div className={`w-1.5 h-1.5 rounded-full mt-1.5 shrink-0 ${p.urgent ? "animate-pulse" : ""}`} style={{ background: p.urgent ? "#E44D4D" : C.textTertiary }} />
                     <div>
-                      <p className="text-[11px] text-white/60 leading-relaxed">{p.text}</p>
-                      <span className="text-[9px] font-bold tracking-wider" style={{ color: KOWHAI }}>{p.agent}</span>
+                      <p className="text-[11px] leading-relaxed" style={{ color: C.textSecondary }}>{p.text}</p>
+                      <span className="text-[9px] font-bold tracking-wider" style={{ color: C.kowhai }}>{p.agent}</span>
                     </div>
                   </div>
                 ))}
@@ -323,12 +344,12 @@ export default function HangaDashboard() {
             </Glass>
 
             {/* Live Activity */}
-            <Glass className="p-4">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-[11px] font-bold text-white/50 tracking-wider">LIVE ACTIVITY</h3>
+            <Glass className="p-5">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-[11px] font-bold tracking-wider" style={{ color: C.textSecondary }}>LIVE ACTIVITY</h3>
                 <div className="flex items-center gap-1.5">
-                  <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: POUNAMU }} />
-                  <span className="text-[9px] text-white/25">LIVE</span>
+                  <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: C.pounamu }} />
+                  <span className="text-[9px]" style={{ color: C.textTertiary }}>LIVE</span>
                 </div>
               </div>
               <div className="space-y-2 max-h-52 overflow-y-auto">
@@ -339,13 +360,13 @@ export default function HangaDashboard() {
                   { text: "PAI: Level 2 slab inspection — PASSED", time: "3hr ago", icon: CheckCircle },
                   { text: "WHAKAAĒ: Consent amendment lodged", time: "5hr ago", icon: FileText },
                 ].map((a, i) => (
-                  <motion.div key={i} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }} className="flex items-start gap-2.5 p-2 rounded-lg hover:bg-white/[0.02] transition-colors">
-                    <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style={{ background: "rgba(255,255,255,0.04)" }}>
-                      <a.icon size={12} className="text-white/30" />
+                  <motion.div key={i} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }} className="flex items-start gap-2.5 p-2 rounded-xl hover:bg-white/50 transition-colors">
+                    <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${C.lavender}60` }}>
+                      <a.icon size={12} style={{ color: C.textTertiary }} />
                     </div>
                     <div>
-                      <p className="text-[10px] text-white/50 leading-relaxed">{a.text}</p>
-                      <span className="text-[9px] text-white/20">{a.time}</span>
+                      <p className="text-[10px] leading-relaxed" style={{ color: C.textSecondary }}>{a.text}</p>
+                      <span className="text-[9px]" style={{ color: C.textTertiary }}>{a.time}</span>
                     </div>
                   </motion.div>
                 ))}
@@ -372,7 +393,7 @@ export default function HangaDashboard() {
       <KeteEvidencePackPanel
         keteSlug="waihanga"
         keteName="Waihanga — Construction"
-        accentColor={KOWHAI}
+        accentColor={C.kowhai}
         agentId="apex"
         agentName="APEX"
         packTemplates={[
@@ -382,23 +403,19 @@ export default function HangaDashboard() {
             { check: "Structural calculations attached", status: "pass" },
             { check: "Fire engineering report filed", status: "pass" },
           ]},
-          { label: "H&S Compliance Pack", description: "HSWA 2015 site safety evidence", packType: "hs-compliance-pack", complianceChecks: [
-            { check: "HSWA 2015 — site safety plan current", status: "pass" },
-            { check: "Hazard register documented", status: "pass" },
-            { check: "Worker inductions logged", status: "pass" },
-          ]},
-          { label: "Progress Claim Pack", description: "CCA 2002 payment claim evidence", packType: "progress-claim-pack", complianceChecks: [
-            { check: "CCA 2002 — claim format compliant", status: "pass" },
-            { check: "Variations documented", status: "pass" },
-            { check: "Retentions tracked", status: "pass" },
+          { label: "H&S Site Pack", description: "HSWA site safety documentation", packType: "hs-site-pack", complianceChecks: [
+            { check: "SSSP current and signed", status: "pass" },
+            { check: "Hazard register reviewed this week", status: "pass" },
+            { check: "Toolbox talks logged", status: "pass" },
           ]},
         ]}
       />
 
-      <KeteDocUpload keteSlug="waihanga" keteColor={KOWHAI} keteName="Waihanga — Construction"
-        docContext="Expect construction contracts, specifications, building consents, payment claims, site diaries, health & safety plans, and NZS 3910 documents. Flag Building Act 2004, Health & Safety at Work Act 2015, and Construction Contracts Act 2002 compliance." />
-
-      <KeteBrainChat keteId="waihanga" keteName="Waihanga" keteNameEn="Construction" accentColor="#3A7D6E" />
+      <KeteDocUpload
+        keteSlug="waihanga"
+        keteName="Waihanga"
+        keteColor={C.kowhai}
+      />
     </KeteDashboardShell>
   );
 }
