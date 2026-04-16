@@ -1,7 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import KeteIcon from "./KeteIcon";
-import HarakekePattern from "@/components/HarakekePattern";
 
 interface KeteDashboardShellProps {
   name: string;
@@ -13,6 +12,10 @@ interface KeteDashboardShellProps {
   headerExtra?: React.ReactNode;
 }
 
+/**
+ * Neumorphic light dashboard shell for all kete dashboards.
+ * Soft raised surfaces, pounamu green accents, floating particles.
+ */
 const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
   name,
   subtitle,
@@ -25,65 +28,86 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
   const rgb = hexToRgb(accentColor);
 
   return (
-    <div className="min-h-screen relative" style={{ background: "#0F1018" }}>
-      {/* Dot grid texture */}
+    <div className="min-h-screen relative" style={{ background: "#EEEEF2" }}>
+      {/* Neumorphic base texture — subtle noise */}
       <div
-        className="fixed inset-0 pointer-events-none -z-10"
+        className="fixed inset-0 pointer-events-none"
         style={{
-          backgroundImage:
-            "radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px)",
-          backgroundSize: "24px 24px",
-        }}
-      />
-
-      {/* Starfield overlay */}
-      <div
-        className="fixed inset-0 pointer-events-none -z-10"
-        style={{
-          backgroundImage:
-            "radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,0.25), transparent)," +
-            "radial-gradient(2px 2px at 60px 70px, rgba(255,255,255,0.2), transparent)," +
-            "radial-gradient(1.5px 1.5px at 50px 50px, rgba(255,255,255,0.3), transparent)," +
-            "radial-gradient(1.5px 1.5px at 130px 80px, rgba(255,255,255,0.25), transparent)," +
-            "radial-gradient(2px 2px at 90px 10px, rgba(255,255,255,0.15), transparent)",
+          opacity: 0.04,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
           backgroundRepeat: "repeat",
-          backgroundSize: "200px 200px",
+          backgroundSize: "256px 256px",
         }}
       />
 
-      {/* Ambient kete-colour halo — stronger */}
+      {/* Floating particle field */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        {Array.from({ length: 30 }).map((_, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full"
+            style={{
+              width: 2 + (i % 3),
+              height: 2 + (i % 3),
+              left: `${(i * 37) % 100}%`,
+              top: `${(i * 53) % 100}%`,
+              background: i % 5 === 0
+                ? `rgba(232,169,72,0.25)`
+                : i % 3 === 0
+                  ? `rgba(200,195,220,0.3)`
+                  : `rgba(${rgb},0.2)`,
+              animation: `neuParticleFloat ${14 + (i % 8) * 3}s ease-in-out infinite`,
+              animationDelay: `${-(i * 1.3)}s`,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Ambient glow halos */}
       <div
-        className="absolute top-0 left-0 right-0 h-[350px] pointer-events-none"
+        className="absolute top-0 left-0 right-0 h-[400px] pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse 70% 60% at 50% -10%, rgba(${rgb},0.2) 0%, transparent 70%)`,
+          background: `radial-gradient(ellipse 70% 55% at 50% -10%, rgba(${rgb},0.10) 0%, transparent 70%)`,
         }}
       />
-
-      {/* Top accent bar — thicker, brighter */}
       <div
-        className="absolute top-0 left-0 right-0 h-[4px]"
+        className="absolute bottom-0 left-0 right-0 h-[300px] pointer-events-none"
         style={{
-          background: `linear-gradient(90deg, transparent 5%, rgba(240,208,120,0.6) 30%, ${accentColor} 50%, rgba(240,208,120,0.6) 70%, transparent 95%)`,
-          boxShadow: `0 0 24px rgba(240,208,120,0.5), 0 0 12px rgba(${rgb},0.4)`,
+          background: `radial-gradient(ellipse 60% 50% at 50% 100%, rgba(${rgb},0.06) 0%, transparent 70%)`,
         }}
       />
 
-      <div className="relative p-4 md:p-8 space-y-6 max-w-[1400px] mx-auto">
-        <HarakekePattern className="mb-1 rounded" />
+      {/* Top accent glow bar */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[2px] z-50"
+        style={{
+          background: `linear-gradient(90deg, transparent 5%, ${accentLight}80 30%, ${accentColor} 50%, ${accentLight}80 70%, transparent 95%)`,
+          boxShadow: `0 0 20px rgba(${rgb},0.25), 0 2px 30px rgba(${rgb},0.10)`,
+        }}
+      />
 
-        {/* Dashboard header */}
+      <div className="relative z-10 p-4 md:p-8 space-y-6 max-w-[1400px] mx-auto">
+        {/* Dashboard header — neumorphic raised panel */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex flex-wrap items-center gap-4"
+          className="flex flex-wrap items-center gap-4 rounded-2xl p-5"
+          style={{
+            background: "#EEEEF2",
+            boxShadow: `
+              8px 8px 20px rgba(166,166,180,0.35),
+              -8px -8px 20px rgba(255,255,255,0.85),
+              inset 0 1px 0 rgba(255,255,255,0.6)
+            `,
+          }}
         >
           {/* Mini kete icon */}
           <div className="relative w-14 h-14 flex-shrink-0">
             <div
               className="absolute inset-0 rounded-full"
               style={{
-                background: `radial-gradient(circle, rgba(${rgb},0.3) 0%, transparent 70%)`,
+                background: `radial-gradient(circle, rgba(${rgb},0.15) 0%, transparent 70%)`,
               }}
             />
             <KeteIcon
@@ -103,7 +127,6 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
                 fontFamily: "'Lato', sans-serif",
                 fontWeight: 300,
                 color: accentColor,
-                textShadow: `0 0 24px rgba(${rgb},0.4)`,
               }}
             >
               {name}
@@ -112,7 +135,7 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
               className="text-xs tracking-[1px]"
               style={{
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
-                color: "rgba(255,255,255,0.55)",
+                color: "rgba(26,29,41,0.5)",
               }}
             >
               {subtitle}
@@ -121,25 +144,30 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
 
           {headerExtra}
 
-          {/* Constellation dots — more visible */}
-          <svg
-            className="hidden md:block w-16 h-16 opacity-50"
-            viewBox="0 0 64 64"
-          >
+          {/* Constellation dots */}
+          <svg className="hidden md:block w-16 h-16 opacity-40" viewBox="0 0 64 64">
             <circle cx="8" cy="12" r="2.5" fill={accentColor} />
             <circle cx="36" cy="8" r="2" fill={accentLight} />
             <circle cx="56" cy="28" r="3" fill={accentColor} />
             <circle cx="20" cy="48" r="2" fill={accentLight} />
             <circle cx="50" cy="54" r="2.5" fill={accentColor} />
-            <line x1="8" y1="12" x2="36" y2="8" stroke={accentColor} strokeWidth="0.8" opacity="0.5" />
-            <line x1="36" y1="8" x2="56" y2="28" stroke={accentColor} strokeWidth="0.8" opacity="0.5" />
-            <line x1="20" y1="48" x2="50" y2="54" stroke={accentColor} strokeWidth="0.8" opacity="0.4" />
+            <line x1="8" y1="12" x2="36" y2="8" stroke={accentColor} strokeWidth="0.8" opacity="0.3" />
+            <line x1="36" y1="8" x2="56" y2="28" stroke={accentColor} strokeWidth="0.8" opacity="0.3" />
+            <line x1="20" y1="48" x2="50" y2="54" stroke={accentColor} strokeWidth="0.8" opacity="0.25" />
           </svg>
         </motion.div>
 
-        {/* Dashboard content */}
         {children}
       </div>
+
+      <style>{`
+        @keyframes neuParticleFloat {
+          0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+          25% { transform: translateY(-30px) translateX(10px); opacity: 0.6; }
+          50% { transform: translateY(-15px) translateX(-8px); opacity: 0.4; }
+          75% { transform: translateY(-40px) translateX(15px); opacity: 0.5; }
+        }
+      `}</style>
     </div>
   );
 };

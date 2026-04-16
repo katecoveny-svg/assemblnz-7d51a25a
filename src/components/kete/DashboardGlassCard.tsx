@@ -9,8 +9,9 @@ interface DashboardGlassCardProps {
 }
 
 /**
- * Premium glass card — light mode.
- * White glass floating on light bg with soft pastel shadows.
+ * Neumorphic glass card — light mode.
+ * Raised surface with soft dual shadows (light/dark), inner specular,
+ * mouse-following accent glow. Pounamu green default.
  */
 const DashboardGlassCard: React.FC<DashboardGlassCardProps> = ({
   children,
@@ -19,7 +20,7 @@ const DashboardGlassCard: React.FC<DashboardGlassCardProps> = ({
   glow = false,
   onClick,
 }) => {
-  const rgb = accentColor ? hexToRgb(accentColor) : "74,165,168";
+  const rgb = accentColor ? hexToRgb(accentColor) : "58,125,110";
   const ref = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
@@ -36,30 +37,44 @@ const DashboardGlassCard: React.FC<DashboardGlassCardProps> = ({
       ref={ref}
       onClick={onClick}
       onMouseMove={handleMouseMove}
-      className={`relative rounded-3xl border backdrop-blur-xl transition-all duration-300 group/card ${onClick ? "cursor-pointer hover:-translate-y-1" : "hover:-translate-y-0.5"} ${className}`}
+      className={`relative rounded-2xl transition-all duration-300 group/card ${onClick ? "cursor-pointer hover:-translate-y-1" : "hover:-translate-y-0.5"} ${className}`}
       style={{
-        background: "rgba(255,255,255,0.65)",
-        backdropFilter: "blur(20px) saturate(140%)",
-        borderColor: glow ? `rgba(${rgb}, 0.2)` : "rgba(255,255,255,0.9)",
+        background: "#EEEEF2",
         boxShadow: glow
-          ? `0 10px 40px -10px rgba(${rgb},0.15), 0 4px 12px rgba(0,0,0,0.04)`
-          : "0 10px 40px -10px rgba(74,165,168,0.10), 0 4px 12px rgba(0,0,0,0.03)",
+          ? `6px 6px 16px rgba(166,166,180,0.4),
+             -6px -6px 16px rgba(255,255,255,0.9),
+             inset 0 1px 0 rgba(255,255,255,0.7),
+             0 0 30px rgba(${rgb},0.08)`
+          : `6px 6px 16px rgba(166,166,180,0.35),
+             -6px -6px 16px rgba(255,255,255,0.85),
+             inset 0 1px 0 rgba(255,255,255,0.6)`,
       }}
     >
-      {/* Specular top edge */}
+      {/* Specular top edge — neumorphic inner light */}
       <div
-        className="absolute top-0 left-[10%] right-[10%] h-[1px] rounded-full opacity-60 group-hover/card:opacity-100 transition-opacity duration-500"
+        className="absolute top-0 left-[8%] right-[8%] h-[1px] rounded-full opacity-70 group-hover/card:opacity-100 transition-opacity duration-500"
         style={{
-          background: "linear-gradient(90deg, transparent, rgba(255,255,255,1), transparent)",
+          background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.95), transparent)",
         }}
       />
+
+      {/* Subtle accent glow line on hover */}
+      <div
+        className="absolute top-0 left-[15%] right-[15%] h-[2px] rounded-full opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"
+        style={{
+          background: `linear-gradient(90deg, transparent, rgba(${rgb},0.4), transparent)`,
+          boxShadow: `0 0 12px rgba(${rgb},0.2)`,
+        }}
+      />
+
       {/* Mouse-follow radial highlight */}
       <div
-        className="absolute inset-0 rounded-3xl opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none"
+        className="absolute inset-0 rounded-2xl opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none"
         style={{
-          background: `radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(${rgb},0.06), transparent 40%)`,
+          background: `radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(${rgb},0.06), transparent 40%)`,
         }}
       />
+
       {children}
     </div>
   );
