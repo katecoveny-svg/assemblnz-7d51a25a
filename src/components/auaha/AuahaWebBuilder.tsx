@@ -93,8 +93,9 @@ export default function AuahaWebBuilder() {
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
         className="relative overflow-hidden rounded-2xl p-8 lg:p-10"
         style={{
-          background: "linear-gradient(135deg, rgba(240,208,120,0.08) 0%, rgba(15,15,26,0.9) 40%, rgba(90,173,160,0.06) 100%)",
-          border: "1px solid rgba(240,208,120,0.12)",
+          background: "linear-gradient(135deg, rgba(255,255,255,0.96) 0%, rgba(232,169,72,0.06) 50%, rgba(74,165,168,0.05) 100%)",
+          border: "1px solid rgba(232,169,72,0.30)",
+          boxShadow: "0 12px 40px rgba(26,29,41,0.08), inset 0 1px 0 rgba(255,255,255,0.95)",
         }}>
         <div className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-20 blur-[80px]" style={{ background: ACCENT }} />
         <div className="absolute bottom-0 left-1/3 w-48 h-48 rounded-full opacity-10 blur-[60px]" style={{ background: TEAL }} />
@@ -265,8 +266,9 @@ export default function AuahaWebBuilder() {
                     deviceMode === "mobile" ? "w-[320px]" : deviceMode === "tablet" ? "w-[500px]" : "w-full"
                   }`}
                   style={{
-                    background: "linear-gradient(180deg, rgba(20,20,35,0.95) 0%, rgba(15,15,26,1) 100%)",
-                    borderColor: "rgba(255,255,255,0.06)",
+                    background: "linear-gradient(180deg, #FFFFFF 0%, #FAFBFC 100%)",
+                    borderColor: "rgba(74,165,168,0.14)",
+                    boxShadow: "0 8px 28px rgba(26,29,41,0.07)",
                     minHeight: 380,
                   }}>
                   {/* Browser chrome */}
