@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown, Calculator, Shield, Code, Brain } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import GlowIcon from "@/components/GlowIcon";
 import AccountDropdown from "@/components/AccountDropdown";
 import Nav3DKeteLogo from "@/components/Nav3DKeteLogo";
