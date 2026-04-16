@@ -1,4 +1,5 @@
 import React, { lazy, Suspense, useMemo, useState, useCallback } from "react";
+import koruHeroImg from "@/assets/koru-hero-3d.jpg";
 import { motion, LayoutGroup, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Check, Send, Bot, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
