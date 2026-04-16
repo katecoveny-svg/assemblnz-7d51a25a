@@ -5,7 +5,7 @@ import {
   LayoutDashboard, Users, Bot, FlaskConical, FileCheck2,
   Sparkles, Megaphone, PenTool, FolderOpen, FileText,
   Activity, Heart, Mail, MessageSquare, Shield, BookOpen,
-  Gauge, ChevronRight, LogOut, Image,
+  Gauge, ChevronRight, LogOut, Image, Film,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
