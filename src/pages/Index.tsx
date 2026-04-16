@@ -318,7 +318,6 @@ const Index = () => {
               >
                 Specialist workflows that reduce admin, surface risk earlier, and keep your people in control.
               </motion.p>
-              </motion.p>
 
               {/* Tagline with animated underline */}
               <motion.p className="text-[13px] tracking-[1px] mt-6 mb-12 lg:mx-0 mx-auto max-w-[400px]"
