@@ -320,7 +320,7 @@ const Index = () => {
               </motion.p>
 
               {/* Tagline with animated underline */}
-              <motion.p className="text-[13px] tracking-[1px] mt-6 mb-12 lg:mx-0 mx-auto max-w-[400px]"
+              <motion.p className="text-[12px] sm:text-[13px] tracking-[1px] mt-4 sm:mt-6 mb-8 sm:mb-12 lg:mx-0 mx-auto max-w-[400px]"
                 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: C.textSecondary }}
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
                 Governed intelligence for Aotearoa
@@ -332,7 +332,7 @@ const Index = () => {
                 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.35, ease }}
               >
-                <Link to="/how-it-works" className="group relative inline-flex items-center justify-center gap-3 px-10 py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03] overflow-hidden"
+                <Link to="/how-it-works" className="group relative inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 sm:py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03] overflow-hidden"
                   style={{
                     background: `linear-gradient(145deg, #55BFC1, ${C.teal})`,
                     color: "#FFFFFF",
@@ -342,7 +342,7 @@ const Index = () => {
                   }}>
                   Start here <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform" />
                 </Link>
-                <Link to="/demos" className="group inline-flex items-center justify-center gap-3 px-10 py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03]"
+                <Link to="/demos" className="group inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 sm:py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03]"
                   style={{
                     background: "linear-gradient(145deg, #F5F5F8, #E4E4E8)",
                     border: `1px solid rgba(74,165,168,0.2)`,
