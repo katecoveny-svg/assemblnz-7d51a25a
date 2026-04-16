@@ -8,7 +8,7 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
-import KeteRaceVideo from "@/components/kete/KeteRaceVideo";
+
 import TextUsButton from "@/components/kete/TextUsButton";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
 import { WAIHANGA_USE_CASE } from "@/data/useCases";
@@ -279,7 +279,7 @@ export default function WaihangaLandingPage() {
           </motion.div>
         </section>
 
-        <KeteRaceVideo slug="waihanga" keteName="Waihanga" accentColor={C.pounamu} />
+        
 
         {/* ── CTA ── */}
         <section className="relative text-center px-6 py-32">

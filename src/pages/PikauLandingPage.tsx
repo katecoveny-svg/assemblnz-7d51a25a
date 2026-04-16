@@ -9,7 +9,7 @@ import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import HeroParticlesLight from "@/components/HeroParticlesLight";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
-import KeteRaceVideo from "@/components/kete/KeteRaceVideo";
+
 import TextUsButton from "@/components/kete/TextUsButton";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
 import { PIKAU_USE_CASE } from "@/data/useCases";
@@ -275,7 +275,7 @@ export default function PikauLandingPage() {
           </motion.div>
         </section>
 
-        <KeteRaceVideo slug="pikau" keteName="Pikau" accentColor={ACCENT} />
+        
 
         <section className="relative text-center px-6 pb-24">
           <motion.div className="relative inline-flex flex-col items-center gap-4 p-10 rounded-2xl overflow-hidden" style={{
