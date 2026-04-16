@@ -54,6 +54,7 @@ const DevelopersPage = lazy(() => import("./pages/DevelopersPage"));
 const DataSovereigntyPage = lazy(() => import("./pages/DataSovereigntyPage"));
 const DataPrivacyLegal = lazy(() => import("./pages/DataPrivacyLegal"));
 const CommandDashboard = lazy(() => import("./pages/CommandDashboard"));
+const BrandGuidelinesPage = lazy(() => import("./pages/BrandGuidelinesPage"));
 
 const ToroaLandingPage = lazy(() => import("./pages/ToroaLandingPage"));
 const ToroaApp = lazy(() => import("./pages/ToroaApp"));
@@ -335,10 +336,10 @@ const App = () => (
                         <Route path="/tikanga" element={<Navigate to="/about" replace />} />
                         <Route path="/skill-hub" element={<Navigate to="/" replace />} />
                         <Route path="/proposal" element={<Navigate to="/contact" replace />} />
-                        <Route path="/brand-guidelines" element={<Navigate to="/about" replace />} />
-                        <Route path="/brand-assets" element={<Navigate to="/about" replace />} />
-                        <Route path="/logo-stack" element={<Navigate to="/about" replace />} />
-                        <Route path="/brand-story" element={<Navigate to="/about" replace />} />
+                        <Route path="/brand-guidelines" element={<Suspense fallback={null}><BrandGuidelinesPage /></Suspense>} />
+                        <Route path="/brand-assets" element={<Navigate to="/brand-guidelines" replace />} />
+                        <Route path="/logo-stack" element={<Navigate to="/brand-guidelines" replace />} />
+                        <Route path="/brand-story" element={<Navigate to="/brand-guidelines" replace />} />
                         <Route path="/te-reo" element={<Navigate to="/about" replace />} />
                         <Route path="*" element={<NotFound />} />
                       </Routes>
