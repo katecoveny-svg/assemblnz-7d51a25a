@@ -1,6 +1,8 @@
 project_id = "ssaxxdkxzrvkdjsanhei"
 
 [functions]
+  [functions.fix-mime-types]
+    verify_jwt = false
   [functions.admin-api]
     verify_jwt = false
   [functions.agent-intelligence]
